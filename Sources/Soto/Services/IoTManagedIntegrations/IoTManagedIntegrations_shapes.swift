@@ -5853,21 +5853,18 @@ extension IoTManagedIntegrations {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// Id of the affected resource
         public let resourceId: String?
         /// Type of the affected resource
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }

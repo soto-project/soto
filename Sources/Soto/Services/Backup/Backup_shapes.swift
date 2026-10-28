@@ -520,16 +520,14 @@ extension Backup {
         public let code: String?
         public let context: String?
         public let creatorRequestId: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(arn: String? = nil, code: String? = nil, context: String? = nil, creatorRequestId: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, code: String? = nil, context: String? = nil, creatorRequestId: String? = nil, type: String? = nil) {
             self.arn = arn
             self.code = code
             self.context = context
             self.creatorRequestId = creatorRequestId
-            self.message = message
             self.type = type
         }
 
@@ -538,7 +536,6 @@ extension Backup {
             case code = "Code"
             case context = "Context"
             case creatorRequestId = "CreatorRequestId"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -1262,21 +1259,18 @@ extension Backup {
     public struct ConflictException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -2544,21 +2538,18 @@ extension Backup {
     public struct DependencyFailureException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -4539,21 +4530,18 @@ extension Backup {
     public struct InvalidParameterValueException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -4561,21 +4549,18 @@ extension Backup {
     public struct InvalidRequestException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -4583,21 +4568,18 @@ extension Backup {
     public struct InvalidResourceStateException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -4747,21 +4729,18 @@ extension Backup {
     public struct LimitExceededException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -6698,21 +6677,18 @@ extension Backup {
     public struct MissingParameterValueException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -7343,21 +7319,18 @@ extension Backup {
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8215,21 +8188,18 @@ extension Backup {
     public struct ServiceUnavailableException: AWSErrorShape {
         public let code: String?
         public let context: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, context: String? = nil, type: String? = nil) {
             self.code = code
             self.context = context
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case context = "Context"
-            case message = "Message"
             case type = "Type"
         }
     }

@@ -814,17 +814,14 @@ extension Mgn {
 
     public struct AccessDeniedException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -1172,17 +1169,15 @@ extension Mgn {
         public let code: String?
         /// Conflict Exception specific errors.
         public let errors: [ErrorDetails]?
-        public let message: String?
         /// A conflict occurred when prompting for the Resource ID.
         public let resourceId: String?
         /// A conflict occurred when prompting for resource type.
         public let resourceType: String?
 
         @inlinable
-        public init(code: String? = nil, errors: [ErrorDetails]? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(code: String? = nil, errors: [ErrorDetails]? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.code = code
             self.errors = errors
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
@@ -1190,7 +1185,6 @@ extension Mgn {
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case errors = "errors"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -3194,26 +3188,20 @@ extension Mgn {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// The server encountered an unexpected condition that prevented it from fulfilling the request. The request will be retried again after x seconds.
         public let retryAfterSeconds: Int64?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int64? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int64? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int64.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Job: AWSDecodableShape {
@@ -6890,23 +6878,20 @@ extension Mgn {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// Resource ID not found error.
         public let resourceId: String?
         /// Resource type not found error.
         public let resourceType: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(code: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.code = code
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -7020,7 +7005,6 @@ extension Mgn {
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// Exceeded the service quota code.
         public let quotaCode: String?
         /// Exceeded the service quota value.
@@ -7033,9 +7017,8 @@ extension Mgn {
         public let serviceCode: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, quotaCode: String? = nil, quotaValue: Int? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+        public init(code: String? = nil, quotaCode: String? = nil, quotaValue: Int? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.code = code
-            self.message = message
             self.quotaCode = quotaCode
             self.quotaValue = quotaValue
             self.resourceId = resourceId
@@ -7045,7 +7028,6 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case quotaCode = "quotaCode"
             case quotaValue = "quotaValue"
             case resourceId = "resourceId"
@@ -8378,7 +8360,6 @@ extension Mgn {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Reached throttling quota exception.
         public let quotaCode: String?
         /// Reached throttling quota exception will retry after x seconds.
@@ -8387,8 +8368,7 @@ extension Mgn {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -8397,14 +8377,12 @@ extension Mgn {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -8466,17 +8444,14 @@ extension Mgn {
 
     public struct UninitializedAccountException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -9251,22 +9226,19 @@ extension Mgn {
         public let code: String?
         /// Validate exception field list.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String?
         /// Validate exception reason.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(code: String? = nil, fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+        public init(code: String? = nil, fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.code = code
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

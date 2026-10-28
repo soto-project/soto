@@ -138,42 +138,6 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct BadRequestException: AWSErrorShape {
-        /// 400
-        public let errorCode: String?
-        /// One of the parameters in the request is invalid.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
-    public struct ConflictException: AWSErrorShape {
-        /// 409
-        public let errorCode: String?
-        /// The resource already exists.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
         public let author: String?
@@ -580,24 +544,6 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ForbiddenException: AWSErrorShape {
-        /// 403
-        public let errorCode: String?
-        /// The client is not authenticated.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct GetApplicationPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
@@ -774,24 +720,6 @@ extension ServerlessApplicationRepository {
         }
     }
 
-    public struct InternalServerErrorException: AWSErrorShape {
-        /// 500
-        public let errorCode: String?
-        /// The AWS Serverless Application Repository service encountered an internal error.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct ListApplicationDependenciesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
@@ -936,24 +864,6 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: String, CodingKey {
             case applications = "applications"
             case nextToken = "nextToken"
-        }
-    }
-
-    public struct NotFoundException: AWSErrorShape {
-        /// 404
-        public let errorCode: String?
-        /// The resource (for example, an access policy statement) specified in the request doesn't exist.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -1126,24 +1036,6 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
-        }
-    }
-
-    public struct TooManyRequestsException: AWSErrorShape {
-        /// 429
-        public let errorCode: String?
-        /// The client is sending more than the allowed number of requests per unit of time.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -1360,19 +1252,19 @@ extension ServerlessApplicationRepository {
 /// Error enum for ServerlessApplicationRepository
 public struct ServerlessApplicationRepositoryErrorType: AWSErrorType, Decodable {
     @nonexhaustive
-    public enum Code: Sendable {
+    public enum Code: String, Sendable, Equatable {
         /// One of the parameters in the request is invalid.
-        case badRequestException(ServerlessApplicationRepository.BadRequestException)
+        case badRequestException = "BadRequestException"
         /// The resource already exists.
-        case conflictException(ServerlessApplicationRepository.ConflictException)
+        case conflictException = "ConflictException"
         /// The client is not authenticated.
-        case forbiddenException(ServerlessApplicationRepository.ForbiddenException)
+        case forbiddenException = "ForbiddenException"
         /// The AWS Serverless Application Repository service encountered an internal error.
-        case internalServerErrorException(ServerlessApplicationRepository.InternalServerErrorException)
+        case internalServerErrorException = "InternalServerErrorException"
         /// The resource (for example, an access policy statement) specified in the request doesn't exist.
-        case notFoundException(ServerlessApplicationRepository.NotFoundException)
+        case notFoundException = "NotFoundException"
         /// The client is sending more than the allowed number of requests per unit of time.
-        case tooManyRequestsException(ServerlessApplicationRepository.TooManyRequestsException)
+        case tooManyRequestsException = "TooManyRequestsException"
     }
 
     public let error: Code
@@ -1382,41 +1274,14 @@ public struct ServerlessApplicationRepositoryErrorType: AWSErrorType, Decodable 
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
-        switch errorCode.code {
-        case "BadRequestException":
-            let context = try singleValueContainer.decode(ServerlessApplicationRepository.BadRequestException.self)
-            self.error = .badRequestException(context)
-        case "ConflictException":
-            let context = try singleValueContainer.decode(ServerlessApplicationRepository.ConflictException.self)
-            self.error = .conflictException(context)
-        case "ForbiddenException":
-            let context = try singleValueContainer.decode(ServerlessApplicationRepository.ForbiddenException.self)
-            self.error = .forbiddenException(context)
-        case "InternalServerErrorException":
-            let context = try singleValueContainer.decode(ServerlessApplicationRepository.InternalServerErrorException.self)
-            self.error = .internalServerErrorException(context)
-        case "NotFoundException":
-            let context = try singleValueContainer.decode(ServerlessApplicationRepository.NotFoundException.self)
-            self.error = .notFoundException(context)
-        case "TooManyRequestsException":
-            let context = try singleValueContainer.decode(ServerlessApplicationRepository.TooManyRequestsException.self)
-            self.error = .tooManyRequestsException(context)
-        default:
+        if let code = Code(rawValue: errorCode.code) {
+            self.error = code
+        } else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
         self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
         self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
     }
 
-    /// return error code string
-    public var errorCode: String {
-        switch error {
-        case .badRequestException: "BadRequestException"
-        case .conflictException: "ConflictException"
-        case .forbiddenException: "ForbiddenException"
-        case .internalServerErrorException: "InternalServerErrorException"
-        case .notFoundException: "NotFoundException"
-        case .tooManyRequestsException: "TooManyRequestsException"
-        }
-    }
+    public var errorCode: String { self.error.rawValue }
 }

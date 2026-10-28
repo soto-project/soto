@@ -9040,17 +9040,14 @@ extension DatabaseMigrationService {
     }
 
     public struct ResourceAlreadyExistsFault: AWSErrorShape {
-        public let message: String?
         public let resourceArn: String?
 
         @inlinable
-        public init(message: String? = nil, resourceArn: String? = nil) {
-            self.message = message
+        public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "resourceArn"
         }
     }

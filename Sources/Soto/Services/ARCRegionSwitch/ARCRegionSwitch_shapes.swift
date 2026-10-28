@@ -1065,21 +1065,18 @@ extension ARCRegionSwitch {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource involved in the client token conflict.
         public let resourceId: String?
         /// The type of the resource involved in the client token conflict.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }

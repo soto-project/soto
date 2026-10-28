@@ -217,21 +217,17 @@ extension MQ {
     public struct BadRequestException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
         /// The list of resource share errors.
         public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
+        public init(errorAttribute: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
-            self.message = message
             self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
-            case message = "message"
             case resourceShareErrors = "resourceShareErrors"
         }
     }
@@ -470,21 +466,17 @@ extension MQ {
     public struct ConflictException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
         /// The list of resource share errors.
         public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
+        public init(errorAttribute: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
-            self.message = message
             self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
-            case message = "message"
             case resourceShareErrors = "resourceShareErrors"
         }
     }
@@ -1430,21 +1422,17 @@ extension MQ {
     public struct ForbiddenException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
         /// The list of resource share errors.
         public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
+        public init(errorAttribute: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
-            self.message = message
             self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
-            case message = "message"
             case resourceShareErrors = "resourceShareErrors"
         }
     }
@@ -1452,21 +1440,17 @@ extension MQ {
     public struct InternalServerErrorException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
         /// The list of resource share errors.
         public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
+        public init(errorAttribute: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
-            self.message = message
             self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
-            case message = "message"
             case resourceShareErrors = "resourceShareErrors"
         }
     }
@@ -1866,21 +1850,17 @@ extension MQ {
     public struct NotFoundException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
         /// The list of resource share errors.
         public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
+        public init(errorAttribute: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
-            self.message = message
             self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
-            case message = "message"
             case resourceShareErrors = "resourceShareErrors"
         }
     }
@@ -2062,21 +2042,17 @@ extension MQ {
     public struct UnauthorizedException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
-        /// The explanation of the error.
-        public let message: String?
         /// The list of resource share errors.
         public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
+        public init(errorAttribute: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
-            self.message = message
             self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
-            case message = "message"
             case resourceShareErrors = "resourceShareErrors"
         }
     }

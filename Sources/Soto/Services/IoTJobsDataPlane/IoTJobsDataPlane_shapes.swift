@@ -92,18 +92,15 @@ extension IoTJobsDataPlane {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// A conflict occurred while performing the API request on the resource ID.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }
@@ -427,19 +424,15 @@ extension IoTJobsDataPlane {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// The message associated with the exception.
-        public let message: String?
         /// The payload associated with the exception.
         public let payload: AWSBase64Data?
 
         @inlinable
-        public init(message: String? = nil, payload: AWSBase64Data? = nil) {
-            self.message = message
+        public init(payload: AWSBase64Data? = nil) {
             self.payload = payload
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case payload = "payload"
         }
     }

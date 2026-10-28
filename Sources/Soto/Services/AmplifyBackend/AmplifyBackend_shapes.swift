@@ -2121,19 +2121,15 @@ extension AmplifyBackend {
     }
 
     public struct NotFoundException: AWSErrorShape {
-        /// An error message to inform that the request has failed.
-        public let message: String?
         /// The type of resource that is not found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceType = "resourceType"
         }
     }
@@ -2303,18 +2299,14 @@ extension AmplifyBackend {
     public struct TooManyRequestsException: AWSErrorShape {
         /// The type of limit that was exceeded.
         public let limitType: String?
-        /// An error message to inform that the request has failed.
-        public let message: String?
 
         @inlinable
-        public init(limitType: String? = nil, message: String? = nil) {
+        public init(limitType: String? = nil) {
             self.limitType = limitType
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case limitType = "limitType"
-            case message = "message"
         }
     }
 

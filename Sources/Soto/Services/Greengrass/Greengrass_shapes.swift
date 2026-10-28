@@ -257,18 +257,14 @@ extension Greengrass {
     public struct BadRequestException: AWSErrorShape {
         /// Details about the error.
         public let errorDetails: [ErrorDetail]?
-        /// A message containing information about the error.
-        public let message: String?
 
         @inlinable
-        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
+        public init(errorDetails: [ErrorDetail]? = nil) {
             self.errorDetails = errorDetails
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorDetails = "ErrorDetails"
-            case message = "Message"
         }
     }
 
@@ -3552,18 +3548,14 @@ extension Greengrass {
     public struct InternalServerErrorException: AWSErrorShape {
         /// Details about the error.
         public let errorDetails: [ErrorDetail]?
-        /// A message containing information about the error.
-        public let message: String?
 
         @inlinable
-        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
+        public init(errorDetails: [ErrorDetail]? = nil) {
             self.errorDetails = errorDetails
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorDetails = "ErrorDetails"
-            case message = "Message"
         }
     }
 

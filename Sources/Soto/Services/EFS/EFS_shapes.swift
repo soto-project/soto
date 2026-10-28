@@ -187,20 +187,14 @@ extension EFS {
 
     public struct AccessPointAlreadyExists: AWSErrorShape {
         public let accessPointId: String
-        public let errorCode: String
-        public let message: String?
 
         @inlinable
-        public init(accessPointId: String, errorCode: String, message: String? = nil) {
+        public init(accessPointId: String) {
             self.accessPointId = accessPointId
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessPointId = "AccessPointId"
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -254,54 +248,6 @@ extension EFS {
         }
     }
 
-    public struct AccessPointLimitExceeded: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct AccessPointNotFound: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct AvailabilityZonesMismatch: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
         /// Describes the status of the file system's backup policy.     ENABLED – EFS is automatically backing up the file system.     ENABLING – EFS is turning on automatic backups for the file system.     DISABLED – Automatic back ups are turned off for the file system.     DISABLING – EFS is turning off automatic backups for the file system.
         public let status: Status
@@ -327,38 +273,6 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case backupPolicy = "BackupPolicy"
-        }
-    }
-
-    public struct BadRequest: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct ConflictException: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -768,22 +682,6 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case tagKeys = "TagKeys"
-        }
-    }
-
-    public struct DependencyTimeout: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -1324,21 +1222,15 @@ extension EFS {
     }
 
     public struct FileSystemAlreadyExists: AWSErrorShape {
-        public let errorCode: String
         public let fileSystemId: String
-        public let message: String?
 
         @inlinable
-        public init(errorCode: String, fileSystemId: String, message: String? = nil) {
-            self.errorCode = errorCode
+        public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
             case fileSystemId = "FileSystemId"
-            case message = "Message"
         }
     }
 
@@ -1424,54 +1316,6 @@ extension EFS {
         }
     }
 
-    public struct FileSystemInUse: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct FileSystemLimitExceeded: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct FileSystemNotFound: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct FileSystemPolicyDescription: AWSDecodableShape {
         /// Specifies the EFS file system to which the FileSystemPolicy applies.
         public let fileSystemId: String?
@@ -1531,102 +1375,6 @@ extension EFS {
             case valueInArchive = "ValueInArchive"
             case valueInIA = "ValueInIA"
             case valueInStandard = "ValueInStandard"
-        }
-    }
-
-    public struct IncorrectFileSystemLifeCycleState: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct IncorrectMountTargetState: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct InsufficientThroughputCapacity: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct InternalServerError: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct InvalidPolicyException: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct IpAddressInUse: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -1755,22 +1503,6 @@ extension EFS {
         }
     }
 
-    public struct MountTargetConflict: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct MountTargetDescription: AWSDecodableShape {
         /// The unique and consistent identifier of the Availability Zone that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every Amazon Web Services account.
         public let availabilityZoneId: String?
@@ -1822,70 +1554,6 @@ extension EFS {
             case ownerId = "OwnerId"
             case subnetId = "SubnetId"
             case vpcId = "VpcId"
-        }
-    }
-
-    public struct MountTargetNotFound: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct NetworkInterfaceLimitExceeded: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct NoFreeAddressesInSubnet: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct PolicyNotFound: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -2047,22 +1715,6 @@ extension EFS {
         }
     }
 
-    public struct ReplicationAlreadyExists: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct ReplicationConfigurationDescription: AWSDecodableShape {
         /// Describes when the replication configuration was created.
         public let creationTime: Date
@@ -2098,23 +1750,6 @@ extension EFS {
             case sourceFileSystemId = "SourceFileSystemId"
             case sourceFileSystemOwnerId = "SourceFileSystemOwnerId"
             case sourceFileSystemRegion = "SourceFileSystemRegion"
-        }
-    }
-
-    public struct ReplicationNotFound: AWSErrorShape {
-        /// ReplicationNotFound
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -2158,54 +1793,6 @@ extension EFS {
         private enum CodingKeys: String, CodingKey {
             case creationInfo = "CreationInfo"
             case path = "Path"
-        }
-    }
-
-    public struct SecurityGroupLimitExceeded: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct SecurityGroupNotFound: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct SubnetNotFound: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -2264,70 +1851,6 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
-        }
-    }
-
-    public struct ThrottlingException: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct ThroughputLimitExceeded: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct TooManyRequests: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct UnsupportedAvailabilityZone: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -2428,22 +1951,6 @@ extension EFS {
             case throughputMode = "ThroughputMode"
         }
     }
-
-    public struct ValidationException: AWSErrorShape {
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
 }
 
 // MARK: - Errors
@@ -2455,67 +1962,67 @@ public struct EFSErrorType: AWSErrorType, Decodable {
         /// Returned if the access point that you are trying to create already exists, with the creation token you provided in the request.
         case accessPointAlreadyExists(EFS.AccessPointAlreadyExists)
         /// Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system. For more informaton, see https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region.
-        case accessPointLimitExceeded(EFS.AccessPointLimitExceeded)
+        case accessPointLimitExceeded
         /// Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
-        case accessPointNotFound(EFS.AccessPointNotFound)
+        case accessPointNotFound
         /// Returned if the Availability Zone that was specified for a mount target is  different from the Availability Zone that was specified for One Zone storage. For more information, see Regional and One Zone storage redundancy.
-        case availabilityZonesMismatch(EFS.AvailabilityZonesMismatch)
+        case availabilityZonesMismatch
         /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
-        case badRequest(EFS.BadRequest)
+        case badRequest
         /// Returned if the source file system in a replication is encrypted but the destination file system is unencrypted.
-        case conflictException(EFS.ConflictException)
+        case conflictException
         /// The service timed out trying to fulfill the request, and the client should try the call again.
-        case dependencyTimeout(EFS.DependencyTimeout)
+        case dependencyTimeout
         /// Returned if the file system you are trying to create already exists, with the creation token you provided.
         case fileSystemAlreadyExists(EFS.FileSystemAlreadyExists)
         /// Returned if a file system has mount targets.
-        case fileSystemInUse(EFS.FileSystemInUse)
+        case fileSystemInUse
         /// Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
-        case fileSystemLimitExceeded(EFS.FileSystemLimitExceeded)
+        case fileSystemLimitExceeded
         /// Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
-        case fileSystemNotFound(EFS.FileSystemNotFound)
+        case fileSystemNotFound
         /// Returned if the file system's lifecycle state is not "available".
-        case incorrectFileSystemLifeCycleState(EFS.IncorrectFileSystemLifeCycleState)
+        case incorrectFileSystemLifeCycleState
         /// Returned if the mount target is not in the correct state for the operation.
-        case incorrectMountTargetState(EFS.IncorrectMountTargetState)
+        case incorrectMountTargetState
         /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
-        case insufficientThroughputCapacity(EFS.InsufficientThroughputCapacity)
+        case insufficientThroughputCapacity
         /// Returned if an error occurred on the server side.
-        case internalServerError(EFS.InternalServerError)
+        case internalServerError
         /// Returned if the FileSystemPolicy is malformed or contains an error such as a parameter value that is not valid or a missing required parameter. Returned in the case of a policy lockout safety check error.
-        case invalidPolicyException(EFS.InvalidPolicyException)
+        case invalidPolicyException
         /// Returned if the request specified an IpAddress that is already in use in the subnet.
-        case ipAddressInUse(EFS.IpAddressInUse)
+        case ipAddressInUse
         /// Returned if the mount target would violate one of the specified restrictions based on the file system's existing mount targets.
-        case mountTargetConflict(EFS.MountTargetConflict)
+        case mountTargetConflict
         /// Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
-        case mountTargetNotFound(EFS.MountTargetNotFound)
+        case mountTargetNotFound
         /// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
-        case networkInterfaceLimitExceeded(EFS.NetworkInterfaceLimitExceeded)
+        case networkInterfaceLimitExceeded
         /// Returned if IpAddress was not specified in the request and there are no free IP addresses in the subnet.
-        case noFreeAddressesInSubnet(EFS.NoFreeAddressesInSubnet)
+        case noFreeAddressesInSubnet
         /// Returned if no backup is specified for a One Zone EFS file system.
-        case policyNotFound(EFS.PolicyNotFound)
+        case policyNotFound
         /// Returned if the file system is already included in a replication configuration.>
-        case replicationAlreadyExists(EFS.ReplicationAlreadyExists)
+        case replicationAlreadyExists
         /// Returned if the specified file system does not have a replication configuration.
-        case replicationNotFound(EFS.ReplicationNotFound)
+        case replicationNotFound
         /// Returned if the number of SecurityGroups specified in the request is greater than the limit, which is based on account quota.  Either delete some security groups or request that the account quota be raised. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Security Groups table).
-        case securityGroupLimitExceeded(EFS.SecurityGroupLimitExceeded)
+        case securityGroupLimitExceeded
         /// Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
-        case securityGroupNotFound(EFS.SecurityGroupNotFound)
+        case securityGroupNotFound
         /// Returned if there is no subnet with ID SubnetId provided in the request.
-        case subnetNotFound(EFS.SubnetNotFound)
+        case subnetNotFound
         /// Returned when the CreateAccessPoint API action is called too quickly and  the number of Access Points on the file system is nearing the  limit of 120.
-        case throttlingException(EFS.ThrottlingException)
+        case throttlingException
         /// Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
-        case throughputLimitExceeded(EFS.ThroughputLimitExceeded)
+        case throughputLimitExceeded
         /// Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
-        case tooManyRequests(EFS.TooManyRequests)
+        case tooManyRequests
         /// Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
-        case unsupportedAvailabilityZone(EFS.UnsupportedAvailabilityZone)
+        case unsupportedAvailabilityZone
         /// Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
-        case validationException(EFS.ValidationException)
+        case validationException
     }
 
     public let error: Code
@@ -2529,99 +2036,39 @@ public struct EFSErrorType: AWSErrorType, Decodable {
         case "AccessPointAlreadyExists":
             let context = try singleValueContainer.decode(EFS.AccessPointAlreadyExists.self)
             self.error = .accessPointAlreadyExists(context)
-        case "AccessPointLimitExceeded":
-            let context = try singleValueContainer.decode(EFS.AccessPointLimitExceeded.self)
-            self.error = .accessPointLimitExceeded(context)
-        case "AccessPointNotFound":
-            let context = try singleValueContainer.decode(EFS.AccessPointNotFound.self)
-            self.error = .accessPointNotFound(context)
-        case "AvailabilityZonesMismatch":
-            let context = try singleValueContainer.decode(EFS.AvailabilityZonesMismatch.self)
-            self.error = .availabilityZonesMismatch(context)
-        case "BadRequest":
-            let context = try singleValueContainer.decode(EFS.BadRequest.self)
-            self.error = .badRequest(context)
-        case "ConflictException":
-            let context = try singleValueContainer.decode(EFS.ConflictException.self)
-            self.error = .conflictException(context)
-        case "DependencyTimeout":
-            let context = try singleValueContainer.decode(EFS.DependencyTimeout.self)
-            self.error = .dependencyTimeout(context)
+        case "AccessPointLimitExceeded": self.error = .accessPointLimitExceeded
+        case "AccessPointNotFound": self.error = .accessPointNotFound
+        case "AvailabilityZonesMismatch": self.error = .availabilityZonesMismatch
+        case "BadRequest": self.error = .badRequest
+        case "ConflictException": self.error = .conflictException
+        case "DependencyTimeout": self.error = .dependencyTimeout
         case "FileSystemAlreadyExists":
             let context = try singleValueContainer.decode(EFS.FileSystemAlreadyExists.self)
             self.error = .fileSystemAlreadyExists(context)
-        case "FileSystemInUse":
-            let context = try singleValueContainer.decode(EFS.FileSystemInUse.self)
-            self.error = .fileSystemInUse(context)
-        case "FileSystemLimitExceeded":
-            let context = try singleValueContainer.decode(EFS.FileSystemLimitExceeded.self)
-            self.error = .fileSystemLimitExceeded(context)
-        case "FileSystemNotFound":
-            let context = try singleValueContainer.decode(EFS.FileSystemNotFound.self)
-            self.error = .fileSystemNotFound(context)
-        case "IncorrectFileSystemLifeCycleState":
-            let context = try singleValueContainer.decode(EFS.IncorrectFileSystemLifeCycleState.self)
-            self.error = .incorrectFileSystemLifeCycleState(context)
-        case "IncorrectMountTargetState":
-            let context = try singleValueContainer.decode(EFS.IncorrectMountTargetState.self)
-            self.error = .incorrectMountTargetState(context)
-        case "InsufficientThroughputCapacity":
-            let context = try singleValueContainer.decode(EFS.InsufficientThroughputCapacity.self)
-            self.error = .insufficientThroughputCapacity(context)
-        case "InternalServerError":
-            let context = try singleValueContainer.decode(EFS.InternalServerError.self)
-            self.error = .internalServerError(context)
-        case "InvalidPolicyException":
-            let context = try singleValueContainer.decode(EFS.InvalidPolicyException.self)
-            self.error = .invalidPolicyException(context)
-        case "IpAddressInUse":
-            let context = try singleValueContainer.decode(EFS.IpAddressInUse.self)
-            self.error = .ipAddressInUse(context)
-        case "MountTargetConflict":
-            let context = try singleValueContainer.decode(EFS.MountTargetConflict.self)
-            self.error = .mountTargetConflict(context)
-        case "MountTargetNotFound":
-            let context = try singleValueContainer.decode(EFS.MountTargetNotFound.self)
-            self.error = .mountTargetNotFound(context)
-        case "NetworkInterfaceLimitExceeded":
-            let context = try singleValueContainer.decode(EFS.NetworkInterfaceLimitExceeded.self)
-            self.error = .networkInterfaceLimitExceeded(context)
-        case "NoFreeAddressesInSubnet":
-            let context = try singleValueContainer.decode(EFS.NoFreeAddressesInSubnet.self)
-            self.error = .noFreeAddressesInSubnet(context)
-        case "PolicyNotFound":
-            let context = try singleValueContainer.decode(EFS.PolicyNotFound.self)
-            self.error = .policyNotFound(context)
-        case "ReplicationAlreadyExists":
-            let context = try singleValueContainer.decode(EFS.ReplicationAlreadyExists.self)
-            self.error = .replicationAlreadyExists(context)
-        case "ReplicationNotFound":
-            let context = try singleValueContainer.decode(EFS.ReplicationNotFound.self)
-            self.error = .replicationNotFound(context)
-        case "SecurityGroupLimitExceeded":
-            let context = try singleValueContainer.decode(EFS.SecurityGroupLimitExceeded.self)
-            self.error = .securityGroupLimitExceeded(context)
-        case "SecurityGroupNotFound":
-            let context = try singleValueContainer.decode(EFS.SecurityGroupNotFound.self)
-            self.error = .securityGroupNotFound(context)
-        case "SubnetNotFound":
-            let context = try singleValueContainer.decode(EFS.SubnetNotFound.self)
-            self.error = .subnetNotFound(context)
-        case "ThrottlingException":
-            let context = try singleValueContainer.decode(EFS.ThrottlingException.self)
-            self.error = .throttlingException(context)
-        case "ThroughputLimitExceeded":
-            let context = try singleValueContainer.decode(EFS.ThroughputLimitExceeded.self)
-            self.error = .throughputLimitExceeded(context)
-        case "TooManyRequests":
-            let context = try singleValueContainer.decode(EFS.TooManyRequests.self)
-            self.error = .tooManyRequests(context)
-        case "UnsupportedAvailabilityZone":
-            let context = try singleValueContainer.decode(EFS.UnsupportedAvailabilityZone.self)
-            self.error = .unsupportedAvailabilityZone(context)
-        case "ValidationException":
-            let context = try singleValueContainer.decode(EFS.ValidationException.self)
-            self.error = .validationException(context)
+        case "FileSystemInUse": self.error = .fileSystemInUse
+        case "FileSystemLimitExceeded": self.error = .fileSystemLimitExceeded
+        case "FileSystemNotFound": self.error = .fileSystemNotFound
+        case "IncorrectFileSystemLifeCycleState": self.error = .incorrectFileSystemLifeCycleState
+        case "IncorrectMountTargetState": self.error = .incorrectMountTargetState
+        case "InsufficientThroughputCapacity": self.error = .insufficientThroughputCapacity
+        case "InternalServerError": self.error = .internalServerError
+        case "InvalidPolicyException": self.error = .invalidPolicyException
+        case "IpAddressInUse": self.error = .ipAddressInUse
+        case "MountTargetConflict": self.error = .mountTargetConflict
+        case "MountTargetNotFound": self.error = .mountTargetNotFound
+        case "NetworkInterfaceLimitExceeded": self.error = .networkInterfaceLimitExceeded
+        case "NoFreeAddressesInSubnet": self.error = .noFreeAddressesInSubnet
+        case "PolicyNotFound": self.error = .policyNotFound
+        case "ReplicationAlreadyExists": self.error = .replicationAlreadyExists
+        case "ReplicationNotFound": self.error = .replicationNotFound
+        case "SecurityGroupLimitExceeded": self.error = .securityGroupLimitExceeded
+        case "SecurityGroupNotFound": self.error = .securityGroupNotFound
+        case "SubnetNotFound": self.error = .subnetNotFound
+        case "ThrottlingException": self.error = .throttlingException
+        case "ThroughputLimitExceeded": self.error = .throughputLimitExceeded
+        case "TooManyRequests": self.error = .tooManyRequests
+        case "UnsupportedAvailabilityZone": self.error = .unsupportedAvailabilityZone
+        case "ValidationException": self.error = .validationException
         default:
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }

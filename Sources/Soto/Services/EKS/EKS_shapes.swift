@@ -1949,18 +1949,15 @@ extension EKS {
         public let addonName: String?
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an IAM principal that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The Amazon EKS subscription ID with the exception.
         public let subscriptionId: String?
 
         @inlinable
-        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+        public init(addonName: String? = nil, clusterName: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.subscriptionId = subscriptionId
         }
@@ -1968,7 +1965,6 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case addonName = "addonName"
             case clusterName = "clusterName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
         }
@@ -5034,19 +5030,16 @@ extension EKS {
         public let clusterName: String?
         /// The Fargate profile associated with the exception.
         public let fargateProfileName: String?
-        /// The specified parameter is invalid. Review the available parameters for the API request.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The Amazon EKS subscription ID with the exception.
         public let subscriptionId: String?
 
         @inlinable
-        public init(addonName: String? = nil, clusterName: String? = nil, fargateProfileName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+        public init(addonName: String? = nil, clusterName: String? = nil, fargateProfileName: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
             self.fargateProfileName = fargateProfileName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.subscriptionId = subscriptionId
         }
@@ -5055,7 +5048,6 @@ extension EKS {
             case addonName = "addonName"
             case clusterName = "clusterName"
             case fargateProfileName = "fargateProfileName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
         }
@@ -5066,18 +5058,15 @@ extension EKS {
         public let addonName: String?
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        /// The Amazon EKS add-on name associated with the exception.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The Amazon EKS subscription ID with the exception.
         public let subscriptionId: String?
 
         @inlinable
-        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+        public init(addonName: String? = nil, clusterName: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.subscriptionId = subscriptionId
         }
@@ -5085,7 +5074,6 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case addonName = "addonName"
             case clusterName = "clusterName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
         }
@@ -5094,17 +5082,14 @@ extension EKS {
     public struct InvalidStateException: AWSErrorShape {
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        public let message: String?
 
         @inlinable
-        public init(clusterName: String? = nil, message: String? = nil) {
+        public init(clusterName: String? = nil) {
             self.clusterName = clusterName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "clusterName"
-            case message = "message"
         }
     }
 
@@ -7036,23 +7021,19 @@ extension EKS {
         public let addonName: String?
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        /// The Amazon EKS message associated with the exception.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
 
         @inlinable
-        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil) {
+        public init(addonName: String? = nil, clusterName: String? = nil, nodegroupName: String? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
-            self.message = message
             self.nodegroupName = nodegroupName
         }
 
         private enum CodingKeys: String, CodingKey {
             case addonName = "addonName"
             case clusterName = "clusterName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
         }
     }
@@ -7060,24 +7041,20 @@ extension EKS {
     public struct ResourceLimitExceededException: AWSErrorShape {
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        /// The Amazon EKS message associated with the exception.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The Amazon EKS subscription ID with the exception.
         public let subscriptionId: String?
 
         @inlinable
-        public init(clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+        public init(clusterName: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
             self.clusterName = clusterName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.subscriptionId = subscriptionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "clusterName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
         }
@@ -7090,19 +7067,16 @@ extension EKS {
         public let clusterName: String?
         /// The Fargate profile associated with the exception.
         public let fargateProfileName: String?
-        /// The Amazon EKS message associated with the exception.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The Amazon EKS subscription ID with the exception.
         public let subscriptionId: String?
 
         @inlinable
-        public init(addonName: String? = nil, clusterName: String? = nil, fargateProfileName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+        public init(addonName: String? = nil, clusterName: String? = nil, fargateProfileName: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
             self.fargateProfileName = fargateProfileName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.subscriptionId = subscriptionId
         }
@@ -7111,7 +7085,6 @@ extension EKS {
             case addonName = "addonName"
             case clusterName = "clusterName"
             case fargateProfileName = "fargateProfileName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
         }
@@ -7222,18 +7195,15 @@ extension EKS {
         public let addonName: String?
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        /// These errors are usually caused by a server-side issue.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The Amazon EKS subscription ID with the exception.
         public let subscriptionId: String?
 
         @inlinable
-        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+        public init(addonName: String? = nil, clusterName: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
             self.addonName = addonName
             self.clusterName = clusterName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.subscriptionId = subscriptionId
         }
@@ -7241,7 +7211,6 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case addonName = "addonName"
             case clusterName = "clusterName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
         }
@@ -7416,41 +7385,34 @@ extension EKS {
     public struct ThrottlingException: AWSErrorShape {
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        public let message: String?
 
         @inlinable
-        public init(clusterName: String? = nil, message: String? = nil) {
+        public init(clusterName: String? = nil) {
             self.clusterName = clusterName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "clusterName"
-            case message = "message"
         }
     }
 
     public struct UnsupportedAvailabilityZoneException: AWSErrorShape {
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
-        /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
-        public let message: String?
         /// The Amazon EKS managed node group associated with the exception.
         public let nodegroupName: String?
         /// The supported Availability Zones for your account. Choose subnets in these Availability Zones for your cluster.
         public let validZones: [String]?
 
         @inlinable
-        public init(clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, validZones: [String]? = nil) {
+        public init(clusterName: String? = nil, nodegroupName: String? = nil, validZones: [String]? = nil) {
             self.clusterName = clusterName
-            self.message = message
             self.nodegroupName = nodegroupName
             self.validZones = validZones
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "clusterName"
-            case message = "message"
             case nodegroupName = "nodegroupName"
             case validZones = "validZones"
         }

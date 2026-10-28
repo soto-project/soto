@@ -75,20 +75,17 @@ extension AppConfigData {
     public struct BadRequestException: AWSErrorShape {
         /// Details describing why the request was invalid.
         public let details: BadRequestDetails?
-        public let message: String?
         /// Code indicating the reason the request was invalid.
         public let reason: BadRequestReason?
 
         @inlinable
-        public init(details: BadRequestDetails? = nil, message: String? = nil, reason: BadRequestReason? = nil) {
+        public init(details: BadRequestDetails? = nil, reason: BadRequestReason? = nil) {
             self.details = details
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -165,21 +162,18 @@ extension AppConfigData {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// A map indicating which parameters in the request reference the resource that was not found.
         public let referencedBy: [String: String]?
         /// The type of resource that was not found.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, referencedBy: [String: String]? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(referencedBy: [String: String]? = nil, resourceType: ResourceType? = nil) {
             self.referencedBy = referencedBy
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case referencedBy = "ReferencedBy"
             case resourceType = "ResourceType"
         }

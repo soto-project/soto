@@ -181,23 +181,6 @@ extension SecurityLake {
 
     // MARK: Shapes
 
-    public struct AccessDeniedException: AWSErrorShape {
-        /// A coded string to provide more information about the access denied exception. You can use the error code to check the exception type.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct AwsIdentity: AWSEncodableShape & AWSDecodableShape {
         /// The external ID used to establish trust relationship with the Amazon Web Services identity.
         public let externalId: String
@@ -284,21 +267,18 @@ extension SecurityLake {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The resource name.
         public let resourceName: String?
         /// The resource type.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil, resourceType: String? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
             case resourceType = "resourceType"
         }
@@ -1672,21 +1652,18 @@ extension SecurityLake {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The name of the resource that could not be found.
         public let resourceName: String?
         /// The type of the resource that could not be found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil, resourceType: String? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
             case resourceType = "resourceType"
         }
@@ -1829,7 +1806,6 @@ extension SecurityLake {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// That the rate of requests to Security Lake is exceeding the request quotas for your Amazon Web Services account.
         public let quotaCode: String?
         /// Retry the request after the specified time.
@@ -1838,8 +1814,7 @@ extension SecurityLake {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String? = nil, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1848,14 +1823,12 @@ extension SecurityLake {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -2083,7 +2056,7 @@ public struct SecurityLakeErrorType: AWSErrorType, Decodable {
     @nonexhaustive
     public enum Code: Sendable {
         /// You do not have sufficient access to perform this action. Access denied errors appear when Amazon Security Lake explicitly or implicitly denies an authorization request. An explicit denial occurs when a policy contains a Deny statement for the specific Amazon Web Services action. An implicit denial occurs when there is no applicable Deny statement and also no applicable Allow statement.
-        case accessDeniedException(SecurityLake.AccessDeniedException)
+        case accessDeniedException
         /// The request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
         case badRequestException
         /// Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
@@ -2104,9 +2077,7 @@ public struct SecurityLakeErrorType: AWSErrorType, Decodable {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
         switch errorCode.code {
-        case "AccessDeniedException":
-            let context = try singleValueContainer.decode(SecurityLake.AccessDeniedException.self)
-            self.error = .accessDeniedException(context)
+        case "AccessDeniedException": self.error = .accessDeniedException
         case "BadRequestException": self.error = .badRequestException
         case "ConflictException":
             let context = try singleValueContainer.decode(SecurityLake.ConflictException.self)

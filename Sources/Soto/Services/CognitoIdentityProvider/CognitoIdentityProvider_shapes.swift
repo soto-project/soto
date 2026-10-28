@@ -6055,19 +6055,15 @@ extension CognitoIdentityProvider {
     }
 
     public struct InvalidParameterException: AWSErrorShape {
-        /// The message returned when the Amazon Cognito service throws an invalid parameter exception.
-        public let message: String?
         /// The reason code of the exception.
         public let reasonCode: String?
 
         @inlinable
-        public init(message: String? = nil, reasonCode: String? = nil) {
-            self.message = message
+        public init(reasonCode: String? = nil) {
             self.reasonCode = reasonCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reasonCode = "reasonCode"
         }
     }

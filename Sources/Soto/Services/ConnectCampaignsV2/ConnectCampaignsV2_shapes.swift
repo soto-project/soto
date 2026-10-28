@@ -577,25 +577,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AgentlessConfig: AWSEncodableShape & AWSDecodableShape {
@@ -844,25 +838,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateCampaignRequest: AWSEncodableShape {
@@ -1742,35 +1730,27 @@ extension ConnectCampaignsV2 {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvalidCampaignStateException: AWSErrorShape {
-        public let message: String
         public let state: CampaignState
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, state: CampaignState, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(state: CampaignState, xAmzErrorType: String? = nil) {
             self.state = state
             self.xAmzErrorType = xAmzErrorType
         }
@@ -1778,37 +1758,29 @@ extension ConnectCampaignsV2 {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.state = try container.decode(CampaignState.self, forKey: .state)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case state = "state"
         }
     }
 
     public struct InvalidStateException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LambdaIntegrationConfig: AWSEncodableShape {
@@ -2369,25 +2341,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RestrictedPeriod: AWSEncodableShape & AWSDecodableShape {
@@ -2466,25 +2432,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SmsChannelSubtypeConfig: AWSEncodableShape & AWSDecodableShape {
@@ -2845,25 +2805,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
@@ -3193,25 +3147,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         public let xAmzErrorType: String?
 
         @inlinable
-        public init(message: String, xAmzErrorType: String? = nil) {
-            self.message = message
+        public init(xAmzErrorType: String? = nil) {
             self.xAmzErrorType = xAmzErrorType
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.xAmzErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct WebNotificationContext: AWSEncodableShape {

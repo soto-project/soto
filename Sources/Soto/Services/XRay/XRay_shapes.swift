@@ -2284,17 +2284,14 @@ extension XRay {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }
@@ -3167,17 +3164,14 @@ extension XRay {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }

@@ -1697,17 +1697,14 @@ extension CloudWatchLogs {
 
     public struct DataAlreadyAcceptedException: AWSErrorShape {
         public let expectedSequenceToken: String?
-        public let message: String?
 
         @inlinable
-        public init(expectedSequenceToken: String? = nil, message: String? = nil) {
+        public init(expectedSequenceToken: String? = nil) {
             self.expectedSequenceToken = expectedSequenceToken
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case expectedSequenceToken = "expectedSequenceToken"
-            case message = "message"
         }
     }
 
@@ -5053,31 +5050,19 @@ extension CloudWatchLogs {
     }
 
     public struct InternalStreamingException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct InvalidSequenceTokenException: AWSErrorShape {
         public let expectedSequenceToken: String?
-        public let message: String?
 
         @inlinable
-        public init(expectedSequenceToken: String? = nil, message: String? = nil) {
+        public init(expectedSequenceToken: String? = nil) {
             self.expectedSequenceToken = expectedSequenceToken
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case expectedSequenceToken = "expectedSequenceToken"
-            case message = "message"
         }
     }
 
@@ -6114,17 +6099,14 @@ extension CloudWatchLogs {
     }
 
     public struct MalformedQueryException: AWSErrorShape {
-        public let message: String?
         public let queryCompileError: QueryCompileError?
 
         @inlinable
-        public init(message: String? = nil, queryCompileError: QueryCompileError? = nil) {
-            self.message = message
+        public init(queryCompileError: QueryCompileError? = nil) {
             self.queryCompileError = queryCompileError
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case queryCompileError = "queryCompileError"
         }
     }
@@ -8391,29 +8373,11 @@ extension CloudWatchLogs {
     }
 
     public struct SessionStreamingException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct SessionTimeoutException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct SplitString: AWSEncodableShape & AWSDecodableShape {
@@ -8966,18 +8930,15 @@ extension CloudWatchLogs {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         /// The name of the resource.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }

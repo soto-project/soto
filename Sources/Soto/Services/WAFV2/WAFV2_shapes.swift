@@ -8118,58 +8118,49 @@ extension WAFV2 {
     public struct WAFFeatureNotIncludedInPricingPlanException: AWSErrorShape {
         /// The names of the disallowed WAF features.
         public let disallowedFeatures: [DisallowedFeature]?
-        public let message: String?
 
         @inlinable
-        public init(disallowedFeatures: [DisallowedFeature]? = nil, message: String? = nil) {
+        public init(disallowedFeatures: [DisallowedFeature]? = nil) {
             self.disallowedFeatures = disallowedFeatures
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case disallowedFeatures = "DisallowedFeatures"
-            case message = "Message"
         }
     }
 
     public struct WAFInvalidParameterException: AWSErrorShape {
         /// The settings where the invalid parameter was found.
         public let field: ParameterExceptionField?
-        public let message: String?
         /// The invalid parameter that resulted in the exception.
         public let parameter: String?
         /// Additional information about the exception.
         public let reason: String?
 
         @inlinable
-        public init(field: ParameterExceptionField? = nil, message: String? = nil, parameter: String? = nil, reason: String? = nil) {
+        public init(field: ParameterExceptionField? = nil, parameter: String? = nil, reason: String? = nil) {
             self.field = field
-            self.message = message
             self.parameter = parameter
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case field = "Field"
-            case message = "message"
             case parameter = "Parameter"
             case reason = "Reason"
         }
     }
 
     public struct WAFLimitsExceededException: AWSErrorShape {
-        public let message: String?
         /// Source type for the exception.
         public let sourceType: String?
 
         @inlinable
-        public init(message: String? = nil, sourceType: String? = nil) {
-            self.message = message
+        public init(sourceType: String? = nil) {
             self.sourceType = sourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case sourceType = "SourceType"
         }
     }

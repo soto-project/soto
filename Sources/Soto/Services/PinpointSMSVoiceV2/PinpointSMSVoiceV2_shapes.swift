@@ -1162,18 +1162,15 @@ extension PinpointSMSVoiceV2 {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: AccessDeniedExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -1585,7 +1582,6 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ConflictExceptionReason?
         /// The unique identifier of the request.
@@ -1594,15 +1590,13 @@ extension PinpointSMSVoiceV2 {
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, reason: ConflictExceptionReason? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(reason: ConflictExceptionReason? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.reason = reason
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -5526,18 +5520,15 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String?
         /// The unique identifier of the request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -8731,21 +8722,18 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The unique identifier of the resource.
         public let resourceId: String?
         /// The type of resource that caused the exception.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -9615,18 +9603,15 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ServiceQuotaExceededExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ServiceQuotaExceededExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ServiceQuotaExceededExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -11079,20 +11064,17 @@ extension PinpointSMSVoiceV2 {
     public struct ValidationException: AWSErrorShape {
         /// The field that failed validation.
         public let fields: [ValidationExceptionField]?
-        public let message: String?
         /// The reason for the exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "Fields"
-            case message = "Message"
             case reason = "Reason"
         }
     }

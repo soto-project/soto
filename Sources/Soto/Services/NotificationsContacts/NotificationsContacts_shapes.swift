@@ -83,21 +83,18 @@ extension NotificationsContacts {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The resource ID that prompted the conflict error.
         public let resourceId: String
         /// The resource type that prompted the conflict error.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -328,21 +325,18 @@ extension NotificationsContacts {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The ID of the resource that wasn't found.
         public let resourceId: String
         /// The type of resource that wasn't found.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -375,7 +369,6 @@ extension NotificationsContacts {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The code for the service quota in Service Quotas.
         public let quotaCode: String
         /// The ID of the resource that exceeds the service quota.
@@ -386,8 +379,7 @@ extension NotificationsContacts {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -395,7 +387,6 @@ extension NotificationsContacts {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -441,7 +432,6 @@ extension NotificationsContacts {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Identifies the quota that is being throttled.
         public let quotaCode: String?
         /// The number of seconds a client should wait before retrying the request.
@@ -450,8 +440,7 @@ extension NotificationsContacts {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -460,14 +449,12 @@ extension NotificationsContacts {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -509,20 +496,17 @@ extension NotificationsContacts {
     public struct ValidationException: AWSErrorShape {
         /// The list of input fields that are invalid.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason why your input is considered invalid.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

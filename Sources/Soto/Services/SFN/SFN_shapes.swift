@@ -1893,17 +1893,14 @@ extension SFN {
     public struct KmsInvalidStateException: AWSErrorShape {
         /// Current status of the KMS; key. For example: DISABLED, PENDING_DELETION, PENDING_IMPORT, UNAVAILABLE, CREATING.
         public let kmsKeyState: KmsKeyState?
-        public let message: String?
 
         @inlinable
-        public init(kmsKeyState: KmsKeyState? = nil, message: String? = nil) {
+        public init(kmsKeyState: KmsKeyState? = nil) {
             self.kmsKeyState = kmsKeyState
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyState = "kmsKeyState"
-            case message = "message"
         }
     }
 
@@ -2750,17 +2747,14 @@ extension SFN {
     }
 
     public struct ResourceNotFound: AWSErrorShape {
-        public let message: String?
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -3601,17 +3595,14 @@ extension SFN {
     }
 
     public struct TooManyTags: AWSErrorShape {
-        public let message: String?
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -3905,18 +3896,15 @@ extension SFN {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The input does not satisfy the constraints specified by an Amazon Web Services service.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }

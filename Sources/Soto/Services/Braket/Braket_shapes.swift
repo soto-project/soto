@@ -1932,21 +1932,18 @@ extension Braket {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The validation failures in the program set submitted in the request.
         public let programSetValidationFailures: [ProgramSetValidationFailure]?
         /// The reason for validation failure.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, programSetValidationFailures: [ProgramSetValidationFailure]? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(programSetValidationFailures: [ProgramSetValidationFailure]? = nil, reason: ValidationExceptionReason? = nil) {
             self.programSetValidationFailures = programSetValidationFailures
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case programSetValidationFailures = "programSetValidationFailures"
             case reason = "reason"
         }

@@ -441,33 +441,27 @@ extension Route53Profiles {
     public struct InvalidParameterException: AWSErrorShape {
         ///  The parameter field name for the invalid parameter exception.
         public let fieldName: String?
-        public let message: String
 
         @inlinable
-        public init(fieldName: String? = nil, message: String) {
+        public init(fieldName: String? = nil) {
             self.fieldName = fieldName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldName = "FieldName"
-            case message = "Message"
         }
     }
 
     public struct LimitExceededException: AWSErrorShape {
-        public let message: String?
         ///  The resource type that caused the limits to be exceeded.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }
@@ -844,35 +838,29 @@ extension Route53Profiles {
     }
 
     public struct ResourceExistsException: AWSErrorShape {
-        public let message: String?
         ///  The resource type that caused the resource exists exception.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         ///  The resource type that caused the resource not found exception.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }

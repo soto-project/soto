@@ -737,17 +737,14 @@ extension Drs {
 
     public struct AccessDeniedException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -860,23 +857,20 @@ extension Drs {
 
     public struct ConflictException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the resource.
         public let resourceId: String?
         /// The type of the resource.
         public let resourceType: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(code: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.code = code
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -2638,26 +2632,20 @@ extension Drs {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// The number of seconds after which the request should be safe to retry.
         public let retryAfterSeconds: Int64?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int64? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int64? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int64.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Job: AWSDecodableShape {
@@ -4709,23 +4697,20 @@ extension Drs {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the resource.
         public let resourceId: String?
         /// The type of the resource.
         public let resourceType: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(code: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.code = code
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -4842,7 +4827,6 @@ extension Drs {
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// Quota code.
         public let quotaCode: String?
         /// The ID of the resource.
@@ -4853,9 +4837,8 @@ extension Drs {
         public let serviceCode: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+        public init(code: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.code = code
-            self.message = message
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -4864,7 +4847,6 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -5626,7 +5608,6 @@ extension Drs {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Quota code.
         public let quotaCode: String?
         /// The number of seconds after which the request should be safe to retry.
@@ -5635,8 +5616,7 @@ extension Drs {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -5645,14 +5625,12 @@ extension Drs {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -5660,17 +5638,14 @@ extension Drs {
 
     public struct UninitializedAccountException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -6238,22 +6213,19 @@ extension Drs {
         public let code: String?
         /// A list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String?
         /// Validation exception reason.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(code: String? = nil, fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+        public init(code: String? = nil, fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.code = code
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

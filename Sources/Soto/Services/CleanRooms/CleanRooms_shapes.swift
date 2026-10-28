@@ -1800,18 +1800,15 @@ extension CleanRooms {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// A reason code for the exception.
         public let reason: AccessDeniedExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -4330,7 +4327,6 @@ extension CleanRooms {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// A reason code for the exception.
         public let reason: ConflictExceptionReason?
         /// The ID of the conflicting resource.
@@ -4339,15 +4335,13 @@ extension CleanRooms {
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, reason: ConflictExceptionReason? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(reason: ConflictExceptionReason? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.reason = reason
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -11390,21 +11384,18 @@ extension CleanRooms {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The Id of the missing resource.
         public let resourceId: String
         /// The type of the missing resource.
         public let resourceType: ResourceType
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: ResourceType) {
-            self.message = message
+        public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -11628,21 +11619,18 @@ extension CleanRooms {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The name of the quota.
         public let quotaName: String
         /// The value of the quota.
         public let quotaValue: Double
 
         @inlinable
-        public init(message: String, quotaName: String, quotaValue: Double) {
-            self.message = message
+        public init(quotaName: String, quotaValue: Double) {
             self.quotaName = quotaName
             self.quotaValue = quotaValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaName = "quotaName"
             case quotaValue = "quotaValue"
         }
@@ -13004,20 +12992,17 @@ extension CleanRooms {
     public struct ValidationException: AWSErrorShape {
         /// Validation errors for specific input parameters.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String?
         /// A reason code for the exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

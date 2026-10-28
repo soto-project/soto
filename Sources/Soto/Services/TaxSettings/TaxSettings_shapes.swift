@@ -260,21 +260,6 @@ extension TaxSettings {
         @inlinable public static var individual: Self { .init(rawValue: "Individual") }
     }
 
-    public struct ValidationExceptionErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var expiredToken: Self { .init(rawValue: "ExpiredToken") }
-        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
-        @inlinable public static var gstExistenceBlockSetPan: Self { .init(rawValue: "GSTExistenceBlockSetPAN") }
-        @inlinable public static var invalidToken: Self { .init(rawValue: "InvalidToken") }
-        @inlinable public static var malformedToken: Self { .init(rawValue: "MalformedToken") }
-        @inlinable public static var missingInput: Self { .init(rawValue: "MissingInput") }
-        @inlinable public static var nonIndiaCustomerCanNotSetPan: Self { .init(rawValue: "NonIndiaCustomerCanNotSetPAN") }
-    }
-
     // MARK: Shapes
 
     public struct AccountDetails: AWSDecodableShape {
@@ -930,23 +915,6 @@ extension TaxSettings {
         }
     }
 
-    public struct ConflictException: AWSErrorShape {
-        /// 409
-        public let errorCode: String
-        public let message: String
-
-        @inlinable
-        public init(errorCode: String, message: String) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct DeleteSupplementalTaxRegistrationRequest: AWSEncodableShape {
         ///  The unique authority Id for the supplemental TRN information that needs to be deleted.
         public let authorityId: String
@@ -1292,23 +1260,6 @@ extension TaxSettings {
             case decisionNumber = "decisionNumber"
             case ppnExceptionDesignationCode = "ppnExceptionDesignationCode"
             case taxRegistrationNumberType = "taxRegistrationNumberType"
-        }
-    }
-
-    public struct InternalServerException: AWSErrorShape {
-        /// 500
-        public let errorCode: String
-        public let message: String
-
-        @inlinable
-        public init(errorCode: String, message: String) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -1758,23 +1709,6 @@ extension TaxSettings {
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
-        }
-    }
-
-    public struct ResourceNotFoundException: AWSErrorShape {
-        /// 404
-        public let errorCode: String
-        public let message: String
-
-        @inlinable
-        public init(errorCode: String, message: String) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -2336,22 +2270,15 @@ extension TaxSettings {
 
     public struct ValidationException: AWSErrorShape {
         /// 400
-        public let errorCode: ValidationExceptionErrorCode
-        /// 400
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
 
         @inlinable
-        public init(errorCode: ValidationExceptionErrorCode, fieldList: [ValidationExceptionField]? = nil, message: String) {
-            self.errorCode = errorCode
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 
@@ -2445,11 +2372,11 @@ public struct TaxSettingsErrorType: AWSErrorType, Decodable {
         /// You've exceeded the Amazon Web Services Support case creation limit for your account.
         case caseCreationLimitExceededException
         /// The exception when the input is creating conflict with the given state.
-        case conflictException(TaxSettings.ConflictException)
+        case conflictException
         /// The exception thrown when an unexpected error occurs when processing a request.
-        case internalServerException(TaxSettings.InternalServerException)
+        case internalServerException
         /// The exception thrown when the input doesn't have a resource associated to it.
-        case resourceNotFoundException(TaxSettings.ResourceNotFoundException)
+        case resourceNotFoundException
         /// The exception when the input doesn't pass validation for at least one of the input parameters.
         case validationException(TaxSettings.ValidationException)
     }
@@ -2465,15 +2392,9 @@ public struct TaxSettingsErrorType: AWSErrorType, Decodable {
         case "AccessDeniedException": self.error = .accessDeniedException
         case "AttachmentUploadException": self.error = .attachmentUploadException
         case "CaseCreationLimitExceededException": self.error = .caseCreationLimitExceededException
-        case "ConflictException":
-            let context = try singleValueContainer.decode(TaxSettings.ConflictException.self)
-            self.error = .conflictException(context)
-        case "InternalServerException":
-            let context = try singleValueContainer.decode(TaxSettings.InternalServerException.self)
-            self.error = .internalServerException(context)
-        case "ResourceNotFoundException":
-            let context = try singleValueContainer.decode(TaxSettings.ResourceNotFoundException.self)
-            self.error = .resourceNotFoundException(context)
+        case "ConflictException": self.error = .conflictException
+        case "InternalServerException": self.error = .internalServerException
+        case "ResourceNotFoundException": self.error = .resourceNotFoundException
         case "ValidationException":
             let context = try singleValueContainer.decode(TaxSettings.ValidationException.self)
             self.error = .validationException(context)

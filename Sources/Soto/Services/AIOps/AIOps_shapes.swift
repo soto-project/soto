@@ -491,7 +491,6 @@ extension AIOps {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// This quota that was exceeded.
         public let quotaCode: String?
         /// The resource that caused the quota exception.
@@ -502,8 +501,7 @@ extension AIOps {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -511,7 +509,6 @@ extension AIOps {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"

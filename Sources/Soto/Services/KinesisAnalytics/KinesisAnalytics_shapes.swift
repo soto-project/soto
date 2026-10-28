@@ -2215,19 +2215,16 @@ extension KinesisAnalytics {
     }
 
     public struct UnableToDetectSchemaException: AWSErrorShape {
-        public let message: String?
         public let processedInputRecords: [String]?
         public let rawInputRecords: [String]?
 
         @inlinable
-        public init(message: String? = nil, processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
-            self.message = message
+        public init(processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
             self.processedInputRecords = processedInputRecords
             self.rawInputRecords = rawInputRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case processedInputRecords = "ProcessedInputRecords"
             case rawInputRecords = "RawInputRecords"
         }

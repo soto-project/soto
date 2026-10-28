@@ -3765,36 +3765,28 @@ extension StorageGateway {
     public struct InternalServerError: AWSErrorShape {
         /// A StorageGatewayError that provides more information about the cause of the error.
         public let error: StorageGatewayError?
-        /// A human-readable message describing the error that occurred.
-        public let message: String?
 
         @inlinable
-        public init(error: StorageGatewayError? = nil, message: String? = nil) {
+        public init(error: StorageGatewayError? = nil) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
     public struct InvalidGatewayRequestException: AWSErrorShape {
         /// A StorageGatewayError that provides more detail about the cause of the error.
         public let error: StorageGatewayError?
-        /// A human-readable message describing the error that occurred.
-        public let message: String?
 
         @inlinable
-        public init(error: StorageGatewayError? = nil, message: String? = nil) {
+        public init(error: StorageGatewayError? = nil) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -5035,18 +5027,14 @@ extension StorageGateway {
     public struct ServiceUnavailableError: AWSErrorShape {
         /// A StorageGatewayError that provides more information about the cause of the error.
         public let error: StorageGatewayError?
-        /// A human-readable message describing the error that occurred.
-        public let message: String?
 
         @inlinable
-        public init(error: StorageGatewayError? = nil, message: String? = nil) {
+        public init(error: StorageGatewayError? = nil) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 

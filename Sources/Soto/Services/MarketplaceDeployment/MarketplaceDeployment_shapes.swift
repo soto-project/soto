@@ -30,18 +30,15 @@ extension MarketplaceDeployment {
     // MARK: Shapes
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The unique identifier for the resource associated with the error.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceId: String) {
-            self.message = message
+        public init(resourceId: String) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }
@@ -260,17 +257,14 @@ extension MarketplaceDeployment {
     public struct ValidationException: AWSErrorShape {
         /// The field name associated with the error.
         public let fieldName: String
-        public let message: String
 
         @inlinable
-        public init(fieldName: String, message: String) {
+        public init(fieldName: String) {
             self.fieldName = fieldName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldName = "fieldName"
-            case message = "message"
         }
     }
 }

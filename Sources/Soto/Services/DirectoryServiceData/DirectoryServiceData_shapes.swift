@@ -194,18 +194,15 @@ extension DirectoryServiceData {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         ///  Reason the request was unauthorized.
         public let reason: AccessDeniedReason?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedReason? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -733,18 +730,15 @@ extension DirectoryServiceData {
     }
 
     public struct DirectoryUnavailableException: AWSErrorShape {
-        public let message: String?
         ///  Reason the request failed for the specified directory.
         public let reason: DirectoryUnavailableReason?
 
         @inlinable
-        public init(message: String? = nil, reason: DirectoryUnavailableReason? = nil) {
-            self.message = message
+        public init(reason: DirectoryUnavailableReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -1438,26 +1432,20 @@ extension DirectoryServiceData {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         ///  The recommended amount of seconds to retry after a throttling exception.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateGroupRequest: AWSEncodableShape {
@@ -1690,18 +1678,15 @@ extension DirectoryServiceData {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         ///  Reason the request failed validation.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

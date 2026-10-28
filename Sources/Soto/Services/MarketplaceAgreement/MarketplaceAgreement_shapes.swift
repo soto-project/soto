@@ -734,22 +734,18 @@ extension MarketplaceAgreement {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String?
         /// The reason for the access denied exception.
         public let reason: AccessDeniedExceptionReason?
         /// The unique identifier for the error.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionReason? = nil, requestId: String? = nil) {
             self.reason = reason
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
             case requestId = "requestId"
         }
@@ -1469,8 +1465,6 @@ extension MarketplaceAgreement {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
         /// The unique identifier of the resource involved in the conflict.
@@ -1479,15 +1473,13 @@ extension MarketplaceAgreement {
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(requestId: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.requestId = requestId
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case requestId = "requestId"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -2267,19 +2259,15 @@ extension MarketplaceAgreement {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case requestId = "requestId"
         }
     }
@@ -3306,8 +3294,6 @@ extension MarketplaceAgreement {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
         /// The unique identifier for the resource.
@@ -3316,15 +3302,13 @@ extension MarketplaceAgreement {
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(requestId: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.requestId = requestId
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case requestId = "requestId"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -3601,8 +3585,6 @@ extension MarketplaceAgreement {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String?
         /// The code of the quota that was exceeded.
         public let quotaCode: String?
         /// The unique identifier for the error.
@@ -3615,8 +3597,7 @@ extension MarketplaceAgreement {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String? = nil, quotaCode: String? = nil, requestId: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, requestId: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.requestId = requestId
             self.resourceId = resourceId
@@ -3625,7 +3606,6 @@ extension MarketplaceAgreement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case requestId = "requestId"
             case resourceId = "resourceId"
@@ -3717,19 +3697,15 @@ extension MarketplaceAgreement {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case requestId = "requestId"
         }
     }
@@ -3803,24 +3779,20 @@ extension MarketplaceAgreement {
     public struct ValidationException: AWSErrorShape {
         /// The fields associated with the error.
         public let fields: [ValidationExceptionField]?
-        /// Description of the error.
-        public let message: String?
         /// The reason associated with the error.
         public let reason: ValidationExceptionReason?
         /// The unique identifier associated with the error.
         public let requestId: String?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil, requestId: String? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil, requestId: String? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
             case requestId = "requestId"
         }

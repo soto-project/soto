@@ -3946,19 +3946,15 @@ extension Wickr {
     }
 
     public struct ValidationError: AWSErrorShape {
-        /// A message describing the validation error error that occurred.
-        public let message: String?
         /// A list of validation error details, where each item identifies a specific field that failed validation and explains the reason for the failure.
         public let reasons: [ErrorDetail]?
 
         @inlinable
-        public init(message: String? = nil, reasons: [ErrorDetail]? = nil) {
-            self.message = message
+        public init(reasons: [ErrorDetail]? = nil) {
             self.reasons = reasons
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reasons = "reasons"
         }
     }

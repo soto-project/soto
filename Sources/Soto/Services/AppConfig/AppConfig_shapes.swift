@@ -454,19 +454,16 @@ extension AppConfig {
 
     public struct BadRequestException: AWSErrorShape {
         public let details: BadRequestDetails?
-        public let message: String?
         public let reason: BadRequestReason?
 
         @inlinable
-        public init(details: BadRequestDetails? = nil, message: String? = nil, reason: BadRequestReason? = nil) {
+        public init(details: BadRequestDetails? = nil, reason: BadRequestReason? = nil) {
             self.details = details
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -3300,37 +3297,31 @@ extension AppConfig {
     public struct PayloadTooLargeException: AWSErrorShape {
         public let limit: Float?
         public let measure: BytesMeasure?
-        public let message: String?
         public let size: Float?
 
         @inlinable
-        public init(limit: Float? = nil, measure: BytesMeasure? = nil, message: String? = nil, size: Float? = nil) {
+        public init(limit: Float? = nil, measure: BytesMeasure? = nil, size: Float? = nil) {
             self.limit = limit
             self.measure = measure
-            self.message = message
             self.size = size
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case measure = "Measure"
-            case message = "Message"
             case size = "Size"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }

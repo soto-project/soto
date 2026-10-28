@@ -574,27 +574,20 @@ extension ManagedBlockchainQuery {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        /// The container for the exception message.
-        public let message: String
         /// Specifies the retryAfterSeconds value.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListAssetContractsInput: AWSEncodableShape {
@@ -948,30 +941,24 @@ extension ManagedBlockchainQuery {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The container for the exception message.
-        public let message: String
         /// The resourceId of the resource that caused the exception.
         public let resourceId: String
         /// The resourceType of the resource that caused the exception.
         public let resourceType: ResourceType
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: ResourceType) {
-            self.message = message
+        public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// The container for the exception message.
-        public let message: String
         /// The container for the quotaCode.
         public let quotaCode: String
         /// The resourceId of the resource that caused the exception.
@@ -982,8 +969,7 @@ extension ManagedBlockchainQuery {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: ResourceType, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: ResourceType, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -991,7 +977,6 @@ extension ManagedBlockchainQuery {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -1000,8 +985,6 @@ extension ManagedBlockchainQuery {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// The container for the exception message.
-        public let message: String
         /// The container for the quotaCode.
         public let quotaCode: String
         /// The container of the retryAfterSeconds value.
@@ -1010,8 +993,7 @@ extension ManagedBlockchainQuery {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, retryAfterSeconds: Int? = nil, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, retryAfterSeconds: Int? = nil, serviceCode: String) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1020,14 +1002,12 @@ extension ManagedBlockchainQuery {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decode(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decode(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -1329,21 +1309,17 @@ extension ManagedBlockchainQuery {
     public struct ValidationException: AWSErrorShape {
         /// The container for the fieldList of the exception.
         public let fieldList: [ValidationExceptionField]?
-        /// The container for the exception message.
-        public let message: String
         /// The container for the reason for the exception
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

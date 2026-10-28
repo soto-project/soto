@@ -738,17 +738,14 @@ extension MediaPackageV2 {
     public struct ConflictException: AWSErrorShape {
         /// The type of ConflictException.
         public let conflictExceptionType: ConflictExceptionType?
-        public let message: String?
 
         @inlinable
-        public init(conflictExceptionType: ConflictExceptionType? = nil, message: String? = nil) {
+        public init(conflictExceptionType: ConflictExceptionType? = nil) {
             self.conflictExceptionType = conflictExceptionType
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case conflictExceptionType = "ConflictExceptionType"
-            case message = "Message"
         }
     }
 
@@ -3711,18 +3708,15 @@ extension MediaPackageV2 {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The specified resource type wasn't found.
         public let resourceTypeNotFound: ResourceTypeNotFound?
 
         @inlinable
-        public init(message: String? = nil, resourceTypeNotFound: ResourceTypeNotFound? = nil) {
-            self.message = message
+        public init(resourceTypeNotFound: ResourceTypeNotFound? = nil) {
             self.resourceTypeNotFound = resourceTypeNotFound
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceTypeNotFound = "ResourceTypeNotFound"
         }
     }
@@ -4379,18 +4373,15 @@ extension MediaPackageV2 {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The type of ValidationException.
         public let validationExceptionType: ValidationExceptionType?
 
         @inlinable
-        public init(message: String? = nil, validationExceptionType: ValidationExceptionType? = nil) {
-            self.message = message
+        public init(validationExceptionType: ValidationExceptionType? = nil) {
             self.validationExceptionType = validationExceptionType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case validationExceptionType = "ValidationExceptionType"
         }
     }

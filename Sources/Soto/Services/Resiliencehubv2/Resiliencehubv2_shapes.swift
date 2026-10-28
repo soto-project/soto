@@ -5432,21 +5432,18 @@ extension Resiliencehubv2 {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String?
         /// The type of the resource that was not found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -7400,18 +7397,15 @@ extension Resiliencehubv2 {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The number of seconds to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case retryAfterSeconds = "retryAfterSeconds"
         }
     }
@@ -8032,20 +8026,17 @@ extension Resiliencehubv2 {
     public struct ValidationException: AWSErrorShape {
         /// The list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason for the validation failure.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

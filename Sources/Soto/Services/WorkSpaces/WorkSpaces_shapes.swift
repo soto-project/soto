@@ -5210,19 +5210,15 @@ extension WorkSpaces {
     }
 
     public struct OperationNotSupportedException: AWSErrorShape {
-        /// The exception error message.
-        public let message: String?
         /// The exception error reason.
         public let reason: String?
 
         @inlinable
-        public init(message: String? = nil, reason: String? = nil) {
-            self.message = message
+        public init(reason: String? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -5521,54 +5517,43 @@ extension WorkSpaces {
     }
 
     public struct ResourceInUseException: AWSErrorShape {
-        public let message: String?
         /// The ID of the resource that is in use.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "ResourceId"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The resource could not be found.
-        public let message: String?
         /// The ID of the resource that could not be found.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "ResourceId"
         }
     }
 
     public struct ResourceUnavailableException: AWSErrorShape {
-        /// The exception error message.
-        public let message: String?
         /// The identifier of the resource that is not available.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "ResourceId"
         }
     }

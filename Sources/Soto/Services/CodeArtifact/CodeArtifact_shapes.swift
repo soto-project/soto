@@ -331,21 +331,18 @@ extension CodeArtifact {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         ///  The ID of the resource.
         public let resourceId: String?
         ///  The type of Amazon Web Services resource.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -3919,21 +3916,18 @@ extension CodeArtifact {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         ///  The ID of the resource.
         public let resourceId: String?
         ///  The type of Amazon Web Services resource.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -3962,21 +3956,18 @@ extension CodeArtifact {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         ///  The ID of the resource.
         public let resourceId: String?
         ///  The type of Amazon Web Services resource.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -4065,26 +4056,20 @@ extension CodeArtifact {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         ///  The time period, in seconds, to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -4485,18 +4470,15 @@ extension CodeArtifact {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         ///
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }

@@ -627,7 +627,6 @@ extension SSMIncidents {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The identifier of the requested resource
         public let resourceIdentifier: String?
         /// The resource type
@@ -636,15 +635,13 @@ extension SSMIncidents {
         public let retryAfter: Date?
 
         @inlinable
-        public init(message: String, resourceIdentifier: String? = nil, resourceType: ResourceType? = nil, retryAfter: Date? = nil) {
-            self.message = message
+        public init(resourceIdentifier: String? = nil, resourceType: ResourceType? = nil, retryAfter: Date? = nil) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
             self.retryAfter = retryAfter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceIdentifier = "resourceIdentifier"
             case resourceType = "resourceType"
             case retryAfter = "retryAfter"
@@ -2088,21 +2085,18 @@ extension SSMIncidents {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier for the requested resource
         public let resourceIdentifier: String?
         /// The resource type
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String, resourceIdentifier: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceIdentifier: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceIdentifier = "resourceIdentifier"
             case resourceType = "resourceType"
         }
@@ -2153,7 +2147,6 @@ extension SSMIncidents {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// Originating quota code
         public let quotaCode: String
         /// The identifier for the requested resource
@@ -2164,8 +2157,7 @@ extension SSMIncidents {
         public let serviceCode: ServiceCode
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceIdentifier: String? = nil, resourceType: ResourceType? = nil, serviceCode: ServiceCode) {
-            self.message = message
+        public init(quotaCode: String, resourceIdentifier: String? = nil, resourceType: ResourceType? = nil, serviceCode: ServiceCode) {
             self.quotaCode = quotaCode
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -2173,7 +2165,6 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceIdentifier = "resourceIdentifier"
             case resourceType = "resourceType"
@@ -2330,21 +2321,18 @@ extension SSMIncidents {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Originating quota code
         public let quotaCode: String
         /// Originating service code
         public let serviceCode: ServiceCode
 
         @inlinable
-        public init(message: String, quotaCode: String, serviceCode: ServiceCode) {
-            self.message = message
+        public init(quotaCode: String, serviceCode: ServiceCode) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }

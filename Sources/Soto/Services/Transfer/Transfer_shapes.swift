@@ -4562,38 +4562,32 @@ extension Transfer {
     }
 
     public struct ResourceExistsException: AWSErrorShape {
-        public let message: String
         public let resource: String
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resource: String, resourceType: String) {
-            self.message = message
+        public init(resource: String, resourceType: String) {
             self.resource = resource
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resource = "Resource"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         public let resource: String
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resource: String, resourceType: String) {
-            self.message = message
+        public init(resource: String, resourceType: String) {
             self.resource = resource
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resource = "Resource"
             case resourceType = "ResourceType"
         }

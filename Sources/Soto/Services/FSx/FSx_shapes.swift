@@ -841,23 +841,6 @@ extension FSx {
 
     // MARK: Shapes
 
-    public struct AccessPointAlreadyOwnedByYou: AWSErrorShape {
-        /// An error code indicating that an access point with that name already exists in the Amazon Web Services Region in your Amazon Web Services account.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct ActiveDirectoryBackupAttributes: AWSDecodableShape {
         /// The ID of the Amazon Web Services Managed Microsoft Active Directory instance to which the file system is joined.
         public let activeDirectoryId: String?
@@ -882,20 +865,17 @@ extension FSx {
     public struct ActiveDirectoryError: AWSErrorShape {
         /// The directory ID of the directory that an error pertains to.
         public let activeDirectoryId: String?
-        public let message: String?
         /// The type of Active Directory error.
         public let type: ActiveDirectoryErrorType?
 
         @inlinable
-        public init(activeDirectoryId: String? = nil, message: String? = nil, type: ActiveDirectoryErrorType? = nil) {
+        public init(activeDirectoryId: String? = nil, type: ActiveDirectoryErrorType? = nil) {
             self.activeDirectoryId = activeDirectoryId
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -1184,17 +1164,14 @@ extension FSx {
 
     public struct BackupBeingCopied: AWSErrorShape {
         public let backupId: String?
-        public let message: String?
 
         @inlinable
-        public init(backupId: String? = nil, message: String? = nil) {
+        public init(backupId: String? = nil) {
             self.backupId = backupId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
-            case message = "Message"
         }
     }
 
@@ -1215,17 +1192,14 @@ extension FSx {
     public struct BackupRestoring: AWSErrorShape {
         /// The ID of a file system being restored from the backup.
         public let fileSystemId: String?
-        public let message: String?
 
         @inlinable
-        public init(fileSystemId: String? = nil, message: String? = nil) {
+        public init(fileSystemId: String? = nil) {
             self.fileSystemId = fileSystemId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
-            case message = "Message"
         }
     }
 
@@ -5082,36 +5056,16 @@ extension FSx {
     }
 
     public struct IncompatibleParameterError: AWSErrorShape {
-        public let message: String?
         /// A parameter that is incompatible with the earlier request.
         public let parameter: String?
 
         @inlinable
-        public init(message: String? = nil, parameter: String? = nil) {
-            self.message = message
+        public init(parameter: String? = nil) {
             self.parameter = parameter
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case parameter = "Parameter"
-        }
-    }
-
-    public struct InvalidAccessPoint: AWSErrorShape {
-        /// An error code indicating that the access point specified doesn't exist.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -5122,39 +5076,18 @@ extension FSx {
         public let invalidSecurityGroupId: String?
         /// The subnet ID that is either invalid or not part of the VPC specified.
         public let invalidSubnetId: String?
-        /// Error message explaining what's wrong with network settings.
-        public let message: String?
 
         @inlinable
-        public init(invalidRouteTableId: String? = nil, invalidSecurityGroupId: String? = nil, invalidSubnetId: String? = nil, message: String? = nil) {
+        public init(invalidRouteTableId: String? = nil, invalidSecurityGroupId: String? = nil, invalidSubnetId: String? = nil) {
             self.invalidRouteTableId = invalidRouteTableId
             self.invalidSecurityGroupId = invalidSecurityGroupId
             self.invalidSubnetId = invalidSubnetId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidRouteTableId = "InvalidRouteTableId"
             case invalidSecurityGroupId = "InvalidSecurityGroupId"
             case invalidSubnetId = "InvalidSubnetId"
-            case message = "Message"
-        }
-    }
-
-    public struct InvalidRequest: AWSErrorShape {
-        /// An error code indicating that the action or operation requested is invalid.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -5411,18 +5344,15 @@ extension FSx {
     }
 
     public struct NotServiceResourceError: AWSErrorShape {
-        public let message: String?
         /// The Amazon Resource Name (ARN) of the non-Amazon FSx resource.
         public let resourceARN: String?
 
         @inlinable
-        public init(message: String? = nil, resourceARN: String? = nil) {
-            self.message = message
+        public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceARN = "ResourceARN"
         }
     }
@@ -6061,35 +5991,29 @@ extension FSx {
     }
 
     public struct ResourceDoesNotSupportTagging: AWSErrorShape {
-        public let message: String?
         /// The Amazon Resource Name (ARN) of the resource that doesn't support tagging.
         public let resourceARN: String?
 
         @inlinable
-        public init(message: String? = nil, resourceARN: String? = nil) {
-            self.message = message
+        public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceARN = "ResourceARN"
         }
     }
 
     public struct ResourceNotFound: AWSErrorShape {
-        public let message: String?
         /// The resource ARN of the resource that can't be found.
         public let resourceARN: String?
 
         @inlinable
-        public init(message: String? = nil, resourceARN: String? = nil) {
-            self.message = message
+        public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceARN = "ResourceARN"
         }
     }
@@ -6514,17 +6438,14 @@ extension FSx {
     public struct ServiceLimitExceeded: AWSErrorShape {
         /// Enumeration of the service limit that was exceeded.
         public let limit: ServiceLimit?
-        public let message: String?
 
         @inlinable
-        public init(limit: ServiceLimit? = nil, message: String? = nil) {
+        public init(limit: ServiceLimit? = nil) {
             self.limit = limit
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
-            case message = "Message"
         }
     }
 
@@ -6661,17 +6582,14 @@ extension FSx {
 
     public struct SourceBackupUnavailable: AWSErrorShape {
         public let backupId: String?
-        public let message: String?
 
         @inlinable
-        public init(backupId: String? = nil, message: String? = nil) {
+        public init(backupId: String? = nil) {
             self.backupId = backupId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
-            case message = "Message"
         }
     }
 
@@ -6941,23 +6859,6 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case coolingPeriod = "CoolingPeriod"
             case name = "Name"
-        }
-    }
-
-    public struct TooManyAccessPoints: AWSErrorShape {
-        /// An error code indicating that you have reached the maximum number of S3 access points attachments allowed for your account in this Amazon Web Services Region, or for the file system.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -8118,7 +8019,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
     @nonexhaustive
     public enum Code: Sendable {
         /// An access point with that name already exists in the Amazon Web Services Region in your Amazon Web Services account.
-        case accessPointAlreadyOwnedByYou(FSx.AccessPointAlreadyOwnedByYou)
+        case accessPointAlreadyOwnedByYou
         /// An Active Directory error.
         case activeDirectoryError(FSx.ActiveDirectoryError)
         /// You can't delete a backup while it's being copied.
@@ -8150,7 +8051,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
         /// A generic error indicating a server-side failure.
         case internalServerError
         /// The access point specified doesn't exist.
-        case invalidAccessPoint(FSx.InvalidAccessPoint)
+        case invalidAccessPoint
         /// You have filtered the response to a data repository type that is not supported.
         case invalidDataRepositoryType
         /// The Key Management Service (KMS) key of the destination backup is not valid.
@@ -8166,7 +8067,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
         /// The Region provided for SourceRegion is not valid or is in a different Amazon Web Services partition.
         case invalidRegion
         /// The action or operation requested is invalid. Verify that the action is typed correctly.
-        case invalidRequest(FSx.InvalidRequest)
+        case invalidRequest
         /// The Key Management Service (KMS) key of the source backup is not valid.
         case invalidSourceKmsKey
         /// A cache configuration is required for this operation.
@@ -8192,7 +8093,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
         /// No FSx for ONTAP SVMs were found based upon the supplied parameters.
         case storageVirtualMachineNotFound
         /// You have reached the maximum number of S3 access points attachments allowed for your account in this Amazon Web Services Region, or for the file system. For more information, or to request an increase,  see Service quotas on FSx resources in the FSx for OpenZFS User Guide.
-        case tooManyAccessPoints(FSx.TooManyAccessPoints)
+        case tooManyAccessPoints
         /// The requested operation is not supported for this resource or API.
         case unsupportedOperation
         /// No Amazon FSx volumes were found based upon the supplied parameters.
@@ -8207,9 +8108,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
         switch errorCode.code {
-        case "AccessPointAlreadyOwnedByYou":
-            let context = try singleValueContainer.decode(FSx.AccessPointAlreadyOwnedByYou.self)
-            self.error = .accessPointAlreadyOwnedByYou(context)
+        case "AccessPointAlreadyOwnedByYou": self.error = .accessPointAlreadyOwnedByYou
         case "ActiveDirectoryError":
             let context = try singleValueContainer.decode(FSx.ActiveDirectoryError.self)
             self.error = .activeDirectoryError(context)
@@ -8233,9 +8132,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
             self.error = .incompatibleParameterError(context)
         case "IncompatibleRegionForMultiAZ": self.error = .incompatibleRegionForMultiAZ
         case "InternalServerError": self.error = .internalServerError
-        case "InvalidAccessPoint":
-            let context = try singleValueContainer.decode(FSx.InvalidAccessPoint.self)
-            self.error = .invalidAccessPoint(context)
+        case "InvalidAccessPoint": self.error = .invalidAccessPoint
         case "InvalidDataRepositoryType": self.error = .invalidDataRepositoryType
         case "InvalidDestinationKmsKey": self.error = .invalidDestinationKmsKey
         case "InvalidExportPath": self.error = .invalidExportPath
@@ -8245,9 +8142,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
             self.error = .invalidNetworkSettings(context)
         case "InvalidPerUnitStorageThroughput": self.error = .invalidPerUnitStorageThroughput
         case "InvalidRegion": self.error = .invalidRegion
-        case "InvalidRequest":
-            let context = try singleValueContainer.decode(FSx.InvalidRequest.self)
-            self.error = .invalidRequest(context)
+        case "InvalidRequest": self.error = .invalidRequest
         case "InvalidSourceKmsKey": self.error = .invalidSourceKmsKey
         case "MissingFileCacheConfiguration": self.error = .missingFileCacheConfiguration
         case "MissingFileSystemConfiguration": self.error = .missingFileSystemConfiguration
@@ -8270,9 +8165,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(FSx.SourceBackupUnavailable.self)
             self.error = .sourceBackupUnavailable(context)
         case "StorageVirtualMachineNotFound": self.error = .storageVirtualMachineNotFound
-        case "TooManyAccessPoints":
-            let context = try singleValueContainer.decode(FSx.TooManyAccessPoints.self)
-            self.error = .tooManyAccessPoints(context)
+        case "TooManyAccessPoints": self.error = .tooManyAccessPoints
         case "UnsupportedOperation": self.error = .unsupportedOperation
         case "VolumeNotFound": self.error = .volumeNotFound
         default:

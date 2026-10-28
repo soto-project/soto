@@ -334,17 +334,14 @@ extension Translate {
     public struct DetectedLanguageLowConfidenceException: AWSErrorShape {
         /// The language code of the auto-detected language from Amazon Comprehend.
         public let detectedLanguageCode: String?
-        public let message: String?
 
         @inlinable
-        public init(detectedLanguageCode: String? = nil, message: String? = nil) {
+        public init(detectedLanguageCode: String? = nil) {
             self.detectedLanguageCode = detectedLanguageCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case detectedLanguageCode = "DetectedLanguageCode"
-            case message = "Message"
         }
     }
 
@@ -1401,17 +1398,14 @@ extension Translate {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         public let resourceArn: String?
 
         @inlinable
-        public init(message: String? = nil, resourceArn: String? = nil) {
-            self.message = message
+        public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "ResourceArn"
         }
     }
@@ -1602,36 +1596,30 @@ extension Translate {
     public struct UnsupportedDisplayLanguageCodeException: AWSErrorShape {
         /// Language code passed in with the request.
         public let displayLanguageCode: String?
-        public let message: String?
 
         @inlinable
-        public init(displayLanguageCode: String? = nil, message: String? = nil) {
+        public init(displayLanguageCode: String? = nil) {
             self.displayLanguageCode = displayLanguageCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayLanguageCode = "DisplayLanguageCode"
-            case message = "Message"
         }
     }
 
     public struct UnsupportedLanguagePairException: AWSErrorShape {
-        public let message: String?
         /// The language code for the language of the input text.
         public let sourceLanguageCode: String?
         /// The language code for the language of the translated text.
         public let targetLanguageCode: String?
 
         @inlinable
-        public init(message: String? = nil, sourceLanguageCode: String? = nil, targetLanguageCode: String? = nil) {
-            self.message = message
+        public init(sourceLanguageCode: String? = nil, targetLanguageCode: String? = nil) {
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCode = targetLanguageCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCode = "TargetLanguageCode"
         }

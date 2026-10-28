@@ -8941,19 +8941,15 @@ extension OpenSearch {
     }
 
     public struct SlotNotAvailableException: AWSErrorShape {
-        /// A description of the error.
-        public let message: String?
         /// Alternate time slots during which OpenSearch Service has available capacity to schedule a domain action.
         public let slotSuggestions: [Int64]?
 
         @inlinable
-        public init(message: String? = nil, slotSuggestions: [Int64]? = nil) {
-            self.message = message
+        public init(slotSuggestions: [Int64]? = nil) {
             self.slotSuggestions = slotSuggestions
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case slotSuggestions = "SlotSuggestions"
         }
     }

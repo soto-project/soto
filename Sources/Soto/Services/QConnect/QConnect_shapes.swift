@@ -10537,18 +10537,15 @@ extension QConnect {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The specified resource name.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -12122,18 +12119,15 @@ extension QConnect {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         /// The specified resource name.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }

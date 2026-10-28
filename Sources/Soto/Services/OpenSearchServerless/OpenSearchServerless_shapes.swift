@@ -2950,8 +2950,6 @@ extension OpenSearchServerless {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// Description of the error.
-        public let message: String
         /// Service Quotas requirement to identify originating quota.
         public let quotaCode: String?
         /// Identifier of the resource affected.
@@ -2962,8 +2960,7 @@ extension OpenSearchServerless {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2971,7 +2968,6 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"

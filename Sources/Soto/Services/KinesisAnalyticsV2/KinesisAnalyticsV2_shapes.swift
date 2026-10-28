@@ -4655,21 +4655,18 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UnableToDetectSchemaException: AWSErrorShape {
-        public let message: String?
         /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
         public let processedInputRecords: [String]?
         /// Raw stream data that was sampled to infer the schema.
         public let rawInputRecords: [String]?
 
         @inlinable
-        public init(message: String? = nil, processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
-            self.message = message
+        public init(processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
             self.processedInputRecords = processedInputRecords
             self.rawInputRecords = rawInputRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case processedInputRecords = "ProcessedInputRecords"
             case rawInputRecords = "RawInputRecords"
         }

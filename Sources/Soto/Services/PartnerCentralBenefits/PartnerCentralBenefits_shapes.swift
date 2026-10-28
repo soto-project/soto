@@ -1639,8 +1639,6 @@ extension PartnerCentralBenefits {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// A message describing the service quota exceeded error.
-        public let message: String
         /// The code identifying the specific quota that would be exceeded.
         public let quotaCode: String
         /// The identifier of the resource that would exceed the quota.
@@ -1649,15 +1647,13 @@ extension PartnerCentralBenefits {
         public let resourceType: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -1869,21 +1865,17 @@ extension PartnerCentralBenefits {
     public struct ValidationException: AWSErrorShape {
         /// A list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        /// A message describing the validation error.
-        public let message: String
         /// The reason for the validation failure.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "FieldList"
-            case message = "Message"
             case reason = "Reason"
         }
     }

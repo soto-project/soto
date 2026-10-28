@@ -1077,16 +1077,7 @@ extension IoTSiteWise {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct AccessPolicySummary: AWSDecodableShape {
@@ -4170,21 +4161,18 @@ extension IoTSiteWise {
     }
 
     public struct ConflictingOperationException: AWSErrorShape {
-        public let message: String
         /// The ARN of the resource that conflicts with this operation.
         public let resourceArn: String
         /// The ID of the resource that conflicts with this operation.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceArn: String, resourceId: String) {
-            self.message = message
+        public init(resourceArn: String, resourceId: String) {
             self.resourceArn = resourceArn
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
         }
@@ -11077,16 +11065,7 @@ extension IoTSiteWise {
     }
 
     public struct InternalFailureException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct InterpolatedAssetPropertyValue: AWSDecodableShape {
@@ -11106,16 +11085,7 @@ extension IoTSiteWise {
     }
 
     public struct InvalidRequestException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct InvocationOutput: AWSDecodableShape {
@@ -11252,16 +11222,7 @@ extension IoTSiteWise {
     }
 
     public struct LimitExceededException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
@@ -13896,21 +13857,18 @@ extension IoTSiteWise {
     }
 
     public struct PreconditionFailedException: AWSErrorShape {
-        public let message: String
         /// The ARN of the resource on which precondition failed with this operation.
         public let resourceArn: String
         /// The ID of the resource on which precondition failed with this operation.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceArn: String, resourceId: String) {
-            self.message = message
+        public init(resourceArn: String, resourceId: String) {
             self.resourceArn = resourceArn
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
         }
@@ -14510,21 +14468,18 @@ extension IoTSiteWise {
     }
 
     public struct ResourceAlreadyExistsException: AWSErrorShape {
-        public let message: String
         /// The ARN of the resource that already exists.
         public let resourceArn: String
         /// The ID of the resource that already exists.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceArn: String, resourceId: String) {
-            self.message = message
+        public init(resourceArn: String, resourceId: String) {
             self.resourceArn = resourceArn
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
         }
@@ -14549,16 +14504,7 @@ extension IoTSiteWise {
     }
 
     public struct ResourceNotFoundException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ResourceStatus: AWSDecodableShape {
@@ -15175,16 +15121,7 @@ extension IoTSiteWise {
     }
 
     public struct ThrottlingException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct TimeInNanos: AWSEncodableShape & AWSDecodableShape {
@@ -15318,18 +15255,15 @@ extension IoTSiteWise {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         /// The name of the resource with too many tags.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }

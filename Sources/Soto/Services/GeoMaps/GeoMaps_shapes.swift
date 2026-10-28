@@ -664,20 +664,17 @@ extension GeoMaps {
     public struct ValidationException: AWSErrorShape {
         /// A message with the reason for the validation exception error.
         public let fieldList: [ValidationExceptionField]
-        public let message: String
         /// The field where the invalid entry was detected.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField], message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField], reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

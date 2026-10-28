@@ -12629,17 +12629,14 @@ extension BedrockAgent {
     public struct ValidationException: AWSErrorShape {
         /// A list of objects containing fields that caused validation errors and their corresponding validation error messages.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String?
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 

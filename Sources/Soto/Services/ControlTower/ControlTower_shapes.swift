@@ -1992,7 +1992,6 @@ extension ControlTower {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The ID of the service quota that was exceeded.
         public let quotaCode: String?
         /// The number of seconds the caller should wait before retrying.
@@ -2001,8 +2000,7 @@ extension ControlTower {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -2011,14 +2009,12 @@ extension ControlTower {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }

@@ -3664,24 +3664,6 @@ extension EMR {
         }
     }
 
-    public struct InvalidRequestException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String?
-        /// The message associated with the exception.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct JobFlowDetail: AWSDecodableShape {
         /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
         public let amiVersion: String?
@@ -7209,13 +7191,13 @@ extension EMR {
 /// Error enum for EMR
 public struct EMRErrorType: AWSErrorType, Decodable {
     @nonexhaustive
-    public enum Code: Sendable {
+    public enum Code: String, Sendable, Equatable {
         /// Indicates that an error occurred while processing the request and that the request was not completed.
-        case internalServerError
+        case internalServerError = "InternalServerError"
         /// This exception occurs when there is an internal failure in the Amazon EMR service.
-        case internalServerException
+        case internalServerException = "InternalServerException"
         /// This exception occurs when there is something wrong with user input.
-        case invalidRequestException(EMR.InvalidRequestException)
+        case invalidRequestException = "InvalidRequestException"
     }
 
     public let error: Code
@@ -7225,25 +7207,14 @@ public struct EMRErrorType: AWSErrorType, Decodable {
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
-        switch errorCode.code {
-        case "InternalServerError": self.error = .internalServerError
-        case "InternalServerException": self.error = .internalServerException
-        case "InvalidRequestException":
-            let context = try singleValueContainer.decode(EMR.InvalidRequestException.self)
-            self.error = .invalidRequestException(context)
-        default:
+        if let code = Code(rawValue: errorCode.code) {
+            self.error = code
+        } else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
         self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
         self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
     }
 
-    /// return error code string
-    public var errorCode: String {
-        switch error {
-        case .internalServerError: "InternalServerError"
-        case .internalServerException: "InternalServerException"
-        case .invalidRequestException: "InvalidRequestException"
-        }
-    }
+    public var errorCode: String { self.error.rawValue }
 }

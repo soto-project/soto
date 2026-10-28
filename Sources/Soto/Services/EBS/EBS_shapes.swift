@@ -135,18 +135,15 @@ extension EBS {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: AccessDeniedExceptionReason
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedExceptionReason) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -539,52 +536,43 @@ extension EBS {
     }
 
     public struct RequestThrottledException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: RequestThrottledExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: RequestThrottledExceptionReason? = nil) {
-            self.message = message
+        public init(reason: RequestThrottledExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ResourceNotFoundExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ResourceNotFoundExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ResourceNotFoundExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ServiceQuotaExceededExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ServiceQuotaExceededExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ServiceQuotaExceededExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -730,18 +718,15 @@ extension EBS {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The reason for the validation exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

@@ -2932,22 +2932,18 @@ extension QBusiness {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// The message describing a ConflictException.
-        public let message: String
         /// The identifier of the resource affected.
         public let resourceId: String
         /// The type of the resource affected.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -8557,22 +8553,18 @@ extension QBusiness {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The message describing a ResourceNotFoundException.
-        public let message: String
         /// The identifier of the resource affected.
         public let resourceId: String
         /// The type of the resource affected.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -8850,22 +8842,18 @@ extension QBusiness {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// The message describing a ServiceQuotaExceededException.
-        public let message: String
         /// The identifier of the resource affected.
         public let resourceId: String
         /// The type of the resource affected.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -10230,21 +10218,17 @@ extension QBusiness {
     public struct ValidationException: AWSErrorShape {
         /// The input field(s) that failed validation.
         public let fields: [ValidationExceptionField]?
-        /// The message describing the ValidationException.
-        public let message: String
         /// The reason for the ValidationException.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
         }
     }

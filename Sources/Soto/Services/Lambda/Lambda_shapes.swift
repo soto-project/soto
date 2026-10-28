@@ -995,19 +995,15 @@ extension Lambda {
     }
 
     public struct AliasLimitExceededException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -1194,18 +1190,15 @@ extension Lambda {
     }
 
     public struct CallbackTimeoutException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -1278,18 +1271,15 @@ extension Lambda {
     }
 
     public struct CapacityProviderLimitExceededException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -1636,55 +1626,43 @@ extension Lambda {
     }
 
     public struct CodeArtifactUserDeletedException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct CodeArtifactUserFailedException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct CodeArtifactUserPendingException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -1724,17 +1702,14 @@ extension Lambda {
     }
 
     public struct CodeSigningConfigNotFoundException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -1754,34 +1729,28 @@ extension Lambda {
     }
 
     public struct CodeStorageExceededException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct CodeVerificationFailedException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -3014,167 +2983,136 @@ extension Lambda {
     }
 
     public struct DurableExecutionAlreadyStartedException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EC2AccessDeniedException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EC2ThrottledException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EC2UnexpectedException: AWSErrorShape {
         public let ec2ErrorCode: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(ec2ErrorCode: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(ec2ErrorCode: String? = nil, type: String? = nil) {
             self.ec2ErrorCode = ec2ErrorCode
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2ErrorCode = "EC2ErrorCode"
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EFSIOException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EFSMountConnectivityException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EFSMountFailureException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct EFSMountTimeoutException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct ENILimitReachedException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct ENINotReadyException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -4238,18 +4176,15 @@ extension Lambda {
     }
 
     public struct FunctionVersionsPerCapacityProviderLimitExceededException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -5433,117 +5368,94 @@ extension Lambda {
     }
 
     public struct InvalidCodeSignatureException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct InvalidParameterValueException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct InvalidRequestContentException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct InvalidRuntimeException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct InvalidSecurityGroupIDException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct InvalidSubnetIDException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct InvalidZipFileException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -5845,65 +5757,53 @@ extension Lambda {
     }
 
     public struct KMSAccessDeniedException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct KMSDisabledException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct KMSInvalidStateException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct KMSNotFoundException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -7021,36 +6921,29 @@ extension Lambda {
     }
 
     public struct ModeNotSupportedException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct NoPublishedVersionException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -7238,35 +7131,28 @@ extension Lambda {
     }
 
     public struct PolicyLengthExceededException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct PreconditionFailedException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -7338,17 +7224,14 @@ extension Lambda {
     }
 
     public struct ProvisionedConcurrencyConfigNotFoundException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -7385,19 +7268,15 @@ extension Lambda {
     }
 
     public struct PublicPolicyException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -7977,19 +7856,15 @@ extension Lambda {
     }
 
     public struct RecursiveInvocationException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8076,17 +7951,14 @@ extension Lambda {
     }
 
     public struct RequestTooLargeException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -8114,69 +7986,55 @@ extension Lambda {
     }
 
     public struct ResourceConflictException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct ResourceInUseException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct ResourceNotReadyException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -8250,55 +8108,43 @@ extension Lambda {
     }
 
     public struct S3FilesMountConnectivityException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct S3FilesMountFailureException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct S3FilesMountTimeoutException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8464,52 +8310,42 @@ extension Lambda {
     }
 
     public struct SerializedRequestEntityTooLargeException: AWSErrorShape {
-        public let message: String?
         /// The error type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct ServiceException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8529,51 +8365,41 @@ extension Lambda {
     }
 
     public struct SnapStartException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct SnapStartNotReadyException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct SnapStartRegenerationFailureException: AWSErrorShape {
-        /// The exception message.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8597,17 +8423,14 @@ extension Lambda {
     }
 
     public struct SnapStartTimeoutException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8763,17 +8586,14 @@ extension Lambda {
     }
 
     public struct SubnetIPAddressLimitReachedException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
@@ -8871,15 +8691,13 @@ extension Lambda {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        public let message: String?
         public let reason: ThrottleReason?
         /// The number of seconds the caller should wait before retrying.
         public let retryAfterSeconds: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, reason: ThrottleReason? = nil, retryAfterSeconds: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(reason: ThrottleReason? = nil, retryAfterSeconds: String? = nil, type: String? = nil) {
             self.reason = reason
             self.retryAfterSeconds = retryAfterSeconds
             self.type = type
@@ -8888,14 +8706,12 @@ extension Lambda {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.reason = try container.decodeIfPresent(ThrottleReason.self, forKey: .reason)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
             self.type = try container.decodeIfPresent(String.self, forKey: .type)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "Reason"
             case type = "Type"
         }
@@ -8944,17 +8760,14 @@ extension Lambda {
     }
 
     public struct UnsupportedMediaTypeException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }

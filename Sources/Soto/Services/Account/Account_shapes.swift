@@ -145,24 +145,18 @@ extension Account {
     public struct AccessDeniedException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
-        public let message: String
 
         @inlinable
-        public init(errorType: String? = nil, message: String) {
+        public init(errorType: String? = nil) {
             self.errorType = errorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decode(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AlternateContact: AWSDecodableShape {
@@ -198,24 +192,18 @@ extension Account {
     public struct ConflictException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
-        public let message: String
 
         @inlinable
-        public init(errorType: String? = nil, message: String) {
+        public init(errorType: String? = nil) {
             self.errorType = errorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decode(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ContactInformation: AWSEncodableShape & AWSDecodableShape {
@@ -636,24 +624,18 @@ extension Account {
     public struct InternalServerException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
-        public let message: String
 
         @inlinable
-        public init(errorType: String? = nil, message: String) {
+        public init(errorType: String? = nil) {
             self.errorType = errorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decode(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRegionsRequest: AWSEncodableShape {
@@ -821,47 +803,35 @@ extension Account {
     public struct ResourceNotFoundException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
-        public let message: String
 
         @inlinable
-        public init(errorType: String? = nil, message: String) {
+        public init(errorType: String? = nil) {
             self.errorType = errorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decode(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ResourceUnavailableException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
-        public let message: String
 
         @inlinable
-        public init(errorType: String? = nil, message: String) {
+        public init(errorType: String? = nil) {
             self.errorType = errorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decode(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartPrimaryEmailUpdateRequest: AWSEncodableShape {
@@ -905,44 +875,34 @@ extension Account {
     public struct TooManyRequestsException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
-        public let message: String
 
         @inlinable
-        public init(errorType: String? = nil, message: String) {
+        public init(errorType: String? = nil) {
             self.errorType = errorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decode(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ValidationException: AWSErrorShape {
         /// The field where the invalid entry was detected.
         public let fieldList: [ValidationExceptionField]?
-        /// The message that informs you about what was invalid about the request.
-        public let message: String
         /// The reason that validation failed.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

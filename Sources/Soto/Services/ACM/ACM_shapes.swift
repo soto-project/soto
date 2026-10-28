@@ -3447,18 +3447,15 @@ extension ACM {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// One or more reasons why the request was throttled.
         public let throttlingReasons: [ThrottlingReason]?
 
         @inlinable
-        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
-            self.message = message
+        public init(throttlingReasons: [ThrottlingReason]? = nil) {
             self.throttlingReasons = throttlingReasons
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case throttlingReasons = "throttlingReasons"
         }
     }

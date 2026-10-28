@@ -3349,20 +3349,17 @@ extension AgentRegistryControl {
     public struct ValidationException: AWSErrorShape {
         /// The list of input fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason the request failed validation.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

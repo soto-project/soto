@@ -1750,19 +1750,15 @@ extension ECS {
     }
 
     public struct ConflictException: AWSErrorShape {
-        ///  Message that describes the cause of the exception.
-        public let message: String?
         /// The existing task ARNs which are already associated with the clientToken.
         public let resourceIds: [String]?
 
         @inlinable
-        public init(message: String? = nil, resourceIds: [String]? = nil) {
-            self.message = message
+        public init(resourceIds: [String]? = nil) {
             self.resourceIds = resourceIds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceIds = "resourceIds"
         }
     }

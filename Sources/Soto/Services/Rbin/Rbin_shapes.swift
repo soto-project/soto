@@ -117,18 +117,15 @@ extension Rbin {
     // MARK: Shapes
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ConflictExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ConflictExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ConflictExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -551,18 +548,15 @@ extension Rbin {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ResourceNotFoundExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ResourceNotFoundExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ResourceNotFoundExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -644,18 +638,15 @@ extension Rbin {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ServiceQuotaExceededExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ServiceQuotaExceededExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ServiceQuotaExceededExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -970,18 +961,15 @@ extension Rbin {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

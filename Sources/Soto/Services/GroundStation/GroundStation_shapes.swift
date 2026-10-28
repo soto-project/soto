@@ -1912,18 +1912,15 @@ extension GroundStation {
     }
 
     public struct DependencyException: AWSErrorShape {
-        public let message: String?
         /// Name of the parameter that caused the exception.
         public let parameterName: String?
 
         @inlinable
-        public init(message: String? = nil, parameterName: String? = nil) {
-            self.message = message
+        public init(parameterName: String? = nil) {
             self.parameterName = parameterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case parameterName = "parameterName"
         }
     }
@@ -3135,18 +3132,15 @@ extension GroundStation {
     }
 
     public struct InvalidParameterException: AWSErrorShape {
-        public let message: String?
         /// Name of the invalid parameter.
         public let parameterName: String?
 
         @inlinable
-        public init(message: String? = nil, parameterName: String? = nil) {
-            self.message = message
+        public init(parameterName: String? = nil) {
             self.parameterName = parameterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case parameterName = "parameterName"
         }
     }
@@ -4038,18 +4032,15 @@ extension GroundStation {
     }
 
     public struct ResourceLimitExceededException: AWSErrorShape {
-        public let message: String?
         /// Name of the parameter that exceeded the resource limit.
         public let parameterName: String?
 
         @inlinable
-        public init(message: String? = nil, parameterName: String? = nil) {
-            self.message = message
+        public init(parameterName: String? = nil) {
             self.parameterName = parameterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case parameterName = "parameterName"
         }
     }
@@ -4196,18 +4187,15 @@ extension GroundStation {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// Parameter name that caused the exception
         public let parameterName: String?
 
         @inlinable
-        public init(message: String? = nil, parameterName: String? = nil) {
-            self.message = message
+        public init(parameterName: String? = nil) {
             self.parameterName = parameterName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case parameterName = "parameterName"
         }
     }

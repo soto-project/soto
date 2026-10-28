@@ -1862,65 +1862,53 @@ extension MachineLearning {
 
     public struct IdempotentParameterMismatchException: AWSErrorShape {
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(code: Int? = nil, message: String? = nil) {
+        public init(code: Int? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct InternalServerException: AWSErrorShape {
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(code: Int? = nil, message: String? = nil) {
+        public init(code: Int? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct InvalidInputException: AWSErrorShape {
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(code: Int? = nil, message: String? = nil) {
+        public init(code: Int? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct LimitExceededException: AWSErrorShape {
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(code: Int? = nil, message: String? = nil) {
+        public init(code: Int? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -2394,17 +2382,14 @@ extension MachineLearning {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(code: Int? = nil, message: String? = nil) {
+        public init(code: Int? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 

@@ -1212,21 +1212,18 @@ extension IoTWireless {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// Id of the resource in the conflicting operation.
         public let resourceId: String?
         /// Type of the resource in the conflicting operation.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -6865,21 +6862,18 @@ extension IoTWireless {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// Id of the not found resource.
         public let resourceId: String?
         /// Type of the font found resource.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -8142,18 +8136,15 @@ extension IoTWireless {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         /// Name of the resource that exceeds maximum number of tags allowed.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }

@@ -1209,21 +1209,18 @@ extension Lightsail {
     public struct AccessDeniedException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -1327,21 +1324,18 @@ extension Lightsail {
     public struct AccountSetupInProgressException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -8899,21 +8893,18 @@ extension Lightsail {
     public struct InvalidInputException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -9525,21 +9516,18 @@ extension Lightsail {
     public struct NotFoundException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -9642,21 +9630,18 @@ extension Lightsail {
     public struct OperationFailureException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -10124,22 +10109,19 @@ extension Lightsail {
         public let code: String?
         ///  Regions and Availability Zones for Lightsail
         public let docs: String?
-        public let message: String?
         /// Opt-in Regions typically take a few minutes to finish setting up before you can work with them. Wait a few minutes and try again.
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -10803,21 +10785,18 @@ extension Lightsail {
     public struct ServiceException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }
@@ -11489,21 +11468,18 @@ extension Lightsail {
     public struct UnauthenticatedException: AWSErrorShape {
         public let code: String?
         public let docs: String?
-        public let message: String?
         public let tip: String?
 
         @inlinable
-        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+        public init(code: String? = nil, docs: String? = nil, tip: String? = nil) {
             self.code = code
             self.docs = docs
-            self.message = message
             self.tip = tip
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case docs = "docs"
-            case message = "message"
             case tip = "tip"
         }
     }

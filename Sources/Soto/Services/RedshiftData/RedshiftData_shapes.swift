@@ -145,18 +145,15 @@ extension RedshiftData {
     // MARK: Shapes
 
     public struct BatchExecuteStatementException: AWSErrorShape {
-        public let message: String
         /// Statement identifier of the exception.
         public let statementId: String
 
         @inlinable
-        public init(message: String, statementId: String) {
-            self.message = message
+        public init(statementId: String) {
             self.statementId = statementId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case statementId = "StatementId"
         }
     }
@@ -612,19 +609,15 @@ extension RedshiftData {
     }
 
     public struct ExecuteStatementException: AWSErrorShape {
-        /// The exception message.
-        public let message: String
         /// Statement identifier of the exception.
         public let statementId: String
 
         @inlinable
-        public init(message: String, statementId: String) {
-            self.message = message
+        public init(statementId: String) {
             self.statementId = statementId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case statementId = "StatementId"
         }
     }
@@ -1252,19 +1245,15 @@ extension RedshiftData {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The exception message.
-        public let message: String
         /// Resource identifier associated with the exception.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceId: String) {
-            self.message = message
+        public init(resourceId: String) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }

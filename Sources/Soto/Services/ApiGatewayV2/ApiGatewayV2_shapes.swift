@@ -5487,19 +5487,15 @@ extension ApiGatewayV2 {
     }
 
     public struct NotFoundException: AWSErrorShape {
-        /// Describes the error encountered.
-        public let message: String?
         /// The resource type.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceType = "resourceType"
         }
     }
@@ -6501,18 +6497,14 @@ extension ApiGatewayV2 {
     public struct TooManyRequestsException: AWSErrorShape {
         /// The limit type.
         public let limitType: String?
-        /// Describes the error encountered.
-        public let message: String?
 
         @inlinable
-        public init(limitType: String? = nil, message: String? = nil) {
+        public init(limitType: String? = nil) {
             self.limitType = limitType
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case limitType = "limitType"
-            case message = "message"
         }
     }
 

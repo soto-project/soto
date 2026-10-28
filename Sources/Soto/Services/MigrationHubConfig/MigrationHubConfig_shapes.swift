@@ -236,26 +236,20 @@ extension MigrationHubConfig {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The number of seconds the caller should wait before retrying.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 }
 

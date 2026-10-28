@@ -611,21 +611,18 @@ extension PcaConnectorAd {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The identifier of the Amazon Web Services resource.
         public let resourceId: String
         /// The resource type, which can be one of Connector, Template, TemplateGroupAccessControlEntry, ServicePrincipalName, or DirectoryRegistration.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -2130,21 +2127,18 @@ extension PcaConnectorAd {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the Amazon Web Services resource.
         public let resourceId: String
         /// The resource type, which can be one of Connector, Template, TemplateGroupAccessControlEntry, ServicePrincipalName, or DirectoryRegistration.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -2219,7 +2213,6 @@ extension PcaConnectorAd {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The code associated with the service quota.
         public let quotaCode: String
         /// The identifier of the Amazon Web Services resource.
@@ -2230,8 +2223,7 @@ extension PcaConnectorAd {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2239,7 +2231,6 @@ extension PcaConnectorAd {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -2710,21 +2701,18 @@ extension PcaConnectorAd {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The code associated with the quota.
         public let quotaCode: String?
         /// Identifies the originating service.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -2833,18 +2821,15 @@ extension PcaConnectorAd {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         /// The reason for the validation error. This won't be return for every validation exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

@@ -797,17 +797,14 @@ extension ServiceDiscovery {
     public struct DuplicateRequest: AWSErrorShape {
         /// The ID of the operation that's already in progress.
         public let duplicateOperationId: String?
-        public let message: String?
 
         @inlinable
-        public init(duplicateOperationId: String? = nil, message: String? = nil) {
+        public init(duplicateOperationId: String? = nil) {
             self.duplicateOperationId = duplicateOperationId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case duplicateOperationId = "DuplicateOperationId"
-            case message = "Message"
         }
     }
 
@@ -1488,20 +1485,17 @@ extension ServiceDiscovery {
     public struct NamespaceAlreadyExists: AWSErrorShape {
         /// The CreatorRequestId that was used to create the namespace.
         public let creatorRequestId: String?
-        public let message: String?
         /// The ID of the existing namespace.
         public let namespaceId: String?
 
         @inlinable
-        public init(creatorRequestId: String? = nil, message: String? = nil, namespaceId: String? = nil) {
+        public init(creatorRequestId: String? = nil, namespaceId: String? = nil) {
             self.creatorRequestId = creatorRequestId
-            self.message = message
             self.namespaceId = namespaceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case creatorRequestId = "CreatorRequestId"
-            case message = "Message"
             case namespaceId = "NamespaceId"
         }
     }
@@ -2042,23 +2036,20 @@ extension ServiceDiscovery {
     public struct ServiceAlreadyExists: AWSErrorShape {
         /// The CreatorRequestId that was used to create the service.
         public let creatorRequestId: String?
-        public let message: String?
         /// The ARN of the existing service.
         public let serviceArn: String?
         /// The ID of the existing service.
         public let serviceId: String?
 
         @inlinable
-        public init(creatorRequestId: String? = nil, message: String? = nil, serviceArn: String? = nil, serviceId: String? = nil) {
+        public init(creatorRequestId: String? = nil, serviceArn: String? = nil, serviceId: String? = nil) {
             self.creatorRequestId = creatorRequestId
-            self.message = message
             self.serviceArn = serviceArn
             self.serviceId = serviceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case creatorRequestId = "CreatorRequestId"
-            case message = "Message"
             case serviceArn = "ServiceArn"
             case serviceId = "ServiceId"
         }
@@ -2257,18 +2248,15 @@ extension ServiceDiscovery {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         /// The name of the resource.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }

@@ -507,17 +507,14 @@ extension Snowball {
     public struct ConflictException: AWSErrorShape {
         /// You get this resource when you call CreateReturnShippingLabel more than once when other requests are not completed. .
         public let conflictResource: String?
-        public let message: String?
 
         @inlinable
-        public init(conflictResource: String? = nil, message: String? = nil) {
+        public init(conflictResource: String? = nil) {
             self.conflictResource = conflictResource
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case conflictResource = "ConflictResource"
-            case message = "Message"
         }
     }
 
@@ -1349,18 +1346,15 @@ extension Snowball {
     }
 
     public struct InvalidResourceException: AWSErrorShape {
-        public let message: String?
         /// The provided resource value is invalid.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }

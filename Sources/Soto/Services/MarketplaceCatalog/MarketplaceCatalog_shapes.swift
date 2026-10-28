@@ -4455,18 +4455,15 @@ extension MarketplaceCatalog {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// A list of detailed entries describing the request fields that failed validation. Present when the failure can be attributed to one or more specific fields.
         public let validationExceptionFieldList: [ValidationExceptionField]?
 
         @inlinable
-        public init(message: String? = nil, validationExceptionFieldList: [ValidationExceptionField]? = nil) {
-            self.message = message
+        public init(validationExceptionFieldList: [ValidationExceptionField]? = nil) {
             self.validationExceptionFieldList = validationExceptionFieldList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case validationExceptionFieldList = "ValidationExceptionFieldList"
         }
     }

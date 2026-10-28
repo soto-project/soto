@@ -1369,21 +1369,18 @@ extension ResourceExplorer2 {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The name of the service quota that was exceeded by the request.
         public let name: String
         /// The current value for the quota that the request tried to exceed.
         public let value: String
 
         @inlinable
-        public init(message: String, name: String, value: String) {
-            self.message = message
+        public init(name: String, value: String) {
             self.name = name
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case name = "Name"
             case value = "Value"
         }
@@ -1603,17 +1600,14 @@ extension ResourceExplorer2 {
     public struct ValidationException: AWSErrorShape {
         /// An array of the request fields that had validation errors.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "FieldList"
-            case message = "Message"
         }
     }
 

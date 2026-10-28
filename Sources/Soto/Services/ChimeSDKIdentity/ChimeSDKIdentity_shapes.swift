@@ -437,17 +437,14 @@ extension ChimeSDKIdentity {
 
     public struct BadRequestException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -490,17 +487,14 @@ extension ChimeSDKIdentity {
 
     public struct ConflictException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1158,17 +1152,14 @@ extension ChimeSDKIdentity {
 
     public struct ForbiddenException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1604,17 +1595,14 @@ extension ChimeSDKIdentity {
 
     public struct NotFoundException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1800,49 +1788,40 @@ extension ChimeSDKIdentity {
 
     public struct ResourceLimitExceededException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct ServiceFailureException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct ServiceUnavailableException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1902,33 +1881,27 @@ extension ChimeSDKIdentity {
 
     public struct ThrottledClientException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct UnauthorizedClientException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil) {
+        public init(code: ErrorCode? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 

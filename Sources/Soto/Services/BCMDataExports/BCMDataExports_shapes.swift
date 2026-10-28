@@ -760,21 +760,18 @@ extension BCMDataExports {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String
         /// The type of the resource that was not found.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -873,7 +870,6 @@ extension BCMDataExports {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The quota code that was exceeded.
         public let quotaCode: String
         /// The identifier of the resource that exceeded quota.
@@ -884,8 +880,7 @@ extension BCMDataExports {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -893,7 +888,6 @@ extension BCMDataExports {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -982,21 +976,18 @@ extension BCMDataExports {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The quota code that exceeded the throttling limit.
         public let quotaCode: String?
         /// The service code that exceeded the throttling limit. It will always be “AWSBillingAndCostManagementDataExports”.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -1077,20 +1068,17 @@ extension BCMDataExports {
     public struct ValidationException: AWSErrorShape {
         /// The list of fields that are invalid.
         public let fields: [ValidationExceptionField]?
-        public let message: String
         /// The reason for the validation exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "Fields"
-            case message = "Message"
             case reason = "Reason"
         }
     }

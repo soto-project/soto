@@ -523,18 +523,15 @@ extension PartnerCentralAccount {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String
         /// The specific reason for the access denial.
         public let reason: AccessDeniedExceptionReason
 
         @inlinable
-        public init(message: String, reason: AccessDeniedExceptionReason) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -994,18 +991,15 @@ extension PartnerCentralAccount {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The specific reason for the conflict.
         public let reason: ConflictExceptionReason
 
         @inlinable
-        public init(message: String, reason: ConflictExceptionReason) {
-            self.message = message
+        public init(reason: ConflictExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -2924,18 +2918,15 @@ extension PartnerCentralAccount {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The specific reason why the resource was not found.
         public let reason: ResourceNotFoundExceptionReason
 
         @inlinable
-        public init(message: String, reason: ResourceNotFoundExceptionReason) {
-            self.message = message
+        public init(reason: ResourceNotFoundExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -2990,18 +2981,15 @@ extension PartnerCentralAccount {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The specific reason for the service quota being exceeded.
         public let reason: ServiceQuotaExceededExceptionReason
 
         @inlinable
-        public init(message: String, reason: ServiceQuotaExceededExceptionReason) {
-            self.message = message
+        public init(reason: ServiceQuotaExceededExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -3436,21 +3424,18 @@ extension PartnerCentralAccount {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The quota code associated with the throttling error.
         public let quotaCode: String?
         /// The service code associated with the throttling error.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -3564,20 +3549,17 @@ extension PartnerCentralAccount {
     public struct ValidationException: AWSErrorShape {
         /// A list of detailed validation errors that occurred during request processing.
         public let errorDetails: [ValidationError]?
-        public let message: String
         /// The reason for the validation failure.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(errorDetails: [ValidationError]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(errorDetails: [ValidationError]? = nil, reason: ValidationExceptionReason) {
             self.errorDetails = errorDetails
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorDetails = "ErrorDetails"
-            case message = "Message"
             case reason = "Reason"
         }
     }

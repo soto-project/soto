@@ -1244,19 +1244,15 @@ extension GuardDuty {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        /// The error message.
-        public let message: String?
         /// The error type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "type"
         }
     }
@@ -1905,19 +1901,15 @@ extension GuardDuty {
     }
 
     public struct BadRequestException: AWSErrorShape {
-        /// The error message.
-        public let message: String?
         /// The error type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "type"
         }
     }
@@ -2236,19 +2228,15 @@ extension GuardDuty {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// The error message.
-        public let message: String?
         /// The error type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "type"
         }
     }
@@ -7073,19 +7061,15 @@ extension GuardDuty {
     }
 
     public struct InternalServerErrorException: AWSErrorShape {
-        /// The error message.
-        public let message: String?
         /// The error type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "type"
         }
     }
@@ -10487,19 +10471,15 @@ extension GuardDuty {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The error message.
-        public let message: String?
         /// The error type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "type"
         }
     }

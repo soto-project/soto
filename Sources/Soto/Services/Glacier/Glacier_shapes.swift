@@ -1167,19 +1167,16 @@ extension Glacier {
 
     public struct InsufficientCapacityException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1187,21 +1184,17 @@ extension Glacier {
     public struct InvalidParameterValueException: AWSErrorShape {
         /// 400 Bad Request
         public let code: String?
-        /// Returned if a parameter of the request is incorrectly specified.
-        public let message: String?
         /// Client
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1315,21 +1308,17 @@ extension Glacier {
     public struct LimitExceededException: AWSErrorShape {
         /// 400 Bad Request
         public let code: String?
-        /// Returned if the request results in a vault limit or tags limit being exceeded.
-        public let message: String?
         /// Client
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1625,21 +1614,17 @@ extension Glacier {
     public struct MissingParameterValueException: AWSErrorShape {
         /// 400 Bad Request
         public let code: String?
-        /// Returned if no authentication data is found for the request.
-        public let message: String?
         /// Client.
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1647,21 +1632,17 @@ extension Glacier {
     public struct NoLongerSupportedException: AWSErrorShape {
         /// 400 Bad Request
         public let code: String?
-        /// This API is no longer supported for new accounts. Please use Amazon S3 Glacier storage classes instead.
-        public let message: String?
         /// Client
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1715,21 +1696,17 @@ extension Glacier {
     public struct PolicyEnforcedException: AWSErrorShape {
         /// PolicyEnforcedException
         public let code: String?
-        /// InitiateJob request denied by current data retrieval policy.
-        public let message: String?
         /// Client
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1822,21 +1799,17 @@ extension Glacier {
     public struct RequestTimeoutException: AWSErrorShape {
         /// 408 Request Timeout
         public let code: String?
-        /// Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
-        public let message: String?
         /// Client
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1844,21 +1817,17 @@ extension Glacier {
     public struct ResourceNotFoundException: AWSErrorShape {
         /// 404 Not Found
         public let code: String?
-        /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
-        public let message: String?
         /// Client
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }
@@ -1934,21 +1903,17 @@ extension Glacier {
     public struct ServiceUnavailableException: AWSErrorShape {
         /// 500 Internal Server Error
         public let code: String?
-        /// Returned if the service cannot complete the request.
-        public let message: String?
         /// Server
         public let type: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, type: String? = nil) {
             self.code = code
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
             case type = "type"
         }
     }

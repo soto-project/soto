@@ -244,23 +244,20 @@ extension SSMContacts {
     public struct ConflictException: AWSErrorShape {
         /// List of dependent entities containing information on relation type and resourceArns linked to the resource in use
         public let dependentEntities: [DependentEntity]?
-        public let message: String
         /// Identifier of the resource in use
         public let resourceId: String
         /// Type of the resource in use
         public let resourceType: String
 
         @inlinable
-        public init(dependentEntities: [DependentEntity]? = nil, message: String, resourceId: String, resourceType: String) {
+        public init(dependentEntities: [DependentEntity]? = nil, resourceId: String, resourceType: String) {
             self.dependentEntities = dependentEntities
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case dependentEntities = "DependentEntities"
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -1258,26 +1255,20 @@ extension SSMContacts {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// Advice to clients on when the call can be safely retried
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListContactChannelsRequest: AWSEncodableShape {
@@ -2171,21 +2162,18 @@ extension SSMContacts {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// Hypothetical resource identifier that was not found
         public let resourceId: String
         /// Hypothetical resource type that was not found
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -2310,7 +2298,6 @@ extension SSMContacts {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// Service Quotas requirement to identify originating service
         public let quotaCode: String
         /// Identifier of the resource affected
@@ -2321,8 +2308,7 @@ extension SSMContacts {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2330,7 +2316,6 @@ extension SSMContacts {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -2570,7 +2555,6 @@ extension SSMContacts {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Service Quotas requirement to identify originating service
         public let quotaCode: String?
         /// Advice to clients on when the call can be safely retried
@@ -2579,8 +2563,7 @@ extension SSMContacts {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -2589,14 +2572,12 @@ extension SSMContacts {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -2778,20 +2759,17 @@ extension SSMContacts {
     public struct ValidationException: AWSErrorShape {
         /// The fields that caused the error
         public let fields: [ValidationExceptionField]?
-        public let message: String
         /// Reason the request failed validation
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "Fields"
-            case message = "Message"
             case reason = "Reason"
         }
     }

@@ -421,22 +421,18 @@ extension WorkspacesInstances {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// Description of the conflict encountered.
-        public let message: String
         /// Identifier of the conflicting resource.
         public let resourceId: String
         /// Type of the conflicting resource.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -1217,27 +1213,20 @@ extension WorkspacesInstances {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        /// Description of the internal server error.
-        public let message: String
         /// Recommended wait time before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Ipv4PrefixSpecificationRequest: AWSEncodableShape {
@@ -1758,22 +1747,18 @@ extension WorkspacesInstances {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// Details about the missing resource.
-        public let message: String
         /// Identifier of the resource that was not found.
         public let resourceId: String
         /// Type of the resource that was not found.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -1794,8 +1779,6 @@ extension WorkspacesInstances {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// Description of the quota limitation.
-        public let message: String
         /// Specific code for the exceeded quota.
         public let quotaCode: String
         /// Identifier of the resource related to the quota.
@@ -1806,8 +1789,7 @@ extension WorkspacesInstances {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1815,7 +1797,6 @@ extension WorkspacesInstances {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -1964,8 +1945,6 @@ extension WorkspacesInstances {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// Description of the throttling event.
-        public let message: String
         /// Specific code for the throttling quota.
         public let quotaCode: String?
         /// Recommended wait time before retrying the request.
@@ -1974,8 +1953,7 @@ extension WorkspacesInstances {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1984,14 +1962,12 @@ extension WorkspacesInstances {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -2035,21 +2011,17 @@ extension WorkspacesInstances {
     public struct ValidationException: AWSErrorShape {
         /// List of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        /// Overall description of validation failures.
-        public let message: String
         /// Specific reason for the validation failure.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "FieldList"
-            case message = "Message"
             case reason = "Reason"
         }
     }

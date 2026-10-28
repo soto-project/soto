@@ -357,18 +357,15 @@ extension LambdaCore {
     }
 
     public struct InvalidParameterValueException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -423,19 +420,15 @@ extension LambdaCore {
     }
 
     public struct NetworkConnectorLimitExceededException: AWSErrorShape {
-        /// A human-readable description of the error.
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -517,58 +510,48 @@ extension LambdaCore {
     }
 
     public struct ResourceConflictException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct ServiceException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        public let message: String?
         /// The reason for the throttling.
         public let reason: ThrottleReason?
         /// The number of seconds to wait before retrying the request.
@@ -577,8 +560,7 @@ extension LambdaCore {
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, reason: ThrottleReason? = nil, retryAfterSeconds: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(reason: ThrottleReason? = nil, retryAfterSeconds: String? = nil, type: String? = nil) {
             self.reason = reason
             self.retryAfterSeconds = retryAfterSeconds
             self.type = type
@@ -587,14 +569,12 @@ extension LambdaCore {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.reason = try container.decodeIfPresent(ThrottleReason.self, forKey: .reason)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
             self.type = try container.decodeIfPresent(String.self, forKey: .type)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "Reason"
             case type = "Type"
         }

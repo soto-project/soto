@@ -1571,18 +1571,15 @@ extension SNS {
     }
 
     public struct VerificationException: AWSErrorShape {
-        public let message: String
         /// The status of the verification error.
         public let status: String
 
         @inlinable
-        public init(message: String, status: String) {
-            self.message = message
+        public init(status: String) {
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case status = "Status"
         }
     }

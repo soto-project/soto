@@ -1198,17 +1198,14 @@ extension WorkDocs {
 
     public struct DeactivatingLastSystemUserException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2323,17 +2320,14 @@ extension WorkDocs {
     public struct EntityNotExistsException: AWSErrorShape {
         /// The IDs of the non-existent resources.
         public let entityIds: [String]?
-        public let message: String?
 
         @inlinable
-        public init(entityIds: [String]? = nil, message: String? = nil) {
+        public init(entityIds: [String]? = nil) {
             self.entityIds = entityIds
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case entityIds = "EntityIds"
-            case message = "Message"
         }
     }
 
@@ -3519,17 +3513,14 @@ extension WorkDocs {
 
     public struct UnauthorizedOperationException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 

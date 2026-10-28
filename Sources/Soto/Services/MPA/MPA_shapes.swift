@@ -1983,19 +1983,15 @@ extension MPA {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        /// Message for the TooManyTagsException error.
-        public let message: String
         /// Name of the resource for the TooManyTagsException error.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }

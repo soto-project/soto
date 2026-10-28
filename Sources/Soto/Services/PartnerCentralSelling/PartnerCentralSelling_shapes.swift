@@ -1355,18 +1355,15 @@ extension PartnerCentralSelling {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// The reason why access was denied for the requested operation.
         public let reason: AccessDeniedExceptionErrorCode?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedExceptionErrorCode? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionErrorCode? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -6895,20 +6892,17 @@ extension PartnerCentralSelling {
     public struct ValidationException: AWSErrorShape {
         /// A list of issues that were discovered in the submitted request or the resource state.
         public let errorList: [ValidationExceptionError]?
-        public let message: String
         /// The primary reason for this validation exception to occur.    REQUEST_VALIDATION_FAILED: The request format is not valid. Fix: Verify your request payload includes all required fields, uses correct data types and string formats.    BUSINESS_VALIDATION_FAILED: The requested change doesn't pass the business validation rules. Fix: Check that your change aligns with the business rules defined by AWS Partner Central.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(errorList: [ValidationExceptionError]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(errorList: [ValidationExceptionError]? = nil, reason: ValidationExceptionReason) {
             self.errorList = errorList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorList = "ErrorList"
-            case message = "Message"
             case reason = "Reason"
         }
     }

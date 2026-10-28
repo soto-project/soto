@@ -118,21 +118,18 @@ extension MWAAServerless {
     // MARK: Shapes
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The unique identifier of the resource.
         public let resourceId: String
         /// The type of the resource.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -644,26 +641,20 @@ extension MWAAServerless {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// The number of seconds to wait before retrying the operation.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
@@ -954,21 +945,18 @@ extension MWAAServerless {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The unique identifier of the resource.
         public let resourceId: String
         /// The type of the resource.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -1040,7 +1028,6 @@ extension MWAAServerless {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The code of the quota.
         public let quotaCode: String
         /// The unique identifier of the resource.
@@ -1051,8 +1038,7 @@ extension MWAAServerless {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1060,7 +1046,6 @@ extension MWAAServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -1275,7 +1260,6 @@ extension MWAAServerless {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The code of the quota.
         public let quotaCode: String
         /// The number of seconds to wait before retrying the operation.
@@ -1284,8 +1268,7 @@ extension MWAAServerless {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, retryAfterSeconds: Int? = nil, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, retryAfterSeconds: Int? = nil, serviceCode: String) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1294,14 +1277,12 @@ extension MWAAServerless {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decode(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decode(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -1451,20 +1432,17 @@ extension MWAAServerless {
     public struct ValidationException: AWSErrorShape {
         /// The fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason the request failed validation.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "FieldList"
-            case message = "Message"
             case reason = "Reason"
         }
     }

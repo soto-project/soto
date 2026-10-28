@@ -3221,18 +3221,15 @@ extension MarketplaceDiscovery {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The reason that the input fails to satisfy the constraints specified by the service.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }

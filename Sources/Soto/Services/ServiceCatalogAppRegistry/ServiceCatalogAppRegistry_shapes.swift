@@ -1556,19 +1556,15 @@ extension ServiceCatalogAppRegistry {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// A message associated with the Throttling exception.
-        public let message: String
         /// The originating service code.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, serviceCode: String? = nil) {
-            self.message = message
+        public init(serviceCode: String? = nil) {
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case serviceCode = "serviceCode"
         }
     }

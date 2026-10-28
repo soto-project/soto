@@ -3356,20 +3356,17 @@ extension GeoPlaces {
     public struct ValidationException: AWSErrorShape {
         /// Test stub for FieldList.
         public let fieldList: [ValidationExceptionField]
-        public let message: String
         /// Test stub for reason
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField], message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField], reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

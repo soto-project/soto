@@ -184,19 +184,16 @@ extension Ivschat {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         public let resourceId: String
         public let resourceType: ResourceType
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: ResourceType) {
-            self.message = message
+        public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -940,19 +937,16 @@ extension Ivschat {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         public let resourceId: String
         public let resourceType: ResourceType
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: ResourceType) {
-            self.message = message
+        public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1068,21 +1062,18 @@ extension Ivschat {
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let limit: Int
-        public let message: String
         public let resourceId: String
         public let resourceType: ResourceType
 
         @inlinable
-        public init(limit: Int, message: String, resourceId: String, resourceType: ResourceType) {
+        public init(limit: Int, resourceId: String, resourceType: ResourceType) {
             self.limit = limit
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1130,21 +1121,18 @@ extension Ivschat {
 
     public struct ThrottlingException: AWSErrorShape {
         public let limit: Int
-        public let message: String
         public let resourceId: String
         public let resourceType: ResourceType
 
         @inlinable
-        public init(limit: Int, message: String, resourceId: String, resourceType: ResourceType) {
+        public init(limit: Int, resourceId: String, resourceType: ResourceType) {
             self.limit = limit
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1369,19 +1357,16 @@ extension Ivschat {
 
     public struct ValidationException: AWSErrorShape {
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

@@ -3272,21 +3272,18 @@ extension ApplicationSignals {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// Can't find the resource id.
         public let resourceId: String
         /// The resource type is not valid.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }

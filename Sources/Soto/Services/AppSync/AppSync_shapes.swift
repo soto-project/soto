@@ -833,19 +833,16 @@ extension AppSync {
 
     public struct BadRequestException: AWSErrorShape {
         public let detail: BadRequestDetail?
-        public let message: String?
         public let reason: BadRequestReason?
 
         @inlinable
-        public init(detail: BadRequestDetail? = nil, message: String? = nil, reason: BadRequestReason? = nil) {
+        public init(detail: BadRequestDetail? = nil, reason: BadRequestReason? = nil) {
             self.detail = detail
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case detail = "detail"
-            case message = "message"
             case reason = "reason"
         }
     }

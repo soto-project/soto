@@ -842,20 +842,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct BadRequestException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1040,20 +1037,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct ConflictException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1663,20 +1657,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct ForbiddenException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3145,20 +3136,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct NotFoundException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3292,20 +3280,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct ResourceLimitExceededException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3442,40 +3427,34 @@ extension ChimeSDKMediaPipelines {
 
     public struct ServiceFailureException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct ServiceUnavailableException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3887,20 +3866,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct ThrottledClientException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3939,20 +3915,17 @@ extension ChimeSDKMediaPipelines {
 
     public struct UnauthorizedClientException: AWSErrorShape {
         public let code: ErrorCode?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: ErrorCode? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }

@@ -449,17 +449,14 @@ extension DirectoryService {
     // MARK: Shapes
 
     public struct ADAssessmentLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -497,17 +494,14 @@ extension DirectoryService {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -846,19 +840,15 @@ extension DirectoryService {
     }
 
     public struct AuthenticationFailedException: AWSErrorShape {
-        /// The textual message for the exception.
-        public let message: String?
         /// The identifier of the request that caused the exception.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -933,49 +923,40 @@ extension DirectoryService {
     }
 
     public struct CertificateAlreadyExistsException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct CertificateDoesNotExistException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct CertificateInUseException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1011,17 +992,14 @@ extension DirectoryService {
     }
 
     public struct CertificateLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1069,17 +1047,14 @@ extension DirectoryService {
     }
 
     public struct ClientException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -2678,33 +2653,27 @@ extension DirectoryService {
     }
 
     public struct DirectoryAlreadyInRegionException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct DirectoryAlreadySharedException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -2919,49 +2888,40 @@ extension DirectoryService {
     }
 
     public struct DirectoryDoesNotExistException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct DirectoryInDesiredStateException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct DirectoryLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3013,17 +2973,14 @@ extension DirectoryService {
     }
 
     public struct DirectoryNotSharedException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3043,17 +3000,14 @@ extension DirectoryService {
     }
 
     public struct DirectoryUnavailableException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3110,17 +3064,14 @@ extension DirectoryService {
     }
 
     public struct DisableAlreadyInProgressException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3332,33 +3283,27 @@ extension DirectoryService {
     }
 
     public struct DomainControllerLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct EnableAlreadyInProgressException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3526,33 +3471,27 @@ extension DirectoryService {
     }
 
     public struct EntityAlreadyExistsException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct EntityDoesNotExistException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3783,145 +3722,118 @@ extension DirectoryService {
     }
 
     public struct IncompatibleSettingsException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InsufficientPermissionsException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidCertificateException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidClientAuthStatusException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidLDAPSStatusException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidNextTokenException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidParameterException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidPasswordException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidTargetException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -3994,17 +3906,14 @@ extension DirectoryService {
     }
 
     public struct IpRouteLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -4350,17 +4259,14 @@ extension DirectoryService {
     }
 
     public struct NoAvailableCertificateException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -4380,17 +4286,14 @@ extension DirectoryService {
     }
 
     public struct OrganizationsException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -4551,17 +4454,14 @@ extension DirectoryService {
     }
 
     public struct RegionLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -4877,17 +4777,14 @@ extension DirectoryService {
     }
 
     public struct ServiceException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -5020,17 +4917,14 @@ extension DirectoryService {
     }
 
     public struct ShareLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -5139,17 +5033,14 @@ extension DirectoryService {
     }
 
     public struct SnapshotLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -5288,17 +5179,14 @@ extension DirectoryService {
     }
 
     public struct TagLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -5418,33 +5306,27 @@ extension DirectoryService {
     }
 
     public struct UnsupportedOperationException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct UnsupportedSettingsException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -5769,17 +5651,14 @@ extension DirectoryService {
     }
 
     public struct UserDoesNotExistException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }

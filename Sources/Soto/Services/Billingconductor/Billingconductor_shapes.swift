@@ -744,7 +744,6 @@ extension Billingconductor {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// Reason for the inconsistent state.
         public let reason: ConflictExceptionReason?
         /// Identifier of the resource in use.
@@ -753,15 +752,13 @@ extension Billingconductor {
         public let resourceType: String
 
         @inlinable
-        public init(message: String, reason: ConflictExceptionReason? = nil, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(reason: ConflictExceptionReason? = nil, resourceId: String, resourceType: String) {
             self.reason = reason
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -1791,26 +1788,20 @@ extension Billingconductor {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// Number of seconds you can retry after the call.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LineItemFilter: AWSEncodableShape & AWSDecodableShape {
@@ -2910,21 +2901,18 @@ extension Billingconductor {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// Resource identifier that was not found.
         public let resourceId: String
         /// Resource type that was not found.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -2933,7 +2921,6 @@ extension Billingconductor {
     public struct ServiceLimitExceededException: AWSErrorShape {
         /// The unique code identifier of the service limit that is being exceeded.
         public let limitCode: String
-        public let message: String
         /// Identifier of the resource affected.
         public let resourceId: String?
         /// Type of the resource affected.
@@ -2942,9 +2929,8 @@ extension Billingconductor {
         public let serviceCode: String
 
         @inlinable
-        public init(limitCode: String, message: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+        public init(limitCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.limitCode = limitCode
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.serviceCode = serviceCode
@@ -2952,7 +2938,6 @@ extension Billingconductor {
 
         private enum CodingKeys: String, CodingKey {
             case limitCode = "LimitCode"
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
             case serviceCode = "ServiceCode"
@@ -3024,26 +3009,20 @@ extension Billingconductor {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Number of seconds you can safely retry after the call.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Tiering: AWSDecodableShape {
@@ -3632,20 +3611,17 @@ extension Billingconductor {
     public struct ValidationException: AWSErrorShape {
         /// The fields that caused the error, if applicable.
         public let fields: [ValidationExceptionField]?
-        public let message: String
         /// The reason the request's validation failed.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "Fields"
-            case message = "Message"
             case reason = "Reason"
         }
     }

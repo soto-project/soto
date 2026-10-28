@@ -759,21 +759,18 @@ extension ConnectParticipant {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The identifier of the resource.
         public let resourceId: String?
         /// The type of Connect Customer resource.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }

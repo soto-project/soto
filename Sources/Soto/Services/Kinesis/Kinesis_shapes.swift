@@ -1665,100 +1665,31 @@ extension Kinesis {
     }
 
     public struct InternalFailureException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct KMSAccessDeniedException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct KMSDisabledException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct KMSInvalidStateException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct KMSNotFoundException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct KMSOptInRequired: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct KMSThrottlingException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ListChannelsInput: AWSEncodableShape {
@@ -2642,31 +2573,11 @@ extension Kinesis {
     }
 
     public struct ResourceInUseException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ResourceNotFoundException: AWSDecodableShape {
-        /// A message that provides information about the error.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct S3DestinationConfiguration: AWSEncodableShape {

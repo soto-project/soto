@@ -7818,22 +7818,18 @@ extension SecurityAgent {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// Error description.
-        public let message: String
         /// Quota code for throttling limit.
         public let quotaCode: String?
         /// Service code for throttling limit.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -8850,18 +8846,14 @@ extension SecurityAgent {
     public struct ValidationException: AWSErrorShape {
         /// A list of specific failures encountered during validation.
         public let fieldList: [ValidationExceptionField]?
-        /// A summary of the validation failure.
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 

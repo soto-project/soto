@@ -163,21 +163,18 @@ extension PcaConnectorScep {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The identifier of the Amazon Web Services resource.
         public let resourceId: String
         /// The resource type, which can be either Connector or Challenge.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -732,28 +729,24 @@ extension PcaConnectorScep {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the Amazon Web Services resource.
         public let resourceId: String
         /// The resource type, which can be either Connector or Challenge.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The quota identifier.
         public let quotaCode: String
         /// The resource type, which can be either Connector or Challenge.
@@ -762,15 +755,13 @@ extension PcaConnectorScep {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceType = resourceType
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceType = "ResourceType"
             case serviceCode = "ServiceCode"
@@ -824,18 +815,15 @@ extension PcaConnectorScep {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         /// The reason for the validation error, if available. The service doesn't return a reason for every validation exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

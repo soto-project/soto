@@ -454,17 +454,14 @@ extension Organizations {
     }
 
     public struct AccessDeniedForDependencyException: AWSErrorShape {
-        public let message: String?
         public let reason: AccessDeniedForDependencyExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedForDependencyExceptionReason? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedForDependencyExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -611,17 +608,14 @@ extension Organizations {
     }
 
     public struct ConstraintViolationException: AWSErrorShape {
-        public let message: String?
         public let reason: ConstraintViolationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ConstraintViolationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ConstraintViolationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -1608,17 +1602,14 @@ extension Organizations {
     }
 
     public struct HandshakeConstraintViolationException: AWSErrorShape {
-        public let message: String?
         public let reason: HandshakeConstraintViolationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: HandshakeConstraintViolationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: HandshakeConstraintViolationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -1693,17 +1684,14 @@ extension Organizations {
     }
 
     public struct InvalidInputException: AWSErrorShape {
-        public let message: String?
         public let reason: InvalidInputExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: InvalidInputExceptionReason? = nil) {
-            self.message = message
+        public init(reason: InvalidInputExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -3290,17 +3278,14 @@ extension Organizations {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        public let message: String?
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case type = "Type"
         }
     }

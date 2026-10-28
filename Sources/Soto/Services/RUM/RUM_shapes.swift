@@ -511,21 +511,18 @@ extension RUM {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The name of the resource that is associated with the error.
         public let resourceName: String
         /// The type of the resource that is associated with the error.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceName: String, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceName: String, resourceType: String? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
             case resourceType = "resourceType"
         }
@@ -935,26 +932,20 @@ extension RUM {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// The value of a parameter in the request caused an error.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct JavaScriptSourceMaps: AWSEncodableShape & AWSDecodableShape {
@@ -1410,21 +1401,18 @@ extension RUM {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The name of the resource that is associated with the error.
         public let resourceName: String
         /// The type of the resource that is associated with the error.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceName: String, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceName: String, resourceType: String? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
             case resourceType = "resourceType"
         }
@@ -1499,7 +1487,6 @@ extension RUM {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The ID of the service quota that was exceeded.
         public let quotaCode: String?
         /// The value of a parameter in the request caused an error.
@@ -1508,8 +1495,7 @@ extension RUM {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1518,14 +1504,12 @@ extension RUM {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }

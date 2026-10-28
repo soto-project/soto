@@ -1046,21 +1046,18 @@ extension EntityResolution {
     }
 
     public struct ExceedsLimitException: AWSErrorShape {
-        public let message: String?
         /// The name of the quota that has been breached.
         public let quotaName: String?
         /// The current quota value for the customers.
         public let quotaValue: Int?
 
         @inlinable
-        public init(message: String? = nil, quotaName: String? = nil, quotaValue: Int? = nil) {
-            self.message = message
+        public init(quotaName: String? = nil, quotaValue: Int? = nil) {
             self.quotaName = quotaName
             self.quotaValue = quotaValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaName = "quotaName"
             case quotaValue = "quotaValue"
         }

@@ -181,17 +181,14 @@ extension Uxc {
     public struct ValidationException: AWSErrorShape {
         /// The list of fields that are invalid.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 

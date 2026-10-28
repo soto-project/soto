@@ -14926,26 +14926,20 @@ extension LexModelsV2 {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// The number of seconds after which the user can invoke the API again.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TranscriptFilter: AWSEncodableShape & AWSDecodableShape {

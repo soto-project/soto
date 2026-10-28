@@ -153,22 +153,18 @@ extension BackupSearch {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// Updating or deleting a resource can cause an inconsistent state.
-        public let message: String
         /// Identifier of the resource affected.
         public let resourceId: String
         /// Type of the resource affected.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -450,27 +446,20 @@ extension BackupSearch {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        /// Unexpected error during processing of request.
-        public let message: String
         /// Retry the call after number of seconds.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ItemFilters: AWSEncodableShape & AWSDecodableShape {
@@ -733,22 +722,18 @@ extension BackupSearch {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// Request references a resource which does not exist.
-        public let message: String
         /// Hypothetical identifier of the resource affected.
         public let resourceId: String
         /// Hypothetical type of the resource affected.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -993,8 +978,6 @@ extension BackupSearch {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// This request was not successful due to a service quota exceeding limits.
-        public let message: String
         /// This is the code specific to the quota type.
         public let quotaCode: String
         /// Identifier of the resource.
@@ -1005,8 +988,7 @@ extension BackupSearch {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1014,7 +996,6 @@ extension BackupSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -1206,8 +1187,6 @@ extension BackupSearch {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// Request was unsuccessful due to request throttling.
-        public let message: String
         /// This is the code unique to the originating service with the quota.
         public let quotaCode: String?
         /// Retry the call after number of seconds.
@@ -1216,8 +1195,7 @@ extension BackupSearch {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1226,14 +1204,12 @@ extension BackupSearch {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }

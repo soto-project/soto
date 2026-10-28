@@ -600,19 +600,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -1121,19 +1118,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4596,7 +4590,6 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
         /// The quota code.
         public let quotaCode: String?
         /// The resource type.
@@ -4605,10 +4598,9 @@ extension Rekognition {
         public let serviceCode: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil, quotaCode: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil, quotaCode: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
             self.quotaCode = quotaCode
             self.resourceType = resourceType
             self.serviceCode = serviceCode
@@ -4617,7 +4609,6 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceType = "ResourceType"
             case serviceCode = "ServiceCode"
@@ -4628,19 +4619,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4690,19 +4678,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4803,19 +4788,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4823,19 +4805,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4843,19 +4822,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4863,19 +4839,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4883,19 +4856,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4903,19 +4873,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -4923,19 +4890,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -5149,19 +5113,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -5648,19 +5609,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -6366,19 +6324,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -6498,19 +6453,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -6518,19 +6470,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -6538,19 +6487,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -6558,19 +6504,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -7014,19 +6957,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -7048,19 +6988,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -8211,19 +8148,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 
@@ -8615,19 +8549,16 @@ extension Rekognition {
         public let code: String?
         /// A universally unique identifier (UUID) for the request.
         public let logref: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, logref: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, logref: String? = nil) {
             self.code = code
             self.logref = logref
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case logref = "Logref"
-            case message = "Message"
         }
     }
 }

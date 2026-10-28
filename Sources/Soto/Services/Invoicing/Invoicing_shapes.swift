@@ -254,18 +254,15 @@ extension Invoicing {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// You don't have sufficient access to perform this action.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -358,21 +355,18 @@ extension Invoicing {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The identifier of the resource that caused the conflict.
         public let resourceId: String?
         /// The type of resource that caused the conflict.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1028,26 +1022,20 @@ extension Invoicing {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String?
         /// The processing request failed because of an unknown error, exception, or failure.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvoiceConfiguration: AWSDecodableShape {
@@ -2053,18 +2041,15 @@ extension Invoicing {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The resource could not be found.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -2465,23 +2450,20 @@ extension Invoicing {
     public struct ValidationException: AWSErrorShape {
         ///  The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String?
         /// You don't have sufficient access to perform this action.
         public let reason: ValidationExceptionReason?
         /// You don't have sufficient access to perform this action.
         public let resourceName: String?
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil, resourceName: String? = nil) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil, resourceName: String? = nil) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
             case resourceName = "resourceName"
         }

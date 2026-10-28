@@ -21165,18 +21165,14 @@ extension Connect {
     }
 
     public struct InvalidRequestException: AWSErrorShape {
-        /// The message about the request.
-        public let message: String?
         public let reason: InvalidRequestExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: InvalidRequestExceptionReason? = nil) {
-            self.message = message
+        public init(reason: InvalidRequestExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -27778,17 +27774,14 @@ extension Connect {
     }
 
     public struct PropertyValidationException: AWSErrorShape {
-        public let message: String
         public let propertyList: [PropertyValidationExceptionProperty]?
 
         @inlinable
-        public init(message: String, propertyList: [PropertyValidationExceptionProperty]? = nil) {
-            self.message = message
+        public init(propertyList: [PropertyValidationExceptionProperty]? = nil) {
             self.propertyList = propertyList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case propertyList = "PropertyList"
         }
     }
@@ -29104,21 +29097,18 @@ extension Connect {
     }
 
     public struct ResourceInUseException: AWSErrorShape {
-        public let message: String?
         /// The identifier for the resource.
         public let resourceId: String?
         /// The type of resource.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -32524,17 +32514,14 @@ extension Connect {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         public let reason: ServiceQuotaExceededExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ServiceQuotaExceededExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ServiceQuotaExceededExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

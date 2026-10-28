@@ -268,22 +268,18 @@ extension NovaAct {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// The requested operation conflicts with the current state of the resource.
-        public let message: String
         /// The identifier of the resource that caused the conflict.
         public let resourceId: String
         /// The type of resource that caused the conflict.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -752,16 +748,13 @@ extension NovaAct {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        /// The service encountered an internal error. Try again later.
-        public let message: String
         /// The reason for the internal server error.
         public let reason: InternalServerExceptionReason?
         /// The number of seconds to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, reason: InternalServerExceptionReason? = nil, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(reason: InternalServerExceptionReason? = nil, retryAfterSeconds: Int? = nil) {
             self.reason = reason
             self.retryAfterSeconds = retryAfterSeconds
         }
@@ -769,13 +762,11 @@ extension NovaAct {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.reason = try container.decodeIfPresent(InternalServerExceptionReason.self, forKey: .reason)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -1205,30 +1196,24 @@ extension NovaAct {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The specified resource was not found.
-        public let message: String
         /// The identifier of the resource that wasn't found.
         public let resourceId: String
         /// The type of resource that wasn't found.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// The request would exceed one or more service quotas for your account.
-        public let message: String
         /// The code for the specific quota that was exceeded.
         public let quotaCode: String
         /// The identifier of the resource that exceeded the quota.
@@ -1239,8 +1224,7 @@ extension NovaAct {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -1248,7 +1232,6 @@ extension NovaAct {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -1271,8 +1254,6 @@ extension NovaAct {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// The request was denied due to request throttling.
-        public let message: String
         /// The quota code related to the throttling.
         public let quotaCode: String?
         /// The number of seconds to wait before retrying the throttled request.
@@ -1281,8 +1262,7 @@ extension NovaAct {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -1291,14 +1271,12 @@ extension NovaAct {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -1448,21 +1426,17 @@ extension NovaAct {
     public struct ValidationException: AWSErrorShape {
         /// The list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        /// The input fails to satisfy the constraints specified by the service.
-        public let message: String
         /// The reason for the validation failure.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

@@ -1180,19 +1180,15 @@ extension Route53Domains {
     }
 
     public struct DuplicateRequest: AWSErrorShape {
-        /// The request is already in progress for the domain.
-        public let message: String?
         /// ID of the request operation.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case requestId = "requestId"
         }
     }
@@ -2326,19 +2322,15 @@ extension Route53Domains {
     }
 
     public struct TLDInMaintenance: AWSErrorShape {
-        /// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
-        public let message: String?
         /// The top-level domain that is currently undergoing maintenance.
         public let tld: String?
 
         @inlinable
-        public init(message: String? = nil, tld: String? = nil) {
-            self.message = message
+        public init(tld: String? = nil) {
             self.tld = tld
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case tld = "tld"
         }
     }

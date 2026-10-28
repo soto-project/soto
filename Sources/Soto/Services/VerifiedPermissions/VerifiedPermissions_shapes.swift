@@ -1415,18 +1415,15 @@ extension VerifiedPermissions {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The list of resources referenced with this failed request.
         public let resources: [ResourceConflict]
 
         @inlinable
-        public init(message: String, resources: [ResourceConflict]) {
-            self.message = message
+        public init(resources: [ResourceConflict]) {
             self.resources = resources
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resources = "resources"
         }
     }
@@ -3608,28 +3605,24 @@ extension VerifiedPermissions {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The unique ID of the resource referenced in the failed request.
         public let resourceId: String
         /// The resource type of the resource referenced in the failed request.
         public let resourceType: ResourceType
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: ResourceType) {
-            self.message = message
+        public init(resourceId: String, resourceType: ResourceType) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public let quotaCode: String?
         /// The unique ID of the resource referenced in the failed request.
@@ -3640,8 +3633,7 @@ extension VerifiedPermissions {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: ResourceType, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, resourceId: String? = nil, resourceType: ResourceType, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -3649,7 +3641,6 @@ extension VerifiedPermissions {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -3820,38 +3811,32 @@ extension VerifiedPermissions {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public let quotaCode: String?
         /// The code for the Amazon Web Services service that owns the quota.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -4372,17 +4357,14 @@ extension VerifiedPermissions {
     public struct ValidationException: AWSErrorShape {
         /// The list of fields that aren't valid.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 

@@ -2985,38 +2985,16 @@ extension DataSync {
         }
     }
 
-    public struct InternalException: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct InvalidRequestException: AWSErrorShape {
         public let datasyncErrorCode: String?
-        public let errorCode: String?
-        public let message: String?
 
         @inlinable
-        public init(datasyncErrorCode: String? = nil, errorCode: String? = nil, message: String? = nil) {
+        public init(datasyncErrorCode: String? = nil) {
             self.datasyncErrorCode = datasyncErrorCode
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasyncErrorCode = "datasyncErrorCode"
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -4954,7 +4932,7 @@ public struct DataSyncErrorType: AWSErrorType, Decodable {
     @nonexhaustive
     public enum Code: Sendable {
         /// This exception is thrown when an error occurs in the DataSync service.
-        case internalException(DataSync.InternalException)
+        case internalException
         /// This exception is thrown when the client submits a malformed request.
         case invalidRequestException(DataSync.InvalidRequestException)
     }
@@ -4967,9 +4945,7 @@ public struct DataSyncErrorType: AWSErrorType, Decodable {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
         switch errorCode.code {
-        case "InternalException":
-            let context = try singleValueContainer.decode(DataSync.InternalException.self)
-            self.error = .internalException(context)
+        case "InternalException": self.error = .internalException
         case "InvalidRequestException":
             let context = try singleValueContainer.decode(DataSync.InvalidRequestException.self)
             self.error = .invalidRequestException(context)

@@ -3024,17 +3024,14 @@ extension Route53Resolver {
     public struct InvalidParameterException: AWSErrorShape {
         /// For an InvalidParameterException error, the name of the parameter that's invalid.
         public let fieldName: String?
-        public let message: String
 
         @inlinable
-        public init(fieldName: String? = nil, message: String) {
+        public init(fieldName: String? = nil) {
             self.fieldName = fieldName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldName = "FieldName"
-            case message = "Message"
         }
     }
 
@@ -3155,18 +3152,15 @@ extension Route53Resolver {
     }
 
     public struct LimitExceededException: AWSErrorShape {
-        public let message: String?
         /// For a LimitExceededException error, the type of resource that exceeded the current limit.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }
@@ -4724,69 +4718,57 @@ extension Route53Resolver {
     }
 
     public struct ResourceExistsException: AWSErrorShape {
-        public let message: String?
         /// For a ResourceExistsException error, the type of resource that the error applies to.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ResourceInUseException: AWSErrorShape {
-        public let message: String?
         /// For a ResourceInUseException error, the type of resource that is currently in use.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// For a ResourceNotFoundException error, the type of resource that doesn't exist.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ResourceUnavailableException: AWSErrorShape {
-        public let message: String?
         /// For a ResourceUnavailableException error, the type of resource that isn't available.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }

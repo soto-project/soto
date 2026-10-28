@@ -267,17 +267,14 @@ extension CloudSearch {
 
     public struct BaseException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1141,17 +1138,14 @@ extension CloudSearch {
 
     public struct DisabledOperationException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1585,33 +1579,27 @@ extension CloudSearch {
 
     public struct InternalException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct InvalidTypeException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1657,17 +1645,14 @@ extension CloudSearch {
 
     public struct LimitExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1809,33 +1794,27 @@ extension CloudSearch {
 
     public struct ResourceAlreadyExistsException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2161,17 +2140,14 @@ extension CloudSearch {
 
     public struct ValidationException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 }

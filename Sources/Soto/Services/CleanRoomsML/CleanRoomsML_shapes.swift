@@ -5543,21 +5543,18 @@ extension CleanRoomsML {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The name of the service quota limit that was exceeded
         public let quotaName: String?
         /// The current limit on the service quota that was exceeded
         public let quotaValue: Double?
 
         @inlinable
-        public init(message: String, quotaName: String? = nil, quotaValue: Double? = nil) {
-            self.message = message
+        public init(quotaName: String? = nil, quotaValue: Double? = nil) {
             self.quotaName = quotaName
             self.quotaValue = quotaValue
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaName = "quotaName"
             case quotaValue = "quotaValue"
         }

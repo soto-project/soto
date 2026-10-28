@@ -312,16 +312,7 @@ extension LexRuntimeV2 {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ActiveContext: AWSEncodableShape & AWSDecodableShape {
@@ -441,16 +432,7 @@ extension LexRuntimeV2 {
     }
 
     public struct BadGatewayException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct Button: AWSEncodableShape & AWSDecodableShape {
@@ -545,16 +527,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ConflictException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct DTMFInputEvent: AWSEncodableShape {
@@ -655,16 +628,7 @@ extension LexRuntimeV2 {
     }
 
     public struct DependencyFailedException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
@@ -936,16 +900,7 @@ extension LexRuntimeV2 {
     }
 
     public struct InternalServerException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct Interpretation: AWSDecodableShape {
@@ -1388,16 +1343,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ResourceNotFoundException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct RuntimeHintDetails: AWSEncodableShape & AWSDecodableShape {
@@ -1716,16 +1662,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ThrottlingException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct TranscriptEvent: AWSDecodableShape {
@@ -1747,16 +1684,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ValidationException: AWSDecodableShape {
-        public let message: String
-
-        @inlinable
-        public init(message: String) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct Value: AWSEncodableShape & AWSDecodableShape {

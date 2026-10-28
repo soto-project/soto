@@ -377,24 +377,18 @@ extension ObservabilityAdmin {
     public struct AccessDeniedException: AWSErrorShape {
         ///  The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ActionCondition: AWSEncodableShape & AWSDecodableShape {
@@ -691,21 +685,18 @@ extension ObservabilityAdmin {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         ///  The identifier of the resource which is in conflict with the requested operation.
         public let resourceId: String?
         ///  The type of the resource which is in conflict with the requested operation.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -1762,28 +1753,22 @@ extension ObservabilityAdmin {
     public struct InternalServerException: AWSErrorShape {
         ///  The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
         /// The number of seconds to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil, retryAfterSeconds: Int? = nil) {
+        public init(amznErrorType: String? = nil, retryAfterSeconds: Int? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LabelNameCondition: AWSEncodableShape & AWSDecodableShape {
@@ -2491,21 +2476,18 @@ extension ObservabilityAdmin {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         ///  The identifier of the resource which could not be found.
         public let resourceId: String?
         ///  The type of the resource which could not be found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -2514,7 +2496,6 @@ extension ObservabilityAdmin {
     public struct ServiceQuotaExceededException: AWSErrorShape {
         ///  The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
         ///  The code for the exceeded service quota.
         public let quotaCode: String?
         ///  The identifier of the resource which exceeds the service quota.
@@ -2525,9 +2506,8 @@ extension ObservabilityAdmin {
         public let serviceCode: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+        public init(amznErrorType: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2538,7 +2518,6 @@ extension ObservabilityAdmin {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.resourceId = try container.decodeIfPresent(String.self, forKey: .resourceId)
             self.resourceType = try container.decodeIfPresent(String.self, forKey: .resourceType)
@@ -2546,7 +2525,6 @@ extension ObservabilityAdmin {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -3419,17 +3397,14 @@ extension ObservabilityAdmin {
     public struct ValidationException: AWSErrorShape {
         ///  The errors in the input which caused the exception.
         public let errors: [ValidationError]?
-        public let message: String?
 
         @inlinable
-        public init(errors: [ValidationError]? = nil, message: String? = nil) {
+        public init(errors: [ValidationError]? = nil) {
             self.errors = errors
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
-            case message = "Message"
         }
     }
 

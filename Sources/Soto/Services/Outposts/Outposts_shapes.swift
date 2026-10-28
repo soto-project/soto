@@ -1016,21 +1016,18 @@ extension Outposts {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The ID of the resource causing the conflict.
         public let resourceId: String?
         /// The type of the resource causing the conflict.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }

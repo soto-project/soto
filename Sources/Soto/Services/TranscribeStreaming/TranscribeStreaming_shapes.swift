@@ -713,16 +713,7 @@ extension TranscribeStreaming {
     }
 
     public struct BadRequestException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct CallAnalyticsEntity: AWSDecodableShape {
@@ -950,16 +941,7 @@ extension TranscribeStreaming {
     }
 
     public struct ConflictException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct Entity: AWSDecodableShape {
@@ -1035,16 +1017,7 @@ extension TranscribeStreaming {
     }
 
     public struct InternalFailureException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct IssueDetected: AWSDecodableShape {
@@ -1122,16 +1095,7 @@ extension TranscribeStreaming {
     }
 
     public struct LimitExceededException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct MedicalAlternative: AWSDecodableShape {
@@ -1729,16 +1693,7 @@ extension TranscribeStreaming {
     }
 
     public struct ServiceUnavailableException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct StartCallAnalyticsStreamTranscriptionRequest: AWSEncodableShape {

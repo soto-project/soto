@@ -1571,17 +1571,14 @@ extension Deadline {
     public struct AccessDeniedException: AWSErrorShape {
         /// Information about the resources in use when the exception was thrown.
         public let context: [String: String]?
-        public let message: String
 
         @inlinable
-        public init(context: [String: String]? = nil, message: String) {
+        public init(context: [String: String]? = nil) {
             self.context = context
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case context = "context"
-            case message = "message"
         }
     }
 
@@ -3829,7 +3826,6 @@ extension Deadline {
     public struct ConflictException: AWSErrorShape {
         /// Information about the resources in use when the exception was thrown.
         public let context: [String: String]?
-        public let message: String
         /// A description of the error.
         public let reason: ConflictExceptionReason
         /// The identifier of the resource in use.
@@ -3838,9 +3834,8 @@ extension Deadline {
         public let resourceType: String
 
         @inlinable
-        public init(context: [String: String]? = nil, message: String, reason: ConflictExceptionReason, resourceId: String, resourceType: String) {
+        public init(context: [String: String]? = nil, reason: ConflictExceptionReason, resourceId: String, resourceType: String) {
             self.context = context
-            self.message = message
             self.reason = reason
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -3848,7 +3843,6 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case context = "context"
-            case message = "message"
             case reason = "reason"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -8057,26 +8051,20 @@ extension Deadline {
     }
 
     public struct InternalServerErrorException: AWSErrorShape {
-        public let message: String
         /// The number of seconds a client should wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct IpAddresses: AWSEncodableShape & AWSDecodableShape {
@@ -10888,23 +10876,20 @@ extension Deadline {
     public struct ResourceNotFoundException: AWSErrorShape {
         /// Information about the resources in use when the exception was thrown.
         public let context: [String: String]?
-        public let message: String
         /// The identifier of the resource that couldn't be found.
         public let resourceId: String
         /// The type of the resource that couldn't be found.
         public let resourceType: String
 
         @inlinable
-        public init(context: [String: String]? = nil, message: String, resourceId: String, resourceType: String) {
+        public init(context: [String: String]? = nil, resourceId: String, resourceType: String) {
             self.context = context
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case context = "context"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -11503,7 +11488,6 @@ extension Deadline {
     public struct ServiceQuotaExceededException: AWSErrorShape {
         /// Information about the resources in use when the exception was thrown.
         public let context: [String: String]?
-        public let message: String
         /// Identifies the quota that has been exceeded.
         public let quotaCode: String
         /// A string that describes the reason the quota was exceeded.
@@ -11516,9 +11500,8 @@ extension Deadline {
         public let serviceCode: String
 
         @inlinable
-        public init(context: [String: String]? = nil, message: String, quotaCode: String, reason: ServiceQuotaExceededExceptionReason, resourceId: String? = nil, resourceType: String, serviceCode: String) {
+        public init(context: [String: String]? = nil, quotaCode: String, reason: ServiceQuotaExceededExceptionReason, resourceId: String? = nil, resourceType: String, serviceCode: String) {
             self.context = context
-            self.message = message
             self.quotaCode = quotaCode
             self.reason = reason
             self.resourceId = resourceId
@@ -11528,7 +11511,6 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case context = "context"
-            case message = "message"
             case quotaCode = "quotaCode"
             case reason = "reason"
             case resourceId = "resourceId"
@@ -12530,7 +12512,6 @@ extension Deadline {
     public struct ThrottlingException: AWSErrorShape {
         /// Information about the resources in use when the exception was thrown.
         public let context: [String: String]?
-        public let message: String
         /// Identifies the quota that is being throttled.
         public let quotaCode: String?
         /// The number of seconds a client should wait before retrying the request.
@@ -12539,9 +12520,8 @@ extension Deadline {
         public let serviceCode: String?
 
         @inlinable
-        public init(context: [String: String]? = nil, message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+        public init(context: [String: String]? = nil, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.context = context
-            self.message = message
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -12551,7 +12531,6 @@ extension Deadline {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.context = try container.decodeIfPresent([String: String].self, forKey: .context)
-            self.message = try container.decode(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
@@ -12559,7 +12538,6 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case context = "context"
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -13768,22 +13746,19 @@ extension Deadline {
         public let context: [String: String]?
         /// A list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason that the request failed validation.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(context: [String: String]? = nil, fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(context: [String: String]? = nil, fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.context = context
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case context = "context"
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

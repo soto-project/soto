@@ -21549,21 +21549,18 @@ extension BedrockAgentCoreControl {
     }
 
     public struct SubscriptionRequiredException: AWSErrorShape {
-        public let message: String
         /// The product requiring subscription
         public let productName: String?
         /// URL to the Marketplace listing for subscription
         public let subscriptionUrl: String?
 
         @inlinable
-        public init(message: String, productName: String? = nil, subscriptionUrl: String? = nil) {
-            self.message = message
+        public init(productName: String? = nil, subscriptionUrl: String? = nil) {
             self.productName = productName
             self.subscriptionUrl = subscriptionUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case productName = "productName"
             case subscriptionUrl = "subscriptionUrl"
         }
@@ -25397,19 +25394,16 @@ extension BedrockAgentCoreControl {
 
     public struct ValidationException: AWSErrorShape {
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

@@ -301,18 +301,15 @@ extension PricingPlanManager {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that has a conflicting state.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceId: String) {
-            self.message = message
+        public init(resourceId: String) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }
@@ -519,18 +516,15 @@ extension PricingPlanManager {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceId: String) {
-            self.message = message
+        public init(resourceId: String) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }
@@ -734,18 +728,15 @@ extension PricingPlanManager {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that failed validation.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }

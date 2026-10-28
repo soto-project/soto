@@ -427,18 +427,14 @@ extension Kafka {
     public struct BadRequestException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -906,18 +902,14 @@ extension Kafka {
     public struct ClusterConnectivityException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -1347,18 +1339,14 @@ extension Kafka {
     public struct ConflictException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -1461,18 +1449,14 @@ extension Kafka {
     public struct ControllerMovedException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -2991,18 +2975,14 @@ extension Kafka {
     public struct ForbiddenException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -3161,18 +3141,14 @@ extension Kafka {
     public struct GroupSubscribedToTopicException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -3253,18 +3229,14 @@ extension Kafka {
     public struct InternalServerErrorException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -3571,36 +3543,28 @@ extension Kafka {
     public struct KafkaRequestException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
     public struct KafkaTimeoutException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -4506,36 +4470,28 @@ extension Kafka {
     public struct NotControllerException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
     public struct NotFoundException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -4837,18 +4793,14 @@ extension Kafka {
     public struct ReassignmentInProgressException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -5452,18 +5404,14 @@ extension Kafka {
     public struct ServiceUnavailableException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -5560,18 +5508,14 @@ extension Kafka {
     public struct TooManyRequestsException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -5600,18 +5544,14 @@ extension Kafka {
     public struct TopicExistsException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
@@ -5774,36 +5714,28 @@ extension Kafka {
     public struct UnauthorizedException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 
     public struct UnknownTopicOrPartitionException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
-        /// The description of the error.
-        public let message: String?
 
         @inlinable
-        public init(invalidParameter: String? = nil, message: String? = nil) {
+        public init(invalidParameter: String? = nil) {
             self.invalidParameter = invalidParameter
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
-            case message = "message"
         }
     }
 

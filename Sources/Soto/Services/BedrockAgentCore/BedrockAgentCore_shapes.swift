@@ -2494,16 +2494,7 @@ extension BedrockAgentCore {
     }
 
     public struct AccessDeniedException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ActorSummary: AWSDecodableShape {
@@ -3478,16 +3469,7 @@ extension BedrockAgentCore {
     }
 
     public struct ConflictException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ContentBlock: AWSDecodableShape {
@@ -7376,16 +7358,7 @@ extension BedrockAgentCore {
     }
 
     public struct InternalServerException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct InvokeAgentRuntimeCommandRequest: AWSEncodableShape {
@@ -10097,16 +10070,7 @@ extension BedrockAgentCore {
     }
 
     public struct ResourceNotFoundException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ResponseChunk: AWSDecodableShape {
@@ -10242,16 +10206,7 @@ extension BedrockAgentCore {
     }
 
     public struct RuntimeClientError: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct S3FilesConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -10543,16 +10498,7 @@ extension BedrockAgentCore {
     }
 
     public struct ServiceQuotaExceededException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct SessionFilter: AWSEncodableShape {
@@ -11548,21 +11494,18 @@ extension BedrockAgentCore {
     }
 
     public struct SubscriptionRequiredException: AWSErrorShape {
-        public let message: String
         /// The name of the product that requires a Marketplace subscription.
         public let productName: String?
         /// The URL to the Marketplace listing where you can subscribe.
         public let subscriptionUrl: String?
 
         @inlinable
-        public init(message: String, productName: String? = nil, subscriptionUrl: String? = nil) {
-            self.message = message
+        public init(productName: String? = nil, subscriptionUrl: String? = nil) {
             self.productName = productName
             self.subscriptionUrl = subscriptionUrl
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case productName = "productName"
             case subscriptionUrl = "subscriptionUrl"
         }
@@ -11672,16 +11615,7 @@ extension BedrockAgentCore {
     }
 
     public struct ThrottlingException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct TokenBalance: AWSDecodableShape {
@@ -12236,19 +12170,16 @@ extension BedrockAgentCore {
 
     public struct ValidationException: AWSErrorShape {
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

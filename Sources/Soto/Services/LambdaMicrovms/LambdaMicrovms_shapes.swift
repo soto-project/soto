@@ -248,21 +248,18 @@ extension LambdaMicrovms {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The identifier of the resource that caused the conflict.
         public let resourceId: String?
         /// The type of the resource that caused the conflict.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1071,41 +1068,32 @@ extension LambdaMicrovms {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String?
         /// The number of seconds to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvalidParameterValueException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
@@ -1809,38 +1797,32 @@ extension LambdaMicrovms {
     }
 
     public struct ResourceConflictException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String?
         /// The type of the resource that was not found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -2022,24 +2004,20 @@ extension LambdaMicrovms {
     }
 
     public struct ServiceException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// The quota code of the exceeded service quota.
         public let quotaCode: String?
         /// The identifier of the resource that exceeded the quota.
@@ -2050,8 +2028,7 @@ extension LambdaMicrovms {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2059,7 +2036,6 @@ extension LambdaMicrovms {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -2181,7 +2157,6 @@ extension LambdaMicrovms {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// The quota code of the throttled service quota.
         public let quotaCode: String?
         /// The number of seconds to wait before retrying the request.
@@ -2190,8 +2165,7 @@ extension LambdaMicrovms {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String? = nil, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.retryAfterSeconds = retryAfterSeconds
             self.serviceCode = serviceCode
@@ -2200,32 +2174,27 @@ extension LambdaMicrovms {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
             self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        public let message: String?
         /// The exception type.
         public let type: String?
 
         @inlinable
-        public init(message: String? = nil, type: String? = nil) {
-            self.message = message
+        public init(type: String? = nil) {
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case type = "Type"
         }
     }

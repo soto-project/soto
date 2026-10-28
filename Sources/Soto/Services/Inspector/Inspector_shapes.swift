@@ -27,22 +27,6 @@ import Foundation
 extension Inspector {
     // MARK: Enums
 
-    public struct AccessDeniedErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var accessDeniedToAssessmentRun: Self { .init(rawValue: "ACCESS_DENIED_TO_ASSESSMENT_RUN") }
-        @inlinable public static var accessDeniedToAssessmentTarget: Self { .init(rawValue: "ACCESS_DENIED_TO_ASSESSMENT_TARGET") }
-        @inlinable public static var accessDeniedToAssessmentTemplate: Self { .init(rawValue: "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE") }
-        @inlinable public static var accessDeniedToFinding: Self { .init(rawValue: "ACCESS_DENIED_TO_FINDING") }
-        @inlinable public static var accessDeniedToIamRole: Self { .init(rawValue: "ACCESS_DENIED_TO_IAM_ROLE") }
-        @inlinable public static var accessDeniedToResourceGroup: Self { .init(rawValue: "ACCESS_DENIED_TO_RESOURCE_GROUP") }
-        @inlinable public static var accessDeniedToRulesPackage: Self { .init(rawValue: "ACCESS_DENIED_TO_RULES_PACKAGE") }
-        @inlinable public static var accessDeniedToSnsTopic: Self { .init(rawValue: "ACCESS_DENIED_TO_SNS_TOPIC") }
-    }
-
     public struct AgentHealth: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
         public var rawValue: String
 
@@ -137,91 +121,6 @@ extension Inspector {
         @inlinable public static var other: Self { .init(rawValue: "OTHER") }
     }
 
-    public struct InvalidCrossAccountRoleErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var roleDoesNotExistOrInvalidTrustRelationship: Self { .init(rawValue: "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP") }
-        @inlinable public static var roleDoesNotHaveCorrectPolicy: Self { .init(rawValue: "ROLE_DOES_NOT_HAVE_CORRECT_POLICY") }
-    }
-
-    public struct InvalidInputErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var assessmentTargetNameAlreadyTaken: Self { .init(rawValue: "ASSESSMENT_TARGET_NAME_ALREADY_TAKEN") }
-        @inlinable public static var assessmentTemplateNameAlreadyTaken: Self { .init(rawValue: "ASSESSMENT_TEMPLATE_NAME_ALREADY_TAKEN") }
-        @inlinable public static var invalidAgentId: Self { .init(rawValue: "INVALID_AGENT_ID") }
-        @inlinable public static var invalidAssessmentRunArn: Self { .init(rawValue: "INVALID_ASSESSMENT_RUN_ARN") }
-        @inlinable public static var invalidAssessmentRunCompletionTimeRange: Self { .init(rawValue: "INVALID_ASSESSMENT_RUN_COMPLETION_TIME_RANGE") }
-        @inlinable public static var invalidAssessmentRunDurationRange: Self { .init(rawValue: "INVALID_ASSESSMENT_RUN_DURATION_RANGE") }
-        @inlinable public static var invalidAssessmentRunStartTimeRange: Self { .init(rawValue: "INVALID_ASSESSMENT_RUN_START_TIME_RANGE") }
-        @inlinable public static var invalidAssessmentRunState: Self { .init(rawValue: "INVALID_ASSESSMENT_RUN_STATE") }
-        @inlinable public static var invalidAssessmentRunStateChangeTimeRange: Self { .init(rawValue: "INVALID_ASSESSMENT_RUN_STATE_CHANGE_TIME_RANGE") }
-        @inlinable public static var invalidAssessmentTargetArn: Self { .init(rawValue: "INVALID_ASSESSMENT_TARGET_ARN") }
-        @inlinable public static var invalidAssessmentTargetName: Self { .init(rawValue: "INVALID_ASSESSMENT_TARGET_NAME") }
-        @inlinable public static var invalidAssessmentTargetNamePattern: Self { .init(rawValue: "INVALID_ASSESSMENT_TARGET_NAME_PATTERN") }
-        @inlinable public static var invalidAssessmentTemplateArn: Self { .init(rawValue: "INVALID_ASSESSMENT_TEMPLATE_ARN") }
-        @inlinable public static var invalidAssessmentTemplateDuration: Self { .init(rawValue: "INVALID_ASSESSMENT_TEMPLATE_DURATION") }
-        @inlinable public static var invalidAssessmentTemplateDurationRange: Self { .init(rawValue: "INVALID_ASSESSMENT_TEMPLATE_DURATION_RANGE") }
-        @inlinable public static var invalidAssessmentTemplateName: Self { .init(rawValue: "INVALID_ASSESSMENT_TEMPLATE_NAME") }
-        @inlinable public static var invalidAssessmentTemplateNamePattern: Self { .init(rawValue: "INVALID_ASSESSMENT_TEMPLATE_NAME_PATTERN") }
-        @inlinable public static var invalidAttribute: Self { .init(rawValue: "INVALID_ATTRIBUTE") }
-        @inlinable public static var invalidAutoScalingGroup: Self { .init(rawValue: "INVALID_AUTO_SCALING_GROUP") }
-        @inlinable public static var invalidEvent: Self { .init(rawValue: "INVALID_EVENT") }
-        @inlinable public static var invalidFindingArn: Self { .init(rawValue: "INVALID_FINDING_ARN") }
-        @inlinable public static var invalidIamRoleArn: Self { .init(rawValue: "INVALID_IAM_ROLE_ARN") }
-        @inlinable public static var invalidLocale: Self { .init(rawValue: "INVALID_LOCALE") }
-        @inlinable public static var invalidMaxResults: Self { .init(rawValue: "INVALID_MAX_RESULTS") }
-        @inlinable public static var invalidNumberOfAgentIds: Self { .init(rawValue: "INVALID_NUMBER_OF_AGENT_IDS") }
-        @inlinable public static var invalidNumberOfAssessmentRunArns: Self { .init(rawValue: "INVALID_NUMBER_OF_ASSESSMENT_RUN_ARNS") }
-        @inlinable public static var invalidNumberOfAssessmentRunStates: Self { .init(rawValue: "INVALID_NUMBER_OF_ASSESSMENT_RUN_STATES") }
-        @inlinable public static var invalidNumberOfAssessmentTargetArns: Self { .init(rawValue: "INVALID_NUMBER_OF_ASSESSMENT_TARGET_ARNS") }
-        @inlinable public static var invalidNumberOfAssessmentTemplateArns: Self { .init(rawValue: "INVALID_NUMBER_OF_ASSESSMENT_TEMPLATE_ARNS") }
-        @inlinable public static var invalidNumberOfAttributes: Self { .init(rawValue: "INVALID_NUMBER_OF_ATTRIBUTES") }
-        @inlinable public static var invalidNumberOfAutoScalingGroups: Self { .init(rawValue: "INVALID_NUMBER_OF_AUTO_SCALING_GROUPS") }
-        @inlinable public static var invalidNumberOfFindingArns: Self { .init(rawValue: "INVALID_NUMBER_OF_FINDING_ARNS") }
-        @inlinable public static var invalidNumberOfResourceGroupArns: Self { .init(rawValue: "INVALID_NUMBER_OF_RESOURCE_GROUP_ARNS") }
-        @inlinable public static var invalidNumberOfResourceGroupTags: Self { .init(rawValue: "INVALID_NUMBER_OF_RESOURCE_GROUP_TAGS") }
-        @inlinable public static var invalidNumberOfRuleNames: Self { .init(rawValue: "INVALID_NUMBER_OF_RULE_NAMES") }
-        @inlinable public static var invalidNumberOfRulesPackageArns: Self { .init(rawValue: "INVALID_NUMBER_OF_RULES_PACKAGE_ARNS") }
-        @inlinable public static var invalidNumberOfSeverities: Self { .init(rawValue: "INVALID_NUMBER_OF_SEVERITIES") }
-        @inlinable public static var invalidNumberOfTags: Self { .init(rawValue: "INVALID_NUMBER_OF_TAGS") }
-        @inlinable public static var invalidNumberOfUserAttributes: Self { .init(rawValue: "INVALID_NUMBER_OF_USER_ATTRIBUTES") }
-        @inlinable public static var invalidPaginationToken: Self { .init(rawValue: "INVALID_PAGINATION_TOKEN") }
-        @inlinable public static var invalidResourceArn: Self { .init(rawValue: "INVALID_RESOURCE_ARN") }
-        @inlinable public static var invalidResourceGroupArn: Self { .init(rawValue: "INVALID_RESOURCE_GROUP_ARN") }
-        @inlinable public static var invalidResourceGroupTagKey: Self { .init(rawValue: "INVALID_RESOURCE_GROUP_TAG_KEY") }
-        @inlinable public static var invalidResourceGroupTagValue: Self { .init(rawValue: "INVALID_RESOURCE_GROUP_TAG_VALUE") }
-        @inlinable public static var invalidRuleName: Self { .init(rawValue: "INVALID_RULE_NAME") }
-        @inlinable public static var invalidRulesPackageArn: Self { .init(rawValue: "INVALID_RULES_PACKAGE_ARN") }
-        @inlinable public static var invalidSeverity: Self { .init(rawValue: "INVALID_SEVERITY") }
-        @inlinable public static var invalidSnsTopicArn: Self { .init(rawValue: "INVALID_SNS_TOPIC_ARN") }
-        @inlinable public static var invalidTag: Self { .init(rawValue: "INVALID_TAG") }
-        @inlinable public static var invalidTagKey: Self { .init(rawValue: "INVALID_TAG_KEY") }
-        @inlinable public static var invalidTagValue: Self { .init(rawValue: "INVALID_TAG_VALUE") }
-        @inlinable public static var invalidUserAttribute: Self { .init(rawValue: "INVALID_USER_ATTRIBUTE") }
-        @inlinable public static var invalidUserAttributeKey: Self { .init(rawValue: "INVALID_USER_ATTRIBUTE_KEY") }
-        @inlinable public static var invalidUserAttributeValue: Self { .init(rawValue: "INVALID_USER_ATTRIBUTE_VALUE") }
-    }
-
-    public struct LimitExceededErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var assessmentRunLimitExceeded: Self { .init(rawValue: "ASSESSMENT_RUN_LIMIT_EXCEEDED") }
-        @inlinable public static var assessmentTargetLimitExceeded: Self { .init(rawValue: "ASSESSMENT_TARGET_LIMIT_EXCEEDED") }
-        @inlinable public static var assessmentTemplateLimitExceeded: Self { .init(rawValue: "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED") }
-        @inlinable public static var eventSubscriptionLimitExceeded: Self { .init(rawValue: "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED") }
-        @inlinable public static var resourceGroupLimitExceeded: Self { .init(rawValue: "RESOURCE_GROUP_LIMIT_EXCEEDED") }
-    }
-
     public struct Locale: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
         public var rawValue: String
 
@@ -229,22 +128,6 @@ extension Inspector {
         @inlinable public var description: String { self.rawValue }
 
         @inlinable public static var enUs: Self { .init(rawValue: "EN_US") }
-    }
-
-    public struct NoSuchEntityErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var assessmentRunDoesNotExist: Self { .init(rawValue: "ASSESSMENT_RUN_DOES_NOT_EXIST") }
-        @inlinable public static var assessmentTargetDoesNotExist: Self { .init(rawValue: "ASSESSMENT_TARGET_DOES_NOT_EXIST") }
-        @inlinable public static var assessmentTemplateDoesNotExist: Self { .init(rawValue: "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST") }
-        @inlinable public static var findingDoesNotExist: Self { .init(rawValue: "FINDING_DOES_NOT_EXIST") }
-        @inlinable public static var iamRoleDoesNotExist: Self { .init(rawValue: "IAM_ROLE_DOES_NOT_EXIST") }
-        @inlinable public static var resourceGroupDoesNotExist: Self { .init(rawValue: "RESOURCE_GROUP_DOES_NOT_EXIST") }
-        @inlinable public static var rulesPackageDoesNotExist: Self { .init(rawValue: "RULES_PACKAGE_DOES_NOT_EXIST") }
-        @inlinable public static var snsTopicDoesNotExist: Self { .init(rawValue: "SNS_TOPIC_DOES_NOT_EXIST") }
     }
 
     public struct PreviewStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
@@ -326,22 +209,14 @@ extension Inspector {
     public struct AccessDeniedException: AWSErrorShape {
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Code that indicates the type of error that is generated.
-        public let errorCode: AccessDeniedErrorCode
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, errorCode: AccessDeniedErrorCode, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -478,22 +353,18 @@ extension Inspector {
         public let agentsTruncated: Bool
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(agents: [AgentAlreadyRunningAssessment], agentsTruncated: Bool, canRetry: Bool, message: String) {
+        public init(agents: [AgentAlreadyRunningAssessment], agentsTruncated: Bool, canRetry: Bool) {
             self.agents = agents
             self.agentsTruncated = agentsTruncated
             self.canRetry = canRetry
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case agents = "agents"
             case agentsTruncated = "agentsTruncated"
             case canRetry = "canRetry"
-            case message = "message"
         }
     }
 
@@ -662,22 +533,18 @@ extension Inspector {
         public let assessmentRunArnsTruncated: Bool
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(assessmentRunArns: [String], assessmentRunArnsTruncated: Bool, canRetry: Bool, message: String) {
+        public init(assessmentRunArns: [String], assessmentRunArnsTruncated: Bool, canRetry: Bool) {
             self.assessmentRunArns = assessmentRunArns
             self.assessmentRunArnsTruncated = assessmentRunArnsTruncated
             self.canRetry = canRetry
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case assessmentRunArns = "assessmentRunArns"
             case assessmentRunArnsTruncated = "assessmentRunArnsTruncated"
             case canRetry = "canRetry"
-            case message = "message"
         }
     }
 
@@ -1918,84 +1785,56 @@ extension Inspector {
     public struct InternalException: AWSErrorShape {
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case message = "message"
         }
     }
 
     public struct InvalidCrossAccountRoleException: AWSErrorShape {
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Code that indicates the type of error that is generated.
-        public let errorCode: InvalidCrossAccountRoleErrorCode
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, errorCode: InvalidCrossAccountRoleErrorCode, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
     public struct InvalidInputException: AWSErrorShape {
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Code that indicates the type of error that is generated.
-        public let errorCode: InvalidInputErrorCode
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, errorCode: InvalidInputErrorCode, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
     public struct LimitExceededException: AWSErrorShape {
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Code that indicates the type of error that is generated.
-        public let errorCode: LimitExceededErrorCode
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, errorCode: LimitExceededErrorCode, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -2483,22 +2322,14 @@ extension Inspector {
     public struct NoSuchEntityException: AWSErrorShape {
         /// You can immediately retry your request.
         public let canRetry: Bool
-        /// Code that indicates the type of error that is generated.
-        public let errorCode: NoSuchEntityErrorCode
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, errorCode: NoSuchEntityErrorCode, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.errorCode = errorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -2748,18 +2579,14 @@ extension Inspector {
     public struct ServiceTemporarilyUnavailableException: AWSErrorShape {
         /// You can wait and then retry your request.
         public let canRetry: Bool
-        /// Details of the exception error.
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case message = "message"
         }
     }
 
@@ -2999,17 +2826,14 @@ extension Inspector {
 
     public struct UnsupportedFeatureException: AWSErrorShape {
         public let canRetry: Bool
-        public let message: String
 
         @inlinable
-        public init(canRetry: Bool, message: String) {
+        public init(canRetry: Bool) {
             self.canRetry = canRetry
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case canRetry = "canRetry"
-            case message = "message"
         }
     }
 

@@ -2495,17 +2495,14 @@ extension Athena {
 
     public struct InvalidRequestException: AWSErrorShape {
         public let athenaErrorCode: String?
-        public let message: String?
 
         @inlinable
-        public init(athenaErrorCode: String? = nil, message: String? = nil) {
+        public init(athenaErrorCode: String? = nil) {
             self.athenaErrorCode = athenaErrorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case athenaErrorCode = "AthenaErrorCode"
-            case message = "Message"
         }
     }
 
@@ -3936,18 +3933,15 @@ extension Athena {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The name of the Amazon resource.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }
@@ -4683,17 +4677,14 @@ extension Athena {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        public let message: String?
         public let reason: ThrottleReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ThrottleReason? = nil) {
-            self.message = message
+        public init(reason: ThrottleReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

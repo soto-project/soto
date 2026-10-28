@@ -31,17 +31,14 @@ extension SignerData {
 
     public struct AccessDeniedException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -107,49 +104,40 @@ extension SignerData {
 
     public struct InternalServiceErrorException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct ValidationException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 }

@@ -264,20 +264,17 @@ extension BCMRecommendedActions {
     public struct ValidationException: AWSErrorShape {
         /// Lists each problematic field and why it failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// Provides a single, overarching explanation for the validation failure.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

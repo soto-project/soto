@@ -3785,18 +3785,15 @@ extension IoT {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// A resource with the same name already exists.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }
@@ -17644,22 +17641,18 @@ extension IoT {
     }
 
     public struct ResourceAlreadyExistsException: AWSErrorShape {
-        /// The message for the exception.
-        public let message: String?
         /// The ARN of the resource that caused the exception.
         public let resourceArn: String?
         /// The ID of the resource that caused the exception.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String? = nil, resourceArn: String? = nil, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceArn: String? = nil, resourceId: String? = nil) {
             self.resourceArn = resourceArn
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
         }

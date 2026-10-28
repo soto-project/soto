@@ -656,22 +656,18 @@ extension DataExchange {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// The request couldn't be completed because it conflicted with the current state of the resource.
-        public let message: String
         /// The unique identifier for the resource with the conflict.
         public let resourceId: String?
         /// The type of the resource with the conflict.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -3481,22 +3477,18 @@ extension DataExchange {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The resource couldn't be found.
-        public let message: String
         /// The unique identifier for the resource that couldn't be found.
         public let resourceId: String?
         /// The type of resource that couldn't be found.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -4033,20 +4025,16 @@ extension DataExchange {
         public let limitName: LimitName?
         /// The value of the exceeded limit.
         public let limitValue: Double?
-        /// The request has exceeded the quotas imposed by the service.
-        public let message: String
 
         @inlinable
-        public init(limitName: LimitName? = nil, limitValue: Double? = nil, message: String) {
+        public init(limitName: LimitName? = nil, limitValue: Double? = nil) {
             self.limitName = limitName
             self.limitValue = limitValue
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case limitName = "LimitName"
             case limitValue = "LimitValue"
-            case message = "Message"
         }
     }
 
@@ -4506,18 +4494,14 @@ extension DataExchange {
     public struct ValidationException: AWSErrorShape {
         /// The unique identifier for the resource that couldn't be found.
         public let exceptionCause: ExceptionCause?
-        /// The message that informs you about what was invalid about the request.
-        public let message: String
 
         @inlinable
-        public init(exceptionCause: ExceptionCause? = nil, message: String) {
+        public init(exceptionCause: ExceptionCause? = nil) {
             self.exceptionCause = exceptionCause
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case exceptionCause = "ExceptionCause"
-            case message = "Message"
         }
     }
 }

@@ -59,19 +59,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating the specific type of access denial
         /// Can be TOKEN_EXPIRED, AUTHCODE_EXPIRED, USER_CREDENTIALS_CHANGED, or INSUFFICIENT_PERMISSIONS
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the access denial
-        /// Provides specific information about why access was denied
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -101,19 +96,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating conflict
         /// Will be CONFLICT
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the conflict
-        /// Provides specific information about what caused the conflict
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -427,19 +417,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating server error
         /// Will be SERVER_ERROR for internal server errors
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the server error
-        /// May include error details for debugging purposes
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -754,19 +739,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating resource not found
         /// Will be RESOURCE_NOT_FOUND
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining which resource was not found
-        /// Provides specific information about the missing resource
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -799,19 +779,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating service quota exceeded
         /// Will be SERVICE_QUOTA_EXCEEDED
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining which quota was exceeded
-        /// Provides specific information about the limit and current usage
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -837,19 +812,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating the specific type of error
         /// Will be INVALID_REQUEST for rate limiting scenarios
         public let error: OAuth2ErrorCode
-        /// Detailed message about the rate limiting
-        /// May include retry-after information or rate limit details
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -857,19 +827,14 @@ extension Signin {
         /// OAuth 2.0 error code indicating validation failure
         /// Will be INVALID_REQUEST for validation errors
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the validation failure
-        /// Provides specific information about which validation failed
-        public let message: String
 
         @inlinable
-        public init(error: OAuth2ErrorCode, message: String) {
+        public init(error: OAuth2ErrorCode) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 }

@@ -184,17 +184,14 @@ extension Textract {
 
     public struct AccessDeniedException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -518,17 +515,14 @@ extension Textract {
 
     public struct BadDocumentException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -629,17 +623,14 @@ extension Textract {
 
     public struct ConflictException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -972,17 +963,14 @@ extension Textract {
 
     public struct DocumentTooLargeException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1722,7 +1710,6 @@ extension Textract {
 
     public struct HumanLoopQuotaExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The quota code.
         public let quotaCode: String?
         /// The resource type.
@@ -1731,9 +1718,8 @@ extension Textract {
         public let serviceCode: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, quotaCode: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+        public init(code: String? = nil, quotaCode: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.code = code
-            self.message = message
             self.quotaCode = quotaCode
             self.resourceType = resourceType
             self.serviceCode = serviceCode
@@ -1741,7 +1727,6 @@ extension Textract {
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceType = "ResourceType"
             case serviceCode = "ServiceCode"
@@ -1750,17 +1735,14 @@ extension Textract {
 
     public struct IdempotentParameterMismatchException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1804,81 +1786,66 @@ extension Textract {
 
     public struct InternalServerError: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct InvalidJobIdException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct InvalidKMSKeyException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct InvalidParameterException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
     public struct InvalidS3ObjectException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -1988,17 +1955,14 @@ extension Textract {
 
     public struct LimitExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2303,17 +2267,14 @@ extension Textract {
 
     public struct ProvisionedThroughputExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2394,17 +2355,14 @@ extension Textract {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2444,17 +2402,14 @@ extension Textract {
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2792,17 +2747,14 @@ extension Textract {
 
     public struct ThrottlingException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2822,17 +2774,14 @@ extension Textract {
 
     public struct UnsupportedDocumentException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 
@@ -2942,17 +2891,14 @@ extension Textract {
 
     public struct ValidationException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
         }
     }
 

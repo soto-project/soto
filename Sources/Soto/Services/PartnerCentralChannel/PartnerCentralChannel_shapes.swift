@@ -437,19 +437,15 @@ extension PartnerCentralChannel {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        /// A message describing the access denial.
-        public let message: String
         /// The reason for the access denial.
         public let reason: String?
 
         @inlinable
-        public init(message: String, reason: String? = nil) {
-            self.message = message
+        public init(reason: String? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -582,22 +578,18 @@ extension PartnerCentralChannel {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// A message describing the conflict.
-        public let message: String
         /// The identifier of the resource that caused the conflict.
         public let resourceId: String
         /// The type of the resource that caused the conflict.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1686,22 +1678,18 @@ extension PartnerCentralChannel {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// A message describing the resource not found error.
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String?
         /// The type of the resource that was not found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1799,8 +1787,6 @@ extension PartnerCentralChannel {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// A message describing the service quota exceeded error.
-        public let message: String
         /// The code identifying the specific quota that would be exceeded.
         public let quotaCode: String
         /// The identifier of the resource that would exceed the quota.
@@ -1809,15 +1795,13 @@ extension PartnerCentralChannel {
         public let resourceType: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -1989,22 +1973,18 @@ extension PartnerCentralChannel {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// A message describing the throttling error.
-        public let message: String
         /// The quota code associated with the throttling error.
         public let quotaCode: String?
         /// The service code associated with the throttling error.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -2220,21 +2200,17 @@ extension PartnerCentralChannel {
     public struct ValidationException: AWSErrorShape {
         /// A list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        /// A message describing the validation error.
-        public let message: String
         /// The reason for the validation failure.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

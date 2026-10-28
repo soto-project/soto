@@ -1708,22 +1708,6 @@ extension LicenseManager {
         }
     }
 
-    public struct FailedDependencyException: AWSErrorShape {
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct Filter: AWSEncodableShape {
         /// Name of the filter. Filter names are case-sensitive.
         public let name: String?
@@ -4060,24 +4044,18 @@ extension LicenseManager {
 
     public struct RedirectException: AWSErrorShape {
         public let location: String?
-        public let message: String?
 
         @inlinable
-        public init(location: String? = nil, message: String? = nil) {
+        public init(location: String? = nil) {
             self.location = location
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RegionStatus: AWSDecodableShape {
@@ -4788,7 +4766,7 @@ public struct LicenseManagerErrorType: AWSErrorType, Decodable {
         /// The entitlement is not allowed.
         case entitlementNotAllowedException
         /// A dependency required to run the API is missing.
-        case failedDependencyException(LicenseManager.FailedDependencyException)
+        case failedDependencyException
         /// The request uses too many filters or too many filter values.
         case filterLimitExceededException
         /// One or more parameter values are not valid.
@@ -4827,9 +4805,7 @@ public struct LicenseManagerErrorType: AWSErrorType, Decodable {
         case "AuthorizationException": self.error = .authorizationException
         case "ConflictException": self.error = .conflictException
         case "EntitlementNotAllowedException": self.error = .entitlementNotAllowedException
-        case "FailedDependencyException":
-            let context = try singleValueContainer.decode(LicenseManager.FailedDependencyException.self)
-            self.error = .failedDependencyException(context)
+        case "FailedDependencyException": self.error = .failedDependencyException
         case "FilterLimitExceededException": self.error = .filterLimitExceededException
         case "InvalidParameterValueException": self.error = .invalidParameterValueException
         case "InvalidResourceStateException": self.error = .invalidResourceStateException

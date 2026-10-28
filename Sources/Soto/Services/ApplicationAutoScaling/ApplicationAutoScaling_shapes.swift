@@ -1345,18 +1345,15 @@ extension ApplicationAutoScaling {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The name of the Application Auto Scaling resource. This value is an Amazon Resource Name (ARN).
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }
@@ -1874,18 +1871,15 @@ extension ApplicationAutoScaling {
     }
 
     public struct TooManyTagsException: AWSErrorShape {
-        public let message: String?
         /// The name of the Application Auto Scaling resource. This value is an Amazon Resource Name (ARN).
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceName = "ResourceName"
         }
     }

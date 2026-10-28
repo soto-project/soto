@@ -3710,18 +3710,15 @@ extension Route53 {
     public struct InvalidChangeBatch: AWSErrorShape {
         public struct _messagesEncoding: ArrayCoderProperties { public static let member = "Message" }
 
-        public let message: String?
         @OptionalCustomCoding<ArrayCoder<_messagesEncoding, String>>
         public var messages: [String]?
 
         @inlinable
-        public init(message: String? = nil, messages: [String]? = nil) {
-            self.message = message
+        public init(messages: [String]? = nil) {
             self.messages = messages
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case messages = "messages"
         }
     }

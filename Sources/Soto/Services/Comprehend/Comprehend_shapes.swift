@@ -4675,19 +4675,16 @@ extension Comprehend {
 
     public struct InvalidRequestException: AWSErrorShape {
         public let detail: InvalidRequestDetail?
-        public let message: String?
         public let reason: InvalidRequestReason?
 
         @inlinable
-        public init(detail: InvalidRequestDetail? = nil, message: String? = nil, reason: InvalidRequestReason? = nil) {
+        public init(detail: InvalidRequestDetail? = nil, reason: InvalidRequestReason? = nil) {
             self.detail = detail
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case detail = "Detail"
-            case message = "Message"
             case reason = "Reason"
         }
     }

@@ -13430,18 +13430,14 @@ extension Glue {
     public struct EntityNotFoundException: AWSErrorShape {
         /// Indicates whether or not the exception relates to a federated source.
         public let fromFederationSource: Bool?
-        /// A message describing the problem.
-        public let message: String?
 
         @inlinable
-        public init(fromFederationSource: Bool? = nil, message: String? = nil) {
+        public init(fromFederationSource: Bool? = nil) {
             self.fromFederationSource = fromFederationSource
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fromFederationSource = "FromFederationSource"
-            case message = "Message"
         }
     }
 
@@ -13808,18 +13804,14 @@ extension Glue {
     public struct FederatedResourceAlreadyExistsException: AWSErrorShape {
         /// The associated Glue resource already exists.
         public let associatedGlueResource: String?
-        /// The message describing the problem.
-        public let message: String?
 
         @inlinable
-        public init(associatedGlueResource: String? = nil, message: String? = nil) {
+        public init(associatedGlueResource: String? = nil) {
             self.associatedGlueResource = associatedGlueResource
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case associatedGlueResource = "AssociatedGlueResource"
-            case message = "Message"
         }
     }
 
@@ -13867,18 +13859,14 @@ extension Glue {
     public struct FederationSourceException: AWSErrorShape {
         /// The error code of the problem.
         public let federationSourceErrorCode: FederationSourceErrorCode?
-        /// The message describing the problem.
-        public let message: String?
 
         @inlinable
-        public init(federationSourceErrorCode: FederationSourceErrorCode? = nil, message: String? = nil) {
+        public init(federationSourceErrorCode: FederationSourceErrorCode? = nil) {
             self.federationSourceErrorCode = federationSourceErrorCode
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case federationSourceErrorCode = "FederationSourceErrorCode"
-            case message = "Message"
         }
     }
 
@@ -20311,18 +20299,14 @@ extension Glue {
     public struct InvalidInputException: AWSErrorShape {
         /// Indicates whether or not the exception relates to a federated source.
         public let fromFederationSource: Bool?
-        /// A message describing the problem.
-        public let message: String?
 
         @inlinable
-        public init(fromFederationSource: Bool? = nil, message: String? = nil) {
+        public init(fromFederationSource: Bool? = nil) {
             self.fromFederationSource = fromFederationSource
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fromFederationSource = "FromFederationSource"
-            case message = "Message"
         }
     }
 

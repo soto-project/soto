@@ -962,21 +962,18 @@ extension NetworkManager {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The ID of the resource.
         public let resourceId: String
         /// The resource type.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -1679,17 +1676,14 @@ extension NetworkManager {
     public struct CoreNetworkPolicyException: AWSErrorShape {
         /// Describes a core network policy exception.
         public let errors: [CoreNetworkPolicyError]?
-        public let message: String
 
         @inlinable
-        public init(errors: [CoreNetworkPolicyError]? = nil, message: String) {
+        public init(errors: [CoreNetworkPolicyError]? = nil) {
             self.errors = errors
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
-            case message = "Message"
         }
     }
 
@@ -5300,26 +5294,20 @@ extension NetworkManager {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// Indicates when to retry the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Link: AWSDecodableShape {
@@ -6802,23 +6790,20 @@ extension NetworkManager {
     public struct ResourceNotFoundException: AWSErrorShape {
         /// The specified resource could not be found.
         public let context: [String: String]?
-        public let message: String
         /// The ID of the resource.
         public let resourceId: String
         /// The resource type.
         public let resourceType: String
 
         @inlinable
-        public init(context: [String: String]? = nil, message: String, resourceId: String, resourceType: String) {
+        public init(context: [String: String]? = nil, resourceId: String, resourceType: String) {
             self.context = context
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case context = "Context"
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
@@ -7135,8 +7120,6 @@ extension NetworkManager {
     public struct ServiceQuotaExceededException: AWSErrorShape {
         /// The limit code.
         public let limitCode: String
-        /// The error message.
-        public let message: String
         /// The ID of the resource.
         public let resourceId: String?
         /// The resource type.
@@ -7145,9 +7128,8 @@ extension NetworkManager {
         public let serviceCode: String
 
         @inlinable
-        public init(limitCode: String, message: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+        public init(limitCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.limitCode = limitCode
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.serviceCode = serviceCode
@@ -7155,7 +7137,6 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case limitCode = "LimitCode"
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
             case serviceCode = "ServiceCode"
@@ -7376,26 +7357,20 @@ extension NetworkManager {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// Indicates when to retry the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TransitGatewayConnectPeerAssociation: AWSDecodableShape {
@@ -8096,20 +8071,17 @@ extension NetworkManager {
     public struct ValidationException: AWSErrorShape {
         /// The fields that caused the error, if applicable.
         public let fields: [ValidationExceptionField]?
-        public let message: String
         /// The reason for the error.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "Fields"
-            case message = "Message"
             case reason = "Reason"
         }
     }

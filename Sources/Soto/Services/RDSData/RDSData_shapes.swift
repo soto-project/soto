@@ -824,18 +824,14 @@ extension RDSData {
     public struct StatementTimeoutException: AWSErrorShape {
         /// The database connection ID that executed the SQL statement.
         public let dbConnectionId: Int64?
-        /// The error message returned by this StatementTimeoutException error.
-        public let message: String?
 
         @inlinable
-        public init(dbConnectionId: Int64? = nil, message: String? = nil) {
+        public init(dbConnectionId: Int64? = nil) {
             self.dbConnectionId = dbConnectionId
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbConnectionId = "dbConnectionId"
-            case message = "message"
         }
     }
 

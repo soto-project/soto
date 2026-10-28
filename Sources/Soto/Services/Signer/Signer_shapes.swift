@@ -104,17 +104,14 @@ extension Signer {
 
     public struct AccessDeniedException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -188,17 +185,14 @@ extension Signer {
 
     public struct BadRequestException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -228,17 +222,14 @@ extension Signer {
 
     public struct ConflictException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -626,17 +617,14 @@ extension Signer {
 
     public struct InternalServiceErrorException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -937,17 +925,14 @@ extension Signer {
 
     public struct NotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -1115,17 +1100,14 @@ extension Signer {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -1274,17 +1256,14 @@ extension Signer {
 
     public struct ServiceLimitExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -1807,33 +1786,27 @@ extension Signer {
 
     public struct ThrottlingException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -1875,17 +1848,14 @@ extension Signer {
 
     public struct ValidationException: AWSErrorShape {
         public let code: String?
-        public let message: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 }

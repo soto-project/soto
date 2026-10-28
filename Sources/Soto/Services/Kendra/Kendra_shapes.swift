@@ -5201,18 +5201,14 @@ extension Kendra {
     public struct FeaturedResultsConflictException: AWSErrorShape {
         /// A list of the conflicting queries, including the query text, the name for  the featured results set, and the identifier of the featured results set.
         public let conflictingItems: [ConflictingItem]?
-        /// An explanation for the conflicting queries.
-        public let message: String?
 
         @inlinable
-        public init(conflictingItems: [ConflictingItem]? = nil, message: String? = nil) {
+        public init(conflictingItems: [ConflictingItem]? = nil) {
             self.conflictingItems = conflictingItems
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case conflictingItems = "ConflictingItems"
-            case message = "Message"
         }
     }
 

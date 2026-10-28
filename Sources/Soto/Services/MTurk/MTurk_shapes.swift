@@ -2101,17 +2101,14 @@ extension MTurk {
     }
 
     public struct RequestError: AWSErrorShape {
-        public let message: String?
         public let turkErrorCode: String?
 
         @inlinable
-        public init(message: String? = nil, turkErrorCode: String? = nil) {
-            self.message = message
+        public init(turkErrorCode: String? = nil) {
             self.turkErrorCode = turkErrorCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case turkErrorCode = "TurkErrorCode"
         }
     }
@@ -2297,17 +2294,14 @@ extension MTurk {
     }
 
     public struct ServiceFault: AWSErrorShape {
-        public let message: String?
         public let turkErrorCode: String?
 
         @inlinable
-        public init(message: String? = nil, turkErrorCode: String? = nil) {
-            self.message = message
+        public init(turkErrorCode: String? = nil) {
             self.turkErrorCode = turkErrorCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case turkErrorCode = "TurkErrorCode"
         }
     }

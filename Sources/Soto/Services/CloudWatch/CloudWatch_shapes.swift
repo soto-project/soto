@@ -688,17 +688,14 @@ extension CloudWatch {
 
     public struct DashboardInvalidInputError: AWSErrorShape {
         public let dashboardValidationMessages: [DashboardValidationMessage]?
-        public let message: String?
 
         @inlinable
-        public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil, message: String? = nil) {
+        public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil) {
             self.dashboardValidationMessages = dashboardValidationMessages
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashboardValidationMessages = "dashboardValidationMessages"
-            case message = "message"
         }
     }
 
@@ -4147,19 +4144,16 @@ extension CloudWatch {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         public let resourceId: String?
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }

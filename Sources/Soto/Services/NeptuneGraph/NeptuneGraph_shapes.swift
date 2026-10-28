@@ -412,19 +412,15 @@ extension NeptuneGraph {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// A message describing the problem.
-        public let message: String
         /// The reason for the conflict exception.
         public let reason: ConflictExceptionReason?
 
         @inlinable
-        public init(message: String, reason: ConflictExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ConflictExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -2679,7 +2675,6 @@ extension NeptuneGraph {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// Service quota code of the resource for which quota was exceeded.
         public let quotaCode: String?
         /// The identifier of the resource that exceeded quota.
@@ -2690,8 +2685,7 @@ extension NeptuneGraph {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -2699,7 +2693,6 @@ extension NeptuneGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -3138,18 +3131,15 @@ extension NeptuneGraph {
     }
 
     public struct UnprocessableException: AWSErrorShape {
-        public let message: String
         /// The reason for the unprocessable exception.
         public let reason: UnprocessableExceptionReason
 
         @inlinable
-        public init(message: String, reason: UnprocessableExceptionReason) {
-            self.message = message
+        public init(reason: UnprocessableExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -3302,19 +3292,15 @@ extension NeptuneGraph {
     }
 
     public struct ValidationException: AWSErrorShape {
-        /// A message describing the problem.
-        public let message: String
         /// The reason that the resource could not be validated.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }

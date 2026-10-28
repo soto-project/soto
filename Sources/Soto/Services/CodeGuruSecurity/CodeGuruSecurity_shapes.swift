@@ -111,26 +111,18 @@ extension CodeGuruSecurity {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
-        /// The identifier for the error.
-        public let errorCode: String
-        /// Description of the error.
-        public let message: String
         /// The identifier for the resource you don't have access to.
         public let resourceId: String?
         /// The type of resource you don't have access to.
         public let resourceType: String?
 
         @inlinable
-        public init(errorCode: String, message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -266,26 +258,18 @@ extension CodeGuruSecurity {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// The identifier for the error.
-        public let errorCode: String
-        /// Description of the error.
-        public let message: String
         /// The identifier for the service resource associated with the request.
         public let resourceId: String
         /// The type of resource associated with the request.
         public let resourceType: String
 
         @inlinable
-        public init(errorCode: String, message: String, resourceId: String, resourceType: String) {
-            self.errorCode = errorCode
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -770,18 +754,14 @@ extension CodeGuruSecurity {
     public struct InternalServerException: AWSErrorShape {
         /// The internal error encountered by the server.
         public let error: String?
-        /// Description of the error.
-        public let message: String?
 
         @inlinable
-        public init(error: String? = nil, message: String? = nil) {
+        public init(error: String? = nil) {
             self.error = error
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case error = "error"
-            case message = "message"
         }
     }
 
@@ -1008,26 +988,18 @@ extension CodeGuruSecurity {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The identifier for the error.
-        public let errorCode: String
-        /// Description of the error.
-        public let message: String
         /// The identifier for the resource that was not found.
         public let resourceId: String
         /// The type of resource that was not found.
         public let resourceType: String
 
         @inlinable
-        public init(errorCode: String, message: String, resourceId: String, resourceType: String) {
-            self.errorCode = errorCode
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -1144,26 +1116,18 @@ extension CodeGuruSecurity {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        /// The identifier for the error.
-        public let errorCode: String
-        /// Description of the error.
-        public let message: String
         /// The identifier for the originating quota.
         public let quotaCode: String?
         /// The identifier for the originating service.
         public let serviceCode: String?
 
         @inlinable
-        public init(errorCode: String, message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -1239,27 +1203,19 @@ extension CodeGuruSecurity {
     }
 
     public struct ValidationException: AWSErrorShape {
-        /// The identifier for the error.
-        public let errorCode: String
         /// The field that caused the error, if applicable.
         public let fieldList: [ValidationExceptionField]?
-        /// Description of the error.
-        public let message: String
         /// The reason the request failed validation.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(errorCode: String, fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
-            self.errorCode = errorCode
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

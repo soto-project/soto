@@ -5417,19 +5417,16 @@ extension WAFRegional {
     }
 
     public struct WAFEntityMigrationException: AWSErrorShape {
-        public let message: String?
         public let migrationErrorReason: String?
         public let migrationErrorType: MigrationErrorType?
 
         @inlinable
-        public init(message: String? = nil, migrationErrorReason: String? = nil, migrationErrorType: MigrationErrorType? = nil) {
-            self.message = message
+        public init(migrationErrorReason: String? = nil, migrationErrorType: MigrationErrorType? = nil) {
             self.migrationErrorReason = migrationErrorReason
             self.migrationErrorType = migrationErrorType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case migrationErrorReason = "MigrationErrorReason"
             case migrationErrorType = "MigrationErrorType"
         }

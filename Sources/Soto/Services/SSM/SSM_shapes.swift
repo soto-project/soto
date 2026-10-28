@@ -9600,17 +9600,14 @@ extension SSM {
     }
 
     public struct InvalidItemContentException: AWSErrorShape {
-        public let message: String?
         public let typeName: String?
 
         @inlinable
-        public init(message: String? = nil, typeName: String? = nil) {
-            self.message = message
+        public init(typeName: String? = nil) {
             self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case typeName = "TypeName"
         }
     }
@@ -9937,33 +9934,27 @@ extension SSM {
     }
 
     public struct ItemContentMismatchException: AWSErrorShape {
-        public let message: String?
         public let typeName: String?
 
         @inlinable
-        public init(message: String? = nil, typeName: String? = nil) {
-            self.message = message
+        public init(typeName: String? = nil) {
             self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case typeName = "TypeName"
         }
     }
 
     public struct ItemSizeLimitExceededException: AWSErrorShape {
-        public let message: String?
         public let typeName: String?
 
         @inlinable
-        public init(message: String? = nil, typeName: String? = nil) {
-            self.message = message
+        public init(typeName: String? = nil) {
             self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case typeName = "TypeName"
         }
     }
@@ -12084,17 +12075,14 @@ extension SSM {
     }
 
     public struct OpsItemAlreadyExistsException: AWSErrorShape {
-        public let message: String?
         public let opsItemId: String?
 
         @inlinable
-        public init(message: String? = nil, opsItemId: String? = nil) {
-            self.message = message
+        public init(opsItemId: String? = nil) {
             self.opsItemId = opsItemId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case opsItemId = "OpsItemId"
         }
     }
@@ -12226,17 +12214,14 @@ extension SSM {
     }
 
     public struct OpsItemInvalidParameterException: AWSErrorShape {
-        public let message: String?
         public let parameterNames: [String]?
 
         @inlinable
-        public init(message: String? = nil, parameterNames: [String]? = nil) {
-            self.message = message
+        public init(parameterNames: [String]? = nil) {
             self.parameterNames = parameterNames
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case parameterNames = "ParameterNames"
         }
     }
@@ -12244,21 +12229,18 @@ extension SSM {
     public struct OpsItemLimitExceededException: AWSErrorShape {
         public let limit: Int?
         public let limitType: String?
-        public let message: String?
         public let resourceTypes: [String]?
 
         @inlinable
-        public init(limit: Int? = nil, limitType: String? = nil, message: String? = nil, resourceTypes: [String]? = nil) {
+        public init(limit: Int? = nil, limitType: String? = nil, resourceTypes: [String]? = nil) {
             self.limit = limit
             self.limitType = limitType
-            self.message = message
             self.resourceTypes = resourceTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case limitType = "LimitType"
-            case message = "Message"
             case resourceTypes = "ResourceTypes"
         }
     }
@@ -12278,19 +12260,16 @@ extension SSM {
     }
 
     public struct OpsItemRelatedItemAlreadyExistsException: AWSErrorShape {
-        public let message: String?
         public let opsItemId: String?
         public let resourceUri: String?
 
         @inlinable
-        public init(message: String? = nil, opsItemId: String? = nil, resourceUri: String? = nil) {
-            self.message = message
+        public init(opsItemId: String? = nil, resourceUri: String? = nil) {
             self.opsItemId = opsItemId
             self.resourceUri = resourceUri
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case opsItemId = "OpsItemId"
             case resourceUri = "ResourceUri"
         }
@@ -14016,19 +13995,16 @@ extension SSM {
     }
 
     public struct ResourceDataSyncNotFoundException: AWSErrorShape {
-        public let message: String?
         public let syncName: String?
         public let syncType: String?
 
         @inlinable
-        public init(message: String? = nil, syncName: String? = nil, syncType: String? = nil) {
-            self.message = message
+        public init(syncName: String? = nil, syncType: String? = nil) {
             self.syncName = syncName
             self.syncType = syncType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case syncName = "SyncName"
             case syncType = "SyncType"
         }
@@ -14176,17 +14152,14 @@ extension SSM {
     }
 
     public struct ResourcePolicyInvalidParameterException: AWSErrorShape {
-        public let message: String?
         public let parameterNames: [String]?
 
         @inlinable
-        public init(message: String? = nil, parameterNames: [String]? = nil) {
-            self.message = message
+        public init(parameterNames: [String]? = nil) {
             self.parameterNames = parameterNames
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case parameterNames = "ParameterNames"
         }
     }
@@ -14194,19 +14167,16 @@ extension SSM {
     public struct ResourcePolicyLimitExceededException: AWSErrorShape {
         public let limit: Int?
         public let limitType: String?
-        public let message: String?
 
         @inlinable
-        public init(limit: Int? = nil, limitType: String? = nil, message: String? = nil) {
+        public init(limit: Int? = nil, limitType: String? = nil) {
             self.limit = limit
             self.limitType = limitType
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case limitType = "LimitType"
-            case message = "Message"
         }
     }
 
@@ -14606,7 +14576,6 @@ extension SSM {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public let quotaCode: String
         /// The unique ID of the resource referenced in the failed request.
@@ -14617,8 +14586,7 @@ extension SSM {
         public let serviceCode: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -14626,7 +14594,6 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
@@ -15554,21 +15521,18 @@ extension SSM {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public let quotaCode: String?
         /// The code for the Amazon Web Services service that owns the quota.
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case quotaCode = "QuotaCode"
             case serviceCode = "ServiceCode"
         }
@@ -15626,17 +15590,14 @@ extension SSM {
     }
 
     public struct UnsupportedInventoryItemContextException: AWSErrorShape {
-        public let message: String?
         public let typeName: String?
 
         @inlinable
-        public init(message: String? = nil, typeName: String? = nil) {
-            self.message = message
+        public init(typeName: String? = nil) {
             self.typeName = typeName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case typeName = "TypeName"
         }
     }
@@ -16899,18 +16860,15 @@ extension SSM {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The reason code for the invalid request.
         public let reasonCode: String?
 
         @inlinable
-        public init(message: String? = nil, reasonCode: String? = nil) {
-            self.message = message
+        public init(reasonCode: String? = nil) {
             self.reasonCode = reasonCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reasonCode = "ReasonCode"
         }
     }

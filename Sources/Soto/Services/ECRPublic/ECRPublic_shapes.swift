@@ -926,7 +926,6 @@ extension ECRPublic {
     public struct InvalidLayerPartException: AWSErrorShape {
         /// The position of the last byte of the layer part.
         public let lastValidByteReceived: Int64?
-        public let message: String?
         /// The Amazon Web Services account ID that's associated with the layer part.
         public let registryId: String?
         /// The name of the repository.
@@ -935,9 +934,8 @@ extension ECRPublic {
         public let uploadId: String?
 
         @inlinable
-        public init(lastValidByteReceived: Int64? = nil, message: String? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
+        public init(lastValidByteReceived: Int64? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
             self.lastValidByteReceived = lastValidByteReceived
-            self.message = message
             self.registryId = registryId
             self.repositoryName = repositoryName
             self.uploadId = uploadId
@@ -945,7 +943,6 @@ extension ECRPublic {
 
         private enum CodingKeys: String, CodingKey {
             case lastValidByteReceived = "lastValidByteReceived"
-            case message = "message"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
             case uploadId = "uploadId"

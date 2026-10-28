@@ -753,34 +753,22 @@ extension Polly {
     }
 
     public struct ServiceFailureException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The quota code identifying the specific quota.
         public let quotaCode: QuotaCode
         /// The service code identifying the originating service.
         public let serviceCode: ServiceCode
 
         @inlinable
-        public init(message: String, quotaCode: QuotaCode, serviceCode: ServiceCode) {
-            self.message = message
+        public init(quotaCode: QuotaCode, serviceCode: ServiceCode) {
             self.quotaCode = quotaCode
             self.serviceCode = serviceCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
@@ -1124,18 +1112,15 @@ extension Polly {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// A list of reasons explaining why the request was throttled.
         public let throttlingReasons: [ThrottlingReason]?
 
         @inlinable
-        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
-            self.message = message
+        public init(throttlingReasons: [ThrottlingReason]? = nil) {
             self.throttlingReasons = throttlingReasons
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case throttlingReasons = "throttlingReasons"
         }
     }
@@ -1161,20 +1146,17 @@ extension Polly {
     public struct ValidationException: AWSErrorShape {
         /// The fields that caused the validation error.
         public let fields: [ValidationExceptionField]?
-        public let message: String
         /// The reason the request failed validation.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
         }
     }

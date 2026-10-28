@@ -302,21 +302,18 @@ extension ARCZonalShift {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The reason for the conflict exception.
         public let reason: ConflictExceptionReason
         /// The zonal shift ID associated with the conflict exception.
         public let zonalShiftId: String?
 
         @inlinable
-        public init(message: String, reason: ConflictExceptionReason, zonalShiftId: String? = nil) {
-            self.message = message
+        public init(reason: ConflictExceptionReason, zonalShiftId: String? = nil) {
             self.reason = reason
             self.zonalShiftId = zonalShiftId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
             case zonalShiftId = "zonalShiftId"
         }
@@ -1103,18 +1100,15 @@ extension ARCZonalShift {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         /// The reason for the validation exception.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(message: String, reason: ValidationExceptionReason) {
-            self.message = message
+        public init(reason: ValidationExceptionReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }

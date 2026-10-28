@@ -1422,18 +1422,14 @@ extension DynamoDB {
     public struct ConditionalCheckFailedException: AWSErrorShape {
         /// Item which caused the ConditionalCheckFailedException.
         public let item: [String: AttributeValue]?
-        /// The conditional request failed.
-        public let message: String?
 
         @inlinable
-        public init(item: [String: AttributeValue]? = nil, message: String? = nil) {
+        public init(item: [String: AttributeValue]? = nil) {
             self.item = item
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case item = "Item"
-            case message = "message"
         }
     }
 
@@ -4605,19 +4601,15 @@ extension DynamoDB {
     }
 
     public struct ProvisionedThroughputExceededException: AWSErrorShape {
-        /// You exceeded your maximum allowed provisioned throughput.
-        public let message: String?
         /// A list of ThrottlingReason that provide detailed diagnostic information about why the request was throttled.
         public let throttlingReasons: [ThrottlingReason]?
 
         @inlinable
-        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
-            self.message = message
+        public init(throttlingReasons: [ThrottlingReason]? = nil) {
             self.throttlingReasons = throttlingReasons
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case throttlingReasons = "ThrottlingReasons"
         }
     }
@@ -5426,18 +5418,15 @@ extension DynamoDB {
     }
 
     public struct RequestLimitExceeded: AWSErrorShape {
-        public let message: String?
         /// A list of ThrottlingReason that provide detailed diagnostic information about why the request was throttled.
         public let throttlingReasons: [ThrottlingReason]?
 
         @inlinable
-        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
-            self.message = message
+        public init(throttlingReasons: [ThrottlingReason]? = nil) {
             self.throttlingReasons = throttlingReasons
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case throttlingReasons = "ThrottlingReasons"
         }
     }
@@ -6374,18 +6363,15 @@ extension DynamoDB {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// A list of ThrottlingReason that provide detailed diagnostic information about why the request was throttled.
         public let throttlingReasons: [ThrottlingReason]?
 
         @inlinable
-        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
-            self.message = message
+        public init(throttlingReasons: [ThrottlingReason]? = nil) {
             self.throttlingReasons = throttlingReasons
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case throttlingReasons = "throttlingReasons"
         }
     }
@@ -6567,17 +6553,14 @@ extension DynamoDB {
     public struct TransactionCanceledException: AWSErrorShape {
         /// A list of cancellation reasons.
         public let cancellationReasons: [CancellationReason]?
-        public let message: String?
 
         @inlinable
-        public init(cancellationReasons: [CancellationReason]? = nil, message: String? = nil) {
+        public init(cancellationReasons: [CancellationReason]? = nil) {
             self.cancellationReasons = cancellationReasons
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case cancellationReasons = "CancellationReasons"
-            case message = "Message"
         }
     }
 

@@ -4154,16 +4154,7 @@ extension BedrockRuntime {
     }
 
     public struct InternalServerException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct InvokeGuardrailChecksRequest: AWSEncodableShape {
@@ -4615,58 +4606,43 @@ extension BedrockRuntime {
     }
 
     public struct ModelErrorException: AWSErrorShape {
-        public let message: String?
         /// The original status code.
         public let originalStatusCode: Int?
         /// The resource name.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, originalStatusCode: Int? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(originalStatusCode: Int? = nil, resourceName: String? = nil) {
             self.originalStatusCode = originalStatusCode
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case originalStatusCode = "originalStatusCode"
             case resourceName = "resourceName"
         }
     }
 
     public struct ModelStreamErrorException: AWSErrorShape {
-        public let message: String?
         /// The original message.
         public let originalMessage: String?
         /// The original status code.
         public let originalStatusCode: Int?
 
         @inlinable
-        public init(message: String? = nil, originalMessage: String? = nil, originalStatusCode: Int? = nil) {
-            self.message = message
+        public init(originalMessage: String? = nil, originalStatusCode: Int? = nil) {
             self.originalMessage = originalMessage
             self.originalStatusCode = originalStatusCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case originalMessage = "originalMessage"
             case originalStatusCode = "originalStatusCode"
         }
     }
 
     public struct ModelTimeoutException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct OutputConfig: AWSEncodableShape {
@@ -4867,16 +4843,7 @@ extension BedrockRuntime {
     }
 
     public struct ServiceUnavailableException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct SpecificToolChoice: AWSEncodableShape {
@@ -5004,16 +4971,7 @@ extension BedrockRuntime {
     }
 
     public struct ThrottlingException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct TokenUsage: AWSDecodableShape {
@@ -5287,16 +5245,7 @@ extension BedrockRuntime {
     }
 
     public struct ValidationException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct VideoBlock: AWSEncodableShape & AWSDecodableShape {

@@ -1115,16 +1115,7 @@ extension ConnectHealth {
     }
 
     public struct InternalServerException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ListDomainsInput: AWSEncodableShape {
@@ -1949,16 +1940,7 @@ extension ConnectHealth {
     }
 
     public struct ValidationException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct WebAppConfiguration: AWSDecodableShape {

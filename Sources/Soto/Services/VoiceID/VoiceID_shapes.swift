@@ -305,17 +305,14 @@ extension VoiceID {
     public struct ConflictException: AWSErrorShape {
         /// The type of conflict which caused a ConflictException. Possible types and the corresponding error messages are as follows:    DOMAIN_NOT_ACTIVE: The domain is not active.    CANNOT_CHANGE_SPEAKER_AFTER_ENROLLMENT: You cannot change the speaker ID after an enrollment has been requested.    ENROLLMENT_ALREADY_EXISTS: There is already an enrollment for this session.    SPEAKER_NOT_SET: You must set the speaker ID before requesting an enrollment.    SPEAKER_OPTED_OUT: You cannot request an enrollment for an opted out speaker.    CONCURRENT_CHANGES: The request could not be processed as the resource was modified by another request during execution.
         public let conflictType: ConflictType?
-        public let message: String?
 
         @inlinable
-        public init(conflictType: ConflictType? = nil, message: String? = nil) {
+        public init(conflictType: ConflictType? = nil) {
             self.conflictType = conflictType
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case conflictType = "ConflictType"
-            case message = "Message"
         }
     }
 
@@ -1777,18 +1774,15 @@ extension VoiceID {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The type of resource which cannot not be found. Possible types are BATCH_JOB, COMPLIANCE_CONSENT, DOMAIN, FRAUDSTER, SESSION and SPEAKER.
         public let resourceType: ResourceType?
 
         @inlinable
-        public init(message: String? = nil, resourceType: ResourceType? = nil) {
-            self.message = message
+        public init(resourceType: ResourceType? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceType = "ResourceType"
         }
     }

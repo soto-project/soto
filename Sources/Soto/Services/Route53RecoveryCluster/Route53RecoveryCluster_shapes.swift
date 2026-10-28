@@ -52,22 +52,18 @@ extension Route53RecoveryCluster {
     // MARK: Shapes
 
     public struct ConflictException: AWSErrorShape {
-        /// Description of the ConflictException error
-        public let message: String
         /// Identifier of the resource in use
         public let resourceId: String
         /// Type of the resource in use
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -116,25 +112,19 @@ extension Route53RecoveryCluster {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRoutingControlsRequest: AWSEncodableShape {
@@ -188,21 +178,18 @@ extension Route53RecoveryCluster {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// Hypothetical resource identifier that was not found
         public let resourceId: String
         /// Hypothetical resource type that was not found
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -247,7 +234,6 @@ extension Route53RecoveryCluster {
     public struct ServiceLimitExceededException: AWSErrorShape {
         /// The code of the limit that was exceeded.
         public let limitCode: String
-        public let message: String
         /// The resource identifier of the limit that was exceeded.
         public let resourceId: String?
         /// The resource type of the limit that was exceeded.
@@ -256,9 +242,8 @@ extension Route53RecoveryCluster {
         public let serviceCode: String
 
         @inlinable
-        public init(limitCode: String, message: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+        public init(limitCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
             self.limitCode = limitCode
-            self.message = message
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.serviceCode = serviceCode
@@ -266,7 +251,6 @@ extension Route53RecoveryCluster {
 
         private enum CodingKeys: String, CodingKey {
             case limitCode = "limitCode"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case serviceCode = "serviceCode"
@@ -274,25 +258,19 @@ extension Route53RecoveryCluster {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateRoutingControlStateEntry: AWSEncodableShape {
@@ -397,19 +375,16 @@ extension Route53RecoveryCluster {
 
     public struct ValidationException: AWSErrorShape {
         public let fields: [ValidationExceptionField]?
-        public let message: String
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
         }
     }

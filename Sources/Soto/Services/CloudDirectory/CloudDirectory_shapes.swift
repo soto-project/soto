@@ -1982,19 +1982,16 @@ extension CloudDirectory {
 
     public struct BatchWriteException: AWSErrorShape {
         public let index: Int?
-        public let message: String?
         public let type: BatchWriteExceptionType?
 
         @inlinable
-        public init(index: Int? = nil, message: String? = nil, type: BatchWriteExceptionType? = nil) {
+        public init(index: Int? = nil, type: BatchWriteExceptionType? = nil) {
             self.index = index
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case index = "Index"
-            case message = "Message"
             case type = "Type"
         }
     }

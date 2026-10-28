@@ -84,19 +84,15 @@ extension CloudSearchDomain {
     }
 
     public struct DocumentServiceException: AWSErrorShape {
-        /// The description of the errors returned by the document service.
-        public let message: String?
         /// The return status of a document upload request, error or success.
         public let status: String?
 
         @inlinable
-        public init(message: String? = nil, status: String? = nil) {
-            self.message = message
+        public init(status: String? = nil) {
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case status = "status"
         }
     }

@@ -204,29 +204,22 @@ extension Detective {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        /// The SDK default error code associated with the access denied exception.
-        public let errorCode: ErrorCode?
         /// The SDK default explanation of why access was denied.
         public let errorCodeReason: String?
-        public let message: String?
         /// The error code associated with the access denied exception.
         public let subErrorCode: ErrorCode?
         ///  An explanation of why access was denied.
         public let subErrorCodeReason: String?
 
         @inlinable
-        public init(errorCode: ErrorCode? = nil, errorCodeReason: String? = nil, message: String? = nil, subErrorCode: ErrorCode? = nil, subErrorCodeReason: String? = nil) {
-            self.errorCode = errorCode
+        public init(errorCodeReason: String? = nil, subErrorCode: ErrorCode? = nil, subErrorCodeReason: String? = nil) {
             self.errorCodeReason = errorCodeReason
-            self.message = message
             self.subErrorCode = subErrorCode
             self.subErrorCodeReason = subErrorCodeReason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
             case errorCodeReason = "ErrorCodeReason"
-            case message = "Message"
             case subErrorCode = "SubErrorCode"
             case subErrorCodeReason = "SubErrorCodeReason"
         }
@@ -1602,18 +1595,15 @@ extension Detective {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String?
         /// The type of resource that has exceeded the service quota.
         public let resources: [String]?
 
         @inlinable
-        public init(message: String? = nil, resources: [String]? = nil) {
-            self.message = message
+        public init(resources: [String]? = nil) {
             self.resources = resources
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resources = "Resources"
         }
     }
@@ -1969,23 +1959,16 @@ extension Detective {
     }
 
     public struct ValidationException: AWSErrorShape {
-        /// The error code associated with the validation failure.
-        public let errorCode: ErrorCode?
         ///  An explanation of why validation failed.
         public let errorCodeReason: String?
-        public let message: String?
 
         @inlinable
-        public init(errorCode: ErrorCode? = nil, errorCodeReason: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
+        public init(errorCodeReason: String? = nil) {
             self.errorCodeReason = errorCodeReason
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
             case errorCodeReason = "ErrorCodeReason"
-            case message = "Message"
         }
     }
 }

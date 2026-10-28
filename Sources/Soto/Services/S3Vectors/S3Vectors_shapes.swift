@@ -1170,17 +1170,14 @@ extension S3Vectors {
     public struct ValidationException: AWSErrorShape {
         /// A list of specific validation failures that are encountered during input processing. Each entry in the list contains a path to the field that failed validation and a detailed message that explains why the validation failed. To satisfy multiple constraints, a field can appear multiple times in this list if it failed. You can use the information to identify and fix the specific validation issues in your request.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 

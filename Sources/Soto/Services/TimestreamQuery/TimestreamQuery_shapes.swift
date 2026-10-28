@@ -1162,18 +1162,15 @@ extension TimestreamQuery {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The ARN of the scheduled query.
         public let scheduledQueryArn: String?
 
         @inlinable
-        public init(message: String? = nil, scheduledQueryArn: String? = nil) {
-            self.message = message
+        public init(scheduledQueryArn: String? = nil) {
             self.scheduledQueryArn = scheduledQueryArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case scheduledQueryArn = "ScheduledQueryArn"
         }
     }

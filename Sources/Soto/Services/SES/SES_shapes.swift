@@ -241,18 +241,15 @@ extension SES {
     }
 
     public struct AlreadyExistsException: AWSErrorShape {
-        public let message: String?
         /// Indicates that a resource could not be created because the resource name already exists.
         public let name: String?
 
         @inlinable
-        public init(message: String? = nil, name: String? = nil) {
-            self.message = message
+        public init(name: String? = nil) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case name = "Name"
         }
     }
@@ -380,18 +377,15 @@ extension SES {
     }
 
     public struct CannotDeleteException: AWSErrorShape {
-        public let message: String?
         /// Indicates that a resource could not be deleted because no resource with the specified name exists.
         public let name: String?
 
         @inlinable
-        public init(message: String? = nil, name: String? = nil) {
-            self.message = message
+        public init(name: String? = nil) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case name = "Name"
         }
     }
@@ -472,51 +466,42 @@ extension SES {
     public struct ConfigurationSetAlreadyExistsException: AWSErrorShape {
         /// Indicates that the configuration set does not exist.
         public let configurationSetName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil) {
             self.configurationSetName = configurationSetName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
-            case message = "message"
         }
     }
 
     public struct ConfigurationSetDoesNotExistException: AWSErrorShape {
         /// Indicates that the configuration set does not exist.
         public let configurationSetName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil) {
             self.configurationSetName = configurationSetName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
-            case message = "message"
         }
     }
 
     public struct ConfigurationSetSendingPausedException: AWSErrorShape {
         /// The name of the configuration set for which email sending is disabled.
         public let configurationSetName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil) {
             self.configurationSetName = configurationSetName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
-            case message = "message"
         }
     }
 
@@ -775,34 +760,28 @@ extension SES {
     public struct CustomVerificationEmailTemplateAlreadyExistsException: AWSErrorShape {
         /// Indicates that the provided custom verification email template with the specified template name already exists.
         public let customVerificationEmailTemplateName: String?
-        public let message: String?
 
         @inlinable
-        public init(customVerificationEmailTemplateName: String? = nil, message: String? = nil) {
+        public init(customVerificationEmailTemplateName: String? = nil) {
             self.customVerificationEmailTemplateName = customVerificationEmailTemplateName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case customVerificationEmailTemplateName = "CustomVerificationEmailTemplateName"
-            case message = "message"
         }
     }
 
     public struct CustomVerificationEmailTemplateDoesNotExistException: AWSErrorShape {
         /// Indicates that the provided custom verification email template does not exist.
         public let customVerificationEmailTemplateName: String?
-        public let message: String?
 
         @inlinable
-        public init(customVerificationEmailTemplateName: String? = nil, message: String? = nil) {
+        public init(customVerificationEmailTemplateName: String? = nil) {
             self.customVerificationEmailTemplateName = customVerificationEmailTemplateName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case customVerificationEmailTemplateName = "CustomVerificationEmailTemplateName"
-            case message = "message"
         }
     }
 
@@ -1229,19 +1208,16 @@ extension SES {
         public let configurationSetName: String?
         /// Indicates that the event destination does not exist.
         public let eventDestinationName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case eventDestinationName = "EventDestinationName"
-            case message = "message"
         }
     }
 
@@ -1250,19 +1226,16 @@ extension SES {
         public let configurationSetName: String?
         /// Indicates that the event destination does not exist.
         public let eventDestinationName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case eventDestinationName = "EventDestinationName"
-            case message = "message"
         }
     }
 
@@ -1287,17 +1260,14 @@ extension SES {
     public struct FromEmailAddressNotVerifiedException: AWSErrorShape {
         /// Indicates that the from email address associated with the custom verification email template is not verified.
         public let fromEmailAddress: String?
-        public let message: String?
 
         @inlinable
-        public init(fromEmailAddress: String? = nil, message: String? = nil) {
+        public init(fromEmailAddress: String? = nil) {
             self.fromEmailAddress = fromEmailAddress
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fromEmailAddress = "FromEmailAddress"
-            case message = "message"
         }
     }
 
@@ -1694,19 +1664,16 @@ extension SES {
         public let configurationSetName: String?
         /// Indicates that the event destination does not exist.
         public let eventDestinationName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case eventDestinationName = "EventDestinationName"
-            case message = "message"
         }
     }
 
@@ -1715,51 +1682,42 @@ extension SES {
         public let configurationSetName: String?
         /// Indicates that the event destination does not exist.
         public let eventDestinationName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case eventDestinationName = "EventDestinationName"
-            case message = "message"
         }
     }
 
     public struct InvalidLambdaFunctionException: AWSErrorShape {
         /// Indicates that the ARN of the function was not found.
         public let functionArn: String?
-        public let message: String?
 
         @inlinable
-        public init(functionArn: String? = nil, message: String? = nil) {
+        public init(functionArn: String? = nil) {
             self.functionArn = functionArn
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case functionArn = "FunctionArn"
-            case message = "message"
         }
     }
 
     public struct InvalidRenderingParameterException: AWSErrorShape {
-        public let message: String?
         public let templateName: String?
 
         @inlinable
-        public init(message: String? = nil, templateName: String? = nil) {
-            self.message = message
+        public init(templateName: String? = nil) {
             self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case templateName = "TemplateName"
         }
     }
@@ -1767,17 +1725,14 @@ extension SES {
     public struct InvalidS3ConfigurationException: AWSErrorShape {
         /// Indicated that the S3 Bucket was not found.
         public let bucket: String?
-        public let message: String?
 
         @inlinable
-        public init(bucket: String? = nil, message: String? = nil) {
+        public init(bucket: String? = nil) {
             self.bucket = bucket
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
-            case message = "message"
         }
     }
 
@@ -1786,51 +1741,42 @@ extension SES {
         public let configurationSetName: String?
         /// Indicates that the event destination does not exist.
         public let eventDestinationName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil, eventDestinationName: String? = nil) {
             self.configurationSetName = configurationSetName
             self.eventDestinationName = eventDestinationName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case eventDestinationName = "EventDestinationName"
-            case message = "message"
         }
     }
 
     public struct InvalidSnsTopicException: AWSErrorShape {
-        public let message: String?
         /// Indicates that the topic does not exist.
         public let topic: String?
 
         @inlinable
-        public init(message: String? = nil, topic: String? = nil) {
-            self.message = message
+        public init(topic: String? = nil) {
             self.topic = topic
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case topic = "Topic"
         }
     }
 
     public struct InvalidTemplateException: AWSErrorShape {
-        public let message: String?
         public let templateName: String?
 
         @inlinable
-        public init(message: String? = nil, templateName: String? = nil) {
-            self.message = message
+        public init(templateName: String? = nil) {
             self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case templateName = "TemplateName"
         }
     }
@@ -2188,17 +2134,14 @@ extension SES {
     }
 
     public struct MissingRenderingAttributeException: AWSErrorShape {
-        public let message: String?
         public let templateName: String?
 
         @inlinable
-        public init(message: String? = nil, templateName: String? = nil) {
-            self.message = message
+        public init(templateName: String? = nil) {
             self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case templateName = "TemplateName"
         }
     }
@@ -2499,35 +2442,29 @@ extension SES {
     }
 
     public struct RuleDoesNotExistException: AWSErrorShape {
-        public let message: String?
         /// Indicates that the named receipt rule does not exist.
         public let name: String?
 
         @inlinable
-        public init(message: String? = nil, name: String? = nil) {
-            self.message = message
+        public init(name: String? = nil) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case name = "Name"
         }
     }
 
     public struct RuleSetDoesNotExistException: AWSErrorShape {
-        public let message: String?
         /// Indicates that the named receipt rule set does not exist.
         public let name: String?
 
         @inlinable
-        public init(message: String? = nil, name: String? = nil) {
-            self.message = message
+        public init(name: String? = nil) {
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case name = "Name"
         }
     }
@@ -3199,17 +3136,14 @@ extension SES {
     }
 
     public struct TemplateDoesNotExistException: AWSErrorShape {
-        public let message: String?
         public let templateName: String?
 
         @inlinable
-        public init(message: String? = nil, templateName: String? = nil) {
-            self.message = message
+        public init(templateName: String? = nil) {
             self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case templateName = "TemplateName"
         }
     }
@@ -3285,34 +3219,28 @@ extension SES {
     public struct TrackingOptionsAlreadyExistsException: AWSErrorShape {
         /// Indicates that a TrackingOptions object already exists in the specified configuration set.
         public let configurationSetName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil) {
             self.configurationSetName = configurationSetName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
-            case message = "message"
         }
     }
 
     public struct TrackingOptionsDoesNotExistException: AWSErrorShape {
         /// Indicates that a TrackingOptions object does not exist in the specified configuration set.
         public let configurationSetName: String?
-        public let message: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, message: String? = nil) {
+        public init(configurationSetName: String? = nil) {
             self.configurationSetName = configurationSetName
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
-            case message = "message"
         }
     }
 

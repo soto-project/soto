@@ -4755,18 +4755,15 @@ extension QuickSight {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -12937,17 +12934,14 @@ extension QuickSight {
     }
 
     public struct ConcurrentUpdatingException: AWSErrorShape {
-        public let message: String?
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -13139,18 +13133,15 @@ extension QuickSight {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -17715,18 +17706,15 @@ extension QuickSight {
     }
 
     public struct CustomerManagedKeyUnavailableException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -28433,18 +28421,15 @@ extension QuickSight {
     }
 
     public struct DomainNotWhitelistedException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -34144,18 +34129,15 @@ extension QuickSight {
     }
 
     public struct IdentityTypeNotSupportedException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -34845,103 +34827,85 @@ extension QuickSight {
     }
 
     public struct InternalFailureException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidDataSetParameterValueException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidNextTokenException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidParameterException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidParameterValueException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct InvalidRequestException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -36070,21 +36034,18 @@ extension QuickSight {
     }
 
     public struct LimitExceededException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
         /// Limit exceeded.
         public let resourceType: ExceptionResourceType?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
-            self.message = message
+        public init(requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
             self.requestId = requestId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
             case resourceType = "ResourceType"
         }
@@ -43662,18 +43623,15 @@ extension QuickSight {
     }
 
     public struct PreconditionNotMetException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -44044,18 +44002,15 @@ extension QuickSight {
     }
 
     public struct QuickSightUserNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -45594,42 +45549,36 @@ extension QuickSight {
     }
 
     public struct ResourceExistsException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
         /// The resource type for this request.
         public let resourceType: ExceptionResourceType?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
-            self.message = message
+        public init(requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
             self.requestId = requestId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
             case resourceType = "ResourceType"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
         /// The resource type for this request.
         public let resourceType: ExceptionResourceType?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
-            self.message = message
+        public init(requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
             self.requestId = requestId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
             case resourceType = "ResourceType"
         }
@@ -45661,21 +45610,18 @@ extension QuickSight {
     }
 
     public struct ResourceUnavailableException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
         /// The resource type for this request.
         public let resourceType: ExceptionResourceType?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
-            self.message = message
+        public init(requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
             self.requestId = requestId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
             case resourceType = "ResourceType"
         }
@@ -48194,18 +48140,15 @@ extension QuickSight {
     }
 
     public struct SessionLifetimeInMinutesInvalidException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -52419,18 +52362,15 @@ extension QuickSight {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -55178,35 +55118,29 @@ extension QuickSight {
     }
 
     public struct UnsupportedPricingPlanException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct UnsupportedUserEditionException: AWSErrorShape {
-        public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
-            self.message = message
+        public init(requestId: String? = nil) {
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestId = "RequestId"
         }
     }

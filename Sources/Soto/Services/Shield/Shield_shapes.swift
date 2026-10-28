@@ -1107,20 +1107,17 @@ extension Shield {
     public struct InvalidParameterException: AWSErrorShape {
         /// Fields that caused the exception.
         public let fields: [ValidationExceptionField]?
-        public let message: String?
         /// Additional information about the exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -1146,20 +1143,17 @@ extension Shield {
     public struct LimitsExceededException: AWSErrorShape {
         /// The threshold that would be exceeded.
         public let limit: Int64?
-        public let message: String?
         /// The type of limit that would be exceeded.
         public let type: String?
 
         @inlinable
-        public init(limit: Int64? = nil, message: String? = nil, type: String? = nil) {
+        public init(limit: Int64? = nil, type: String? = nil) {
             self.limit = limit
-            self.message = message
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
-            case message = "message"
             case type = "Type"
         }
     }
@@ -1550,35 +1544,29 @@ extension Shield {
     }
 
     public struct ResourceAlreadyExistsException: AWSErrorShape {
-        public let message: String?
         /// The type of resource that already exists.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceType = "resourceType"
         }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// Type of resource.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceType = "resourceType"
         }
     }

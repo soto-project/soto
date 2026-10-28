@@ -1449,19 +1449,15 @@ extension Pinpoint {
     }
 
     public struct BadRequestException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -2135,19 +2131,15 @@ extension Pinpoint {
     }
 
     public struct ConflictException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -4747,19 +4739,15 @@ extension Pinpoint {
     }
 
     public struct ForbiddenException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -7425,19 +7413,15 @@ extension Pinpoint {
     }
 
     public struct InternalServerErrorException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -8385,19 +8369,15 @@ extension Pinpoint {
     }
 
     public struct MethodNotAllowedException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -8461,19 +8441,15 @@ extension Pinpoint {
     }
 
     public struct NotFoundException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -8629,19 +8605,15 @@ extension Pinpoint {
     }
 
     public struct PayloadTooLargeException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }
@@ -10333,19 +10305,15 @@ extension Pinpoint {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        /// The message that's returned from the API.
-        public let message: String?
         /// The unique identifier for the request or response.
         public let requestID: String?
 
         @inlinable
-        public init(message: String? = nil, requestID: String? = nil) {
-            self.message = message
+        public init(requestID: String? = nil) {
             self.requestID = requestID
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case requestID = "RequestID"
         }
     }

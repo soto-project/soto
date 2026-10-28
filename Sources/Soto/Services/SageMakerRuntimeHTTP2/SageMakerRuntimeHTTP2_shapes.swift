@@ -66,54 +66,8 @@ extension SageMakerRuntimeHTTP2 {
 
     // MARK: Shapes
 
-    public struct InputValidationError: AWSErrorShape {
-        /// Error code.
-        public let errorCode: String?
-        /// Error message.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct InternalServerError: AWSErrorShape {
-        /// Error code.
-        public let errorCode: String?
-        /// Error message.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct InternalStreamFailure: AWSDecodableShape {
-        /// Error message.
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct InvokeEndpointWithBidirectionalStreamInput: AWSEncodableShape {
@@ -174,51 +128,29 @@ extension SageMakerRuntimeHTTP2 {
     }
 
     public struct ModelError: AWSErrorShape {
-        /// Error code.
-        public let errorCode: String?
         /// CloudWatch log stream ARN.
         public let logStreamArn: String?
-        /// Error message.
-        public let message: String?
         /// Original error message from the model.
         public let originalMessage: String?
         /// HTTP status code returned by model.
         public let originalStatusCode: Int?
 
         @inlinable
-        public init(errorCode: String? = nil, logStreamArn: String? = nil, message: String? = nil, originalMessage: String? = nil, originalStatusCode: Int? = nil) {
-            self.errorCode = errorCode
+        public init(logStreamArn: String? = nil, originalMessage: String? = nil, originalStatusCode: Int? = nil) {
             self.logStreamArn = logStreamArn
-            self.message = message
             self.originalMessage = originalMessage
             self.originalStatusCode = originalStatusCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
             case logStreamArn = "LogStreamArn"
-            case message = "Message"
             case originalMessage = "OriginalMessage"
             case originalStatusCode = "OriginalStatusCode"
         }
     }
 
-    public struct ModelStreamError: AWSErrorShape {
-        /// Error code.
-        public let errorCode: String?
-        /// Error message.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
+    public struct ModelStreamError: AWSDecodableShape {
+        public init() {}
     }
 
     public struct RequestPayloadPart: AWSEncodableShape {
@@ -272,24 +204,6 @@ extension SageMakerRuntimeHTTP2 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ServiceUnavailableError: AWSErrorShape {
-        /// Error code.
-        public let errorCode: String?
-        /// Error message.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct RequestStreamEvent: AWSEncodableShape {
         /// Payload part event.
         public let payloadPart: RequestPayloadPart?
@@ -312,17 +226,17 @@ public struct SageMakerRuntimeHTTP2ErrorType: AWSErrorType, Decodable {
     @nonexhaustive
     public enum Code: Sendable {
         /// The input fails to satisfy the constraints specified by an AWS service.
-        case inputValidationError(SageMakerRuntimeHTTP2.InputValidationError)
+        case inputValidationError
         /// The request processing has failed because of an unknown error, exception or failure.
-        case internalServerError(SageMakerRuntimeHTTP2.InternalServerError)
+        case internalServerError
         /// Internal stream failure that occurs during streaming.
         case internalStreamFailure
         /// An error occurred while processing the model.
         case modelError(SageMakerRuntimeHTTP2.ModelError)
         /// Model stream error that occurs during streaming.
-        case modelStreamError(SageMakerRuntimeHTTP2.ModelStreamError)
+        case modelStreamError
         /// The request has failed due to a temporary failure of the server.
-        case serviceUnavailableError(SageMakerRuntimeHTTP2.ServiceUnavailableError)
+        case serviceUnavailableError
     }
 
     public let error: Code
@@ -333,22 +247,14 @@ public struct SageMakerRuntimeHTTP2ErrorType: AWSErrorType, Decodable {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
         switch errorCode.code {
-        case "InputValidationError":
-            let context = try singleValueContainer.decode(SageMakerRuntimeHTTP2.InputValidationError.self)
-            self.error = .inputValidationError(context)
-        case "InternalServerError":
-            let context = try singleValueContainer.decode(SageMakerRuntimeHTTP2.InternalServerError.self)
-            self.error = .internalServerError(context)
+        case "InputValidationError": self.error = .inputValidationError
+        case "InternalServerError": self.error = .internalServerError
         case "InternalStreamFailure": self.error = .internalStreamFailure
         case "ModelError":
             let context = try singleValueContainer.decode(SageMakerRuntimeHTTP2.ModelError.self)
             self.error = .modelError(context)
-        case "ModelStreamError":
-            let context = try singleValueContainer.decode(SageMakerRuntimeHTTP2.ModelStreamError.self)
-            self.error = .modelStreamError(context)
-        case "ServiceUnavailableError":
-            let context = try singleValueContainer.decode(SageMakerRuntimeHTTP2.ServiceUnavailableError.self)
-            self.error = .serviceUnavailableError(context)
+        case "ModelStreamError": self.error = .modelStreamError
+        case "ServiceUnavailableError": self.error = .serviceUnavailableError
         default:
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }

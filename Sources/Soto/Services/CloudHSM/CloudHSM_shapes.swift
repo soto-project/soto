@@ -114,37 +114,29 @@ extension CloudHSM {
     }
 
     public struct CloudHsmInternalException: AWSErrorShape {
-        /// Additional information about the error.
-        public let message: String?
         /// Indicates if the action can be retried.
         public let retryable: Bool?
 
         @inlinable
-        public init(message: String? = nil, retryable: Bool? = nil) {
-            self.message = message
+        public init(retryable: Bool? = nil) {
             self.retryable = retryable
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case retryable = "retryable"
         }
     }
 
     public struct CloudHsmServiceException: AWSErrorShape {
-        /// Additional information about the error.
-        public let message: String?
         /// Indicates if the action can be retried.
         public let retryable: Bool?
 
         @inlinable
-        public init(message: String? = nil, retryable: Bool? = nil) {
-            self.message = message
+        public init(retryable: Bool? = nil) {
             self.retryable = retryable
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case retryable = "retryable"
         }
     }
@@ -663,19 +655,15 @@ extension CloudHSM {
     }
 
     public struct InvalidRequestException: AWSErrorShape {
-        /// Additional information about the error.
-        public let message: String?
         /// Indicates if the action can be retried.
         public let retryable: Bool?
 
         @inlinable
-        public init(message: String? = nil, retryable: Bool? = nil) {
-            self.message = message
+        public init(retryable: Bool? = nil) {
             self.retryable = retryable
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case retryable = "retryable"
         }
     }

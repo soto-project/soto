@@ -3130,17 +3130,14 @@ extension PaymentCryptographyData {
     public struct ValidationException: AWSErrorShape {
         /// The request was denied due to an invalid request error.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 
@@ -3163,18 +3160,15 @@ extension PaymentCryptographyData {
     }
 
     public struct VerificationFailedException: AWSErrorShape {
-        public let message: String
         /// The reason for the exception.
         public let reason: VerificationFailedReason
 
         @inlinable
-        public init(message: String, reason: VerificationFailedReason) {
-            self.message = message
+        public init(reason: VerificationFailedReason) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

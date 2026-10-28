@@ -324,20 +324,17 @@ extension ChimeSDKMeetings {
 
     public struct BadRequestException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -433,20 +430,17 @@ extension ChimeSDKMeetings {
 
     public struct ConflictException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the request involved in the conflict.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -941,20 +935,17 @@ extension ChimeSDKMeetings {
 
     public struct ForbiddenException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1038,20 +1029,17 @@ extension ChimeSDKMeetings {
 
     public struct LimitExceededException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1265,20 +1253,17 @@ extension ChimeSDKMeetings {
 
     public struct NotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request ID associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1319,23 +1304,20 @@ extension ChimeSDKMeetings {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the resource that couldn't be found.
         public let requestId: String?
         /// The name of the resource that couldn't be found.
         public let resourceName: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, resourceName: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil, resourceName: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
             case resourceName = "ResourceName"
         }
@@ -1343,36 +1325,31 @@ extension ChimeSDKMeetings {
 
     public struct ServiceFailureException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the failed request.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct ServiceUnavailableException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
         /// The number of seconds the caller should wait before retrying.
         public let retryAfterSeconds: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, retryAfterSeconds: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil, retryAfterSeconds: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
             self.retryAfterSeconds = retryAfterSeconds
         }
@@ -1381,14 +1358,12 @@ extension ChimeSDKMeetings {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.code = try container.decodeIfPresent(String.self, forKey: .code)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
@@ -1504,43 +1479,37 @@ extension ChimeSDKMeetings {
 
     public struct ThrottlingException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the request that exceeded the throttling limit.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct TooManyTagsException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The ID of the request that contains too many tags.
         public let requestId: String?
         /// The name of the resource that received too many tags.
         public let resourceName: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, resourceName: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil, resourceName: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
             case resourceName = "ResourceName"
         }
@@ -1571,40 +1540,34 @@ extension ChimeSDKMeetings {
 
     public struct UnauthorizedException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }
 
     public struct UnprocessableEntityException: AWSErrorShape {
         public let code: String?
-        public let message: String?
         /// The request id associated with the call responsible for the exception.
         public let requestId: String?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+        public init(code: String? = nil, requestId: String? = nil) {
             self.code = code
-            self.message = message
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
-            case message = "Message"
             case requestId = "RequestId"
         }
     }

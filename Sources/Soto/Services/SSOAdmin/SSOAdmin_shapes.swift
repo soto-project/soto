@@ -378,18 +378,15 @@ extension SSOAdmin {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
-        public let message: String?
         /// The reason for the access denied exception.
         public let reason: AccessDeniedExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil) {
-            self.message = message
+        public init(reason: AccessDeniedExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -4475,18 +4472,15 @@ extension SSOAdmin {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         /// The reason for the resource not found exception.
         public let reason: ResourceNotFoundExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ResourceNotFoundExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ResourceNotFoundExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -4631,18 +4625,15 @@ extension SSOAdmin {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String?
         /// The reason for the throttling exception.
         public let reason: ThrottlingExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ThrottlingExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ThrottlingExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }
@@ -4935,18 +4926,15 @@ extension SSOAdmin {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         /// The reason for the validation exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
-            self.message = message
+        public init(reason: ValidationExceptionReason? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case reason = "Reason"
         }
     }

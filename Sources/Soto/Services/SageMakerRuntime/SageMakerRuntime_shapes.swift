@@ -67,16 +67,7 @@ extension SageMakerRuntime {
     // MARK: Shapes
 
     public struct InternalStreamFailure: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        public init() {}
     }
 
     public struct InvokeEndpointAsyncInput: AWSEncodableShape {
@@ -447,43 +438,27 @@ extension SageMakerRuntime {
     public struct ModelError: AWSErrorShape {
         ///  The Amazon Resource Name (ARN) of the log stream.
         public let logStreamArn: String?
-        public let message: String?
         ///  Original message.
         public let originalMessage: String?
         ///  Original status code.
         public let originalStatusCode: Int?
 
         @inlinable
-        public init(logStreamArn: String? = nil, message: String? = nil, originalMessage: String? = nil, originalStatusCode: Int? = nil) {
+        public init(logStreamArn: String? = nil, originalMessage: String? = nil, originalStatusCode: Int? = nil) {
             self.logStreamArn = logStreamArn
-            self.message = message
             self.originalMessage = originalMessage
             self.originalStatusCode = originalStatusCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case logStreamArn = "LogStreamArn"
-            case message = "Message"
             case originalMessage = "OriginalMessage"
             case originalStatusCode = "OriginalStatusCode"
         }
     }
 
-    public struct ModelStreamError: AWSErrorShape {
-        /// This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
+    public struct ModelStreamError: AWSDecodableShape {
+        public init() {}
     }
 
     public struct PayloadPart: AWSDecodableShape {
@@ -521,7 +496,7 @@ public struct SageMakerRuntimeErrorType: AWSErrorType, Decodable {
         /// Either a serverless endpoint variant's resources are still being provisioned, or a multi-model endpoint is still downloading or loading the target model. Wait and try your request again.
         case modelNotReadyException
         ///  An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
-        case modelStreamError(SageMakerRuntime.ModelStreamError)
+        case modelStreamError
         ///  The service is unavailable. Try your call again.
         case serviceUnavailable
         ///  Inspect your request and try again.
@@ -543,9 +518,7 @@ public struct SageMakerRuntimeErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(SageMakerRuntime.ModelError.self)
             self.error = .modelError(context)
         case "ModelNotReadyException": self.error = .modelNotReadyException
-        case "ModelStreamError":
-            let context = try singleValueContainer.decode(SageMakerRuntime.ModelStreamError.self)
-            self.error = .modelStreamError(context)
+        case "ModelStreamError": self.error = .modelStreamError
         case "ServiceUnavailable": self.error = .serviceUnavailable
         case "ValidationError": self.error = .validationError
         default:

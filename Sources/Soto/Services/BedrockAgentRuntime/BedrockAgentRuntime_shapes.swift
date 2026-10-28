@@ -2325,16 +2325,7 @@ extension BedrockAgentRuntime {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ActionGroupInvocationInput: AWSDecodableShape {
@@ -3458,18 +3449,15 @@ extension BedrockAgentRuntime {
     }
 
     public struct BadGatewayException: AWSErrorShape {
-        public let message: String?
         /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -3919,16 +3907,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ConflictException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ContentBody: AWSEncodableShape & AWSDecodableShape {
@@ -4212,18 +4191,15 @@ extension BedrockAgentRuntime {
     }
 
     public struct DependencyFailedException: AWSErrorShape {
-        public let message: String?
         /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public let resourceName: String?
 
         @inlinable
-        public init(message: String? = nil, resourceName: String? = nil) {
-            self.message = message
+        public init(resourceName: String? = nil) {
             self.resourceName = resourceName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceName = "resourceName"
         }
     }
@@ -6456,18 +6432,15 @@ extension BedrockAgentRuntime {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String?
         /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
         public let reason: String?
 
         @inlinable
-        public init(message: String? = nil, reason: String? = nil) {
-            self.message = message
+        public init(reason: String? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -7850,16 +7823,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ModelNotReadyException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct ModelPerformanceConfiguration: AWSEncodableShape {
@@ -8961,16 +8925,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ResourceNotFoundException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct RetrievalContent: AWSDecodableShape {
@@ -9740,16 +9695,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ServiceQuotaExceededException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct SessionState: AWSEncodableShape {
@@ -10142,16 +10088,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ThrottlingException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct TracePart: AWSDecodableShape {
@@ -10357,16 +10294,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ValidationException: AWSDecodableShape {
-        public let message: String?
-
-        @inlinable
-        public init(message: String? = nil) {
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        public init() {}
     }
 
     public struct VectorSearchBedrockRerankingConfiguration: AWSEncodableShape {

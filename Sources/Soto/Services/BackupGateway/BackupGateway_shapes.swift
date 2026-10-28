@@ -63,23 +63,6 @@ extension BackupGateway {
 
     // MARK: Shapes
 
-    public struct AccessDeniedException: AWSErrorShape {
-        /// A description of why you have insufficient permissions.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct AssociateGatewayToServerInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String
@@ -171,23 +154,6 @@ extension BackupGateway {
             case endMinuteOfHour = "EndMinuteOfHour"
             case startHourOfDay = "StartHourOfDay"
             case startMinuteOfHour = "StartMinuteOfHour"
-        }
-    }
-
-    public struct ConflictException: AWSErrorShape {
-        /// A description of why the operation is not supported.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
         }
     }
 
@@ -752,23 +718,6 @@ extension BackupGateway {
         }
     }
 
-    public struct InternalServerException: AWSErrorShape {
-        /// A description of which internal error occured.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct ListGatewaysInput: AWSEncodableShape {
         /// The maximum number of gateways to list.
         public let maxResults: Int?
@@ -1117,23 +1066,6 @@ extension BackupGateway {
         }
     }
 
-    public struct ResourceNotFoundException: AWSErrorShape {
-        /// A description of which resource wasn't found.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct StartVirtualMachinesMetadataSyncInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String
@@ -1278,23 +1210,6 @@ extension BackupGateway {
 
     public struct TestHypervisorConfigurationOutput: AWSDecodableShape {
         public init() {}
-    }
-
-    public struct ThrottlingException: AWSErrorShape {
-        /// Error: TPS has been limited to protect against intentional or unintentional high request volumes.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
@@ -1483,23 +1398,6 @@ extension BackupGateway {
         }
     }
 
-    public struct ValidationException: AWSErrorShape {
-        /// A description of what caused the validation error.
-        public let errorCode: String?
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
     public struct VirtualMachine: AWSDecodableShape {
         /// The host name of the virtual machine.
         public let hostName: String?
@@ -1638,19 +1536,19 @@ extension BackupGateway {
 /// Error enum for BackupGateway
 public struct BackupGatewayErrorType: AWSErrorType, Decodable {
     @nonexhaustive
-    public enum Code: Sendable {
+    public enum Code: String, Sendable, Equatable {
         /// The operation cannot proceed because you have insufficient permissions.
-        case accessDeniedException(BackupGateway.AccessDeniedException)
+        case accessDeniedException = "AccessDeniedException"
         /// The operation cannot proceed because it is not supported.
-        case conflictException(BackupGateway.ConflictException)
+        case conflictException = "ConflictException"
         /// The operation did not succeed because an internal error occurred. Try again later.
-        case internalServerException(BackupGateway.InternalServerException)
+        case internalServerException = "InternalServerException"
         /// A resource that is required for the action wasn't found.
-        case resourceNotFoundException(BackupGateway.ResourceNotFoundException)
+        case resourceNotFoundException = "ResourceNotFoundException"
         /// TPS has been limited to protect against intentional or unintentional high request volumes.
-        case throttlingException(BackupGateway.ThrottlingException)
+        case throttlingException = "ThrottlingException"
         /// The operation did not succeed because a validation error occurred.
-        case validationException(BackupGateway.ValidationException)
+        case validationException = "ValidationException"
     }
 
     public let error: Code
@@ -1660,41 +1558,14 @@ public struct BackupGatewayErrorType: AWSErrorType, Decodable {
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
-        switch errorCode.code {
-        case "AccessDeniedException":
-            let context = try singleValueContainer.decode(BackupGateway.AccessDeniedException.self)
-            self.error = .accessDeniedException(context)
-        case "ConflictException":
-            let context = try singleValueContainer.decode(BackupGateway.ConflictException.self)
-            self.error = .conflictException(context)
-        case "InternalServerException":
-            let context = try singleValueContainer.decode(BackupGateway.InternalServerException.self)
-            self.error = .internalServerException(context)
-        case "ResourceNotFoundException":
-            let context = try singleValueContainer.decode(BackupGateway.ResourceNotFoundException.self)
-            self.error = .resourceNotFoundException(context)
-        case "ThrottlingException":
-            let context = try singleValueContainer.decode(BackupGateway.ThrottlingException.self)
-            self.error = .throttlingException(context)
-        case "ValidationException":
-            let context = try singleValueContainer.decode(BackupGateway.ValidationException.self)
-            self.error = .validationException(context)
-        default:
+        if let code = Code(rawValue: errorCode.code) {
+            self.error = code
+        } else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
         self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
         self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
     }
 
-    /// return error code string
-    public var errorCode: String {
-        switch error {
-        case .accessDeniedException: "AccessDeniedException"
-        case .conflictException: "ConflictException"
-        case .internalServerException: "InternalServerException"
-        case .resourceNotFoundException: "ResourceNotFoundException"
-        case .throttlingException: "ThrottlingException"
-        case .validationException: "ValidationException"
-        }
-    }
+    public var errorCode: String { self.error.rawValue }
 }

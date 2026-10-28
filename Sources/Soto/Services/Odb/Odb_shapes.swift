@@ -3434,21 +3434,18 @@ extension Odb {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that caused the conflict.
         public let resourceId: String
         /// The type of resource that caused the conflict.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -7288,26 +7285,20 @@ extension Odb {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// The number of seconds to wait before retrying the request after an internal server error.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct KmsAccess: AWSDecodableShape {
@@ -9138,21 +9129,18 @@ extension Odb {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String
         /// The type of resource that was not found.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -9337,7 +9325,6 @@ extension Odb {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The unqiue identifier of the service quota that was exceeded.
         public let quotaCode: String
         /// The identifier of the resource that exceeded the service quota.
@@ -9346,15 +9333,13 @@ extension Odb {
         public let resourceType: String
 
         @inlinable
-        public init(message: String, quotaCode: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(quotaCode: String, resourceId: String, resourceType: String) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -9776,26 +9761,20 @@ extension Odb {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The number of seconds to wait before retrying the request after being throttled.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TransportableTablespace: AWSEncodableShape {
@@ -10574,20 +10553,17 @@ extension Odb {
     public struct ValidationException: AWSErrorShape {
         /// A list of fields that failed validation.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason why the validation failed.
         public let reason: ValidationExceptionReason
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

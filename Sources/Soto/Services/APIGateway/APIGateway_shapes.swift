@@ -3778,25 +3778,19 @@ extension APIGateway {
     }
 
     public struct LimitExceededException: AWSErrorShape {
-        public let message: String?
         public let retryAfterSeconds: String?
 
         @inlinable
-        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: String? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Method: AWSDecodableShape {
@@ -4740,25 +4734,19 @@ extension APIGateway {
     }
 
     public struct ServiceUnavailableException: AWSErrorShape {
-        public let message: String?
         public let retryAfterSeconds: String?
 
         @inlinable
-        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: String? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Stage: AWSDecodableShape {
@@ -5138,25 +5126,19 @@ extension APIGateway {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
-        public let message: String?
         public let retryAfterSeconds: String?
 
         @inlinable
-        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: String? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

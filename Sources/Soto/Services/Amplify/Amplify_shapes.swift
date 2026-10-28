@@ -2488,17 +2488,14 @@ extension Amplify {
 
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String
-        public let message: String
 
         @inlinable
-        public init(code: String, message: String) {
+        public init(code: String) {
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "code"
-            case message = "message"
         }
     }
 

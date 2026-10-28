@@ -19305,19 +19305,15 @@ extension MediaLive {
     }
 
     public struct UnprocessableEntityException: AWSErrorShape {
-        /// The error message.
-        public let message: String?
         /// A collection of validation error responses.
         public let validationErrors: [ValidationError]?
 
         @inlinable
-        public init(message: String? = nil, validationErrors: [ValidationError]? = nil) {
-            self.message = message
+        public init(validationErrors: [ValidationError]? = nil) {
             self.validationErrors = validationErrors
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case validationErrors = "validationErrors"
         }
     }

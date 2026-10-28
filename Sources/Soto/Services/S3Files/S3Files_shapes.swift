@@ -65,25 +65,18 @@ extension S3Files {
     // MARK: Shapes
 
     public struct ConflictException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String
-        public let message: String?
         /// The identifier of the resource that caused the conflict.
         public let resourceId: String?
         /// The type of the resource that caused the conflict.
         public let resourceType: String?
 
         @inlinable
-        public init(errorCode: String, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -902,23 +895,6 @@ extension S3Files {
         }
     }
 
-    public struct InternalServerException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct ListAccessPointsDescription: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the access point.
         public let accessPointArn: String
@@ -1371,23 +1347,6 @@ extension S3Files {
         public init() {}
     }
 
-    public struct ResourceNotFoundException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
-
     public struct RootDirectory: AWSEncodableShape & AWSDecodableShape {
         /// The permissions to set on newly created directories.
         public let creationPermissions: CreationPermissions?
@@ -1410,23 +1369,6 @@ extension S3Files {
         private enum CodingKeys: String, CodingKey {
             case creationPermissions = "creationPermissions"
             case path = "path"
-        }
-    }
-
-    public struct ServiceQuotaExceededException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -1487,23 +1429,6 @@ extension S3Files {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
-        }
-    }
-
-    public struct ThrottlingException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
         }
     }
 
@@ -1634,23 +1559,6 @@ extension S3Files {
             case vpcId = "vpcId"
         }
     }
-
-    public struct ValidationException: AWSErrorShape {
-        /// The error code associated with the exception.
-        public let errorCode: String
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: String, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
 }
 
 // MARK: - Errors
@@ -1662,15 +1570,15 @@ public struct S3FilesErrorType: AWSErrorType, Decodable {
         /// The request conflicts with the current state of the resource. This can occur when trying to create a resource that already exists or delete a resource that is in use.
         case conflictException(S3Files.ConflictException)
         /// An internal server error occurred. Retry your request.
-        case internalServerException(S3Files.InternalServerException)
+        case internalServerException
         /// The specified resource was not found. Verify that the resource exists and that you have permission to access it.
-        case resourceNotFoundException(S3Files.ResourceNotFoundException)
+        case resourceNotFoundException
         /// The request would exceed a service quota. Review your service quotas and either delete resources or request a quota increase.
-        case serviceQuotaExceededException(S3Files.ServiceQuotaExceededException)
+        case serviceQuotaExceededException
         /// The request was throttled. Retry your request using exponential backoff.
-        case throttlingException(S3Files.ThrottlingException)
+        case throttlingException
         /// The input parameters are not valid. Check the parameter values and try again.
-        case validationException(S3Files.ValidationException)
+        case validationException
     }
 
     public let error: Code
@@ -1684,21 +1592,11 @@ public struct S3FilesErrorType: AWSErrorType, Decodable {
         case "ConflictException":
             let context = try singleValueContainer.decode(S3Files.ConflictException.self)
             self.error = .conflictException(context)
-        case "InternalServerException":
-            let context = try singleValueContainer.decode(S3Files.InternalServerException.self)
-            self.error = .internalServerException(context)
-        case "ResourceNotFoundException":
-            let context = try singleValueContainer.decode(S3Files.ResourceNotFoundException.self)
-            self.error = .resourceNotFoundException(context)
-        case "ServiceQuotaExceededException":
-            let context = try singleValueContainer.decode(S3Files.ServiceQuotaExceededException.self)
-            self.error = .serviceQuotaExceededException(context)
-        case "ThrottlingException":
-            let context = try singleValueContainer.decode(S3Files.ThrottlingException.self)
-            self.error = .throttlingException(context)
-        case "ValidationException":
-            let context = try singleValueContainer.decode(S3Files.ValidationException.self)
-            self.error = .validationException(context)
+        case "InternalServerException": self.error = .internalServerException
+        case "ResourceNotFoundException": self.error = .resourceNotFoundException
+        case "ServiceQuotaExceededException": self.error = .serviceQuotaExceededException
+        case "ThrottlingException": self.error = .throttlingException
+        case "ValidationException": self.error = .validationException
         default:
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }

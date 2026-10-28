@@ -397,17 +397,14 @@ extension FinspaceData {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String?
         public let reason: String?
 
         @inlinable
-        public init(message: String? = nil, reason: String? = nil) {
-            self.message = message
+        public init(reason: String? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -2206,17 +2203,14 @@ extension FinspaceData {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String?
         public let reason: String?
 
         @inlinable
-        public init(message: String? = nil, reason: String? = nil) {
-            self.message = message
+        public init(reason: String? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }
@@ -2721,17 +2715,14 @@ extension FinspaceData {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String?
         public let reason: String?
 
         @inlinable
-        public init(message: String? = nil, reason: String? = nil) {
-            self.message = message
+        public init(reason: String? = nil) {
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case reason = "reason"
         }
     }

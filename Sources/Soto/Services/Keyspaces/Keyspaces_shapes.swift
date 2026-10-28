@@ -1433,19 +1433,15 @@ extension Keyspaces {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// The specified resource was not found. Verify the resource identifier and ensure the resource exists and is in an ACTIVE state.
-        public let message: String?
         /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn't be found.
         public let resourceArn: String?
 
         @inlinable
-        public init(message: String? = nil, resourceArn: String? = nil) {
-            self.message = message
+        public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceArn = "resourceArn"
         }
     }

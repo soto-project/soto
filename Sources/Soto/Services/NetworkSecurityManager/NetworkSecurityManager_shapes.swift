@@ -940,21 +940,18 @@ extension NetworkSecurityManager {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// The ID of the resource that is in conflict with the request.
         public let resourceId: String?
         /// The type of the resource that is in conflict with the request.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -3898,21 +3895,18 @@ extension NetworkSecurityManager {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The ID of the resource that could not be found.
         public let resourceId: String?
         /// The type of the resource that could not be found.
         public let resourceType: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -4172,7 +4166,6 @@ extension NetworkSecurityManager {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// The code that identifies the service quota that was exceeded.
         public let quotaCode: String?
         /// The ID of the resource associated with the quota that was exceeded.
@@ -4183,8 +4176,7 @@ extension NetworkSecurityManager {
         public let serviceCode: String?
 
         @inlinable
-        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
-            self.message = message
+        public init(quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.quotaCode = quotaCode
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -4192,7 +4184,6 @@ extension NetworkSecurityManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
@@ -4201,18 +4192,15 @@ extension NetworkSecurityManager {
     }
 
     public struct ServiceUnavailableException: AWSErrorShape {
-        public let message: String
         /// The number of seconds to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case retryAfterSeconds = "retryAfterSeconds"
         }
     }
@@ -4302,18 +4290,15 @@ extension NetworkSecurityManager {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         /// The number of seconds to wait before retrying the request.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case retryAfterSeconds = "retryAfterSeconds"
         }
     }
@@ -5005,20 +4990,17 @@ extension NetworkSecurityManager {
     public struct ValidationException: AWSErrorShape {
         /// The list of request fields that failed validation, if any.
         public let fieldList: [ValidationExceptionField]?
-        public let message: String
         /// The reason that the request failed validation.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fieldList: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fieldList = fieldList
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
             case reason = "reason"
         }
     }

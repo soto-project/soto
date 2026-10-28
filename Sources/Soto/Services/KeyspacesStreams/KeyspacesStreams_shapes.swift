@@ -93,18 +93,6 @@ extension KeyspacesStreams {
         @inlinable public static var oldImage: Self { .init(rawValue: "OLD_IMAGE") }
     }
 
-    public struct ValidationExceptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
-        public var rawValue: String
-
-        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
-        @inlinable public var description: String { self.rawValue }
-
-        @inlinable public static var expiredIterator: Self { .init(rawValue: "ExpiredIterator") }
-        @inlinable public static var expiredNextToken: Self { .init(rawValue: "ExpiredNextToken") }
-        @inlinable public static var invalidFormat: Self { .init(rawValue: "InvalidFormat") }
-        @inlinable public static var trimmedDataAccess: Self { .init(rawValue: "TrimmedDataAccess") }
-    }
-
     public enum KeyspacesCellValue: AWSDecodableShape, Sendable {
         /// A value of ASCII text type, containing US-ASCII characters.
         case asciiT(String)
@@ -735,24 +723,6 @@ extension KeyspacesStreams {
             case tableName = "tableName"
         }
     }
-
-    public struct ValidationException: AWSErrorShape {
-        /// An error occurred validating your request. See the error message for details.
-        public let errorCode: ValidationExceptionType?
-        /// The input fails to satisfy the constraints specified by the service. Check the error details and modify your request.
-        public let message: String?
-
-        @inlinable
-        public init(errorCode: ValidationExceptionType? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case message = "message"
-        }
-    }
 }
 
 // MARK: - Errors
@@ -760,17 +730,17 @@ extension KeyspacesStreams {
 /// Error enum for KeyspacesStreams
 public struct KeyspacesStreamsErrorType: AWSErrorType, Decodable {
     @nonexhaustive
-    public enum Code: Sendable {
+    public enum Code: String, Sendable, Equatable {
         /// You don't have sufficient access permissions to perform this operation.  This exception occurs when your IAM user or role lacks the required permissions to access the Amazon Keyspaces resource or perform the requested action. Check your IAM policies and ensure they grant the necessary permissions.
-        case accessDeniedException
+        case accessDeniedException = "AccessDeniedException"
         /// The Amazon Keyspaces service encountered an unexpected error while processing the request.  This internal server error is not related to your request parameters. Retry your request after a brief delay. If the issue persists, contact Amazon Web Services Support with details of your request to help identify and resolve the problem.
-        case internalServerException
+        case internalServerException = "InternalServerException"
         /// The requested resource doesn't exist or could not be found.  This exception occurs when you attempt to access a keyspace, table, stream, or other Amazon Keyspaces resource that doesn't exist or that has been deleted. Verify that the resource identifier is correct and that the resource exists in your account.
-        case resourceNotFoundException
+        case resourceNotFoundException = "ResourceNotFoundException"
         /// The request rate is too high and exceeds the service's throughput limits.  This exception occurs when you send too many requests in a short period of time. Implement exponential backoff in your retry strategy to handle this exception. Reducing your request frequency or distributing requests more evenly can help avoid throughput exceptions. This exception can also occur when more than two processes are reading from the same stream shard at the same time. Ensure that only one process reads from a stream shard at the same time.
-        case throttlingException
+        case throttlingException = "ThrottlingException"
         /// The request validation failed because one or more input parameters failed validation.  This exception occurs when there are syntax errors in the request, field constraints are violated, or required parameters are missing. To help you fix the issue, the exception message provides details about which parameter failed and why.
-        case validationException(KeyspacesStreams.ValidationException)
+        case validationException = "ValidationException"
     }
 
     public let error: Code
@@ -780,29 +750,14 @@ public struct KeyspacesStreamsErrorType: AWSErrorType, Decodable {
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
         let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
-        switch errorCode.code {
-        case "AccessDeniedException": self.error = .accessDeniedException
-        case "InternalServerException": self.error = .internalServerException
-        case "ResourceNotFoundException": self.error = .resourceNotFoundException
-        case "ThrottlingException": self.error = .throttlingException
-        case "ValidationException":
-            let context = try singleValueContainer.decode(KeyspacesStreams.ValidationException.self)
-            self.error = .validationException(context)
-        default:
+        if let code = Code(rawValue: errorCode.code) {
+            self.error = code
+        } else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
         self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
         self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
     }
 
-    /// return error code string
-    public var errorCode: String {
-        switch error {
-        case .accessDeniedException: "AccessDeniedException"
-        case .internalServerException: "InternalServerException"
-        case .resourceNotFoundException: "ResourceNotFoundException"
-        case .throttlingException: "ThrottlingException"
-        case .validationException: "ValidationException"
-        }
-    }
+    public var errorCode: String { self.error.rawValue }
 }

@@ -741,18 +741,15 @@ extension SageMakerGeospatial {
     }
 
     public struct ConflictException: AWSErrorShape {
-        public let message: String
         /// Identifier of the resource affected.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }
@@ -1512,17 +1509,14 @@ extension SageMakerGeospatial {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }
@@ -2238,18 +2232,15 @@ extension SageMakerGeospatial {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// Identifier of the resource that was not found.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }
@@ -2323,18 +2314,15 @@ extension SageMakerGeospatial {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
-        public let message: String
         /// Identifier of the resource affected.
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }
@@ -2663,17 +2651,14 @@ extension SageMakerGeospatial {
     }
 
     public struct ThrottlingException: AWSErrorShape {
-        public let message: String
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }
@@ -2766,17 +2751,14 @@ extension SageMakerGeospatial {
     }
 
     public struct ValidationException: AWSErrorShape {
-        public let message: String
         public let resourceId: String?
 
         @inlinable
-        public init(message: String, resourceId: String? = nil) {
-            self.message = message
+        public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case resourceId = "ResourceId"
         }
     }

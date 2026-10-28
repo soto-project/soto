@@ -1304,18 +1304,15 @@ extension TimestreamWrite {
     }
 
     public struct RejectedRecordsException: AWSErrorShape {
-        public let message: String?
         ///
         public let rejectedRecords: [RejectedRecord]?
 
         @inlinable
-        public init(message: String? = nil, rejectedRecords: [RejectedRecord]? = nil) {
-            self.message = message
+        public init(rejectedRecords: [RejectedRecord]? = nil) {
             self.rejectedRecords = rejectedRecords
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "Message"
             case rejectedRecords = "RejectedRecords"
         }
     }

@@ -47,24 +47,18 @@ extension OAM {
     public struct ConflictException: AWSErrorShape {
         /// The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateLinkInput: AWSEncodableShape {
@@ -407,47 +401,35 @@ extension OAM {
     public struct InternalServiceFault: AWSErrorShape {
         /// The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvalidParameterException: AWSErrorShape {
         /// The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LinkConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -752,24 +734,18 @@ extension OAM {
     public struct MissingRequiredParameterException: AWSErrorShape {
         /// The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutSinkPolicyInput: AWSEncodableShape {
@@ -819,47 +795,35 @@ extension OAM {
     public struct ResourceNotFoundException: AWSErrorShape {
         /// The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
         /// The name of the exception.
         public let amznErrorType: String?
-        public let message: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil) {
             self.amznErrorType = amznErrorType
-            self.message = message
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
-            self.message = try container.decodeIfPresent(String.self, forKey: .message)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "Message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TagResourceInput: AWSEncodableShape {

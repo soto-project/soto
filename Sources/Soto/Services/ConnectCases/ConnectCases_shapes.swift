@@ -3102,26 +3102,20 @@ extension ConnectCases {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        public let message: String
         /// Advice to clients on when the call can be safely retried.
         public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(message: String, retryAfterSeconds: Int? = nil) {
-            self.message = message
+        public init(retryAfterSeconds: Int? = nil) {
             self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.message = try container.decode(String.self, forKey: .message)
             self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case message = "message"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -3728,21 +3722,18 @@ extension ConnectCases {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// Unique identifier of the resource affected.
         public let resourceId: String
         /// Type of the resource affected.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }

@@ -3899,19 +3899,15 @@ extension DevOpsAgent {
     }
 
     public struct IdentityCenterServiceException: AWSErrorShape {
-        /// Detailed error message describing why the call fails
-        public let message: String
         /// The Idc error code
         public let underlyingErrorCode: String?
 
         @inlinable
-        public init(message: String, underlyingErrorCode: String? = nil) {
-            self.message = message
+        public init(underlyingErrorCode: String? = nil) {
             self.underlyingErrorCode = underlyingErrorCode
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case underlyingErrorCode = "underlyingErrorCode"
         }
     }
@@ -8208,18 +8204,14 @@ extension DevOpsAgent {
     public struct ValidationException: AWSErrorShape {
         /// A list of specific failures encountered while validating the input. A member can appear in this list more than once if it failed to satisfy multiple constraints.
         public let fieldList: [ValidationExceptionField]?
-        /// A summary of the validation failure.
-        public let message: String
 
         @inlinable
-        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+        public init(fieldList: [ValidationExceptionField]? = nil) {
             self.fieldList = fieldList
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldList = "fieldList"
-            case message = "message"
         }
     }
 

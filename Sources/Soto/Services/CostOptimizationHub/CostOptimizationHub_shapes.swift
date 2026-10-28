@@ -2269,18 +2269,15 @@ extension CostOptimizationHub {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         /// The identifier of the resource that was not found.
         public let resourceId: String
 
         @inlinable
-        public init(message: String, resourceId: String) {
-            self.message = message
+        public init(resourceId: String) {
             self.resourceId = resourceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
         }
     }
@@ -2585,20 +2582,17 @@ extension CostOptimizationHub {
     public struct ValidationException: AWSErrorShape {
         /// The list of fields that are invalid.
         public let fields: [ValidationExceptionDetail]?
-        public let message: String
         /// The reason for the validation exception.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionDetail]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionDetail]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
         }
     }

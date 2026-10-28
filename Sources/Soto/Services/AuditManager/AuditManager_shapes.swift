@@ -4361,21 +4361,18 @@ extension AuditManager {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        public let message: String
         ///  The unique identifier for the resource.
         public let resourceId: String
         ///  The type of resource that's affected by the error.
         public let resourceType: String
 
         @inlinable
-        public init(message: String, resourceId: String, resourceType: String) {
-            self.message = message
+        public init(resourceId: String, resourceType: String) {
             self.resourceId = resourceId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
         }
@@ -5290,20 +5287,17 @@ extension AuditManager {
     public struct ValidationException: AWSErrorShape {
         ///  The fields that caused the error, if applicable.
         public let fields: [ValidationExceptionField]?
-        public let message: String
         ///  The reason the request failed validation.
         public let reason: ValidationExceptionReason?
 
         @inlinable
-        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+        public init(fields: [ValidationExceptionField]? = nil, reason: ValidationExceptionReason? = nil) {
             self.fields = fields
-            self.message = message
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
-            case message = "message"
             case reason = "reason"
         }
     }

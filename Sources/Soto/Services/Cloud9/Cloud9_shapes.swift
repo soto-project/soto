@@ -130,57 +130,48 @@ extension Cloud9 {
     public struct BadRequestException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct ConcurrentAccessException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct ConflictException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -591,57 +582,48 @@ extension Cloud9 {
     public struct ForbiddenException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct InternalServerErrorException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
     public struct LimitExceededException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -721,19 +703,16 @@ extension Cloud9 {
     public struct NotFoundException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
@@ -794,19 +773,16 @@ extension Cloud9 {
     public struct TooManyRequestsException: AWSErrorShape {
         public let className: String?
         public let code: Int?
-        public let message: String?
 
         @inlinable
-        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(className: String? = nil, code: Int? = nil) {
             self.className = className
             self.code = code
-            self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case className = "className"
             case code = "code"
-            case message = "message"
         }
     }
 
