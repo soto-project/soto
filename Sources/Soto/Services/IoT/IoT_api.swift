@@ -614,27 +614,14 @@ public struct IoT: AWSService {
     /// Clears the default authorizer. Requires permission to access the ClearDefaultAuthorizer action.
     @Sendable
     @inlinable
-    public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClearDefaultAuthorizerResponse {
+    public func clearDefaultAuthorizer(logger: Logger = AWSClient.loggingDisabled) async throws -> ClearDefaultAuthorizerResponse {
         try await self.client.execute(
             operation: "ClearDefaultAuthorizer", 
             path: "/default-authorizer", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Clears the default authorizer. Requires permission to access the ClearDefaultAuthorizer action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func clearDefaultAuthorizer(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ClearDefaultAuthorizerResponse {
-        let input = ClearDefaultAuthorizerRequest(
-        )
-        return try await self.clearDefaultAuthorizer(input, logger: logger)
     }
 
     /// Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint. Requires permission to access the ConfirmTopicRuleDestination action.
@@ -2868,27 +2855,14 @@ public struct IoT: AWSService {
     /// Deletes a CA certificate registration code. Requires permission to access the DeleteRegistrationCode action.
     @Sendable
     @inlinable
-    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistrationCodeResponse {
+    public func deleteRegistrationCode(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistrationCodeResponse {
         try await self.client.execute(
             operation: "DeleteRegistrationCode", 
             path: "/registrationcode", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes a CA certificate registration code. Requires permission to access the DeleteRegistrationCode action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteRegistrationCode(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteRegistrationCodeResponse {
-        let input = DeleteRegistrationCodeRequest(
-        )
-        return try await self.deleteRegistrationCode(input, logger: logger)
     }
 
     /// Deletes a role alias Requires permission to access the DeleteRoleAlias action.
@@ -3236,27 +3210,14 @@ public struct IoT: AWSService {
     /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the DescribeAccountAuditConfiguration action.
     @Sendable
     @inlinable
-    public func describeAccountAuditConfiguration(_ input: DescribeAccountAuditConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAuditConfigurationResponse {
+    public func describeAccountAuditConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAuditConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeAccountAuditConfiguration", 
             path: "/audit/configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the DescribeAccountAuditConfiguration action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountAuditConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountAuditConfigurationResponse {
-        let input = DescribeAccountAuditConfigurationRequest(
-        )
-        return try await self.describeAccountAuditConfiguration(input, logger: logger)
     }
 
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the DescribeAuditFinding action.
@@ -3555,27 +3516,14 @@ public struct IoT: AWSService {
     /// Describes the default authorizer. Requires permission to access the DescribeDefaultAuthorizer action.
     @Sendable
     @inlinable
-    public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultAuthorizerResponse {
+    public func describeDefaultAuthorizer(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultAuthorizerResponse {
         try await self.client.execute(
             operation: "DescribeDefaultAuthorizer", 
             path: "/default-authorizer", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes the default authorizer. Requires permission to access the DescribeDefaultAuthorizer action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeDefaultAuthorizer(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeDefaultAuthorizerResponse {
-        let input = DescribeDefaultAuthorizerRequest(
-        )
-        return try await self.describeDefaultAuthorizer(input, logger: logger)
     }
 
     ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Gets information about a Device Defender ML Detect mitigation action.  Requires permission to access the DescribeDetectMitigationActionsTask action.
@@ -3668,27 +3616,14 @@ public struct IoT: AWSService {
     /// Retrieves the encryption configuration for resources and data of your Amazon Web Services account in Amazon Web Services IoT Core. For more information, see Data encryption at rest in the Amazon Web Services IoT Core Developer Guide.
     @Sendable
     @inlinable
-    public func describeEncryptionConfiguration(_ input: DescribeEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEncryptionConfigurationResponse {
+    public func describeEncryptionConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEncryptionConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeEncryptionConfiguration", 
             path: "/encryption-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the encryption configuration for resources and data of your Amazon Web Services account in Amazon Web Services IoT Core. For more information, see Data encryption at rest in the Amazon Web Services IoT Core Developer Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEncryptionConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEncryptionConfigurationResponse {
-        let input = DescribeEncryptionConfigurationRequest(
-        )
-        return try await self.describeEncryptionConfiguration(input, logger: logger)
     }
 
     /// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call.  The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint.  Requires permission to access the DescribeEndpoint action.
@@ -3723,27 +3658,14 @@ public struct IoT: AWSService {
     /// Describes event configurations. Requires permission to access the DescribeEventConfigurations action.
     @Sendable
     @inlinable
-    public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventConfigurationsResponse {
+    public func describeEventConfigurations(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventConfigurationsResponse {
         try await self.client.execute(
             operation: "DescribeEventConfigurations", 
             path: "/event-configurations", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes event configurations. Requires permission to access the DescribeEventConfigurations action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEventConfigurations(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEventConfigurationsResponse {
-        let input = DescribeEventConfigurationsRequest(
-        )
-        return try await self.describeEventConfigurations(input, logger: logger)
     }
 
     /// Gets information about the specified fleet metric. Requires permission to access the DescribeFleetMetric action.
@@ -4697,27 +4619,14 @@ public struct IoT: AWSService {
     /// Gets the indexing configuration. Requires permission to access the GetIndexingConfiguration action.
     @Sendable
     @inlinable
-    public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexingConfigurationResponse {
+    public func getIndexingConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexingConfigurationResponse {
         try await self.client.execute(
             operation: "GetIndexingConfiguration", 
             path: "/indexing/config", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the indexing configuration. Requires permission to access the GetIndexingConfiguration action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getIndexingConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetIndexingConfigurationResponse {
-        let input = GetIndexingConfigurationRequest(
-        )
-        return try await self.getIndexingConfiguration(input, logger: logger)
     }
 
     /// Gets a job document. Requires permission to access the GetJobDocument action.
@@ -4755,27 +4664,14 @@ public struct IoT: AWSService {
     /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the GetLoggingOptions action.
     @Sendable
     @inlinable
-    public func getLoggingOptions(_ input: GetLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingOptionsResponse {
+    public func getLoggingOptions(logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingOptionsResponse {
         try await self.client.execute(
             operation: "GetLoggingOptions", 
             path: "/loggingOptions", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the GetLoggingOptions action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getLoggingOptions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetLoggingOptionsResponse {
-        let input = GetLoggingOptionsRequest(
-        )
-        return try await self.getLoggingOptions(input, logger: logger)
     }
 
     /// Gets an OTA update. Requires permission to access the GetOTAUpdate action.
@@ -4839,27 +4735,14 @@ public struct IoT: AWSService {
     /// Gets information about the specified software package's configuration. Requires permission to access the GetPackageConfiguration action.
     @Sendable
     @inlinable
-    public func getPackageConfiguration(_ input: GetPackageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageConfigurationResponse {
+    public func getPackageConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageConfigurationResponse {
         try await self.client.execute(
             operation: "GetPackageConfiguration", 
             path: "/package-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets information about the specified software package's configuration. Requires permission to access the GetPackageConfiguration action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPackageConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPackageConfigurationResponse {
-        let input = GetPackageConfigurationRequest(
-        )
-        return try await self.getPackageConfiguration(input, logger: logger)
     }
 
     /// Gets information about the specified package version.  Requires permission to access the GetPackageVersion action.
@@ -4999,27 +4882,14 @@ public struct IoT: AWSService {
     /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registration code. Requires permission to access the GetRegistrationCode action.
     @Sendable
     @inlinable
-    public func getRegistrationCode(_ input: GetRegistrationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistrationCodeResponse {
+    public func getRegistrationCode(logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistrationCodeResponse {
         try await self.client.execute(
             operation: "GetRegistrationCode", 
             path: "/registrationcode", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registration code. Requires permission to access the GetRegistrationCode action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getRegistrationCode(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetRegistrationCodeResponse {
-        let input = GetRegistrationCodeRequest(
-        )
-        return try await self.getRegistrationCode(input, logger: logger)
     }
 
     /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned. Requires permission to access the GetStatistics action.

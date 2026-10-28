@@ -2120,10 +2120,6 @@ extension WAF {
         }
     }
 
-    public struct GetChangeTokenRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetChangeTokenResponse: AWSDecodableShape {
         /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request
         /// 			to get the current status of the request.

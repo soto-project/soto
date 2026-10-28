@@ -481,10 +481,6 @@ extension ARCZonalShift {
         }
     }
 
-    public struct GetAutoshiftObserverNotificationStatusRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAutoshiftObserverNotificationStatusResponse: AWSDecodableShape {
         /// The status of autoshift observer notification. If the status is ENABLED, ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress. When the status is DISABLED, ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift.
         public let status: AutoshiftObserverNotificationStatus

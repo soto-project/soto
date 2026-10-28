@@ -2627,10 +2627,6 @@ extension Drs {
         }
     }
 
-    public struct InitializeServiceRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct InitializeServiceResponse: AWSDecodableShape {
         public init() {}
     }

@@ -1233,10 +1233,6 @@ extension PaymentCryptography {
         }
     }
 
-    public struct GetDefaultKeyReplicationRegionsInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDefaultKeyReplicationRegionsOutput: AWSDecodableShape {
         /// The list of regions where default key replication is currently enabled for the account. New keys created in this account will automatically be replicated to these regions unless explicitly configured otherwise during key creation.
         public let enabledReplicationRegions: [String]

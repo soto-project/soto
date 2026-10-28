@@ -416,27 +416,14 @@ public struct Kinesis: AWSService {
     /// Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.
     @Sendable
     @inlinable
-    public func describeAccountSettings(_ input: DescribeAccountSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsOutput {
+    public func describeAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsOutput {
         try await self.client.execute(
             operation: "DescribeAccountSettings", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountSettingsOutput {
-        let input = DescribeAccountSettingsInput(
-        )
-        return try await self.describeAccountSettings(input, logger: logger)
     }
 
     /// Describes the specified channel, including its configuration and current status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
@@ -471,27 +458,14 @@ public struct Kinesis: AWSService {
     /// Describes the shard limits and usage for the account. If you update your account limits, the old limits might be returned for a few minutes. This operation has a limit of one transaction per second per account.
     @Sendable
     @inlinable
-    public func describeLimits(_ input: DescribeLimitsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLimitsOutput {
+    public func describeLimits(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLimitsOutput {
         try await self.client.execute(
             operation: "DescribeLimits", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes the shard limits and usage for the account. If you update your account limits, the old limits might be returned for a few minutes. This operation has a limit of one transaction per second per account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeLimits(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeLimitsOutput {
-        let input = DescribeLimitsInput(
-        )
-        return try await self.describeLimits(input, logger: logger)
     }
 
     /// Describes the specified Kinesis data stream.  This API has been revised. It's highly recommended that you use the DescribeStreamSummary API to get a summarized description of the specified Kinesis data stream and the ListShards API to list the shards in a specified data stream and obtain information about each shard.    When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  The information returned includes the stream name, Amazon Resource Name (ARN), creation time, enhanced metric configuration, and shard map. The shard map is an array of shard objects. For each shard object, there is the hash key and sequence number ranges that the shard spans, and the IDs of any earlier shards that played in a role in creating the shard. Every record ingested in the stream is identified by a sequence number, which is assigned when the record is put into the stream. You can limit the number of shards returned by each call. For more information, see Retrieving Shards from a Stream in the Amazon Kinesis Data Streams Developer Guide. There are no guarantees about the chronological order shards returned. To process shards in chronological order, use the ID of the parent shard to track the lineage to the oldest shard. This operation has a limit of 10 transactions per second per account.

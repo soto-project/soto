@@ -1077,27 +1077,14 @@ public struct CloudWatch: AWSService {
     /// Returns the current status of vended metric enrichment for the account, including whether CloudWatch vended metrics are enriched with resource ARN and resource tag labels and queryable using PromQL. For the list of supported resources, see Supported Amazon Web Services infrastructure metrics.
     @Sendable
     @inlinable
-    public func getOTelEnrichment(_ input: GetOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOTelEnrichmentOutput {
+    public func getOTelEnrichment(logger: Logger = AWSClient.loggingDisabled) async throws -> GetOTelEnrichmentOutput {
         try await self.client.execute(
             operation: "GetOTelEnrichment", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the current status of vended metric enrichment for the account, including whether CloudWatch vended metrics are enriched with resource ARN and resource tag labels and queryable using PromQL. For the list of supported resources, see Supported Amazon Web Services infrastructure metrics.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getOTelEnrichment(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetOTelEnrichmentOutput {
-        let input = GetOTelEnrichmentInput(
-        )
-        return try await self.getOTelEnrichment(input, logger: logger)
     }
 
     /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration. To retrieve a resource metrics configuration, you must have the cloudwatch:GetResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
@@ -1991,27 +1978,14 @@ public struct CloudWatch: AWSService {
     /// Disables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL.
     @Sendable
     @inlinable
-    public func stopOTelEnrichment(_ input: StopOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopOTelEnrichmentOutput {
+    public func stopOTelEnrichment(logger: Logger = AWSClient.loggingDisabled) async throws -> StopOTelEnrichmentOutput {
         try await self.client.execute(
             operation: "StopOTelEnrichment", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func stopOTelEnrichment(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StopOTelEnrichmentOutput {
-        let input = StopOTelEnrichmentInput(
-        )
-        return try await self.stopOTelEnrichment(input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms, dashboards, metric streams and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.

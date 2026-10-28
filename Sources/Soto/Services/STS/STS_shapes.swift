@@ -618,10 +618,6 @@ extension STS {
         }
     }
 
-    public struct GetCallerIdentityRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetCallerIdentityResponse: AWSDecodableShape {
         /// The Amazon Web Services account ID number of the account that owns or contains the calling entity.
         public let account: String?

@@ -2933,10 +2933,6 @@ extension IoTWireless {
         }
     }
 
-    public struct GetEventConfigurationByResourceTypesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetEventConfigurationByResourceTypesResponse: AWSDecodableShape {
         /// Resource type event configuration for the connection status event.
         public let connectionStatus: ConnectionStatusResourceTypeEventConfiguration?
@@ -3037,10 +3033,6 @@ extension IoTWireless {
         }
     }
 
-    public struct GetLogLevelsByResourceTypesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetLogLevelsByResourceTypesResponse: AWSDecodableShape {
         public let defaultLogLevel: LogLevel?
         public let fuotaTaskLogOptions: [FuotaTaskLogOption]?
@@ -3061,10 +3053,6 @@ extension IoTWireless {
             case wirelessDeviceLogOptions = "WirelessDeviceLogOptions"
             case wirelessGatewayLogOptions = "WirelessGatewayLogOptions"
         }
-    }
-
-    public struct GetMetricConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetMetricConfigurationResponse: AWSDecodableShape {
@@ -6822,10 +6810,6 @@ extension IoTWireless {
     }
 
     public struct PutResourceLogLevelResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct ResetAllResourceLogLevelsRequest: AWSEncodableShape {
         public init() {}
     }
 

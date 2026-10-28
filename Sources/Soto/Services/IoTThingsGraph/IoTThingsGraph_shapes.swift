@@ -401,10 +401,6 @@ extension IoTThingsGraph {
         public init() {}
     }
 
-    public struct DeleteNamespaceRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteNamespaceResponse: AWSDecodableShape {
         /// The ARN of the namespace to be deleted.
         public let namespaceArn: String?
@@ -948,10 +944,6 @@ extension IoTThingsGraph {
             case nextToken = "nextToken"
             case summaries = "summaries"
         }
-    }
-
-    public struct GetNamespaceDeletionStatusRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetNamespaceDeletionStatusResponse: AWSDecodableShape {

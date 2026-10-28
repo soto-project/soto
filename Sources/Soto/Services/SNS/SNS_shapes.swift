@@ -552,10 +552,6 @@ extension SNS {
         }
     }
 
-    public struct GetSMSSandboxAccountStatusInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetSMSSandboxAccountStatusResult: AWSDecodableShape {
         /// Indicates whether the calling Amazon Web Services account is in the SMS sandbox.
         public let isInSandbox: Bool

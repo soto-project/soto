@@ -1257,27 +1257,14 @@ public struct LicenseManager: AWSService {
     /// Gets the License Manager settings for the current Region.
     @Sendable
     @inlinable
-    public func getServiceSettings(_ input: GetServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
+    public func getServiceSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
         try await self.client.execute(
             operation: "GetServiceSettings", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the License Manager settings for the current Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getServiceSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetServiceSettingsResponse {
-        let input = GetServiceSettingsRequest(
-        )
-        return try await self.getServiceSettings(input, logger: logger)
     }
 
     /// Lists assets for a license asset group.

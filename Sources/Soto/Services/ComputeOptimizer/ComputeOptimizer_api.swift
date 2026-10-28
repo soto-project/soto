@@ -843,27 +843,14 @@ public struct ComputeOptimizer: AWSService {
     /// Returns the enrollment (opt in) status of an account to the Compute Optimizer service. If the account is the management account of an organization, this action also confirms the enrollment status of member accounts of the organization. Use the GetEnrollmentStatusesForOrganization action to get detailed information about the enrollment status of member accounts of an organization.
     @Sendable
     @inlinable
-    public func getEnrollmentStatus(_ input: GetEnrollmentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnrollmentStatusResponse {
+    public func getEnrollmentStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnrollmentStatusResponse {
         try await self.client.execute(
             operation: "GetEnrollmentStatus", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the enrollment (opt in) status of an account to the Compute Optimizer service. If the account is the management account of an organization, this action also confirms the enrollment status of member accounts of the organization. Use the GetEnrollmentStatusesForOrganization action to get detailed information about the enrollment status of member accounts of an organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getEnrollmentStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetEnrollmentStatusResponse {
-        let input = GetEnrollmentStatusRequest(
-        )
-        return try await self.getEnrollmentStatus(input, logger: logger)
     }
 
     /// Returns the Compute Optimizer enrollment (opt-in) status of organization member accounts, if your account is an organization management account. To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.

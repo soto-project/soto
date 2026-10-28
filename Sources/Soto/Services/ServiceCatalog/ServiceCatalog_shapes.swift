@@ -2682,10 +2682,6 @@ extension ServiceCatalog {
         }
     }
 
-    public struct DisableAWSOrganizationsAccessInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableAWSOrganizationsAccessOutput: AWSDecodableShape {
         public init() {}
     }
@@ -2876,10 +2872,6 @@ extension ServiceCatalog {
         public init() {}
     }
 
-    public struct EnableAWSOrganizationsAccessInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct EnableAWSOrganizationsAccessOutput: AWSDecodableShape {
         public init() {}
     }
@@ -3062,10 +3054,6 @@ extension ServiceCatalog {
             case provisioningArtifactId = "ProvisioningArtifactId"
             case serviceActionId = "ServiceActionId"
         }
-    }
-
-    public struct GetAWSOrganizationsAccessStatusInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAWSOrganizationsAccessStatusOutput: AWSDecodableShape {

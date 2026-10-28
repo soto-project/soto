@@ -616,10 +616,6 @@ extension ECRPublic {
         }
     }
 
-    public struct GetAuthorizationTokenRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAuthorizationTokenResponse: AWSDecodableShape {
         /// An authorization token data object that corresponds to a public registry.
         public let authorizationData: AuthorizationData?
@@ -632,10 +628,6 @@ extension ECRPublic {
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
         }
-    }
-
-    public struct GetRegistryCatalogDataRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetRegistryCatalogDataResponse: AWSDecodableShape {

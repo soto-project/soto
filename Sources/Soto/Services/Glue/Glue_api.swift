@@ -3018,27 +3018,14 @@ public struct Glue: AWSService {
     /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and  Amazon Web Services IAM Identity Center.
     @Sendable
     @inlinable
-    public func deleteGlueIdentityCenterConfiguration(_ input: DeleteGlueIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlueIdentityCenterConfigurationResponse {
+    public func deleteGlueIdentityCenterConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlueIdentityCenterConfigurationResponse {
         try await self.client.execute(
             operation: "DeleteGlueIdentityCenterConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and  Amazon Web Services IAM Identity Center.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteGlueIdentityCenterConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteGlueIdentityCenterConfigurationResponse {
-        let input = DeleteGlueIdentityCenterConfigurationRequest(
-        )
-        return try await self.deleteGlueIdentityCenterConfiguration(input, logger: logger)
     }
 
     /// Deletes the specified Zero-ETL integration.
@@ -4643,27 +4630,14 @@ public struct Glue: AWSService {
     /// Retrieves the current export configuration for the Glue Data Catalog. The export configuration controls whether catalog metadata is exported to S3 Tables.
     @Sendable
     @inlinable
-    public func getDataCatalogExportConfiguration(_ input: GetDataCatalogExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataCatalogExportConfigurationOutput {
+    public func getDataCatalogExportConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataCatalogExportConfigurationOutput {
         try await self.client.execute(
             operation: "GetDataCatalogExportConfiguration", 
             path: "/get-data-catalog-export-configuration", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the current export configuration for the Glue Data Catalog. The export configuration controls whether catalog metadata is exported to S3 Tables.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDataCatalogExportConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDataCatalogExportConfigurationOutput {
-        let input = GetDataCatalogExportConfigurationInput(
-        )
-        return try await self.getDataCatalogExportConfiguration(input, logger: logger)
     }
 
     /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
@@ -5155,27 +5129,14 @@ public struct Glue: AWSService {
     /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and  application information.
     @Sendable
     @inlinable
-    public func getGlueIdentityCenterConfiguration(_ input: GetGlueIdentityCenterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlueIdentityCenterConfigurationResponse {
+    public func getGlueIdentityCenterConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlueIdentityCenterConfigurationResponse {
         try await self.client.execute(
             operation: "GetGlueIdentityCenterConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and  application information.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getGlueIdentityCenterConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetGlueIdentityCenterConfigurationResponse {
-        let input = GetGlueIdentityCenterConfigurationRequest(
-        )
-        return try await self.getGlueIdentityCenterConfiguration(input, logger: logger)
     }
 
     /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target)

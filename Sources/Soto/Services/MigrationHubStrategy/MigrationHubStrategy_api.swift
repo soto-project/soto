@@ -202,79 +202,40 @@ public struct MigrationHubStrategy: AWSService {
     /// Retrieve the latest ID of a specific assessment task.
     @Sendable
     @inlinable
-    public func getLatestAssessmentId(_ input: GetLatestAssessmentIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLatestAssessmentIdResponse {
+    public func getLatestAssessmentId(logger: Logger = AWSClient.loggingDisabled) async throws -> GetLatestAssessmentIdResponse {
         try await self.client.execute(
             operation: "GetLatestAssessmentId", 
             path: "/get-latest-assessment-id", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieve the latest ID of a specific assessment task.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getLatestAssessmentId(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetLatestAssessmentIdResponse {
-        let input = GetLatestAssessmentIdRequest(
-        )
-        return try await self.getLatestAssessmentId(input, logger: logger)
     }
 
     ///  Retrieves your migration and modernization preferences.
     @Sendable
     @inlinable
-    public func getPortfolioPreferences(_ input: GetPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioPreferencesResponse {
+    public func getPortfolioPreferences(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioPreferencesResponse {
         try await self.client.execute(
             operation: "GetPortfolioPreferences", 
             path: "/get-portfolio-preferences", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves your migration and modernization preferences.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPortfolioPreferences(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPortfolioPreferencesResponse {
-        let input = GetPortfolioPreferencesRequest(
-        )
-        return try await self.getPortfolioPreferences(input, logger: logger)
     }
 
     ///  Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     @Sendable
     @inlinable
-    public func getPortfolioSummary(_ input: GetPortfolioSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioSummaryResponse {
+    public func getPortfolioSummary(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioSummaryResponse {
         try await self.client.execute(
             operation: "GetPortfolioSummary", 
             path: "/get-portfolio-summary", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPortfolioSummary(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPortfolioSummaryResponse {
-        let input = GetPortfolioSummaryRequest(
-        )
-        return try await self.getPortfolioSummary(input, logger: logger)
     }
 
     ///  Retrieves detailed information about the specified recommendation report.

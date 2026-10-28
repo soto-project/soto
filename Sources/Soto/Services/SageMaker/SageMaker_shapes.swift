@@ -27330,10 +27330,6 @@ extension SageMaker {
         }
     }
 
-    public struct DisableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableSagemakerServicecatalogPortfolioOutput: AWSDecodableShape {
         public init() {}
     }
@@ -28231,10 +28227,6 @@ extension SageMaker {
             case assumableRoleArns = "AssumableRoleArns"
             case executionRoleArns = "ExecutionRoleArns"
         }
-    }
-
-    public struct EnableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct EnableSagemakerServicecatalogPortfolioOutput: AWSDecodableShape {
@@ -29557,10 +29549,6 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case resourcePolicy = "ResourcePolicy"
         }
-    }
-
-    public struct GetSagemakerServicecatalogPortfolioStatusInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetSagemakerServicecatalogPortfolioStatusOutput: AWSDecodableShape {

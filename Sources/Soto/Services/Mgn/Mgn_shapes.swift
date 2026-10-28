@@ -3183,10 +3183,6 @@ extension Mgn {
         }
     }
 
-    public struct InitializeServiceRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct InitializeServiceResponse: AWSDecodableShape {
         public init() {}
     }

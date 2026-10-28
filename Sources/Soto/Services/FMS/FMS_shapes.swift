@@ -875,10 +875,6 @@ extension FMS {
         }
     }
 
-    public struct DeleteNotificationChannelRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeletePolicyRequest: AWSEncodableShape {
         /// If True, the request performs cleanup according to the policy type.  For WAF and Shield Advanced policies, the cleanup does the following:   Deletes rule groups created by Firewall Manager   Removes web ACLs from in-scope resources   Deletes web ACLs that contain no rules or rule groups   For security group policies, the cleanup does the following for each security group in the policy:   Disassociates the security group from in-scope resources    Deletes the security group if it was created through Firewall Manager and if it's no longer associated with any resources through another policy    For security group common policies, even if set to False, Firewall Manager deletes all security groups created by Firewall Manager that aren't associated with any other resources through another policy.  After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope.
         public let deleteAllPolicyResources: Bool?
@@ -941,10 +937,6 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
         }
-    }
-
-    public struct DisassociateAdminAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DisassociateThirdPartyFirewallRequest: AWSEncodableShape {
@@ -1466,10 +1458,6 @@ extension FMS {
         }
     }
 
-    public struct GetAdminAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAdminAccountResponse: AWSDecodableShape {
         /// The account that is set as the Firewall Manager default administrator.
         public let adminAccount: String?
@@ -1607,10 +1595,6 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case policyComplianceDetail = "PolicyComplianceDetail"
         }
-    }
-
-    public struct GetNotificationChannelRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetNotificationChannelResponse: AWSDecodableShape {

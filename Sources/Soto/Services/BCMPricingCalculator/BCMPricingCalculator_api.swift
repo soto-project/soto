@@ -646,27 +646,14 @@ public struct BCMPricingCalculator: AWSService {
     ///  Retrieves the current preferences for Pricing Calculator.
     @Sendable
     @inlinable
-    public func getPreferences(_ input: GetPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPreferencesResponse {
+    public func getPreferences(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPreferencesResponse {
         try await self.client.execute(
             operation: "GetPreferences", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves the current preferences for Pricing Calculator.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPreferences(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPreferencesResponse {
-        let input = GetPreferencesRequest(
-        )
-        return try await self.getPreferences(input, logger: logger)
     }
 
     ///  Retrieves details of a specific workload estimate.

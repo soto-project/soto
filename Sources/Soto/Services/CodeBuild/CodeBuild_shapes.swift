@@ -3130,10 +3130,6 @@ extension CodeBuild {
         }
     }
 
-    public struct ListCuratedEnvironmentImagesInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ListCuratedEnvironmentImagesOutput: AWSDecodableShape {
         /// Information about supported platforms for Docker images that are managed by CodeBuild.
         public let platforms: [EnvironmentPlatform]?
@@ -3584,10 +3580,6 @@ extension CodeBuild {
             case nextToken = "nextToken"
             case reportGroups = "reportGroups"
         }
-    }
-
-    public struct ListSourceCredentialsInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct ListSourceCredentialsOutput: AWSDecodableShape {

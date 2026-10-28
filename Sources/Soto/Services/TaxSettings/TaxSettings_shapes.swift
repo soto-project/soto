@@ -1123,10 +1123,6 @@ extension TaxSettings {
         }
     }
 
-    public struct GetTaxExemptionTypesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetTaxExemptionTypesResponse: AWSDecodableShape {
         /// The supported types of tax exemptions.
         public let taxExemptionTypes: [TaxExemptionType]?
@@ -1139,10 +1135,6 @@ extension TaxSettings {
         private enum CodingKeys: String, CodingKey {
             case taxExemptionTypes = "taxExemptionTypes"
         }
-    }
-
-    public struct GetTaxInheritanceRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetTaxInheritanceResponse: AWSDecodableShape {

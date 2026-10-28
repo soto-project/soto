@@ -847,27 +847,14 @@ public struct EMR: AWSService {
     /// Returns the Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
     @Sendable
     @inlinable
-    public func getBlockPublicAccessConfiguration(_ input: GetBlockPublicAccessConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlockPublicAccessConfigurationOutput {
+    public func getBlockPublicAccessConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlockPublicAccessConfigurationOutput {
         try await self.client.execute(
             operation: "GetBlockPublicAccessConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getBlockPublicAccessConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetBlockPublicAccessConfigurationOutput {
-        let input = GetBlockPublicAccessConfigurationInput(
-        )
-        return try await self.getBlockPublicAccessConfiguration(input, logger: logger)
     }
 
     /// Provides temporary, HTTP basic credentials that are associated with a given runtime IAM role and used by a cluster with fine-grained access control activated. You can use these credentials to connect to cluster endpoints that support username and password authentication.

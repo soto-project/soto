@@ -5554,10 +5554,6 @@ extension OpenSearch {
         }
     }
 
-    public struct GetDefaultApplicationSettingRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDefaultApplicationSettingResponse: AWSDecodableShape {
         public let applicationArn: String?
 

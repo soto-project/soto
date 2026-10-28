@@ -497,27 +497,14 @@ public struct Evs: AWSService {
     /// Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.
     @Sendable
     @inlinable
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
+    public func getAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
         try await self.client.execute(
             operation: "GetAccountSettings", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountSettingsResponse {
-        let input = GetAccountSettingsRequest(
-        )
-        return try await self.getAccountSettings(input, logger: logger)
     }
 
     /// Returns a URL and authentication token for accessing the Amazon EVS Custom Addon depot. Configure the depot URL as a download source in vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS Custom Addon. The depot URL remains active until you rotate the authentication token by calling this action with rotate set to true.
@@ -584,27 +571,14 @@ public struct Evs: AWSService {
     /// Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
     @Sendable
     @inlinable
-    public func getVersions(_ input: GetVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVersionsResponse {
+    public func getVersions(logger: Logger = AWSClient.loggingDisabled) async throws -> GetVersionsResponse {
         try await self.client.execute(
             operation: "GetVersions", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getVersions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetVersionsResponse {
-        let input = GetVersionsRequest(
-        )
-        return try await self.getVersions(input, logger: logger)
     }
 
     /// Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details.

@@ -3002,10 +3002,6 @@ extension IoTFleetWise {
         }
     }
 
-    public struct GetEncryptionConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetEncryptionConfigurationResponse: AWSDecodableShape {
         /// The time when encryption was configured in seconds since epoch (January 1, 1970 at midnight UTC time).
         public let creationTime: Date?
@@ -3098,10 +3094,6 @@ extension IoTFleetWise {
         }
     }
 
-    public struct GetLoggingOptionsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetLoggingOptionsResponse: AWSDecodableShape {
         /// Returns information about log delivery to Amazon CloudWatch Logs.
         public let cloudWatchLogDelivery: CloudWatchLogDeliveryOptions
@@ -3176,10 +3168,6 @@ extension IoTFleetWise {
             case signalCatalogArn = "signalCatalogArn"
             case status = "status"
         }
-    }
-
-    public struct GetRegisterAccountStatusRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetRegisterAccountStatusResponse: AWSDecodableShape {

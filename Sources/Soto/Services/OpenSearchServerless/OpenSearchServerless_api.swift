@@ -884,27 +884,14 @@ public struct OpenSearchServerless: AWSService {
     /// Returns account-level settings related to OpenSearch Serverless.
     @Sendable
     @inlinable
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
+    public func getAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
         try await self.client.execute(
             operation: "GetAccountSettings", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns account-level settings related to OpenSearch Serverless.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountSettingsResponse {
-        let input = GetAccountSettingsRequest(
-        )
-        return try await self.getAccountSettings(input, logger: logger)
     }
 
     /// Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
@@ -942,27 +929,14 @@ public struct OpenSearchServerless: AWSService {
     /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
     @Sendable
     @inlinable
-    public func getPoliciesStats(_ input: GetPoliciesStatsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPoliciesStatsResponse {
+    public func getPoliciesStats(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPoliciesStatsResponse {
         try await self.client.execute(
             operation: "GetPoliciesStats", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPoliciesStats(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPoliciesStatsResponse {
-        let input = GetPoliciesStatsRequest(
-        )
-        return try await self.getPoliciesStats(input, logger: logger)
     }
 
     /// Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.

@@ -907,27 +907,14 @@ public struct LakeFormation: AWSService {
     /// Returns the identity of the invoking principal.
     @Sendable
     @inlinable
-    public func getDataLakePrincipal(_ input: GetDataLakePrincipalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakePrincipalResponse {
+    public func getDataLakePrincipal(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakePrincipalResponse {
         try await self.client.execute(
             operation: "GetDataLakePrincipal", 
             path: "/GetDataLakePrincipal", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the identity of the invoking principal.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDataLakePrincipal(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDataLakePrincipalResponse {
-        let input = GetDataLakePrincipalRequest(
-        )
-        return try await self.getDataLakePrincipal(input, logger: logger)
     }
 
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.

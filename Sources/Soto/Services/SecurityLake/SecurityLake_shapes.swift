@@ -1103,10 +1103,6 @@ extension SecurityLake {
         public init() {}
     }
 
-    public struct DeleteDataLakeExceptionSubscriptionRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteDataLakeExceptionSubscriptionResponse: AWSDecodableShape {
         public init() {}
     }
@@ -1212,15 +1208,7 @@ extension SecurityLake {
         public init() {}
     }
 
-    public struct DeregisterDataLakeDelegatedAdministratorRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeregisterDataLakeDelegatedAdministratorResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct GetDataLakeExceptionSubscriptionRequest: AWSEncodableShape {
         public init() {}
     }
 
@@ -1244,10 +1232,6 @@ extension SecurityLake {
             case notificationEndpoint = "notificationEndpoint"
             case subscriptionProtocol = "subscriptionProtocol"
         }
-    }
-
-    public struct GetDataLakeOrganizationConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetDataLakeOrganizationConfigurationResponse: AWSDecodableShape {

@@ -513,27 +513,14 @@ public struct PaymentCryptography: AWSService {
     /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account. This operation returns the current Multi-Region key replication configuration. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
     @Sendable
     @inlinable
-    public func getDefaultKeyReplicationRegions(_ input: GetDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultKeyReplicationRegionsOutput {
+    public func getDefaultKeyReplicationRegions(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultKeyReplicationRegionsOutput {
         try await self.client.execute(
             operation: "GetDefaultKeyReplicationRegions", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account. This operation returns the current Multi-Region key replication configuration. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDefaultKeyReplicationRegions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDefaultKeyReplicationRegionsOutput {
-        let input = GetDefaultKeyReplicationRegionsInput(
-        )
-        return try await self.getDefaultKeyReplicationRegions(input, logger: logger)
     }
 
     /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material.  Cross-account use: This operation supports cross-account use when the key has a resource-based policy that grants access. For more information, see Resource-based policies.  Related operations:     CreateKey     DeleteKey     ListKeys

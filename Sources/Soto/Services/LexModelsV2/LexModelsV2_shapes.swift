@@ -5210,10 +5210,6 @@ extension LexModelsV2 {
         }
     }
 
-    public struct CreateUploadUrlRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct CreateUploadUrlResponse: AWSDecodableShape {
         /// An identifier for a unique import job. Use it when you call the StartImport operation.
         public let importId: String?

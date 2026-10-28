@@ -464,27 +464,14 @@ public struct MediaConvert: AWSService {
     /// Permanently delete a policy that you created.
     @Sendable
     @inlinable
-    public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyResponse {
+    public func deletePolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyResponse {
         try await self.client.execute(
             operation: "DeletePolicy", 
             path: "/2017-08-29/policy", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Permanently delete a policy that you created.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deletePolicy(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeletePolicyResponse {
-        let input = DeletePolicyRequest(
-        )
-        return try await self.deletePolicy(input, logger: logger)
     }
 
     /// Permanently delete a preset you have created.
@@ -701,27 +688,14 @@ public struct MediaConvert: AWSService {
     /// Retrieve the JSON for your policy.
     @Sendable
     @inlinable
-    public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
+    public func getPolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
         try await self.client.execute(
             operation: "GetPolicy", 
             path: "/2017-08-29/policy", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieve the JSON for your policy.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPolicy(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPolicyResponse {
-        let input = GetPolicyRequest(
-        )
-        return try await self.getPolicy(input, logger: logger)
     }
 
     /// Retrieve the JSON for a specific preset.

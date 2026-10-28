@@ -119,27 +119,14 @@ public struct FreeTier: AWSService {
     ///  This returns all of the information related to the state of the account plan related to Free Tier.
     @Sendable
     @inlinable
-    public func getAccountPlanState(_ input: GetAccountPlanStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPlanStateResponse {
+    public func getAccountPlanState(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPlanStateResponse {
         try await self.client.execute(
             operation: "GetAccountPlanState", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  This returns all of the information related to the state of the account plan related to Free Tier.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountPlanState(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountPlanStateResponse {
-        let input = GetAccountPlanStateRequest(
-        )
-        return try await self.getAccountPlanState(input, logger: logger)
     }
 
     /// Returns a list of all Free Tier usage objects that match your filters.

@@ -2790,10 +2790,6 @@ extension Proton {
         }
     }
 
-    public struct GetAccountSettingsInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountSettingsOutput: AWSDecodableShape {
         /// The Proton pipeline service role detail data that's returned by Proton.
         public let accountSettings: AccountSettings?
@@ -3134,10 +3130,6 @@ extension Proton {
         private enum CodingKeys: String, CodingKey {
             case latestSync = "latestSync"
         }
-    }
-
-    public struct GetResourcesSummaryInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetResourcesSummaryOutput: AWSDecodableShape {

@@ -1889,27 +1889,14 @@ public struct DirectoryService: AWSService {
     /// Obtains directory limit information for the current Region.
     @Sendable
     @inlinable
-    public func getDirectoryLimits(_ input: GetDirectoryLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectoryLimitsResult {
+    public func getDirectoryLimits(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectoryLimitsResult {
         try await self.client.execute(
             operation: "GetDirectoryLimits", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Obtains directory limit information for the current Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDirectoryLimits(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDirectoryLimitsResult {
-        let input = GetDirectoryLimitsRequest(
-        )
-        return try await self.getDirectoryLimits(input, logger: logger)
     }
 
     /// Obtains the manual snapshot limits for a directory.

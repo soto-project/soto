@@ -470,10 +470,6 @@ extension Artifact {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountSettingsResponse: AWSDecodableShape {
         public let accountSettings: AccountSettings?
 

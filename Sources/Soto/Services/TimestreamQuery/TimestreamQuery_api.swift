@@ -212,7 +212,7 @@ public struct TimestreamQuery: AWSService {
     /// Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload. You're charged only for the duration of compute units used for your workloads.
     @Sendable
     @inlinable
-    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsResponse {
+    public func describeAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsResponse {
         try await self.client.execute(
             operation: "DescribeAccountSettings", 
             path: "/", 
@@ -220,47 +220,21 @@ public struct TimestreamQuery: AWSService {
             serviceConfig: self.config
                 .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
             ), 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload. You're charged only for the duration of compute units used for your workloads.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountSettingsResponse {
-        let input = DescribeAccountSettingsRequest(
-        )
-        return try await self.describeAccountSettings(input, logger: logger)
     }
 
     /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream     Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
     @Sendable
     @inlinable
-    public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
+    public func describeEndpoints(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
         try await self.client.execute(
             operation: "DescribeEndpoints", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream     Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEndpoints(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEndpointsResponse {
-        let input = DescribeEndpointsRequest(
-        )
-        return try await self.describeEndpoints(input, logger: logger)
     }
 
     /// Provides detailed information about a scheduled query.
@@ -624,7 +598,7 @@ public struct TimestreamQuery: AWSService {
     @Sendable 
     @usableFromInline 
     func getEndpoint(logger: Logger) async throws -> AWSEndpoints {
-        let response = try await self.describeEndpoints(.init(), logger: logger)
+        let response = try await self.describeEndpoints(logger: logger)
         return .init(endpoints: response.endpoints.map {
             .init(address: "https://\($0.address)", cachePeriodInMinutes: $0.cachePeriodInMinutes)
         })

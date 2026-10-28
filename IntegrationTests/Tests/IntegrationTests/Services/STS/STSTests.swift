@@ -48,7 +48,7 @@ class STSTests: XCTestCase {
     }
 
     func testGetCallerIdentity() async throws {
-        _ = try await self.sts.getCallerIdentity(.init())
+        _ = try await self.sts.getCallerIdentity()
     }
 
     func testSTSCredentialProviderShutdown() async throws {

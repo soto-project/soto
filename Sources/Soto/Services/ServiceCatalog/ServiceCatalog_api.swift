@@ -1636,27 +1636,14 @@ public struct ServiceCatalog: AWSService {
     /// Disable portfolio sharing through the Organizations service. This command will not delete your current shares, but prevents you from creating new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.  If you share an Service Catalog portfolio in an organization within  Organizations, and then disable Organizations access for Service Catalog,  the portfolio access permissions will not sync with the latest changes to the organization  structure. Specifically, accounts that you removed from the organization after  disabling Service Catalog access will retain access to the previously shared portfolio.
     @Sendable
     @inlinable
-    public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableAWSOrganizationsAccessOutput {
+    public func disableAWSOrganizationsAccess(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableAWSOrganizationsAccessOutput {
         try await self.client.execute(
             operation: "DisableAWSOrganizationsAccess", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disable portfolio sharing through the Organizations service. This command will not delete your current shares, but prevents you from creating new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.  If you share an Service Catalog portfolio in an organization within  Organizations, and then disable Organizations access for Service Catalog,  the portfolio access permissions will not sync with the latest changes to the organization  structure. Specifically, accounts that you removed from the organization after  disabling Service Catalog access will retain access to the previously shared portfolio.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableAWSOrganizationsAccess(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableAWSOrganizationsAccessOutput {
-        let input = DisableAWSOrganizationsAccessInput(
-        )
-        return try await self.disableAWSOrganizationsAccess(input, logger: logger)
     }
 
     /// Disassociates the specified budget from the specified resource.
@@ -1840,27 +1827,14 @@ public struct ServiceCatalog: AWSService {
     /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.  If you have previously disabled Organizations access for Service Catalog, and then  enable access again, the portfolio access permissions might not sync with the latest changes to  the organization structure. Specifically, accounts that you removed from the organization after  disabling Service Catalog access, and before you enabled access again, can retain access to the  previously shared portfolio. As a result, an account that has been removed from the organization  might still be able to create or manage Amazon Web Services resources when it is no longer  authorized to do so. Amazon Web Services is working to resolve this issue.
     @Sendable
     @inlinable
-    public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableAWSOrganizationsAccessOutput {
+    public func enableAWSOrganizationsAccess(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableAWSOrganizationsAccessOutput {
         try await self.client.execute(
             operation: "EnableAWSOrganizationsAccess", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.  If you have previously disabled Organizations access for Service Catalog, and then  enable access again, the portfolio access permissions might not sync with the latest changes to  the organization structure. Specifically, accounts that you removed from the organization after  disabling Service Catalog access, and before you enabled access again, can retain access to the  previously shared portfolio. As a result, an account that has been removed from the organization  might still be able to create or manage Amazon Web Services resources when it is no longer  authorized to do so. Amazon Web Services is working to resolve this issue.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableAWSOrganizationsAccess(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableAWSOrganizationsAccessOutput {
-        let input = EnableAWSOrganizationsAccessInput(
-        )
-        return try await self.enableAWSOrganizationsAccess(input, logger: logger)
     }
 
     /// Provisions or modifies a product based on the resource changes for the specified plan.
@@ -1942,27 +1916,14 @@ public struct ServiceCatalog: AWSService {
     /// Get the Access Status for Organizations portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
     @Sendable
     @inlinable
-    public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAWSOrganizationsAccessStatusOutput {
+    public func getAWSOrganizationsAccessStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAWSOrganizationsAccessStatusOutput {
         try await self.client.execute(
             operation: "GetAWSOrganizationsAccessStatus", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get the Access Status for Organizations portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAWSOrganizationsAccessStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAWSOrganizationsAccessStatusOutput {
-        let input = GetAWSOrganizationsAccessStatusInput(
-        )
-        return try await self.getAWSOrganizationsAccessStatus(input, logger: logger)
     }
 
     /// This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.

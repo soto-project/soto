@@ -400,27 +400,14 @@ public struct PinpointEmail: AWSService {
     /// Obtain information about the email-sending status and capabilities of your Amazon Pinpoint account in the current AWS Region.
     @Sendable
     @inlinable
-    public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountResponse {
+    public func getAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountResponse {
         try await self.client.execute(
             operation: "GetAccount", 
             path: "/v1/email/account", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Obtain information about the email-sending status and capabilities of your Amazon Pinpoint account in the current AWS Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountResponse {
-        let input = GetAccountRequest(
-        )
-        return try await self.getAccount(input, logger: logger)
     }
 
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
@@ -577,27 +564,14 @@ public struct PinpointEmail: AWSService {
     /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
     @Sendable
     @inlinable
-    public func getDeliverabilityDashboardOptions(_ input: GetDeliverabilityDashboardOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliverabilityDashboardOptionsResponse {
+    public func getDeliverabilityDashboardOptions(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliverabilityDashboardOptionsResponse {
         try await self.client.execute(
             operation: "GetDeliverabilityDashboardOptions", 
             path: "/v1/email/deliverability-dashboard", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDeliverabilityDashboardOptions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDeliverabilityDashboardOptionsResponse {
-        let input = GetDeliverabilityDashboardOptionsRequest(
-        )
-        return try await self.getDeliverabilityDashboardOptions(input, logger: logger)
     }
 
     /// Retrieve the results of a predictive inbox placement test.

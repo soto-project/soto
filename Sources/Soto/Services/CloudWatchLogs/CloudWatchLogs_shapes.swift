@@ -4759,10 +4759,6 @@ extension CloudWatchLogs {
         }
     }
 
-    public struct GetStorageTierPolicyRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetStorageTierPolicyResponse: AWSDecodableShape {
         /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after January 1, 1970 00:00:00 UTC.
         public let lastUpdatedTime: Int64?

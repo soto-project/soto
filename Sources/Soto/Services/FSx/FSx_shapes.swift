@@ -4269,10 +4269,6 @@ extension FSx {
         }
     }
 
-    public struct DescribeSharedVpcConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeSharedVpcConfigurationResponse: AWSDecodableShape {
         /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
         public let enableFsxRouteTableUpdatesFromParticipantAccounts: String?

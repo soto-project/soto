@@ -2521,10 +2521,6 @@ extension Macie2 {
         }
     }
 
-    public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// Specifies whether Amazon Macie is enabled automatically for accounts that are added to the organization.
         public let autoEnable: Bool?
@@ -2591,10 +2587,6 @@ extension Macie2 {
         }
     }
 
-    public struct DisableMacieRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableMacieResponse: AWSDecodableShape {
         public init() {}
     }
@@ -2621,15 +2613,7 @@ extension Macie2 {
         public init() {}
     }
 
-    public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisassociateFromAdministratorAccountResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public init() {}
     }
 
@@ -2937,10 +2921,6 @@ extension Macie2 {
         }
     }
 
-    public struct GetAdministratorAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAdministratorAccountResponse: AWSDecodableShape {
         /// The Amazon Web Services account ID for the administrator account. If the accounts are associated by an Amazon Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
         public let administrator: Invitation?
@@ -3019,10 +2999,6 @@ extension Macie2 {
             case tags = "tags"
             case updatedAt = "updatedAt"
         }
-    }
-
-    public struct GetAutomatedDiscoveryConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAutomatedDiscoveryConfigurationResponse: AWSDecodableShape {
@@ -3145,10 +3121,6 @@ extension Macie2 {
             case unclassifiableObjectCount = "unclassifiableObjectCount"
             case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
         }
-    }
-
-    public struct GetClassificationExportConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetClassificationExportConfigurationResponse: AWSDecodableShape {
@@ -3382,10 +3354,6 @@ extension Macie2 {
         }
     }
 
-    public struct GetFindingsPublicationConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetFindingsPublicationConfigurationResponse: AWSDecodableShape {
         /// The configuration settings that determine which findings are published to Security Hub.
         public let securityHubConfiguration: SecurityHubConfiguration?
@@ -3432,10 +3400,6 @@ extension Macie2 {
         }
     }
 
-    public struct GetInvitationsCountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetInvitationsCountResponse: AWSDecodableShape {
         /// The total number of invitations that were received by the account, not including the currently accepted invitation.
         public let invitationsCount: Int64?
@@ -3448,10 +3412,6 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case invitationsCount = "invitationsCount"
         }
-    }
-
-    public struct GetMacieSessionRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetMacieSessionResponse: AWSDecodableShape {
@@ -3484,10 +3444,6 @@ extension Macie2 {
             case status = "status"
             case updatedAt = "updatedAt"
         }
-    }
-
-    public struct GetMasterAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetMasterAccountResponse: AWSDecodableShape {
@@ -3613,10 +3569,6 @@ extension Macie2 {
             case sensitivityScoreOverridden = "sensitivityScoreOverridden"
             case statistics = "statistics"
         }
-    }
-
-    public struct GetRevealConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetRevealConfigurationResponse: AWSDecodableShape {

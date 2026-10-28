@@ -1342,27 +1342,14 @@ public struct Mgn: AWSService {
     /// Initialize Application Migration Service.
     @Sendable
     @inlinable
-    public func initializeService(_ input: InitializeServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeServiceResponse {
+    public func initializeService(logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeServiceResponse {
         try await self.client.execute(
             operation: "InitializeService", 
             path: "/InitializeService", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Initialize Application Migration Service.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func initializeService(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> InitializeServiceResponse {
-        let input = InitializeServiceRequest(
-        )
-        return try await self.initializeService(input, logger: logger)
     }
 
     /// Retrieves all applications or multiple applications by ID.

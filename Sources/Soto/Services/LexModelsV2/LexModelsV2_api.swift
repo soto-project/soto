@@ -812,27 +812,14 @@ public struct LexModelsV2: AWSService {
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
     @Sendable
     @inlinable
-    public func createUploadUrl(_ input: CreateUploadUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUploadUrlResponse {
+    public func createUploadUrl(logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUploadUrlResponse {
         try await self.client.execute(
             operation: "CreateUploadUrl", 
             path: "/createuploadurl", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createUploadUrl(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateUploadUrlResponse {
-        let input = CreateUploadUrlRequest(
-        )
-        return try await self.createUploadUrl(input, logger: logger)
     }
 
     /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.

@@ -615,27 +615,14 @@ public struct SNS: AWSService {
     /// Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for  you to try Amazon SNS features without risking your reputation as an SMS sender. While your  Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send  SMS messages only to verified destination phone numbers. For more information, including how to  move out of the sandbox to send messages without restrictions,  see SMS sandbox in  the Amazon SNS Developer Guide.
     @Sendable
     @inlinable
-    public func getSMSSandboxAccountStatus(_ input: GetSMSSandboxAccountStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSMSSandboxAccountStatusResult {
+    public func getSMSSandboxAccountStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSMSSandboxAccountStatusResult {
         try await self.client.execute(
             operation: "GetSMSSandboxAccountStatus", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for  you to try Amazon SNS features without risking your reputation as an SMS sender. While your  Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send  SMS messages only to verified destination phone numbers. For more information, including how to  move out of the sandbox to send messages without restrictions,  see SMS sandbox in  the Amazon SNS Developer Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getSMSSandboxAccountStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetSMSSandboxAccountStatusResult {
-        let input = GetSMSSandboxAccountStatusInput(
-        )
-        return try await self.getSMSSandboxAccountStatus(input, logger: logger)
     }
 
     /// Returns all of the properties of a subscription.

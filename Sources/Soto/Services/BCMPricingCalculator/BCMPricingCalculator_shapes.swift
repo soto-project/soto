@@ -2503,10 +2503,6 @@ extension BCMPricingCalculator {
         }
     }
 
-    public struct GetPreferencesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetPreferencesResponse: AWSDecodableShape {
         ///  The preferred rate types for the management account.
         public let managementAccountRateTypeSelections: [RateType]?

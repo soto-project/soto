@@ -624,27 +624,14 @@ public struct AuditManager: AWSService {
     ///  Deregisters an account in Audit Manager.   Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data.  For more information about data retention, see Data Protection in the Audit Manager User Guide.
     @Sendable
     @inlinable
-    public func deregisterAccount(_ input: DeregisterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterAccountResponse {
+    public func deregisterAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterAccountResponse {
         try await self.client.execute(
             operation: "DeregisterAccount", 
             path: "/account/deregisterAccount", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Deregisters an account in Audit Manager.   Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data.  For more information about data retention, see Data Protection in the Audit Manager User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deregisterAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeregisterAccountResponse {
-        let input = DeregisterAccountRequest(
-        )
-        return try await self.deregisterAccount(input, logger: logger)
     }
 
     /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager.  When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward.  Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually deletes the event data store. This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager ignores an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it.  When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager.  To delete your Audit Manager resource data, see the following instructions:     DeleteAssessment (see also: Deleting an assessment in the Audit Manager User Guide)    DeleteAssessmentFramework (see also: Deleting a custom framework in the Audit Manager User Guide)    DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager User Guide)    DeleteAssessmentReport (see also: Deleting an assessment report in the Audit Manager User Guide)    DeleteControl (see also: Deleting a custom control in the Audit Manager User Guide)   At this time, Audit Manager doesn't provide an option to delete evidence for a specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the time of deregistration.
@@ -711,27 +698,14 @@ public struct AuditManager: AWSService {
     ///  Gets the registration status of an account in Audit Manager.
     @Sendable
     @inlinable
-    public func getAccountStatus(_ input: GetAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountStatusResponse {
+    public func getAccountStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountStatusResponse {
         try await self.client.execute(
             operation: "GetAccountStatus", 
             path: "/account/status", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Gets the registration status of an account in Audit Manager.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountStatusResponse {
-        let input = GetAccountStatusRequest(
-        )
-        return try await self.getAccountStatus(input, logger: logger)
     }
 
     /// Gets information about a specified assessment.
@@ -1148,27 +1122,14 @@ public struct AuditManager: AWSService {
     /// Gets the latest analytics data for all your current active assessments.
     @Sendable
     @inlinable
-    public func getInsights(_ input: GetInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightsResponse {
+    public func getInsights(logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightsResponse {
         try await self.client.execute(
             operation: "GetInsights", 
             path: "/insights", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the latest analytics data for all your current active assessments.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getInsights(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetInsightsResponse {
-        let input = GetInsightsRequest(
-        )
-        return try await self.getInsights(input, logger: logger)
     }
 
     /// Gets the latest analytics data for a specific active assessment.
@@ -1203,53 +1164,27 @@ public struct AuditManager: AWSService {
     ///  Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
     @Sendable
     @inlinable
-    public func getOrganizationAdminAccount(_ input: GetOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationAdminAccountResponse {
+    public func getOrganizationAdminAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationAdminAccountResponse {
         try await self.client.execute(
             operation: "GetOrganizationAdminAccount", 
             path: "/account/organizationAdminAccount", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getOrganizationAdminAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetOrganizationAdminAccountResponse {
-        let input = GetOrganizationAdminAccountRequest(
-        )
-        return try await self.getOrganizationAdminAccount(input, logger: logger)
     }
 
     /// Gets a list of the Amazon Web Services services from which Audit Manager can collect evidence.  Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the assessment’s controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services services that are in this list.  For information about why it's no longer possible to specify services in scope manually, see I can't edit the services in scope for my assessment in the Troubleshooting section of the Audit Manager user guide.
     @Sendable
     @inlinable
-    public func getServicesInScope(_ input: GetServicesInScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServicesInScopeResponse {
+    public func getServicesInScope(logger: Logger = AWSClient.loggingDisabled) async throws -> GetServicesInScopeResponse {
         try await self.client.execute(
             operation: "GetServicesInScope", 
             path: "/services", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets a list of the Amazon Web Services services from which Audit Manager can collect evidence.  Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the assessment’s controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services services that are in this list.  For information about why it's no longer possible to specify services in scope manually, see I can't edit the services in scope for my assessment in the Troubleshooting section of the Audit Manager user guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getServicesInScope(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetServicesInScopeResponse {
-        let input = GetServicesInScopeRequest(
-        )
-        return try await self.getServicesInScope(input, logger: logger)
     }
 
     ///  Gets the settings for a specified Amazon Web Services account.
