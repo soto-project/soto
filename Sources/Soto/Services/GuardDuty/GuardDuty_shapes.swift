@@ -13386,7 +13386,7 @@ public struct GuardDutyErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(GuardDuty.ResourceNotFoundException.self)
             self.error = .resourceNotFoundException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

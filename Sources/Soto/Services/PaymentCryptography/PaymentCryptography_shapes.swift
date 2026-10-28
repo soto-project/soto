@@ -2719,7 +2719,7 @@ public struct PaymentCryptographyErrorType: AWSErrorType, Decodable {
         case "ThrottlingException": self.error = .throttlingException
         case "ValidationException": self.error = .validationException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

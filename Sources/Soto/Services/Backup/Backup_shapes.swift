@@ -9291,7 +9291,7 @@ public struct BackupErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(Backup.ServiceUnavailableException.self)
             self.error = .serviceUnavailableException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

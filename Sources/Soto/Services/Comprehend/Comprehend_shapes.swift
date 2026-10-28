@@ -7937,7 +7937,7 @@ public struct ComprehendErrorType: AWSErrorType, Decodable {
         case "TooManyTagsException": self.error = .tooManyTagsException
         case "UnsupportedLanguageException": self.error = .unsupportedLanguageException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

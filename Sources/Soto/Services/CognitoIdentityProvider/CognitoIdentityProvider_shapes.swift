@@ -10769,7 +10769,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType, Decodable {
         case "WebAuthnOriginNotAllowedException": self.error = .webAuthnOriginNotAllowedException
         case "WebAuthnRelyingPartyMismatchException": self.error = .webAuthnRelyingPartyMismatchException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

@@ -2671,7 +2671,7 @@ public struct MachineLearningErrorType: AWSErrorType, Decodable {
             self.error = .resourceNotFoundException(context)
         case "TagLimitExceededException": self.error = .tagLimitExceededException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

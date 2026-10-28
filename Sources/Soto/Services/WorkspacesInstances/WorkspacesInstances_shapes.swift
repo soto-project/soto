@@ -2139,7 +2139,7 @@ public struct WorkspacesInstancesErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(WorkspacesInstances.ValidationException.self)
             self.error = .validationException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

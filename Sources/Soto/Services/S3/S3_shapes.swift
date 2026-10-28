@@ -12475,7 +12475,7 @@ public struct S3ErrorType: AWSErrorType, Decodable {
         case "TooManyParts": self.error = .tooManyParts
         case "UnsupportedMediaType": self.error = .unsupportedMediaType
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

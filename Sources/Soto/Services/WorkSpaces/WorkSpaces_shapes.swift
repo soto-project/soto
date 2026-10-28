@@ -7316,7 +7316,7 @@ public struct WorkSpacesErrorType: AWSErrorType, Decodable {
         case "ValidationException": self.error = .validationException
         case "WorkspacesDefaultRoleNotFoundException": self.error = .workspacesDefaultRoleNotFoundException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

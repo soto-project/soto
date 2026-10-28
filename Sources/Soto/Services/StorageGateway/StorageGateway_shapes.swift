@@ -6639,7 +6639,7 @@ public struct StorageGatewayErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(StorageGateway.ServiceUnavailableError.self)
             self.error = .serviceUnavailableError(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

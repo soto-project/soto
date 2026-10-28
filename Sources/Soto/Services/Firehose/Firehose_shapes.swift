@@ -5235,7 +5235,7 @@ public struct FirehoseErrorType: AWSErrorType, Decodable {
         case "ResourceNotFoundException": self.error = .resourceNotFoundException
         case "ServiceUnavailableException": self.error = .serviceUnavailableException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

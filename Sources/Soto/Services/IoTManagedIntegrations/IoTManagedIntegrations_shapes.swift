@@ -7094,7 +7094,7 @@ public struct IoTManagedIntegrationsErrorType: AWSErrorType, Decodable {
         case "UnauthorizedException": self.error = .unauthorizedException
         case "ValidationException": self.error = .validationException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

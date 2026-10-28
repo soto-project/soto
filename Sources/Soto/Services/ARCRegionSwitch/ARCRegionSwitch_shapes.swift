@@ -3564,7 +3564,7 @@ public struct ARCRegionSwitchErrorType: AWSErrorType, Decodable {
         case "InternalServerException": self.error = .internalServerException
         case "ResourceNotFoundException": self.error = .resourceNotFoundException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

@@ -8169,7 +8169,7 @@ public struct FSxErrorType: AWSErrorType, Decodable {
         case "UnsupportedOperation": self.error = .unsupportedOperation
         case "VolumeNotFound": self.error = .volumeNotFound
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

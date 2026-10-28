@@ -1623,7 +1623,7 @@ public struct SupportErrorType: AWSErrorType, Decodable {
             self.error = .throttlingException(context)
         case "UploadIdNotFound": self.error = .uploadIdNotFound
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

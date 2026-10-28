@@ -5637,7 +5637,7 @@ public struct WAFErrorType: AWSErrorType, Decodable {
         case "WAFTagOperationException": self.error = .wafTagOperationException
         case "WAFTagOperationInternalErrorException": self.error = .wafTagOperationInternalErrorException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

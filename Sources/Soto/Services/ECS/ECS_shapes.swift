@@ -11264,7 +11264,7 @@ public struct ECSErrorType: AWSErrorType, Decodable {
         case "UnsupportedFeatureException": self.error = .unsupportedFeatureException
         case "UpdateInProgressException": self.error = .updateInProgressException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

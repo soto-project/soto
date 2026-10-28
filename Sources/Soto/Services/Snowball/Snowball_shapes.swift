@@ -2619,7 +2619,7 @@ public struct SnowballErrorType: AWSErrorType, Decodable {
         case "ReturnShippingLabelAlreadyExistsException": self.error = .returnShippingLabelAlreadyExistsException
         case "UnsupportedAddressException": self.error = .unsupportedAddressException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

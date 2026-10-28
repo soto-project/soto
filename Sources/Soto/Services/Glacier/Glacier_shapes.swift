@@ -2224,7 +2224,7 @@ public struct GlacierErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(Glacier.ServiceUnavailableException.self)
             self.error = .serviceUnavailableException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

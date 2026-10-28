@@ -6726,7 +6726,7 @@ public struct AppStreamErrorType: AWSErrorType, Decodable {
         if let code = Code(rawValue: responseError.errorCode) {
             self.error = code
         } else {
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

@@ -522,7 +522,7 @@ public struct SageMakerRuntimeErrorType: AWSErrorType, Decodable {
         case "ServiceUnavailable": self.error = .serviceUnavailable
         case "ValidationError": self.error = .validationError
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

@@ -256,7 +256,7 @@ public struct SageMakerRuntimeHTTP2ErrorType: AWSErrorType, Decodable {
         case "ModelStreamError": self.error = .modelStreamError
         case "ServiceUnavailableError": self.error = .serviceUnavailableError
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

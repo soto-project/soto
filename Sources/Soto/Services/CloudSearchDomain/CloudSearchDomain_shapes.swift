@@ -506,7 +506,7 @@ public struct CloudSearchDomainErrorType: AWSErrorType, Decodable {
             self.error = .documentServiceException(context)
         case "SearchException": self.error = .searchException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

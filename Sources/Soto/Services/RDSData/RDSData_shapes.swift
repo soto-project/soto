@@ -934,7 +934,7 @@ public struct RDSDataErrorType: AWSErrorType, Decodable {
         case "TransactionNotFoundException": self.error = .transactionNotFoundException
         case "UnsupportedResultException": self.error = .unsupportedResultException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

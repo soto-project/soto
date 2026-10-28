@@ -34806,7 +34806,7 @@ public struct GlueErrorType: AWSErrorType, Decodable {
         case "ValidationException": self.error = .validationException
         case "VersionMismatchException": self.error = .versionMismatchException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

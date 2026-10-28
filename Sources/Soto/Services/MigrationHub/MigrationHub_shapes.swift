@@ -1322,7 +1322,7 @@ public struct MigrationHubErrorType: AWSErrorType, Decodable {
             self.error = .throttlingException(context)
         case "UnauthorizedOperation": self.error = .unauthorizedOperation
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

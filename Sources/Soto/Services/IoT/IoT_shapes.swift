@@ -22241,7 +22241,7 @@ public struct IoTErrorType: AWSErrorType, Decodable {
         case "VersionConflictException": self.error = .versionConflictException
         case "VersionsLimitExceededException": self.error = .versionsLimitExceededException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

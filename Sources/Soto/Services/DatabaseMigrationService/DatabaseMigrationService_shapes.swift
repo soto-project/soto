@@ -10597,7 +10597,7 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType, Decodable {
         case "SubnetAlreadyInUse": self.error = .subnetAlreadyInUse
         case "UpgradeDependencyFailureFault": self.error = .upgradeDependencyFailureFault
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

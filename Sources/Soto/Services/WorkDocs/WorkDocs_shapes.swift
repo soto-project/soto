@@ -3993,7 +3993,7 @@ public struct WorkDocsErrorType: AWSErrorType, Decodable {
             self.error = .unauthorizedOperationException(context)
         case "UnauthorizedResourceAccessException": self.error = .unauthorizedResourceAccessException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

@@ -2856,7 +2856,7 @@ public struct Route53DomainsErrorType: AWSErrorType, Decodable {
         case "TLDRulesViolation": self.error = .tldRulesViolation
         case "UnsupportedTLD": self.error = .unsupportedTLD
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

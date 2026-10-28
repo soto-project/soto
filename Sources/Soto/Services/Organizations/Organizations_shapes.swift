@@ -3644,7 +3644,7 @@ public struct OrganizationsErrorType: AWSErrorType, Decodable {
             self.error = .tooManyRequestsException(context)
         case "UnsupportedAPIEndpointException": self.error = .unsupportedAPIEndpointException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

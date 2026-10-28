@@ -1006,7 +1006,7 @@ public struct LexRuntimeServiceErrorType: AWSErrorType, Decodable {
         case "RequestTimeoutException": self.error = .requestTimeoutException
         case "UnsupportedMediaTypeException": self.error = .unsupportedMediaTypeException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

@@ -8413,7 +8413,7 @@ public struct WAFV2ErrorType: AWSErrorType, Decodable {
         case "WAFUnavailableEntityException": self.error = .wafUnavailableEntityException
         case "WAFUnsupportedAggregateKeyTypeException": self.error = .wafUnsupportedAggregateKeyTypeException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

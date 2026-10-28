@@ -5852,7 +5852,7 @@ public struct ChimeSDKVoiceErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(ChimeSDKVoice.UnprocessableEntityException.self)
             self.error = .unprocessableEntityException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

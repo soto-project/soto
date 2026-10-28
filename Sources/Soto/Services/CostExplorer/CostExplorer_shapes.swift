@@ -6434,7 +6434,7 @@ public struct CostExplorerErrorType: AWSErrorType, Decodable {
         case "UnknownSubscriptionException": self.error = .unknownSubscriptionException
         case "UnresolvableUsageUnitException": self.error = .unresolvableUsageUnitException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

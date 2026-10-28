@@ -4186,7 +4186,7 @@ public struct LexModelBuildingServiceErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(LexModelBuildingService.ResourceInUseException.self)
             self.error = .resourceInUseException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

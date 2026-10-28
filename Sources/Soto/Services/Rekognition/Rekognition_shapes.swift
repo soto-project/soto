@@ -8695,7 +8695,7 @@ public struct RekognitionErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(Rekognition.VideoTooLargeException.self)
             self.error = .videoTooLargeException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

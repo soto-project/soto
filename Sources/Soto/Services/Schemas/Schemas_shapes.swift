@@ -1860,7 +1860,7 @@ public struct SchemasErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(Schemas.UnauthorizedException.self)
             self.error = .unauthorizedException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

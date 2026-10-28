@@ -9955,7 +9955,7 @@ public struct LambdaErrorType: AWSErrorType, Decodable {
             let context = try singleValueContainer.decode(Lambda.UnsupportedMediaTypeException.self)
             self.error = .unsupportedMediaTypeException(context)
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

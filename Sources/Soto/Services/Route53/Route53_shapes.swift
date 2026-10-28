@@ -6894,7 +6894,7 @@ public struct Route53ErrorType: AWSErrorType, Decodable {
         case "VPCAssociationAuthorizationNotFound": self.error = .vpcAssociationAuthorizationNotFound
         case "VPCAssociationNotFound": self.error = .vpcAssociationNotFound
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

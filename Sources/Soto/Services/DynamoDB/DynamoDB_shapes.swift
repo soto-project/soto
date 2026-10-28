@@ -7668,7 +7668,7 @@ public struct DynamoDBErrorType: AWSErrorType, Decodable {
         case "TransactionConflictException": self.error = .transactionConflictException
         case "TransactionInProgressException": self.error = .transactionInProgressException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response

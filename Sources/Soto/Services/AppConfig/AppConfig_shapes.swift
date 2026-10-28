@@ -4308,7 +4308,7 @@ public struct AppConfigErrorType: AWSErrorType, Decodable {
             self.error = .resourceNotFoundException(context)
         case "ServiceQuotaExceededException": self.error = .serviceQuotaExceededException
         default:
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
+            throw responseError
         }
         self.message = responseError.message
         self.response = responseError.response
