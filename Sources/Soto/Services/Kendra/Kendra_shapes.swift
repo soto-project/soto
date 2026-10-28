@@ -9982,8 +9982,8 @@ public struct KendraErrorType: AWSErrorType, Decodable {
 
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
-        let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
-        switch errorCode.code {
+        let responseError = try singleValueContainer.decode(AWSResponseError.self)
+        switch responseError.errorCode {
         case "AccessDeniedException": self.error = .accessDeniedException
         case "ConflictException": self.error = .conflictException
         case "FeaturedResultsConflictException":
@@ -10001,8 +10001,8 @@ public struct KendraErrorType: AWSErrorType, Decodable {
         default:
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
-        self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
-        self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
+        self.message = responseError.message
+        self.response = responseError.response
     }
 
     /// return error code string

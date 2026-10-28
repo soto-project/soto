@@ -1051,8 +1051,8 @@ public struct CloudHSMErrorType: AWSErrorType, Decodable {
 
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
-        let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
-        switch errorCode.code {
+        let responseError = try singleValueContainer.decode(AWSResponseError.self)
+        switch responseError.errorCode {
         case "CloudHsmInternalException":
             let context = try singleValueContainer.decode(CloudHSM.CloudHsmInternalException.self)
             self.error = .cloudHsmInternalException(context)
@@ -1065,8 +1065,8 @@ public struct CloudHSMErrorType: AWSErrorType, Decodable {
         default:
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
-        self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
-        self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
+        self.message = responseError.message
+        self.response = responseError.response
     }
 
     /// return error code string

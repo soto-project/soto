@@ -2590,14 +2590,14 @@ public struct BudgetsErrorType: AWSErrorType, Decodable {
 
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
-        let errorCode = try singleValueContainer.decode(AWSErrorCode.self)
+        let responseError = try singleValueContainer.decode(AWSResponseError.self)
         if let code = Code(rawValue: errorCode.code) {
             self.error = code
         } else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
         }
-        self.message = try singleValueContainer.decode(AWSErrorMessage.self).message
-        self.response = (decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer).response.response
+        self.message = responseError.message
+        self.response = responseError.response
     }
 
     public var errorCode: String { self.error.rawValue }
