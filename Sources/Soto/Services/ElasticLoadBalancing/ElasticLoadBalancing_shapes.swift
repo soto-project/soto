@@ -1686,7 +1686,7 @@ public struct ElasticLoadBalancingErrorType: AWSErrorType, Decodable {
     public init(from decoder: any Decoder) throws {
         let singleValueContainer = try decoder.singleValueContainer()
         let responseError = try singleValueContainer.decode(AWSResponseError.self)
-        if let code = Code(rawValue: errorCode.code) {
+        if let code = Code(rawValue: responseError.errorCode) {
             self.error = code
         } else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unrecognised error code"))
