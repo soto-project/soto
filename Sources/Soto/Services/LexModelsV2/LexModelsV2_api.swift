@@ -531,7 +531,7 @@ public struct LexModelsV2: AWSService {
     ///   - outputContexts: A lists of contexts that the intent activates when it is fulfilled. You can use an output context to indicate the intents that Amazon Lex should consider for the next turn of the conversation with a customer.  When you use the outputContextsList property, all of the contexts specified in the list are activated when the intent is fulfilled. You can set up to 10 output contexts. You can also set the number of conversation turns that the context should be active, or the length of time that the context should be active.
     ///   - parentIntentSignature: A unique identifier for the built-in intent to base this intent on.
     ///   - qInConnectIntentConfiguration: Qinconnect intent configuration details for the create intent request.
-    ///   - qnAIntentConfiguration: Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+    ///   - qnAIntentConfiguration: Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex V2 can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     ///   - sampleUtterances: An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza".  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
     ///   - logger: Logger use during operation
     @inlinable
@@ -4127,7 +4127,7 @@ public struct LexModelsV2: AWSService {
     ///   - outputContexts: A new list of contexts that Amazon Lex activates when the intent is fulfilled.
     ///   - parentIntentSignature: The signature of the new built-in intent to use as the parent of this intent.
     ///   - qInConnectIntentConfiguration: Qinconnect intent configuration details for the update intent request.
-    ///   - qnAIntentConfiguration: Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+    ///   - qnAIntentConfiguration: Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex V2 can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     ///   - sampleUtterances: New utterances used to invoke the intent.
     ///   - slotPriorities: A new list of slots and their priorities that are contained by the intent.
     ///   - logger: Logger use during operation

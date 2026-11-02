@@ -95,6 +95,9 @@ extension KMS {
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
         case eccSecgP256K1 = "ECC_SECG_P256K1"
+        case mlKem1024 = "ML_KEM_1024"
+        case mlKem512 = "ML_KEM_512"
+        case mlKem768 = "ML_KEM_768"
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
@@ -110,6 +113,11 @@ extension KMS {
 
     public enum DryRunModifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ignoreCiphertext = "IGNORE_CIPHERTEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncapsulationAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mlKem = "ML_KEM"
         public var description: String { return self.rawValue }
     }
 
@@ -129,9 +137,11 @@ extension KMS {
 
     public enum GrantOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createGrant = "CreateGrant"
+        case decapsulate = "Decapsulate"
         case decrypt = "Decrypt"
         case deriveSharedSecret = "DeriveSharedSecret"
         case describeKey = "DescribeKey"
+        case encapsulate = "Encapsulate"
         case encrypt = "Encrypt"
         case generateDataKey = "GenerateDataKey"
         case generateDataKeyPair = "GenerateDataKeyPair"
@@ -177,8 +187,10 @@ extension KMS {
     }
 
     public enum KeyLastUsageTrackingOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case decapsulate = "Decapsulate"
         case decrypt = "Decrypt"
         case deriveSharedSecret = "DeriveSharedSecret"
+        case encapsulate = "Encapsulate"
         case encrypt = "Encrypt"
         case generateDataKey = "GenerateDataKey"
         case generateDataKeyPair = "GenerateDataKeyPair"
@@ -219,6 +231,9 @@ extension KMS {
         case mlDsa44 = "ML_DSA_44"
         case mlDsa65 = "ML_DSA_65"
         case mlDsa87 = "ML_DSA_87"
+        case mlKem1024 = "ML_KEM_1024"
+        case mlKem512 = "ML_KEM_512"
+        case mlKem768 = "ML_KEM_768"
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
@@ -240,6 +255,7 @@ extension KMS {
     }
 
     public enum KeyUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case encapsulateDecapsulate = "ENCAPSULATE_DECAPSULATE"
         case encryptDecrypt = "ENCRYPT_DECRYPT"
         case generateVerifyMac = "GENERATE_VERIFY_MAC"
         case keyAgreement = "KEY_AGREEMENT"
@@ -624,9 +640,9 @@ extension KMS {
         public let customKeyStoreId: String?
         /// A description of the KMS key. Use a description that helps you decide whether the KMS key is appropriate for a task. The default value is an empty string (no description).  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  To set or change the description after the key is created, use UpdateKeyDescription.
         public let description: String?
-        /// Specifies the type of KMS key to create. The default value, SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For a detailed description of all supported key specs, see Key spec reference in the  Key Management Service Developer Guide . The KeySpec determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the KeySpec after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see kms:EncryptionAlgorithm, kms:MacAlgorithm, kms:KeyAgreementAlgorithm, or kms:SigningAlgorithm in the  Key Management Service Developer Guide .   Amazon Web Services services that are integrated with KMS use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys.  KMS supports the following key specs for KMS keys:   Symmetric encryption key (default)    SYMMETRIC_DEFAULT      HMAC keys (symmetric)    HMAC_224     HMAC_256     HMAC_384     HMAC_512      Asymmetric RSA key pairs (encryption and decryption -or- signing and verification)    RSA_2048     RSA_3072     RSA_4096      Asymmetric NIST-standard elliptic curve key pairs (signing and verification -or- deriving shared secrets)    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)    ECC_NIST_EDWARDS25519 (ed25519) - signing and verification only    Note: For ECC_NIST_EDWARDS25519 KMS keys, the ED25519_SHA_512 signing algorithm requires  MessageType:RAW , while ED25519_PH_SHA_512 requires  MessageType:DIGEST . These message types cannot be used interchangeably.       Other asymmetric elliptic curve key pairs (signing and verification)    ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.     Asymmetric ML-DSA key pairs (signing and verification)    ML_DSA_44     ML_DSA_65     ML_DSA_87      SM2 key pairs (encryption and decryption -or- signing and verification -or- deriving shared secrets)    SM2 (China Regions only)
+        /// Specifies the type of KMS key to create. The default value, SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For a detailed description of all supported key specs, see Key spec reference in the  Key Management Service Developer Guide . The KeySpec determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the KeySpec after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see kms:EncryptionAlgorithm, kms:MacAlgorithm, kms:KeyAgreementAlgorithm, or kms:SigningAlgorithm in the  Key Management Service Developer Guide .   Amazon Web Services services that are integrated with KMS use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys.  KMS supports the following key specs for KMS keys:   Symmetric encryption key (default)    SYMMETRIC_DEFAULT      HMAC keys (symmetric)    HMAC_224     HMAC_256     HMAC_384     HMAC_512      Asymmetric RSA key pairs (encryption and decryption -or- signing and verification)    RSA_2048     RSA_3072     RSA_4096      Asymmetric NIST-standard elliptic curve key pairs (signing and verification -or- deriving shared secrets)    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)    ECC_NIST_EDWARDS25519 (ed25519) - signing and verification only    Note: For ECC_NIST_EDWARDS25519 KMS keys, the ED25519_SHA_512 signing algorithm requires  MessageType:RAW , while ED25519_PH_SHA_512 requires  MessageType:DIGEST . These message types cannot be used interchangeably.       Other asymmetric elliptic curve key pairs (signing and verification)    ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.     Asymmetric ML-DSA key pairs (signing and verification)    ML_DSA_44     ML_DSA_65     ML_DSA_87      Asymmetric ML-KEM key pairs (establishing shared secrets)    ML_KEM_512     ML_KEM_768     ML_KEM_1024    The ML-KEM key specs are not available in China Regions.   SM2 key pairs (encryption and decryption -or- signing and verification -or- deriving shared secrets)    SM2 (China Regions only)
         public let keySpec: KeySpec?
-        /// Determines the cryptographic operations for which you can use the KMS key. The default value is ENCRYPT_DECRYPT. This parameter is optional when you are creating a symmetric encryption KMS key; otherwise, it is required. You can't change the  KeyUsage value after the KMS key is created. Each KMS key can have only one key usage. This follows key usage best practices according to NIST SP 800-57 Recommendations for Key Management, section 5.2, Key usage. Select only one valid value.   For symmetric encryption KMS keys, omit the parameter or specify ENCRYPT_DECRYPT.   For HMAC KMS keys (symmetric), specify GENERATE_VERIFY_MAC.   For asymmetric KMS keys with RSA key pairs, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric KMS keys with NIST-standard elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.   For asymmetric KMS keys with ECC_SECG_P256K1 key pairs, specify SIGN_VERIFY.   For asymmetric KMS keys with ML-DSA key pairs, specify SIGN_VERIFY.   For asymmetric KMS keys with SM2 key pairs (China Regions only), specify ENCRYPT_DECRYPT, SIGN_VERIFY, or KEY_AGREEMENT.
+        /// Determines the cryptographic operations for which you can use the KMS key. The default value is ENCRYPT_DECRYPT. This parameter is optional when you are creating a symmetric encryption KMS key; otherwise, it is required. You can't change the  KeyUsage value after the KMS key is created. Each KMS key can have only one key usage. This follows key usage best practices according to NIST SP 800-57 Recommendations for Key Management, section 5.2, Key usage. Select only one valid value.   For symmetric encryption KMS keys, omit the parameter or specify ENCRYPT_DECRYPT.   For HMAC KMS keys (symmetric), specify GENERATE_VERIFY_MAC.   For asymmetric KMS keys with RSA key pairs, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric KMS keys with NIST-standard elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.   For asymmetric KMS keys with ECC_SECG_P256K1 key pairs, specify SIGN_VERIFY.   For asymmetric KMS keys with ML-DSA key pairs, specify SIGN_VERIFY.   For asymmetric KMS keys with ML-KEM key pairs, specify ENCAPSULATE_DECAPSULATE.   For asymmetric KMS keys with SM2 key pairs (China Regions only), specify ENCRYPT_DECRYPT, SIGN_VERIFY, or KEY_AGREEMENT.
         public let keyUsage: KeyUsageType?
         /// Creates a multi-Region primary key that you can replicate into other Amazon Web Services Regions. You cannot change this value after you create the KMS key.  For a multi-Region key, set this parameter to True. For a single-Region KMS key, omit this parameter or set it to False. The default value is False. This operation supports multi-Region keys, an KMS feature that lets you create multiple interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see Multi-Region keys in KMS in the Key Management Service Developer Guide. This value creates a primary key, not a replica. To create a replica key, use the ReplicateKey operation.  You can create a symmetric or asymmetric multi-Region key, and you can create a multi-Region key with imported key material. However, you cannot create a multi-Region key in a custom key store.
         public let multiRegion: Bool?
@@ -761,6 +777,70 @@ extension KMS {
             case customKeyStoreType = "CustomKeyStoreType"
             case trustAnchorCertificate = "TrustAnchorCertificate"
             case xksProxyConfiguration = "XksProxyConfiguration"
+        }
+    }
+
+    public struct DecapsulateRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
+        /// Specifies the key encapsulation algorithm used to recover the shared secret. The only valid value is ML_KEM.
+        public let encapsulationAlgorithm: EncapsulationAlgorithmSpec
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Identifies the asymmetric ML-KEM KMS key whose public key was used to produce the encapsulated shared secret. KMS uses the private key in the specified key pair to decapsulate the shared secret.  To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+        /// The encapsulated (ciphertext) form of the shared secret to recover. This is the SharedSecretCiphertextBlob value that the Encapsulate operation returns. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+        public let sharedSecretCiphertextBlob: AWSBase64Data
+
+        @inlinable
+        public init(dryRun: Bool? = nil, encapsulationAlgorithm: EncapsulationAlgorithmSpec, grantTokens: [String]? = nil, keyId: String, sharedSecretCiphertextBlob: AWSBase64Data) {
+            self.dryRun = dryRun
+            self.encapsulationAlgorithm = encapsulationAlgorithm
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+            self.sharedSecretCiphertextBlob = sharedSecretCiphertextBlob
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.validate(self.sharedSecretCiphertextBlob, name: "sharedSecretCiphertextBlob", parent: name, max: 6144)
+            try self.validate(self.sharedSecretCiphertextBlob, name: "sharedSecretCiphertextBlob", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case encapsulationAlgorithm = "EncapsulationAlgorithm"
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+            case sharedSecretCiphertextBlob = "SharedSecretCiphertextBlob"
+        }
+    }
+
+    public struct DecapsulateResponse: AWSDecodableShape {
+        /// The key encapsulation algorithm used to recover the shared secret.
+        public let encapsulationAlgorithm: EncapsulationAlgorithmSpec?
+        /// The identifier of the ML-KEM KMS key used to decapsulate the shared secret.
+        public let keyId: String?
+        /// The plaintext shared secret recovered from the encapsulated form. It is a 32-byte value that matches the shared secret held by the encapsulating party. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+        public let sharedSecret: AWSBase64Data?
+
+        @inlinable
+        public init(encapsulationAlgorithm: EncapsulationAlgorithmSpec? = nil, keyId: String? = nil, sharedSecret: AWSBase64Data? = nil) {
+            self.encapsulationAlgorithm = encapsulationAlgorithm
+            self.keyId = keyId
+            self.sharedSecret = sharedSecret
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encapsulationAlgorithm = "EncapsulationAlgorithm"
+            case keyId = "KeyId"
+            case sharedSecret = "SharedSecret"
         }
     }
 
@@ -1223,6 +1303,68 @@ extension KMS {
         }
     }
 
+    public struct EncapsulateRequest: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide.
+        public let dryRun: Bool?
+        /// Specifies the key encapsulation algorithm used to generate the shared secret and its encapsulated form. The only valid value is ML_KEM.
+        public let encapsulationAlgorithm: EncapsulationAlgorithmSpec
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
+        public let grantTokens: [String]?
+        /// Identifies an asymmetric ML-KEM KMS key. KMS uses the public key in the specified key pair to encapsulate the shared secret. ML-KEM KMS keys have a KeySpec value of ML_KEM_512,  ML_KEM_768, or ML_KEM_1024 and a KeyUsage value of  ENCAPSULATE_DECAPSULATE. To find the KeySpec and KeyUsage of a  KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        public let keyId: String
+
+        @inlinable
+        public init(dryRun: Bool? = nil, encapsulationAlgorithm: EncapsulationAlgorithmSpec, grantTokens: [String]? = nil, keyId: String) {
+            self.dryRun = dryRun
+            self.encapsulationAlgorithm = encapsulationAlgorithm
+            self.grantTokens = grantTokens
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.grantTokens?.forEach {
+                try validate($0, name: "grantTokens[]", parent: name, max: 8192)
+                try validate($0, name: "grantTokens[]", parent: name, min: 1)
+            }
+            try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case encapsulationAlgorithm = "EncapsulationAlgorithm"
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct EncapsulateResponse: AWSDecodableShape {
+        /// The key encapsulation algorithm used to generate the shared secret.
+        public let encapsulationAlgorithm: EncapsulationAlgorithmSpec?
+        /// The identifier of the ML-KEM KMS key used to encapsulate the shared secret.
+        public let keyId: String?
+        /// The plaintext shared secret. It is a 32-byte cryptographically random value that both parties can use directly as key material or pass through a key derivation function to generate multiple keys and nonces. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+        public let sharedSecret: AWSBase64Data?
+        /// The encapsulated form of the shared secret. Pass this value to the Decapsulate operation to recover the shared secret.  When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. The length of SharedSecretCiphertextBlob depends on the ML-KEM key spec. Before Base64 encoding, the encapsulated shared secret is 768 bytes for ML_KEM_512, 1088 bytes for ML_KEM_768, and 1568 bytes for ML_KEM_1024.
+        public let sharedSecretCiphertextBlob: AWSBase64Data?
+
+        @inlinable
+        public init(encapsulationAlgorithm: EncapsulationAlgorithmSpec? = nil, keyId: String? = nil, sharedSecret: AWSBase64Data? = nil, sharedSecretCiphertextBlob: AWSBase64Data? = nil) {
+            self.encapsulationAlgorithm = encapsulationAlgorithm
+            self.keyId = keyId
+            self.sharedSecret = sharedSecret
+            self.sharedSecretCiphertextBlob = sharedSecretCiphertextBlob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encapsulationAlgorithm = "EncapsulationAlgorithm"
+            case keyId = "KeyId"
+            case sharedSecret = "SharedSecret"
+            case sharedSecretCiphertextBlob = "SharedSecretCiphertextBlob"
+        }
+    }
+
     public struct EncryptRequest: AWSEncodableShape {
         /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide.
         public let dryRun: Bool?
@@ -1306,7 +1448,7 @@ extension KMS {
         public let grantTokens: [String]?
         /// Specifies the symmetric encryption KMS key that encrypts the private key in the data key pair. You cannot specify an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the DescribeKey operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
-        /// Determines the type of data key pair that is generated.  The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
+        /// Determines the type of data key pair that is generated.  The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. The ML-KEM key specs are not available in China Regions.
         public let keyPairSpec: DataKeyPairSpec
         /// A signed attestation document from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM. To call GenerateDataKeyPair generate an attestation document use either Amazon Web Services Nitro Enclaves SDK for an Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM tools for Amazon Web Services NitroTPM. Then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the attested environment. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
@@ -1392,7 +1534,7 @@ extension KMS {
         public let grantTokens: [String]?
         /// Specifies the symmetric encryption KMS key that encrypts the private key in the data key pair. You cannot specify an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the DescribeKey operation.  To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
-        /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
+        /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. The ML-KEM key specs are not available in China Regions.
         public let keyPairSpec: DataKeyPairSpec
 
         @inlinable
@@ -1744,7 +1886,7 @@ extension KMS {
         public let keyCreationDate: Date?
         /// The globally unique identifier for the KMS key.
         public let keyId: String?
-        /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation. If the key has not been used since tracking began, this response element is empty.
+        /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation. If the key has not been used since tracking began, this response element is an empty object.
         public let keyLastUsage: KeyLastUsageData?
         /// The date from which KMS began recording cryptographic activity for this key, or the date the KMS key was created, whichever is later.
         public let trackingStartDate: Date?
@@ -1943,6 +2085,8 @@ extension KMS {
     public struct GetPublicKeyResponse: AWSDecodableShape {
         /// Instead, use the KeySpec field in the GetPublicKey response. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS supports both fields.
         public let customerMasterKeySpec: CustomerMasterKeySpec?
+        /// The key encapsulation algorithm used to establish a shared secret. This field is present only when the KMS key has a KeyUsage value of ENCAPSULATE_DECAPSULATE.
+        public let encapsulationAlgorithms: [EncapsulationAlgorithmSpec]?
         /// The encryption algorithms that KMS supports for this key.  This information is critical. If a public key encrypts data outside of KMS by using an unsupported encryption algorithm, the ciphertext cannot be decrypted.  This field appears in the response only when the KeyUsage of the public key is ENCRYPT_DECRYPT.
         public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
         /// The key agreement algorithm used to derive a shared secret. This field is present only when the KMS key has a KeyUsage value of KEY_AGREEMENT.
@@ -1959,8 +2103,9 @@ extension KMS {
         public let signingAlgorithms: [SigningAlgorithmSpec]?
 
         @inlinable
-        public init(encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: AWSBase64Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
+        public init(encapsulationAlgorithms: [EncapsulationAlgorithmSpec]? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: AWSBase64Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
             self.customerMasterKeySpec = nil
+            self.encapsulationAlgorithms = encapsulationAlgorithms
             self.encryptionAlgorithms = encryptionAlgorithms
             self.keyAgreementAlgorithms = keyAgreementAlgorithms
             self.keyId = keyId
@@ -1972,8 +2117,9 @@ extension KMS {
 
         @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
         @inlinable
-        public init(customerMasterKeySpec: CustomerMasterKeySpec? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: AWSBase64Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
+        public init(customerMasterKeySpec: CustomerMasterKeySpec? = nil, encapsulationAlgorithms: [EncapsulationAlgorithmSpec]? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: AWSBase64Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
             self.customerMasterKeySpec = customerMasterKeySpec
+            self.encapsulationAlgorithms = encapsulationAlgorithms
             self.encryptionAlgorithms = encryptionAlgorithms
             self.keyAgreementAlgorithms = keyAgreementAlgorithms
             self.keyId = keyId
@@ -1985,6 +2131,7 @@ extension KMS {
 
         private enum CodingKeys: String, CodingKey {
             case customerMasterKeySpec = "CustomerMasterKeySpec"
+            case encapsulationAlgorithms = "EncapsulationAlgorithms"
             case encryptionAlgorithms = "EncryptionAlgorithms"
             case keyAgreementAlgorithms = "KeyAgreementAlgorithms"
             case keyId = "KeyId"
@@ -2219,6 +2366,8 @@ extension KMS {
         public let description: String?
         /// Specifies whether the KMS key is enabled. When KeyState is Enabled this value is true, otherwise it is false.
         public let enabled: Bool?
+        /// The key encapsulation algorithm that the KMS key supports. This field appears only for KMS keys with a KeyUsage value of ENCAPSULATE_DECAPSULATE.
+        public let encapsulationAlgorithms: [EncapsulationAlgorithmSpec]?
         /// The encryption algorithms that the KMS key supports. You cannot use the KMS key with other encryption algorithms within KMS. This value is present only when the KeyUsage of the KMS key is ENCRYPT_DECRYPT.
         public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
         /// Specifies whether the KMS key's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
@@ -2253,7 +2402,7 @@ extension KMS {
         public let xksKeyConfiguration: XksKeyConfigurationType?
 
         @inlinable
-        public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, currentKeyMaterialId: String? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
+        public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, currentKeyMaterialId: String? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encapsulationAlgorithms: [EncapsulationAlgorithmSpec]? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
             self.arn = arn
             self.awsAccountId = awsAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -2264,6 +2413,7 @@ extension KMS {
             self.deletionDate = deletionDate
             self.description = description
             self.enabled = enabled
+            self.encapsulationAlgorithms = encapsulationAlgorithms
             self.encryptionAlgorithms = encryptionAlgorithms
             self.expirationModel = expirationModel
             self.keyAgreementAlgorithms = keyAgreementAlgorithms
@@ -2284,7 +2434,7 @@ extension KMS {
 
         @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
         @inlinable
-        public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, currentKeyMaterialId: String? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
+        public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, currentKeyMaterialId: String? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encapsulationAlgorithms: [EncapsulationAlgorithmSpec]? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
             self.arn = arn
             self.awsAccountId = awsAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -2295,6 +2445,7 @@ extension KMS {
             self.deletionDate = deletionDate
             self.description = description
             self.enabled = enabled
+            self.encapsulationAlgorithms = encapsulationAlgorithms
             self.encryptionAlgorithms = encryptionAlgorithms
             self.expirationModel = expirationModel
             self.keyAgreementAlgorithms = keyAgreementAlgorithms
@@ -2324,6 +2475,7 @@ extension KMS {
             case deletionDate = "DeletionDate"
             case description = "Description"
             case enabled = "Enabled"
+            case encapsulationAlgorithms = "EncapsulationAlgorithms"
             case encryptionAlgorithms = "EncryptionAlgorithms"
             case expirationModel = "ExpirationModel"
             case keyAgreementAlgorithms = "KeyAgreementAlgorithms"
@@ -3833,7 +3985,7 @@ public struct KMSErrorType: AWSErrorType {
     public static var invalidAliasNameException: Self { .init(.invalidAliasNameException) }
     /// The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
     public static var invalidArnException: Self { .init(.invalidArnException) }
-    /// From the Decrypt or ReEncrypt operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the ImportKeyMaterial operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// From the Decrypt or ReEncrypt operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the ImportKeyMaterial operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.  From the Decapsulate operation, the request was rejected because the length of the SharedSecretCiphertextBlob is inconsistent with the specified ML-KEM key spec.
     public static var invalidCiphertextException: Self { .init(.invalidCiphertextException) }
     /// The request was rejected because the specified GrantId is not valid.
     public static var invalidGrantIdException: Self { .init(.invalidGrantIdException) }
@@ -3841,7 +3993,7 @@ public struct KMSErrorType: AWSErrorType {
     public static var invalidGrantTokenException: Self { .init(.invalidGrantTokenException) }
     /// The request was rejected because the provided import token is invalid or is associated with a different KMS key.
     public static var invalidImportTokenException: Self { .init(.invalidImportTokenException) }
-    /// The request was rejected for one of the following reasons:    The KeyUsage value of the KMS key is incompatible with the API operation.   The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).   For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the DescribeKey operation. To find the encryption or signing algorithms supported for a particular KMS key, use the DescribeKey operation.
+    /// The request was rejected for one of the following reasons:    The KeyUsage value of the KMS key is incompatible with the API operation.   The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).   For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the DescribeKey operation. To find the encryption or signing algorithms supported for a particular KMS key, use the DescribeKey operation.
     public static var invalidKeyUsageException: Self { .init(.invalidKeyUsageException) }
     /// The request was rejected because the marker that specifies where pagination should next begin is not valid.
     public static var invalidMarkerException: Self { .init(.invalidMarkerException) }

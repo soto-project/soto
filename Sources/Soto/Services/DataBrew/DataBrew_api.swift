@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS DataBrew service.
 ///
-/// Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew simplifies data preparation tasks, targeting data issues that are hard to spot and time-consuming to fix. DataBrew empowers users of all technical levels to visualize the data and perform one-click data transformations, with no coding required.
+///  Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew simplifies data preparation tasks, targeting data issues that are hard to spot and time-consuming to fix. DataBrew empowers users of all technical levels to visualize the data and perform one-click data transformations, with no coding required.
 public struct DataBrew: AWSService {
     // MARK: Member variables
 
@@ -444,7 +444,7 @@ public struct DataBrew: AWSService {
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
     ///
     /// Parameters:
-    ///   - cronExpression: The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
+    ///   - cronExpression: The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the  Glue DataBrew Developer Guide.
     ///   - jobNames: The name or names of one or more jobs to be run.
     ///   - name: A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
     ///   - tags: Metadata tags to apply to this schedule.
@@ -1674,7 +1674,7 @@ public struct DataBrew: AWSService {
     /// Modifies the definition of an existing DataBrew schedule.
     ///
     /// Parameters:
-    ///   - cronExpression: The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
+    ///   - cronExpression: The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the  Glue DataBrew Developer Guide.
     ///   - jobNames: The name or names of one or more jobs to be run for this schedule.
     ///   - name: The name of the schedule to update.
     ///   - logger: Logger use during operation

@@ -48,6 +48,14 @@ extension Account {
         public var description: String { return self.rawValue }
     }
 
+    public enum PhoneNumberVerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notSupported = "NOT_SUPPORTED"
+        case pending = "PENDING"
+        case unverified = "UNVERIFIED"
+        case verified = "VERIFIED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrimaryEmailUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "ACCEPTED"
         case completed = "COMPLETED"
@@ -450,14 +458,18 @@ extension Account {
     public struct GetContactInformationResponse: AWSDecodableShape {
         /// Contains the details of the primary contact information associated with an Amazon Web Services account.
         public let contactInformation: ContactInformation?
+        /// The verification status of the phone number in the primary contact information associated with an Amazon Web Services account. Valid values:    PENDING – A one-time passcode has been sent and is waiting to be submitted.    VERIFIED – The phone number has been verified.    UNVERIFIED – The phone number has not been verified.    NOT_SUPPORTED – Phone number verification isn't available for this account.
+        public let verificationStatus: PhoneNumberVerificationStatus?
 
         @inlinable
-        public init(contactInformation: ContactInformation? = nil) {
+        public init(contactInformation: ContactInformation? = nil, verificationStatus: PhoneNumberVerificationStatus? = nil) {
             self.contactInformation = contactInformation
+            self.verificationStatus = verificationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case contactInformation = "ContactInformation"
+            case verificationStatus = "VerificationStatus"
         }
     }
 
@@ -838,6 +850,38 @@ extension Account {
         }
     }
 
+    public struct SendPhoneNumberVerificationRequest: AWSEncodableShape {
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let accountId: String?
+
+        @inlinable
+        public init(accountId: String? = nil) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct SendPhoneNumberVerificationResponse: AWSDecodableShape {
+        /// The verification status of the phone number in the primary contact information after the one-time passcode is sent. Valid values:    PENDING – A one-time passcode has been sent and is waiting to be submitted.    VERIFIED – The phone number has been verified.    UNVERIFIED – The phone number has not been verified.    NOT_SUPPORTED – Phone number verification isn't available for this account.
+        public let status: PhoneNumberVerificationStatus?
+
+        @inlinable
+        public init(status: PhoneNumberVerificationStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct StartPrimaryEmailUpdateRequest: AWSEncodableShape {
         /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
         public let accountId: String
@@ -936,6 +980,43 @@ extension Account {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct VerifyPhoneNumberRequest: AWSEncodableShape {
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let accountId: String?
+        /// The one-time passcode sent to the phone number in the primary contact information by the SendPhoneNumberVerification operation.
+        public let otp: String
+
+        @inlinable
+        public init(accountId: String? = nil, otp: String) {
+            self.accountId = accountId
+            self.otp = otp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.otp, name: "otp", parent: name, pattern: "^[a-zA-Z0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case otp = "Otp"
+        }
+    }
+
+    public struct VerifyPhoneNumberResponse: AWSDecodableShape {
+        /// The verification status of the phone number in the primary contact information after the submitted one-time passcode is evaluated. Valid values:    PENDING – A one-time passcode has been sent and is waiting to be submitted.    VERIFIED – The phone number has been verified.    UNVERIFIED – The phone number has not been verified.    NOT_SUPPORTED – Phone number verification isn't available for this account.
+        public let status: PhoneNumberVerificationStatus?
+
+        @inlinable
+        public init(status: PhoneNumberVerificationStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 }

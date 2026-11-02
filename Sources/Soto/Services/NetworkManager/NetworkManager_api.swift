@@ -302,6 +302,8 @@ public struct NetworkManager: AWSService {
     ///   - clientToken: The client token associated with the request.
     ///   - coreNetworkId: The ID of a core network where you want to create the attachment.
     ///   - edgeLocation: The Region where the edge is located.
+    ///   - natGatewayRules: The NAT rules for the Connect attachment, up to 50 rules.
+    ///   - natGatewaySupport: Specifies whether to enable NAT gateway support on the Connect attachment. NAT is supported only on Connect attachments that use the GRE tunnel protocol. Tunnel-less Connect attachments aren't supported. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
     ///   - options: Options for creating an attachment.
     ///   - routingPolicyLabel: The routing policy label to apply to the Connect attachment for traffic routing decisions.
     ///   - tags: The list of key-value tags associated with the request.
@@ -312,6 +314,8 @@ public struct NetworkManager: AWSService {
         clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(),
         coreNetworkId: String,
         edgeLocation: String,
+        natGatewayRules: [NatRuleRequest]? = nil,
+        natGatewaySupport: NatGatewaySupportValue? = nil,
         options: ConnectAttachmentOptions,
         routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
@@ -322,6 +326,8 @@ public struct NetworkManager: AWSService {
             clientToken: clientToken, 
             coreNetworkId: coreNetworkId, 
             edgeLocation: edgeLocation, 
+            natGatewayRules: natGatewayRules, 
+            natGatewaySupport: natGatewaySupport, 
             options: options, 
             routingPolicyLabel: routingPolicyLabel, 
             tags: tags, 
@@ -582,6 +588,9 @@ public struct NetworkManager: AWSService {
     ///   - coreNetworkId: The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to.
     ///   - directConnectGatewayArn: The ARN of the Direct Connect gateway attachment.
     ///   - edgeLocations: One or more core network edge locations that the Direct Connect gateway attachment is associated with.
+    ///   - natGatewayRules: The NAT rules for the Direct Connect gateway attachment, up to 50 rules.
+    ///   - natGatewaySupport: Specifies whether to enable NAT gateway support on the Direct Connect gateway attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+    ///   - natSystemRouteSupport: Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. The default is true.
     ///   - routingPolicyLabel: The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions.
     ///   - tags: The key value tags to apply to the Direct Connect gateway attachment during creation.
     ///   - logger: Logger use during operation
@@ -591,6 +600,9 @@ public struct NetworkManager: AWSService {
         coreNetworkId: String,
         directConnectGatewayArn: String,
         edgeLocations: [String],
+        natGatewayRules: [NatRuleRequest]? = nil,
+        natGatewaySupport: NatGatewaySupportValue? = nil,
+        natSystemRouteSupport: Bool? = nil,
         routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -600,6 +612,9 @@ public struct NetworkManager: AWSService {
             coreNetworkId: coreNetworkId, 
             directConnectGatewayArn: directConnectGatewayArn, 
             edgeLocations: edgeLocations, 
+            natGatewayRules: natGatewayRules, 
+            natGatewaySupport: natGatewaySupport, 
+            natSystemRouteSupport: natSystemRouteSupport, 
             routingPolicyLabel: routingPolicyLabel, 
             tags: tags
         )
@@ -741,6 +756,9 @@ public struct NetworkManager: AWSService {
     /// Parameters:
     ///   - clientToken: The client token associated with the request.
     ///   - coreNetworkId: The ID of a core network where you're creating a site-to-site VPN attachment.
+    ///   - natGatewayRules: The NAT rules for the Site-to-Site VPN attachment, up to 50 rules.
+    ///   - natGatewaySupport: Specifies whether to enable NAT gateway support on the Site-to-Site VPN attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+    ///   - natSystemRouteSupport: Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. The default is true for VPN connections that use BGP and false for VPN connections that use static routing. If the VPN connection uses static routing, you must specify false or omit this parameter.
     ///   - routingPolicyLabel: The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions.
     ///   - tags: The tags associated with the request.
     ///   - vpnConnectionArn: The ARN identifying the VPN attachment.
@@ -749,6 +767,9 @@ public struct NetworkManager: AWSService {
     public func createSiteToSiteVpnAttachment(
         clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(),
         coreNetworkId: String,
+        natGatewayRules: [NatRuleRequest]? = nil,
+        natGatewaySupport: NatGatewaySupportValue? = nil,
+        natSystemRouteSupport: Bool? = nil,
         routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
         vpnConnectionArn: String,
@@ -757,6 +778,9 @@ public struct NetworkManager: AWSService {
         let input = CreateSiteToSiteVpnAttachmentRequest(
             clientToken: clientToken, 
             coreNetworkId: coreNetworkId, 
+            natGatewayRules: natGatewayRules, 
+            natGatewaySupport: natGatewaySupport, 
+            natSystemRouteSupport: natSystemRouteSupport, 
             routingPolicyLabel: routingPolicyLabel, 
             tags: tags, 
             vpnConnectionArn: vpnConnectionArn
@@ -861,6 +885,8 @@ public struct NetworkManager: AWSService {
     /// Parameters:
     ///   - clientToken: The client token associated with the request.
     ///   - coreNetworkId: The ID of a core network for the VPC attachment.
+    ///   - natGatewayRules: The NAT rules for the VPC attachment, up to 50 rules.
+    ///   - natGatewaySupport: Specifies whether to enable NAT gateway support on the VPC attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
     ///   - options: Options for the VPC attachment.
     ///   - routingPolicyLabel: The routing policy label to apply to the VPC attachment for traffic routing decisions.
     ///   - subnetArns: The subnet ARN of the VPC attachment.
@@ -871,6 +897,8 @@ public struct NetworkManager: AWSService {
     public func createVpcAttachment(
         clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(),
         coreNetworkId: String,
+        natGatewayRules: [NatRuleRequest]? = nil,
+        natGatewaySupport: NatGatewaySupportValue? = nil,
         options: VpcOptions? = nil,
         routingPolicyLabel: String? = nil,
         subnetArns: [String],
@@ -881,6 +909,8 @@ public struct NetworkManager: AWSService {
         let input = CreateVpcAttachmentRequest(
             clientToken: clientToken, 
             coreNetworkId: coreNetworkId, 
+            natGatewayRules: natGatewayRules, 
+            natGatewaySupport: natGatewaySupport, 
             options: options, 
             routingPolicyLabel: routingPolicyLabel, 
             subnetArns: subnetArns, 
@@ -2123,6 +2153,8 @@ public struct NetworkManager: AWSService {
     ///   - exactCidrMatches: An exact CIDR block.
     ///   - globalNetworkId: The ID of the global network.
     ///   - longestPrefixMatches: The most specific route that matches the traffic (longest prefix match).
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next page of results.
     ///   - prefixListIds: The IDs of the prefix lists.
     ///   - routeTableIdentifier: The ID of the route table.
     ///   - states: The route states.
@@ -2136,6 +2168,8 @@ public struct NetworkManager: AWSService {
         exactCidrMatches: [String]? = nil,
         globalNetworkId: String,
         longestPrefixMatches: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
         prefixListIds: [String]? = nil,
         routeTableIdentifier: RouteTableIdentifier,
         states: [RouteState]? = nil,
@@ -2149,6 +2183,8 @@ public struct NetworkManager: AWSService {
             exactCidrMatches: exactCidrMatches, 
             globalNetworkId: globalNetworkId, 
             longestPrefixMatches: longestPrefixMatches, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
             prefixListIds: prefixListIds, 
             routeTableIdentifier: routeTableIdentifier, 
             states: states, 
@@ -2503,6 +2539,47 @@ public struct NetworkManager: AWSService {
         return try await self.getVpcAttachment(input, logger: logger)
     }
 
+    /// Returns the NAT configurations of core network attachments. You must specify either a core network ID or an attachment ID. Only the core network owner can list NAT configurations.
+    @Sendable
+    @inlinable
+    public func listAttachmentNatConfigurations(_ input: ListAttachmentNatConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttachmentNatConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListAttachmentNatConfigurations", 
+            path: "/nat-configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the NAT configurations of core network attachments. You must specify either a core network ID or an attachment ID. Only the core network owner can list NAT configurations.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of an attachment. Returns the NAT configuration of the specified attachment. If you specify both an attachment ID and a core network ID, the attachment ID is used.
+    ///   - coreNetworkId: The ID of a core network. Returns the NAT configurations of attachments in the core network that support NAT.
+    ///   - filters: The filters to apply to the results. Values for the same filter are joined with OR, and different filters are joined with AND. You can specify up to 10 filter values in total. The following filters are supported:    nat-gateway-support: The state of NAT gateway support on the attachment, for example ENABLED.    nat-system-route-support: Whether system routes are installed for the attachment, true or false.    rule-number: The rule number of a NAT rule.    match-source-cidr: The source CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.    nat-cidr: The NAT CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.    nat-rule-state: The state of a NAT rule, for example ACTIVATED.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAttachmentNatConfigurations(
+        attachmentId: String? = nil,
+        coreNetworkId: String? = nil,
+        filters: [String: [String]]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAttachmentNatConfigurationsResponse {
+        let input = ListAttachmentNatConfigurationsRequest(
+            attachmentId: attachmentId, 
+            coreNetworkId: coreNetworkId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAttachmentNatConfigurations(input, logger: logger)
+    }
+
     /// Lists the routing policy associations for attachments in a core network.
     @Sendable
     @inlinable
@@ -2716,12 +2793,16 @@ public struct NetworkManager: AWSService {
     ///   - coreNetworkId: The ID of the core network to retrieve routing information for.
     ///   - edgeLocation: The edge location to filter routing information by.
     ///   - exactAsPathMatches: Exact AS path values to match when filtering routing information.
+    ///   - exactPrefixMatches: Exact prefix values to match when filtering routing information.
     ///   - localPreferenceMatches: Local preference values to match when filtering routing information.
+    ///   - longestPrefixMatches: Filters routing information based on the longest prefix that matches each provided IP address.
     ///   - maxResults: The maximum number of routing information entries to return in a single page.
     ///   - medMatches: Multi-Exit Discriminator (MED) values to match when filtering routing information.
-    ///   - nextHopFilters: Filters to apply based on next hop information.
+    ///   - nextHopFilters: Filters to apply based on next hop information. Each filter value must exactly match the corresponding next hop value. Values for the same filter are joined with OR, and different filters are joined with AND. The following filters are supported:    core-network-attachment-id: The ID of the core network attachment for the next hop, for example attachment-0123456789abcdef0.    segment-name: The name of the segment for the next hop.    edge-location: The edge location for the next hop, for example us-east-1.    resource-id: The ID of the resource for the next hop.    resource-type: The type of resource for the next hop. The possible values are vpc, vpn, connect-peer, direct-connect-gateway, transit-gateway-route-table, attachment, and blackhole.    ip-address: The IP address of the next hop. For a Site-to-Site VPN next hop, this is the outside IP address of the AWS side of the VPN tunnel. For a Connect peer next hop, this is the core network BGP address of the Connect peer. The value must be a single IPv4 or IPv6 address.   You can specify up to 10 filter values in total across NextHopFilters and the other match parameters in the request. Each filter value can be up to 256 characters.
     ///   - nextToken: The token for the next page of results.
     ///   - segmentName: The name of the segment to filter routing information by.
+    ///   - subnetOfMatches: Prefix values to filter routing information whose prefix is a subnet of the prefixes provided.
+    ///   - supernetOfMatches: Prefix values to filter routing information whose prefix is a supernet of the prefixes provided.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCoreNetworkRoutingInformation(
@@ -2729,12 +2810,16 @@ public struct NetworkManager: AWSService {
         coreNetworkId: String,
         edgeLocation: String,
         exactAsPathMatches: [String]? = nil,
+        exactPrefixMatches: [String]? = nil,
         localPreferenceMatches: [String]? = nil,
+        longestPrefixMatches: [String]? = nil,
         maxResults: Int? = nil,
         medMatches: [String]? = nil,
         nextHopFilters: [String: [String]]? = nil,
         nextToken: String? = nil,
         segmentName: String,
+        subnetOfMatches: [String]? = nil,
+        supernetOfMatches: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCoreNetworkRoutingInformationResponse {
         let input = ListCoreNetworkRoutingInformationRequest(
@@ -2742,12 +2827,16 @@ public struct NetworkManager: AWSService {
             coreNetworkId: coreNetworkId, 
             edgeLocation: edgeLocation, 
             exactAsPathMatches: exactAsPathMatches, 
+            exactPrefixMatches: exactPrefixMatches, 
             localPreferenceMatches: localPreferenceMatches, 
+            longestPrefixMatches: longestPrefixMatches, 
             maxResults: maxResults, 
             medMatches: medMatches, 
             nextHopFilters: nextHopFilters, 
             nextToken: nextToken, 
-            segmentName: segmentName
+            segmentName: segmentName, 
+            subnetOfMatches: subnetOfMatches, 
+            supernetOfMatches: supernetOfMatches
         )
         return try await self.listCoreNetworkRoutingInformation(input, logger: logger)
     }
@@ -3257,6 +3346,47 @@ public struct NetworkManager: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the NAT configuration of a core network attachment. You can enable or disable NAT gateway support, specify whether the core network installs system routes for the NAT CIDR blocks, and replace the NAT rules of the attachment. Specify at least one of NatGatewaySupport, NatSystemRouteSupport, or NatGatewayRules. Only the core network owner can update the NAT configuration of an attachment. The attachment must be in the AVAILABLE, PENDING_ATTACHMENT_ACCEPTANCE, or PENDING_TAG_ACCEPTANCE state. Changes are applied asynchronously, and the attachment is in the UPDATING state while they are applied. If the attachment is pending acceptance, the NAT configuration is stored and is applied after the attachment is accepted.
+    @Sendable
+    @inlinable
+    public func updateAttachmentNatConfiguration(_ input: UpdateAttachmentNatConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAttachmentNatConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateAttachmentNatConfiguration", 
+            path: "/attachments/{AttachmentId}/nat-configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the NAT configuration of a core network attachment. You can enable or disable NAT gateway support, specify whether the core network installs system routes for the NAT CIDR blocks, and replace the NAT rules of the attachment. Specify at least one of NatGatewaySupport, NatSystemRouteSupport, or NatGatewayRules. Only the core network owner can update the NAT configuration of an attachment. The attachment must be in the AVAILABLE, PENDING_ATTACHMENT_ACCEPTANCE, or PENDING_TAG_ACCEPTANCE state. Changes are applied asynchronously, and the attachment is in the UPDATING state while they are applied. If the attachment is pending acceptance, the NAT configuration is stored and is applied after the attachment is accepted.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of the attachment to update the NAT configuration for.
+    ///   - clientToken: The client token associated with the request.
+    ///   - natGatewayRules: The complete set of NAT rules for the attachment, up to 50 rules. The rules that you specify replace the existing rules of the attachment, matched by rule number. Existing rules that aren't included in the request are deleted. To delete all NAT rules, specify an empty list. You can delete all NAT rules only when NAT gateway support is disabled, or when you disable it in the same request. If you omit this parameter, the existing rules are unchanged.
+    ///   - natGatewaySupport: Specifies whether to enable or disable NAT gateway support on the attachment. When you disable NAT gateway support, the attachment keeps its NAT rules but doesn't apply them. To enable NAT gateway support, the attachment must have at least one NAT rule, either specified in this request or already configured on the attachment. If you omit this parameter, NAT gateway support is unchanged.
+    ///   - natSystemRouteSupport: Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. If you omit this parameter, the current value is unchanged.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAttachmentNatConfiguration(
+        attachmentId: String,
+        clientToken: String? = UpdateAttachmentNatConfigurationRequest.idempotencyToken(),
+        natGatewayRules: [NatRuleRequest]? = nil,
+        natGatewaySupport: NatGatewaySupportValue? = nil,
+        natSystemRouteSupport: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAttachmentNatConfigurationResponse {
+        let input = UpdateAttachmentNatConfigurationRequest(
+            attachmentId: attachmentId, 
+            clientToken: clientToken, 
+            natGatewayRules: natGatewayRules, 
+            natGatewaySupport: natGatewaySupport, 
+            natSystemRouteSupport: natSystemRouteSupport
+        )
+        return try await self.updateAttachmentNatConfiguration(input, logger: logger)
     }
 
     /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
@@ -4146,6 +4276,70 @@ extension NetworkManager {
         return self.getNetworkResourcesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getNetworkRoutes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getNetworkRoutesPaginator(
+        _ input: GetNetworkRoutesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetNetworkRoutesRequest, GetNetworkRoutesResponse> {
+        return .init(
+            input: input,
+            command: self.getNetworkRoutes,
+            inputKey: \GetNetworkRoutesRequest.nextToken,
+            outputKey: \GetNetworkRoutesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getNetworkRoutes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - destinationFilters: Filter by route table destination. Possible Values: TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
+    ///   - exactCidrMatches: An exact CIDR block.
+    ///   - globalNetworkId: The ID of the global network.
+    ///   - longestPrefixMatches: The most specific route that matches the traffic (longest prefix match).
+    ///   - maxResults: The maximum number of results to return.
+    ///   - prefixListIds: The IDs of the prefix lists.
+    ///   - routeTableIdentifier: The ID of the route table.
+    ///   - states: The route states.
+    ///   - subnetOfMatches: The routes with a subnet that match the specified CIDR filter.
+    ///   - supernetOfMatches: The routes with a CIDR that encompasses the CIDR filter. Example: If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29.
+    ///   - types: The route types.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getNetworkRoutesPaginator(
+        destinationFilters: [String: [String]]? = nil,
+        exactCidrMatches: [String]? = nil,
+        globalNetworkId: String,
+        longestPrefixMatches: [String]? = nil,
+        maxResults: Int? = nil,
+        prefixListIds: [String]? = nil,
+        routeTableIdentifier: RouteTableIdentifier,
+        states: [RouteState]? = nil,
+        subnetOfMatches: [String]? = nil,
+        supernetOfMatches: [String]? = nil,
+        types: [RouteType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetNetworkRoutesRequest, GetNetworkRoutesResponse> {
+        let input = GetNetworkRoutesRequest(
+            destinationFilters: destinationFilters, 
+            exactCidrMatches: exactCidrMatches, 
+            globalNetworkId: globalNetworkId, 
+            longestPrefixMatches: longestPrefixMatches, 
+            maxResults: maxResults, 
+            prefixListIds: prefixListIds, 
+            routeTableIdentifier: routeTableIdentifier, 
+            states: states, 
+            subnetOfMatches: subnetOfMatches, 
+            supernetOfMatches: supernetOfMatches, 
+            types: types
+        )
+        return self.getNetworkRoutesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getNetworkTelemetry(_:logger:)``.
     ///
     /// - Parameters:
@@ -4319,6 +4513,49 @@ extension NetworkManager {
             transitGatewayArns: transitGatewayArns
         )
         return self.getTransitGatewayRegistrationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAttachmentNatConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAttachmentNatConfigurationsPaginator(
+        _ input: ListAttachmentNatConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAttachmentNatConfigurationsRequest, ListAttachmentNatConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAttachmentNatConfigurations,
+            inputKey: \ListAttachmentNatConfigurationsRequest.nextToken,
+            outputKey: \ListAttachmentNatConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAttachmentNatConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - attachmentId: The ID of an attachment. Returns the NAT configuration of the specified attachment. If you specify both an attachment ID and a core network ID, the attachment ID is used.
+    ///   - coreNetworkId: The ID of a core network. Returns the NAT configurations of attachments in the core network that support NAT.
+    ///   - filters: The filters to apply to the results. Values for the same filter are joined with OR, and different filters are joined with AND. You can specify up to 10 filter values in total. The following filters are supported:    nat-gateway-support: The state of NAT gateway support on the attachment, for example ENABLED.    nat-system-route-support: Whether system routes are installed for the attachment, true or false.    rule-number: The rule number of a NAT rule.    match-source-cidr: The source CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.    nat-cidr: The NAT CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.    nat-rule-state: The state of a NAT rule, for example ACTIVATED.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAttachmentNatConfigurationsPaginator(
+        attachmentId: String? = nil,
+        coreNetworkId: String? = nil,
+        filters: [String: [String]]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAttachmentNatConfigurationsRequest, ListAttachmentNatConfigurationsResponse> {
+        let input = ListAttachmentNatConfigurationsRequest(
+            attachmentId: attachmentId, 
+            coreNetworkId: coreNetworkId, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listAttachmentNatConfigurationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAttachmentRoutingPolicyAssociations(_:logger:)``.
@@ -4549,11 +4786,15 @@ extension NetworkManager {
     ///   - coreNetworkId: The ID of the core network to retrieve routing information for.
     ///   - edgeLocation: The edge location to filter routing information by.
     ///   - exactAsPathMatches: Exact AS path values to match when filtering routing information.
+    ///   - exactPrefixMatches: Exact prefix values to match when filtering routing information.
     ///   - localPreferenceMatches: Local preference values to match when filtering routing information.
+    ///   - longestPrefixMatches: Filters routing information based on the longest prefix that matches each provided IP address.
     ///   - maxResults: The maximum number of routing information entries to return in a single page.
     ///   - medMatches: Multi-Exit Discriminator (MED) values to match when filtering routing information.
-    ///   - nextHopFilters: Filters to apply based on next hop information.
+    ///   - nextHopFilters: Filters to apply based on next hop information. Each filter value must exactly match the corresponding next hop value. Values for the same filter are joined with OR, and different filters are joined with AND. The following filters are supported:    core-network-attachment-id: The ID of the core network attachment for the next hop, for example attachment-0123456789abcdef0.    segment-name: The name of the segment for the next hop.    edge-location: The edge location for the next hop, for example us-east-1.    resource-id: The ID of the resource for the next hop.    resource-type: The type of resource for the next hop. The possible values are vpc, vpn, connect-peer, direct-connect-gateway, transit-gateway-route-table, attachment, and blackhole.    ip-address: The IP address of the next hop. For a Site-to-Site VPN next hop, this is the outside IP address of the AWS side of the VPN tunnel. For a Connect peer next hop, this is the core network BGP address of the Connect peer. The value must be a single IPv4 or IPv6 address.   You can specify up to 10 filter values in total across NextHopFilters and the other match parameters in the request. Each filter value can be up to 256 characters.
     ///   - segmentName: The name of the segment to filter routing information by.
+    ///   - subnetOfMatches: Prefix values to filter routing information whose prefix is a subnet of the prefixes provided.
+    ///   - supernetOfMatches: Prefix values to filter routing information whose prefix is a supernet of the prefixes provided.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCoreNetworkRoutingInformationPaginator(
@@ -4561,11 +4802,15 @@ extension NetworkManager {
         coreNetworkId: String,
         edgeLocation: String,
         exactAsPathMatches: [String]? = nil,
+        exactPrefixMatches: [String]? = nil,
         localPreferenceMatches: [String]? = nil,
+        longestPrefixMatches: [String]? = nil,
         maxResults: Int? = nil,
         medMatches: [String]? = nil,
         nextHopFilters: [String: [String]]? = nil,
         segmentName: String,
+        subnetOfMatches: [String]? = nil,
+        supernetOfMatches: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCoreNetworkRoutingInformationRequest, ListCoreNetworkRoutingInformationResponse> {
         let input = ListCoreNetworkRoutingInformationRequest(
@@ -4573,11 +4818,15 @@ extension NetworkManager {
             coreNetworkId: coreNetworkId, 
             edgeLocation: edgeLocation, 
             exactAsPathMatches: exactAsPathMatches, 
+            exactPrefixMatches: exactPrefixMatches, 
             localPreferenceMatches: localPreferenceMatches, 
+            longestPrefixMatches: longestPrefixMatches, 
             maxResults: maxResults, 
             medMatches: medMatches, 
             nextHopFilters: nextHopFilters, 
-            segmentName: segmentName
+            segmentName: segmentName, 
+            subnetOfMatches: subnetOfMatches, 
+            supernetOfMatches: supernetOfMatches
         )
         return self.listCoreNetworkRoutingInformationPaginator(input, logger: logger)
     }
@@ -4822,6 +5071,26 @@ extension NetworkManager.GetNetworkResourcesRequest: AWSPaginateToken {
     }
 }
 
+extension NetworkManager.GetNetworkRoutesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetNetworkRoutesRequest {
+        return .init(
+            destinationFilters: self.destinationFilters,
+            exactCidrMatches: self.exactCidrMatches,
+            globalNetworkId: self.globalNetworkId,
+            longestPrefixMatches: self.longestPrefixMatches,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixListIds: self.prefixListIds,
+            routeTableIdentifier: self.routeTableIdentifier,
+            states: self.states,
+            subnetOfMatches: self.subnetOfMatches,
+            supernetOfMatches: self.supernetOfMatches,
+            types: self.types
+        )
+    }
+}
+
 extension NetworkManager.GetNetworkTelemetryRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> NetworkManager.GetNetworkTelemetryRequest {
@@ -4871,6 +5140,19 @@ extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateToken
             maxResults: self.maxResults,
             nextToken: token,
             transitGatewayArns: self.transitGatewayArns
+        )
+    }
+}
+
+extension NetworkManager.ListAttachmentNatConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListAttachmentNatConfigurationsRequest {
+        return .init(
+            attachmentId: self.attachmentId,
+            coreNetworkId: self.coreNetworkId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -4944,12 +5226,16 @@ extension NetworkManager.ListCoreNetworkRoutingInformationRequest: AWSPaginateTo
             coreNetworkId: self.coreNetworkId,
             edgeLocation: self.edgeLocation,
             exactAsPathMatches: self.exactAsPathMatches,
+            exactPrefixMatches: self.exactPrefixMatches,
             localPreferenceMatches: self.localPreferenceMatches,
+            longestPrefixMatches: self.longestPrefixMatches,
             maxResults: self.maxResults,
             medMatches: self.medMatches,
             nextHopFilters: self.nextHopFilters,
             nextToken: token,
-            segmentName: self.segmentName
+            segmentName: self.segmentName,
+            subnetOfMatches: self.subnetOfMatches,
+            supernetOfMatches: self.supernetOfMatches
         )
     }
 }

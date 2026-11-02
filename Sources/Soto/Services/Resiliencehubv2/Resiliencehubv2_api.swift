@@ -296,6 +296,7 @@ public struct Resiliencehubv2: AWSService {
     ///   - clientToken: 
     ///   - dependencyDiscovery: 
     ///   - description: 
+    ///   - devOpsAgentConfiguration: The optional DevOps Agent integration configuration to apply to the new service. If you omit this field, the new service has no DevOps Agent integration.
     ///   - kmsKeyId: 
     ///   - name: 
     ///   - permissionModel: The permission model for the service.
@@ -310,6 +311,7 @@ public struct Resiliencehubv2: AWSService {
         clientToken: String? = CreateServiceRequest.idempotencyToken(),
         dependencyDiscovery: DependencyDiscoveryInput? = nil,
         description: String? = nil,
+        devOpsAgentConfiguration: DevOpsAgentConfiguration? = nil,
         kmsKeyId: String? = nil,
         name: String,
         permissionModel: PermissionModel,
@@ -324,6 +326,7 @@ public struct Resiliencehubv2: AWSService {
             clientToken: clientToken, 
             dependencyDiscovery: dependencyDiscovery, 
             description: description, 
+            devOpsAgentConfiguration: devOpsAgentConfiguration, 
             kmsKeyId: kmsKeyId, 
             name: name, 
             permissionModel: permissionModel, 
@@ -2658,6 +2661,7 @@ public struct Resiliencehubv2: AWSService {
     ///   - associatedSystems: The updated systems to associate with the service.
     ///   - dependencyDiscovery: 
     ///   - description: 
+    ///   - devOpsAgentConfiguration: The optional DevOps Agent integration configuration to set, replace, or disconnect for the service. If you omit this field, the existing DevOps Agent linkage stays unchanged.
     ///   - permissionModel: The updated permission model for the service.
     ///   - policyArn: 
     ///   - regions: The updated AWS Regions where the service operates.
@@ -2669,6 +2673,7 @@ public struct Resiliencehubv2: AWSService {
         associatedSystems: [AssociatedSystem]? = nil,
         dependencyDiscovery: DependencyDiscoveryInput? = nil,
         description: String? = nil,
+        devOpsAgentConfiguration: DevOpsAgentConfiguration? = nil,
         permissionModel: PermissionModel? = nil,
         policyArn: String? = nil,
         regions: [String]? = nil,
@@ -2680,6 +2685,7 @@ public struct Resiliencehubv2: AWSService {
             associatedSystems: associatedSystems, 
             dependencyDiscovery: dependencyDiscovery, 
             description: description, 
+            devOpsAgentConfiguration: devOpsAgentConfiguration, 
             permissionModel: permissionModel, 
             policyArn: policyArn, 
             regions: regions, 

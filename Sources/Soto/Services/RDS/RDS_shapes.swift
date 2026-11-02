@@ -92,6 +92,19 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
+    public enum DBCapacityReservationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case assessing = "assessing"
+        case cancelled = "cancelled"
+        case delayed = "delayed"
+        case expired = "expired"
+        case failed = "failed"
+        case pending = "pending"
+        case scheduled = "scheduled"
+        case unsupported = "unsupported"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DBProxyEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case creating = "creating"
@@ -130,6 +143,12 @@ extension RDS {
     public enum DefaultAuthScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iamAuth = "IAM_AUTH"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndDateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case limited = "limited"
+        case unlimited = "unlimited"
         public var description: String { return self.rawValue }
     }
 
@@ -672,6 +691,24 @@ extension RDS {
         }
     }
 
+    public struct AvailableCapacityPerAvailabilityZone: AWSDecodableShape {
+        /// The name of the Availability Zone.
+        public let availabilityZone: String?
+        /// The number of DB instances that remain available in this Availability Zone. Amazon RDS decreases this value when a DB instance takes a unit of reserved capacity in this Availability Zone, and it increases this value when a DB instance releases that unit. A DB instance with a pending modification also holds a unit of reserved capacity. A DB instance has a pending modification when Amazon RDS accepts a change to the DB instance and applies that change later, during the maintenance window. Amazon RDS holds the unit from the time that it accepts the request. To find a DB instance with a pending modification, check PendingModifiedValues in the response of DescribeDBInstances. Amazon RDS reports available capacity only for a reservation that is in the active state and not past its end date. Otherwise, this value is 0.
+        public let availableCapacity: Int?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availableCapacity: Int? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availableCapacity = availableCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availableCapacity = "AvailableCapacity"
+        }
+    }
+
     public struct AvailableProcessorFeature: AWSDecodableShape {
         /// The allowed values for the processor feature of the DB instance class.
         public let allowedValues: String?
@@ -793,6 +830,40 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case status = "Status"
+        }
+    }
+
+    public struct CancelDBCapacityReservationRequest: AWSEncodableShape {
+        /// The identifier or the name of the DB capacity reservation to cancel. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+        public let dbCapacityReservationIdentifier: String?
+
+        @inlinable
+        public init(dbCapacityReservationIdentifier: String? = nil) {
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
+        }
+    }
+
+    public struct CancelDBCapacityReservationResponse: AWSDecodableShape {
+        /// Contains the details of the canceled DB capacity reservation.
+        public let dbCapacityReservation: DBCapacityReservation?
+
+        @inlinable
+        public init(dbCapacityReservation: DBCapacityReservation? = nil) {
+            self.dbCapacityReservation = dbCapacityReservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservation = "DBCapacityReservation"
         }
     }
 
@@ -1308,6 +1379,7 @@ extension RDS {
 
     public struct CreateBlueGreenDeploymentRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TargetResourceConfigurationsEncoding: ArrayCoderProperties { public static let member = "TargetResourceConfiguration" }
 
         /// The name of the blue/green deployment. Constraints:   Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region.
         public let blueGreenDeploymentName: String?
@@ -1328,6 +1400,9 @@ extension RDS {
         public let targetEngineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see Amazon RDS DB instance storage in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
         public let targetIops: Int?
+        /// Specifies resource-level configuration overrides for the green environment. Each entry identifies a resource in the blue environment by its Amazon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configuration as its counterpart in the blue environment. Use this parameter when one or more resources in the green environment require a different configuration than what they have in the blue environment. Constraints:   You can't specify the same SourceArn in more than one entry.
+        @OptionalCustomCoding<ArrayCoder<_TargetResourceConfigurationsEncoding, TargetResourceConfiguration>>
+        public var targetResourceConfigurations: [TargetResourceConfiguration]?
         /// The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
         public let targetStorageThroughput: Int?
         /// The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2  This setting doesn't apply to Amazon Aurora blue/green deployments.
@@ -1336,7 +1411,7 @@ extension RDS {
         public let upgradeTargetStorageConfig: Bool?
 
         @inlinable
-        public init(blueGreenDeploymentName: String? = nil, source: String? = nil, tags: [Tag]? = nil, targetAllocatedStorage: Int? = nil, targetDBClusterParameterGroupName: String? = nil, targetDBInstanceClass: String? = nil, targetDBParameterGroupName: String? = nil, targetEngineVersion: String? = nil, targetIops: Int? = nil, targetStorageThroughput: Int? = nil, targetStorageType: String? = nil, upgradeTargetStorageConfig: Bool? = nil) {
+        public init(blueGreenDeploymentName: String? = nil, source: String? = nil, tags: [Tag]? = nil, targetAllocatedStorage: Int? = nil, targetDBClusterParameterGroupName: String? = nil, targetDBInstanceClass: String? = nil, targetDBParameterGroupName: String? = nil, targetEngineVersion: String? = nil, targetIops: Int? = nil, targetResourceConfigurations: [TargetResourceConfiguration]? = nil, targetStorageThroughput: Int? = nil, targetStorageType: String? = nil, upgradeTargetStorageConfig: Bool? = nil) {
             self.blueGreenDeploymentName = blueGreenDeploymentName
             self.source = source
             self.tags = tags
@@ -1346,6 +1421,7 @@ extension RDS {
             self.targetDBParameterGroupName = targetDBParameterGroupName
             self.targetEngineVersion = targetEngineVersion
             self.targetIops = targetIops
+            self.targetResourceConfigurations = targetResourceConfigurations
             self.targetStorageThroughput = targetStorageThroughput
             self.targetStorageType = targetStorageType
             self.upgradeTargetStorageConfig = upgradeTargetStorageConfig
@@ -1370,6 +1446,10 @@ extension RDS {
             try self.validate(self.targetEngineVersion, name: "targetEngineVersion", parent: name, max: 64)
             try self.validate(self.targetEngineVersion, name: "targetEngineVersion", parent: name, min: 1)
             try self.validate(self.targetEngineVersion, name: "targetEngineVersion", parent: name, pattern: "^[0-9A-Za-z-_.]+$")
+            try self.targetResourceConfigurations?.forEach {
+                try $0.validate(name: "\(name).targetResourceConfigurations[]")
+            }
+            try self.validate(self.targetResourceConfigurations, name: "targetResourceConfigurations", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1382,6 +1462,7 @@ extension RDS {
             case targetDBParameterGroupName = "TargetDBParameterGroupName"
             case targetEngineVersion = "TargetEngineVersion"
             case targetIops = "TargetIops"
+            case targetResourceConfigurations = "TargetResourceConfigurations"
             case targetStorageThroughput = "TargetStorageThroughput"
             case targetStorageType = "TargetStorageType"
             case upgradeTargetStorageConfig = "UpgradeTargetStorageConfig"
@@ -1489,6 +1570,84 @@ extension RDS {
             case sourceCustomDbEngineVersionIdentifier = "SourceCustomDbEngineVersionIdentifier"
             case tags = "Tags"
             case useAwsProvidedLatestImage = "UseAwsProvidedLatestImage"
+        }
+    }
+
+    public struct CreateDBCapacityReservationRequest: AWSEncodableShape {
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// A list of Availability Zones for the reservation. You can't change the Availability Zones of a reservation after you create it. Reserved capacity in an Availability Zone that no DB instance uses stays unused. Constraints:   Must specify one or more Availability Zones.   Each Availability Zone can appear only once.   Each Availability Zone must be in the Amazon Web Services Region of the request.   Each Availability Zone must have capacity for the requested DB instance class.   Must include two or more Availability Zones to use the reservation for a Multi-AZ DB instance.   A DB instance can use reserved capacity only in an Availability Zone that its DB subnet group covers.   Example: us-east-1a
+        @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
+        public var availabilityZones: [String]?
+        /// The number of DB instances to reserve in each Availability Zone that you list in AvailabilityZones. Amazon RDS reserves this number of DB instances in every listed Availability Zone. A Single-AZ DB instance uses one unit of reserved capacity, in one Availability Zone. A Multi-AZ DB instance is one DB instance, and it uses one unit of reserved capacity in each of two Availability Zones. Therefore, a Multi-AZ DB instance uses two units in total. A read replica uses one unit of reserved capacity, in the same way as any other DB instance. Amazon RDS reserves capacity in each Availability Zone separately. Reserved capacity in one Availability Zone can't serve a DB instance in another Availability Zone. A request for a DB instance fails when the Availability Zone of the DB instance has no available capacity. Therefore, set this value to the number of DB instances that you want to run at the same time in one Availability Zone. Don't set it to the number that you want in total. This value multiplied by the number of Availability Zones counts against the DB instances quota for your Amazon Web Services account in the Amazon Web Services Region. Your existing DB instances, and the unused capacity of your other reservations, count against the same quota. To find the value of the DB instances quota, see Quotas and constraints for Amazon RDS in the Amazon RDS User Guide. Constraints:   Minimum 1.
+        public let capacityPerAvailabilityZone: Int?
+        /// The length of the capacity commitment that you request for a future-dated reservation, in seconds. Amazon RDS measures this length from StartDate.  Amazon RDS can grant a shorter capacity commitment than you request. Therefore, read CommitmentEndDate in CommitmentInfo for the commitment that Amazon RDS granted.  The commitment doesn't end the reservation. Specify EndDate to set an expiration date. You can't cancel a reservation in the active state during the commitment. Constraints:   Minimum 1209600, which is 14 days. For a db.x DB instance class, such as db.x2g.xlarge, the minimum is 7257600, which is 84 days.   Must be less than 315576000, which is 10 years.   You must also specify StartDate.   Example: 2592000
+        public let commitmentDuration: Int64?
+        /// The name of the DB capacity reservation. This name must be unique for your Amazon Web Services account in the Amazon Web Services Region. Constraints:   Must contain from 1 to 63 lowercase letters, digits, or hyphens.   First character must be a lowercase letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't contain more than 16 groups of characters separated by hyphens.   Can't begin with dbcr-.
+        public let dbCapacityReservationName: String?
+        /// The compute and memory capacity to reserve, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance classes in the Amazon RDS User Guide. Constraints:   Must be a DB instance class that the specified Engine supports.   For RDS for Oracle with LicenseModel set to license-included, some DB instance classes aren't supported. Either choose a supported DB instance class, or set LicenseModel to bring-your-own-license.
+        public let dbInstanceClass: String?
+        /// The date and time when the reservation expires, in Universal Coordinated Time (UTC). If you don't specify a value, the reservation doesn't expire. To change the expiration of an existing reservation, use ModifyDBCapacityReservation. That operation takes EndDateType along with EndDate. Constraints:   Must be a date and time in the future.   For a future-dated reservation, must be at or after StartDate plus CommitmentDuration. For example, a reservation that starts on 2026-12-01 with a 30-day commitment can't expire before 2026-12-31. To reserve capacity for one calendar month, set CommitmentDuration to 30 days or fewer, not to the length of the month.   Example: 2026-12-31T23:59:59Z
+        public let endDate: Date?
+        /// The database engine to reserve capacity for. Valid Values: aurora-mysql | aurora-postgresql | mysql | postgres | mariadb | oracle-ee | oracle-ee-cdb | oracle-se2 | oracle-se2-cdb | sqlserver-ee | sqlserver-se | sqlserver-web | sqlserver-ex | sqlserver-dev-ee | sqlserver-dev-se | db2-ae | db2-ce | db2-se   The Developer Edition engines sqlserver-dev-ee and sqlserver-dev-se support no Multi-AZ DB instance and no read replica. Therefore, a reservation for either engine serves Single-AZ DB instances only.
+        public let engine: String?
+        /// The license model to reserve capacity for. Specify this parameter only for RDS for Microsoft SQL Server Enterprise Edition, Standard Edition, and Developer Edition, for RDS for Oracle, or for RDS for Db2 Standard Edition and Advanced Edition. Amazon RDS rejects the request for any other engine. This includes Amazon Aurora, the Web and Express editions of RDS for Microsoft SQL Server, and RDS for Db2 Community Edition. Valid Values:   RDS for Microsoft SQL Server Enterprise Edition and Standard Edition - license-included | bring-your-own-media    RDS for Microsoft SQL Server Developer Edition - bring-your-own-license    RDS for Oracle - bring-your-own-license | license-included    RDS for Db2 Standard Edition and Advanced Edition - bring-your-own-license | marketplace-license    A DB instance launches into the reservation only when the license model of the DB instance matches the license model of the reservation. For a reservation that holds no license model, Amazon RDS applies no license model check at launch. For RDS for Microsoft SQL Server Enterprise Edition and Standard Edition, if you don't specify a value, Amazon RDS uses license-included. For RDS for Microsoft SQL Server Developer Edition, if you don't specify a value, Amazon RDS uses bring-your-own-license. That is the only license model that these engines accept, and Amazon RDS rejects any other value. For RDS for Oracle, if you don't specify a value, Amazon RDS uses the only orderable license model for the DB instance class. If more than one license model is orderable, you must specify one. For RDS for Db2 Standard Edition and Advanced Edition, if you don't specify a value, Amazon RDS uses bring-your-own-license. To reserve capacity for Db2 DB instances that you license through Amazon Web Services Marketplace, specify marketplace-license.  For RDS for Oracle, the license models that you can reserve depend on the engine and the DB instance class. RDS for Oracle Enterprise Edition doesn't support license-included.
+        public let licenseModel: String?
+        /// The date and time when the reservation starts, in Universal Coordinated Time (UTC). Specify this parameter to create a future-dated reservation. If you don't specify a value, the reservation starts immediately. A reservation that starts later always carries a capacity commitment. Therefore, a request that specifies StartDate must also meet every constraint of a future-dated reservation, including the minimum reserved capacity in each Availability Zone. Constraints:   Must be from 5 to 120 days in the future.   You must also specify CommitmentDuration.   Example: 2026-12-01T00:00:00Z
+        public let startDate: Date?
+        /// Tags to assign to the DB capacity reservation.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(availabilityZones: [String]? = nil, capacityPerAvailabilityZone: Int? = nil, commitmentDuration: Int64? = nil, dbCapacityReservationName: String? = nil, dbInstanceClass: String? = nil, endDate: Date? = nil, engine: String? = nil, licenseModel: String? = nil, startDate: Date? = nil, tags: [Tag]? = nil) {
+            self.availabilityZones = availabilityZones
+            self.capacityPerAvailabilityZone = capacityPerAvailabilityZone
+            self.commitmentDuration = commitmentDuration
+            self.dbCapacityReservationName = dbCapacityReservationName
+            self.dbInstanceClass = dbInstanceClass
+            self.endDate = endDate
+            self.engine = engine
+            self.licenseModel = licenseModel
+            self.startDate = startDate
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationName, name: "dbCapacityReservationName", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationName, name: "dbCapacityReservationName", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationName, name: "dbCapacityReservationName", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+            try self.validate(self.dbInstanceClass, name: "dbInstanceClass", parent: name, max: 30)
+            try self.validate(self.dbInstanceClass, name: "dbInstanceClass", parent: name, min: 5)
+            try self.validate(self.dbInstanceClass, name: "dbInstanceClass", parent: name, pattern: "^db\\.[0-9a-z]{2,6}\\.[0-9a-z\\.]{4,20}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case capacityPerAvailabilityZone = "CapacityPerAvailabilityZone"
+            case commitmentDuration = "CommitmentDuration"
+            case dbCapacityReservationName = "DBCapacityReservationName"
+            case dbInstanceClass = "DBInstanceClass"
+            case endDate = "EndDate"
+            case engine = "Engine"
+            case licenseModel = "LicenseModel"
+            case startDate = "StartDate"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDBCapacityReservationResponse: AWSDecodableShape {
+        /// Contains the details of the newly created DB capacity reservation.
+        public let dbCapacityReservation: DBCapacityReservation?
+
+        @inlinable
+        public init(dbCapacityReservation: DBCapacityReservation? = nil) {
+            self.dbCapacityReservation = dbCapacityReservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservation = "DBCapacityReservation"
         }
     }
 
@@ -1925,6 +2084,8 @@ extension RDS {
         public let customIamInstanceProfile: String?
         /// The mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
         public let databaseInsightsMode: DatabaseInsightsMode?
+        /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
+        public let dbCapacityReservationIdentifier: String?
         /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
         public let dbClusterIdentifier: String?
         /// The compute and memory capacity of the DB instance, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB instance classes in the Amazon Aurora User Guide.
@@ -2046,7 +2207,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbCapacityReservationIdentifier: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2058,6 +2219,7 @@ extension RDS {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
             self.databaseInsightsMode = databaseInsightsMode
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -2116,6 +2278,12 @@ extension RDS {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalStorageVolumes = "AdditionalStorageVolumes"
             case allocatedStorage = "AllocatedStorage"
@@ -2128,6 +2296,7 @@ extension RDS {
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case customIamInstanceProfile = "CustomIamInstanceProfile"
             case databaseInsightsMode = "DatabaseInsightsMode"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -2212,6 +2381,8 @@ extension RDS {
         public let customIamInstanceProfile: String?
         /// The mode of Database Insights to enable for the read replica.  This setting isn't supported.
         public let databaseInsightsMode: DatabaseInsightsMode?
+        /// The identifier or the name of the DB capacity reservation to associate with this read replica. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the read replica uses reserved capacity from the specified reservation. A read replica uses one unit of reserved capacity, in the same way as any other DB instance. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the source DB instance must match it. A read replica inherits its license model from the source DB instance.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
+        public let dbCapacityReservationIdentifier: String?
         /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
         public let dbInstanceClass: String?
         /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
@@ -2248,7 +2419,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance.
         public let iops: Int?
-        /// The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you create an encrypted read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, don't specify a value for this parameter. A read replica in the same Amazon Web Services Region is always encrypted with the same KMS key as the source DB instance or cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
+        /// The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. For a read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, specifying this parameter is optional. If you specify a KMS key identifier, the read replica is encrypted with that KMS key, which can be different from the KMS key of the source. If you don't specify a value for this parameter, the read replica is encrypted with the same KMS key as the source DB instance or Multi-AZ DB cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
         public let kmsKeyId: String?
         /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling in the Amazon RDS User Guide.
         public let maxAllocatedStorage: Int?
@@ -2299,7 +2470,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, sourceDBClusterIdentifier: String? = nil, sourceDBInstanceIdentifier: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, upgradeStorageConfig: Bool? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbCapacityReservationIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, sourceDBClusterIdentifier: String? = nil, sourceDBInstanceIdentifier: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, upgradeStorageConfig: Bool? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2309,6 +2480,7 @@ extension RDS {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
             self.databaseInsightsMode = databaseInsightsMode
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbParameterGroupName = dbParameterGroupName
@@ -2351,6 +2523,12 @@ extension RDS {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalStorageVolumes = "AdditionalStorageVolumes"
             case allocatedStorage = "AllocatedStorage"
@@ -2361,6 +2539,7 @@ extension RDS {
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case customIamInstanceProfile = "CustomIamInstanceProfile"
             case databaseInsightsMode = "DatabaseInsightsMode"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbParameterGroupName = "DBParameterGroupName"
@@ -3101,6 +3280,95 @@ extension RDS {
         }
     }
 
+    public struct DBCapacityReservation: AWSDecodableShape {
+        public struct _AvailableCapacityPerAvailabilityZoneListEncoding: ArrayCoderProperties { public static let member = "AvailableCapacityPerAvailabilityZone" }
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The unused capacity of the reservation, reported for each Availability Zone of the reservation. Each entry names one Availability Zone, and it reports the number of DB instances that remain available in that Availability Zone. Amazon RDS reports available capacity only for a reservation that is in the active state and not past its end date. Otherwise, each entry reports an available capacity of 0. A future-dated reservation that hasn't started reports 0, and a reservation that Amazon RDS is modifying reports 0. A reservation reports the pending state while Amazon RDS modifies it. Therefore, a reservation in the active state that reports no available capacity has no unused capacity.
+        @OptionalCustomCoding<ArrayCoder<_AvailableCapacityPerAvailabilityZoneListEncoding, AvailableCapacityPerAvailabilityZone>>
+        public var availableCapacityPerAvailabilityZoneList: [AvailableCapacityPerAvailabilityZone]?
+        /// The capacity commitment of the reservation. Amazon RDS returns this object only for a future-dated reservation.
+        public let commitmentInfo: DBCapacityReservationCommitmentInfo?
+        /// The date and time when the reservation was created, in Universal Coordinated Time (UTC).
+        public let createDate: Date?
+        /// The Amazon Resource Name (ARN) of the DB capacity reservation.
+        public let dbCapacityReservationArn: String?
+        /// The unique identifier of the DB capacity reservation. The identifier has the prefix dbcr-. Every other DB capacity reservation operation takes this identifier.
+        public let dbCapacityReservationIdentifier: String?
+        /// The name that you specified for the DB capacity reservation.
+        public let dbCapacityReservationName: String?
+        /// The DB instance class for the reserved capacity. You specify this value when you create the reservation, and you can't change it afterward.
+        public let dbInstanceClass: String?
+        /// The date and time when the reservation expires, in Universal Coordinated Time (UTC). Amazon RDS doesn't return this value if the reservation doesn't expire.  A DB instance that uses the reservation keeps running after the reservation expires. It continues on unreserved capacity, and Amazon RDS doesn't stop it or modify it. However, Amazon RDS no longer reserves capacity for the DB instance. Amazon RDS might later move the DB instance to different hardware, for example during hardware maintenance. That move can fail when the Amazon Web Services Region has insufficient capacity for the DB instance class.
+        public let endDate: Date?
+        /// The database engine for the reserved capacity. You specify this value when you create the reservation, and you can't change it afterward.
+        public let engine: String?
+        /// The license model for the reserved capacity. Amazon RDS returns this value only for a reservation that reserves capacity for a specific license model. Amazon RDS doesn't return this value for a reservation whose database engine doesn't support a license model. A DB instance launches into the reservation only when the license model of the DB instance matches this value. For a reservation that holds no license model, Amazon RDS applies no license model check at launch. Valid Values:   RDS for Microsoft SQL Server Enterprise Edition and Standard Edition - license-included | bring-your-own-media    RDS for Microsoft SQL Server Developer Edition - bring-your-own-license    RDS for Oracle - bring-your-own-license | license-included    RDS for Db2 Standard Edition and Advanced Edition - bring-your-own-license | marketplace-license    For RDS for Db2 Standard Edition and Advanced Edition, a reservation created without a license model holds bring-your-own-license.
+        public let licenseModel: String?
+        /// The number of DB instances that Amazon RDS reserves in each Availability Zone of the reservation. This value matches the CapacityPerAvailabilityZone parameter of the request. The total reserved capacity is this value multiplied by the number of Availability Zones of the reservation.
+        public let reservedCapacityPerAvailabilityZone: Int?
+        /// The date and time when a future-dated reservation starts, in Universal Coordinated Time (UTC). Amazon RDS doesn't return this value for a reservation that started immediately.
+        public let startDate: Date?
+        /// The current state of the DB capacity reservation. A DB instance can use the reservation in the active state only. Valid Values:    active - Amazon RDS holds the reserved capacity, and a DB instance can use it.    pending - The reservation isn't ready to use yet. Amazon RDS is creating the reserved capacity, or it is applying a requested modification.    assessing - Amazon RDS is evaluating the request for a future-dated reservation.    scheduled - Amazon RDS accepted a future-dated reservation, and the reservation is waiting for its start date.    delayed - Amazon RDS couldn't provide the reserved capacity of a future-dated reservation by its start date.    unsupported - Amazon RDS can't fulfill the future-dated reservation as requested.    expired - The reservation passed its end date. Amazon RDS releases the reserved capacity.    cancelled - You cancelled the reservation, and Amazon RDS released the reserved capacity.    failed - Amazon RDS couldn't reserve the capacity.   The values assessing, scheduled, delayed, and unsupported apply to a future-dated reservation only.
+        public let state: DBCapacityReservationState?
+        /// The tags associated with the DB capacity reservation.
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
+
+        @inlinable
+        public init(availableCapacityPerAvailabilityZoneList: [AvailableCapacityPerAvailabilityZone]? = nil, commitmentInfo: DBCapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, dbCapacityReservationArn: String? = nil, dbCapacityReservationIdentifier: String? = nil, dbCapacityReservationName: String? = nil, dbInstanceClass: String? = nil, endDate: Date? = nil, engine: String? = nil, licenseModel: String? = nil, reservedCapacityPerAvailabilityZone: Int? = nil, startDate: Date? = nil, state: DBCapacityReservationState? = nil, tagList: [Tag]? = nil) {
+            self.availableCapacityPerAvailabilityZoneList = availableCapacityPerAvailabilityZoneList
+            self.commitmentInfo = commitmentInfo
+            self.createDate = createDate
+            self.dbCapacityReservationArn = dbCapacityReservationArn
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+            self.dbCapacityReservationName = dbCapacityReservationName
+            self.dbInstanceClass = dbInstanceClass
+            self.endDate = endDate
+            self.engine = engine
+            self.licenseModel = licenseModel
+            self.reservedCapacityPerAvailabilityZone = reservedCapacityPerAvailabilityZone
+            self.startDate = startDate
+            self.state = state
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableCapacityPerAvailabilityZoneList = "AvailableCapacityPerAvailabilityZoneList"
+            case commitmentInfo = "CommitmentInfo"
+            case createDate = "CreateDate"
+            case dbCapacityReservationArn = "DBCapacityReservationArn"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
+            case dbCapacityReservationName = "DBCapacityReservationName"
+            case dbInstanceClass = "DBInstanceClass"
+            case endDate = "EndDate"
+            case engine = "Engine"
+            case licenseModel = "LicenseModel"
+            case reservedCapacityPerAvailabilityZone = "ReservedCapacityPerAvailabilityZone"
+            case startDate = "StartDate"
+            case state = "State"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct DBCapacityReservationCommitmentInfo: AWSDecodableShape {
+        /// The date and time when the commitment ends, in Universal Coordinated Time (UTC). This date reports the capacity commitment that Amazon RDS granted. Amazon RDS can grant a shorter capacity commitment than you request in CommitmentDuration. Therefore, this date can fall earlier than StartDate plus CommitmentDuration.
+        public let commitmentEndDate: Date?
+        /// The number of DB instances that Amazon RDS holds in each Availability Zone of the reservation for the length of the commitment.
+        public let committedCapacityPerAvailabilityZone: Int?
+
+        @inlinable
+        public init(commitmentEndDate: Date? = nil, committedCapacityPerAvailabilityZone: Int? = nil) {
+            self.commitmentEndDate = commitmentEndDate
+            self.committedCapacityPerAvailabilityZone = committedCapacityPerAvailabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitmentEndDate = "CommitmentEndDate"
+            case committedCapacityPerAvailabilityZone = "CommittedCapacityPerAvailabilityZone"
+        }
+    }
+
     public struct DBCluster: AWSDecodableShape {
         public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBClusterRole" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
@@ -3278,7 +3546,7 @@ extension RDS {
         /// Reserved for future use.
         @OptionalCustomCoding<ArrayCoder<_StatusInfosEncoding, DBClusterStatusInfo>>
         public var statusInfos: [DBClusterStatusInfo]?
-        /// Indicates whether the DB cluster is encrypted.
+        /// Specifies whether the DB cluster is encrypted with an Amazon Web Services managed key or a customer managed key. If the DB cluster is encrypted with an Amazon Web Services owned key, this value is false and StorageEncryptionType is sse-rds. In that case, the data at rest is still encrypted. To determine how the data at rest is protected, use StorageEncryptionType.
         public let storageEncrypted: Bool?
         /// The type of encryption used to protect data at rest in the DB cluster. Possible values:    none - The DB cluster is not encrypted.    sse-rds - The DB cluster is encrypted using an Amazon Web Services owned KMS key.    sse-kms - The DB cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
         public let storageEncryptionType: StorageEncryptionType?
@@ -4028,7 +4296,7 @@ extension RDS {
         public let sourceDBClusterSnapshotArn: String?
         /// The status of this DB cluster snapshot. Valid statuses are the following:    available     copying     creating
         public let status: String?
-        /// Indicates whether the DB cluster snapshot is encrypted.
+        /// Specifies whether the DB cluster snapshot is encrypted with an Amazon Web Services managed key or a customer managed key. If the DB cluster snapshot is encrypted with an Amazon Web Services owned key, this value is false and StorageEncryptionType is sse-rds. In that case, the data at rest is still encrypted. To determine how the data at rest is protected, use StorageEncryptionType.
         public let storageEncrypted: Bool?
         /// The type of encryption used to protect data at rest in the DB cluster snapshot. Possible values:    none - The DB cluster snapshot is not encrypted.    sse-rds - The DB cluster snapshot is encrypted using an Amazon Web Services owned KMS key.    sse-kms - The DB cluster snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
         public let storageEncryptionType: StorageEncryptionType?
@@ -4452,6 +4720,8 @@ extension RDS {
         public let customIamInstanceProfile: String?
         /// The mode of Database Insights that is enabled for the instance.
         public let databaseInsightsMode: DatabaseInsightsMode?
+        /// The identifier of the DB capacity reservation associated with this DB instance. Amazon RDS doesn't return this value if the DB instance doesn't use a DB capacity reservation.
+        public let dbCapacityReservationIdentifier: String?
         /// If the DB instance is a member of a DB cluster, indicates the name of the DB cluster that the DB instance is a member of.
         public let dbClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -4605,7 +4875,7 @@ extension RDS {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, additionalStorageVolumes: [AdditionalStorageVolumeOutput]? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, isStorageConfigUpgradeAvailable: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBClusterIdentifier: String? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageEncryptionType: StorageEncryptionType? = nil, storageOperationPercentProgress: Int? = nil, storageOperationStatus: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, storageVolumeStatus: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, upgradeRolloutOrder: UpgradeRolloutOrder? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, additionalStorageVolumes: [AdditionalStorageVolumeOutput]? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbCapacityReservationIdentifier: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, isStorageConfigUpgradeAvailable: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBClusterIdentifier: String? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageEncryptionType: StorageEncryptionType? = nil, storageOperationPercentProgress: Int? = nil, storageOperationStatus: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, storageVolumeStatus: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, upgradeRolloutOrder: UpgradeRolloutOrder? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
@@ -4629,6 +4899,7 @@ extension RDS {
             self.customerOwnedIpEnabled = customerOwnedIpEnabled
             self.customIamInstanceProfile = customIamInstanceProfile
             self.databaseInsightsMode = databaseInsightsMode
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceAutomatedBackupsReplications = dbInstanceAutomatedBackupsReplications
@@ -4725,6 +4996,7 @@ extension RDS {
             case customerOwnedIpEnabled = "CustomerOwnedIpEnabled"
             case customIamInstanceProfile = "CustomIamInstanceProfile"
             case databaseInsightsMode = "DatabaseInsightsMode"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbInstanceArn = "DBInstanceArn"
             case dbInstanceAutomatedBackupsReplications = "DBInstanceAutomatedBackupsReplications"
@@ -6739,6 +7011,62 @@ extension RDS {
             case filters = "Filters"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDBCapacityReservationsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The identifier or the name of the DB capacity reservation to describe. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+        public let dbCapacityReservationIdentifier: String?
+        /// A filter that specifies which DB capacity reservations to describe. Supported filters:    db-capacity-reservation-name - Accepts DB capacity reservation names. The response includes only the reservations that these names identify. Use this filter to describe several reservations by name in one request.    state - Accepts reservation states. The response includes only the reservations in these states.    engine - Accepts database engine names. The response includes only the reservations that reserve capacity for these engines.    db-instance-class - Accepts DB instance classes. The response includes only the reservations that reserve capacity for these DB instance classes.    availability-zone - Accepts Availability Zone names. The response includes only the reservations that cover these Availability Zones.   When you specify more than one value for a filter, the response includes the reservations that match any of those values. When you specify more than one filter, the response includes only the reservations that match every filter. Amazon RDS rejects the request when a filter name isn't in this list, or when a filter specifies no values.  The state filter doesn't accept expired. To find an expired reservation, compare EndDate against the current date and time.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// An optional pagination token provided by a previous DescribeDBCapacityReservations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints:   Must be a minimum of 20.   Can't exceed 100.
+        public let maxRecords: Int?
+
+        @inlinable
+        public init(dbCapacityReservationIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+            try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
+            try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDBCapacityReservationsResponse: AWSDecodableShape {
+        /// A list of DB capacity reservations.
+        @OptionalCustomCoding<StandardArrayCoder<DBCapacityReservation>>
+        public var dbCapacityReservations: [DBCapacityReservation]?
+        /// A pagination token that you can use in a later DescribeDBCapacityReservations request. If this value is returned, more records are available beyond this response.
+        public let marker: String?
+
+        @inlinable
+        public init(dbCapacityReservations: [DBCapacityReservation]? = nil, marker: String? = nil) {
+            self.dbCapacityReservations = dbCapacityReservations
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservations = "DBCapacityReservations"
+            case marker = "Marker"
         }
     }
 
@@ -9770,6 +10098,52 @@ extension RDS {
         }
     }
 
+    public struct ModifyDBCapacityReservationRequest: AWSEncodableShape {
+        /// The new number of DB instances to reserve in each Availability Zone of the reservation. Amazon RDS applies this number to every Availability Zone of the reservation. An increase reserves more capacity at the time of the request, so it can fail when the Amazon Web Services Region has insufficient capacity. This value multiplied by the number of Availability Zones counts against the DB instances quota for your Amazon Web Services account in the Amazon Web Services Region. Amazon RDS checks the quota only when you increase the value. Constraints:   Minimum 1.   Can't be less than the highest number of DB instances that use the reservation in any single Availability Zone of the reservation. That number includes a DB instance that holds a unit of reserved capacity for a pending modification. To find that number for an Availability Zone, subtract AvailableCapacity from ReservedCapacityPerAvailabilityZone.   During a capacity commitment, can't be less than CommittedCapacityPerAvailabilityZone.
+        public let capacityPerAvailabilityZone: Int?
+        /// The identifier or the name of the DB capacity reservation to modify. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+        public let dbCapacityReservationIdentifier: String?
+        /// The new end date for the reservation, in Universal Coordinated Time (UTC). Required when EndDateType is limited. Don't specify a value when EndDateType is unlimited. When you specify EndDate, you must also specify EndDateType. Constraints:   Must be a date and time in the future.   During a capacity commitment, must be at or after CommitmentEndDate.
+        public let endDate: Date?
+        /// The end date type for the reservation. Valid Values:    limited - The reservation has a specific end date. You must also specify EndDate.    unlimited - The reservation doesn't expire. Don't specify EndDate.
+        public let endDateType: EndDateType?
+
+        @inlinable
+        public init(capacityPerAvailabilityZone: Int? = nil, dbCapacityReservationIdentifier: String? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil) {
+            self.capacityPerAvailabilityZone = capacityPerAvailabilityZone
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+            self.endDate = endDate
+            self.endDateType = endDateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityPerAvailabilityZone = "CapacityPerAvailabilityZone"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
+            case endDate = "EndDate"
+            case endDateType = "EndDateType"
+        }
+    }
+
+    public struct ModifyDBCapacityReservationResponse: AWSDecodableShape {
+        /// Contains the details of the modified DB capacity reservation.
+        public let dbCapacityReservation: DBCapacityReservation?
+
+        @inlinable
+        public init(dbCapacityReservation: DBCapacityReservation? = nil) {
+            self.dbCapacityReservation = dbCapacityReservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservation = "DBCapacityReservation"
+        }
+    }
+
     public struct ModifyDBClusterEndpointMessage: AWSEncodableShape {
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
         public let dbClusterEndpointIdentifier: String?
@@ -10119,6 +10493,8 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// Specifies the mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
         public let databaseInsightsMode: DatabaseInsightsMode?
+        /// The identifier or the name of the DB capacity reservation for the DB instance to use. You can specify the identifier, which has the prefix dbcr-, or the reservation name. After the modification completes, the DB instance uses reserved capacity from this reservation. You can't change the DB capacity reservation of a DB instance on its own. A request that changes the reservation must also change the DB instance class, the Multi-AZ setting, the license model, or the engine. Therefore, this request always changes the configuration of the DB instance. If the DB instance already uses the reservation that you specify, this requirement doesn't apply. You can then change another setting, such as the Multi-AZ setting, and keep the reservation. For a DB instance that uses no reservation, change DBInstanceClass to the DB instance class that the reservation reserves. A reservation reserves capacity for one DB instance class, so that change moves the DB instance onto the reserved capacity. That change also resizes the DB instance, which interrupts it. If the DB instance already runs the DB instance class that the reservation reserves, change MultiAZ or LicenseModel instead. Only RDS for Oracle and RDS for Microsoft SQL Server accept a change of license model, so MultiAZ is the remaining choice for every other engine.  If you don't specify this parameter, Amazon RDS moves the DB instance to unreserved capacity, and it releases the reserved capacity that the DB instance holds. A request that changes the DB instance class, the Multi-AZ setting, the license model, or the engine moves the DB instance to different hardware, and Amazon RDS places the DB instance on unreserved capacity. Therefore, to keep the DB instance on reserved capacity, specify this parameter in every request that changes any of those settings. The DB instance keeps its current reservation until Amazon RDS applies the modification. Until then, the DBCapacityReservationIdentifier field of the DB instance still reports that reservation, and PendingModifiedValues reports no reservation. Amazon RDS releases the reserved capacity when it moves the DB instance.  Constraints:   If the request changes which DB capacity reservation the DB instance uses, it must also set a new value for DBInstanceClass, MultiAZ, LicenseModel, or Engine. The new value must differ from the current value. The only engine change that ModifyDBInstance supports is a conversion to the CDB architecture. Repeating the current value doesn't satisfy this requirement. This requirement applies both when the DB instance uses no reservation, and when it moves to a different reservation.   The reservation must reserve capacity for the DB instance class that the DB instance uses after the modification, and for the database engine of the DB instance. Therefore, when the request changes DBInstanceClass, the reservation reserves capacity for a DB instance class that the DB instance doesn't use today.   The reservation must be in the active state, and it must not be past its end date.   The reservation must have available capacity in each Availability Zone that the DB instance uses after the modification.   The reservation must cover the Availability Zone of the DB instance, except when the request changes the DB instance from Multi-AZ to Single-AZ.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones.   If the DB instance is already Multi-AZ, the reservation must cover both of its Availability Zones. If the request converts the DB instance to Multi-AZ, the reservation must cover the current Availability Zone of the DB instance, and Amazon RDS chooses the second Availability Zone from the reservation.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it. Amazon RDS checks the license model only when the request specifies LicenseModel.   You can't specify this parameter together with a change to DBSubnetGroupName.   You can't specify this parameter together with a change to both DBInstanceClass and LicenseModel. Submit those changes as two separate requests.   Can't be specified together with a change to DBInstanceClass when the request also changes the DB instance from Multi-AZ to Single-AZ.   When the request changes the DB instance from Multi-AZ to Single-AZ, the reservation must cover either the primary or the secondary Availability Zone of the DB instance. Amazon RDS keeps the DB instance in its primary Availability Zone, and it removes the standby replica. Therefore, the primary Availability Zone keeps its unit of reserved capacity, and the secondary Availability Zone releases its unit.   Can't be specified together with LicenseModel while a modification of the DB instance class or the Multi-AZ setting is pending.   Can't be specified together with DBInstanceClass or MultiAZ while a modification of the license model is pending.   When a modification is already pending, the reservation must reserve capacity for the DB instance as it will be after both the pending modification and the requested modification complete.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.   Isn't supported for an RDS on Outposts DB instance.   If the reservation expires within one week, you must also enable ApplyImmediately. Otherwise, choose a reservation with a later end date.   Amazon RDS holds a unit of reserved capacity for the DB instance when it accepts the request, even when the modification waits for the maintenance window.
+        public let dbCapacityReservationIdentifier: String?
         /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide or Aurora DB instance classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request.  Default: Uses existing setting Constraints:   If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
         public let dbInstanceClass: String?
         /// The identifier of DB instance to modify. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DB instance.
@@ -10230,7 +10606,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalStorageVolumes: [ModifyAdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, disableDomain: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, rotateMasterUserPassword: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagSpecifications: [TagSpecification]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalStorageVolumes: [ModifyAdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbCapacityReservationIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbParameterGroupName: String? = nil, dbPortNumber: Int? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, disableDomain: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserAuthenticationType: MasterUserAuthenticationType? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, networkType: String? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeMinutes: Int? = nil, rotateMasterUserPassword: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagSpecifications: [TagSpecification]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -10244,6 +10620,7 @@ extension RDS {
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseInsightsMode = databaseInsightsMode
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbParameterGroupName = dbParameterGroupName
@@ -10302,6 +10679,9 @@ extension RDS {
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, max: 350)
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, min: 43)
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, pattern: "^arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\\-]+:)?[a-z][a-z0-9\\-]{0,255}$")
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10318,6 +10698,7 @@ extension RDS {
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseInsightsMode = "DatabaseInsightsMode"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbParameterGroupName = "DBParameterGroupName"
@@ -11748,6 +12129,8 @@ extension RDS {
         public let backupRetentionPeriod: Int?
         /// The identifier of the CA certificate for the DB instance. For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora User Guide.
         public let caCertificateIdentifier: String?
+        /// The identifier of the DB capacity reservation that the DB instance uses after a pending modification completes. Amazon RDS returns this value when a ModifyDBInstance request changes the DB capacity reservation, and the change hasn't been applied yet.
+        public let dbCapacityReservationIdentifier: String?
         /// The name of the compute and memory capacity class for the DB instance.
         public let dbInstanceClass: String?
         /// The database identifier for the DB instance.
@@ -11786,12 +12169,13 @@ extension RDS {
         public let storageType: String?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, automationMode: AutomationMode? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, resumeFullAutomationModeTime: Date? = nil, storageThroughput: Int? = nil, storageType: String? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, automationMode: AutomationMode? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, dbCapacityReservationIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, resumeFullAutomationModeTime: Date? = nil, storageThroughput: Int? = nil, storageType: String? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.automationMode = automationMode
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -11818,6 +12202,7 @@ extension RDS {
             case automationMode = "AutomationMode"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case caCertificateIdentifier = "CACertificateIdentifier"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbSubnetGroupName = "DBSubnetGroupName"
@@ -13334,6 +13719,8 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom.
         public let customIamInstanceProfile: String?
+        /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
+        public let dbCapacityReservationIdentifier: String?
         /// The identifier for the Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide. Constraints:   Must match the identifier of an existing Multi-AZ DB cluster snapshot.   Can't be specified when DBSnapshotIdentifier is specified.   Must be specified when DBSnapshotIdentifier isn't specified.   If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared snapshot.   Can't be the identifier of an Aurora DB cluster snapshot.
         public let dbClusterSnapshotIdentifier: String?
         /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: The same DBInstanceClass as the original DB instance.
@@ -13419,7 +13806,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbCapacityReservationIdentifier: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -13429,6 +13816,7 @@ extension RDS {
             self.caCertificateIdentifier = caCertificateIdentifier
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -13470,6 +13858,12 @@ extension RDS {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalStorageVolumes = "AdditionalStorageVolumes"
             case allocatedStorage = "AllocatedStorage"
@@ -13480,6 +13874,7 @@ extension RDS {
             case caCertificateIdentifier = "CACertificateIdentifier"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case customIamInstanceProfile = "CustomIamInstanceProfile"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -13559,6 +13954,8 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// Specifies the mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
         public let databaseInsightsMode: DatabaseInsightsMode?
+        /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
+        public let dbCapacityReservationIdentifier: String?
         /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
         public let dbInstanceClass: String?
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
@@ -13659,7 +14056,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, s3BucketName: String? = nil, s3IngestionRoleArn: String? = nil, s3Prefix: String? = nil, sourceEngine: String? = nil, sourceEngineVersion: String? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbCapacityReservationIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, s3BucketName: String? = nil, s3IngestionRoleArn: String? = nil, s3Prefix: String? = nil, sourceEngine: String? = nil, sourceEngineVersion: String? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -13668,6 +14065,7 @@ extension RDS {
             self.caCertificateIdentifier = caCertificateIdentifier
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseInsightsMode = databaseInsightsMode
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbName = dbName
@@ -13716,6 +14114,12 @@ extension RDS {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalStorageVolumes = "AdditionalStorageVolumes"
             case allocatedStorage = "AllocatedStorage"
@@ -13725,6 +14129,7 @@ extension RDS {
             case caCertificateIdentifier = "CACertificateIdentifier"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseInsightsMode = "DatabaseInsightsMode"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbName = "DBName"
@@ -13812,6 +14217,8 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom.
         public let customIamInstanceProfile: String?
+        /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
+        public let dbCapacityReservationIdentifier: String?
         /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: The same DB instance class as the original DB instance.
         public let dbInstanceClass: String?
         /// The database name for the restored DB instance. This parameter doesn't apply to the following DB instances:   RDS Custom   RDS for Db2   RDS for MariaDB   RDS for MySQL
@@ -13905,7 +14312,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, targetDBInstanceIdentifier: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbCapacityReservationIdentifier: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tagSpecifications: [TagSpecification]? = nil, targetDBInstanceIdentifier: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -13915,6 +14322,7 @@ extension RDS {
             self.caCertificateIdentifier = caCertificateIdentifier
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbName = dbName
             self.dbParameterGroupName = dbParameterGroupName
@@ -13960,6 +14368,12 @@ extension RDS {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case additionalStorageVolumes = "AdditionalStorageVolumes"
             case allocatedStorage = "AllocatedStorage"
@@ -13970,6 +14384,7 @@ extension RDS {
             case caCertificateIdentifier = "CACertificateIdentifier"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case customIamInstanceProfile = "CustomIamInstanceProfile"
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbInstanceClass = "DBInstanceClass"
             case dbName = "DBName"
             case dbParameterGroupName = "DBParameterGroupName"
@@ -14472,15 +14887,25 @@ extension RDS {
     }
 
     public struct StartDBInstanceMessage: AWSEncodableShape {
+        /// The identifier or the name of the DB capacity reservation for the DB instance to use after it starts. You can specify the identifier, which has the prefix dbcr-, or the reservation name. Specify this parameter when the DB instance stopped using a reservation, or when you want the DB instance to use a different reservation. If you omit this parameter, and the DB instance kept a DB capacity reservation when it stopped, Amazon RDS starts the DB instance in that reservation. If that reservation is deleted, ended, or cancelled, the DB instance still starts. Amazon RDS starts the DB instance outside the reservation, on unreserved capacity, and it charges on-demand prices for the DB instance. If that reservation has no available capacity in the Availability Zone of the DB instance, the request fails. Amazon RDS doesn't start the DB instance, and it doesn't wait for capacity in that Availability Zone. Specify a reservation that has available capacity in that Availability Zone, or retry the request after the reservation has available capacity. Constraints:   The reservation must be in the active state.   The reservation must reserve capacity for the DB instance class and the engine of the DB instance.   The reservation must cover the Availability Zone of the DB instance, and it must have available capacity in that Availability Zone.
+        public let dbCapacityReservationIdentifier: String?
         /// The user-supplied instance identifier.
         public let dbInstanceIdentifier: String?
 
         @inlinable
-        public init(dbInstanceIdentifier: String? = nil) {
+        public init(dbCapacityReservationIdentifier: String? = nil, dbInstanceIdentifier: String? = nil) {
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceIdentifier = dbInstanceIdentifier
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, max: 63)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, min: 1)
+            try self.validate(self.dbCapacityReservationIdentifier, name: "dbCapacityReservationIdentifier", parent: name, pattern: "^[a-z](?:-?[a-z0-9]+){0,15}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case dbCapacityReservationIdentifier = "DBCapacityReservationIdentifier"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
         }
     }
@@ -14636,16 +15061,20 @@ extension RDS {
         public let dbInstanceIdentifier: String?
         /// The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
         public let dbSnapshotIdentifier: String?
+        /// Specifies whether the DB instance stops using its DB capacity reservation when the DB instance stops. When you specify true, the DB instance belongs to no reservation after it stops, and a later start launches it outside the reservation. By default, a stopped DB instance keeps its DB capacity reservation, and a later start returns the DB instance to the same reservation. Every stop releases the unit of reserved capacity that the DB instance holds, for either value of this parameter. Another DB instance can then use that capacity. This parameter controls the reservation that the DB instance belongs to, and it does not control the release of the capacity. If the DB instance uses no DB capacity reservation, this parameter has no effect.  Amazon RDS holds no capacity for a stopped DB instance. When the reservation has no available capacity in the Availability Zone of the DB instance, a later start waits for capacity in that Availability Zone. When the DB instance belongs to no reservation, a later start can fail because the Amazon Web Services Region has insufficient capacity for the DB instance class.
+        public let detachFromDBCapacityReservation: Bool?
 
         @inlinable
-        public init(dbInstanceIdentifier: String? = nil, dbSnapshotIdentifier: String? = nil) {
+        public init(dbInstanceIdentifier: String? = nil, dbSnapshotIdentifier: String? = nil, detachFromDBCapacityReservation: Bool? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
+            self.detachFromDBCapacityReservation = detachFromDBCapacityReservation
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbInstanceIdentifier = "DBInstanceIdentifier"
             case dbSnapshotIdentifier = "DBSnapshotIdentifier"
+            case detachFromDBCapacityReservation = "DetachFromDBCapacityReservation"
         }
     }
 
@@ -14910,6 +15339,33 @@ extension RDS {
             case description = "Description"
             case reason = "Reason"
             case state = "State"
+        }
+    }
+
+    public struct TargetResourceConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the DB cluster or DB instance in the blue environment to which this configuration applies.
+        public let sourceArn: String
+        /// The Amazon Web Services KMS key identifier for encryption of the corresponding resource in the green environment. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. Specify this setting in either of the following cases:   You want the green resource to use a different KMS key than the blue resource.   The blue resource is unencrypted and you want to encrypt the green resource.   For Aurora, encryption applies at the DB cluster level. Specify a DB cluster ARN in SourceArn. All DB instances in that cluster use the same KMS key. For RDS, encryption applies at the DB instance level. Specify a DB instance ARN in SourceArn. To encrypt read replicas, include a separate entry for each one. Each entry can specify a different KMS key.
+        public let targetKmsKeyId: String?
+
+        @inlinable
+        public init(sourceArn: String, targetKmsKeyId: String? = nil) {
+            self.sourceArn = sourceArn
+            self.targetKmsKeyId = targetKmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 255)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 39)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws[a-z-]*:rds(-[a-z]+)?:[a-z0-9-]*:[0-9]{12}:(cluster|db):[a-zA-Z][a-zA-Z0-9-]{0,62}$")
+            try self.validate(self.targetKmsKeyId, name: "targetKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.targetKmsKeyId, name: "targetKmsKeyId", parent: name, min: 1)
+            try self.validate(self.targetKmsKeyId, name: "targetKmsKeyId", parent: name, pattern: "^[a-zA-Z0-9_:\\-\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case targetKmsKeyId = "TargetKmsKeyId"
         }
     }
 
@@ -15326,6 +15782,9 @@ public struct RDSErrorType: AWSErrorType {
         case customDBEngineVersionAlreadyExistsFault = "CustomDBEngineVersionAlreadyExistsFault"
         case customDBEngineVersionNotFoundFault = "CustomDBEngineVersionNotFoundFault"
         case customDBEngineVersionQuotaExceededFault = "CustomDBEngineVersionQuotaExceededFault"
+        case dbCapacityReservationAlreadyExistsFault = "DBCapacityReservationAlreadyExists"
+        case dbCapacityReservationNotFoundFault = "DBCapacityReservationNotFound"
+        case dbCapacityReservationUnsupportedFault = "DBCapacityReservationUnsupported"
         case dbClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
         case dbClusterAutomatedBackupNotFoundFault = "DBClusterAutomatedBackupNotFoundFault"
         case dbClusterAutomatedBackupQuotaExceededFault = "DBClusterAutomatedBackupQuotaExceededFault"
@@ -15399,6 +15858,7 @@ public struct RDSErrorType: AWSErrorType {
         case integrationQuotaExceededFault = "IntegrationQuotaExceededFault"
         case invalidBlueGreenDeploymentStateFault = "InvalidBlueGreenDeploymentStateFault"
         case invalidCustomDBEngineVersionStateFault = "InvalidCustomDBEngineVersionStateFault"
+        case invalidDBCapacityReservationStateFault = "InvalidDBCapacityReservationState"
         case invalidDBClusterAutomatedBackupStateFault = "InvalidDBClusterAutomatedBackupStateFault"
         case invalidDBClusterCapacityFault = "InvalidDBClusterCapacityFault"
         case invalidDBClusterEndpointStateFault = "InvalidDBClusterEndpointStateFault"
@@ -15503,6 +15963,12 @@ public struct RDSErrorType: AWSErrorType {
     public static var customDBEngineVersionNotFoundFault: Self { .init(.customDBEngineVersionNotFoundFault) }
     /// You have exceeded your CEV quota.
     public static var customDBEngineVersionQuotaExceededFault: Self { .init(.customDBEngineVersionQuotaExceededFault) }
+    /// You already have a DB capacity reservation with the given name. Choose a different name for the new reservation, or use the existing reservation.
+    public static var dbCapacityReservationAlreadyExistsFault: Self { .init(.dbCapacityReservationAlreadyExistsFault) }
+    ///  DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
+    public static var dbCapacityReservationNotFoundFault: Self { .init(.dbCapacityReservationNotFoundFault) }
+    /// The specified configuration isn't supported for DB capacity reservations.
+    public static var dbCapacityReservationUnsupportedFault: Self { .init(.dbCapacityReservationUnsupportedFault) }
     /// The user already has a DB cluster with the given identifier.
     public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
     /// No automated backup for this DB cluster was found.
@@ -15649,6 +16115,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidBlueGreenDeploymentStateFault: Self { .init(.invalidBlueGreenDeploymentStateFault) }
     /// You can't delete the CEV.
     public static var invalidCustomDBEngineVersionStateFault: Self { .init(.invalidCustomDBEngineVersionStateFault) }
+    /// The DB capacity reservation isn't in a valid state.
+    public static var invalidDBCapacityReservationStateFault: Self { .init(.invalidDBCapacityReservationStateFault) }
     /// The automated backup is in an invalid state. For example, this automated backup is associated with an active cluster.
     public static var invalidDBClusterAutomatedBackupStateFault: Self { .init(.invalidDBClusterAutomatedBackupStateFault) }
     ///  Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16, 32, 64, 128, and 256.

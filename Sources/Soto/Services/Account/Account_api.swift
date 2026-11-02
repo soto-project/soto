@@ -575,6 +575,35 @@ public struct Account: AWSService {
         return try await self.putContactInformation(input, logger: logger)
     }
 
+    /// Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use VerifyPhoneNumber to submit the passcode and complete the verification. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func sendPhoneNumberVerification(_ input: SendPhoneNumberVerificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendPhoneNumberVerificationResponse {
+        try await self.client.execute(
+            operation: "SendPhoneNumberVerification", 
+            path: "/sendPhoneNumberVerification", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use VerifyPhoneNumber to submit the passcode and complete the verification. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendPhoneNumberVerification(
+        accountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendPhoneNumberVerificationResponse {
+        let input = SendPhoneNumberVerificationRequest(
+            accountId: accountId
+        )
+        return try await self.sendPhoneNumberVerification(input, logger: logger)
+    }
+
     /// Starts the process to update the primary email address for the specified account.
     @Sendable
     @inlinable
@@ -605,6 +634,38 @@ public struct Account: AWSService {
             primaryEmail: primaryEmail
         )
         return try await self.startPrimaryEmailUpdate(input, logger: logger)
+    }
+
+    /// Verifies the phone number in the primary contact information of an Amazon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func verifyPhoneNumber(_ input: VerifyPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyPhoneNumberResponse {
+        try await self.client.execute(
+            operation: "VerifyPhoneNumber", 
+            path: "/verifyPhoneNumber", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Verifies the phone number in the primary contact information of an Amazon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - otp: The one-time passcode sent to the phone number in the primary contact information by the SendPhoneNumberVerification operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func verifyPhoneNumber(
+        accountId: String? = nil,
+        otp: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> VerifyPhoneNumberResponse {
+        let input = VerifyPhoneNumberRequest(
+            accountId: accountId, 
+            otp: otp
+        )
+        return try await self.verifyPhoneNumber(input, logger: logger)
     }
 }
 

@@ -193,6 +193,44 @@ public struct ElementalInference: AWSService {
         return try await self.createFeed(input, logger: logger)
     }
 
+    /// Creates a schedule action on a feed. A schedule action applies configuration changes to the feed at a time that you specify, in the same way as an UpdateFeed request.  Elemental Inference validates the targets of the action when you create it.
+    @Sendable
+    @inlinable
+    public func createScheduleAction(_ input: CreateScheduleActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduleActionResponse {
+        try await self.client.execute(
+            operation: "CreateScheduleAction", 
+            path: "/v1/feed/{id}/schedule-actions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a schedule action on a feed. A schedule action applies configuration changes to the feed at a time that you specify, in the same way as an UpdateFeed request.  Elemental Inference validates the targets of the action when you create it.
+    ///
+    /// Parameters:
+    ///   - actionName: A name for the schedule action. The name must be unique within the feed. You can reuse the name of an action that you deleted.
+    ///   - id: Specifies the ID of the feed that you want to add the schedule action to.
+    ///   - operations: Specifies the list of configuration changes that you want to make to the feed. Elemental Inference applies all the operations in an action together, in the order that you specify them. If any operation fails, Elemental Inference doesn't apply any of them.
+    ///   - startConfiguration: Specifies when the action runs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createScheduleAction(
+        actionName: String,
+        id: String,
+        operations: [ScheduleActionOperation],
+        startConfiguration: ScheduleActionStartConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateScheduleActionResponse {
+        let input = CreateScheduleActionRequest(
+            actionName: actionName, 
+            id: id, 
+            operations: operations, 
+            startConfiguration: startConfiguration
+        )
+        return try await self.createScheduleAction(input, logger: logger)
+    }
+
     /// Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration.
     @Sendable
     @inlinable
@@ -278,6 +316,38 @@ public struct ElementalInference: AWSService {
             id: id
         )
         return try await self.deleteFeedPolicy(input, logger: logger)
+    }
+
+    /// Deletes a schedule action from a feed. A deleted action never runs. You can delete only an action whose status is PENDING. Deleting an action doesn't reverse changes that the action already made to the feed. When you delete or archive a feed, Elemental Inference deletes all the schedule actions on that feed.
+    @Sendable
+    @inlinable
+    public func deleteScheduleAction(_ input: DeleteScheduleActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduleActionResponse {
+        try await self.client.execute(
+            operation: "DeleteScheduleAction", 
+            path: "/v1/feed/{id}/schedule-actions", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a schedule action from a feed. A deleted action never runs. You can delete only an action whose status is PENDING. Deleting an action doesn't reverse changes that the action already made to the feed. When you delete or archive a feed, Elemental Inference deletes all the schedule actions on that feed.
+    ///
+    /// Parameters:
+    ///   - actionName: The name of the schedule action that you want to delete.
+    ///   - id: The ID of the feed that holds the schedule action.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteScheduleAction(
+        actionName: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteScheduleActionResponse {
+        let input = DeleteScheduleActionRequest(
+            actionName: actionName, 
+            id: id
+        )
+        return try await self.deleteScheduleAction(input, logger: logger)
     }
 
     /// Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED.
@@ -522,6 +592,41 @@ public struct ElementalInference: AWSService {
             nextToken: nextToken
         )
         return try await self.listFeeds(input, logger: logger)
+    }
+
+    /// Displays a list of the schedule actions on a feed, including the status of each action and, for a failed action, information about why it failed.  Elemental Inference keeps an action whose status is COMPLETED or FAILED for about 48 hours after its scheduled time, and then deletes it automatically.
+    @Sendable
+    @inlinable
+    public func listScheduleActions(_ input: ListScheduleActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduleActionsResponse {
+        try await self.client.execute(
+            operation: "ListScheduleActions", 
+            path: "/v1/feed/{id}/schedule-actions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Displays a list of the schedule actions on a feed, including the status of each action and, for a failed action, information about why it failed.  Elemental Inference keeps an action whose status is COMPLETED or FAILED for about 48 hours after its scheduled time, and then deletes it automatically.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the feed that you want to query.
+    ///   - maxResults: The maximum number of results to return for each API request. If you don't specify MaxResults, Elemental Inference returns a maximum of 10 results for each page.
+    ///   - nextToken: The token that identifies the batch of results that you want to see. To see the next batch, submit the request a second time and specify the NextToken value that Elemental Inference returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listScheduleActions(
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListScheduleActionsResponse {
+        let input = ListScheduleActionsRequest(
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listScheduleActions(input, logger: logger)
     }
 
     /// List all tags that are on an Elemental Inference resource in the current region.
@@ -851,6 +956,43 @@ extension ElementalInference {
         return self.listFeedsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listScheduleActions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScheduleActionsPaginator(
+        _ input: ListScheduleActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScheduleActionsRequest, ListScheduleActionsResponse> {
+        return .init(
+            input: input,
+            command: self.listScheduleActions,
+            inputKey: \ListScheduleActionsRequest.nextToken,
+            outputKey: \ListScheduleActionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listScheduleActions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - id: The ID of the feed that you want to query.
+    ///   - maxResults: The maximum number of results to return for each API request. If you don't specify MaxResults, Elemental Inference returns a maximum of 10 results for each page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScheduleActionsPaginator(
+        id: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListScheduleActionsRequest, ListScheduleActionsResponse> {
+        let input = ListScheduleActionsRequest(
+            id: id, 
+            maxResults: maxResults
+        )
+        return self.listScheduleActionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchFixtures(_:logger:)``.
     ///
     /// - Parameters:
@@ -912,6 +1054,17 @@ extension ElementalInference.ListFeedsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ElementalInference.ListFeedsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ElementalInference.ListScheduleActionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ElementalInference.ListScheduleActionsRequest {
+        return .init(
+            id: self.id,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -99,6 +99,12 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageScanningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemandAmiCve = "ON_DEMAND_AMI_CVE"
+        case testInstanceCve = "TEST_INSTANCE_CVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonManaged = "AMAZON_MANAGED"
         case awsMarketplace = "AWS_MARKETPLACE"
@@ -191,6 +197,14 @@ extension Imagebuilder {
     public enum MarketplaceResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case componentArtifact = "COMPONENT_ARTIFACT"
         case componentData = "COMPONENT_DATA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaximumSeverityLabel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case informational = "INFORMATIONAL"
+        case low = "LOW"
+        case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
@@ -486,6 +500,35 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case failureCount = "failureCount"
+        }
+    }
+
+    public struct AutoScalingGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds that Image Builder waits for an instance to become available in the
+        /// 			group before the build fails. If you set this value to 0 or omit it, the build fails as
+        /// 			soon as the group has no instance available.
+        public let capacityWaitTimeoutSeconds: Int?
+        /// The name of the Auto Scaling group, in the same account and Amazon Web Services Region as the
+        /// 			infrastructure configuration. To specify a group, you must have permissions to describe
+        /// 			it.
+        public let name: String
+
+        @inlinable
+        public init(capacityWaitTimeoutSeconds: Int? = nil, name: String) {
+            self.capacityWaitTimeoutSeconds = capacityWaitTimeoutSeconds
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityWaitTimeoutSeconds, name: "capacityWaitTimeoutSeconds", parent: name, max: 3600)
+            try self.validate(self.capacityWaitTimeoutSeconds, name: "capacityWaitTimeoutSeconds", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityWaitTimeoutSeconds = "capacityWaitTimeoutSeconds"
+            case name = "name"
         }
     }
 
@@ -1590,8 +1633,8 @@ extension Imagebuilder {
         /// 			images created by this image pipeline. You must specify either this property
         /// 			or containerRecipeArn, but not both.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
-        /// 			during image creation.
+        /// The settings that determine whether and how Amazon Inspector scans the images that
+        /// 			this pipeline creates.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tags that Image Builder applies to the Image Builder image resource that this
         /// 			pipeline's scheduled executions create. These tags don't apply to the
@@ -1930,10 +1973,8 @@ extension Imagebuilder {
         /// 			configured, tested, and assessed. You must specify either this property or
         /// 			containerRecipeArn, but not both.
         public let imageRecipeArn: String?
-        /// Settings for vulnerability scans that Amazon Inspector runs during image
-        /// 			creation. For AMI output, Amazon Inspector scans the test instance. For container
-        /// 			output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR
-        /// 			repository specified in ecrConfiguration.
+        /// The settings that determine whether and how Amazon Inspector scans the image
+        /// 			for vulnerabilities.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// Settings that determine whether Image Builder runs tests on the image after
         /// 			building it. Image tests are enabled by default.
@@ -2078,6 +2119,13 @@ extension Imagebuilder {
         /// 			names that differ only in case, spaces, or underscores count as the same
         /// 			name.
         public let name: String
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
+        /// 			launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have permissions to
+        /// 			describe the Auto Scaling group, tag the instance while it's still in the group, and
+        /// 			detach it from the group. For more information, see Build on an
+        /// 				instance from an Auto Scaling group in the EC2 Image Builder User
+        /// 				Guide.
+        public let parentInstance: ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test
         /// 			instances that Image Builder launches during image creation run. These settings
         /// 			don't affect instances that you launch from the output image.
@@ -2106,13 +2154,17 @@ extension Imagebuilder {
         /// The metadata tags to assign to the infrastructure configuration resource that Image Builder
         /// 			creates as output. Tags are formatted as key value pairs.
         public let tags: [String: String]?
+        /// Specifies whether Image Builder terminates build and test instances when image creation
+        /// 			ends without a failure (success, cancellation, or expiration). Defaults to
+        /// 			true.
+        public let terminateInstanceOnCompletion: Bool?
         /// Specifies whether to terminate the instance on failure. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
         /// 			test phase of your workflow fails. Defaults to true.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, parentInstance: ParentInstanceConfiguration? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnCompletion: Bool? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -2122,12 +2174,14 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
             self.tags = tags
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
 
@@ -2144,6 +2198,7 @@ extension Imagebuilder {
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.parentInstance?.validate(name: "\(name).parentInstance")
             try self.placement?.validate(name: "\(name).placement")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -2180,12 +2235,14 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case parentInstance = "parentInstance"
             case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
             case tags = "tags"
+            case terminateInstanceOnCompletion = "terminateInstanceOnCompletion"
             case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
@@ -4279,10 +4336,8 @@ extension Imagebuilder {
         /// For images that distribute an AMI, this is the image recipe that Image Builder used to
         /// 			create the image. For container images, this is empty.
         public let imageRecipe: ImageRecipe?
-        /// Settings for the vulnerability scans that Amazon Inspector runs for this
-        /// 			image. For AMI output, Amazon Inspector scans the test instance during image creation.
-        /// 			For container output, Amazon Inspector scans the container image in its Amazon ECR
-        /// 			repository.
+        /// The settings that determine whether and how Amazon Inspector scans this
+        /// 			image.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The origin of the base image that Image Builder used to build this image.
         public let imageSource: ImageSource?
@@ -4534,8 +4589,8 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image
         /// 			pipeline.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
-        /// 			during image creation.
+        /// The settings that determine whether and how Amazon Inspector scans the images that
+        /// 			the pipeline creates.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tags that Image Builder applies to the Image Builder image resource that this
         /// 			pipeline's scheduled executions create. These tags don't apply to the
@@ -4933,26 +4988,57 @@ extension Imagebuilder {
         /// Contains Amazon ECR settings for vulnerability scans.
         public let ecrConfiguration: EcrConfiguration?
         /// Specifies whether Amazon Inspector scans for vulnerabilities when you create a new
-        /// 			image, and whether Image Builder saves the findings. Amazon Inspector must be enabled in the
-        /// 			account. Image tests must also be enabled. For AMI output, Amazon Inspector scans the
-        /// 			test instance. For container output, Amazon Inspector scans the container image that
+        /// 			image. You must also enable image tests. For AMI output,
+        /// 			imageScanningTypes sets whether Amazon Inspector scans the test instance or
+        /// 			the output AMI. For container output, Amazon Inspector scans the container image that
         /// 			Image Builder pushes to the Amazon ECR repository from your ecrConfiguration
-        /// 			settings.
+        /// 			settings. To use container image scans, you must activate Amazon Inspector for Amazon ECR
+        /// 			scanning in your account. The Image Builder ListImageScanFindings
+        /// 			operation returns the findings of these scans.
         public let imageScanningEnabled: Bool?
+        /// The type of vulnerability scan that Image Builder runs for AMI output when
+        /// 			imageScanningEnabled is true. Specify a single
+        /// 			value. If you omit imageScanningTypes, Image Builder uses
+        /// 			TEST_INSTANCE_CVE. The scan types work as follows:   With TEST_INSTANCE_CVE, Amazon Inspector scans the test instance
+        /// 					during image tests. To use this scan, you must activate Amazon Inspector for Amazon EC2
+        /// 					scanning in your account. The Image Builder ListImageScanFindings
+        /// 					operation returns the findings.   With ON_DEMAND_AMI_CVE, Amazon Inspector starts an on-demand scan of
+        /// 					the output AMI during image tests. To use this scan, you must build from
+        /// 					an image recipe, but you do not need to activate Amazon Inspector in your
+        /// 					account. The Amazon EC2 GetImageFindings
+        /// 					operation returns the findings.
+        public let imageScanningTypes: [ImageScanningType]?
+        /// The condition that the output AMI's scan results must meet for the image
+        /// 			to pass. You can set scanResultCondition only when
+        /// 			imageScanningTypes is ON_DEMAND_AMI_CVE. If you
+        /// 			omit it, Image Builder starts the scan but does not wait for it or use its results
+        /// 			to pass or fail the image. When you set scanResultCondition, the test phase waits for
+        /// 			the scan to finish. Then Image Builder checks the findings against the condition.
+        /// 			By default, Image Builder counts only findings that have a fix available. To count
+        /// 			every finding, set fixAvailable to false. If a counted
+        /// 			finding exceeds maximumSeverityLabel, Image Builder fails the image in
+        /// 			the test phase and does not distribute the AMI.
+        public let scanResultCondition: ScanResultCondition?
 
         @inlinable
-        public init(ecrConfiguration: EcrConfiguration? = nil, imageScanningEnabled: Bool? = nil) {
+        public init(ecrConfiguration: EcrConfiguration? = nil, imageScanningEnabled: Bool? = nil, imageScanningTypes: [ImageScanningType]? = nil, scanResultCondition: ScanResultCondition? = nil) {
             self.ecrConfiguration = ecrConfiguration
             self.imageScanningEnabled = imageScanningEnabled
+            self.imageScanningTypes = imageScanningTypes
+            self.scanResultCondition = scanResultCondition
         }
 
         public func validate(name: String) throws {
             try self.ecrConfiguration?.validate(name: "\(name).ecrConfiguration")
+            try self.validate(self.imageScanningTypes, name: "imageScanningTypes", parent: name, max: 1)
+            try self.validate(self.imageScanningTypes, name: "imageScanningTypes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case ecrConfiguration = "ecrConfiguration"
             case imageScanningEnabled = "imageScanningEnabled"
+            case imageScanningTypes = "imageScanningTypes"
+            case scanResultCondition = "scanResultCondition"
         }
     }
 
@@ -5551,6 +5637,9 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
+        /// 			launching a new instance. This applies only to the build phase.
+        public let parentInstance: ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test
         /// 			instances that Image Builder launches during image creation run. These settings
         /// 			don't affect instances that you launch from the output image.
@@ -5570,13 +5659,16 @@ extension Imagebuilder {
         public let subnetId: String?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
+        /// Specifies whether Image Builder terminates build and test instances when image creation
+        /// 			ends without a failure.
+        public let terminateInstanceOnCompletion: Bool?
         /// Indicates whether Image Builder terminates the build and test instances when the image
         /// 			build fails. When false, Image Builder retains the instance so that you
         /// 			can debug it.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, parentInstance: ParentInstanceConfiguration? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnCompletion: Bool? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -5587,12 +5679,14 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
             self.tags = tags
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
 
@@ -5607,12 +5701,14 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case parentInstance = "parentInstance"
             case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
             case tags = "tags"
+            case terminateInstanceOnCompletion = "terminateInstanceOnCompletion"
             case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
@@ -7944,6 +8040,25 @@ extension Imagebuilder {
         }
     }
 
+    public struct ParentInstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from. This is
+        /// 			required when you specify parentInstance.
+        public let autoScalingGroup: AutoScalingGroupConfiguration
+
+        @inlinable
+        public init(autoScalingGroup: AutoScalingGroupConfiguration) {
+            self.autoScalingGroup = autoScalingGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.autoScalingGroup.validate(name: "\(name).autoScalingGroup")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroup = "autoScalingGroup"
+        }
+    }
+
     public struct PipelineLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the CloudWatch Logs log group name for image build logs.
         /// 			The log group name can contain alphanumeric characters, hyphens,
@@ -8490,6 +8605,31 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case s3BucketName = "s3BucketName"
             case s3KeyPrefix = "s3KeyPrefix"
+        }
+    }
+
+    public struct ScanResultCondition: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether only findings that have a fix available count toward
+        /// 			maximumSeverityLabel. When false, Image Builder counts
+        /// 			every finding. The default is true.
+        public let fixAvailable: Bool?
+        /// The maximum severity allowed for findings on the output AMI.
+        /// 			A finding above this severity fails the image, unless
+        /// 			fixAvailable excludes it. Valid values are
+        /// 			INFORMATIONAL, LOW, MEDIUM,
+        /// 			and HIGH. A CRITICAL finding that counts
+        /// 			always fails the image.
+        public let maximumSeverityLabel: MaximumSeverityLabel
+
+        @inlinable
+        public init(fixAvailable: Bool? = nil, maximumSeverityLabel: MaximumSeverityLabel) {
+            self.fixAvailable = fixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixAvailable = "fixAvailable"
+            case maximumSeverityLabel = "maximumSeverityLabel"
         }
     }
 
@@ -9055,8 +9195,8 @@ extension Imagebuilder {
         /// 			images created by this image pipeline. You must specify either this property
         /// 			or containerRecipeArn, but not both.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
-        /// 			during image creation.
+        /// The updated settings that determine whether and how Amazon Inspector scans the
+        /// 			images that this pipeline creates.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tags that Image Builder applies to the Image Builder image resource that this
         /// 			pipeline's scheduled executions create. These tags don't apply to the
@@ -9218,6 +9358,13 @@ extension Imagebuilder {
         /// 			configure S3 logs, Image Builder writes logs from the build and test process to the
         /// 			specified bucket under the key prefix.
         public let logging: Logging?
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
+        /// 			launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have permissions to
+        /// 			describe the Auto Scaling group, tag the instance while it's still in the group, and
+        /// 			detach it from the group. For more information, see Build on an
+        /// 				instance from an Auto Scaling group in the EC2 Image Builder User
+        /// 				Guide.
+        public let parentInstance: ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test
         /// 			instances that Image Builder launches during image creation run. These settings
         /// 			don't affect instances that you launch from the output image.
@@ -9243,13 +9390,17 @@ extension Imagebuilder {
         /// 			more security group IDs in securityGroupIds. Otherwise, the
         /// 			request fails.
         public let subnetId: String?
+        /// Specifies whether Image Builder terminates build and test instances when image creation
+        /// 			ends without a failure (success, cancellation, or expiration). Defaults to
+        /// 			true.
+        public let terminateInstanceOnCompletion: Bool?
         /// Specifies whether to terminate the instance on failure. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
         /// 			test phase of your workflow fails. Defaults to true.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, parentInstance: ParentInstanceConfiguration? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnCompletion: Bool? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -9258,11 +9409,13 @@ extension Imagebuilder {
             self.instanceTypes = instanceTypes
             self.keyPair = keyPair
             self.logging = logging
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
 
@@ -9279,6 +9432,7 @@ extension Imagebuilder {
             try self.validate(self.keyPair, name: "keyPair", parent: name, max: 1024)
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.parentInstance?.validate(name: "\(name).parentInstance")
             try self.placement?.validate(name: "\(name).placement")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -9306,11 +9460,13 @@ extension Imagebuilder {
             case instanceTypes = "instanceTypes"
             case keyPair = "keyPair"
             case logging = "logging"
+            case parentInstance = "parentInstance"
             case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
+            case terminateInstanceOnCompletion = "terminateInstanceOnCompletion"
             case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }

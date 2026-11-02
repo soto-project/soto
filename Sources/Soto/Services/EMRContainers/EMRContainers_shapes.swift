@@ -117,7 +117,7 @@ extension EMRContainers {
     public struct AuthorizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Encryption-related configuration input for the security configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// Lake Formation related configuration inputs for the security configuration.
+        ///  Lake Formation related configuration inputs for the security configuration.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
 
         @inlinable
@@ -2588,9 +2588,9 @@ extension EMRContainers {
     public struct TLSCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The TLS certificate type. Acceptable values: PEM or Custom.
         public let certificateProviderType: CertificateProviderType?
-        /// Secrets Manager ARN that contains the private TLS certificate contents, used for communication between the user job and the system job.
+        ///  Secrets Manager ARN that contains the private TLS certificate contents, used for communication between the user job and the system job.
         public let privateCertificateSecretArn: String?
-        /// Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
+        ///  Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
         public let publicCertificateSecretArn: String?
 
         @inlinable

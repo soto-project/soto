@@ -183,8 +183,9 @@ public struct DynamoDBStreams: AWSService {
     /// Parameters:
     ///   - sequenceNumber: The sequence number of a stream record in the shard from which to start reading.
     ///   - shardId: The identifier of the shard. The iterator will be returned for this shard ID.
-    ///   - shardIteratorType: Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.
+    ///   - shardIteratorType: Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.    AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the parameter Timestamp.
     ///   - streamArn: The Amazon Resource Name (ARN) for the stream.
+    ///   - timestamp: The timestamp of the stream record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 1791316726.480. The iterator points to the first stream record whose ApproximateCreationDateTime is at or after the specified timestamp. If no record with that exact timestamp exists, the iterator points to the next (later) record. If the timestamp is older than the current trim horizon, the iterator points to the oldest untrimmed stream record (TRIM_HORIZON). If the timestamp is in the future, the request returns a ValidationException.
     ///   - logger: Logger use during operation
     @inlinable
     public func getShardIterator(
@@ -192,13 +193,15 @@ public struct DynamoDBStreams: AWSService {
         shardId: String,
         shardIteratorType: ShardIteratorType,
         streamArn: String,
+        timestamp: Date? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetShardIteratorOutput {
         let input = GetShardIteratorInput(
             sequenceNumber: sequenceNumber, 
             shardId: shardId, 
             shardIteratorType: shardIteratorType, 
-            streamArn: streamArn
+            streamArn: streamArn, 
+            timestamp: timestamp
         )
         return try await self.getShardIterator(input, logger: logger)
     }

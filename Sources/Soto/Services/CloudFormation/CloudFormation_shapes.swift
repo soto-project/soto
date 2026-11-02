@@ -1163,6 +1163,8 @@ extension CloudFormation {
     public struct ContinueUpdateRollbackInput: AWSEncodableShape {
         /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
         public let clientRequestToken: String?
+        /// Specifies whether CloudFormation forces the rollback to continue by skipping resources currently in the UPDATE_FAILED state. Use this instead of listing each resource individually in ResourcesToSkip. Only resources that entered the UPDATE_FAILED state because a rollback failed are skipped. If you don't specify a value, the default is false and CloudFormation doesn't skip any resources.  ForceRollback and ResourcesToSkip are mutually exclusive. Specifying both in the same request returns a validation error.  We recommend that you troubleshoot resources before skipping them. CloudFormation sets the status of the skipped resources to UPDATE_COMPLETE and continues to roll back the stack, including resources in nested stacks. After the rollback completes, the skipped resources no longer match the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable. Drift detection reports skipped resources as NOT_CHECKED. For guidance, see Continue rolling back an update in the CloudFormation User Guide.
+        public let forceRollback: Bool?
         /// A list of the logical IDs of the resources that CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.  Specify this property to skip rolling back resources that CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.  Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources. To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID. If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED.  Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Continue rolling back from failed nested stack updates.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var resourcesToSkip: [String]?
@@ -1172,8 +1174,9 @@ extension CloudFormation {
         public let stackName: String?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, resourcesToSkip: [String]? = nil, roleARN: String? = nil, stackName: String? = nil) {
+        public init(clientRequestToken: String? = nil, forceRollback: Bool? = nil, resourcesToSkip: [String]? = nil, roleARN: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.forceRollback = forceRollback
             self.resourcesToSkip = resourcesToSkip
             self.roleARN = roleARN
             self.stackName = stackName
@@ -1194,6 +1197,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case forceRollback = "ForceRollback"
             case resourcesToSkip = "ResourcesToSkip"
             case roleARN = "RoleARN"
             case stackName = "StackName"
@@ -7237,7 +7241,7 @@ extension CloudFormation {
     public struct StackResourceDriftInformationSummary: AWSDecodableShape {
         /// When CloudFormation last checked if the resource had drifted from its expected configuration.
         public let lastCheckTimestamp: Date?
-        /// Status of the resource's actual configuration compared to its expected configuration.    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: CloudFormation hasn't checked if the resource differs from its expected configuration. Any resources that don't currently support drift detection have a status of NOT_CHECKED. For more information, see Resource type support for imports and drift detection. If you performed an ContinueUpdateRollback operation on a stack, any resources included in ResourcesToSkip will also have a status of NOT_CHECKED. For more information about skipping resources during rollback operations, see Continue rolling back an update in the CloudFormation User Guide.    IN_SYNC: The resource's actual configuration matches its expected configuration.
+        /// Status of the resource's actual configuration compared to its expected configuration.    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: CloudFormation hasn't checked if the resource differs from its expected configuration. Any resources that don't currently support drift detection have a status of NOT_CHECKED. For more information, see Resource type support for imports and drift detection. If you performed a ContinueUpdateRollback operation on a stack, resources skipped using ResourcesToSkip or ForceRollback also have a status of NOT_CHECKED. To detect whether a skipped resource actually differs from the template, run DetectStackResourceDrift. For more information about skipping resources during rollback operations, see Continue rolling back an update in the CloudFormation User Guide.    IN_SYNC: The resource's actual configuration matches its expected configuration.
         public let stackResourceDriftStatus: StackResourceDriftStatus?
 
         @inlinable

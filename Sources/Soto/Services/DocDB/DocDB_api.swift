@@ -1511,6 +1511,53 @@ public struct DocDB: AWSService {
         return try await self.describePendingMaintenanceActions(input, logger: logger)
     }
 
+    /// Describes the properties of specific platform versions for Amazon DocumentDB Serverless v2.
+    @Sendable
+    @inlinable
+    public func describeServerlessV2PlatformVersions(_ input: DescribeServerlessV2PlatformVersionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ServerlessV2PlatformVersionsMessage {
+        try await self.client.execute(
+            operation: "DescribeServerlessV2PlatformVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the properties of specific platform versions for Amazon DocumentDB Serverless v2.
+    ///
+    /// Parameters:
+    ///   - defaultOnly: Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    ///   - engine: The database engine to return platform version details for.
+    ///   - filters: This parameter isn't currently supported.
+    ///   - includeAll: Specifies whether to also include platform versions that are no longer in use. If you don't specify a value, the response includes only active platform versions.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
+    ///   - serverlessV2PlatformVersion: A specific platform version to return details for. Example: 3
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServerlessV2PlatformVersions(
+        defaultOnly: Bool? = nil,
+        engine: String? = nil,
+        filters: [Filter]? = nil,
+        includeAll: Bool? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        serverlessV2PlatformVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ServerlessV2PlatformVersionsMessage {
+        let input = DescribeServerlessV2PlatformVersionsMessage(
+            defaultOnly: defaultOnly, 
+            engine: engine, 
+            filters: filters, 
+            includeAll: includeAll, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            serverlessV2PlatformVersion: serverlessV2PlatformVersion
+        )
+        return try await self.describeServerlessV2PlatformVersions(input, logger: logger)
+    }
+
     /// Forces a failover for a cluster. A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer). If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
     @Sendable
     @inlinable
@@ -2939,6 +2986,55 @@ extension DocDB {
         )
         return self.describePendingMaintenanceActionsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``describeServerlessV2PlatformVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServerlessV2PlatformVersionsPaginator(
+        _ input: DescribeServerlessV2PlatformVersionsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeServerlessV2PlatformVersionsMessage, ServerlessV2PlatformVersionsMessage> {
+        return .init(
+            input: input,
+            command: self.describeServerlessV2PlatformVersions,
+            inputKey: \DescribeServerlessV2PlatformVersionsMessage.marker,
+            outputKey: \ServerlessV2PlatformVersionsMessage.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeServerlessV2PlatformVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - defaultOnly: Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    ///   - engine: The database engine to return platform version details for.
+    ///   - filters: This parameter isn't currently supported.
+    ///   - includeAll: Specifies whether to also include platform versions that are no longer in use. If you don't specify a value, the response includes only active platform versions.
+    ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
+    ///   - serverlessV2PlatformVersion: A specific platform version to return details for. Example: 3
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServerlessV2PlatformVersionsPaginator(
+        defaultOnly: Bool? = nil,
+        engine: String? = nil,
+        filters: [Filter]? = nil,
+        includeAll: Bool? = nil,
+        maxRecords: Int? = nil,
+        serverlessV2PlatformVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeServerlessV2PlatformVersionsMessage, ServerlessV2PlatformVersionsMessage> {
+        let input = DescribeServerlessV2PlatformVersionsMessage(
+            defaultOnly: defaultOnly, 
+            engine: engine, 
+            filters: filters, 
+            includeAll: includeAll, 
+            maxRecords: maxRecords, 
+            serverlessV2PlatformVersion: serverlessV2PlatformVersion
+        )
+        return self.describeServerlessV2PlatformVersionsPaginator(input, logger: logger)
+    }
 }
 
 extension DocDB.DescribeCertificatesMessage: AWSPaginateToken {
@@ -3112,6 +3208,21 @@ extension DocDB.DescribePendingMaintenanceActionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             resourceIdentifier: self.resourceIdentifier
+        )
+    }
+}
+
+extension DocDB.DescribeServerlessV2PlatformVersionsMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeServerlessV2PlatformVersionsMessage {
+        return .init(
+            defaultOnly: self.defaultOnly,
+            engine: self.engine,
+            filters: self.filters,
+            includeAll: self.includeAll,
+            marker: token,
+            maxRecords: self.maxRecords,
+            serverlessV2PlatformVersion: self.serverlessV2PlatformVersion
         )
     }
 }

@@ -3573,6 +3573,7 @@ public struct Omics: AWSService {
     ///   - name: A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
     ///   - networkingMode: Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
     ///   - outputUri: An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
+    ///   - outputUriPrefixMode: You can control the path prefixes that the service adds beneath outputUri. If you don't specify a value, the service uses SERVICE_DEFINED, which adds a run-specific prefix.
     ///   - parameters: Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
     ///   - priority: Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide.
     ///   - requestId: An idempotency token used to dedupe retry requests so that duplicate runs are not created.
@@ -3600,6 +3601,7 @@ public struct Omics: AWSService {
         name: String? = nil,
         networkingMode: NetworkingMode? = nil,
         outputUri: String,
+        outputUriPrefixMode: RunOutputUriPrefixMode? = nil,
         parameters: AWSDocument? = nil,
         priority: Int? = nil,
         requestId: String = StartRunRequest.idempotencyToken(),
@@ -3627,6 +3629,7 @@ public struct Omics: AWSService {
             name: name, 
             networkingMode: networkingMode, 
             outputUri: outputUri, 
+            outputUriPrefixMode: outputUriPrefixMode, 
             parameters: parameters, 
             priority: priority, 
             requestId: requestId, 

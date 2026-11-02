@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS IdentityStore service.
 ///
-/// The Identity Store service used by IAM Identity Center provides a single place to retrieve all of your identities (users and groups). For more information, see the  IAM Identity Center User Guide. This reference guide describes the identity store operations that you can call programmatically and includes detailed information about data types and errors.   IAM Identity Center uses the sso, sso-directory, and identitystore API namespaces. The sso-directory and identitystore namespaces authorize access to data in the Identity Store. Make sure your policies with IAM actions from these two namespaces are consistent to avoid conflicting authorization to the same data.
+///   IAM Identity Center uses the sso, sso-directory, and identitystore API namespaces. The sso-directory and identitystore namespaces authorize access to data in the Identity Store. Make sure your policies with IAM actions from these two namespaces are consistent to avoid conflicting authorization to the same data.  The Identity Store service used by IAM Identity Center provides a single place to retrieve all of your identities (users and groups). You can use the identity store API operations in this guide to manage your identity data programmatically. The scope of these APIs allows you to create, read, update, delete, and list users, groups, and memberships. This guide also describes identity store operations that you can call and includes detailed information about data types and errors.  If you use an external identity provider or Active Directory as your identity source, we recommend that you use the Create, Update, and Delete APIs with caution. Because IAM Identity Center doesn't support outbound synchronization, your identity source won't automatically update with the changes that you make to users or groups using these APIs.  Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to programmatically access the identity store and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see Amazon Web Services Builder Center Toolbox.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 
@@ -106,7 +106,7 @@ public struct IdentityStore: AWSService {
     /// Parameters:
     ///   - description: A string containing the description of the group.
     ///   - displayName: A string containing the name of the group. This value is commonly displayed when the group is referenced. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGroup(
@@ -139,8 +139,8 @@ public struct IdentityStore: AWSService {
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     ///
     /// Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - memberId: An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -179,7 +179,7 @@ public struct IdentityStore: AWSService {
     ///   - displayName: A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe." When used in IAM Identity Center, this parameter is required.
     ///   - emails: A list of Email objects containing email addresses associated with the user.
     ///   - extensions: A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent extension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - locale: A string containing the geographical region or location of the user.
     ///   - name: An object containing the name of the user. When used in IAM Identity Center, this parameter is required.
     ///   - nickName: A string containing an alternate name for the user.
@@ -257,18 +257,21 @@ public struct IdentityStore: AWSService {
     /// Delete a group within an identity store given GroupId.
     ///
     /// Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - revision: The expected current revision of the group. When you provide this value, the group is deleted only if it matches the current revision of the group in the identity store. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the group is deleted regardless of its current revision.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteGroup(
         groupId: String,
         identityStoreId: String,
+        revision: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteGroupResponse {
         let input = DeleteGroupRequest(
             groupId: groupId, 
-            identityStoreId: identityStoreId
+            identityStoreId: identityStoreId, 
+            revision: revision
         )
         return try await self.deleteGroup(input, logger: logger)
     }
@@ -289,8 +292,8 @@ public struct IdentityStore: AWSService {
     /// Delete a membership within a group given MembershipId.
     ///
     /// Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - membershipId: The identifier for a GroupMembership in an identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - membershipId: The identifier for a GroupMembership in an identity store. You can specify the group membership by ID or by Amazon Resource Name (ARN). For example, membership ID a1b2c3d4-5678-90ab-cdef-EXAMPLE33333 or membership ARN arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteGroupMembership(
@@ -321,17 +324,20 @@ public struct IdentityStore: AWSService {
     /// Deletes a user within an identity store given UserId.
     ///
     /// Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - userId: The identifier for a user in the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - revision: The expected current revision of the user. When you provide this value, the user is deleted only if it matches the current revision of the user in the identity store. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the user is deleted regardless of its current revision.
+    ///   - userId: The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteUser(
         identityStoreId: String,
+        revision: String? = nil,
         userId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteUserResponse {
         let input = DeleteUserRequest(
             identityStoreId: identityStoreId, 
+            revision: revision, 
             userId: userId
         )
         return try await self.deleteUser(input, logger: logger)
@@ -353,8 +359,8 @@ public struct IdentityStore: AWSService {
     /// Retrieves the group metadata and attributes from GroupId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeGroup(
@@ -385,8 +391,8 @@ public struct IdentityStore: AWSService {
     /// Retrieves membership metadata and attributes from MembershipId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - membershipId: The identifier for a GroupMembership in an identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - membershipId: The identifier for a GroupMembership in an identity store. You can specify the group membership by ID or by Amazon Resource Name (ARN). For example, membership ID a1b2c3d4-5678-90ab-cdef-EXAMPLE33333 or membership ARN arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeGroupMembership(
@@ -399,6 +405,35 @@ public struct IdentityStore: AWSService {
             membershipId: membershipId
         )
         return try await self.describeGroupMembership(input, logger: logger)
+    }
+
+    /// Retrieves details about the specified identity store, including its Amazon Resource Name (ARN) and network configuration.
+    @Sendable
+    @inlinable
+    public func describeIdentityStore(_ input: DescribeIdentityStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIdentityStoreResponse {
+        try await self.client.execute(
+            operation: "DescribeIdentityStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about the specified identity store, including its Amazon Resource Name (ARN) and network configuration.
+    ///
+    /// Parameters:
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeIdentityStore(
+        identityStoreId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeIdentityStoreResponse {
+        let input = DescribeIdentityStoreRequest(
+            identityStoreId: identityStoreId
+        )
+        return try await self.describeIdentityStore(input, logger: logger)
     }
 
     /// Retrieves the user metadata and attributes from the UserId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
@@ -418,8 +453,8 @@ public struct IdentityStore: AWSService {
     ///
     /// Parameters:
     ///   - extensions: A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
-    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - userId: The identifier for a user in the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - userId: The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeUser(
@@ -453,7 +488,7 @@ public struct IdentityStore: AWSService {
     ///
     /// Parameters:
     ///   - alternateIdentifier: A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is  displayName.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - logger: Logger use during operation
     @inlinable
     public func getGroupId(
@@ -484,8 +519,8 @@ public struct IdentityStore: AWSService {
     /// Retrieves the MembershipId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - memberId: An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -520,7 +555,7 @@ public struct IdentityStore: AWSService {
     ///
     /// Parameters:
     ///   - alternateIdentifier: A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are  userName and emails.value.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - logger: Logger use during operation
     @inlinable
     public func getUserId(
@@ -551,8 +586,8 @@ public struct IdentityStore: AWSService {
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - groupIds: A list of identifiers for groups in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupIds: A list of identifiers for groups in the identity store. You can specify each group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - memberId: An object containing the identifier of a group member.
     ///   - logger: Logger use during operation
     @inlinable
@@ -586,10 +621,10 @@ public struct IdentityStore: AWSService {
     /// For the specified group in the specified identity store, returns the list of all  GroupMembership objects and returns results in paginated form.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all  List requests to specify how many results to return in one page.
-    ///   - nextToken: The pagination token used for the ListUsers, ListGroups and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+    ///   - nextToken: The pagination token used for the ListUsers, ListGroups and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGroupMemberships(
@@ -624,10 +659,10 @@ public struct IdentityStore: AWSService {
     /// For the specified member in the specified identity store, returns the list of all  GroupMembership objects and returns results in paginated form.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
     ///   - memberId: An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
-    ///   - nextToken: The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+    ///   - nextToken: The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGroupMembershipsForMember(
@@ -662,9 +697,9 @@ public struct IdentityStore: AWSService {
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
-    ///   - nextToken: The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
+    ///   - nextToken: The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGroups(
@@ -679,6 +714,38 @@ public struct IdentityStore: AWSService {
             nextToken: nextToken
         )
         return try await self.listGroups(input, logger: logger)
+    }
+
+    /// Lists the identity stores that you have access to. This operation returns only the identity store ID and Amazon Resource Name (ARN) of each identity store. To obtain additional information about an identity store, call DescribeIdentityStore. This operation returns results in paginated form. Use the NextToken parameter to retrieve additional pages of results.
+    @Sendable
+    @inlinable
+    public func listIdentityStores(_ input: ListIdentityStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityStoresResponse {
+        try await self.client.execute(
+            operation: "ListIdentityStores", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the identity stores that you have access to. This operation returns only the identity store ID and Amazon Resource Name (ARN) of each identity store. To obtain additional information about an identity store, call DescribeIdentityStore. This operation returns results in paginated form. Use the NextToken parameter to retrieve additional pages of results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return per request. This parameter is used in all  List operations to specify how many results to return on one page. If you don't specify a value, the operation uses a default page size.
+    ///   - nextToken: The pagination token used for the ListIdentityStores API operation. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIdentityStores(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIdentityStoresResponse {
+        let input = ListIdentityStoresRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listIdentityStores(input, logger: logger)
     }
 
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
@@ -698,9 +765,9 @@ public struct IdentityStore: AWSService {
     ///
     /// Parameters:
     ///   - extensions: A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
-    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
-    ///   - nextToken: The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
+    ///   - nextToken: The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listUsers(
@@ -735,23 +802,58 @@ public struct IdentityStore: AWSService {
     /// Updates the specified group metadata and attributes in the specified identity store.
     ///
     /// Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - operations: A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see Group.
+    ///   - revision: The expected current revision of the group. When you provide this value, the update is applied only if it matches the current revision of the group in the identity store, which prevents you from overwriting concurrent changes. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the update is applied unconditionally.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGroup(
         groupId: String,
         identityStoreId: String,
         operations: [AttributeOperation],
+        revision: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGroupResponse {
         let input = UpdateGroupRequest(
             groupId: groupId, 
             identityStoreId: identityStoreId, 
-            operations: operations
+            operations: operations, 
+            revision: revision
         )
         return try await self.updateGroup(input, logger: logger)
+    }
+
+    /// Updates the configuration of the specified identity store, including its network configuration.
+    @Sendable
+    @inlinable
+    public func updateIdentityStore(_ input: UpdateIdentityStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityStoreResponse {
+        try await self.client.execute(
+            operation: "UpdateIdentityStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of the specified identity store, including its network configuration.
+    ///
+    /// Parameters:
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - networkConfiguration: The network configuration to apply to the identity store. This controls whether access through a virtual private cloud (VPC) endpoint is required and the source VPCs and IP addresses that are allowed to access the identity store. When you provide NetworkConfiguration in a request, the service performs a full replacement of the identity store's current network configuration with the values you specify. Any values that you omit are cleared. To preserve or change the allowed source VPCs or IP address ranges, include the complete set of values that you want in the request. To clear a list, omit it; an empty list is not accepted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIdentityStore(
+        identityStoreId: String,
+        networkConfiguration: NetworkConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIdentityStoreResponse {
+        let input = UpdateIdentityStoreRequest(
+            identityStoreId: identityStoreId, 
+            networkConfiguration: networkConfiguration
+        )
+        return try await self.updateIdentityStore(input, logger: logger)
     }
 
     /// Updates the specified user metadata and attributes in the specified identity store.
@@ -770,20 +872,23 @@ public struct IdentityStore: AWSService {
     /// Updates the specified user metadata and attributes in the specified identity store.
     ///
     /// Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - operations: A list of AttributeOperation objects to apply to the requested user. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see User.
-    ///   - userId: The identifier for a user in the identity store.
+    ///   - revision: The expected current revision of the user. When you provide this value, the update is applied only if it matches the current revision of the user in the identity store, which prevents you from overwriting concurrent changes. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the update is applied unconditionally.
+    ///   - userId: The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateUser(
         identityStoreId: String,
         operations: [AttributeOperation],
+        revision: String? = nil,
         userId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateUserResponse {
         let input = UpdateUserRequest(
             identityStoreId: identityStoreId, 
             operations: operations, 
+            revision: revision, 
             userId: userId
         )
         return try await self.updateUser(input, logger: logger)
@@ -824,8 +929,8 @@ extension IdentityStore {
     /// Return PaginatorSequence for operation ``listGroupMemberships(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - groupId: The identifier for a group in the identity store.
-    ///   - identityStoreId: The globally unique identifier for the identity store.
+    ///   - groupId: The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
     ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all  List requests to specify how many results to return in one page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -864,8 +969,8 @@ extension IdentityStore {
     /// Return PaginatorSequence for operation ``listGroupMembershipsForMember(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - identityStoreId: The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
     ///   - memberId: An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
     ///   - logger: Logger used for logging
     @inlinable
@@ -904,8 +1009,8 @@ extension IdentityStore {
     /// Return PaginatorSequence for operation ``listGroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGroupsPaginator(
@@ -918,6 +1023,40 @@ extension IdentityStore {
             maxResults: maxResults
         )
         return self.listGroupsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listIdentityStores(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIdentityStoresPaginator(
+        _ input: ListIdentityStoresRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIdentityStoresRequest, ListIdentityStoresResponse> {
+        return .init(
+            input: input,
+            command: self.listIdentityStores,
+            inputKey: \ListIdentityStoresRequest.nextToken,
+            outputKey: \ListIdentityStoresResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIdentityStores(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return per request. This parameter is used in all  List operations to specify how many results to return on one page. If you don't specify a value, the operation uses a default page size.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIdentityStoresPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIdentityStoresRequest, ListIdentityStoresResponse> {
+        let input = ListIdentityStoresRequest(
+            maxResults: maxResults
+        )
+        return self.listIdentityStoresPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listUsers(_:logger:)``.
@@ -942,8 +1081,8 @@ extension IdentityStore {
     ///
     /// - Parameters:
     ///   - extensions: A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
-    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listUsersPaginator(
@@ -990,6 +1129,16 @@ extension IdentityStore.ListGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IdentityStore.ListGroupsRequest {
         return .init(
             identityStoreId: self.identityStoreId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IdentityStore.ListIdentityStoresRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IdentityStore.ListIdentityStoresRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

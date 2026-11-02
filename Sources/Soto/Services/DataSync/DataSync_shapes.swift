@@ -139,6 +139,13 @@ extension DataSync {
         case nfs3 = "NFS3"
         case nfs40 = "NFS4_0"
         case nfs41 = "NFS4_1"
+        case nfs42 = "NFS4_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
@@ -424,13 +431,13 @@ extension DataSync {
         public let activationKey: String
         /// Specifies a name for your agent. We recommend specifying a name that you can remember.
         public let agentName: String?
-        /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN.
+        /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. The ARN must specify your own account, even when the security group was shared with you from the account that owns the VPC. The security group must belong to the same VPC as the subnet that you specify in SubnetArns.
         public let securityGroupArns: [String]?
-        /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN.
+        /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC service endpoint. The subnet can be one that another Amazon Web Services account shared with you through RAM, in which case the ARN must specify the account that owns the subnet. For more information, see Using a single VPC service endpoint across multiple subnets.
         public let subnetArns: [String]?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
         public let tags: [TagListEntry]?
-        /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
+        /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).  The endpoint ID is informational. DataSync doesn't verify it or use it to connect to your agent. For more information, see Using a single VPC service endpoint across multiple subnets.
         public let vpcEndpointId: String?
 
         @inlinable
@@ -3181,7 +3188,7 @@ extension DataSync {
     }
 
     public struct NfsMountOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
+        /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1. For Amazon FSx for OpenZFS locations, DataSync first attempts to use NFS version 4.2, then falls back to version 4.1, and then to earlier versions if needed.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    NFSv4_2: Stateful protocol version that supports sparse file operations, space reservation, and server-side copy operations, in addition to all features available in version 4.1. Selecting NFS version 4.2 requires an Enhanced mode task.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
         public let version: NfsVersion?
 
         @inlinable
@@ -3228,6 +3235,8 @@ extension DataSync {
         public let logLevel: LogLevel?
         /// Specifies whether to preserve metadata indicating the last time that a file was written to before the PREPARING step of your task execution. This option is required when you need to run the a task more than once.    PRESERVE (default) - Preserves original Mtime, which is recommended.    NONE - Ignores Mtime.    The following applies only to Basic mode tasks: If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  Enhanced mode tasks don't support Mtime set to NONE.
         public let mtime: Mtime?
+        /// Specifies whether you want DataSync to PRESERVE object metadata (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object metadata, specify the NONE value.  Even if you specify NONE, metadata for the last modified time is still preserved.
+        public let objectMetadata: ObjectMetadata?
         /// Specifies whether you want DataSync to PRESERVE object tags (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value.
         public let objectTags: ObjectTags?
         /// Specifies whether DataSync should modify or preserve data at the destination location.    ALWAYS (default) - DataSync modifies data in the destination location when source data (including metadata) has changed. If DataSync overwrites objects, you might incur additional charges for certain Amazon S3 storage classes (for example, for retrieval or early deletion). For more information, see Storage class considerations with Amazon S3 transfers.    NEVER - DataSync doesn't overwrite data in the destination location even if the source data has changed. You can use this option to protect against overwriting changes made to files or objects in the destination.
@@ -3250,12 +3259,13 @@ extension DataSync {
         public let verifyMode: VerifyMode?
 
         @inlinable
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectMetadata: ObjectMetadata? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
             self.logLevel = logLevel
             self.mtime = mtime
+            self.objectMetadata = objectMetadata
             self.objectTags = objectTags
             self.overwriteMode = overwriteMode
             self.posixPermissions = posixPermissions
@@ -3278,6 +3288,7 @@ extension DataSync {
             case gid = "Gid"
             case logLevel = "LogLevel"
             case mtime = "Mtime"
+            case objectMetadata = "ObjectMetadata"
             case objectTags = "ObjectTags"
             case overwriteMode = "OverwriteMode"
             case posixPermissions = "PosixPermissions"
@@ -3310,9 +3321,9 @@ extension DataSync {
         public let privateLinkEndpoint: String?
         /// Specifies the Amazon Resource Names (ARN) of the security group that provides DataSync access to your VPC endpoint. You can only specify one ARN.
         public let securityGroupArns: [String]?
-        /// Specifies the ARN of the subnet where your VPC endpoint is located. You can only specify one ARN.
+        /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC endpoint.
         public let subnetArns: [String]?
-        /// Specifies the ID of the VPC endpoint that your agent connects to.
+        /// Specifies the ID of the VPC service endpoint that's recorded for your agent. The endpoint ID is informational and isn't verified by DataSync. Your agent communicates through the private IP address in PrivateLinkEndpoint, which is set when you activate the agent.
         public let vpcEndpointId: String?
 
         @inlinable
@@ -4320,7 +4331,7 @@ extension DataSync {
         public let kmsKeyProviderUri: String?
         /// The Amazon Resource Name (ARN) of the source HDFS cluster location.
         public let locationArn: String
-        /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:   Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.   Basic mode – You can specify only one NameNode.
+        /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:    Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.    Basic mode – You can specify only one NameNode.
         public let nameNodes: [HdfsNameNode]?
         /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop Distributed File System (HDFS) cluster.
         public let qopConfiguration: QopConfiguration?

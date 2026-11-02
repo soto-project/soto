@@ -141,6 +141,11 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum DisassociationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case waitForReplication = "WAIT_FOR_REPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dynamodbJson = "DYNAMODB_JSON"
         case ion = "ION"
@@ -2538,6 +2543,24 @@ extension DynamoDB {
         }
     }
 
+    public struct DisassociateReplicationGroupMemberAction: AWSEncodableShape {
+        /// The mode for handling pending replication before disassociation completes. You must specify WAIT_FOR_REPLICATION. For more information, see Disassociating a global table replica in the Amazon DynamoDB Developer Guide.
+        public let disassociationMode: DisassociationMode
+        /// The Region of the replica to disassociate. Set this value to the Region where you send the UpdateTable request. You must use credentials for the account that owns the replica.
+        public let regionName: String
+
+        @inlinable
+        public init(disassociationMode: DisassociationMode, regionName: String) {
+            self.disassociationMode = disassociationMode
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociationMode = "DisassociationMode"
+            case regionName = "RegionName"
+        }
+    }
+
     public struct EnableKinesisStreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND.
         public let approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision?
@@ -2750,6 +2773,8 @@ extension DynamoDB {
         public let failureCode: String?
         /// Export failure reason description.
         public let failureMessage: String?
+        /// The filter criteria applied to the export. When present, only items that match the specified key conditions and filter expressions are included in the export output.
+        public let filterSpecification: FilterSpecification?
         /// Optional object containing the parameters specific to an incremental export.
         public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The number of items exported.
@@ -2772,7 +2797,7 @@ extension DynamoDB {
         public let tableId: String?
 
         @inlinable
-        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
+        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, filterSpecification: FilterSpecification? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
             self.billedSizeBytes = billedSizeBytes
             self.clientToken = clientToken
             self.endTime = endTime
@@ -2784,6 +2809,7 @@ extension DynamoDB {
             self.exportType = exportType
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.filterSpecification = filterSpecification
             self.incrementalExportSpecification = incrementalExportSpecification
             self.itemCount = itemCount
             self.s3Bucket = s3Bucket
@@ -2808,6 +2834,7 @@ extension DynamoDB {
             case exportType = "ExportType"
             case failureCode = "FailureCode"
             case failureMessage = "FailureMessage"
+            case filterSpecification = "FilterSpecification"
             case incrementalExportSpecification = "IncrementalExportSpecification"
             case itemCount = "ItemCount"
             case s3Bucket = "S3Bucket"
@@ -2852,6 +2879,8 @@ extension DynamoDB {
         public let exportTime: Date?
         /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
         public let exportType: ExportType?
+        /// The criteria used to filter which items are included in the point-in-time export. When you specify this parameter, only items that match the key conditions and filter expressions are exported.
+        public let filterSpecification: FilterSpecification?
         /// Optional object containing the parameters specific to an incremental export.
         public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The name of the Amazon S3 bucket to export the snapshot to.
@@ -2868,11 +2897,12 @@ extension DynamoDB {
         public let tableArn: String
 
         @inlinable
-        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
+        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, filterSpecification: FilterSpecification? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
             self.clientToken = clientToken
             self.exportFormat = exportFormat
             self.exportTime = exportTime
             self.exportType = exportType
+            self.filterSpecification = filterSpecification
             self.incrementalExportSpecification = incrementalExportSpecification
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -2884,6 +2914,7 @@ extension DynamoDB {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[^\\$]+$")
+            try self.filterSpecification?.validate(name: "\(name).filterSpecification")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
             try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -2899,6 +2930,7 @@ extension DynamoDB {
             case exportFormat = "ExportFormat"
             case exportTime = "ExportTime"
             case exportType = "ExportType"
+            case filterSpecification = "FilterSpecification"
             case incrementalExportSpecification = "IncrementalExportSpecification"
             case s3Bucket = "S3Bucket"
             case s3BucketOwner = "S3BucketOwner"
@@ -2938,6 +2970,45 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case exceptionDescription = "ExceptionDescription"
             case exceptionName = "ExceptionName"
+        }
+    }
+
+    public struct FilterSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// One or more substitution tokens for attribute names in an expression. For more information, see Expression Attribute Names in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeNames: [String: String]?
+        /// One or more values that can be substituted in an expression. For more information, see Expression Attribute Values in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeValues: [String: AttributeValue]?
+        /// A condition that filters which items are included in the export. This parameter uses the same syntax as FilterExpression in Query and Scan. If you don't provide KeyConditionExpression, this expression can also reference key attributes. If you don't specify this parameter, all items are included in the export.
+        public let filterExpression: String?
+        /// A condition expression that filters items by key values. The expression must test equality on a single partition key value and can optionally compare a sort key value. This parameter uses the same syntax as KeyConditionExpression in Query. When you provide this parameter, FilterExpression can only reference non-key attributes. If you don't specify this parameter, all items are eligible for export.
+        public let keyConditionExpression: String?
+        /// The attributes you want to retrieve for items included in the export. Separate attribute names in the expression with commas. If you don't specify this parameter, all attributes are returned.
+        public let projectionExpression: String?
+
+        @inlinable
+        public init(expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, keyConditionExpression: String? = nil, projectionExpression: String? = nil) {
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.filterExpression = filterExpression
+            self.keyConditionExpression = keyConditionExpression
+            self.projectionExpression = projectionExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.expressionAttributeNames?.forEach {
+                try validate($0.value, name: "expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
+            }
+            try self.expressionAttributeValues?.forEach {
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case filterExpression = "FilterExpression"
+            case keyConditionExpression = "KeyConditionExpression"
+            case projectionExpression = "ProjectionExpression"
         }
     }
 
@@ -5221,13 +5292,16 @@ extension DynamoDB {
         public let create: CreateReplicationGroupMemberAction?
         /// The parameters required for deleting a replica for the table.
         public let delete: DeleteReplicationGroupMemberAction?
+        /// The parameters for disassociating the local replica from the global table and retaining it as a standalone regional table.
+        public let disassociate: DisassociateReplicationGroupMemberAction?
         /// The parameters required for updating a replica for the table.
         public let update: UpdateReplicationGroupMemberAction?
 
         @inlinable
-        public init(create: CreateReplicationGroupMemberAction? = nil, delete: DeleteReplicationGroupMemberAction? = nil, update: UpdateReplicationGroupMemberAction? = nil) {
+        public init(create: CreateReplicationGroupMemberAction? = nil, delete: DeleteReplicationGroupMemberAction? = nil, disassociate: DisassociateReplicationGroupMemberAction? = nil, update: UpdateReplicationGroupMemberAction? = nil) {
             self.create = create
             self.delete = delete
+            self.disassociate = disassociate
             self.update = update
         }
 
@@ -5239,6 +5313,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case create = "Create"
             case delete = "Delete"
+            case disassociate = "Disassociate"
             case update = "Update"
         }
     }
@@ -6004,6 +6079,8 @@ extension DynamoDB {
         public let creationDateTime: Date?
         /// Indicates whether deletion protection is enabled (true) or disabled (false) on the table.
         public let deletionProtectionEnabled: Bool?
+        /// Specifies whether disassociation protection is enabled (true) or disabled (false) for the local global table replica. Protection is enabled by default.
+        public let disassociationProtectionEnabled: Bool?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)  You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
         /// Indicates one of the settings synchronization modes for the global table:    ENABLED: Indicates that the settings synchronization mode for the global table is enabled.    DISABLED: Indicates that the settings synchronization mode for the global table is disabled.    ENABLED_WITH_OVERRIDES: This mode is set by default for a same account global table. Indicates that certain global table settings can be overridden.
@@ -6028,7 +6105,7 @@ extension DynamoDB {
         public let onDemandThroughput: OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public let provisionedThroughput: ProvisionedThroughputDescription?
-        /// Represents replicas of the table.
+        /// Represents replicas of the table. After a successful disassociation, this list is absent or empty. To confirm disassociation, also verify that TableStatus is ACTIVE.
         public let replicas: [ReplicaDescription]?
         /// Contains details for the restore.
         public let restoreSummary: RestoreSummary?
@@ -6054,12 +6131,13 @@ extension DynamoDB {
         public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, vectorIndexes: [VectorIndexDescription]? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, disassociationProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, vectorIndexes: [VectorIndexDescription]? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.disassociationProtectionEnabled = disassociationProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.globalTableVersion = globalTableVersion
@@ -6092,6 +6170,7 @@ extension DynamoDB {
             case billingModeSummary = "BillingModeSummary"
             case creationDateTime = "CreationDateTime"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case disassociationProtectionEnabled = "DisassociationProtectionEnabled"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case globalTableSettingsReplicationMode = "GlobalTableSettingsReplicationMode"
             case globalTableVersion = "GlobalTableVersion"
@@ -6942,6 +7021,8 @@ extension DynamoDB {
         public let billingMode: BillingMode?
         /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
         public let deletionProtectionEnabled: Bool?
+        /// Specifies whether disassociation protection is enabled (true) or disabled (false) for the local replica of a multi-Region eventual consistency (MREC) global table using Version 2019.11.21. Disassociation protection is enabled by default. If you omit this parameter, the existing setting is unchanged. This setting is independent of DeletionProtectionEnabled. You can't combine this change with any other change in the same UpdateTable request.
+        public let disassociationProtectionEnabled: Bool?
         /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
         /// Controls the settings replication mode for a global table replica. This attribute can be defined using UpdateTable operation only on a regional table with values:    ENABLED: Defines settings replication on a regional table to be used as a source table for creating Multi-Account Global Table.    DISABLED: Remove settings replication on a regional table. Settings replication needs to be defined to ENABLED again in order to create a Multi-Account Global Table using this table.
@@ -6954,7 +7035,7 @@ extension DynamoDB {
         public let onDemandThroughput: OnDemandThroughput?
         /// The new provisioned throughput settings for the specified table or index.
         public let provisionedThroughput: ProvisionedThroughput?
-        /// A list of replica update actions (create, delete, or update) for the table.
+        /// A list of replica update actions (create, delete, update, or disassociate) for the table.
         public let replicaUpdates: [ReplicationGroupUpdate]?
         /// The new server-side encryption settings for the specified table.
         public let sseSpecification: SSESpecification?
@@ -6970,10 +7051,11 @@ extension DynamoDB {
         public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, vectorIndexUpdates: [VectorIndexUpdate]? = nil, warmThroughput: WarmThroughput? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, disassociationProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, vectorIndexUpdates: [VectorIndexUpdate]? = nil, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.disassociationProtectionEnabled = disassociationProtectionEnabled
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
             self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.globalTableWitnessUpdates = globalTableWitnessUpdates
@@ -7014,6 +7096,7 @@ extension DynamoDB {
             case attributeDefinitions = "AttributeDefinitions"
             case billingMode = "BillingMode"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case disassociationProtectionEnabled = "DisassociationProtectionEnabled"
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
             case globalTableSettingsReplicationMode = "GlobalTableSettingsReplicationMode"
             case globalTableWitnessUpdates = "GlobalTableWitnessUpdates"

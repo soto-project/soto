@@ -102,7 +102,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials: The credentials for basic authorization for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - buildSpec: The build specification (build spec) for an Amplify app.
     ///   - cacheConfig: The cache configuration for the Amplify app.
-    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
     ///   - customHeaders: The custom HTTP headers for an Amplify app.
     ///   - customRules: The custom rewrite and redirect rules for an Amplify app.
     ///   - description: The description of the Amplify app.
@@ -232,7 +232,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials:  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - branchName: The name for the branch.
     ///   - buildSpec:  The build specification (build spec) for the branch.
-    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
     ///   - description: The description for the branch.
     ///   - displayName:  The display name for a branch. This is used as the default domain prefix.
     ///   - enableAutoBuild:  Enables auto building for the branch.
@@ -240,7 +240,7 @@ public struct Amplify: AWSService {
     ///   - enableNotification:  Enables notifications for the branch.
     ///   - enablePerformanceMode: Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
     ///   - enablePullRequestPreview:  Enables pull request previews for this branch.
-    ///   - enableSkewProtection: Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+    ///   - enableSkewProtection: Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the  Amplify User Guide.
     ///   - environmentVariables:  The environment variables for the branch.
     ///   - framework:  The framework for the branch.
     ///   - pullRequestEnvironmentName:  The Amplify environment name for the pull request.
@@ -893,7 +893,7 @@ public struct Amplify: AWSService {
         return try await self.listApps(input, logger: logger)
     }
 
-    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the Amplify Hosting User Guide.
+    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the  Amplify Hosting User Guide.
     @Sendable
     @inlinable
     public func listArtifacts(_ input: ListArtifactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListArtifactsResult {
@@ -906,7 +906,7 @@ public struct Amplify: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the Amplify Hosting User Guide.
+    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the  Amplify Hosting User Guide.
     ///
     /// Parameters:
     ///   - appId: The unique ID for an Amplify app.
@@ -1357,7 +1357,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials: The basic authorization credentials for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - buildSpec: The build specification (build spec) for an Amplify app.
     ///   - cacheConfig: The cache configuration for the Amplify app.
-    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
     ///   - customHeaders: The custom HTTP headers for an Amplify app.
     ///   - customRules: The custom redirect and rewrite rules for an Amplify app.
     ///   - description: The description for an Amplify app.
@@ -1448,7 +1448,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials:  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - branchName: The name of the branch.
     ///   - buildSpec:  The build specification (build spec) for the branch.
-    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
     ///   - description:  The description for the branch.
     ///   - displayName:  The display name for a branch. This is used as the default domain prefix.
     ///   - enableAutoBuild:  Enables auto building for the branch.
@@ -1456,7 +1456,7 @@ public struct Amplify: AWSService {
     ///   - enableNotification:  Enables notifications for the branch.
     ///   - enablePerformanceMode: Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
     ///   - enablePullRequestPreview:  Enables pull request previews for this branch.
-    ///   - enableSkewProtection: Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+    ///   - enableSkewProtection: Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the  Amplify User Guide.
     ///   - environmentVariables:  The environment variables for the branch.
     ///   - framework:  The framework for the branch.
     ///   - pullRequestEnvironmentName:  The Amplify environment name for the pull request.

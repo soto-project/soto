@@ -98,6 +98,20 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExpressPrivateOfferConfigurationSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productId = "ProductId"
+        case state = "State"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpressPrivateOfferConfigurationStateString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientError = "CLIENT_ERROR"
         case serverFault = "SERVER_FAULT"
@@ -247,6 +261,23 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubsidiaryAuthorizationSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createdDate = "CreatedDate"
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case resourceId = "ResourceId"
+        case status = "Status"
+        case subsidiaryAccountId = "SubsidiaryAccountId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubsidiaryAuthorizationStatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case draft = "Draft"
+        case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cannotParse = "CannotParse"
         case fieldValidationFailed = "FieldValidationFailed"
@@ -262,6 +293,8 @@ extension MarketplaceCatalog {
         case containerProductFilters(ContainerProductFilters)
         /// A filter for data products.
         case dataProductFilters(DataProductFilters)
+        /// A filter for express private offer configurations.
+        case expressPrivateOfferConfigurationFilters(ExpressPrivateOfferConfigurationFilters)
         case machineLearningProductFilters(MachineLearningProductFilters)
         /// A filter for offers.
         case offerFilters(OfferFilters)
@@ -271,6 +304,8 @@ extension MarketplaceCatalog {
         case resaleAuthorizationFilters(ResaleAuthorizationFilters)
         /// A filter for SaaS products.
         case saaSProductFilters(SaaSProductFilters)
+        /// A filter for subsidiary authorizations.
+        case subsidiaryAuthorizationFilters(SubsidiaryAuthorizationFilters)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -281,6 +316,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .containerProductFilters)
             case .dataProductFilters(let value):
                 try container.encode(value, forKey: .dataProductFilters)
+            case .expressPrivateOfferConfigurationFilters(let value):
+                try container.encode(value, forKey: .expressPrivateOfferConfigurationFilters)
             case .machineLearningProductFilters(let value):
                 try container.encode(value, forKey: .machineLearningProductFilters)
             case .offerFilters(let value):
@@ -291,6 +328,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .resaleAuthorizationFilters)
             case .saaSProductFilters(let value):
                 try container.encode(value, forKey: .saaSProductFilters)
+            case .subsidiaryAuthorizationFilters(let value):
+                try container.encode(value, forKey: .subsidiaryAuthorizationFilters)
             }
         }
 
@@ -302,6 +341,8 @@ extension MarketplaceCatalog {
                 try value.validate(name: "\(name).containerProductFilters")
             case .dataProductFilters(let value):
                 try value.validate(name: "\(name).dataProductFilters")
+            case .expressPrivateOfferConfigurationFilters(let value):
+                try value.validate(name: "\(name).expressPrivateOfferConfigurationFilters")
             case .machineLearningProductFilters(let value):
                 try value.validate(name: "\(name).machineLearningProductFilters")
             case .offerFilters(let value):
@@ -312,6 +353,8 @@ extension MarketplaceCatalog {
                 try value.validate(name: "\(name).resaleAuthorizationFilters")
             case .saaSProductFilters(let value):
                 try value.validate(name: "\(name).saaSProductFilters")
+            case .subsidiaryAuthorizationFilters(let value):
+                try value.validate(name: "\(name).subsidiaryAuthorizationFilters")
             }
         }
 
@@ -319,11 +362,13 @@ extension MarketplaceCatalog {
             case amiProductFilters = "AmiProductFilters"
             case containerProductFilters = "ContainerProductFilters"
             case dataProductFilters = "DataProductFilters"
+            case expressPrivateOfferConfigurationFilters = "ExpressPrivateOfferConfigurationFilters"
             case machineLearningProductFilters = "MachineLearningProductFilters"
             case offerFilters = "OfferFilters"
             case offerSetFilters = "OfferSetFilters"
             case resaleAuthorizationFilters = "ResaleAuthorizationFilters"
             case saaSProductFilters = "SaaSProductFilters"
+            case subsidiaryAuthorizationFilters = "SubsidiaryAuthorizationFilters"
         }
     }
 
@@ -334,6 +379,8 @@ extension MarketplaceCatalog {
         case containerProductSort(ContainerProductSort)
         /// A sort for data products.
         case dataProductSort(DataProductSort)
+        /// A sort for express private offer configurations.
+        case expressPrivateOfferConfigurationSort(ExpressPrivateOfferConfigurationSort)
         case machineLearningProductSort(MachineLearningProductSort)
         /// A sort for offer sets.
         case offerSetSort(OfferSetSort)
@@ -343,6 +390,8 @@ extension MarketplaceCatalog {
         case resaleAuthorizationSort(ResaleAuthorizationSort)
         /// A sort for SaaS products.
         case saaSProductSort(SaaSProductSort)
+        /// A sort for subsidiary authorizations.
+        case subsidiaryAuthorizationSort(SubsidiaryAuthorizationSort)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -353,6 +402,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .containerProductSort)
             case .dataProductSort(let value):
                 try container.encode(value, forKey: .dataProductSort)
+            case .expressPrivateOfferConfigurationSort(let value):
+                try container.encode(value, forKey: .expressPrivateOfferConfigurationSort)
             case .machineLearningProductSort(let value):
                 try container.encode(value, forKey: .machineLearningProductSort)
             case .offerSetSort(let value):
@@ -363,6 +414,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .resaleAuthorizationSort)
             case .saaSProductSort(let value):
                 try container.encode(value, forKey: .saaSProductSort)
+            case .subsidiaryAuthorizationSort(let value):
+                try container.encode(value, forKey: .subsidiaryAuthorizationSort)
             }
         }
 
@@ -370,11 +423,13 @@ extension MarketplaceCatalog {
             case amiProductSort = "AmiProductSort"
             case containerProductSort = "ContainerProductSort"
             case dataProductSort = "DataProductSort"
+            case expressPrivateOfferConfigurationSort = "ExpressPrivateOfferConfigurationSort"
             case machineLearningProductSort = "MachineLearningProductSort"
             case offerSetSort = "OfferSetSort"
             case offerSort = "OfferSort"
             case resaleAuthorizationSort = "ResaleAuthorizationSort"
             case saaSProductSort = "SaaSProductSort"
+            case subsidiaryAuthorizationSort = "SubsidiaryAuthorizationSort"
         }
     }
 
@@ -1801,6 +1856,8 @@ extension MarketplaceCatalog {
         public let entityId: String?
         /// The type of the entity.
         public let entityType: String?
+        /// An object that contains summary information about the express private offer configuration.
+        public let expressPrivateOfferConfigurationSummary: ExpressPrivateOfferConfigurationSummary?
         /// The last time the entity was published, using ISO 8601 format (2018-02-27T13:45:22Z).
         public let lastModifiedDate: String?
         public let machineLearningProductSummary: MachineLearningProductSummary?
@@ -1814,17 +1871,20 @@ extension MarketplaceCatalog {
         public let resaleAuthorizationSummary: ResaleAuthorizationSummary?
         /// An object that contains summary information about the SaaS product.
         public let saaSProductSummary: SaaSProductSummary?
+        /// An object that contains summary information about the subsidiary authorization, such as its status and authorized resource, when the entity type is SubsidiaryAuthorization.
+        public let subsidiaryAuthorizationSummary: SubsidiaryAuthorizationSummary?
         /// The visibility status of the entity to buyers. This value can be Public (everyone can view the entity), Limited (the entity is visible to limited accounts only), or Restricted (the entity was published and then unpublished and only existing buyers can view it).
         public let visibility: String?
 
         @inlinable
-        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSetSummary: OfferSetSummary? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
+        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, expressPrivateOfferConfigurationSummary: ExpressPrivateOfferConfigurationSummary? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSetSummary: OfferSetSummary? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, subsidiaryAuthorizationSummary: SubsidiaryAuthorizationSummary? = nil, visibility: String? = nil) {
             self.amiProductSummary = amiProductSummary
             self.containerProductSummary = containerProductSummary
             self.dataProductSummary = dataProductSummary
             self.entityArn = entityArn
             self.entityId = entityId
             self.entityType = entityType
+            self.expressPrivateOfferConfigurationSummary = expressPrivateOfferConfigurationSummary
             self.lastModifiedDate = lastModifiedDate
             self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
@@ -1832,6 +1892,7 @@ extension MarketplaceCatalog {
             self.offerSummary = offerSummary
             self.resaleAuthorizationSummary = resaleAuthorizationSummary
             self.saaSProductSummary = saaSProductSummary
+            self.subsidiaryAuthorizationSummary = subsidiaryAuthorizationSummary
             self.visibility = visibility
         }
 
@@ -1842,6 +1903,7 @@ extension MarketplaceCatalog {
             case entityArn = "EntityArn"
             case entityId = "EntityId"
             case entityType = "EntityType"
+            case expressPrivateOfferConfigurationSummary = "ExpressPrivateOfferConfigurationSummary"
             case lastModifiedDate = "LastModifiedDate"
             case machineLearningProductSummary = "MachineLearningProductSummary"
             case name = "Name"
@@ -1849,6 +1911,7 @@ extension MarketplaceCatalog {
             case offerSummary = "OfferSummary"
             case resaleAuthorizationSummary = "ResaleAuthorizationSummary"
             case saaSProductSummary = "SaaSProductSummary"
+            case subsidiaryAuthorizationSummary = "SubsidiaryAuthorizationSummary"
             case visibility = "Visibility"
         }
     }
@@ -1886,6 +1949,137 @@ extension MarketplaceCatalog {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationEntityIdFilter: AWSEncodableShape {
+        /// A list of EntityId values to filter on.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationFilters: AWSEncodableShape {
+        /// You can filter on the EntityId of an express private offer configuration.
+        public let entityId: ExpressPrivateOfferConfigurationEntityIdFilter?
+        /// You can filter on the ProductId of an express private offer configuration.
+        public let productId: ExpressPrivateOfferConfigurationProductIdFilter?
+        /// The state of the express private offer configuration to filter on. Valid values are the following:    ACTIVE – The configuration is active and you can use it to generate offers.    INACTIVE – The configuration is deprecated or deleted.
+        public let state: ExpressPrivateOfferConfigurationStateFilter?
+
+        @inlinable
+        public init(entityId: ExpressPrivateOfferConfigurationEntityIdFilter? = nil, productId: ExpressPrivateOfferConfigurationProductIdFilter? = nil, state: ExpressPrivateOfferConfigurationStateFilter? = nil) {
+            self.entityId = entityId
+            self.productId = productId
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.productId?.validate(name: "\(name).productId")
+            try self.state?.validate(name: "\(name).state")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case productId = "ProductId"
+            case state = "State"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationProductIdFilter: AWSEncodableShape {
+        /// A list of ProductId values to filter on.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationSort: AWSEncodableShape {
+        /// The field to sort by. Valid values are EntityId, LastModifiedDate, ProductId, and State.
+        public let sortBy: ExpressPrivateOfferConfigurationSortBy?
+        /// The sorting order. Valid values are ASCENDING and DESCENDING.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(sortBy: ExpressPrivateOfferConfigurationSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationStateFilter: AWSEncodableShape {
+        /// A list of State values to filter on. Valid values are ACTIVE and INACTIVE.
+        public let valueList: [ExpressPrivateOfferConfigurationStateString]?
+
+        @inlinable
+        public init(valueList: [ExpressPrivateOfferConfigurationStateString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationSummary: AWSDecodableShape {
+        /// The product ID associated with the express private offer configuration.
+        public let productId: String?
+        /// The state of the express private offer configuration. Valid values are the following:    ACTIVE – The configuration is active and you can use it to generate offers.    INACTIVE – The configuration is deprecated or deleted.
+        public let state: ExpressPrivateOfferConfigurationStateString?
+
+        @inlinable
+        public init(productId: String? = nil, state: ExpressPrivateOfferConfigurationStateString? = nil) {
+            self.productId = productId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case state = "State"
         }
     }
 
@@ -2094,7 +2288,7 @@ extension MarketplaceCatalog {
     public struct ListEntitiesRequest: AWSEncodableShape {
         /// The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
-        /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
+        /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution, SubsidiaryAuthorization.
         public let entityType: String
         /// A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
         public let entityTypeFilters: EntityTypeFilters?
@@ -4243,6 +4437,354 @@ extension MarketplaceCatalog {
         private enum CodingKeys: String, CodingKey {
             case changeSetArn = "ChangeSetArn"
             case changeSetId = "ChangeSetId"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationCreatedDateFilter: AWSEncodableShape {
+        /// A date range to filter by. The operation returns subsidiary authorizations with creation dates that fall within this range.
+        public let dateRange: SubsidiaryAuthorizationCreatedDateFilterDateRange?
+
+        @inlinable
+        public init(dateRange: SubsidiaryAuthorizationCreatedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationCreatedDateFilterDateRange: AWSEncodableShape {
+        /// The start date (inclusive) of the date range. The operation returns subsidiary authorizations created on or after this date.
+        public let afterValue: String?
+        /// The end date (inclusive) of the date range. The operation returns subsidiary authorizations created on or before this date.
+        public let beforeValue: String?
+
+        @inlinable
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationEntityIdFilter: AWSEncodableShape {
+        /// A list of entity IDs to filter by. The operation returns subsidiary authorizations with an entity ID that matches any value in this list. You can include up to 10 entity IDs in this list.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationFilters: AWSEncodableShape {
+        /// A filter that matches subsidiary authorizations by creation date.
+        public let createdDate: SubsidiaryAuthorizationCreatedDateFilter?
+        /// A filter that matches subsidiary authorizations by entity ID.
+        public let entityId: SubsidiaryAuthorizationEntityIdFilter?
+        /// A filter that matches subsidiary authorizations by last modified date.
+        public let lastModifiedDate: SubsidiaryAuthorizationLastModifiedDateFilter?
+        /// A filter that matches subsidiary authorizations by name.
+        public let name: SubsidiaryAuthorizationNameFilter?
+        /// A filter that matches subsidiary authorizations by the ID of the authorized resource.
+        public let resourceId: SubsidiaryAuthorizationResourceIdFilter?
+        /// A filter that matches subsidiary authorizations by the name of the authorized resource.
+        public let resourceName: SubsidiaryAuthorizationResourceNameFilter?
+        /// A filter that matches subsidiary authorizations by status.
+        public let status: SubsidiaryAuthorizationStatusFilter?
+        /// A filter that matches subsidiary authorizations by the AWS account ID of the subsidiary account.
+        public let subsidiaryAccountId: SubsidiaryAuthorizationSubsidiaryAccountIdFilter?
+
+        @inlinable
+        public init(createdDate: SubsidiaryAuthorizationCreatedDateFilter? = nil, entityId: SubsidiaryAuthorizationEntityIdFilter? = nil, lastModifiedDate: SubsidiaryAuthorizationLastModifiedDateFilter? = nil, name: SubsidiaryAuthorizationNameFilter? = nil, resourceId: SubsidiaryAuthorizationResourceIdFilter? = nil, resourceName: SubsidiaryAuthorizationResourceNameFilter? = nil, status: SubsidiaryAuthorizationStatusFilter? = nil, subsidiaryAccountId: SubsidiaryAuthorizationSubsidiaryAccountIdFilter? = nil) {
+            self.createdDate = createdDate
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.status = status
+            self.subsidiaryAccountId = subsidiaryAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.createdDate?.validate(name: "\(name).createdDate")
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.name?.validate(name: "\(name).name")
+            try self.resourceId?.validate(name: "\(name).resourceId")
+            try self.resourceName?.validate(name: "\(name).resourceName")
+            try self.status?.validate(name: "\(name).status")
+            try self.subsidiaryAccountId?.validate(name: "\(name).subsidiaryAccountId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case resourceName = "ResourceName"
+            case status = "Status"
+            case subsidiaryAccountId = "SubsidiaryAccountId"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationLastModifiedDateFilter: AWSEncodableShape {
+        /// A date range to filter by. The operation returns subsidiary authorizations with last modified dates that fall within this range.
+        public let dateRange: SubsidiaryAuthorizationLastModifiedDateFilterDateRange?
+
+        @inlinable
+        public init(dateRange: SubsidiaryAuthorizationLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// The start date (inclusive) of the date range. The operation returns subsidiary authorizations last modified on or after this date.
+        public let afterValue: String?
+        /// The end date (inclusive) of the date range. The operation returns subsidiary authorizations last modified on or before this date.
+        public let beforeValue: String?
+
+        @inlinable
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationNameFilter: AWSEncodableShape {
+        /// A list of names to filter by. The operation returns subsidiary authorizations with a name that matches any value in this list. You can include up to 10 names in this list.
+        public let valueList: [String]?
+        /// A partial name to filter by. The operation returns subsidiary authorizations whose name contains this value. The value must be at least 3 characters.
+        public let wildCardValue: String?
+
+        @inlinable
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 3)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationResourceIdFilter: AWSEncodableShape {
+        /// A list of resource IDs to filter by. The operation returns subsidiary authorizations for resources with an ID that matches any value in this list. You can include up to 10 resource IDs in this list.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationResourceNameFilter: AWSEncodableShape {
+        /// A list of resource names to filter by. The operation returns subsidiary authorizations for resources with a name that matches any value in this list. You can include up to 10 resource names in this list.
+        public let valueList: [String]?
+        /// A partial resource name to filter by. The operation returns subsidiary authorizations for resources whose name contains this value. The value must be at least 3 characters.
+        public let wildCardValue: String?
+
+        @inlinable
+        public init(valueList: [String]? = nil, wildCardValue: String? = nil) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, max: 255)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, min: 3)
+            try self.validate(self.wildCardValue, name: "wildCardValue", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+            case wildCardValue = "WildCardValue"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationSort: AWSEncodableShape {
+        /// The field to sort subsidiary authorizations by. Valid values are EntityId, Status, ResourceId, SubsidiaryAccountId, CreatedDate, and LastModifiedDate.
+        public let sortBy: SubsidiaryAuthorizationSortBy?
+        /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(sortBy: SubsidiaryAuthorizationSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationStatusFilter: AWSEncodableShape {
+        /// A list of statuses to filter by. The operation returns subsidiary authorizations with a status that matches a value in this list. Valid values are:    Draft - The subsidiary authorization was created but not yet released. The subsidiary account can't see it.    Active - The subsidiary account can use the subsidiary authorization to create offers for the authorized product.    Restricted - The subsidiary authorization was discarded while in Draft or revoked while Active. It can't be used to create new offers. This status is final.
+        public let valueList: [SubsidiaryAuthorizationStatusString]?
+
+        @inlinable
+        public init(valueList: [SubsidiaryAuthorizationStatusString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationSubsidiaryAccountIdFilter: AWSEncodableShape {
+        /// A list of AWS account IDs to filter by. The operation returns subsidiary authorizations whose subsidiary account ID matches any value in this list. You can include up to 10 account IDs in this list.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 12)
+                try validate($0, name: "valueList[]", parent: name, min: 12)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct SubsidiaryAuthorizationSummary: AWSDecodableShape {
+        /// The date the subsidiary authorization was created.
+        public let createdDate: String?
+        /// The name of the subsidiary authorization.
+        public let name: String?
+        /// The ID of the resource that the subsidiary authorization applies to. Currently, this is always a product ID, such as prod-example123.
+        public let resourceId: String?
+        /// The name of the resource that the subsidiary authorization applies to. Currently, this is always a product name.
+        public let resourceName: String?
+        /// The status of the subsidiary authorization. Valid values are:    Draft - The subsidiary authorization was created but not yet released. The subsidiary account can't see it.    Active - The subsidiary account can use the subsidiary authorization to create offers for the authorized product.    Restricted - The subsidiary authorization was discarded while in Draft or revoked while Active. It can't be used to create new offers. This status is final.
+        public let status: String?
+        /// The 12-digit AWS account ID of the subsidiary account.
+        public let subsidiaryAccountId: String?
+
+        @inlinable
+        public init(createdDate: String? = nil, name: String? = nil, resourceId: String? = nil, resourceName: String? = nil, status: String? = nil, subsidiaryAccountId: String? = nil) {
+            self.createdDate = createdDate
+            self.name = name
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.status = status
+            self.subsidiaryAccountId = subsidiaryAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case resourceName = "ResourceName"
+            case status = "Status"
+            case subsidiaryAccountId = "SubsidiaryAccountId"
         }
     }
 

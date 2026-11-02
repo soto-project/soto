@@ -472,6 +472,7 @@ extension WAFV2 {
         case bodyParsingFallbackBehavior = "BODY_PARSING_FALLBACK_BEHAVIOR"
         case byteMatchStatement = "BYTE_MATCH_STATEMENT"
         case challengeConfig = "CHALLENGE_CONFIG"
+        case challengeJavascriptSdkInjectionConfig = "CHALLENGE_JAVASCRIPT_SDK_INJECTION_CONFIG"
         case changePropagationStatus = "CHANGE_PROPAGATION_STATUS"
         case cookieMatchPattern = "COOKIE_MATCH_PATTERN"
         case customKeys = "CUSTOM_KEYS"
@@ -1061,15 +1062,23 @@ extension WAFV2 {
     }
 
     public struct AssociationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the CloudFront distributions that insert the WAF challenge JavaScript SDK into the HTML responses that they return. When you enable this setting for a distribution, you do not add the SDK to your web pages yourself.  You can configure this setting only for CloudFront distributions, using the CLOUDFRONT map key. WAF rejects any other resource type, and the setting is not available for regional resources. To configure it, use the CloudFront scope.  Your web ACL must also contain at least one of the following qualifying managed rule groups. WAF Bot Control qualifies only at the TARGETED inspection level, not at COMMON:    The WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, with the inspection level set to TARGETED.    The WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet.    The WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet.    If you remove the last qualifying managed rule group from the web ACL, or lower the WAF Bot Control inspection level from TARGETED to COMMON, you must remove this setting in the same update. Otherwise, WAF rejects the update.  Example JSON:  { "CLOUDFRONT": {} }  If you omit this setting, CloudFront does not insert the SDK. When you omit it from a web ACL that previously used it, cached HTML that already contains the SDK is still served until it expires, or until you invalidate the cache for that distribution. For more information, see Automatic SDK integration for CloudFront distributions in the WAF Developer Guide.
+        public let challengeJavascriptSdkInjection: [AssociatedResourceType: ChallengeJavascriptSdkInjectionConfig]?
         /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types.   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" }  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public let requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]?
 
         @inlinable
-        public init(requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]? = nil) {
+        public init(challengeJavascriptSdkInjection: [AssociatedResourceType: ChallengeJavascriptSdkInjectionConfig]? = nil, requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]? = nil) {
+            self.challengeJavascriptSdkInjection = challengeJavascriptSdkInjection
             self.requestBody = requestBody
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.challengeJavascriptSdkInjection, name: "challengeJavascriptSdkInjection", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case challengeJavascriptSdkInjection = "ChallengeJavascriptSdkInjection"
             case requestBody = "RequestBody"
         }
     }
@@ -1264,6 +1273,10 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case immunityTimeProperty = "ImmunityTimeProperty"
         }
+    }
+
+    public struct ChallengeJavascriptSdkInjectionConfig: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct ChallengeResponse: AWSDecodableShape {
@@ -1735,7 +1748,7 @@ extension WAFV2 {
     public struct CreateWebACLRequest: AWSEncodableShape {
         /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
         public let applicationConfig: ApplicationConfig?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public let captchaConfig: CaptchaConfig?
@@ -1789,6 +1802,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.applicationConfig?.validate(name: "\(name).applicationConfig")
+            try self.associationConfig?.validate(name: "\(name).associationConfig")
             try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.challengeConfig?.validate(name: "\(name).challengeConfig")
             try self.customResponseBodies?.forEach {
@@ -7706,7 +7720,7 @@ extension WAFV2 {
     public struct UpdateWebACLRequest: AWSEncodableShape {
         /// Configures the ability for the WAF console to store and retrieve application attributes.  Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:   If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.   If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
         public let applicationConfig: ApplicationConfig?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public let captchaConfig: CaptchaConfig?
@@ -7763,6 +7777,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.applicationConfig?.validate(name: "\(name).applicationConfig")
+            try self.associationConfig?.validate(name: "\(name).associationConfig")
             try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.challengeConfig?.validate(name: "\(name).challengeConfig")
             try self.customResponseBodies?.forEach {
@@ -7989,7 +8004,7 @@ extension WAFV2 {
         public let applicationConfig: ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public let arn: String
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public let associationConfig: AssociationConfig?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL.  WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule.  Simple rules that cost little to run use fewer WCUs than more complex rules
         /// 				that use more processing power.

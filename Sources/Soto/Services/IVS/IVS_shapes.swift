@@ -45,6 +45,14 @@ extension IVS {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailoverSlateConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MultitrackMaximumResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullHd = "FULL_HD"
         case hd = "HD"
@@ -564,6 +572,8 @@ extension IVS {
         public let authorized: Bool?
         /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
         public let containerFormat: ContainerFormat?
+        /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
+        public let failoverSlateConfigurationArn: String?
         /// Channel ingest endpoint, part of the definition of an ingest server, used when you set up streaming software.
         public let ingestEndpoint: String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
@@ -590,11 +600,12 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(adConfigurationArn: String? = nil, arn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, arn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, failoverSlateConfigurationArn: String? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
             self.containerFormat = containerFormat
+            self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
             self.ingestEndpoint = ingestEndpoint
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
@@ -614,6 +625,7 @@ extension IVS {
             case arn = "arn"
             case authorized = "authorized"
             case containerFormat = "containerFormat"
+            case failoverSlateConfigurationArn = "failoverSlateConfigurationArn"
             case ingestEndpoint = "ingestEndpoint"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
@@ -680,6 +692,8 @@ extension IVS {
         public let arn: String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public let authorized: Bool?
+        /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
+        public let failoverSlateConfigurationArn: String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
         public let insecureIngest: Bool?
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
@@ -698,10 +712,11 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(adConfigurationArn: String? = nil, arn: String? = nil, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, arn: String? = nil, authorized: Bool? = nil, failoverSlateConfigurationArn: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
+            self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
@@ -716,6 +731,7 @@ extension IVS {
             case adConfigurationArn = "adConfigurationArn"
             case arn = "arn"
             case authorized = "authorized"
+            case failoverSlateConfigurationArn = "failoverSlateConfigurationArn"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
             case name = "name"
@@ -836,6 +852,8 @@ extension IVS {
         public let authorized: Bool?
         /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
         public let containerFormat: ContainerFormat?
+        /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
+        public let failoverSlateConfigurationArn: String?
         /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
         public let insecureIngest: Bool?
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
@@ -856,10 +874,11 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(adConfigurationArn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, failoverSlateConfigurationArn: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.adConfigurationArn = adConfigurationArn
             self.authorized = authorized
             self.containerFormat = containerFormat
+            self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.multitrackInputConfiguration = multitrackInputConfiguration
@@ -874,6 +893,8 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.adConfigurationArn, name: "adConfigurationArn", parent: name, max: 128)
             try self.validate(self.adConfigurationArn, name: "adConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$$")
+            try self.validate(self.failoverSlateConfigurationArn, name: "failoverSlateConfigurationArn", parent: name, max: 128)
+            try self.validate(self.failoverSlateConfigurationArn, name: "failoverSlateConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:failover-slate-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
@@ -894,6 +915,7 @@ extension IVS {
             case adConfigurationArn = "adConfigurationArn"
             case authorized = "authorized"
             case containerFormat = "containerFormat"
+            case failoverSlateConfigurationArn = "failoverSlateConfigurationArn"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
             case multitrackInputConfiguration = "multitrackInputConfiguration"
@@ -919,6 +941,69 @@ extension IVS {
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
             case streamKey = "streamKey"
+        }
+    }
+
+    public struct CreateFailoverSlateConfigurationRequest: AWSEncodableShape {
+        /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
+        public let activationThresholdSeconds: Int?
+        /// Maximum number of seconds that the failover slate displays. Default: 60.
+        public let maxSlateDisplaySeconds: Int?
+        /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
+        public let minSlateDisplaySeconds: Int?
+        /// Failover-slate-configuration name. The value does not need to be unique.
+        public let name: String?
+        /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(activationThresholdSeconds: Int? = nil, maxSlateDisplaySeconds: Int? = nil, minSlateDisplaySeconds: Int? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.activationThresholdSeconds = activationThresholdSeconds
+            self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+            self.minSlateDisplaySeconds = minSlateDisplaySeconds
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.activationThresholdSeconds, name: "activationThresholdSeconds", parent: name, max: 5)
+            try self.validate(self.activationThresholdSeconds, name: "activationThresholdSeconds", parent: name, min: 3)
+            try self.validate(self.maxSlateDisplaySeconds, name: "maxSlateDisplaySeconds", parent: name, max: 180)
+            try self.validate(self.maxSlateDisplaySeconds, name: "maxSlateDisplaySeconds", parent: name, min: 60)
+            try self.validate(self.minSlateDisplaySeconds, name: "minSlateDisplaySeconds", parent: name, max: 10)
+            try self.validate(self.minSlateDisplaySeconds, name: "minSlateDisplaySeconds", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationThresholdSeconds = "activationThresholdSeconds"
+            case maxSlateDisplaySeconds = "maxSlateDisplaySeconds"
+            case minSlateDisplaySeconds = "minSlateDisplaySeconds"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateFailoverSlateConfigurationResponse: AWSDecodableShape {
+        /// The failover slate configuration that was created.
+        public let failoverSlateConfiguration: FailoverSlateConfiguration
+
+        @inlinable
+        public init(failoverSlateConfiguration: FailoverSlateConfiguration) {
+            self.failoverSlateConfiguration = failoverSlateConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverSlateConfiguration = "failoverSlateConfiguration"
         }
     }
 
@@ -1134,6 +1219,25 @@ extension IVS {
         }
     }
 
+    public struct DeleteFailoverSlateConfigurationRequest: AWSEncodableShape {
+        /// ARN of the failover slate configuration to be deleted.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:failover-slate-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct DeletePlaybackKeyPairRequest: AWSEncodableShape {
         /// ARN of the key pair to be deleted.
         public let arn: String
@@ -1235,6 +1339,82 @@ extension IVS {
         }
     }
 
+    public struct FailoverSlateConfiguration: AWSDecodableShape {
+        /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
+        public let activationThresholdSeconds: Int?
+        /// Failover-slate-configuration ARN.
+        public let arn: String
+        /// Maximum number of seconds that the failover slate displays. Default: 60.
+        public let maxSlateDisplaySeconds: Int?
+        /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
+        public let minSlateDisplaySeconds: Int?
+        /// Failover-slate-configuration name.
+        public let name: String?
+        /// Current state of the failover slate configuration.
+        public let state: FailoverSlateConfigurationState
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(activationThresholdSeconds: Int? = nil, arn: String, maxSlateDisplaySeconds: Int? = nil, minSlateDisplaySeconds: Int? = nil, name: String? = nil, state: FailoverSlateConfigurationState, tags: [String: String]? = nil) {
+            self.activationThresholdSeconds = activationThresholdSeconds
+            self.arn = arn
+            self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+            self.minSlateDisplaySeconds = minSlateDisplaySeconds
+            self.name = name
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationThresholdSeconds = "activationThresholdSeconds"
+            case arn = "arn"
+            case maxSlateDisplaySeconds = "maxSlateDisplaySeconds"
+            case minSlateDisplaySeconds = "minSlateDisplaySeconds"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct FailoverSlateConfigurationSummary: AWSDecodableShape {
+        /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
+        public let activationThresholdSeconds: Int?
+        /// Failover-slate-configuration ARN.
+        public let arn: String
+        /// Maximum number of seconds that the failover slate displays. Default: 60.
+        public let maxSlateDisplaySeconds: Int?
+        /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
+        public let minSlateDisplaySeconds: Int?
+        /// Failover-slate-configuration name.
+        public let name: String?
+        /// Current state of the failover slate configuration.
+        public let state: FailoverSlateConfigurationState
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(activationThresholdSeconds: Int? = nil, arn: String, maxSlateDisplaySeconds: Int? = nil, minSlateDisplaySeconds: Int? = nil, name: String? = nil, state: FailoverSlateConfigurationState, tags: [String: String]? = nil) {
+            self.activationThresholdSeconds = activationThresholdSeconds
+            self.arn = arn
+            self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+            self.minSlateDisplaySeconds = minSlateDisplaySeconds
+            self.name = name
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationThresholdSeconds = "activationThresholdSeconds"
+            case arn = "arn"
+            case maxSlateDisplaySeconds = "maxSlateDisplaySeconds"
+            case minSlateDisplaySeconds = "minSlateDisplaySeconds"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
     public struct GetAdConfigurationRequest: AWSEncodableShape {
         /// ARN of the ad configuration to be retrieved.
         public let arn: String
@@ -1297,6 +1477,39 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
+        }
+    }
+
+    public struct GetFailoverSlateConfigurationRequest: AWSEncodableShape {
+        /// ARN of the failover slate configuration to be retrieved.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:failover-slate-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetFailoverSlateConfigurationResponse: AWSDecodableShape {
+        /// The failover slate configuration that was retrieved.
+        public let failoverSlateConfiguration: FailoverSlateConfiguration
+
+        @inlinable
+        public init(failoverSlateConfiguration: FailoverSlateConfiguration) {
+            self.failoverSlateConfiguration = failoverSlateConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverSlateConfiguration = "failoverSlateConfiguration"
         }
     }
 
@@ -1590,18 +1803,28 @@ extension IVS {
     }
 
     public struct InsertAdBreakRequest: AWSEncodableShape {
+        /// Caller-specified unique identifier for the ad break to insert into the playlist.
+        public let adBreakId: String?
         /// ARN of the channel into which the ad break is inserted.
         public let channelArn: String
         /// Duration of the ad break, in seconds.
         public let durationSeconds: Int
+        /// Target time at which the ad break starts.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var targetStartAt: Date?
 
         @inlinable
-        public init(channelArn: String, durationSeconds: Int) {
+        public init(adBreakId: String? = nil, channelArn: String, durationSeconds: Int, targetStartAt: Date? = nil) {
+            self.adBreakId = adBreakId
             self.channelArn = channelArn
             self.durationSeconds = durationSeconds
+            self.targetStartAt = targetStartAt
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.adBreakId, name: "adBreakId", parent: name, max: 12)
+            try self.validate(self.adBreakId, name: "adBreakId", parent: name, min: 12)
+            try self.validate(self.adBreakId, name: "adBreakId", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
@@ -1610,22 +1833,29 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adBreakId = "adBreakId"
             case channelArn = "channelArn"
             case durationSeconds = "durationSeconds"
+            case targetStartAt = "targetStartAt"
         }
     }
 
     public struct InsertAdBreakResponse: AWSDecodableShape {
         /// Unique identifier for the ad break that was inserted into the playlist.
         public let adBreakId: String?
+        /// Target start time for the inserted ad break.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var targetStartAt: Date?
 
         @inlinable
-        public init(adBreakId: String? = nil) {
+        public init(adBreakId: String? = nil, targetStartAt: Date? = nil) {
             self.adBreakId = adBreakId
+            self.targetStartAt = targetStartAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case adBreakId = "adBreakId"
+            case targetStartAt = "targetStartAt"
         }
     }
 
@@ -1719,6 +1949,8 @@ extension IVS {
     public struct ListChannelsRequest: AWSEncodableShape {
         /// Filters the channel list to match the specified ad configuration ARN.
         public let filterByAdConfigurationArn: String?
+        /// Filters the channel list to match the specified failover-slate-configuration ARN.
+        public let filterByFailoverSlateConfigurationArn: String?
         /// Filters the channel list to match the specified name.
         public let filterByName: String?
         /// Filters the channel list to match the specified policy.
@@ -1731,8 +1963,9 @@ extension IVS {
         public let nextToken: String?
 
         @inlinable
-        public init(filterByAdConfigurationArn: String? = nil, filterByName: String? = nil, filterByPlaybackRestrictionPolicyArn: String? = nil, filterByRecordingConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filterByAdConfigurationArn: String? = nil, filterByFailoverSlateConfigurationArn: String? = nil, filterByName: String? = nil, filterByPlaybackRestrictionPolicyArn: String? = nil, filterByRecordingConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterByAdConfigurationArn = filterByAdConfigurationArn
+            self.filterByFailoverSlateConfigurationArn = filterByFailoverSlateConfigurationArn
             self.filterByName = filterByName
             self.filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArn
             self.filterByRecordingConfigurationArn = filterByRecordingConfigurationArn
@@ -1743,6 +1976,8 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.filterByAdConfigurationArn, name: "filterByAdConfigurationArn", parent: name, max: 128)
             try self.validate(self.filterByAdConfigurationArn, name: "filterByAdConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$$")
+            try self.validate(self.filterByFailoverSlateConfigurationArn, name: "filterByFailoverSlateConfigurationArn", parent: name, max: 128)
+            try self.validate(self.filterByFailoverSlateConfigurationArn, name: "filterByFailoverSlateConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:failover-slate-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.filterByName, name: "filterByName", parent: name, max: 128)
             try self.validate(self.filterByName, name: "filterByName", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, max: 128)
@@ -1757,6 +1992,7 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case filterByAdConfigurationArn = "filterByAdConfigurationArn"
+            case filterByFailoverSlateConfigurationArn = "filterByFailoverSlateConfigurationArn"
             case filterByName = "filterByName"
             case filterByPlaybackRestrictionPolicyArn = "filterByPlaybackRestrictionPolicyArn"
             case filterByRecordingConfigurationArn = "filterByRecordingConfigurationArn"
@@ -1779,6 +2015,49 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFailoverSlateConfigurationsRequest: AWSEncodableShape {
+        /// Maximum number of failover slate configurations to return. Default: your service quota or 100, whichever is smaller.
+        public let maxResults: Int?
+        /// The first failover slate configuration to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFailoverSlateConfigurationsResponse: AWSDecodableShape {
+        /// List of the matching failover slate configurations.
+        public let failoverSlateConfigurations: [FailoverSlateConfigurationSummary]
+        /// If there are more failover slate configurations than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        @inlinable
+        public init(failoverSlateConfigurations: [FailoverSlateConfigurationSummary], nextToken: String? = nil) {
+            self.failoverSlateConfigurations = failoverSlateConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverSlateConfigurations = "failoverSlateConfigurations"
             case nextToken = "nextToken"
         }
     }
@@ -2799,6 +3078,8 @@ extension IVS {
         /// Time when the channel went offline. This is an ISO 8601 timestamp; note that this is returned as a string. For live streams, this is NULL.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
+        /// The properties of the failover slate configuration at the time of going live.
+        public let failoverSlateConfiguration: FailoverSlateConfiguration?
         /// The properties of the incoming RTMP stream.  Note: ingestConfiguration is deprecated in favor of ingestConfigurations but retained to ensure backward compatibility. If multitrack is not enabled, ingestConfiguration and ingestConfigurations contain the same data, namely information about Track0 (the sole track). If multitrack is enabled, ingestConfiguration contains data for only the first track (Track0) and ingestConfigurations contains data for all tracks.
         public let ingestConfiguration: IngestConfiguration?
         /// The properties of the incoming RTMP stream. If multitrack is enabled, ingestConfigurations contains data for all tracks; otherwise, it contains data only for Track0 (the sole track).
@@ -2814,9 +3095,10 @@ extension IVS {
         public let truncatedEvents: [StreamEvent]?
 
         @inlinable
-        public init(channel: Channel? = nil, endTime: Date? = nil, ingestConfiguration: IngestConfiguration? = nil, ingestConfigurations: IngestConfigurations? = nil, recordingConfiguration: RecordingConfiguration? = nil, startTime: Date? = nil, streamId: String? = nil, truncatedEvents: [StreamEvent]? = nil) {
+        public init(channel: Channel? = nil, endTime: Date? = nil, failoverSlateConfiguration: FailoverSlateConfiguration? = nil, ingestConfiguration: IngestConfiguration? = nil, ingestConfigurations: IngestConfigurations? = nil, recordingConfiguration: RecordingConfiguration? = nil, startTime: Date? = nil, streamId: String? = nil, truncatedEvents: [StreamEvent]? = nil) {
             self.channel = channel
             self.endTime = endTime
+            self.failoverSlateConfiguration = failoverSlateConfiguration
             self.ingestConfiguration = ingestConfiguration
             self.ingestConfigurations = ingestConfigurations
             self.recordingConfiguration = recordingConfiguration
@@ -2828,6 +3110,7 @@ extension IVS {
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
             case endTime = "endTime"
+            case failoverSlateConfiguration = "failoverSlateConfiguration"
             case ingestConfiguration = "ingestConfiguration"
             case ingestConfigurations = "ingestConfigurations"
             case recordingConfiguration = "recordingConfiguration"
@@ -3161,6 +3444,8 @@ extension IVS {
         public let authorized: Bool?
         /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
         public let containerFormat: ContainerFormat?
+        /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. If this is set to an empty string, failover slate configuration is disabled.
+        public let failoverSlateConfigurationArn: String?
         /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
         public let insecureIngest: Bool?
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
@@ -3179,11 +3464,12 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(adConfigurationArn: String? = nil, arn: String, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, arn: String, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, failoverSlateConfigurationArn: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
             self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
             self.containerFormat = containerFormat
+            self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.multitrackInputConfiguration = multitrackInputConfiguration
@@ -3200,6 +3486,8 @@ extension IVS {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.failoverSlateConfigurationArn, name: "failoverSlateConfigurationArn", parent: name, max: 128)
+            try self.validate(self.failoverSlateConfigurationArn, name: "failoverSlateConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:failover-slate-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
@@ -3213,6 +3501,7 @@ extension IVS {
             case arn = "arn"
             case authorized = "authorized"
             case containerFormat = "containerFormat"
+            case failoverSlateConfigurationArn = "failoverSlateConfigurationArn"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
             case multitrackInputConfiguration = "multitrackInputConfiguration"
@@ -3235,6 +3524,63 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
+        }
+    }
+
+    public struct UpdateFailoverSlateConfigurationRequest: AWSEncodableShape {
+        /// Number of seconds of ingest interruption before the failover slate activates. Default: 3.
+        public let activationThresholdSeconds: Int?
+        /// ARN of the failover slate configuration to be updated.
+        public let arn: String
+        /// Maximum number of seconds that the failover slate displays. Default: 60.
+        public let maxSlateDisplaySeconds: Int?
+        /// Minimum number of seconds that the failover slate displays after activation. Default: 3.
+        public let minSlateDisplaySeconds: Int?
+        /// Failover-slate-configuration name. The value does not need to be unique.
+        public let name: String?
+
+        @inlinable
+        public init(activationThresholdSeconds: Int? = nil, arn: String, maxSlateDisplaySeconds: Int? = nil, minSlateDisplaySeconds: Int? = nil, name: String? = nil) {
+            self.activationThresholdSeconds = activationThresholdSeconds
+            self.arn = arn
+            self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+            self.minSlateDisplaySeconds = minSlateDisplaySeconds
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.activationThresholdSeconds, name: "activationThresholdSeconds", parent: name, max: 5)
+            try self.validate(self.activationThresholdSeconds, name: "activationThresholdSeconds", parent: name, min: 3)
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:failover-slate-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.maxSlateDisplaySeconds, name: "maxSlateDisplaySeconds", parent: name, max: 180)
+            try self.validate(self.maxSlateDisplaySeconds, name: "maxSlateDisplaySeconds", parent: name, min: 60)
+            try self.validate(self.minSlateDisplaySeconds, name: "minSlateDisplaySeconds", parent: name, max: 10)
+            try self.validate(self.minSlateDisplaySeconds, name: "minSlateDisplaySeconds", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationThresholdSeconds = "activationThresholdSeconds"
+            case arn = "arn"
+            case maxSlateDisplaySeconds = "maxSlateDisplaySeconds"
+            case minSlateDisplaySeconds = "minSlateDisplaySeconds"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateFailoverSlateConfigurationResponse: AWSDecodableShape {
+        /// Object specifying the updated failover slate configuration.
+        public let failoverSlateConfiguration: FailoverSlateConfiguration
+
+        @inlinable
+        public init(failoverSlateConfiguration: FailoverSlateConfiguration) {
+            self.failoverSlateConfiguration = failoverSlateConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverSlateConfiguration = "failoverSlateConfiguration"
         }
     }
 

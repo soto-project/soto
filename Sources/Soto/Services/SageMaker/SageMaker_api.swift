@@ -1033,7 +1033,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterArn: ARN of the cluster.
     ///   - description: Description of the cluster policy.
-    ///   - name: Name for the cluster policy.
+    ///   - name: The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     ///   - schedulerConfig: Configuration about the monitoring schedule.
     ///   - tags: Tags of the cluster policy.
     ///   - logger: Logger use during operation
@@ -1162,7 +1162,7 @@ public struct SageMaker: AWSService {
     ///   - computeQuotaConfig: Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
     ///   - computeQuotaTarget: The target entity to allocate compute resources to.
     ///   - description: Description of the compute allocation definition.
-    ///   - name: Name to the compute allocation definition.
+    ///   - name: The name of the compute allocation definition. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     ///   - tags: Tags of the compute allocation definition.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3720,6 +3720,56 @@ public struct SageMaker: AWSService {
         return try await self.createTrainingPlan(input, logger: logger)
     }
 
+    /// Creates a training session in Amazon SageMaker. A training session provisions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can submit training operations and sample inference requests through the Amazon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession:    DescribeTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    @Sendable
+    @inlinable
+    public func createTrainingSession(_ input: CreateTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "CreateTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a training session in Amazon SageMaker. A training session provisions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can submit training operations and sample inference requests through the Amazon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession:    DescribeTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    ///
+    /// Parameters:
+    ///   - loraConfig: The Low-Rank Adaptation (LoRA) configuration for the training session, including the rank and alpha parameters.
+    ///   - modelConfig: The configuration for the base model, including the model ARN and end-user license agreement (EULA) acceptance.
+    ///   - modelPackageGroupArn: The Amazon Resource Name (ARN) of the model package group where checkpoints and fine-tuned model artifacts are published.
+    ///   - outputConfig: The output configuration for the training session, including the S3 location and optional encryption settings.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to access resources on your behalf. The role must have permissions to access the output S3 path and model package group.
+    ///   - tags: An array of key-value pairs to apply to the training session as tags. For more information, see Tagging Amazon Web Services Resources.
+    ///   - trainingSessionName: The name of the training session.
+    ///   - vpcConfig: The Virtual Private Cloud (VPC) configuration for the training session. Specify subnets and security groups to run the training session in your VPC.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTrainingSession(
+        loraConfig: LoraConfig? = nil,
+        modelConfig: TrainingSessionModelConfig? = nil,
+        modelPackageGroupArn: String? = nil,
+        outputConfig: TrainingSessionOutputConfig? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        trainingSessionName: String? = nil,
+        vpcConfig: VpcConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTrainingSessionResponse {
+        let input = CreateTrainingSessionRequest(
+            loraConfig: loraConfig, 
+            modelConfig: modelConfig, 
+            modelPackageGroupArn: modelPackageGroupArn, 
+            outputConfig: outputConfig, 
+            roleArn: roleArn, 
+            tags: tags, 
+            trainingSessionName: trainingSessionName, 
+            vpcConfig: vpcConfig
+        )
+        return try await self.createTrainingSession(input, logger: logger)
+    }
+
     /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:    TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.    ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances and AMI image versions for the transform job.   For more information about how batch transformation works, see Batch Transform.
     @Sendable
     @inlinable
@@ -5734,6 +5784,35 @@ public struct SageMaker: AWSService {
             trainingJobName: trainingJobName
         )
         return try await self.deleteTrainingJob(input, logger: logger)
+    }
+
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession:    CreateTrainingSession     DescribeTrainingSession     StopTrainingSession
+    @Sendable
+    @inlinable
+    public func deleteTrainingSession(_ input: DeleteTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "DeleteTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession:    CreateTrainingSession     DescribeTrainingSession     StopTrainingSession
+    ///
+    /// Parameters:
+    ///   - trainingSessionName: The name of the training session to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTrainingSession(
+        trainingSessionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTrainingSessionResponse {
+        let input = DeleteTrainingSessionRequest(
+            trainingSessionName: trainingSessionName
+        )
+        return try await self.deleteTrainingSession(input, logger: logger)
     }
 
     /// Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
@@ -8034,6 +8113,35 @@ public struct SageMaker: AWSService {
             trainingPlanArn: trainingPlanArn
         )
         return try await self.describeTrainingPlanExtensionHistory(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parameters, and timestamps. The following operations are related to DescribeTrainingSession:    CreateTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    @Sendable
+    @inlinable
+    public func describeTrainingSession(_ input: DescribeTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "DescribeTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parameters, and timestamps. The following operations are related to DescribeTrainingSession:    CreateTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    ///
+    /// Parameters:
+    ///   - trainingSessionName: The name of the training session to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTrainingSession(
+        trainingSessionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTrainingSessionResponse {
+        let input = DescribeTrainingSessionRequest(
+            trainingSessionName: trainingSessionName
+        )
+        return try await self.describeTrainingSession(input, logger: logger)
     }
 
     /// Returns information about a transform job.
@@ -12759,6 +12867,50 @@ public struct SageMaker: AWSService {
         return try await self.listTrainingPlans(input, logger: logger)
     }
 
+    /// Lists training sessions in your account. You can filter results by creation time, name, and status. The operation paginates results. To retrieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions:    CreateTrainingSession     DescribeTrainingSession
+    @Sendable
+    @inlinable
+    public func listTrainingSessions(_ input: ListTrainingSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrainingSessionsResponse {
+        try await self.client.execute(
+            operation: "ListTrainingSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists training sessions in your account. You can filter results by creation time, name, and status. The operation paginates results. To retrieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions:    CreateTrainingSession     DescribeTrainingSession
+    ///
+    /// Parameters:
+    ///   - creationTimeAfter: A filter that returns only training sessions created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only training sessions created before the specified time.
+    ///   - maxResults: The maximum number of training sessions to return in the response.
+    ///   - nameContains: A string in the training session name to filter results. Only sessions whose name contains the specified string are returned.
+    ///   - nextToken: If the response was truncated, use the token returned in the previous response to retrieve the next page of results.
+    ///   - statusEquals: A filter that returns only training sessions with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrainingSessions(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        statusEquals: TrainingSessionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrainingSessionsResponse {
+        let input = ListTrainingSessionsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            statusEquals: statusEquals
+        )
+        return try await self.listTrainingSessions(input, logger: logger)
+    }
+
     /// Lists transform jobs.
     @Sendable
     @inlinable
@@ -14242,6 +14394,35 @@ public struct SageMaker: AWSService {
             trainingJobName: trainingJobName
         )
         return try await self.stopTrainingJob(input, logger: logger)
+    }
+
+    /// Stops a running training session and sets the session status to Stopping. After the session stops, the status changes to Stopped. To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession:    CreateTrainingSession     DescribeTrainingSession     DeleteTrainingSession
+    @Sendable
+    @inlinable
+    public func stopTrainingSession(_ input: StopTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "StopTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running training session and sets the session status to Stopping. After the session stops, the status changes to Stopped. To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession:    CreateTrainingSession     DescribeTrainingSession     DeleteTrainingSession
+    ///
+    /// Parameters:
+    ///   - trainingSessionName: The name of the training session to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopTrainingSession(
+        trainingSessionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopTrainingSessionResponse {
+        let input = StopTrainingSessionRequest(
+            trainingSessionName: trainingSessionName
+        )
+        return try await self.stopTrainingSession(input, logger: logger)
     }
 
     /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
@@ -20429,6 +20610,52 @@ extension SageMaker {
         return self.listTrainingPlansPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTrainingSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainingSessionsPaginator(
+        _ input: ListTrainingSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrainingSessionsRequest, ListTrainingSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listTrainingSessions,
+            inputKey: \ListTrainingSessionsRequest.nextToken,
+            outputKey: \ListTrainingSessionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrainingSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: A filter that returns only training sessions created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only training sessions created before the specified time.
+    ///   - maxResults: The maximum number of training sessions to return in the response.
+    ///   - nameContains: A string in the training session name to filter results. Only sessions whose name contains the specified string are returned.
+    ///   - statusEquals: A filter that returns only training sessions with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainingSessionsPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        statusEquals: TrainingSessionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrainingSessionsRequest, ListTrainingSessionsResponse> {
+        let input = ListTrainingSessionsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            statusEquals: statusEquals
+        )
+        return self.listTrainingSessionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTransformJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -22161,6 +22388,20 @@ extension SageMaker.ListTrainingPlansRequest: AWSPaginateToken {
             sortOrder: self.sortOrder,
             startTimeAfter: self.startTimeAfter,
             startTimeBefore: self.startTimeBefore
+        )
+    }
+}
+
+extension SageMaker.ListTrainingSessionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingSessionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            statusEquals: self.statusEquals
         )
     }
 }

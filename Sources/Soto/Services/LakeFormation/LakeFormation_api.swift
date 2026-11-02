@@ -210,6 +210,47 @@ public struct LakeFormation: AWSService {
         return try await self.assumeDecoratedRoleWithSAML(input, logger: logger)
     }
 
+    /// Attaches a row-level security policy to a resource for a principal. When the principal queries the resource, Lake Formation applies the policy's filter expression so that only the permitted rows are returned.
+    @Sendable
+    @inlinable
+    public func attachRLSPolicy(_ input: AttachRLSPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachRLSPolicyResponse {
+        try await self.client.execute(
+            operation: "AttachRLSPolicy", 
+            path: "/AttachRLSPolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Attaches a row-level security policy to a resource for a principal. When the principal queries the resource, Lake Formation applies the policy's filter expression so that only the permitted rows are returned.
+    ///
+    /// Parameters:
+    ///   - condition: A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+    ///   - name: The name of the row-level security policy to attach.
+    ///   - principal: The principal to which the row-level security policy applies.
+    ///   - resource: The resource to which the row-level security policy is attached.
+    ///   - setDefault: Indicates whether this policy becomes the default row-level security policy for the resource. The default policy applies to all principals by default.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func attachRLSPolicy(
+        condition: Condition? = nil,
+        name: String,
+        principal: DataLakePrincipal? = nil,
+        resource: Resource,
+        setDefault: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AttachRLSPolicyResponse {
+        let input = AttachRLSPolicyRequest(
+            condition: condition, 
+            name: name, 
+            principal: principal, 
+            resource: resource, 
+            setDefault: setDefault
+        )
+        return try await self.attachRLSPolicy(input, logger: logger)
+    }
+
     /// Batch operation to grant permissions to the principal.
     @Sendable
     @inlinable
@@ -510,6 +551,41 @@ public struct LakeFormation: AWSService {
         return try await self.createLakeFormationOptIn(input, logger: logger)
     }
 
+    /// Creates a row-level security (RLS) policy. A row-level security policy defines a filter expression that Lake Formation evaluates to determine which rows of a table a principal is allowed to see. The policy is created independently of any resource, and is later associated with a resource and principal using AttachRLSPolicy.
+    @Sendable
+    @inlinable
+    public func createRLSPolicy(_ input: CreateRLSPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRLSPolicyResponse {
+        try await self.client.execute(
+            operation: "CreateRLSPolicy", 
+            path: "/CreateRLSPolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a row-level security (RLS) policy. A row-level security policy defines a filter expression that Lake Formation evaluates to determine which rows of a table a principal is allowed to see. The policy is created independently of any resource, and is later associated with a resource and principal using AttachRLSPolicy.
+    ///
+    /// Parameters:
+    ///   - attachmentColumns: The list of columns that the filter expression references. These columns define the shape of the data that the policy can be attached to.
+    ///   - filterExpression: A filter predicate, written in a SQL-like syntax, that Lake Formation evaluates against each row. Only the rows for which the expression evaluates to true are returned to the principal.
+    ///   - name: A unique name for the row-level security policy within the Data Catalog.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRLSPolicy(
+        attachmentColumns: [Column],
+        filterExpression: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRLSPolicyResponse {
+        let input = CreateRLSPolicyRequest(
+            attachmentColumns: attachmentColumns, 
+            filterExpression: filterExpression, 
+            name: name
+        )
+        return try await self.createRLSPolicy(input, logger: logger)
+    }
+
     /// Deletes a data cell filter.
     @Sendable
     @inlinable
@@ -717,6 +793,35 @@ public struct LakeFormation: AWSService {
         return try await self.deleteObjectsOnCancel(input, logger: logger)
     }
 
+    /// Deletes a row-level security policy. Any active attachments of the policy are automatically removed as part of the deletion, so you do not need to detach the policy first.
+    @Sendable
+    @inlinable
+    public func deleteRLSPolicy(_ input: DeleteRLSPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRLSPolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteRLSPolicy", 
+            path: "/DeleteRLSPolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a row-level security policy. Any active attachments of the policy are automatically removed as part of the deletion, so you do not need to detach the policy first.
+    ///
+    /// Parameters:
+    ///   - name: The name of the row-level security policy to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRLSPolicy(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRLSPolicyResponse {
+        let input = DeleteRLSPolicyRequest(
+            name: name
+        )
+        return try await self.deleteRLSPolicy(input, logger: logger)
+    }
+
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     @Sendable
     @inlinable
@@ -831,6 +936,47 @@ public struct LakeFormation: AWSService {
             transactionId: transactionId
         )
         return try await self.describeTransaction(input, logger: logger)
+    }
+
+    /// Detaches a row-level security policy from a resource for a principal. After the policy is detached, its filter expression is no longer applied to the principal's queries on that resource.
+    @Sendable
+    @inlinable
+    public func detachRLSPolicy(_ input: DetachRLSPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachRLSPolicyResponse {
+        try await self.client.execute(
+            operation: "DetachRLSPolicy", 
+            path: "/DetachRLSPolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Detaches a row-level security policy from a resource for a principal. After the policy is detached, its filter expression is no longer applied to the principal's queries on that resource.
+    ///
+    /// Parameters:
+    ///   - condition: A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+    ///   - name: The name of the row-level security policy to detach.
+    ///   - principal: The principal for which the row-level security policy is detached.
+    ///   - removeDefault: Indicates whether to remove this policy as the default row-level security policy for the resource.
+    ///   - resource: The resource from which the row-level security policy is detached.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func detachRLSPolicy(
+        condition: Condition? = nil,
+        name: String,
+        principal: DataLakePrincipal? = nil,
+        removeDefault: Bool? = nil,
+        resource: Resource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DetachRLSPolicyResponse {
+        let input = DetachRLSPolicyRequest(
+            condition: condition, 
+            name: name, 
+            principal: principal, 
+            removeDefault: removeDefault, 
+            resource: resource
+        )
+        return try await self.detachRLSPolicy(input, logger: logger)
     }
 
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
@@ -1115,6 +1261,35 @@ public struct LakeFormation: AWSService {
             queryId: queryId
         )
         return try await self.getQueryStatistics(input, logger: logger)
+    }
+
+    /// Returns the definition of a row-level security policy, including its attachment columns and filter expression.
+    @Sendable
+    @inlinable
+    public func getRLSPolicy(_ input: GetRLSPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRLSPolicyResponse {
+        try await self.client.execute(
+            operation: "GetRLSPolicy", 
+            path: "/GetRLSPolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the definition of a row-level security policy, including its attachment columns and filter expression.
+    ///
+    /// Parameters:
+    ///   - name: The name of the row-level security policy to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRLSPolicy(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRLSPolicyResponse {
+        let input = GetRLSPolicyRequest(
+            name: name
+        )
+        return try await self.getRLSPolicy(input, logger: logger)
     }
 
     /// Returns the LF-tags applied to a resource.
@@ -1638,6 +1813,79 @@ public struct LakeFormation: AWSService {
             resourceType: resourceType
         )
         return try await self.listPermissions(input, logger: logger)
+    }
+
+    /// Lists the row-level security policies in the Data Catalog.
+    @Sendable
+    @inlinable
+    public func listRLSPolicies(_ input: ListRLSPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRLSPoliciesResponse {
+        try await self.client.execute(
+            operation: "ListRLSPolicies", 
+            path: "/ListRLSPolicies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the row-level security policies in the Data Catalog.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of row-level security policies to return in a single response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRLSPolicies(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRLSPoliciesResponse {
+        let input = ListRLSPoliciesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRLSPolicies(input, logger: logger)
+    }
+
+    /// Lists the row-level security policy attachments in the Data Catalog. You can filter the results by resource, principal, or policy name.
+    @Sendable
+    @inlinable
+    public func listRLSPolicyAttachments(_ input: ListRLSPolicyAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRLSPolicyAttachmentsResponse {
+        try await self.client.execute(
+            operation: "ListRLSPolicyAttachments", 
+            path: "/ListRLSPolicyAttachments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the row-level security policy attachments in the Data Catalog. You can filter the results by resource, principal, or policy name.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of attachments to return in a single response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - policyName: If specified, returns only the attachments for the row-level security policy with this name.
+    ///   - principal: If specified, returns only the attachments for the given principal.
+    ///   - resource: If specified, returns only the attachments for the given resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRLSPolicyAttachments(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyName: String? = nil,
+        principal: DataLakePrincipal? = nil,
+        resource: Resource? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRLSPolicyAttachmentsResponse {
+        let input = ListRLSPolicyAttachmentsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyName: policyName, 
+            principal: principal, 
+            resource: resource
+        )
+        return try await self.listRLSPolicyAttachments(input, logger: logger)
     }
 
     /// Lists the resources registered to be managed by the Data Catalog.
@@ -2201,6 +2449,38 @@ public struct LakeFormation: AWSService {
         return try await self.updateLakeFormationIdentityCenterConfiguration(input, logger: logger)
     }
 
+    /// Updates the filter expression of an existing row-level security policy. The change applies to all attachments of the policy.
+    @Sendable
+    @inlinable
+    public func updateRLSPolicy(_ input: UpdateRLSPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRLSPolicyResponse {
+        try await self.client.execute(
+            operation: "UpdateRLSPolicy", 
+            path: "/UpdateRLSPolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the filter expression of an existing row-level security policy. The change applies to all attachments of the policy.
+    ///
+    /// Parameters:
+    ///   - filterExpression: The new filter predicate, written in a SQL-like syntax, that replaces the policy's current filter expression.
+    ///   - name: The name of the row-level security policy to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRLSPolicy(
+        filterExpression: String? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRLSPolicyResponse {
+        let input = UpdateRLSPolicyRequest(
+            filterExpression: filterExpression, 
+            name: name
+        )
+        return try await self.updateRLSPolicy(input, logger: logger)
+    }
+
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     @Sendable
     @inlinable
@@ -2667,6 +2947,83 @@ extension LakeFormation {
         return self.listPermissionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRLSPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRLSPoliciesPaginator(
+        _ input: ListRLSPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRLSPoliciesRequest, ListRLSPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listRLSPolicies,
+            inputKey: \ListRLSPoliciesRequest.nextToken,
+            outputKey: \ListRLSPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRLSPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of row-level security policies to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRLSPoliciesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRLSPoliciesRequest, ListRLSPoliciesResponse> {
+        let input = ListRLSPoliciesRequest(
+            maxResults: maxResults
+        )
+        return self.listRLSPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRLSPolicyAttachments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRLSPolicyAttachmentsPaginator(
+        _ input: ListRLSPolicyAttachmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRLSPolicyAttachmentsRequest, ListRLSPolicyAttachmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listRLSPolicyAttachments,
+            inputKey: \ListRLSPolicyAttachmentsRequest.nextToken,
+            outputKey: \ListRLSPolicyAttachmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRLSPolicyAttachments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of attachments to return in a single response.
+    ///   - policyName: If specified, returns only the attachments for the row-level security policy with this name.
+    ///   - principal: If specified, returns only the attachments for the given principal.
+    ///   - resource: If specified, returns only the attachments for the given resource.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRLSPolicyAttachmentsPaginator(
+        maxResults: Int? = nil,
+        policyName: String? = nil,
+        principal: DataLakePrincipal? = nil,
+        resource: Resource? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRLSPolicyAttachmentsRequest, ListRLSPolicyAttachmentsResponse> {
+        let input = ListRLSPolicyAttachmentsRequest(
+            maxResults: maxResults, 
+            policyName: policyName, 
+            principal: principal, 
+            resource: resource
+        )
+        return self.listRLSPolicyAttachmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listResources(_:logger:)``.
     ///
     /// - Parameters:
@@ -2967,6 +3324,29 @@ extension LakeFormation.ListPermissionsRequest: AWSPaginateToken {
             principal: self.principal,
             resource: self.resource,
             resourceType: self.resourceType
+        )
+    }
+}
+
+extension LakeFormation.ListRLSPoliciesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LakeFormation.ListRLSPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension LakeFormation.ListRLSPolicyAttachmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LakeFormation.ListRLSPolicyAttachmentsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyName: self.policyName,
+            principal: self.principal,
+            resource: self.resource
         )
     }
 }

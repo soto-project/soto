@@ -1151,7 +1151,7 @@ extension IoTWireless {
         public let clientRequestToken: String?
         /// The device profile information to use to create the device profile.
         public let loRaWAN: LoRaWANDeviceProfile?
-        /// The name of the new resource.  The following special characters aren't accepted: <>^#~$
+        /// The name of the new resource.  The following special characters aren't accepted: &lt;&gt;^#~$
         public let name: String?
         /// The Sidewalk-related information for creating the Sidewalk device profile.
         public let sidewalk: SidewalkCreateDeviceProfile?
@@ -1427,7 +1427,7 @@ extension IoTWireless {
         public let clientRequestToken: String?
         /// The service profile information to use to create the service profile.
         public let loRaWAN: LoRaWANServiceProfile?
-        /// The name of the new resource.  The following special characters aren't accepted: <>^#~$
+        /// The name of the new resource.  The following special characters aren't accepted: &lt;&gt;^#~$
         public let name: String?
         /// The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
@@ -1487,7 +1487,7 @@ extension IoTWireless {
         public let destinationName: String
         /// The device configuration information to use to create the wireless device.
         public let loRaWAN: LoRaWANDevice?
-        /// The name of the new resource.  The following special characters aren't accepted: <>^#~$
+        /// The name of the new resource.  The following special characters aren't accepted: &lt;&gt;^#~$
         public let name: String?
         /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
         public let positioning: PositioningConfigStatus?
@@ -1565,7 +1565,7 @@ extension IoTWireless {
         public let description: String?
         /// The gateway configuration information to use to create the wireless gateway.
         public let loRaWAN: LoRaWANGateway
-        /// The name of the new resource.  The following special characters aren't accepted: <>^#~$
+        /// The name of the new resource.  The following special characters aren't accepted: &lt;&gt;^#~$
         public let name: String?
         /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
@@ -8629,7 +8629,7 @@ extension IoTWireless {
         public let id: String
         /// The updated wireless device's configuration.
         public let loRaWAN: LoRaWANUpdateDevice?
-        /// The new name of the resource.  The following special characters aren't accepted: <>^#~$
+        /// The new name of the resource.  The following special characters aren't accepted: &lt;&gt;^#~$
         public let name: String?
         /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
         public let positioning: PositioningConfigStatus?
@@ -8691,7 +8691,7 @@ extension IoTWireless {
         public let joinEuiFilters: [[String]]?
         /// The MaxEIRP value.
         public let maxEirp: Float?
-        /// The new name of the resource.  The following special characters aren't accepted: <>^#~$
+        /// The new name of the resource.  The following special characters aren't accepted: &lt;&gt;^#~$
         public let name: String?
         public let netIdFilters: [String]?
 
