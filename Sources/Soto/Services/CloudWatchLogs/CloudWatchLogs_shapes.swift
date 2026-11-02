@@ -236,6 +236,7 @@ extension CloudWatchLogs {
         case dataProtectionPolicy = "DATA_PROTECTION_POLICY"
         case fieldIndexPolicy = "FIELD_INDEX_POLICY"
         case metricExtractionPolicy = "METRIC_EXTRACTION_POLICY"
+        case retentionPolicy = "RETENTION_POLICY"
         case subscriptionFilterPolicy = "SUBSCRIPTION_FILTER_POLICY"
         case transformerPolicy = "TRANSFORMER_POLICY"
         public var description: String { return self.rawValue }
@@ -1625,20 +1626,38 @@ extension CloudWatchLogs {
     }
 
     public struct DeleteAccountPolicyRequest: AWSEncodableShape {
+        /// Specifies whether to preview the impact of deleting the policy without deleting it. If you specify true, CloudWatch Logs does not delete the policy and returns the estimated impact in dryRunResult. The default is false. Specifying dryRun is valid only when you specify RETENTION_POLICY for policyType. Only one dry run can be in progress for an account at a time.
+        public let dryRun: Bool?
         /// The name of the policy to delete.
         public let policyName: String
         /// The type of policy to delete.
         public let policyType: PolicyType
 
         @inlinable
-        public init(policyName: String, policyType: PolicyType) {
+        public init(dryRun: Bool? = nil, policyName: String, policyType: PolicyType) {
+            self.dryRun = dryRun
             self.policyName = policyName
             self.policyType = policyType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
             case policyName = "policyName"
             case policyType = "policyType"
+        }
+    }
+
+    public struct DeleteAccountPolicyResponse: AWSDecodableShape {
+        /// The estimated impact of deleting the policy. This field is returned only when the request specifies dryRun as true.
+        public let dryRunResult: DryRunResult?
+
+        @inlinable
+        public init(dryRunResult: DryRunResult? = nil) {
+            self.dryRunResult = dryRunResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRunResult = "dryRunResult"
         }
     }
 
@@ -2174,16 +2193,19 @@ extension CloudWatchLogs {
         public let name: String?
         /// The format of the logs that are sent to this delivery destination.
         public let outputFormat: OutputFormat?
+        /// The ARN of the IAM role that CloudWatch Logs assumes to deliver to this delivery destination. This field is present only for X-Ray trace delivery destinations that were created with a role.
+        public let roleArn: String?
         /// The tags that have been assigned to this delivery destination.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, deliveryDestinationConfiguration: DeliveryDestinationConfiguration? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, name: String? = nil, outputFormat: OutputFormat? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, deliveryDestinationConfiguration: DeliveryDestinationConfiguration? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, name: String? = nil, outputFormat: OutputFormat? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
             self.deliveryDestinationType = deliveryDestinationType
             self.name = name
             self.outputFormat = outputFormat
+            self.roleArn = roleArn
             self.tags = tags
         }
 
@@ -2193,6 +2215,7 @@ extension CloudWatchLogs {
             case deliveryDestinationType = "deliveryDestinationType"
             case name = "name"
             case outputFormat = "outputFormat"
+            case roleArn = "roleArn"
             case tags = "tags"
         }
     }
@@ -2421,23 +2444,34 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeDeliveriesRequest: AWSEncodableShape {
+        /// An array of delivery source names that filters the results to deliveries associated with any specified delivery source.
+        public let deliverySourceNames: [String]?
         /// Optionally specify the maximum number of deliveries to return in the response.
         public let limit: Int?
         public let nextToken: String?
 
         @inlinable
-        public init(limit: Int? = nil, nextToken: String? = nil) {
+        public init(deliverySourceNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.deliverySourceNames = deliverySourceNames
             self.limit = limit
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.deliverySourceNames?.forEach {
+                try validate($0, name: "deliverySourceNames[]", parent: name, max: 60)
+                try validate($0, name: "deliverySourceNames[]", parent: name, min: 1)
+                try validate($0, name: "deliverySourceNames[]", parent: name, pattern: "^[\\w-]*$")
+            }
+            try self.validate(self.deliverySourceNames, name: "deliverySourceNames", parent: name, max: 20)
+            try self.validate(self.deliverySourceNames, name: "deliverySourceNames", parent: name, min: 1)
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliverySourceNames = "deliverySourceNames"
             case limit = "limit"
             case nextToken = "nextToken"
         }
@@ -2463,22 +2497,33 @@ extension CloudWatchLogs {
     public struct DescribeDeliveryDestinationsRequest: AWSEncodableShape {
         /// Optionally specify the maximum number of delivery destinations to return in the response.
         public let limit: Int?
+        /// An array of delivery destination names that filters the results to delivery destinations with any specified name.
+        public let names: [String]?
         public let nextToken: String?
 
         @inlinable
-        public init(limit: Int? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.limit = limit
+            self.names = names
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, max: 60)
+                try validate($0, name: "names[]", parent: name, min: 1)
+                try validate($0, name: "names[]", parent: name, pattern: "^[\\w-]*$")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 20)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
+            case names = "names"
             case nextToken = "nextToken"
         }
     }
@@ -2504,22 +2549,28 @@ extension CloudWatchLogs {
         /// Optionally specify the maximum number of delivery sources to return in the response.
         public let limit: Int?
         public let nextToken: String?
+        /// An array of Amazon Resource Names (ARNs) that filters the results to delivery sources associated with any specified ARN.
+        public let resourceArns: [String]?
 
         @inlinable
-        public init(limit: Int? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
+            self.resourceArns = resourceArns
         }
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 20)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "limit"
             case nextToken = "nextToken"
+            case resourceArns = "resourceArns"
         }
     }
 
@@ -3442,6 +3493,40 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "identifier"
+        }
+    }
+
+    public struct DryRunResult: AWSDecodableShape {
+        /// The number of log groups whose effective retention period would become shorter.
+        public let decreasedRetentionLogGroupCount: Int?
+        /// The number of log groups in the scope of the policy that could not be analyzed. These log groups are not included in totalMatchedLogGroups.
+        public let failedAnalysisCount: Int?
+        /// The number of log groups whose effective retention period would become longer.
+        public let increasedRetentionLogGroupCount: Int?
+        /// Up to 20 log groups in the scope of the policy, sorted by stored bytes in descending order. This list can include log groups whose effective retention period would not change.
+        public let topLogGroupsImpacted: [LogGroupImpact]?
+        /// The number of log groups in the scope of the policy that were analyzed. This value is the sum of increasedRetentionLogGroupCount, decreasedRetentionLogGroupCount, and unchangedRetentionLogGroupCount, and does not include log groups that could not be analyzed.
+        public let totalMatchedLogGroups: Int?
+        /// The number of log groups whose effective retention period would not change.
+        public let unchangedRetentionLogGroupCount: Int?
+
+        @inlinable
+        public init(decreasedRetentionLogGroupCount: Int? = nil, failedAnalysisCount: Int? = nil, increasedRetentionLogGroupCount: Int? = nil, topLogGroupsImpacted: [LogGroupImpact]? = nil, totalMatchedLogGroups: Int? = nil, unchangedRetentionLogGroupCount: Int? = nil) {
+            self.decreasedRetentionLogGroupCount = decreasedRetentionLogGroupCount
+            self.failedAnalysisCount = failedAnalysisCount
+            self.increasedRetentionLogGroupCount = increasedRetentionLogGroupCount
+            self.topLogGroupsImpacted = topLogGroupsImpacted
+            self.totalMatchedLogGroups = totalMatchedLogGroups
+            self.unchangedRetentionLogGroupCount = unchangedRetentionLogGroupCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decreasedRetentionLogGroupCount = "decreasedRetentionLogGroupCount"
+            case failedAnalysisCount = "failedAnalysisCount"
+            case increasedRetentionLogGroupCount = "increasedRetentionLogGroupCount"
+            case topLogGroupsImpacted = "topLogGroupsImpacted"
+            case totalMatchedLogGroups = "totalMatchedLogGroups"
+            case unchangedRetentionLogGroupCount = "unchangedRetentionLogGroupCount"
         }
     }
 
@@ -5691,11 +5776,13 @@ extension CloudWatchLogs {
         /// The number of metric filters.
         public let metricFilterCount: Int?
         public let retentionInDays: Int?
+        /// The name of the account-level retention policy that determines the retention period of this log group. This field is returned only when an account-level retention policy applies to the log group. When it is returned, retentionInDays shows the retention period from that policy instead of the retention period set on the log group. If the policy specifies that log events never expire, retentionInDays is not returned.
+        public let retentionPolicyName: String?
         /// The number of bytes stored.
         public let storedBytes: Int64?
 
         @inlinable
-        public init(arn: String? = nil, bearerTokenAuthenticationEnabled: Bool? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, deletionProtectionEnabled: Bool? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupArn: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
+        public init(arn: String? = nil, bearerTokenAuthenticationEnabled: Bool? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, deletionProtectionEnabled: Bool? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupArn: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, retentionPolicyName: String? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
             self.bearerTokenAuthenticationEnabled = bearerTokenAuthenticationEnabled
             self.creationTime = creationTime
@@ -5708,6 +5795,7 @@ extension CloudWatchLogs {
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
             self.retentionInDays = retentionInDays
+            self.retentionPolicyName = retentionPolicyName
             self.storedBytes = storedBytes
         }
 
@@ -5724,6 +5812,7 @@ extension CloudWatchLogs {
             case logGroupName = "logGroupName"
             case metricFilterCount = "metricFilterCount"
             case retentionInDays = "retentionInDays"
+            case retentionPolicyName = "retentionPolicyName"
             case storedBytes = "storedBytes"
         }
     }
@@ -5743,6 +5832,32 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case percent = "percent"
+        }
+    }
+
+    public struct LogGroupImpact: AWSDecodableShape {
+        /// The current effective retention period of the log group, in days. A value of NEVER_EXPIRE indicates that log events in the log group never expire.
+        public let currentRetention: String?
+        /// The name of the log group.
+        public let logGroupName: String?
+        /// The effective retention period of the log group, in days, after the change. A value of NEVER_EXPIRE indicates that log events in the log group would never expire.
+        public let proposedRetention: String?
+        /// The number of bytes stored in the log group.
+        public let storedBytes: Int64?
+
+        @inlinable
+        public init(currentRetention: String? = nil, logGroupName: String? = nil, proposedRetention: String? = nil, storedBytes: Int64? = nil) {
+            self.currentRetention = currentRetention
+            self.logGroupName = logGroupName
+            self.proposedRetention = proposedRetention
+            self.storedBytes = storedBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentRetention = "currentRetention"
+            case logGroupName = "logGroupName"
+            case proposedRetention = "proposedRetention"
+            case storedBytes = "storedBytes"
         }
     }
 
@@ -6764,6 +6879,8 @@ extension CloudWatchLogs {
     }
 
     public struct PutAccountPolicyRequest: AWSEncodableShape {
+        /// Specifies whether to preview the impact of the policy without creating or updating it. If you specify true, CloudWatch Logs validates the request, does not save the policy, and returns the estimated impact in dryRunResult instead of accountPolicy. The default is false. Specifying dryRun is valid only when you specify RETENTION_POLICY for policyType. Only one dry run can be in progress for an account at a time.
+        public let dryRun: Bool?
         /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see Types of data that you can mask. The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a filtered stream of log events.    Distribution The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.    Transformer policy  A transformer policy must include one JSON block with the array of processors and their configurations. For more information about available processors, see  Processors that you can use.   Field index policy  A field index filter policy can include the following attribute in a JSON block:    Fields The array of field indexes to create.    FieldsV2 The object of field indexes to create along with it's type.   It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types.  "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}"  You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive.
         public let policyDocument: String
         /// A name for the policy. This must be unique within the account and cannot start with aws/.
@@ -6776,7 +6893,8 @@ extension CloudWatchLogs {
         public let selectionCriteria: String?
 
         @inlinable
-        public init(policyDocument: String, policyName: String, policyType: PolicyType, scope: Scope? = nil, selectionCriteria: String? = nil) {
+        public init(dryRun: Bool? = nil, policyDocument: String, policyName: String, policyType: PolicyType, scope: Scope? = nil, selectionCriteria: String? = nil) {
+            self.dryRun = dryRun
             self.policyDocument = policyDocument
             self.policyName = policyName
             self.policyType = policyType
@@ -6785,6 +6903,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
             case policyDocument = "policyDocument"
             case policyName = "policyName"
             case policyType = "policyType"
@@ -6796,14 +6915,18 @@ extension CloudWatchLogs {
     public struct PutAccountPolicyResponse: AWSDecodableShape {
         /// The account policy that you created.
         public let accountPolicy: AccountPolicy?
+        /// The estimated impact of the policy on log groups in the account. This field is returned only when the request specifies dryRun as true.
+        public let dryRunResult: DryRunResult?
 
         @inlinable
-        public init(accountPolicy: AccountPolicy? = nil) {
+        public init(accountPolicy: AccountPolicy? = nil, dryRunResult: DryRunResult? = nil) {
             self.accountPolicy = accountPolicy
+            self.dryRunResult = dryRunResult
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountPolicy = "accountPolicy"
+            case dryRunResult = "dryRunResult"
         }
     }
 
@@ -6926,15 +7049,18 @@ extension CloudWatchLogs {
         public let name: String
         /// The format for the logs that this delivery destination will receive.
         public let outputFormat: OutputFormat?
+        /// The ARN of an IAM role in your account that CloudWatch Logs assumes to deliver to this delivery destination. The trust policy of the role must allow CloudWatch Logs to assume it. This parameter is supported only for X-Ray trace delivery destinations.
+        public let roleArn: String?
         /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources
         public let tags: [String: String]?
 
         @inlinable
-        public init(deliveryDestinationConfiguration: DeliveryDestinationConfiguration? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, name: String, outputFormat: OutputFormat? = nil, tags: [String: String]? = nil) {
+        public init(deliveryDestinationConfiguration: DeliveryDestinationConfiguration? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, name: String, outputFormat: OutputFormat? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
             self.deliveryDestinationType = deliveryDestinationType
             self.name = name
             self.outputFormat = outputFormat
+            self.roleArn = roleArn
             self.tags = tags
         }
 
@@ -6958,6 +7084,7 @@ extension CloudWatchLogs {
             case deliveryDestinationType = "deliveryDestinationType"
             case name = "name"
             case outputFormat = "outputFormat"
+            case roleArn = "roleArn"
             case tags = "tags"
         }
     }
@@ -6979,11 +7106,11 @@ extension CloudWatchLogs {
     public struct PutDeliverySourceRequest: AWSEncodableShape {
         /// A map of key-value pairs to configure the delivery source. Both keys and values must be between 1 and 255 characters in length. For example, {"samplingRate": "50"}.
         public let deliverySourceConfiguration: [String: String]?
-        /// Defines the type of log that the source is sending.   For Application Load Balancer, the valid values are ALB_ACCESS_LOGS, ALB_CONNECTION_LOGS, and ALB_HEALTH_CHECK_LOGS.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
+        /// Defines the type of log that the source is sending.   For Amazon Web Services Amplify, the valid values are ACCESS_LOGS and WAF_LOGS.   For Application Load Balancer, the valid values are ALB_ACCESS_LOGS, ALB_CONNECTION_LOGS, and ALB_HEALTH_CHECK_LOGS.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS, and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS, and TRACES.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For query execution logs from CloudWatch Logs Insights, the valid value is INSIGHTS_QUERY_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Amazon Web Services Elemental Inference, the valid value is APPLICATION_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon ECS, the valid value is ACTION_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For Amazon EventBridge Event Bus (Custom), the valid values are INFO_LOGS and ERROR_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, PCS_SCHEDULER_AUDIT_LOGS, and PCS_SCALING_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon Q in Connect AI agents, the valid value is EVENT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, AGENT_METADATA_LOGS, CHAT_LOGS, DLP_LOGS, FEEDBACK_LOGS, INDEX_USAGE_LOGS, and KB_FILE_SYNC_LOGS.   For Route 53 Global Resolver, the valid value is GLOBAL_RESOLVER_LOGS.   For Amazon Web Services RTB Fabric, the valid value is APPLICATION_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon Web Services Shield Advanced, the valid value is FLOW_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
         public let logType: String
         /// A name for this delivery source. This name must be unique for all delivery sources in your account.
         public let name: String
-        /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234  For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:securityhub:us-east-1:111122223333:hubv2/*
+        /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234  For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:securityhub:us-east-1:111122223333:hubv2/*  For the INSIGHTS_QUERY_LOGS log type, use a wildcard log group ARN, such as arn:aws:logs:us-east-1:111122223333:log-group:*. Amazon Web Services does not support a specific log group ARN for this log type.
         public let resourceArn: String
         /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources
         public let tags: [String: String]?
@@ -8038,7 +8165,7 @@ extension CloudWatchLogs {
     public struct S3DeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive.
         public let enableHiveCompatiblePath: Bool?
-        /// This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables to use in the suffix path will vary by each log source. To find the values supported for the suffix path for each log source, use the DescribeConfigurationTemplates operation and check the allowedSuffixPathFields field in the response.
+        /// This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables to use in the suffix path vary by log type. To find the values supported for the suffix path for each log type, use the DescribeConfigurationTemplates operation and check the allowedSuffixPathFields field in the response. For more information about how the destination prefix, suffix path, and Hive-compatible setting determine the Amazon S3 object key, see Amazon S3 object key for V2 deliveries.
         public let suffixPath: String?
 
         @inlinable

@@ -224,6 +224,14 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExascaleDbStorageVaultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// An Exascale storage vault on dedicated Exadata infrastructure for VM clusters.
+        case dedicatedInfrastructure = "DEDICATED_INFRASTRUCTURE"
+        /// An Exascale storage vault for Exascale VM clusters.
+        case exascaleInfrastructure = "EXASCALE_INFRASTRUCTURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExternalIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compartmentOcid = "compartment_ocid"
         case databaseOcid = "database_ocid"
@@ -440,6 +448,14 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum StorageManagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Oracle Automatic Storage Management (ASM).
+        case asm = "ASM"
+        /// Exascale storage.
+        case exascale = "EXASCALE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupportedAwsIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kmsTde = "KmsTde"
         public var description: String { return self.rawValue }
@@ -458,6 +474,14 @@ extension Odb {
         case fieldValidationFailed = "fieldValidationFailed"
         case other = "other"
         case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VmStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Exascale storage on the storage servers.
+        case exascale = "EXASCALE"
+        /// Local storage on the database servers.
+        case local = "LOCAL"
         public var description: String { return self.rawValue }
     }
 
@@ -2518,6 +2542,8 @@ extension Odb {
         public let dbServerVersion: String?
         /// The user-friendly name for the Exadata infrastructure.
         public let displayName: String?
+        /// The Exascale storage configuration of the Exadata infrastructure. This value is present only when Exascale storage is configured on the infrastructure.
+        public let exascaleConfiguration: ExascaleConfiguration?
         /// The Oracle Cloud Identifier (OCID) of the last maintenance run for the Exadata infrastructure.
         public let lastMaintenanceRunId: String?
         /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
@@ -2558,11 +2584,11 @@ extension Odb {
         public let storageServerType: String?
         /// The software version of the storage servers on the Exadata infrastructure.
         public let storageServerVersion: String?
-        /// The total amount of storage, in gigabytes (GB), on the the Exadata infrastructure.
+        /// The total amount of storage, in gigabytes (GB), on the Exadata infrastructure.
         public let totalStorageSizeInGBs: Int?
 
         @inlinable
-        public init(activatedStorageCount: Int? = nil, additionalStorageCount: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableStorageSizeInGBs: Int? = nil, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String, computeCount: Int? = nil, computeModel: ComputeModel? = nil, cpuCount: Int? = nil, createdAt: Date? = nil, customerContactsToSendToOCI: [CustomerContact]? = nil, databaseServerType: String? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServerVersion: String? = nil, displayName: String? = nil, lastMaintenanceRunId: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxCpuCount: Int? = nil, maxDataStorageInTBs: Double? = nil, maxDbNodeStorageSizeInGBs: Int? = nil, maxMemoryInGBs: Int? = nil, memorySizeInGBs: Int? = nil, monthlyDbServerVersion: String? = nil, monthlyStorageServerVersion: String? = nil, nextMaintenanceRunId: String? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageCount: Int? = nil, storageServerType: String? = nil, storageServerVersion: String? = nil, totalStorageSizeInGBs: Int? = nil) {
+        public init(activatedStorageCount: Int? = nil, additionalStorageCount: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableStorageSizeInGBs: Int? = nil, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String, computeCount: Int? = nil, computeModel: ComputeModel? = nil, cpuCount: Int? = nil, createdAt: Date? = nil, customerContactsToSendToOCI: [CustomerContact]? = nil, databaseServerType: String? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServerVersion: String? = nil, displayName: String? = nil, exascaleConfiguration: ExascaleConfiguration? = nil, lastMaintenanceRunId: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxCpuCount: Int? = nil, maxDataStorageInTBs: Double? = nil, maxDbNodeStorageSizeInGBs: Int? = nil, maxMemoryInGBs: Int? = nil, memorySizeInGBs: Int? = nil, monthlyDbServerVersion: String? = nil, monthlyStorageServerVersion: String? = nil, nextMaintenanceRunId: String? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageCount: Int? = nil, storageServerType: String? = nil, storageServerVersion: String? = nil, totalStorageSizeInGBs: Int? = nil) {
             self.activatedStorageCount = activatedStorageCount
             self.additionalStorageCount = additionalStorageCount
             self.availabilityZone = availabilityZone
@@ -2580,6 +2606,7 @@ extension Odb {
             self.dbNodeStorageSizeInGBs = dbNodeStorageSizeInGBs
             self.dbServerVersion = dbServerVersion
             self.displayName = displayName
+            self.exascaleConfiguration = exascaleConfiguration
             self.lastMaintenanceRunId = lastMaintenanceRunId
             self.maintenanceWindow = maintenanceWindow
             self.maxCpuCount = maxCpuCount
@@ -2621,6 +2648,7 @@ extension Odb {
             case dbNodeStorageSizeInGBs = "dbNodeStorageSizeInGBs"
             case dbServerVersion = "dbServerVersion"
             case displayName = "displayName"
+            case exascaleConfiguration = "exascaleConfiguration"
             case lastMaintenanceRunId = "lastMaintenanceRunId"
             case maintenanceWindow = "maintenanceWindow"
             case maxCpuCount = "maxCpuCount"
@@ -2680,6 +2708,8 @@ extension Odb {
         public let dbServerVersion: String?
         /// The user-friendly name for the Exadata infrastructure.
         public let displayName: String?
+        /// The Exascale storage configuration of the Exadata infrastructure. This value is present only when Exascale storage is configured on the infrastructure.
+        public let exascaleConfiguration: ExascaleConfiguration?
         /// The Oracle Cloud Identifier (OCID) of the last maintenance run for the Exadata infrastructure.
         public let lastMaintenanceRunId: String?
         /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
@@ -2720,11 +2750,11 @@ extension Odb {
         public let storageServerType: String?
         /// The software version of the storage servers on the Exadata infrastructure.
         public let storageServerVersion: String?
-        /// The total amount of storage, in gigabytes (GB), on the the Exadata infrastructure.
+        /// The total amount of storage, in gigabytes (GB), on the Exadata infrastructure.
         public let totalStorageSizeInGBs: Int?
 
         @inlinable
-        public init(activatedStorageCount: Int? = nil, additionalStorageCount: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableStorageSizeInGBs: Int? = nil, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String, computeCount: Int? = nil, computeModel: ComputeModel? = nil, cpuCount: Int? = nil, createdAt: Date? = nil, customerContactsToSendToOCI: [CustomerContact]? = nil, databaseServerType: String? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServerVersion: String? = nil, displayName: String? = nil, lastMaintenanceRunId: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxCpuCount: Int? = nil, maxDataStorageInTBs: Double? = nil, maxDbNodeStorageSizeInGBs: Int? = nil, maxMemoryInGBs: Int? = nil, memorySizeInGBs: Int? = nil, monthlyDbServerVersion: String? = nil, monthlyStorageServerVersion: String? = nil, nextMaintenanceRunId: String? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageCount: Int? = nil, storageServerType: String? = nil, storageServerVersion: String? = nil, totalStorageSizeInGBs: Int? = nil) {
+        public init(activatedStorageCount: Int? = nil, additionalStorageCount: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableStorageSizeInGBs: Int? = nil, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String, computeCount: Int? = nil, computeModel: ComputeModel? = nil, cpuCount: Int? = nil, createdAt: Date? = nil, customerContactsToSendToOCI: [CustomerContact]? = nil, databaseServerType: String? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServerVersion: String? = nil, displayName: String? = nil, exascaleConfiguration: ExascaleConfiguration? = nil, lastMaintenanceRunId: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxCpuCount: Int? = nil, maxDataStorageInTBs: Double? = nil, maxDbNodeStorageSizeInGBs: Int? = nil, maxMemoryInGBs: Int? = nil, memorySizeInGBs: Int? = nil, monthlyDbServerVersion: String? = nil, monthlyStorageServerVersion: String? = nil, nextMaintenanceRunId: String? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageCount: Int? = nil, storageServerType: String? = nil, storageServerVersion: String? = nil, totalStorageSizeInGBs: Int? = nil) {
             self.activatedStorageCount = activatedStorageCount
             self.additionalStorageCount = additionalStorageCount
             self.availabilityZone = availabilityZone
@@ -2742,6 +2772,7 @@ extension Odb {
             self.dbNodeStorageSizeInGBs = dbNodeStorageSizeInGBs
             self.dbServerVersion = dbServerVersion
             self.displayName = displayName
+            self.exascaleConfiguration = exascaleConfiguration
             self.lastMaintenanceRunId = lastMaintenanceRunId
             self.maintenanceWindow = maintenanceWindow
             self.maxCpuCount = maxCpuCount
@@ -2783,6 +2814,7 @@ extension Odb {
             case dbNodeStorageSizeInGBs = "dbNodeStorageSizeInGBs"
             case dbServerVersion = "dbServerVersion"
             case displayName = "displayName"
+            case exascaleConfiguration = "exascaleConfiguration"
             case lastMaintenanceRunId = "lastMaintenanceRunId"
             case maintenanceWindow = "maintenanceWindow"
             case maxCpuCount = "maxCpuCount"
@@ -2876,6 +2908,12 @@ extension Odb {
         public let displayName: String?
         /// The domain of the VM cluster.
         public let domain: String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.
+        public let exascaleDbStorageVaultArn: String?
+        /// The unique identifier of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.
+        public let exascaleDbStorageVaultId: String?
+        /// The list of file system configurations for the VM cluster.
+        public let fileSystemConfigurationDetails: [FileSystemConfigurationDetails]?
         /// The software version of the Oracle Grid Infrastructure (GI) for the VM cluster.
         public let giVersion: String?
         /// The host name for the VM cluster.
@@ -2924,6 +2962,8 @@ extension Odb {
         public let status: ResourceStatus?
         /// Additional information about the status of the VM cluster.
         public let statusReason: String?
+        /// The type of storage management for the VM cluster. A value of ASM indicates Oracle Automatic Storage Management, and EXASCALE indicates Exascale storage.
+        public let storageManagementType: StorageManagementType?
         /// The amount of local node storage, in gigabytes (GB), that's allocated to the VM cluster.
         public let storageSizeInGBs: Int?
         /// The operating system version of the image chosen for the VM cluster.
@@ -2932,9 +2972,13 @@ extension Odb {
         public let timeZone: String?
         /// The virtual IP (VIP) addresses that are associated with the VM cluster. Oracle's Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the VM cluster to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
         public let vipIds: [String]?
+        /// The type of storage that the VM cluster uses for VM backups.
+        public let vmBackupStorageType: VmStorageType?
+        /// The type of storage that the VM cluster uses for its VM file systems.
+        public let vmFileSystemStorageType: VmStorageType?
 
         @inlinable
-        public init(cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, giVersion: String? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil) {
+        public init(cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String? = nil, fileSystemConfigurationDetails: [FileSystemConfigurationDetails]? = nil, giVersion: String? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageManagementType: StorageManagementType? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil, vmBackupStorageType: VmStorageType? = nil, vmFileSystemStorageType: VmStorageType? = nil) {
             self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
@@ -2950,6 +2994,9 @@ extension Odb {
             self.diskRedundancy = diskRedundancy
             self.displayName = displayName
             self.domain = domain
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.fileSystemConfigurationDetails = fileSystemConfigurationDetails
             self.giVersion = giVersion
             self.hostname = hostname
             self.iamRoles = iamRoles
@@ -2974,10 +3021,13 @@ extension Odb {
             self.sshPublicKeys = sshPublicKeys
             self.status = status
             self.statusReason = statusReason
+            self.storageManagementType = storageManagementType
             self.storageSizeInGBs = storageSizeInGBs
             self.systemVersion = systemVersion
             self.timeZone = timeZone
             self.vipIds = vipIds
+            self.vmBackupStorageType = vmBackupStorageType
+            self.vmFileSystemStorageType = vmFileSystemStorageType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2996,6 +3046,9 @@ extension Odb {
             case diskRedundancy = "diskRedundancy"
             case displayName = "displayName"
             case domain = "domain"
+            case exascaleDbStorageVaultArn = "exascaleDbStorageVaultArn"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case fileSystemConfigurationDetails = "fileSystemConfigurationDetails"
             case giVersion = "giVersion"
             case hostname = "hostname"
             case iamRoles = "iamRoles"
@@ -3020,10 +3073,13 @@ extension Odb {
             case sshPublicKeys = "sshPublicKeys"
             case status = "status"
             case statusReason = "statusReason"
+            case storageManagementType = "storageManagementType"
             case storageSizeInGBs = "storageSizeInGBs"
             case systemVersion = "systemVersion"
             case timeZone = "timeZone"
             case vipIds = "vipIds"
+            case vmBackupStorageType = "vmBackupStorageType"
+            case vmFileSystemStorageType = "vmFileSystemStorageType"
         }
     }
 
@@ -3057,6 +3113,12 @@ extension Odb {
         public let displayName: String?
         /// The domain of the VM cluster.
         public let domain: String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.
+        public let exascaleDbStorageVaultArn: String?
+        /// The unique identifier of the Exascale storage vault that the VM cluster uses. This value is present only for VM clusters that use an Exascale storage vault.
+        public let exascaleDbStorageVaultId: String?
+        /// The list of file system configurations for the VM cluster.
+        public let fileSystemConfigurationDetails: [FileSystemConfigurationDetails]?
         /// The software version of the Oracle Grid Infrastructure (GI) for the VM cluster.
         public let giVersion: String?
         /// The host name for the VM cluster.
@@ -3104,6 +3166,8 @@ extension Odb {
         public let status: ResourceStatus?
         /// Additional information about the status of the VM cluster.
         public let statusReason: String?
+        /// The type of storage management for the VM cluster. A value of ASM indicates Oracle Automatic Storage Management, and EXASCALE indicates Exascale storage.
+        public let storageManagementType: StorageManagementType?
         /// The amount of local node storage, in gigabytes (GB), that's allocated to the VM cluster.
         public let storageSizeInGBs: Int?
         /// The operating system version of the image chosen for the VM cluster.
@@ -3112,9 +3176,13 @@ extension Odb {
         public let timeZone: String?
         /// The virtual IP (VIP) addresses that are associated with the VM cluster. Oracle's Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the VM cluster to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
         public let vipIds: [String]?
+        /// The type of storage that the VM cluster uses for VM backups.
+        public let vmBackupStorageType: VmStorageType?
+        /// The type of storage that the VM cluster uses for its VM file systems.
+        public let vmFileSystemStorageType: VmStorageType?
 
         @inlinable
-        public init(cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, giVersion: String? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil) {
+        public init(cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String? = nil, fileSystemConfigurationDetails: [FileSystemConfigurationDetails]? = nil, giVersion: String? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageManagementType: StorageManagementType? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil, vmBackupStorageType: VmStorageType? = nil, vmFileSystemStorageType: VmStorageType? = nil) {
             self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
@@ -3130,6 +3198,9 @@ extension Odb {
             self.diskRedundancy = diskRedundancy
             self.displayName = displayName
             self.domain = domain
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.fileSystemConfigurationDetails = fileSystemConfigurationDetails
             self.giVersion = giVersion
             self.hostname = hostname
             self.iamRoles = iamRoles
@@ -3154,10 +3225,13 @@ extension Odb {
             self.sshPublicKeys = sshPublicKeys
             self.status = status
             self.statusReason = statusReason
+            self.storageManagementType = storageManagementType
             self.storageSizeInGBs = storageSizeInGBs
             self.systemVersion = systemVersion
             self.timeZone = timeZone
             self.vipIds = vipIds
+            self.vmBackupStorageType = vmBackupStorageType
+            self.vmFileSystemStorageType = vmFileSystemStorageType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3176,6 +3250,9 @@ extension Odb {
             case diskRedundancy = "diskRedundancy"
             case displayName = "displayName"
             case domain = "domain"
+            case exascaleDbStorageVaultArn = "exascaleDbStorageVaultArn"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case fileSystemConfigurationDetails = "fileSystemConfigurationDetails"
             case giVersion = "giVersion"
             case hostname = "hostname"
             case iamRoles = "iamRoles"
@@ -3200,10 +3277,13 @@ extension Odb {
             case sshPublicKeys = "sshPublicKeys"
             case status = "status"
             case statusReason = "statusReason"
+            case storageManagementType = "storageManagementType"
             case storageSizeInGBs = "storageSizeInGBs"
             case systemVersion = "systemVersion"
             case timeZone = "timeZone"
             case vipIds = "vipIds"
+            case vmBackupStorageType = "vmBackupStorageType"
+            case vmFileSystemStorageType = "vmFileSystemStorageType"
         }
     }
 
@@ -3830,6 +3910,10 @@ extension Odb {
         public let dbServers: [String]?
         /// A user-friendly name for the VM cluster.
         public let displayName: String
+        /// The unique identifier or Amazon Resource Name (ARN) of the Exascale storage vault to use for the VM cluster. Specify this value to create a VM cluster that uses Exascale storage on dedicated Exadata infrastructure.
+        public let exascaleDbStorageVaultId: String?
+        /// The list of file system configurations for the VM cluster. Each entry specifies the mount point of a file system and its size, in gigabytes (GB).
+        public let fileSystemConfigurationDetails: [FileSystemConfigurationDetails]?
         /// A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and specify the shape of the Exadata infrastructure. Example: 19.0.0.0
         public let giVersion: String
         /// The host name for the VM cluster. Constraints:   Can't be "localhost" or "hostname".   Can't contain "-version".   The maximum length of the combined hostname and domain is 63 characters.   The hostname must be unique within the subnet.
@@ -3854,9 +3938,13 @@ extension Odb {
         public let tags: [String: String]?
         /// The time zone for the VM cluster. For a list of valid values for time zone, you can check the options in the console. Default: UTC
         public let timeZone: String?
+        /// The type of storage to use for VM backups. Specify EXASCALE to store VM backups in Exascale storage on the storage servers, or LOCAL to store them on the database servers.
+        public let vmBackupStorageType: VmStorageType?
+        /// The type of storage to use for the VM file systems. Specify EXASCALE to store the VM file systems in Exascale storage on the storage servers, or LOCAL to store them on the database servers.
+        public let vmFileSystemStorageType: VmStorageType?
 
         @inlinable
-        public init(clientToken: String? = CreateCloudVmClusterInput.idempotencyToken(), cloudExadataInfrastructureId: String, clusterName: String? = nil, cpuCoreCount: Int, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, displayName: String, giVersion: String, hostname: String, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, licenseModel: LicenseModel? = nil, memorySizeInGBs: Int? = nil, odbNetworkId: String, scanListenerPortTcp: Int? = nil, sshPublicKeys: [String], systemVersion: String? = nil, tags: [String: String]? = nil, timeZone: String? = nil) {
+        public init(clientToken: String? = CreateCloudVmClusterInput.idempotencyToken(), cloudExadataInfrastructureId: String, clusterName: String? = nil, cpuCoreCount: Int, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, displayName: String, exascaleDbStorageVaultId: String? = nil, fileSystemConfigurationDetails: [FileSystemConfigurationDetails]? = nil, giVersion: String, hostname: String, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, licenseModel: LicenseModel? = nil, memorySizeInGBs: Int? = nil, odbNetworkId: String, scanListenerPortTcp: Int? = nil, sshPublicKeys: [String], systemVersion: String? = nil, tags: [String: String]? = nil, timeZone: String? = nil, vmBackupStorageType: VmStorageType? = nil, vmFileSystemStorageType: VmStorageType? = nil) {
             self.clientToken = clientToken
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.clusterName = clusterName
@@ -3866,6 +3954,8 @@ extension Odb {
             self.dbNodeStorageSizeInGBs = dbNodeStorageSizeInGBs
             self.dbServers = dbServers
             self.displayName = displayName
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.fileSystemConfigurationDetails = fileSystemConfigurationDetails
             self.giVersion = giVersion
             self.hostname = hostname
             self.isLocalBackupEnabled = isLocalBackupEnabled
@@ -3878,6 +3968,8 @@ extension Odb {
             self.systemVersion = systemVersion
             self.tags = tags
             self.timeZone = timeZone
+            self.vmBackupStorageType = vmBackupStorageType
+            self.vmFileSystemStorageType = vmFileSystemStorageType
         }
 
         public func validate(name: String) throws {
@@ -3893,6 +3985,9 @@ extension Odb {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, max: 2048)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, min: 6)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
             try self.validate(self.hostname, name: "hostname", parent: name, max: 12)
             try self.validate(self.hostname, name: "hostname", parent: name, min: 1)
             try self.validate(self.hostname, name: "hostname", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
@@ -3920,6 +4015,8 @@ extension Odb {
             case dbNodeStorageSizeInGBs = "dbNodeStorageSizeInGBs"
             case dbServers = "dbServers"
             case displayName = "displayName"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case fileSystemConfigurationDetails = "fileSystemConfigurationDetails"
             case giVersion = "giVersion"
             case hostname = "hostname"
             case isLocalBackupEnabled = "isLocalBackupEnabled"
@@ -3932,6 +4029,8 @@ extension Odb {
             case systemVersion = "systemVersion"
             case tags = "tags"
             case timeZone = "timeZone"
+            case vmBackupStorageType = "vmBackupStorageType"
+            case vmFileSystemStorageType = "vmFileSystemStorageType"
         }
     }
 
@@ -3986,7 +4085,7 @@ extension Odb {
         public let odbNetworkId: String
         /// The port number for TCP connections to the Single Client Access Name (SCAN) listener.
         public let scanListenerPortTcp: Int?
-        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener.
+        /// Reserved for future use.
         public let scanListenerPortTcpSsl: Int?
         /// The shape of the Exascale VM cluster.
         public let shape: String
@@ -4120,6 +4219,8 @@ extension Odb {
         public let availabilityZoneId: String?
         /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
         public let clientToken: String?
+        /// The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure on which to create the Exascale storage vault. Specify this value to create the Exascale storage vault on dedicated Exadata infrastructure that has Exascale storage configured. If you specify availabilityZone or availabilityZoneId, the value must match the Availability Zone of the Exadata infrastructure. If you specify neither, the service uses the Availability Zone of the Exadata infrastructure.
+        public let cloudExadataInfrastructureId: String?
         /// A description of the Exascale storage vault.
         public let description: String?
         /// A user-friendly name for the Exascale storage vault.
@@ -4134,12 +4235,13 @@ extension Odb {
         public let timeZone: String?
 
         @inlinable
-        public init(additionalFlashCacheInPercent: Int? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = CreateExascaleDbStorageVaultInput.idempotencyToken(), description: String? = nil, displayName: String, highCapacityDatabaseStorageTotalSizeInGBs: Int, isAutoscaleEnabled: Bool? = nil, tags: [String: String]? = nil, timeZone: String? = nil) {
+        public init(additionalFlashCacheInPercent: Int? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = CreateExascaleDbStorageVaultInput.idempotencyToken(), cloudExadataInfrastructureId: String? = nil, description: String? = nil, displayName: String, highCapacityDatabaseStorageTotalSizeInGBs: Int, isAutoscaleEnabled: Bool? = nil, tags: [String: String]? = nil, timeZone: String? = nil) {
             self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
             self.autoscaleLimitInGBs = autoscaleLimitInGBs
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.clientToken = clientToken
+            self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.description = description
             self.displayName = displayName
             self.highCapacityDatabaseStorageTotalSizeInGBs = highCapacityDatabaseStorageTotalSizeInGBs
@@ -4150,6 +4252,9 @@ extension Odb {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, max: 2048)
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, min: 6)
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
@@ -4168,6 +4273,7 @@ extension Odb {
             case availabilityZone = "availabilityZone"
             case availabilityZoneId = "availabilityZoneId"
             case clientToken = "clientToken"
+            case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case description = "description"
             case displayName = "displayName"
             case highCapacityDatabaseStorageTotalSizeInGBs = "highCapacityDatabaseStorageTotalSizeInGBs"
@@ -5780,7 +5886,7 @@ extension Odb {
         public let scanIpIds: [String]?
         /// The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
         public let scanListenerPortTcp: Int?
-        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
+        /// Reserved for future use.
         public let scanListenerPortTcpSsl: Int?
         /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
         public let shape: String?
@@ -5980,7 +6086,7 @@ extension Odb {
         public let scanIpIds: [String]?
         /// The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
         public let scanListenerPortTcp: Int?
-        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
+        /// Reserved for future use.
         public let scanListenerPortTcpSsl: Int?
         /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
         public let shape: String?
@@ -6103,6 +6209,32 @@ extension Odb {
         }
     }
 
+    public struct ExascaleConfiguration: AWSDecodableShape {
+        /// The amount of Exascale storage, in gigabytes (GB), that's available on the Exadata infrastructure.
+        public let availableStorageSizeInGBs: Int?
+        /// The amount of Exascale VM storage, in gigabytes (GB), that's available on the Exadata infrastructure.
+        public let availableVmStorageSizeInGBs: Int?
+        /// The total amount of Exascale storage, in gigabytes (GB), configured on the Exadata infrastructure.
+        public let totalStorageSizeInGBs: Int?
+        /// The total amount of Exascale VM storage, in gigabytes (GB), on the Exadata infrastructure. VM clusters use Exascale VM storage for their VM file systems and VM backups.
+        public let totalVmStorageSizeInGBs: Int?
+
+        @inlinable
+        public init(availableStorageSizeInGBs: Int? = nil, availableVmStorageSizeInGBs: Int? = nil, totalStorageSizeInGBs: Int? = nil, totalVmStorageSizeInGBs: Int? = nil) {
+            self.availableStorageSizeInGBs = availableStorageSizeInGBs
+            self.availableVmStorageSizeInGBs = availableVmStorageSizeInGBs
+            self.totalStorageSizeInGBs = totalStorageSizeInGBs
+            self.totalVmStorageSizeInGBs = totalVmStorageSizeInGBs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableStorageSizeInGBs = "availableStorageSizeInGBs"
+            case availableVmStorageSizeInGBs = "availableVmStorageSizeInGBs"
+            case totalStorageSizeInGBs = "totalStorageSizeInGBs"
+            case totalVmStorageSizeInGBs = "totalVmStorageSizeInGBs"
+        }
+    }
+
     public struct ExascaleDbStorageDetails: AWSDecodableShape {
         /// The available storage size, in gigabytes (GB).
         public let availableSizeInGBs: Int?
@@ -6132,6 +6264,10 @@ extension Odb {
         public let availabilityZone: String?
         /// The Availability Zone ID for the Exascale storage vault.
         public let availabilityZoneId: String?
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.
+        public let cloudExadataInfrastructureArn: String?
+        /// The unique identifier of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.
+        public let cloudExadataInfrastructureId: String?
         /// The date and time when the Exascale storage vault was created.
         public let createdAt: Date?
         /// The description of the Exascale storage vault.
@@ -6160,6 +6296,8 @@ extension Odb {
         public let statusReason: String?
         /// The time zone of the Exascale storage vault.
         public let timeZone: String?
+        /// The type of infrastructure that hosts the Exascale storage vault.
+        public let vaultType: ExascaleDbStorageVaultType?
         /// The list of Amazon Resource Names (ARNs) of the VM clusters associated with this Exascale storage vault.
         public let vmClusterArns: [String]?
         /// The number of VM clusters associated with this Exascale storage vault.
@@ -6168,12 +6306,14 @@ extension Odb {
         public let vmClusterIds: [String]?
 
         @inlinable
-        public init(additionalFlashCacheInPercent: Int? = nil, attachedShapeAttributes: [ShapeAttribute]? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorage: ExascaleDbStorageDetails? = nil, isAutoscaleEnabled: Bool? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeZone: String? = nil, vmClusterArns: [String]? = nil, vmClusterCount: Int? = nil, vmClusterIds: [String]? = nil) {
+        public init(additionalFlashCacheInPercent: Int? = nil, attachedShapeAttributes: [ShapeAttribute]? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorage: ExascaleDbStorageDetails? = nil, isAutoscaleEnabled: Bool? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeZone: String? = nil, vaultType: ExascaleDbStorageVaultType? = nil, vmClusterArns: [String]? = nil, vmClusterCount: Int? = nil, vmClusterIds: [String]? = nil) {
             self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
             self.attachedShapeAttributes = attachedShapeAttributes
             self.autoscaleLimitInGBs = autoscaleLimitInGBs
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
+            self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
@@ -6188,6 +6328,7 @@ extension Odb {
             self.status = status
             self.statusReason = statusReason
             self.timeZone = timeZone
+            self.vaultType = vaultType
             self.vmClusterArns = vmClusterArns
             self.vmClusterCount = vmClusterCount
             self.vmClusterIds = vmClusterIds
@@ -6199,6 +6340,8 @@ extension Odb {
             case autoscaleLimitInGBs = "autoscaleLimitInGBs"
             case availabilityZone = "availabilityZone"
             case availabilityZoneId = "availabilityZoneId"
+            case cloudExadataInfrastructureArn = "cloudExadataInfrastructureArn"
+            case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case createdAt = "createdAt"
             case description = "description"
             case displayName = "displayName"
@@ -6213,6 +6356,7 @@ extension Odb {
             case status = "status"
             case statusReason = "statusReason"
             case timeZone = "timeZone"
+            case vaultType = "vaultType"
             case vmClusterArns = "vmClusterArns"
             case vmClusterCount = "vmClusterCount"
             case vmClusterIds = "vmClusterIds"
@@ -6230,6 +6374,10 @@ extension Odb {
         public let availabilityZone: String?
         /// The Availability Zone ID for the Exascale storage vault.
         public let availabilityZoneId: String?
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.
+        public let cloudExadataInfrastructureArn: String?
+        /// The unique identifier of the Exadata infrastructure that hosts the Exascale storage vault. This value is present only for vaults on dedicated Exadata infrastructure.
+        public let cloudExadataInfrastructureId: String?
         /// The date and time when the Exascale storage vault was created.
         public let createdAt: Date?
         /// The description of the Exascale storage vault.
@@ -6258,6 +6406,8 @@ extension Odb {
         public let statusReason: String?
         /// The time zone of the Exascale storage vault.
         public let timeZone: String?
+        /// The type of infrastructure that hosts the Exascale storage vault.
+        public let vaultType: ExascaleDbStorageVaultType?
         /// The list of Amazon Resource Names (ARNs) of the VM clusters associated with this Exascale storage vault.
         public let vmClusterArns: [String]?
         /// The number of VM clusters associated with this Exascale storage vault.
@@ -6266,12 +6416,14 @@ extension Odb {
         public let vmClusterIds: [String]?
 
         @inlinable
-        public init(additionalFlashCacheInPercent: Int? = nil, attachedShapeAttributes: [ShapeAttribute]? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorage: ExascaleDbStorageDetails? = nil, isAutoscaleEnabled: Bool? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeZone: String? = nil, vmClusterArns: [String]? = nil, vmClusterCount: Int? = nil, vmClusterIds: [String]? = nil) {
+        public init(additionalFlashCacheInPercent: Int? = nil, attachedShapeAttributes: [ShapeAttribute]? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorage: ExascaleDbStorageDetails? = nil, isAutoscaleEnabled: Bool? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeZone: String? = nil, vaultType: ExascaleDbStorageVaultType? = nil, vmClusterArns: [String]? = nil, vmClusterCount: Int? = nil, vmClusterIds: [String]? = nil) {
             self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
             self.attachedShapeAttributes = attachedShapeAttributes
             self.autoscaleLimitInGBs = autoscaleLimitInGBs
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
+            self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
@@ -6286,6 +6438,7 @@ extension Odb {
             self.status = status
             self.statusReason = statusReason
             self.timeZone = timeZone
+            self.vaultType = vaultType
             self.vmClusterArns = vmClusterArns
             self.vmClusterCount = vmClusterCount
             self.vmClusterIds = vmClusterIds
@@ -6297,6 +6450,8 @@ extension Odb {
             case autoscaleLimitInGBs = "autoscaleLimitInGBs"
             case availabilityZone = "availabilityZone"
             case availabilityZoneId = "availabilityZoneId"
+            case cloudExadataInfrastructureArn = "cloudExadataInfrastructureArn"
+            case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case createdAt = "createdAt"
             case description = "description"
             case displayName = "displayName"
@@ -6311,6 +6466,7 @@ extension Odb {
             case status = "status"
             case statusReason = "statusReason"
             case timeZone = "timeZone"
+            case vaultType = "vaultType"
             case vmClusterArns = "vmClusterArns"
             case vmClusterCount = "vmClusterCount"
             case vmClusterIds = "vmClusterIds"
@@ -6367,6 +6523,24 @@ extension Odb {
             case displayName = "displayName"
             case status = "status"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct FileSystemConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The size of the file system, in gigabytes (GB).
+        public let fileSystemSizeInGBs: Int?
+        /// The mount point of the file system.
+        public let mountPoint: String?
+
+        @inlinable
+        public init(fileSystemSizeInGBs: Int? = nil, mountPoint: String? = nil) {
+            self.fileSystemSizeInGBs = fileSystemSizeInGBs
+            self.mountPoint = mountPoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemSizeInGBs = "fileSystemSizeInGBs"
+            case mountPoint = "mountPoint"
         }
     }
 
@@ -7814,25 +7988,42 @@ extension Odb {
     }
 
     public struct ListExascaleDbStorageVaultsInput: AWSEncodableShape {
+        /// The unique identifier or Amazon Resource Name (ARN) of an Exadata infrastructure. If you specify this value, the operation returns only the Exascale storage vaults on that infrastructure that you own or that are shared with you. The infrastructure can be one that's shared with you through Amazon Web Services Resource Access Manager (Amazon Web Services RAM). You can't combine this filter with a vaultType of EXASCALE_INFRASTRUCTURE.
+        public let cloudExadataInfrastructureId: String?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         public let maxResults: Int?
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
+        /// The type of Exascale storage vaults to return. Specify DEDICATED_INFRASTRUCTURE to return Exascale storage vaults on dedicated Exadata infrastructure, or EXASCALE_INFRASTRUCTURE to return Exascale storage vaults for Exascale VM clusters. If you don't specify a value, the operation returns both types. You can't combine EXASCALE_INFRASTRUCTURE with the cloudExadataInfrastructureId filter.
+        public let vaultType: ExascaleDbStorageVaultType?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(cloudExadataInfrastructureId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, vaultType: ExascaleDbStorageVaultType? = nil) {
+            self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.vaultType = vaultType
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudExadataInfrastructureId, forKey: .cloudExadataInfrastructureId)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.vaultType, forKey: .vaultType)
         }
 
-        private enum CodingKeys: CodingKey {}
+        public func validate(name: String) throws {
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, max: 2048)
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, min: 6)
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
+            case vaultType = "vaultType"
+        }
     }
 
     public struct ListExascaleDbStorageVaultsOutput: AWSDecodableShape {
@@ -10060,6 +10251,67 @@ extension Odb {
         private enum CodingKeys: String, CodingKey {
             case displayName = "displayName"
             case exadbVmClusterId = "exadbVmClusterId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct UpdateExascaleCloudExadataInfrastructureInput: AWSEncodableShape {
+        /// The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure to update.
+        public let cloudExadataInfrastructureId: String
+        /// The total amount of Exascale storage, in gigabytes (GB), to configure on the Exadata infrastructure.
+        public let totalStorageSizeInGBs: Int
+        /// The total amount of Exascale storage, in gigabytes (GB), to allocate for VM storage on the Exadata infrastructure. VM clusters that store their VM file systems or VM backups in Exascale storage use this capacity.
+        public let totalVmStorageSizeInGBs: Int?
+
+        @inlinable
+        public init(cloudExadataInfrastructureId: String, totalStorageSizeInGBs: Int, totalVmStorageSizeInGBs: Int? = nil) {
+            self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
+            self.totalStorageSizeInGBs = totalStorageSizeInGBs
+            self.totalVmStorageSizeInGBs = totalVmStorageSizeInGBs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.cloudExadataInfrastructureId, key: "cloudExadataInfrastructureId")
+            try container.encode(self.totalStorageSizeInGBs, forKey: .totalStorageSizeInGBs)
+            try container.encodeIfPresent(self.totalVmStorageSizeInGBs, forKey: .totalVmStorageSizeInGBs)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, max: 2048)
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, min: 6)
+            try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalStorageSizeInGBs = "totalStorageSizeInGBs"
+            case totalVmStorageSizeInGBs = "totalVmStorageSizeInGBs"
+        }
+    }
+
+    public struct UpdateExascaleCloudExadataInfrastructureOutput: AWSDecodableShape {
+        /// The unique identifier of the updated Exadata infrastructure.
+        public let cloudExadataInfrastructureId: String
+        /// The user-friendly name of the updated Exadata infrastructure.
+        public let displayName: String?
+        /// The current status of the Exadata infrastructure after the update operation.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exadata infrastructure after the update operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(cloudExadataInfrastructureId: String, displayName: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
+            case displayName = "displayName"
             case status = "status"
             case statusReason = "statusReason"
         }

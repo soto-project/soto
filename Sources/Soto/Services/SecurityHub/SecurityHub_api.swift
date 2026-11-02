@@ -583,6 +583,35 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateStandardsControlAssociations(input, logger: logger)
     }
 
+    /// Cancels a findings export job that is in progress. Security Hub transitions a running job to the CANCELLED state and returns the ExportJobId and its new Status. Canceling a job that is already in the CANCELLED state succeeds and returns the same result, so you can safely retry a cancel request. You can't cancel an export job that has already reached a terminal SUCCEEDED or FAILED state; in that case, this operation returns a ConflictException. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException. The Status value returned by this operation reflects the cancellation immediately, even though the job can take a short time to stop completely.
+    @Sendable
+    @inlinable
+    public func cancelExportJobV2(_ input: CancelExportJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelExportJobV2Response {
+        try await self.client.execute(
+            operation: "CancelExportJobV2", 
+            path: "/exportjobsv2/{ExportJobId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a findings export job that is in progress. Security Hub transitions a running job to the CANCELLED state and returns the ExportJobId and its new Status. Canceling a job that is already in the CANCELLED state succeeds and returns the same result, so you can safely retry a cancel request. You can't cancel an export job that has already reached a terminal SUCCEEDED or FAILED state; in that case, this operation returns a ConflictException. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException. The Status value returned by this operation reflects the cancellation immediately, even though the job can take a short time to stop completely.
+    ///
+    /// Parameters:
+    ///   - exportJobId: The unique identifier of the export job to cancel. This is the value returned by StartExportJobV2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelExportJobV2(
+        exportJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelExportJobV2Response {
+        let input = CancelExportJobV2Request(
+            exportJobId: exportJobId
+        )
+        return try await self.cancelExportJobV2(input, logger: logger)
+    }
+
     /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events.
     @Sendable
     @inlinable
@@ -2233,6 +2262,35 @@ public struct SecurityHub: AWSService {
         return try await self.getEnabledStandards(input, logger: logger)
     }
 
+    /// Returns the details of a single findings export job, including its current Status, the Destination it writes to, the OutputConfiguration it was started with, and its StartedAt and EndedAt timestamps. Use this operation to poll an export job that you started with StartExportJobV2 until it reaches a terminal state (SUCCEEDED, FAILED, or CANCELLED). If the job failed, the response includes a FailureCode and FailureMessage that describe the reason. Input values such as Scopes and Filters are echoed back as they were submitted, with relative date ranges returned unresolved. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException.
+    @Sendable
+    @inlinable
+    public func getExportJobV2(_ input: GetExportJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportJobV2Response {
+        try await self.client.execute(
+            operation: "GetExportJobV2", 
+            path: "/exportjobsv2/{ExportJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the details of a single findings export job, including its current Status, the Destination it writes to, the OutputConfiguration it was started with, and its StartedAt and EndedAt timestamps. Use this operation to poll an export job that you started with StartExportJobV2 until it reaches a terminal state (SUCCEEDED, FAILED, or CANCELLED). If the job failed, the response includes a FailureCode and FailureMessage that describe the reason. Input values such as Scopes and Filters are echoed back as they were submitted, with relative date ranges returned unresolved. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException.
+    ///
+    /// Parameters:
+    ///   - exportJobId: The unique identifier of the export job to retrieve. This is the value returned by StartExportJobV2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExportJobV2(
+        exportJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExportJobV2Response {
+        let input = GetExportJobV2Request(
+            exportJobId: exportJobId
+        )
+        return try await self.getExportJobV2(input, logger: logger)
+    }
+
     ///  The aggregation Region is now called the home Region.  Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes
     /// the home Region and any linked Regions.
     @Sendable
@@ -2643,6 +2701,53 @@ public struct SecurityHub: AWSService {
             nextToken: nextToken
         )
         return try await self.getRecommendedPolicyV2(input, logger: logger)
+    }
+
+    /// Retrieves remediation targets for the account, or for all member accounts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or MetadataUid to scope the request to a single target or finding.
+    @Sendable
+    @inlinable
+    public func getRemediationsV2(_ input: GetRemediationsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRemediationsV2Response {
+        try await self.client.execute(
+            operation: "GetRemediationsV2", 
+            path: "/GetRemediationsV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves remediation targets for the account, or for all member accounts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or MetadataUid to scope the request to a single target or finding.
+    ///
+    /// Parameters:
+    ///   - filters: Filters remediation targets based on a set of criteria. You can't use Filters together with TargetUid or MetadataUid.
+    ///   - guidanceFormat: The format of the remediation guidance examples to return. Valid values are All, AwsCli, Cli, Python, Terraform, Cdk, CloudFormation, IaC, and Template. If you don't specify a value, all formats are returned. Applies only when ShowGuidance is true.
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - metadataUid: The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding. Returns the remediation targets associated with that finding. You can't use MetadataUid together with TargetUid or Filters.
+    ///   - nextToken: The token used to paginate the remediations target list returned. On your first call to GetRemediationsV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    ///   - showGuidance: Specifies whether to show remediation target guidance.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to return. Returns the single matching target. You can't use TargetUid together with MetadataUid or Filters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRemediationsV2(
+        filters: RemediationFilters? = nil,
+        guidanceFormat: GuidanceFormat? = nil,
+        maxResults: Int? = nil,
+        metadataUid: String? = nil,
+        nextToken: String? = nil,
+        showGuidance: Bool? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRemediationsV2Response {
+        let input = GetRemediationsV2Request(
+            filters: filters, 
+            guidanceFormat: guidanceFormat, 
+            maxResults: maxResults, 
+            metadataUid: metadataUid, 
+            nextToken: nextToken, 
+            showGuidance: showGuidance, 
+            targetUid: targetUid
+        )
+        return try await self.getRemediationsV2(input, logger: logger)
     }
 
     /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. If you set GroupByField to ResourceSubCategory, ResourceInfo.AIDetails.HostResourceType, or ResourceInfo.AIDetails.CanonicalId, you must include a ResourceCategory string filter with comparison set to EQUALS and value AI/ML in the corresponding ResourceGroupByRule.
@@ -3100,6 +3205,79 @@ public struct SecurityHub: AWSService {
         return try await self.listEnabledProductsForImport(input, logger: logger)
     }
 
+    /// Returns the findings export jobs in your account as a paginated list of ExportSummary objects. You can filter the results by job Status or DataType. To page through the results, use the MaxResults and NextToken parameters. If the response includes a NextToken value, pass it in a subsequent request to retrieve the next page of results. Each ExportSummary reports the output Format of the job but not its full OutputConfiguration. To retrieve the filters and selected fields that a job was started with, call GetExportJobV2.
+    @Sendable
+    @inlinable
+    public func listExportJobsV2(_ input: ListExportJobsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportJobsV2Response {
+        try await self.client.execute(
+            operation: "ListExportJobsV2", 
+            path: "/exportjobsv2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the findings export jobs in your account as a paginated list of ExportSummary objects. You can filter the results by job Status or DataType. To page through the results, use the MaxResults and NextToken parameters. If the response includes a NextToken value, pass it in a subsequent request to retrieve the next page of results. Each ExportSummary reports the output Format of the job but not its full OutputConfiguration. To retrieve the filters and selected fields that a job was started with, call GetExportJobV2.
+    ///
+    /// Parameters:
+    ///   - dataType: Filters the results to export jobs that produce the specified data type.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1–20.
+    ///   - nextToken: The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - status: Filters the results to export jobs that have the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExportJobsV2(
+        dataType: ExportDataType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: ExportStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExportJobsV2Response {
+        let input = ListExportJobsV2Request(
+            dataType: dataType, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listExportJobsV2(input, logger: logger)
+    }
+
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are paginated.
+    @Sendable
+    @inlinable
+    public func listExposuresByRemediationV2(_ input: ListExposuresByRemediationV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExposuresByRemediationV2Response {
+        try await self.client.execute(
+            operation: "ListExposuresByRemediationV2", 
+            path: "/ListExposuresByRemediationV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are paginated.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - nextToken: The token used to paginate the exposures list returned. On your first call to ListExposuresByRemediationV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to list exposure findings for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExposuresByRemediationV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExposuresByRemediationV2Response {
+        let input = ListExposuresByRemediationV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            targetUid: targetUid
+        )
+        return try await self.listExposuresByRemediationV2(input, logger: logger)
+    }
+
     /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN)
     /// of the finding aggregator. You can run this operation from any Amazon Web Services Region.
     @Sendable
@@ -3470,6 +3648,47 @@ public struct SecurityHub: AWSService {
             target: target
         )
         return try await self.startConfigurationPolicyDisassociation(input, logger: logger)
+    }
+
+    /// Starts an ad hoc export job that writes Security Hub findings to an Amazon Simple Storage Service (Amazon S3) bucket that you own. Because the export runs asynchronously, this operation returns only the ExportJobId of the new job; it doesn't wait for the export to finish. Use GetExportJobV2 to poll the job, and ListExportJobsV2 to view the export jobs in your account. Security Hub allows only one export job in the RUNNING state per account at a time. If an export job is already running, this operation returns a ServiceQuotaExceededException. Wait for the running job to finish, or cancel it with CancelExportJobV2, before you start a new one. Specify the destination bucket and Amazon Web Services Key Management Service (Amazon Web Services KMS) key in the Destination parameter, and the output format (CSV or OCSF_JSON), optional filters, and field selection in the OutputConfiguration parameter. Before you call this operation, you must grant Security Hub permission to write to your bucket and use your Amazon Web Services KMS key by adding the bucket policy and key policy statements shown in the Examples section. Two identities use your Amazon Web Services KMS key, and each needs its own permission. Security Hub uses the key when it writes the export objects to your bucket. The IAM principal that calls StartExportJobV2 must also have kms:GenerateDataKey and kms:Decrypt permissions on the key. The Examples section shows both grants. A delegated administrator can use the optional Scopes parameter to export findings for specific organizations or organizational units (OUs). To make the request idempotent, provide a ClientToken. If you retry a StartExportJobV2 request with the same ClientToken and the same request parameters, Security Hub returns the ExportJobId of the original job instead of starting a new one. If you reuse a ClientToken with different request parameters, this operation returns a ConflictException.
+    @Sendable
+    @inlinable
+    public func startExportJobV2(_ input: StartExportJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportJobV2Response {
+        try await self.client.execute(
+            operation: "StartExportJobV2", 
+            path: "/exportjobsv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an ad hoc export job that writes Security Hub findings to an Amazon Simple Storage Service (Amazon S3) bucket that you own. Because the export runs asynchronously, this operation returns only the ExportJobId of the new job; it doesn't wait for the export to finish. Use GetExportJobV2 to poll the job, and ListExportJobsV2 to view the export jobs in your account. Security Hub allows only one export job in the RUNNING state per account at a time. If an export job is already running, this operation returns a ServiceQuotaExceededException. Wait for the running job to finish, or cancel it with CancelExportJobV2, before you start a new one. Specify the destination bucket and Amazon Web Services Key Management Service (Amazon Web Services KMS) key in the Destination parameter, and the output format (CSV or OCSF_JSON), optional filters, and field selection in the OutputConfiguration parameter. Before you call this operation, you must grant Security Hub permission to write to your bucket and use your Amazon Web Services KMS key by adding the bucket policy and key policy statements shown in the Examples section. Two identities use your Amazon Web Services KMS key, and each needs its own permission. Security Hub uses the key when it writes the export objects to your bucket. The IAM principal that calls StartExportJobV2 must also have kms:GenerateDataKey and kms:Decrypt permissions on the key. The Examples section shows both grants. A delegated administrator can use the optional Scopes parameter to export findings for specific organizations or organizational units (OUs). To make the request idempotent, provide a ClientToken. If you retry a StartExportJobV2 request with the same ClientToken and the same request parameters, Security Hub returns the ExportJobId of the original job instead of starting a new one. If you reuse a ClientToken with different request parameters, this operation returns a ConflictException.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique identifier used to ensure idempotency.
+    ///   - destination: The destination that Security Hub writes the export to. You must specify exactly one destination type. Currently, the only supported type is Amazon S3.
+    ///   - name: An optional, user-provided name for the export job that helps you identify it in ListExportJobsV2 results. The value can be 1–256 characters. Alphanumeric characters, spaces, and the following ASCII characters are permitted: . _ , : ( ) / + -.
+    ///   - outputConfiguration: Specifies what data to export and how to format it. You must specify exactly one output type. Currently, the only supported type is Findings.
+    ///   - scopes: Limits the export to findings from specific organizational units (OUs) or from the delegated administrator's organization. Only the delegated administrator account can use this parameter; other accounts that specify it receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator exports findings from all accounts across the entire organization, and other accounts export only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If you specify multiple entries, Security Hub combines them using OR logic.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startExportJobV2(
+        clientToken: String? = StartExportJobV2Request.idempotencyToken(),
+        destination: ExportDestination? = nil,
+        name: String? = nil,
+        outputConfiguration: ExportOutput? = nil,
+        scopes: ExportScopes? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartExportJobV2Response {
+        let input = StartExportJobV2Request(
+            clientToken: clientToken, 
+            destination: destination, 
+            name: name, 
+            outputConfiguration: outputConfiguration, 
+            scopes: scopes
+        )
+        return try await self.startExportJobV2(input, logger: logger)
     }
 
     /// Adds one or more tags to a resource.
@@ -4488,6 +4707,55 @@ extension SecurityHub {
         return self.getRecommendedPolicyV2Paginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getRemediationsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getRemediationsV2Paginator(
+        _ input: GetRemediationsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetRemediationsV2Request, GetRemediationsV2Response> {
+        return .init(
+            input: input,
+            command: self.getRemediationsV2,
+            inputKey: \GetRemediationsV2Request.nextToken,
+            outputKey: \GetRemediationsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getRemediationsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters remediation targets based on a set of criteria. You can't use Filters together with TargetUid or MetadataUid.
+    ///   - guidanceFormat: The format of the remediation guidance examples to return. Valid values are All, AwsCli, Cli, Python, Terraform, Cdk, CloudFormation, IaC, and Template. If you don't specify a value, all formats are returned. Applies only when ShowGuidance is true.
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - metadataUid: The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding. Returns the remediation targets associated with that finding. You can't use MetadataUid together with TargetUid or Filters.
+    ///   - showGuidance: Specifies whether to show remediation target guidance.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to return. Returns the single matching target. You can't use TargetUid together with MetadataUid or Filters.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getRemediationsV2Paginator(
+        filters: RemediationFilters? = nil,
+        guidanceFormat: GuidanceFormat? = nil,
+        maxResults: Int? = nil,
+        metadataUid: String? = nil,
+        showGuidance: Bool? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetRemediationsV2Request, GetRemediationsV2Response> {
+        let input = GetRemediationsV2Request(
+            filters: filters, 
+            guidanceFormat: guidanceFormat, 
+            maxResults: maxResults, 
+            metadataUid: metadataUid, 
+            showGuidance: showGuidance, 
+            targetUid: targetUid
+        )
+        return self.getRemediationsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getResourcesTrendsV2(_:logger:)``.
     ///
     /// - Parameters:
@@ -4711,6 +4979,83 @@ extension SecurityHub {
             maxResults: maxResults
         )
         return self.listEnabledProductsForImportPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExportJobsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExportJobsV2Paginator(
+        _ input: ListExportJobsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExportJobsV2Request, ListExportJobsV2Response> {
+        return .init(
+            input: input,
+            command: self.listExportJobsV2,
+            inputKey: \ListExportJobsV2Request.nextToken,
+            outputKey: \ListExportJobsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExportJobsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dataType: Filters the results to export jobs that produce the specified data type.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1–20.
+    ///   - status: Filters the results to export jobs that have the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExportJobsV2Paginator(
+        dataType: ExportDataType? = nil,
+        maxResults: Int? = nil,
+        status: ExportStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExportJobsV2Request, ListExportJobsV2Response> {
+        let input = ListExportJobsV2Request(
+            dataType: dataType, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listExportJobsV2Paginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExposuresByRemediationV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExposuresByRemediationV2Paginator(
+        _ input: ListExposuresByRemediationV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExposuresByRemediationV2Request, ListExposuresByRemediationV2Response> {
+        return .init(
+            input: input,
+            command: self.listExposuresByRemediationV2,
+            inputKey: \ListExposuresByRemediationV2Request.nextToken,
+            outputKey: \ListExposuresByRemediationV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExposuresByRemediationV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to list exposure findings for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExposuresByRemediationV2Paginator(
+        maxResults: Int? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExposuresByRemediationV2Request, ListExposuresByRemediationV2Response> {
+        let input = ListExposuresByRemediationV2Request(
+            maxResults: maxResults, 
+            targetUid: targetUid
+        )
+        return self.listExposuresByRemediationV2Paginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listFindingAggregators(_:logger:)``.
@@ -5112,6 +5457,21 @@ extension SecurityHub.GetRecommendedPolicyV2Request: AWSPaginateToken {
     }
 }
 
+extension SecurityHub.GetRemediationsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetRemediationsV2Request {
+        return .init(
+            filters: self.filters,
+            guidanceFormat: self.guidanceFormat,
+            maxResults: self.maxResults,
+            metadataUid: self.metadataUid,
+            nextToken: token,
+            showGuidance: self.showGuidance,
+            targetUid: self.targetUid
+        )
+    }
+}
+
 extension SecurityHub.GetResourcesTrendsV2Request: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetResourcesTrendsV2Request {
@@ -5175,6 +5535,29 @@ extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SecurityHub.ListExportJobsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListExportJobsV2Request {
+        return .init(
+            dataType: self.dataType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension SecurityHub.ListExposuresByRemediationV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListExposuresByRemediationV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            targetUid: self.targetUid
         )
     }
 }

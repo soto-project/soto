@@ -492,6 +492,41 @@ public struct Health: AWSService {
         )
     }
 
+    /// Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.
+    @Sendable
+    @inlinable
+    public func describeServiceLifecycle(_ input: DescribeServiceLifecycleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceLifecycleResponse {
+        try await self.client.execute(
+            operation: "DescribeServiceLifecycle", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns lifecycle information for Amazon Web Services services, including end-of-life dates, version recommendations, and lifecycle events.
+    ///
+    /// Parameters:
+    ///   - filter: Values to narrow the results returned.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 20, inclusive.
+    ///   - nextToken: If the results of a search are large, only a portion of the
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServiceLifecycle(
+        filter: ServiceLifecycleFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeServiceLifecycleResponse {
+        let input = DescribeServiceLifecycleRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeServiceLifecycle(input, logger: logger)
+    }
+
     /// Disables Health from working with Organizations. To call this operation, you must sign in to the organization's management account. For more information, see Aggregating Health events in the Health User Guide. This operation doesn't remove the service-linked role from the management account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see Deleting a Service-Linked Role in the IAM User Guide.  You can also disable the organizational feature by using the Organizations DisableAWSServiceAccess API operation. After you call this operation, Health stops aggregating events for all other Amazon Web Services accounts in your organization. If you call the Health API operations for organizational view, Health returns an error. Health continues to aggregate health events for your Amazon Web Services account.
     @Sendable
     @inlinable
@@ -808,6 +843,43 @@ extension Health {
         )
         return self.describeEventsForOrganizationPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``describeServiceLifecycle(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServiceLifecyclePaginator(
+        _ input: DescribeServiceLifecycleRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeServiceLifecycleRequest, DescribeServiceLifecycleResponse> {
+        return .init(
+            input: input,
+            command: self.describeServiceLifecycle,
+            inputKey: \DescribeServiceLifecycleRequest.nextToken,
+            outputKey: \DescribeServiceLifecycleResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeServiceLifecycle(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: Values to narrow the results returned.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 20, inclusive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServiceLifecyclePaginator(
+        filter: ServiceLifecycleFilter? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeServiceLifecycleRequest, DescribeServiceLifecycleResponse> {
+        let input = DescribeServiceLifecycleRequest(
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.describeServiceLifecyclePaginator(input, logger: logger)
+    }
 }
 
 extension Health.DescribeAffectedAccountsForOrganizationRequest: AWSPaginateToken {
@@ -887,6 +959,17 @@ extension Health.DescribeEventsRequest: AWSPaginateToken {
         return .init(
             filter: self.filter,
             locale: self.locale,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Health.DescribeServiceLifecycleRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Health.DescribeServiceLifecycleRequest {
+        return .init(
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
         )

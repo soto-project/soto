@@ -599,6 +599,35 @@ public struct KafkaConnect: AWSService {
         return try await self.listWorkerConfigurations(input, logger: logger)
     }
 
+    /// Pauses the specified connector. The operation runs asynchronously. To track the pause, pass the connector operation ARN from the response to DescribeConnectorOperation.
+    @Sendable
+    @inlinable
+    public func pauseConnector(_ input: PauseConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PauseConnectorResponse {
+        try await self.client.execute(
+            operation: "PauseConnector", 
+            path: "/v1/connectors/{connectorArn}/pause", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Pauses the specified connector. The operation runs asynchronously. To track the pause, pass the connector operation ARN from the response to DescribeConnectorOperation.
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector that you want to pause.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func pauseConnector(
+        connectorArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PauseConnectorResponse {
+        let input = PauseConnectorRequest(
+            connectorArn: connectorArn
+        )
+        return try await self.pauseConnector(input, logger: logger)
+    }
+
     /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnectorOperation to track the state of the restart.
     @Sendable
     @inlinable
@@ -629,6 +658,35 @@ public struct KafkaConnect: AWSService {
             onlyFailedTasks: onlyFailedTasks
         )
         return try await self.restartConnector(input, logger: logger)
+    }
+
+    /// Resumes the specified paused connector. The operation runs asynchronously. To track the resume, pass the connector operation ARN from the response to DescribeConnectorOperation.
+    @Sendable
+    @inlinable
+    public func resumeConnector(_ input: ResumeConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResumeConnectorResponse {
+        try await self.client.execute(
+            operation: "ResumeConnector", 
+            path: "/v1/connectors/{connectorArn}/resume", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Resumes the specified paused connector. The operation runs asynchronously. To track the resume, pass the connector operation ARN from the response to DescribeConnectorOperation.
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector that you want to resume.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func resumeConnector(
+        connectorArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ResumeConnectorResponse {
+        let input = ResumeConnectorRequest(
+            connectorArn: connectorArn
+        )
+        return try await self.resumeConnector(input, logger: logger)
     }
 
     /// Attaches tags to the specified resource.
@@ -695,7 +753,7 @@ public struct KafkaConnect: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration.
+    /// Updates the specified connector. In the request body, you can update either the connector's worker setting or its connector configuration, but not both in the same request. To update the worker setting, specify one or more of capacity, plugins, workerConfiguration, or useDefaultWorkerConfiguration. To update the connector configuration, specify only connectorConfiguration.
     @Sendable
     @inlinable
     public func updateConnector(_ input: UpdateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectorResponse {
@@ -708,13 +766,17 @@ public struct KafkaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration.
+    /// Updates the specified connector. In the request body, you can update either the connector's worker setting or its connector configuration, but not both in the same request. To update the worker setting, specify one or more of capacity, plugins, workerConfiguration, or useDefaultWorkerConfiguration. To update the connector configuration, specify only connectorConfiguration.
     ///
     /// Parameters:
     ///   - capacity: The target capacity.
     ///   - connectorArn: The Amazon Resource Name (ARN) of the connector that you want to update.
     ///   - connectorConfiguration: A map of keys to values that represent the configuration for the connector.
     ///   - currentVersion: The current version of the connector that you want to update.
+    ///   - plugins:  Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together.  Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object. If you don't specify this parameter, the connector keeps its current plugin.
+    ///   - skipHealthValidation: Specifies whether the update bypasses connector-level and task-level health checks. If true, the update skips the health checks. The update stays in effect even if the connector or its tasks are unhealthy, and Amazon MSK Connect doesn't roll it back. If false or not specified, the health checks run. If they fail, MSK Connect automatically rolls the connector back to its previous configuration, and the update doesn't take effect. To update a connector that is in the PAUSED state, you must set this parameter to true.
+    ///   - useDefaultWorkerConfiguration: Specifies whether to switch the connector to the default worker configuration that Amazon MSK Connect provides. If true, the connector stops using its custom worker configuration and uses the default worker configuration instead. If false or not specified, the connector keeps its current worker configuration. You can't specify both useDefaultWorkerConfiguration and workerConfiguration in the same request.
+    ///   - workerConfiguration: The worker configuration to use with the connector. Specify the Amazon Resource Name (ARN) and the revision of the worker configuration. You can't specify both workerConfiguration and useDefaultWorkerConfiguration in the same request. If you specify neither parameter, the connector keeps its current worker configuration.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConnector(
@@ -722,13 +784,21 @@ public struct KafkaConnect: AWSService {
         connectorArn: String,
         connectorConfiguration: [String: String]? = nil,
         currentVersion: String,
+        plugins: [PluginUpdate]? = nil,
+        skipHealthValidation: Bool? = nil,
+        useDefaultWorkerConfiguration: Bool? = nil,
+        workerConfiguration: WorkerConfigurationUpdate? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConnectorResponse {
         let input = UpdateConnectorRequest(
             capacity: capacity, 
             connectorArn: connectorArn, 
             connectorConfiguration: connectorConfiguration, 
-            currentVersion: currentVersion
+            currentVersion: currentVersion, 
+            plugins: plugins, 
+            skipHealthValidation: skipHealthValidation, 
+            useDefaultWorkerConfiguration: useDefaultWorkerConfiguration, 
+            workerConfiguration: workerConfiguration
         )
         return try await self.updateConnector(input, logger: logger)
     }

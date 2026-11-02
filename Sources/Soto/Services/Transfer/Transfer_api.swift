@@ -315,17 +315,18 @@ public struct Transfer: AWSService {
     ///   - endpointDetails: The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
     ///   - endpointType: The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.   After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     ///   - hostKey: The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the Transfer Family User Guide.
+    ///   - hostKeyStorageType: Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
     ///   - identityProviderDetails: Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be specified when IdentityProviderType is set to SERVICE_MANAGED.
     ///   - identityProviderType: The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
     ///   - ipAddressType: Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4.  The IpAddressType parameter has the following limitations:   It cannot be changed while the server is online. You must stop the server before modifying this parameter.   It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.     When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the EndpointDetails for the server.
     ///   - loggingRole: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
     ///   - postAuthenticationLoginBanner: Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
     ///   - preAuthenticationLoginBanner: Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
-    ///   - protocolDetails: The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+    ///   - protocolDetails: The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
     ///   - protocols: Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     ///   - s3StorageOptions: Specifies whether or not performance for your Amazon S3 directories is optimized.   If using the console, this is enabled by default.   If using the API or CLI, this is disabled by default.   By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
     ///   - securityPolicyName: Specifies the name of the security policy for the server.
-    ///   - structuredLogDestinations: Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+    ///   - structuredLogDestinations: Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
     ///   - tags: Key-value pairs that can be used to group and search for servers.
     ///   - workflowDetails: Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
     ///   - logger: Logger use during operation
@@ -336,6 +337,7 @@ public struct Transfer: AWSService {
         endpointDetails: EndpointDetails? = nil,
         endpointType: EndpointType? = nil,
         hostKey: String? = nil,
+        hostKeyStorageType: HostKeyStorageType? = nil,
         identityProviderDetails: IdentityProviderDetails? = nil,
         identityProviderType: IdentityProviderType? = nil,
         ipAddressType: IpAddressType? = nil,
@@ -357,6 +359,7 @@ public struct Transfer: AWSService {
             endpointDetails: endpointDetails, 
             endpointType: endpointType, 
             hostKey: hostKey, 
+            hostKeyStorageType: hostKeyStorageType, 
             identityProviderDetails: identityProviderDetails, 
             identityProviderType: identityProviderType, 
             ipAddressType: ipAddressType, 
@@ -493,6 +496,7 @@ public struct Transfer: AWSService {
     ///   - description: A textual description for the workflow.
     ///   - onExceptionSteps: Specifies the steps (actions) to take if errors are encountered during execution of the workflow.  For custom steps, the Lambda function needs to send FAILURE to the call back API to kick off the exception steps. Additionally, if the Lambda does not send SUCCESS before it times out, the exception steps are executed.
     ///   - steps: Specifies the details for the steps that are in the specified workflow.  The TYPE specifies which of the following actions is being taken for this step.      COPY  - Copy the file to another location.     CUSTOM  - Perform a custom step with an Lambda function target.     DECRYPT  - Decrypt a file that was encrypted before it was uploaded.     DELETE  - Delete the file.     TAG  - Add a tag to the file.     Currently, copying and tagging are supported only on S3.    For file location, you specify either the Amazon S3 bucket and key, or the Amazon EFS file system ID and path.
+    ///   - structuredLogDestinations: Specifies the log groups to which your workflow logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*
     ///   - tags: Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
     ///   - logger: Logger use during operation
     @inlinable
@@ -500,6 +504,7 @@ public struct Transfer: AWSService {
         description: String? = nil,
         onExceptionSteps: [WorkflowStep]? = nil,
         steps: [WorkflowStep],
+        structuredLogDestinations: [String]? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkflowResponse {
@@ -507,6 +512,7 @@ public struct Transfer: AWSService {
             description: description, 
             onExceptionSteps: onExceptionSteps, 
             steps: steps, 
+            structuredLogDestinations: structuredLogDestinations, 
             tags: tags
         )
         return try await self.createWorkflow(input, logger: logger)
@@ -1338,21 +1344,27 @@ public struct Transfer: AWSService {
     /// Parameters:
     ///   - description: The text description that identifies this host key.
     ///   - hostKeyBody: The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    ///   - kmsKey: The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager.
     ///   - serverId: The identifier of the server that contains the host key that you are importing.
+    ///   - storageType: Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
     ///   - tags: Key-value pairs that can be used to group and search for host keys.
     ///   - logger: Logger use during operation
     @inlinable
     public func importHostKey(
         description: String? = nil,
         hostKeyBody: String,
+        kmsKey: String? = nil,
         serverId: String,
+        storageType: HostKeyStorageType? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ImportHostKeyResponse {
         let input = ImportHostKeyRequest(
             description: description, 
             hostKeyBody: hostKeyBody, 
+            kmsKey: kmsKey, 
             serverId: serverId, 
+            storageType: storageType, 
             tags: tags
         )
         return try await self.importHostKey(input, logger: logger)
@@ -2447,7 +2459,7 @@ public struct Transfer: AWSService {
         return try await self.updateConnector(input, logger: logger)
     }
 
-    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
+    /// Updates the host key that's specified by the ServerId and HostKeyId parameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType, and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager. To change a host key's storage type from SERVICE_MANAGED to SECRETS_MANAGER, you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corresponding API operation.
     @Sendable
     @inlinable
     public func updateHostKey(_ input: UpdateHostKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostKeyResponse {
@@ -2460,24 +2472,30 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
+    /// Updates the host key that's specified by the ServerId and HostKeyId parameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType, and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager. To change a host key's storage type from SERVICE_MANAGED to SECRETS_MANAGER, you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corresponding API operation.
     ///
     /// Parameters:
     ///   - description: An updated description for the host key.
     ///   - hostKeyId: The identifier of the host key that you are updating.
+    ///   - kmsKey: The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager.
     ///   - serverId: The identifier of the server that contains the host key that you are updating.
+    ///   - storageType: Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateHostKey(
-        description: String,
+        description: String? = nil,
         hostKeyId: String,
+        kmsKey: String? = nil,
         serverId: String,
+        storageType: HostKeyStorageType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateHostKeyResponse {
         let input = UpdateHostKeyRequest(
             description: description, 
             hostKeyId: hostKeyId, 
-            serverId: serverId
+            kmsKey: kmsKey, 
+            serverId: serverId, 
+            storageType: storageType
         )
         return try await self.updateHostKey(input, logger: logger)
     }
@@ -2540,12 +2558,12 @@ public struct Transfer: AWSService {
     ///   - loggingRole: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
     ///   - postAuthenticationLoginBanner: Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
     ///   - preAuthenticationLoginBanner: Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
-    ///   - protocolDetails: The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+    ///   - protocolDetails: The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
     ///   - protocols: Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     ///   - s3StorageOptions: Specifies whether or not performance for your Amazon S3 directories is optimized.   If using the console, this is enabled by default.   If using the API or CLI, this is disabled by default.   By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
     ///   - securityPolicyName: Specifies the name of the security policy for the server.
     ///   - serverId: A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
-    ///   - structuredLogDestinations: Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+    ///   - structuredLogDestinations: Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
     ///   - workflowDetails: Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
     ///   - logger: Logger use during operation
     @inlinable

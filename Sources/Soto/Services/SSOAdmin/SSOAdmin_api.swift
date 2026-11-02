@@ -2001,16 +2001,19 @@ public struct SSOAdmin: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to display for the instance.
     ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
+    ///   - regionScope: Specifies which Amazon Web Services Regions to list IAM Identity Center instances from. Valid values:    CURRENT_REGION - Lists only the instances in the Region that you call this API from.    ALL_REGIONS - Lists the instances that the caller owns or that are shared with the caller across all Regions.   If you don't specify a value, the default is CURRENT_REGION.
     ///   - logger: Logger use during operation
     @inlinable
     public func listInstances(
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        regionScope: RegionScope? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListInstancesResponse {
         let input = ListInstancesRequest(
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            regionScope: regionScope
         )
         return try await self.listInstances(input, logger: logger)
     }
@@ -2692,7 +2695,7 @@ public struct SSOAdmin: AWSService {
         return try await self.updateApplication(input, logger: logger)
     }
 
-    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations:   Update the encryption configuration of the instance by specifying EncryptionConfiguration.   Enable permission sets for the instance by specifying PermissionSetsEnabled.   A request that specifies both EncryptionConfiguration and PermissionSetsEnabled returns a ValidationException. To perform both operations, call UpdateInstance separately for each. The two calls can be made in parallel.
+    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations:   Update the encryption configuration of the instance by specifying EncryptionConfiguration.   Enable permission sets for the instance by specifying PermissionSetsEnabled.   If you specify both EncryptionConfiguration and PermissionSetsEnabled in a request, the request returns a ValidationException. To perform both operations, call UpdateInstance separately for each. You can make the two calls in parallel.
     @Sendable
     @inlinable
     public func updateInstance(_ input: UpdateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInstanceResponse {
@@ -2705,13 +2708,13 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations:   Update the encryption configuration of the instance by specifying EncryptionConfiguration.   Enable permission sets for the instance by specifying PermissionSetsEnabled.   A request that specifies both EncryptionConfiguration and PermissionSetsEnabled returns a ValidationException. To perform both operations, call UpdateInstance separately for each. The two calls can be made in parallel.
+    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations:   Update the encryption configuration of the instance by specifying EncryptionConfiguration.   Enable permission sets for the instance by specifying PermissionSetsEnabled.   If you specify both EncryptionConfiguration and PermissionSetsEnabled in a request, the request returns a ValidationException. To perform both operations, call UpdateInstance separately for each. You can make the two calls in parallel.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
     ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - name: Updates the instance name.
-    ///   - permissionSetsEnabled: Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+    ///   - permissionSetsEnabled: Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. You can make these calls in parallel.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInstance(
@@ -3388,14 +3391,17 @@ extension SSOAdmin {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to display for the instance.
+    ///   - regionScope: Specifies which Amazon Web Services Regions to list IAM Identity Center instances from. Valid values:    CURRENT_REGION - Lists only the instances in the Region that you call this API from.    ALL_REGIONS - Lists the instances that the caller owns or that are shared with the caller across all Regions.   If you don't specify a value, the default is CURRENT_REGION.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInstancesPaginator(
         maxResults: Int? = nil,
+        regionScope: RegionScope? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListInstancesRequest, ListInstancesResponse> {
         let input = ListInstancesRequest(
-            maxResults: maxResults
+            maxResults: maxResults, 
+            regionScope: regionScope
         )
         return self.listInstancesPaginator(input, logger: logger)
     }
@@ -3831,7 +3837,8 @@ extension SSOAdmin.ListInstancesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSOAdmin.ListInstancesRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            regionScope: self.regionScope
         )
     }
 }

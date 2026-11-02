@@ -280,6 +280,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailContextualGroundingTierName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classic = "CLASSIC"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
@@ -2405,7 +2411,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.values.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -2451,7 +2457,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2480,10 +2486,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.type, name: "type", parent: name, max: 64)
             try self.validate(self.type, name: "type", parent: name, min: 1)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2925,7 +2931,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.values.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -2957,7 +2963,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3004,10 +3010,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.type, name: "type", parent: name, max: 64)
             try self.validate(self.type, name: "type", parent: name, min: 1)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3063,7 +3069,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3097,7 +3103,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3117,7 +3123,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3680,10 +3686,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.newName, name: "newName", parent: name, max: 64)
             try self.validate(self.newName, name: "newName", parent: name, min: 1)
-            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.values.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -3732,10 +3738,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.newValue, name: "newValue", parent: name, max: 64)
             try self.validate(self.newValue, name: "newValue", parent: name, min: 1)
-            try self.validate(self.newValue, name: "newValue", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newValue, name: "newValue", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3765,10 +3771,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.newName, name: "newName", parent: name, max: 64)
             try self.validate(self.newName, name: "newName", parent: name, min: 1)
-            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8961,24 +8967,31 @@ extension Bedrock {
     public struct GuardrailContextualGroundingPolicy: AWSDecodableShape {
         /// The filter details for the guardrails contextual grounding policy.
         public let filters: [GuardrailContextualGroundingFilter]
+        /// The tier that your guardrail uses for contextual grounding.
+        public let tier: GuardrailContextualGroundingTier?
 
         @inlinable
-        public init(filters: [GuardrailContextualGroundingFilter]) {
+        public init(filters: [GuardrailContextualGroundingFilter], tier: GuardrailContextualGroundingTier? = nil) {
             self.filters = filters
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
+            case tier = "tier"
         }
     }
 
     public struct GuardrailContextualGroundingPolicyConfig: AWSEncodableShape {
         /// The filter configuration details for the guardrails contextual grounding policy.
         public let filtersConfig: [GuardrailContextualGroundingFilterConfig]
+        /// The tier that your guardrail uses for contextual grounding.
+        public let tierConfig: GuardrailContextualGroundingTierConfig?
 
         @inlinable
-        public init(filtersConfig: [GuardrailContextualGroundingFilterConfig]) {
+        public init(filtersConfig: [GuardrailContextualGroundingFilterConfig], tierConfig: GuardrailContextualGroundingTierConfig? = nil) {
             self.filtersConfig = filtersConfig
+            self.tierConfig = tierConfig
         }
 
         public func validate(name: String) throws {
@@ -8987,6 +9000,35 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case filtersConfig = "filtersConfig"
+            case tierConfig = "tierConfig"
+        }
+    }
+
+    public struct GuardrailContextualGroundingTier: AWSDecodableShape {
+        /// The tier that your guardrail uses for contextual grounding. Valid values include:    CLASSIC tier – Provides established contextual grounding functionality supporting English, French, and Spanish languages.    STANDARD tier – Provides a more robust solution than the CLASSIC tier, with support for reasoning, conversational content and more comprehensive language support. This tier requires that your guardrail use cross-Region inference.
+        public let tierName: GuardrailContextualGroundingTierName
+
+        @inlinable
+        public init(tierName: GuardrailContextualGroundingTierName) {
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tierName = "tierName"
+        }
+    }
+
+    public struct GuardrailContextualGroundingTierConfig: AWSEncodableShape {
+        /// The tier that your guardrail uses for contextual grounding. Valid values include:    CLASSIC tier – Provides established contextual grounding functionality supporting English, French, and Spanish languages.    STANDARD tier – Provides a more robust solution than the CLASSIC tier, with support for reasoning, conversational content and more comprehensive language support. This tier requires that your guardrail use cross-Region inference.
+        public let tierName: GuardrailContextualGroundingTierName
+
+        @inlinable
+        public init(tierName: GuardrailContextualGroundingTierName) {
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tierName = "tierName"
         }
     }
 
@@ -9272,7 +9314,7 @@ extension Bedrock {
 
         public func validate(name: String) throws {
             try self.validate(self.piiEntitiesConfig, name: "piiEntitiesConfig", parent: name, min: 1)
-            try self.validate(self.regexesConfig, name: "regexesConfig", parent: name, max: 10)
+            try self.validate(self.regexesConfig, name: "regexesConfig", parent: name, max: 30)
             try self.validate(self.regexesConfig, name: "regexesConfig", parent: name, min: 1)
         }
 

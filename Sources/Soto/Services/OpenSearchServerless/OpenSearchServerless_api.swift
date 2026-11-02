@@ -231,6 +231,41 @@ public struct OpenSearchServerless: AWSService {
         return try await self.batchGetVpcEndpoint(input, logger: logger)
     }
 
+    /// Cancels an in-progress ingestion job. Documents that were already indexed before the cancellation remain in the index.
+    @Sendable
+    @inlinable
+    public func cancelIngestionJob(_ input: CancelIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelIngestionJobResponse {
+        try await self.client.execute(
+            operation: "CancelIngestionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an in-progress ingestion job. Documents that were already indexed before the cancellation remain in the index.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - collectionId: The unique identifier of the collection that the ingestion job belongs to.
+    ///   - ingestionJobId: The unique identifier of the ingestion job to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelIngestionJob(
+        clientToken: String? = CancelIngestionJobRequest.idempotencyToken(),
+        collectionId: String,
+        ingestionJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelIngestionJobResponse {
+        let input = CancelIngestionJobRequest(
+            clientToken: clientToken, 
+            collectionId: collectionId, 
+            ingestionJobId: ingestionJobId
+        )
+        return try await self.cancelIngestionJob(input, logger: logger)
+    }
+
     /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
     @Sendable
     @inlinable
@@ -408,6 +443,103 @@ public struct OpenSearchServerless: AWSService {
             indexSchema: indexSchema
         )
         return try await self.createIndex(input, logger: logger)
+    }
+
+    /// Creates an ingestion job that performs a one-time bulk ingestion of data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion job scans the source bucket, indexes the documents it finds, and then completes. To continuously ingest new data as it arrives, use CreateIngestionStream instead.
+    @Sendable
+    @inlinable
+    public func createIngestionJob(_ input: CreateIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIngestionJobResponse {
+        try await self.client.execute(
+            operation: "CreateIngestionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an ingestion job that performs a one-time bulk ingestion of data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion job scans the source bucket, indexes the documents it finds, and then completes. To continuously ingest new data as it arrives, use CreateIngestionStream instead.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - collectionId: The unique identifier of the collection to ingest data into.
+    ///   - failureIndexName: The name of the index where documents that fail to be ingested are recorded.
+    ///   - indexName: The name of the index to ingest documents into.
+    ///   - ingestionJobName: The name of the ingestion job. The name must be unique within the collection.
+    ///   - source: The Amazon S3 source to ingest data from.
+    ///   - tags: An arbitrary set of tags (key–value pairs) to associate with the ingestion job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIngestionJob(
+        clientToken: String? = CreateIngestionJobRequest.idempotencyToken(),
+        collectionId: String,
+        failureIndexName: String? = nil,
+        indexName: String,
+        ingestionJobName: String,
+        source: IngestionJobSource,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIngestionJobResponse {
+        let input = CreateIngestionJobRequest(
+            clientToken: clientToken, 
+            collectionId: collectionId, 
+            failureIndexName: failureIndexName, 
+            indexName: indexName, 
+            ingestionJobName: ingestionJobName, 
+            source: source, 
+            tags: tags
+        )
+        return try await self.createIngestionJob(input, logger: logger)
+    }
+
+    /// Creates an ingestion stream that continuously ingests data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion stream processes Amazon S3 event notifications delivered to an Amazon SQS queue and ingests new objects as they arrive. The stream continues to ingest data until you delete it. To perform a one-time bulk ingestion instead, use CreateIngestionJob.
+    @Sendable
+    @inlinable
+    public func createIngestionStream(_ input: CreateIngestionStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIngestionStreamResponse {
+        try await self.client.execute(
+            operation: "CreateIngestionStream", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an ingestion stream that continuously ingests data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion stream processes Amazon S3 event notifications delivered to an Amazon SQS queue and ingests new objects as they arrive. The stream continues to ingest data until you delete it. To perform a one-time bulk ingestion instead, use CreateIngestionJob.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - collectionId: The unique identifier of the collection to ingest data into.
+    ///   - failureIndexName: The name of the index where documents that fail to be ingested are recorded.
+    ///   - indexName: The name of the index to ingest documents into.
+    ///   - ingestionStreamName: The name of the ingestion stream. The name must be unique within the collection.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that OpenSearch Serverless assumes to read data from the source. The role must be in the same account as the collection.
+    ///   - source: The Amazon S3 source to ingest data from, including the Amazon SQS queue that receives S3 event notifications.
+    ///   - tags: An arbitrary set of tags (key–value pairs) to associate with the ingestion stream.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIngestionStream(
+        clientToken: String? = CreateIngestionStreamRequest.idempotencyToken(),
+        collectionId: String,
+        failureIndexName: String? = nil,
+        indexName: String,
+        ingestionStreamName: String,
+        roleArn: String,
+        source: IngestionStreamSource,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIngestionStreamResponse {
+        let input = CreateIngestionStreamRequest(
+            clientToken: clientToken, 
+            collectionId: collectionId, 
+            failureIndexName: failureIndexName, 
+            indexName: indexName, 
+            ingestionStreamName: ingestionStreamName, 
+            roleArn: roleArn, 
+            source: source, 
+            tags: tags
+        )
+        return try await self.createIngestionStream(input, logger: logger)
     }
 
     /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
@@ -711,6 +843,41 @@ public struct OpenSearchServerless: AWSService {
         return try await self.deleteIndex(input, logger: logger)
     }
 
+    /// Deletes an ingestion stream. Documents that were already indexed by the stream remain in the index.
+    @Sendable
+    @inlinable
+    public func deleteIngestionStream(_ input: DeleteIngestionStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIngestionStreamResponse {
+        try await self.client.execute(
+            operation: "DeleteIngestionStream", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an ingestion stream. Documents that were already indexed by the stream remain in the index.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - collectionId: The unique identifier of the collection that the ingestion stream belongs to.
+    ///   - ingestionStreamId: The unique identifier of the ingestion stream to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIngestionStream(
+        clientToken: String? = DeleteIngestionStreamRequest.idempotencyToken(),
+        collectionId: String,
+        ingestionStreamId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIngestionStreamResponse {
+        let input = DeleteIngestionStreamRequest(
+            clientToken: clientToken, 
+            collectionId: collectionId, 
+            ingestionStreamId: ingestionStreamId
+        )
+        return try await self.deleteIngestionStream(input, logger: logger)
+    }
+
     /// Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
     @Sendable
     @inlinable
@@ -935,6 +1102,70 @@ public struct OpenSearchServerless: AWSService {
         return try await self.getIndex(input, logger: logger)
     }
 
+    /// Returns information about an ingestion job, including its configuration, status, and processing state.
+    @Sendable
+    @inlinable
+    public func getIngestionJob(_ input: GetIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestionJobResponse {
+        try await self.client.execute(
+            operation: "GetIngestionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about an ingestion job, including its configuration, status, and processing state.
+    ///
+    /// Parameters:
+    ///   - collectionId: The unique identifier of the collection that the ingestion job belongs to.
+    ///   - ingestionJobId: The unique identifier of the ingestion job to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIngestionJob(
+        collectionId: String,
+        ingestionJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIngestionJobResponse {
+        let input = GetIngestionJobRequest(
+            collectionId: collectionId, 
+            ingestionJobId: ingestionJobId
+        )
+        return try await self.getIngestionJob(input, logger: logger)
+    }
+
+    /// Returns information about an ingestion stream, including its configuration, status, and processing state.
+    @Sendable
+    @inlinable
+    public func getIngestionStream(_ input: GetIngestionStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestionStreamResponse {
+        try await self.client.execute(
+            operation: "GetIngestionStream", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about an ingestion stream, including its configuration, status, and processing state.
+    ///
+    /// Parameters:
+    ///   - collectionId: The unique identifier of the collection that the ingestion stream belongs to.
+    ///   - ingestionStreamId: The unique identifier of the ingestion stream to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIngestionStream(
+        collectionId: String,
+        ingestionStreamId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIngestionStreamResponse {
+        let input = GetIngestionStreamRequest(
+            collectionId: collectionId, 
+            ingestionStreamId: ingestionStreamId
+        )
+        return try await self.getIngestionStream(input, logger: logger)
+    }
+
     /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
     @Sendable
     @inlinable
@@ -1125,6 +1356,76 @@ public struct OpenSearchServerless: AWSService {
             nextToken: nextToken
         )
         return try await self.listCollections(input, logger: logger)
+    }
+
+    /// Returns a list of ingestion jobs in a collection.
+    @Sendable
+    @inlinable
+    public func listIngestionJobs(_ input: ListIngestionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionJobsResponse {
+        try await self.client.execute(
+            operation: "ListIngestionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of ingestion jobs in a collection.
+    ///
+    /// Parameters:
+    ///   - collectionId: The unique identifier of the collection to list ingestion jobs for.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use nextToken to get the next page of results. A response can contain fewer results than maxResults, or no results, and still include a nextToken. To retrieve all results, continue to make the call with the returned nextToken until no nextToken is returned.
+    ///   - nextToken: If your initial ListIngestionJobs operation returns a nextToken, you can include the returned nextToken in subsequent ListIngestionJobs operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIngestionJobs(
+        collectionId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIngestionJobsResponse {
+        let input = ListIngestionJobsRequest(
+            collectionId: collectionId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listIngestionJobs(input, logger: logger)
+    }
+
+    /// Returns a list of ingestion streams in a collection.
+    @Sendable
+    @inlinable
+    public func listIngestionStreams(_ input: ListIngestionStreamsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionStreamsResponse {
+        try await self.client.execute(
+            operation: "ListIngestionStreams", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of ingestion streams in a collection.
+    ///
+    /// Parameters:
+    ///   - collectionId: The unique identifier of the collection to list ingestion streams for.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use nextToken to get the next page of results. A response can contain fewer results than maxResults, or no results, and still include a nextToken. To retrieve all results, continue to make the call with the returned nextToken until no nextToken is returned.
+    ///   - nextToken: If your initial ListIngestionStreams operation returns a nextToken, you can include the returned nextToken in subsequent ListIngestionStreams operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIngestionStreams(
+        collectionId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIngestionStreamsResponse {
+        let input = ListIngestionStreamsRequest(
+            collectionId: collectionId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listIngestionStreams(input, logger: logger)
     }
 
     /// Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
@@ -1458,6 +1759,7 @@ public struct OpenSearchServerless: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - deletionProtection: Indicates whether to enable or disable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
     ///   - description: A description of the collection.
+    ///   - encryptionConfig: 
     ///   - id: The unique identifier of the collection.
     ///   - vectorOptions: Configuration options for vector search capabilities in the collection.
     ///   - logger: Logger use during operation
@@ -1466,6 +1768,7 @@ public struct OpenSearchServerless: AWSService {
         clientToken: String? = UpdateCollectionRequest.idempotencyToken(),
         deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
+        encryptionConfig: EncryptionConfig? = nil,
         id: String,
         vectorOptions: VectorOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1474,6 +1777,7 @@ public struct OpenSearchServerless: AWSService {
             clientToken: clientToken, 
             deletionProtection: deletionProtection, 
             description: description, 
+            encryptionConfig: encryptionConfig, 
             id: id, 
             vectorOptions: vectorOptions
         )
@@ -1496,7 +1800,7 @@ public struct OpenSearchServerless: AWSService {
     /// Updates the description and capacity limits of a collection group.
     ///
     /// Parameters:
-    ///   - capacityLimits: Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+    ///   - capacityLimits: The updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs). Updates to capacity limits are not incremental. Any field not specified resets to its default value.
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: A new description for the collection group.
     ///   - id: The unique identifier of the collection group to update.
@@ -1857,6 +2161,80 @@ extension OpenSearchServerless {
         return self.listCollectionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listIngestionJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIngestionJobsPaginator(
+        _ input: ListIngestionJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIngestionJobsRequest, ListIngestionJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listIngestionJobs,
+            inputKey: \ListIngestionJobsRequest.nextToken,
+            outputKey: \ListIngestionJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIngestionJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collectionId: The unique identifier of the collection to list ingestion jobs for.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use nextToken to get the next page of results. A response can contain fewer results than maxResults, or no results, and still include a nextToken. To retrieve all results, continue to make the call with the returned nextToken until no nextToken is returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIngestionJobsPaginator(
+        collectionId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIngestionJobsRequest, ListIngestionJobsResponse> {
+        let input = ListIngestionJobsRequest(
+            collectionId: collectionId, 
+            maxResults: maxResults
+        )
+        return self.listIngestionJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listIngestionStreams(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIngestionStreamsPaginator(
+        _ input: ListIngestionStreamsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIngestionStreamsRequest, ListIngestionStreamsResponse> {
+        return .init(
+            input: input,
+            command: self.listIngestionStreams,
+            inputKey: \ListIngestionStreamsRequest.nextToken,
+            outputKey: \ListIngestionStreamsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIngestionStreams(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collectionId: The unique identifier of the collection to list ingestion streams for.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use nextToken to get the next page of results. A response can contain fewer results than maxResults, or no results, and still include a nextToken. To retrieve all results, continue to make the call with the returned nextToken until no nextToken is returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIngestionStreamsPaginator(
+        collectionId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIngestionStreamsRequest, ListIngestionStreamsResponse> {
+        let input = ListIngestionStreamsRequest(
+            collectionId: collectionId, 
+            maxResults: maxResults
+        )
+        return self.listIngestionStreamsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listLifecyclePolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -2039,6 +2417,28 @@ extension OpenSearchServerless.ListCollectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> OpenSearchServerless.ListCollectionsRequest {
         return .init(
             collectionFilters: self.collectionFilters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension OpenSearchServerless.ListIngestionJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> OpenSearchServerless.ListIngestionJobsRequest {
+        return .init(
+            collectionId: self.collectionId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension OpenSearchServerless.ListIngestionStreamsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> OpenSearchServerless.ListIngestionStreamsRequest {
+        return .init(
+            collectionId: self.collectionId,
             maxResults: self.maxResults,
             nextToken: token
         )

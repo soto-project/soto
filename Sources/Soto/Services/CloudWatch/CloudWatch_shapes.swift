@@ -46,6 +46,20 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyDetectorAdaptationSpeed: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fast = "FAST"
+        case normal = "NORMAL"
+        case slow = "SLOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnomalyDetectorOutlierFilteringStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case minimal = "MINIMAL"
+        case moderate = "MODERATE"
+        case strict = "STRICT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pendingTraining = "PENDING_TRAINING"
         case trained = "TRAINED"
@@ -217,6 +231,24 @@ extension CloudWatch {
 
     // MARK: Shapes
 
+    public struct ActionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for including the alarm's tags in its action notifications and state-change events.
+        public let alarmTagsPropagation: AlarmTagsPropagation?
+
+        @inlinable
+        public init(alarmTagsPropagation: AlarmTagsPropagation? = nil) {
+            self.alarmTagsPropagation = alarmTagsPropagation
+        }
+
+        public func validate(name: String) throws {
+            try self.alarmTagsPropagation?.validate(name: "\(name).alarmTagsPropagation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmTagsPropagation = "AlarmTagsPropagation"
+        }
+    }
+
     public struct AlarmContributor: AWSDecodableShape {
         /// A map of attributes that describe the contributor, such as metric dimensions and other identifying characteristics.
         public let contributorAttributes: [String: String]?
@@ -346,6 +378,43 @@ extension CloudWatch {
         }
     }
 
+    public struct AlarmTagsPropagation: AWSEncodableShape & AWSDecodableShape {
+        /// Set to true to include the alarm's tags. Set to false to stop including them. When this is true, you must have the cloudwatch:ListTagsForResource permission on the alarm to create or update it.
+        public let enabled: Bool?
+        /// The tag keys to exclude. All of the alarm's tags except those with these keys are included. You can specify 1 to 50 tag keys. Each tag key must be 1 to 128 characters long. You can't specify both IncludedTagKeys and ExcludedTagKeys.
+        public let excludedTagKeys: [String]?
+        /// The tag keys to include. Only the alarm's tags with these keys are included. You can specify 1 to 50 tag keys. Each tag key must be 1 to 128 characters long. You can't specify both IncludedTagKeys and ExcludedTagKeys.
+        public let includedTagKeys: [String]?
+
+        @inlinable
+        public init(enabled: Bool? = nil, excludedTagKeys: [String]? = nil, includedTagKeys: [String]? = nil) {
+            self.enabled = enabled
+            self.excludedTagKeys = excludedTagKeys
+            self.includedTagKeys = includedTagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedTagKeys?.forEach {
+                try validate($0, name: "excludedTagKeys[]", parent: name, max: 128)
+                try validate($0, name: "excludedTagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.excludedTagKeys, name: "excludedTagKeys", parent: name, max: 50)
+            try self.validate(self.excludedTagKeys, name: "excludedTagKeys", parent: name, min: 1)
+            try self.includedTagKeys?.forEach {
+                try validate($0, name: "includedTagKeys[]", parent: name, max: 128)
+                try validate($0, name: "includedTagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.includedTagKeys, name: "includedTagKeys", parent: name, max: 50)
+            try self.validate(self.includedTagKeys, name: "includedTagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case excludedTagKeys = "ExcludedTagKeys"
+            case includedTagKeys = "IncludedTagKeys"
+        }
+    }
+
     public struct AnomalyDetector: AWSDecodableShape {
         /// The unique identifier of the anomaly detector.  The identifier does not restrict access to a specific anomaly detector in an IAM policy. Permissions for anomaly detector operations apply to all anomaly detectors in the account.
         public let anomalyDetectorId: String?
@@ -412,15 +481,21 @@ extension CloudWatch {
     }
 
     public struct AnomalyDetectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The speed at which the anomaly detection model adapts to sustained changes in the metric's baseline. Faster adaptation lets the model track shifting workloads sooner, but increases the chance that the model treats a real, lasting change as normal. Valid values:    FAST - The model adapts quickly to sustained changes in the baseline.    NORMAL - The model adapts at a moderate pace. This is the default value.    SLOW - The model adapts slowly, reducing the risk of treating a real change as normal.
+        public let adaptationSpeed: AnomalyDetectorAdaptationSpeed?
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
         public let excludedTimeRanges: [Range]?
         /// The time zone to use for the metric. This is useful to enable the model to automatically account for daylight savings time changes if the metric is sensitive to such time changes. To specify a time zone, use the name of the time zone as specified in the standard tz database. For more information, see tz database.
         public let metricTimezone: String?
+        /// The aggressiveness with which CloudWatch filters outliers from the metric data that the anomaly detection model uses. Stronger filtering excludes more extreme values, which can produce a tighter band of expected values but may also suppress legitimate spikes. Valid values:    MINIMAL - Excludes only the most extreme outliers.    MODERATE - Excludes a moderate range of outliers. This is the default value.    STRICT - Excludes a wider range of outliers, which can suppress legitimate spikes.
+        public let outlierFilteringStrength: AnomalyDetectorOutlierFilteringStrength?
 
         @inlinable
-        public init(excludedTimeRanges: [Range]? = nil, metricTimezone: String? = nil) {
+        public init(adaptationSpeed: AnomalyDetectorAdaptationSpeed? = nil, excludedTimeRanges: [Range]? = nil, metricTimezone: String? = nil, outlierFilteringStrength: AnomalyDetectorOutlierFilteringStrength? = nil) {
+            self.adaptationSpeed = adaptationSpeed
             self.excludedTimeRanges = excludedTimeRanges
             self.metricTimezone = metricTimezone
+            self.outlierFilteringStrength = outlierFilteringStrength
         }
 
         public func validate(name: String) throws {
@@ -429,8 +504,10 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adaptationSpeed = "AdaptationSpeed"
             case excludedTimeRanges = "ExcludedTimeRanges"
             case metricTimezone = "MetricTimezone"
+            case outlierFilteringStrength = "OutlierFilteringStrength"
         }
     }
 
@@ -466,6 +543,8 @@ extension CloudWatch {
     }
 
     public struct CompositeAlarm: AWSDecodableShape {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public let actionConfiguration: ActionConfiguration?
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
         ///  When the value is ALARM, it means that the actions are suppressed because the suppressor alarm is in ALARM When the value is WaitPeriod, it means that the actions are suppressed because the composite alarm is waiting for the suppressor alarm to go into into the ALARM state. The maximum waiting time is as specified in ActionsSuppressorWaitPeriod. After this time, the composite alarm performs its actions. When the value is ExtensionPeriod, it means that the actions are suppressed because the composite alarm is waiting after the suppressor alarm went out of the ALARM state. The maximum waiting time is as specified in ActionsSuppressorExtensionPeriod. After this time, the composite alarm performs its actions.
@@ -506,7 +585,8 @@ extension CloudWatch {
         public let stateValue: StateValue?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, actionsSuppressedBy: ActionsSuppressedBy? = nil, actionsSuppressedReason: String? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
+        public init(actionConfiguration: ActionConfiguration? = nil, actionsEnabled: Bool? = nil, actionsSuppressedBy: ActionsSuppressedBy? = nil, actionsSuppressedReason: String? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil) {
+            self.actionConfiguration = actionConfiguration
             self.actionsEnabled = actionsEnabled
             self.actionsSuppressedBy = actionsSuppressedBy
             self.actionsSuppressedReason = actionsSuppressedReason
@@ -529,6 +609,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "ActionConfiguration"
             case actionsEnabled = "ActionsEnabled"
             case actionsSuppressedBy = "ActionsSuppressedBy"
             case actionsSuppressedReason = "ActionsSuppressedReason"
@@ -2519,6 +2600,8 @@ extension CloudWatch {
     }
 
     public struct LogAlarm: AWSDecodableShape {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public let actionConfiguration: ActionConfiguration?
         /// The number of log lines from the most recent scheduled query execution that are included in alarm action notifications. Valid range is 0 through 50. A value of 0 means no log lines are included.
         public let actionLogLineCount: Int?
         /// The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Set when ActionLogLineCount is greater than 0.
@@ -2567,7 +2650,8 @@ extension CloudWatch {
         public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, evaluationState: EvaluationState? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+        public init(actionConfiguration: ActionConfiguration? = nil, actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, evaluationState: EvaluationState? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+            self.actionConfiguration = actionConfiguration
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -2594,6 +2678,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "ActionConfiguration"
             case actionLogLineCount = "ActionLogLineCount"
             case actionLogLineRoleArn = "ActionLogLineRoleArn"
             case actionsEnabled = "ActionsEnabled"
@@ -2746,6 +2831,8 @@ extension CloudWatch {
     }
 
     public struct MetricAlarm: AWSDecodableShape {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public let actionConfiguration: ActionConfiguration?
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
@@ -2814,7 +2901,8 @@ extension CloudWatch {
         public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+        public init(actionConfiguration: ActionConfiguration? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+            self.actionConfiguration = actionConfiguration
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -2851,6 +2939,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "ActionConfiguration"
             case actionsEnabled = "ActionsEnabled"
             case alarmActions = "AlarmActions"
             case alarmArn = "AlarmArn"
@@ -3420,6 +3509,8 @@ extension CloudWatch {
     }
 
     public struct PutCompositeAlarmInput: AWSEncodableShape {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public let actionConfiguration: ActionConfiguration?
         /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE.
         public let actionsEnabled: Bool?
         ///  Actions will be suppressed if the suppressor alarm is in the ALARM state. ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN) from an existing alarm.
@@ -3444,7 +3535,8 @@ extension CloudWatch {
         public let tags: [Tag]?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
+        public init(actionConfiguration: ActionConfiguration? = nil, actionsEnabled: Bool? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, alarmRule: String? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
+            self.actionConfiguration = actionConfiguration
             self.actionsEnabled = actionsEnabled
             self.actionsSuppressor = actionsSuppressor
             self.actionsSuppressorExtensionPeriod = actionsSuppressorExtensionPeriod
@@ -3459,6 +3551,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.actionConfiguration?.validate(name: "\(name).actionConfiguration")
             try self.validate(self.actionsSuppressor, name: "actionsSuppressor", parent: name, max: 1600)
             try self.validate(self.actionsSuppressor, name: "actionsSuppressor", parent: name, min: 1)
             try self.alarmActions?.forEach {
@@ -3487,6 +3580,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "ActionConfiguration"
             case actionsEnabled = "ActionsEnabled"
             case actionsSuppressor = "ActionsSuppressor"
             case actionsSuppressorExtensionPeriod = "ActionsSuppressorExtensionPeriod"
@@ -3593,6 +3687,8 @@ extension CloudWatch {
     }
 
     public struct PutLogAlarmInput: AWSEncodableShape {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public let actionConfiguration: ActionConfiguration?
         /// The number of log lines from the most recent scheduled query execution to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
         public let actionLogLineCount: Int?
         /// The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Required when ActionLogLineCount is greater than 0.
@@ -3627,7 +3723,8 @@ extension CloudWatch {
         public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+        public init(actionConfiguration: ActionConfiguration? = nil, actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+            self.actionConfiguration = actionConfiguration
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -3647,6 +3744,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.actionConfiguration?.validate(name: "\(name).actionConfiguration")
             try self.alarmActions?.forEach {
                 try validate($0, name: "alarmActions[]", parent: name, max: 1024)
                 try validate($0, name: "alarmActions[]", parent: name, min: 1)
@@ -3677,6 +3775,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "ActionConfiguration"
             case actionLogLineCount = "ActionLogLineCount"
             case actionLogLineRoleArn = "ActionLogLineRoleArn"
             case actionsEnabled = "ActionsEnabled"
@@ -3731,6 +3830,8 @@ extension CloudWatch {
     }
 
     public struct PutMetricAlarmInput: AWSEncodableShape {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public let actionConfiguration: ActionConfiguration?
         /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name      Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
@@ -3785,7 +3886,8 @@ extension CloudWatch {
         public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+        public init(actionConfiguration: ActionConfiguration? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
+            self.actionConfiguration = actionConfiguration
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
@@ -3815,6 +3917,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.actionConfiguration?.validate(name: "\(name).actionConfiguration")
             try self.alarmActions?.forEach {
                 try validate($0, name: "alarmActions[]", parent: name, max: 1024)
                 try validate($0, name: "alarmActions[]", parent: name, min: 1)
@@ -3865,6 +3968,7 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionConfiguration = "ActionConfiguration"
             case actionsEnabled = "ActionsEnabled"
             case alarmActions = "AlarmActions"
             case alarmDescription = "AlarmDescription"

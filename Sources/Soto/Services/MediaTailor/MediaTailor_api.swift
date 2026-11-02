@@ -1426,6 +1426,7 @@ public struct MediaTailor: AWSService {
     ///   - adsPersonalizationConcurrency: The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
     ///   - adsPersonalizationTimeouts: The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
     ///   - availSuppression: The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
+    ///   - beaconingConfiguration: The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. If you omit this setting, MediaTailor uses INSIGHTS.
     ///   - bumper: The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
     ///   - cdnConfiguration: The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     ///   - configurationAliases: The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
@@ -1450,6 +1451,7 @@ public struct MediaTailor: AWSService {
         adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil,
         adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil,
         availSuppression: AvailSuppression? = nil,
+        beaconingConfiguration: BeaconingConfiguration? = nil,
         bumper: Bumper? = nil,
         cdnConfiguration: CdnConfiguration? = nil,
         configurationAliases: [String: [String: String]]? = nil,
@@ -1474,6 +1476,7 @@ public struct MediaTailor: AWSService {
             adsPersonalizationConcurrency: adsPersonalizationConcurrency, 
             adsPersonalizationTimeouts: adsPersonalizationTimeouts, 
             availSuppression: availSuppression, 
+            beaconingConfiguration: beaconingConfiguration, 
             bumper: bumper, 
             cdnConfiguration: cdnConfiguration, 
             configurationAliases: configurationAliases, 

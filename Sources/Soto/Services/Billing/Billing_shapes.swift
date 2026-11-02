@@ -31,6 +31,12 @@ extension Billing {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associated = "ASSOCIATED"
+        case notAssociated = "NOT_ASSOCIATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BillingDomain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billable = "BILLABLE"
         case proForma = "PRO_FORMA"
@@ -82,6 +88,18 @@ extension Billing {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContractRestriction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attestationSelfServiceBlocked = "ATTESTATION_SELF_SERVICE_BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContractType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case crossService = "Cross-Service"
+        case other = "Other"
+        case serviceSpecific = "Service-Specific"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CreditSharingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case costCategoryRule = "COST_CATEGORY_RULE"
@@ -98,6 +116,28 @@ extension Billing {
 
     public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linkedAccount = "LINKED_ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestmentAttestationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case disbursed = "DISBURSED"
+        case pendingCLevelApproval = "PENDING_C_LEVEL_APPROVAL"
+        case pendingCancellation = "PENDING_CANCELLATION"
+        case pendingReview = "PENDING_REVIEW"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case milestoneBased = "MILESTONE_BASED"
+        case outcomeBased = "OUTCOME_BASED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiplierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case currencyAmount = "CURRENCY_AMOUNT"
+        case percentage = "PERCENTAGE"
         public var description: String { return self.rawValue }
     }
 
@@ -118,6 +158,68 @@ extension Billing {
         case other = "other"
         case unknownOperation = "unknownOperation"
         public var description: String { return self.rawValue }
+    }
+
+    public enum AttestationValue: AWSEncodableShape, Sendable {
+        /// The value attested as a monetary amount. This form is valid only when the investment has no multiplier.
+        case attestationAmount(Amount)
+        /// The value attested as one or more quantities, each with its own unit. The list contains at most 50 quantities.
+        case attestationQuantities([AttestationQuantity])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .attestationAmount(let value):
+                try container.encode(value, forKey: .attestationAmount)
+            case .attestationQuantities(let value):
+                try container.encode(value, forKey: .attestationQuantities)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .attestationAmount(let value):
+                try value.validate(name: "\(name).attestationAmount")
+            case .attestationQuantities(let value):
+                try self.validate(value, name: "attestationQuantities", parent: name, max: 50)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationAmount = "attestationAmount"
+            case attestationQuantities = "attestationQuantities"
+        }
+    }
+
+    public enum Investment: AWSDecodableShape, Sendable {
+        /// An investment with a fixed value that is disbursed on a schedule. This member is set for a milestone-based investment and corresponds to the MILESTONE_BASED investment type.
+        case milestoneBasedInvestment(MilestoneBasedInvestment)
+        /// An investment that is awarded upon completion of a defined outcome. This member is set for an outcome-based (attestable) investment and corresponds to the OUTCOME_BASED investment type.
+        case outcomeBasedInvestment(OutcomeBasedInvestment)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .milestoneBasedInvestment:
+                let value = try container.decode(MilestoneBasedInvestment.self, forKey: .milestoneBasedInvestment)
+                self = .milestoneBasedInvestment(value)
+            case .outcomeBasedInvestment:
+                let value = try container.decode(OutcomeBasedInvestment.self, forKey: .outcomeBasedInvestment)
+                self = .outcomeBasedInvestment(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case milestoneBasedInvestment = "milestoneBasedInvestment"
+            case outcomeBasedInvestment = "outcomeBasedInvestment"
+        }
     }
 
     // MARK: Shapes
@@ -162,7 +264,27 @@ extension Billing {
         }
     }
 
-    public struct Amount: AWSDecodableShape {
+    public struct AdditionalRecipient: AWSEncodableShape {
+        /// The email address of the recipient. This value is 3–256 characters and must be a valid email address.
+        public let email: String
+
+        @inlinable
+        public init(email: String) {
+            self.email = email
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.email, name: "email", parent: name, max: 256)
+            try self.validate(self.email, name: "email", parent: name, min: 3)
+            try self.validate(self.email, name: "email", parent: name, pattern: "^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "email"
+        }
+    }
+
+    public struct Amount: AWSEncodableShape & AWSDecodableShape {
         /// The amount as a decimal string (for example, "743.21"). Negative values represent credits that reduce a bill.
         public let currencyAmount: String
         /// The ISO 4217 currency code for the amount (for example, USD).
@@ -174,10 +296,77 @@ extension Billing {
             self.currencyCode = currencyCode
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.currencyAmount, name: "currencyAmount", parent: name, pattern: "^[0-9]+(.[0-9]+)$")
+            try self.validate(self.currencyCode, name: "currencyCode", parent: name, pattern: "^[A-Z]{3}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case currencyAmount = "currencyAmount"
             case currencyCode = "currencyCode"
         }
+    }
+
+    public struct ApproverDetails: AWSEncodableShape {
+        /// The email address of the approver. This value is 3–256 characters and must be a valid email address.
+        public let email: String
+        /// The name of the approver as it appears on the contract. This value can be up to 256 characters.
+        public let name: String
+        /// The title of the approver, such as Chief Financial Officer. This value can be up to 256 characters.
+        public let title: String
+
+        @inlinable
+        public init(email: String, name: String, title: String) {
+            self.email = email
+            self.name = name
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.email, name: "email", parent: name, max: 256)
+            try self.validate(self.email, name: "email", parent: name, min: 3)
+            try self.validate(self.email, name: "email", parent: name, pattern: "^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, max: 256)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "email"
+            case name = "name"
+            case title = "title"
+        }
+    }
+
+    public struct AssociateContractRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the contract to associate with your account.
+        public let contractArn: String
+        /// The contract ID from the contract document. It can be found in the top right corner of your contract's pages. This value confirms that you have access to the contract you are associating.
+        public let contractDocumentId: String
+
+        @inlinable
+        public init(contractArn: String, contractDocumentId: String) {
+            self.contractArn = contractArn
+            self.contractDocumentId = contractDocumentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.validate(self.contractDocumentId, name: "contractDocumentId", parent: name, max: 36)
+            try self.validate(self.contractDocumentId, name: "contractDocumentId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+            case contractDocumentId = "contractDocumentId"
+        }
+    }
+
+    public struct AssociateContractResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct AssociateSourceViewsRequest: AWSEncodableShape {
@@ -218,6 +407,50 @@ extension Billing {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+        }
+    }
+
+    public struct AttestationDetails: AWSEncodableShape {
+        /// The value being attested, expressed as either a monetary amount or one or more quantities. Exactly one form is set.
+        public let attestationValue: AttestationValue
+        /// The distribution of the resulting investment across the eligible investment accounts on the contract. If you omit this value, the full investment is allocated to the single eligible investment account on the contract. This value is required when multiple investment accounts are eligible. When you provide this value, the sum of all distributions must equal the resulting monetary investment value (the attested amount, or the value computed from the attested quantities using the investment multipliers). The list contains at most 200 distributions.
+        public let investmentDistributions: [InvestmentDistribution]?
+
+        @inlinable
+        public init(attestationValue: AttestationValue, investmentDistributions: [InvestmentDistribution]? = nil) {
+            self.attestationValue = attestationValue
+            self.investmentDistributions = investmentDistributions
+        }
+
+        public func validate(name: String) throws {
+            try self.attestationValue.validate(name: "\(name).attestationValue")
+            try self.investmentDistributions?.forEach {
+                try $0.validate(name: "\(name).investmentDistributions[]")
+            }
+            try self.validate(self.investmentDistributions, name: "investmentDistributions", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationValue = "attestationValue"
+            case investmentDistributions = "investmentDistributions"
+        }
+    }
+
+    public struct AttestationQuantity: AWSEncodableShape {
+        /// The unit of the attestation, such as workloads migrated. This value is 1–1000 characters.
+        public let attestationUnit: String
+        /// The number of units being attested, expressed as a decimal string to preserve precision. The value is digits with an optional decimal point and is 1–1000 characters.
+        public let attestationVolume: String
+
+        @inlinable
+        public init(attestationUnit: String, attestationVolume: String) {
+            self.attestationUnit = attestationUnit
+            self.attestationVolume = attestationVolume
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationUnit = "attestationUnit"
+            case attestationVolume = "attestationVolume"
         }
     }
 
@@ -645,6 +878,43 @@ extension Billing {
         }
     }
 
+    public struct CancelContractualInvestmentAttestationRequest: AWSEncodableShape {
+        /// The identifier of the investment attestation to cancel.
+        public let attestationId: String
+        /// The Amazon Resource Name (ARN) of the contract that contains the attested investment.
+        public let contractArn: String
+        /// The reason for the cancellation. This value can be 1 to 80 characters.
+        public let reason: String
+
+        @inlinable
+        public init(attestationId: String, contractArn: String, reason: String) {
+            self.attestationId = attestationId
+            self.contractArn = contractArn
+            self.reason = reason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attestationId, name: "attestationId", parent: name, max: 36)
+            try self.validate(self.attestationId, name: "attestationId", parent: name, min: 1)
+            try self.validate(self.attestationId, name: "attestationId", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.validate(self.reason, name: "reason", parent: name, max: 80)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationId = "attestationId"
+            case contractArn = "contractArn"
+            case reason = "reason"
+        }
+    }
+
+    public struct CancelContractualInvestmentAttestationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ChargeAccount: AWSDecodableShape {
         /// The account ID.
         public let accountId: String
@@ -699,6 +969,36 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case isGdn = "isGdn"
+        }
+    }
+
+    public struct ContractSummary: AWSDecodableShape {
+        /// Indicates whether the contract is currently associated with your account. Valid values are ASSOCIATED and NOT_ASSOCIATED. ASSOCIATED means the contract is associated with your account. NOT_ASSOCIATED means the contract is not associated with your account.
+        public let associationStatus: AssociationStatus
+        /// The Amazon Resource Name (ARN) of the contract. Pass this value to operations such as GetContractInformation, ListContractualInvestmentSummaries, and AssociateContract.
+        public let contractArn: String
+        /// The contract term period of the contract, expressed as an interval with an inclusive start date and an inclusive end date.
+        public let contractTerm: Interval
+        /// The classification of the contract. Valid values are Cross-Service, Service-Specific, and Other. Cross-Service applies across multiple Amazon Web Services services. Service-Specific applies to a specific Amazon Web Services service. Other applies to other arrangements.
+        public let contractType: ContractType?
+        /// The time when the contract was last associated with your account.
+        public let lastUpdatedAt: Date?
+
+        @inlinable
+        public init(associationStatus: AssociationStatus, contractArn: String, contractTerm: Interval, contractType: ContractType? = nil, lastUpdatedAt: Date? = nil) {
+            self.associationStatus = associationStatus
+            self.contractArn = contractArn
+            self.contractTerm = contractTerm
+            self.contractType = contractType
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationStatus = "associationStatus"
+            case contractArn = "contractArn"
+            case contractTerm = "contractTerm"
+            case contractType = "contractType"
+            case lastUpdatedAt = "lastUpdatedAt"
         }
     }
 
@@ -810,6 +1110,89 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
+        }
+    }
+
+    public struct CreateContractualInvestmentAttestationRequest: AWSEncodableShape {
+        /// The email addresses to copy as viewers on the executive approval request.
+        public let additionalRecipients: [AdditionalRecipient]?
+        /// The details of the executive who authorized the attestation, under the terms of the private pricing contract. The executive receives a click-to-accept email to confirm the attestation.
+        public let approverDetails: ApproverDetails
+        /// The details of the attestation, including the value being claimed and how the resulting investment is distributed across investment accounts.
+        public let attestationDetails: AttestationDetails
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry completes without performing any further actions.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the contract that contains the investment being attested.
+        public let contractArn: String
+        /// The contract ID from the contract document, located in the top-right corner of the private pricing contract pages. This value confirms that you have access to the contract.
+        public let contractDocumentId: String
+        /// The date on which the investment is disbursed to the investment accounts. The disbursement date is subject to review timelines.
+        public let investmentDisbursedAt: Date?
+        /// The identifier of the investment (outcome) being attested.
+        public let investmentId: String
+        /// The identifier of the investment summary being attested. This is the parent to the investmentId.
+        public let investmentSummaryId: String
+
+        @inlinable
+        public init(additionalRecipients: [AdditionalRecipient]? = nil, approverDetails: ApproverDetails, attestationDetails: AttestationDetails, clientToken: String? = CreateContractualInvestmentAttestationRequest.idempotencyToken(), contractArn: String, contractDocumentId: String, investmentDisbursedAt: Date? = nil, investmentId: String, investmentSummaryId: String) {
+            self.additionalRecipients = additionalRecipients
+            self.approverDetails = approverDetails
+            self.attestationDetails = attestationDetails
+            self.clientToken = clientToken
+            self.contractArn = contractArn
+            self.contractDocumentId = contractDocumentId
+            self.investmentDisbursedAt = investmentDisbursedAt
+            self.investmentId = investmentId
+            self.investmentSummaryId = investmentSummaryId
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalRecipients?.forEach {
+                try $0.validate(name: "\(name).additionalRecipients[]")
+            }
+            try self.validate(self.additionalRecipients, name: "additionalRecipients", parent: name, max: 10)
+            try self.approverDetails.validate(name: "\(name).approverDetails")
+            try self.attestationDetails.validate(name: "\(name).attestationDetails")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.validate(self.contractDocumentId, name: "contractDocumentId", parent: name, max: 36)
+            try self.validate(self.contractDocumentId, name: "contractDocumentId", parent: name, min: 1)
+            try self.validate(self.investmentId, name: "investmentId", parent: name, max: 36)
+            try self.validate(self.investmentId, name: "investmentId", parent: name, min: 1)
+            try self.validate(self.investmentId, name: "investmentId", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, max: 36)
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, min: 1)
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalRecipients = "additionalRecipients"
+            case approverDetails = "approverDetails"
+            case attestationDetails = "attestationDetails"
+            case clientToken = "clientToken"
+            case contractArn = "contractArn"
+            case contractDocumentId = "contractDocumentId"
+            case investmentDisbursedAt = "investmentDisbursedAt"
+            case investmentId = "investmentId"
+            case investmentSummaryId = "investmentSummaryId"
+        }
+    }
+
+    public struct CreateContractualInvestmentAttestationResponse: AWSDecodableShape {
+        /// The identifier of the submitted attestation.
+        public let attestationId: String
+
+        @inlinable
+        public init(attestationId: String) {
+            self.attestationId = attestationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationId = "attestationId"
         }
     }
 
@@ -1004,6 +1387,30 @@ extension Billing {
         }
     }
 
+    public struct DisassociateContractRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the contract to disassociate from your account.
+        public let contractArn: String
+
+        @inlinable
+        public init(contractArn: String) {
+            self.contractArn = contractArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+        }
+    }
+
+    public struct DisassociateContractResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateSourceViewsRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the billing view to disassociate source views from.
         public let arn: String
@@ -1179,6 +1586,40 @@ extension Billing {
 
         private enum CodingKeys: String, CodingKey {
             case billingView = "billingView"
+        }
+    }
+
+    public struct GetContractInformationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the contract to retrieve information about.
+        public let contractArn: String
+
+        @inlinable
+        public init(contractArn: String) {
+            self.contractArn = contractArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+        }
+    }
+
+    public struct GetContractInformationResponse: AWSDecodableShape {
+        /// The contract details such as term (duration), eligible payer accounts, investment accounts, and legal entities.
+        public let contract: ContractDetails
+
+        @inlinable
+        public init(contract: ContractDetails) {
+            self.contract = contract
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contract = "contract"
         }
     }
 
@@ -1486,6 +1927,185 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case policy = "policy"
             case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct Interval: AWSDecodableShape {
+        /// The end date of the interval. This date is included in the interval.
+        public let endDateInclusive: Date
+        /// The start date of the interval. This date is included in the interval.
+        public let startDateInclusive: Date
+
+        @inlinable
+        public init(endDateInclusive: Date, startDateInclusive: Date) {
+            self.endDateInclusive = endDateInclusive
+            self.startDateInclusive = startDateInclusive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateInclusive = "endDateInclusive"
+            case startDateInclusive = "startDateInclusive"
+        }
+    }
+
+    public struct InvestmentAttestation: AWSDecodableShape {
+        /// The identifier of the attestation. This value is returned by CreateContractualInvestmentAttestation and is used to cancel the attestation with CancelContractualInvestmentAttestation. This value is 1–36 characters.
+        public let attestationId: String
+        /// The current status of the attestation. Valid values are PENDING_REVIEW, PENDING_C_LEVEL_APPROVAL, PENDING_CANCELLATION, REJECTED, CANCELLED, and DISBURSED. The values DISBURSED, REJECTED, and CANCELLED are terminal. The other values indicate the attestation is still in progress.
+        public let attestationStatus: InvestmentAttestationStatus
+        /// The date on which the attestation was submitted.
+        public let attestedAt: Date
+        /// The monetary value attested.
+        public let attestedValue: Amount?
+        /// The start date on which the investment is disbursed to the investment accounts. This is not the same as the time of disbursement, but reflects the date you submitted with the attestation.
+        public let investmentDisbursedAt: Date?
+        /// The distribution of the attested investment across the eligible investment accounts. The list contains at most 200 distributions.
+        public let investmentDistributions: [InvestmentDistribution]?
+        /// The identifier of the investment that was attested, as returned by ListContractualInvestments.
+        public let investmentId: String
+        /// The name of the investment summary that contains the attested outcome. This value is 1–400 characters.
+        public let investmentName: String
+        /// The identifier of the investment summary that was attested, as returned by ListContractualInvestmentSummaries.
+        public let investmentSummaryId: String
+        /// Indicates whether the attestation can be canceled with CancelContractualInvestmentAttestation.
+        public let isCancellable: Bool?
+        /// The description of the attested outcome. This value is 1–2048 characters.
+        public let outcomeDescription: String
+        /// The reasons the attestation was rejected. This value is present only when attestationStatus is REJECTED. The list contains at most 30 reasons.
+        public let rejectionReasons: [String]?
+        /// The date on which the attestation was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(attestationId: String, attestationStatus: InvestmentAttestationStatus, attestedAt: Date, attestedValue: Amount? = nil, investmentDisbursedAt: Date? = nil, investmentDistributions: [InvestmentDistribution]? = nil, investmentId: String, investmentName: String, investmentSummaryId: String, isCancellable: Bool? = nil, outcomeDescription: String, rejectionReasons: [String]? = nil, updatedAt: Date) {
+            self.attestationId = attestationId
+            self.attestationStatus = attestationStatus
+            self.attestedAt = attestedAt
+            self.attestedValue = attestedValue
+            self.investmentDisbursedAt = investmentDisbursedAt
+            self.investmentDistributions = investmentDistributions
+            self.investmentId = investmentId
+            self.investmentName = investmentName
+            self.investmentSummaryId = investmentSummaryId
+            self.isCancellable = isCancellable
+            self.outcomeDescription = outcomeDescription
+            self.rejectionReasons = rejectionReasons
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationId = "attestationId"
+            case attestationStatus = "attestationStatus"
+            case attestedAt = "attestedAt"
+            case attestedValue = "attestedValue"
+            case investmentDisbursedAt = "investmentDisbursedAt"
+            case investmentDistributions = "investmentDistributions"
+            case investmentId = "investmentId"
+            case investmentName = "investmentName"
+            case investmentSummaryId = "investmentSummaryId"
+            case isCancellable = "isCancellable"
+            case outcomeDescription = "outcomeDescription"
+            case rejectionReasons = "rejectionReasons"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct InvestmentDistribution: AWSEncodableShape & AWSDecodableShape {
+        /// The recipient Amazon Web Services account ID that receives this portion of the investment. This must be one of the eligible investment accounts on the contract.
+        public let accountId: String
+        /// The monetary value allocated to the recipient account.
+        public let investmentAmount: Amount
+
+        @inlinable
+        public init(accountId: String, investmentAmount: Amount) {
+            self.accountId = accountId
+            self.investmentAmount = investmentAmount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.investmentAmount.validate(name: "\(name).investmentAmount")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case investmentAmount = "investmentAmount"
+        }
+    }
+
+    public struct InvestmentMultiplier: AWSDecodableShape {
+        /// The unit of the attestation input that the multiplier applies to, such as workloads migrated. This value is 1–1000 characters. The terms of the contract define this value.
+        public let investmentAttestationInputUnit: String
+        /// The type of the multiplier. A value of PERCENTAGE applies a percentage of a value. A value of CURRENCY_AMOUNT applies a currency amount per unit of attestation input. The terms of the contract define this value.
+        public let multiplierType: MultiplierType
+        /// The multiplier value, expressed as a decimal string to preserve precision. The value is digits with an optional decimal point and is 1–1000 characters. The terms of the contract define this value.
+        public let value: String
+
+        @inlinable
+        public init(investmentAttestationInputUnit: String, multiplierType: MultiplierType, value: String) {
+            self.investmentAttestationInputUnit = investmentAttestationInputUnit
+            self.multiplierType = multiplierType
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investmentAttestationInputUnit = "investmentAttestationInputUnit"
+            case multiplierType = "multiplierType"
+            case value = "value"
+        }
+    }
+
+    public struct InvestmentRestriction: AWSDecodableShape {
+        /// The maximum monetary amount allowed under the restriction.
+        public let amount: Amount
+
+        @inlinable
+        public init(amount: Amount) {
+            self.amount = amount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+        }
+    }
+
+    public struct InvestmentSummary: AWSDecodableShape {
+        /// The name of the investment summary, used to reference the investment against a term in the physical contract. This value is 1–400 characters.
+        public let investmentName: String
+        /// The identifier of the investment summary. Pass this value to ListContractualInvestments to list the investments within the summary, and to CreateContractualInvestmentAttestation to attest an investment. This value is 1–36 characters.
+        public let investmentSummaryId: String
+        /// The type of the investment summary. Valid values are MILESTONE_BASED and OUTCOME_BASED. OUTCOME_BASED investments can be attested to, upon completion of outcomes. MILESTONE_BASED are automatically triggered by Amazon Web Services, based on the time schedule in the contract.
+        public let investmentType: InvestmentType
+        /// The maximum monetary value that can be disbursed against the investment summary, inclusive of all outcomes combined under the summary.
+        public let maxAllowedInvestmentDisbursementValue: Amount?
+
+        @inlinable
+        public init(investmentName: String, investmentSummaryId: String, investmentType: InvestmentType, maxAllowedInvestmentDisbursementValue: Amount? = nil) {
+            self.investmentName = investmentName
+            self.investmentSummaryId = investmentSummaryId
+            self.investmentType = investmentType
+            self.maxAllowedInvestmentDisbursementValue = maxAllowedInvestmentDisbursementValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investmentName = "investmentName"
+            case investmentSummaryId = "investmentSummaryId"
+            case investmentType = "investmentType"
+            case maxAllowedInvestmentDisbursementValue = "maxAllowedInvestmentDisbursementValue"
+        }
+    }
+
+    public struct LegalEntity: AWSDecodableShape {
+        /// The name of the legal entity as it appears on the contract document. This value can be up to 256 characters.
+        public let legalEntityName: String
+
+        @inlinable
+        public init(legalEntityName: String) {
+            self.legalEntityName = legalEntityName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case legalEntityName = "legalEntityName"
         }
     }
 
@@ -1811,6 +2431,209 @@ extension Billing {
         }
     }
 
+    public struct ListContractsRequest: AWSEncodableShape {
+        /// The maximum number of contracts to return in a single call. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractsResponse: AWSDecodableShape {
+        /// The list of contracts that your Amazon Web Services account is an eligible payer account of.
+        public let items: [ContractSummary]
+        /// The pagination token to use on subsequent calls to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ContractSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractualInvestmentAttestationsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the contract whose attestations you want to list.
+        public let contractArn: String
+        /// The identifier of a specific investment summary to filter the attestations by. If omitted, attestations for all investment summaries in the contract are returned.
+        public let investmentSummaryId: String?
+        /// The maximum number of attestations to return in a single call. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contractArn: String, investmentSummaryId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contractArn = contractArn
+            self.investmentSummaryId = investmentSummaryId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, max: 36)
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, min: 1)
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+            case investmentSummaryId = "investmentSummaryId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractualInvestmentAttestationsResponse: AWSDecodableShape {
+        /// The list of investment attestations submitted under the contract.
+        public let items: [InvestmentAttestation]
+        /// The pagination token to use on subsequent calls to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [InvestmentAttestation], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractualInvestmentSummariesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the contract whose investment summaries you want to list.
+        public let contractArn: String
+        /// The maximum number of investment summaries to return in a single call. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contractArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contractArn = contractArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractualInvestmentSummariesResponse: AWSDecodableShape {
+        /// The list of investment summaries under the contract. It includes the investment name, maximum investment amount, and investment type. It does not provide investment details. Use this to know if the contract has investment terms and what type.
+        public let items: [InvestmentSummary]
+        /// The pagination token to use on subsequent calls to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [InvestmentSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractualInvestmentsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the contract that contains the investment summary.
+        public let contractArn: String
+        /// The identifier of the investment summary whose investments you want to list.
+        public let investmentSummaryId: String
+        /// The maximum number of investments to return in a single call. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contractArn: String, investmentSummaryId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contractArn = contractArn
+            self.investmentSummaryId = investmentSummaryId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractArn, name: "contractArn", parent: name, max: 500)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, min: 1)
+            try self.validate(self.contractArn, name: "contractArn", parent: name, pattern: "^arn:aws[a-z-]*:billing::[0-9]{12}:contract/[a-zA-Z0-9_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, max: 36)
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, min: 1)
+            try self.validate(self.investmentSummaryId, name: "investmentSummaryId", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+            case investmentSummaryId = "investmentSummaryId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContractualInvestmentsResponse: AWSDecodableShape {
+        /// The list of investments for the investment summary.
+        public let items: [Investment]
+        /// The pagination token to use on subsequent calls to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [Investment], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListEnterpriseSupportLinkedAccountChargesRequest: AWSEncodableShape {
         /// The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
         public let accountId: String?
@@ -1944,6 +2767,62 @@ extension Billing {
         }
     }
 
+    public struct MilestoneBasedInvestment: AWSDecodableShape {
+        /// The date on which the investment is disbursed to the investment accounts.
+        public let investmentDisbursedAt: Date
+        /// The identifier of the investment, as returned by ListContractualInvestments. This value is 1–36 characters.
+        public let investmentId: String
+        /// The total value of the investment, including its currency and amount.
+        public let investmentValue: Amount
+
+        @inlinable
+        public init(investmentDisbursedAt: Date, investmentId: String, investmentValue: Amount) {
+            self.investmentDisbursedAt = investmentDisbursedAt
+            self.investmentId = investmentId
+            self.investmentValue = investmentValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investmentDisbursedAt = "investmentDisbursedAt"
+            case investmentId = "investmentId"
+            case investmentValue = "investmentValue"
+        }
+    }
+
+    public struct OutcomeBasedInvestment: AWSDecodableShape {
+        /// The time window, expressed as an interval with inclusive start and end dates, during which outcomes can be attested to.
+        public let attestationWindow: Interval
+        /// The total value already disbursed against the investment. This value can be distributed among the investment accounts distribution.
+        public let disbursedValue: Amount
+        /// The identifier of the investment, as returned by ListContractualInvestments. This value is 1–36 characters.
+        public let investmentId: String
+        /// The multipliers used to compute the investment value from the attestation input. The list contains at most 200 multipliers. Multipliers are derived from the terms of the private pricing contract.
+        public let investmentMultipliers: [InvestmentMultiplier]?
+        /// The restrictions that cap the value that can be disbursed for the investment. The list contains at most 10 restrictions.
+        public let investmentRestrictions: [InvestmentRestriction]?
+        /// The description of what must be completed to attest the outcome. This value is 1–2048 characters.
+        public let outcomeDescription: String
+
+        @inlinable
+        public init(attestationWindow: Interval, disbursedValue: Amount, investmentId: String, investmentMultipliers: [InvestmentMultiplier]? = nil, investmentRestrictions: [InvestmentRestriction]? = nil, outcomeDescription: String) {
+            self.attestationWindow = attestationWindow
+            self.disbursedValue = disbursedValue
+            self.investmentId = investmentId
+            self.investmentMultipliers = investmentMultipliers
+            self.investmentRestrictions = investmentRestrictions
+            self.outcomeDescription = outcomeDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationWindow = "attestationWindow"
+            case disbursedValue = "disbursedValue"
+            case investmentId = "investmentId"
+            case investmentMultipliers = "investmentMultipliers"
+            case investmentRestrictions = "investmentRestrictions"
+            case outcomeDescription = "outcomeDescription"
+        }
+    }
+
     public struct PricingPlan: AWSDecodableShape {
         /// A description of the pricing plan.
         public let description: String?
@@ -2033,6 +2912,40 @@ extension Billing {
             case incrementCharge = "incrementCharge"
             case tierMaximum = "tierMaximum"
             case tierMinimum = "tierMinimum"
+        }
+    }
+
+    public struct PrivatePricingAddendum: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the private pricing addendum.
+        public let contractArn: String
+        /// The restrictions that limit the self-service actions you can take on the private pricing addendum. An empty or absent value indicates that no restrictions apply. The list contains at most 10 restrictions.
+        public let contractRestrictions: [ContractRestriction]?
+        /// The contract term period of the private pricing addendum, expressed as an interval with an inclusive start date and an inclusive end date.
+        public let contractTerm: Interval
+        /// The payer accounts that are eligible under the private pricing addendum. The list contains at most 100 account IDs.
+        public let eligiblePayerAccounts: [String]
+        /// The accounts that are eligible to receive investments under the private pricing addendum. An InvestmentDistribution must target one of these accounts. The list contains at most 100 account IDs.
+        public let investmentAccounts: [String]
+        /// The legal entities on the private pricing addendum. The list contains at most 10 legal entities.
+        public let legalEntities: [LegalEntity]
+
+        @inlinable
+        public init(contractArn: String, contractRestrictions: [ContractRestriction]? = nil, contractTerm: Interval, eligiblePayerAccounts: [String], investmentAccounts: [String], legalEntities: [LegalEntity]) {
+            self.contractArn = contractArn
+            self.contractRestrictions = contractRestrictions
+            self.contractTerm = contractTerm
+            self.eligiblePayerAccounts = eligiblePayerAccounts
+            self.investmentAccounts = investmentAccounts
+            self.legalEntities = legalEntities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractArn = "contractArn"
+            case contractRestrictions = "contractRestrictions"
+            case contractTerm = "contractTerm"
+            case eligiblePayerAccounts = "eligiblePayerAccounts"
+            case investmentAccounts = "investmentAccounts"
+            case legalEntities = "legalEntities"
         }
     }
 
@@ -2403,6 +3316,20 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct ContractDetails: AWSDecodableShape {
+        /// The details of a private pricing addendum contract. This member is set when the contract is a private pricing addendum.
+        public let privatePricingAddendum: PrivatePricingAddendum?
+
+        @inlinable
+        public init(privatePricingAddendum: PrivatePricingAddendum? = nil) {
+            self.privatePricingAddendum = privatePricingAddendum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privatePricingAddendum = "privatePricingAddendum"
         }
     }
 }

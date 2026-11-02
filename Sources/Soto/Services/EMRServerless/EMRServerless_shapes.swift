@@ -855,6 +855,8 @@ extension EMRServerless {
     }
 
     public struct GetResourceDashboardRequest: AWSEncodableShape {
+        /// Allows access to system profile logs for Lake Formation-enabled sessions. Default is false.
+        public let accessSystemProfileLogs: Bool?
         /// The ID of the application that the resource belongs to.
         public let applicationId: String
         /// The ID of the resource.
@@ -863,7 +865,8 @@ extension EMRServerless {
         public let resourceType: ResourceType
 
         @inlinable
-        public init(applicationId: String, resourceId: String, resourceType: ResourceType) {
+        public init(accessSystemProfileLogs: Bool? = nil, applicationId: String, resourceId: String, resourceType: ResourceType) {
+            self.accessSystemProfileLogs = accessSystemProfileLogs
             self.applicationId = applicationId
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -872,6 +875,7 @@ extension EMRServerless {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accessSystemProfileLogs, key: "accessSystemProfileLogs")
             request.encodePath(self.applicationId, key: "applicationId")
             request.encodeQuery(self.resourceId, key: "resourceId")
             request.encodeQuery(self.resourceType, key: "resourceType")
@@ -1219,7 +1223,7 @@ extension EMRServerless {
         public let executionIamPolicy: JobRunExecutionIamPolicy?
         /// The execution role ARN of the job run.
         public let executionRole: String
-        /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
+        /// Returns the job run timeout value from the StartJobRun call. If you didn't specify a timeout, this value defaults to 720 minutes. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11.
         public let executionTimeoutMinutes: Int64?
         public let imageConfiguration: ImageConfiguration?
         /// The job driver for the job run.
@@ -1763,7 +1767,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 60)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\\d{12}):\\/applications\\/[0-9a-zA-Z]+(\\/jobruns\\/[0-9a-zA-Z]+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\\d{12}):\\/applications\\/[0-9a-zA-Z]+(\\/jobruns\\/[0-9a-zA-Z]+|\\/sessions\\/[0-9a-zA-Z]+)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2256,7 +2260,7 @@ extension EMRServerless {
         public let executionIamPolicy: JobRunExecutionIamPolicy?
         /// The execution role ARN for the job run.
         public let executionRoleArn: String
-        /// The maximum duration for the job run to run. If the job run runs beyond this duration, it will be automatically cancelled.
+        /// The maximum duration, in minutes, for the job run. If the job run exceeds this duration, Amazon EMR Serverless cancels it automatically. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11. Setting a value of 0 to disable the timeout is no longer supported for BATCH mode job runs.
         public let executionTimeoutMinutes: Int64?
         /// The job driver for the job run.
         public let jobDriver: JobDriver?
@@ -2512,7 +2516,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 60)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\\d{12}):\\/applications\\/[0-9a-zA-Z]+(\\/jobruns\\/[0-9a-zA-Z]+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\\d{12}):\\/applications\\/[0-9a-zA-Z]+(\\/jobruns\\/[0-9a-zA-Z]+|\\/sessions\\/[0-9a-zA-Z]+)?$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2625,7 +2629,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 60)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\\d{12}):\\/applications\\/[0-9a-zA-Z]+(\\/jobruns\\/[0-9a-zA-Z]+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\\d{12}):\\/applications\\/[0-9a-zA-Z]+(\\/jobruns\\/[0-9a-zA-Z]+|\\/sessions\\/[0-9a-zA-Z]+)?$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

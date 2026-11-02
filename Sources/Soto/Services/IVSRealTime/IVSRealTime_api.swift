@@ -1135,6 +1135,35 @@ public struct IVSRealTime: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Revokes the specified connection token so that it can no longer connect to a stage. This operation disconnects any participant currently connected with the revoked token.
+    @Sendable
+    @inlinable
+    public func revokeConnectionToken(_ input: RevokeConnectionTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeConnectionTokenResponse {
+        try await self.client.execute(
+            operation: "RevokeConnectionToken", 
+            path: "/RevokeConnectionToken", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes the specified connection token so that it can no longer connect to a stage. This operation disconnects any participant currently connected with the revoked token.
+    ///
+    /// Parameters:
+    ///   - tokenId: The ID of the connection token to revoke.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokeConnectionToken(
+        tokenId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RevokeConnectionTokenResponse {
+        let input = RevokeConnectionTokenRequest(
+            tokenId: tokenId
+        )
+        return try await self.revokeConnectionToken(input, logger: logger)
+    }
+
     /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this operation returns successfully. Composition stops and the resource is deleted:   When StopComposition is called.   After a 1-minute timeout, when all participants are disconnected from the stage.   After a 1-minute timeout, if there are no participants in the stage when StartComposition is called.   When broadcasting to the IVS channel fails and all retries are exhausted.   When broadcasting is disconnected and all attempts to reconnect are exhausted.
     @Sendable
     @inlinable

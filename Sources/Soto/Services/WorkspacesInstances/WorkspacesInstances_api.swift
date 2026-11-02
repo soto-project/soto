@@ -465,6 +465,50 @@ public struct WorkspacesInstances: AWSService {
         return try await self.listWorkspaceInstances(input, logger: logger)
     }
 
+    /// Modifies the size, volume type, IOPS (input/output operations per second), or throughput of a volume. When you modify a volume, you must specify at least one of these parameters. You can modify a volume only after any previous modification for that volume has finished. To track the progress of a modification, use the Amazon EC2 DescribeVolumesModifications operation. For more information, see Monitor the progress of Amazon EBS volume modifications in the Amazon EBS User Guide. After you increase the size of a volume, you must extend the partition and file system to use the new storage capacity. For more information, see Extend the file system after resizing an Amazon EBS volume in the Amazon EBS User Guide, which covers both Linux and Windows instances.
+    @Sendable
+    @inlinable
+    public func modifyVolume(_ input: ModifyVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyVolumeResponse {
+        try await self.client.execute(
+            operation: "ModifyVolume", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the size, volume type, IOPS (input/output operations per second), or throughput of a volume. When you modify a volume, you must specify at least one of these parameters. You can modify a volume only after any previous modification for that volume has finished. To track the progress of a modification, use the Amazon EC2 DescribeVolumesModifications operation. For more information, see Monitor the progress of Amazon EBS volume modifications in the Amazon EBS User Guide. After you increase the size of a volume, you must extend the partition and file system to use the new storage capacity. For more information, see Extend the file system after resizing an Amazon EBS volume in the Amazon EBS User Guide, which covers both Linux and Windows instances.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique token to ensure idempotent volume modification, preventing duplicate volume modifications.
+    ///   - iops: Specifies the target IOPS rate of the volume. This parameter is valid only for gp3, io1, and io2 volumes. If you don't specify IOPS and keep the same volume type, the current IOPS rate is retained.
+    ///   - sizeInGB: Specifies the target size of the volume, in GiB. The target size must be greater than or equal to the current size of the volume. If you don't specify a size, the current size is retained.
+    ///   - throughput: Specifies the target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes. If you don't specify throughput and the volume remains gp3, the current throughput is retained.
+    ///   - volumeId: Specifies the identifier of the volume to modify.
+    ///   - volumeType: Specifies the target Amazon Elastic Block Store (Amazon EBS) volume type. If you don't specify a volume type, the current volume type is retained.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyVolume(
+        clientToken: String? = ModifyVolumeRequest.idempotencyToken(),
+        iops: Int? = nil,
+        sizeInGB: Int? = nil,
+        throughput: Int? = nil,
+        volumeId: String,
+        volumeType: VolumeTypeEnum? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyVolumeResponse {
+        let input = ModifyVolumeRequest(
+            clientToken: clientToken, 
+            iops: iops, 
+            sizeInGB: sizeInGB, 
+            throughput: throughput, 
+            volumeId: volumeId, 
+            volumeType: volumeType
+        )
+        return try await self.modifyVolume(input, logger: logger)
+    }
+
     /// Adds tags to a WorkSpace Instance.
     @Sendable
     @inlinable

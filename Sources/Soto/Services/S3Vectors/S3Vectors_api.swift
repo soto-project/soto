@@ -605,6 +605,41 @@ public struct S3Vectors: AWSService {
         return try await self.listVectors(input, logger: logger)
     }
 
+    /// Updates the default index mode for a vector bucket. The updated default applies to vector indexes that you create after the request succeeds. The operation doesn't change existing vector indexes. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:PutVectorBucketDefaultIndexMode permission to use this operation.
+    @Sendable
+    @inlinable
+    public func putVectorBucketDefaultIndexMode(_ input: PutVectorBucketDefaultIndexModeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVectorBucketDefaultIndexModeOutput {
+        try await self.client.execute(
+            operation: "PutVectorBucketDefaultIndexMode", 
+            path: "/PutVectorBucketDefaultIndexMode", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the default index mode for a vector bucket. The updated default applies to vector indexes that you create after the request succeeds. The operation doesn't change existing vector indexes. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:PutVectorBucketDefaultIndexMode permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - defaultIndexMode: The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes.
+    ///   - vectorBucketArn: The Amazon Resource Name (ARN) of the vector bucket to update.
+    ///   - vectorBucketName: The name of the vector bucket to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putVectorBucketDefaultIndexMode(
+        defaultIndexMode: IndexMode,
+        vectorBucketArn: String? = nil,
+        vectorBucketName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutVectorBucketDefaultIndexModeOutput {
+        let input = PutVectorBucketDefaultIndexModeInput(
+            defaultIndexMode: defaultIndexMode, 
+            vectorBucketArn: vectorBucketArn, 
+            vectorBucketName: vectorBucketName
+        )
+        return try await self.putVectorBucketDefaultIndexMode(input, logger: logger)
+    }
+
     /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
@@ -698,6 +733,7 @@ public struct S3Vectors: AWSService {
     ///   - indexArn: The ARN of the vector index that you want to query.
     ///   - indexName: The name of the vector index that you want to query.
     ///   - nextToken: Pagination token from a previous request. The value of this field is empty for an initial request.
+    ///   - queryMode: The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values:    CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index.    ENHANCED - Applies metadata filters before the vector search.
     ///   - queryVector: The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
     ///   - returnDistance: Indicates whether to include the computed distance in the response. The default value is false.
     ///   - returnMetadata: Indicates whether to include metadata in the response. The default value is false.
@@ -710,6 +746,7 @@ public struct S3Vectors: AWSService {
         indexArn: String? = nil,
         indexName: String? = nil,
         nextToken: String? = nil,
+        queryMode: IndexMode? = nil,
         queryVector: VectorData,
         returnDistance: Bool? = nil,
         returnMetadata: Bool? = nil,
@@ -722,6 +759,7 @@ public struct S3Vectors: AWSService {
             indexArn: indexArn, 
             indexName: indexName, 
             nextToken: nextToken, 
+            queryMode: queryMode, 
             queryVector: queryVector, 
             returnDistance: returnDistance, 
             returnMetadata: returnMetadata, 
@@ -793,6 +831,44 @@ public struct S3Vectors: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the mode for an existing vector index. You can set the mode to ENHANCED for any vector index. You can set the mode to CLASSIC only for a vector index in a vector bucket created before September 30, 2026. This operation doesn't change the default index mode of the vector bucket or the mode of other vector indexes. Specify the vector index by using its Amazon Resource Name (ARN) or both the vector bucket name and vector index name.  Permissions  You must have the s3vectors:UpdateIndexMode permission to use this operation.
+    @Sendable
+    @inlinable
+    public func updateIndexMode(_ input: UpdateIndexModeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIndexModeOutput {
+        try await self.client.execute(
+            operation: "UpdateIndexMode", 
+            path: "/UpdateIndexMode", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the mode for an existing vector index. You can set the mode to ENHANCED for any vector index. You can set the mode to CLASSIC only for a vector index in a vector bucket created before September 30, 2026. This operation doesn't change the default index mode of the vector bucket or the mode of other vector indexes. Specify the vector index by using its Amazon Resource Name (ARN) or both the vector bucket name and vector index name.  Permissions  You must have the s3vectors:UpdateIndexMode permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - indexArn: The Amazon Resource Name (ARN) of the vector index to update.
+    ///   - indexMode: The new mode for the vector index. Valid values:    CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026.    ENHANCED - Applies metadata filters before the vector search.
+    ///   - indexName: The name of the vector index to update.
+    ///   - vectorBucketName: The name of the vector bucket that contains the vector index.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIndexMode(
+        indexArn: String? = nil,
+        indexMode: IndexMode,
+        indexName: String? = nil,
+        vectorBucketName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIndexModeOutput {
+        let input = UpdateIndexModeInput(
+            indexArn: indexArn, 
+            indexMode: indexMode, 
+            indexName: indexName, 
+            vectorBucketName: vectorBucketName
+        )
+        return try await self.updateIndexMode(input, logger: logger)
     }
 }
 
@@ -968,6 +1044,7 @@ extension S3Vectors {
     ///   - filter: Metadata filter to apply during the query. For more information about metadata keys, see Metadata filtering in the Amazon S3 User Guide.
     ///   - indexArn: The ARN of the vector index that you want to query.
     ///   - indexName: The name of the vector index that you want to query.
+    ///   - queryMode: The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values:    CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index.    ENHANCED - Applies metadata filters before the vector search.
     ///   - queryVector: The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
     ///   - returnDistance: Indicates whether to include the computed distance in the response. The default value is false.
     ///   - returnMetadata: Indicates whether to include metadata in the response. The default value is false.
@@ -979,6 +1056,7 @@ extension S3Vectors {
         filter: AWSDocument? = nil,
         indexArn: String? = nil,
         indexName: String? = nil,
+        queryMode: IndexMode? = nil,
         queryVector: VectorData,
         returnDistance: Bool? = nil,
         returnMetadata: Bool? = nil,
@@ -990,6 +1068,7 @@ extension S3Vectors {
             filter: filter, 
             indexArn: indexArn, 
             indexName: indexName, 
+            queryMode: queryMode, 
             queryVector: queryVector, 
             returnDistance: returnDistance, 
             returnMetadata: returnMetadata, 
@@ -1049,6 +1128,7 @@ extension S3Vectors.QueryVectorsInput: AWSPaginateToken {
             indexArn: self.indexArn,
             indexName: self.indexName,
             nextToken: token,
+            queryMode: self.queryMode,
             queryVector: self.queryVector,
             returnDistance: self.returnDistance,
             returnMetadata: self.returnMetadata,

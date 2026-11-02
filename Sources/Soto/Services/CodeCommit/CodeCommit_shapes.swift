@@ -1281,11 +1281,11 @@ extension CodeCommit {
     }
 
     public struct CreateRepositoryInput: AWSEncodableShape {
-        /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for kmsKeyID, see  KeyId in the Decrypt API description in  the Key Management Service API Reference. If no key is specified, the default aws/codecommit Amazon Web Services managed key is used.
+        /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for kmsKeyID, see  KeyId in the Decrypt API description in  the  Key Management Service API Reference. If no key is specified, the default aws/codecommit Amazon Web Services managed key is used.
         public let kmsKeyId: String?
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
         public let repositoryDescription: String?
-        /// The name of the new repository to be created.  The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide. The suffix .git is prohibited.
+        /// The name of the new repository to be created.  The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see Quotas in the  CodeCommit User Guide. The suffix .git is prohibited.
         public let repositoryName: String
         /// One or more tag key-value pairs to use when tagging this repository.
         public let tags: [String: String]?
@@ -4464,7 +4464,7 @@ extension CodeCommit {
     public struct PutCommentReactionInput: AWSEncodableShape {
         /// The ID of the comment to which you want to add or update a reaction.
         public let commentId: String
-        /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the CodeCommit User Guide.
+        /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the  CodeCommit User Guide.
         public let reactionValue: String
 
         @inlinable
@@ -5412,7 +5412,7 @@ extension CodeCommit {
     }
 
     public struct UpdateRepositoryEncryptionKeyInput: AWSEncodableShape {
-        /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for keyID, see  KeyId in the Decrypt API description in  the Key Management Service API Reference.
+        /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for keyID, see  KeyId in the Decrypt API description in  the  Key Management Service API Reference.
         public let kmsKeyId: String
         /// The name of the repository for which you want to update the KMS encryption key used to encrypt and decrypt the repository.
         public let repositoryName: String
@@ -5832,7 +5832,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var fileNameConflictsWithDirectoryNameException: Self { .init(.fileNameConflictsWithDirectoryNameException) }
     /// The commit cannot be created because a specified file path points to a submodule. Verify that the destination files have valid file paths that do not point to a submodule.
     public static var filePathConflictsWithSubmodulePathException: Self { .init(.filePathConflictsWithSubmodulePathException) }
-    /// The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see Quotas in the CodeCommit User Guide.
+    /// The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see Quotas in the  CodeCommit User Guide.
     public static var fileTooLargeException: Self { .init(.fileTooLargeException) }
     /// The commit cannot be created because at least one of the overall changes in the commit results in a  folder whose contents exceed the limit of 6 MB. Either reduce the number and size of your changes, or split the changes across multiple folders.
     public static var folderContentSizeLimitExceededException: Self { .init(.folderContentSizeLimitExceededException) }
@@ -5848,9 +5848,9 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidApprovalRuleNameException: Self { .init(.invalidApprovalRuleNameException) }
     /// The content of the approval rule template is not valid.
     public static var invalidApprovalRuleTemplateContentException: Self { .init(.invalidApprovalRuleTemplateContentException) }
-    /// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit,  see Quotas in the CodeCommit User Guide.
+    /// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit,  see Quotas in the  CodeCommit User Guide.
     public static var invalidApprovalRuleTemplateDescriptionException: Self { .init(.invalidApprovalRuleTemplateDescriptionException) }
-    /// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see Quotas in the CodeCommit User Guide.
+    /// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see Quotas in the  CodeCommit User Guide.
     public static var invalidApprovalRuleTemplateNameException: Self { .init(.invalidApprovalRuleTemplateNameException) }
     /// The state for the approval is not valid. Valid values include APPROVE and REVOKE.
     public static var invalidApprovalStateException: Self { .init(.invalidApprovalStateException) }
@@ -5916,7 +5916,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidPullRequestStatusUpdateException: Self { .init(.invalidPullRequestStatusUpdateException) }
     /// The Amazon Resource Name (ARN) of the user or identity is not valid.
     public static var invalidReactionUserArnException: Self { .init(.invalidReactionUserArnException) }
-    /// The value of the reaction is not valid. For more information, see the CodeCommit User Guide.
+    /// The value of the reaction is not valid. For more information, see the  CodeCommit User Guide.
     public static var invalidReactionValueException: Self { .init(.invalidReactionValueException) }
     /// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/main). For more information, see Git Internals - Git References or consult your Git documentation.
     public static var invalidReferenceNameException: Self { .init(.invalidReferenceNameException) }
@@ -5942,7 +5942,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var invalidRepositoryTriggerNameException: Self { .init(.invalidRepositoryTriggerNameException) }
     /// The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
     public static var invalidRepositoryTriggerRegionException: Self { .init(.invalidRepositoryTriggerRegionException) }
-    /// The value for the resource ARN is not valid. For more information about resources in CodeCommit, see  CodeCommit Resources and Operations in the CodeCommit User Guide.
+    /// The value for the resource ARN is not valid. For more information about resources in CodeCommit, see   CodeCommit Resources and Operations in the CodeCommit User Guide.
     public static var invalidResourceArnException: Self { .init(.invalidResourceArnException) }
     /// The revision ID is not valid. Use GetPullRequest to determine the value.
     public static var invalidRevisionIdException: Self { .init(.invalidRevisionIdException) }
@@ -6068,7 +6068,7 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var repositoryTriggerNameRequiredException: Self { .init(.repositoryTriggerNameRequiredException) }
     /// The list of triggers for the repository is required, but was not specified.
     public static var repositoryTriggersListRequiredException: Self { .init(.repositoryTriggersListRequiredException) }
-    /// A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see  CodeCommit Resources and Operations in the CodeCommit User Guide.
+    /// A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see   CodeCommit Resources and Operations in the CodeCommit User Guide.
     public static var resourceArnRequiredException: Self { .init(.resourceArnRequiredException) }
     /// The commit cannot be created because one of the changes specifies copying or moving a .gitkeep file.
     public static var restrictedSourceFileException: Self { .init(.restrictedSourceFileException) }

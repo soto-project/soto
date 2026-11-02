@@ -97,18 +97,21 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotent processing of the batch request.
     ///   - memoryId: The unique ID of the memory resource where records will be created.
+    ///   - recordExpirySpecification: The record expiry (long-term memory time-to-live) applied to every record created by this request. Set recordExpiryDurationDays to the number of days after which the records expire. Only the expiry provided here is applied; the records' strategy association has no effect on their expiry. If you do not provide this value, the records do not expire. The REMOVE action does not apply when creating records.
     ///   - records: A list of memory record creation inputs to be processed in the batch operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchCreateMemoryRecords(
         clientToken: String? = BatchCreateMemoryRecordsInput.idempotencyToken(),
         memoryId: String,
+        recordExpirySpecification: RecordExpirySpecification? = nil,
         records: [MemoryRecordCreateInput],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchCreateMemoryRecordsOutput {
         let input = BatchCreateMemoryRecordsInput(
             clientToken: clientToken, 
             memoryId: memoryId, 
+            recordExpirySpecification: recordExpirySpecification, 
             records: records
         )
         return try await self.batchCreateMemoryRecords(input, logger: logger)
@@ -163,16 +166,19 @@ public struct BedrockAgentCore: AWSService {
     ///
     /// Parameters:
     ///   - memoryId: The unique ID of the memory resource where records will be updated.
+    ///   - recordExpirySpecification: The record expiry (long-term memory time-to-live) applied to every record updated by this request. Set recordExpiryDurationDays to configure or overwrite the number of days after which the records expire, or set action to REMOVE to clear a previously configured expiry so that the records no longer expire. When you do not provide this value, the service determines each record's expiry from its current state:   If the record already has an expiry configured, the service resets and reapplies the expiry based on the last applied recordExpiryDurationDays.   If the record does not have an expiry configured, no expiry is applied and the record remains non-expiring. This is the outcome regardless of whether the record's strategy configures an expiry.   Providing an explicit recordExpiryDurationDays always takes precedence: it overwrites an existing expiry, or sets one on a record that previously had none.
     ///   - records: A list of memory record update inputs to be processed in the batch operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchUpdateMemoryRecords(
         memoryId: String,
+        recordExpirySpecification: RecordExpirySpecification? = nil,
         records: [MemoryRecordUpdateInput],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchUpdateMemoryRecordsOutput {
         let input = BatchUpdateMemoryRecordsInput(
             memoryId: memoryId, 
+            recordExpirySpecification: recordExpirySpecification, 
             records: records
         )
         return try await self.batchUpdateMemoryRecords(input, logger: logger)
@@ -1942,7 +1948,7 @@ public struct BedrockAgentCore: AWSService {
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     ///   - metadataFilters: A list of metadata filter expressions to scope the returned memory records.
-    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespace: The exact namespace to filter memory records by. Returns all memory records that matches the provided namespace. Either namespace or namespacePath is required.
     ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
@@ -2198,7 +2204,7 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespace: The exact namespace to filter memory records by. Searches for memory records that matches the provided namespace value. Either namespace or namespacePath is required.
     ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
@@ -3032,7 +3038,7 @@ extension BedrockAgentCore {
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     ///   - metadataFilters: A list of metadata filter expressions to scope the returned memory records.
-    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespace: The exact namespace to filter memory records by. Returns all memory records that matches the provided namespace. Either namespace or namespacePath is required.
     ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3248,7 +3254,7 @@ extension BedrockAgentCore {
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespace: The exact namespace to filter memory records by. Searches for memory records that matches the provided namespace value. Either namespace or namespacePath is required.
     ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger used for logging

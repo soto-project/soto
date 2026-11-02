@@ -2038,6 +2038,7 @@ public struct WorkSpaces: AWSService {
     ///   - imageDescription: The description of the WorkSpace image.
     ///   - imageName: The name of the WorkSpace image.
     ///   - imageSource: The options for image import source.
+    ///   - imageValidationMode: The image validation mode for the WorkSpace image import.
     ///   - infrastructureConfigurationArn: The infrastructure configuration ARN that specifies how the WorkSpace image is built.
     ///   - osVersion: The OS version for the WorkSpace image source.
     ///   - platform: The platform for the WorkSpace image source.
@@ -2050,6 +2051,7 @@ public struct WorkSpaces: AWSService {
         imageDescription: String,
         imageName: String,
         imageSource: ImageSourceIdentifier,
+        imageValidationMode: ImageValidationMode? = nil,
         infrastructureConfigurationArn: String,
         osVersion: OSVersion,
         platform: Platform,
@@ -2062,6 +2064,7 @@ public struct WorkSpaces: AWSService {
             imageDescription: imageDescription, 
             imageName: imageName, 
             imageSource: imageSource, 
+            imageValidationMode: imageValidationMode, 
             infrastructureConfigurationArn: infrastructureConfigurationArn, 
             osVersion: osVersion, 
             platform: platform, 

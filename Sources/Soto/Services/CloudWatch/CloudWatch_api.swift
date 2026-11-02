@@ -1038,7 +1038,7 @@ public struct CloudWatch: AWSService {
         return try await self.getMetricStream(input, logger: logger)
     }
 
-    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
+    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard.   GetMetricWidgetImage is not available in the Amazon Web Services GovCloud (US) Regions. In those Regions, calls to this operation fail. For the list of Amazon CloudWatch features that are not available in Amazon Web Services GovCloud (US), see Amazon CloudWatch in Amazon Web Services GovCloud (US).  The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
     @Sendable
     @inlinable
     public func getMetricWidgetImage(_ input: GetMetricWidgetImageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricWidgetImageOutput {
@@ -1051,7 +1051,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
+    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard.   GetMetricWidgetImage is not available in the Amazon Web Services GovCloud (US) Regions. In those Regions, calls to this operation fail. For the list of Amazon CloudWatch features that are not available in Amazon Web Services GovCloud (US), see Amazon CloudWatch in Amazon Web Services GovCloud (US).  The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
     ///
     /// Parameters:
     ///   - metricWidget: A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
@@ -1439,6 +1439,7 @@ public struct CloudWatch: AWSService {
     /// Creates or updates a composite alarm. When you create a composite alarm, you specify a rule expression for the alarm that takes into account the alarm states of other alarms that you have created. The composite alarm goes into ALARM state only if all conditions of the rule are met. The alarms specified in a composite alarm's rule expression can include metric alarms and other composite alarms. The rule expression of a composite alarm can include as many as 100 underlying alarms. Any single alarm can be included in the rule expressions of as many as 150 composite alarms. Using composite alarms can reduce alarm noise. You can create multiple metric alarms, and also create a composite alarm and set up alerts only for the composite alarm. For example, you could create a composite alarm that goes into ALARM state only when more than one of the underlying metric alarms are in ALARM state. Composite alarms can take the following actions:   Notify Amazon SNS topics.   Invoke Lambda functions.   Create OpsItems in Systems Manager Ops Center.   Create incidents in Systems Manager Incident Manager.    It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.   When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. For a composite alarm, this initial time after creation is the only time that the alarm can be in INSUFFICIENT_DATA state. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. To use this operation, you must be signed on with the cloudwatch:PutCompositeAlarm permission that is scoped to *. You can't create a composite alarms if your cloudwatch:PutCompositeAlarm permission has a narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager OpsItem actions.
     ///
     /// Parameters:
+    ///   - actionConfiguration: Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE.
     ///   - actionsSuppressor:  Actions will be suppressed if the suppressor alarm is in the ALARM state. ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN) from an existing alarm.
     ///   - actionsSuppressorExtensionPeriod:  The maximum time in seconds that the composite alarm waits after suppressor alarm goes out of the ALARM state. After this time, the composite alarm performs its actions.    ExtensionPeriod is required only when ActionsSuppressor is specified.
@@ -1453,6 +1454,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putCompositeAlarm(
+        actionConfiguration: ActionConfiguration? = nil,
         actionsEnabled: Bool? = nil,
         actionsSuppressor: String? = nil,
         actionsSuppressorExtensionPeriod: Int? = nil,
@@ -1467,6 +1469,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutCompositeAlarmInput(
+            actionConfiguration: actionConfiguration, 
             actionsEnabled: actionsEnabled, 
             actionsSuppressor: actionsSuppressor, 
             actionsSuppressorExtensionPeriod: actionsSuppressorExtensionPeriod, 
@@ -1574,6 +1577,7 @@ public struct CloudWatch: AWSService {
     /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression, and each aggregated value is compared against the alarm Threshold to determine the alarm state. The alarm uses M-out-of-N evaluation: if QueryResultsToAlarm out of the most recent QueryResultsToEvaluate query results breach the threshold, the alarm transitions to ALARM. Log alarms support the alarm states (OK, ALARM, INSUFFICIENT_DATA). Configure transition actions using OKActions, AlarmActions, and InsufficientDataActions. If you call this operation with the name of an existing log alarm, the operation replaces the previous configuration of that alarm.  Permissions  To create or update a log alarm, you must have the cloudwatch:PutLogAlarm permission. The IAM role specified in ScheduledQueryRoleARN must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set ActionLogLineCount, the role specified in ActionLogLineRoleArn must grant permission to retrieve log events for inclusion in alarm notifications.
     ///
     /// Parameters:
+    ///   - actionConfiguration: Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
     ///   - actionLogLineCount: The number of log lines from the most recent scheduled query execution to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
     ///   - actionLogLineRoleArn: The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Required when ActionLogLineCount is greater than 0.
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state. The default is true.
@@ -1593,6 +1597,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putLogAlarm(
+        actionConfiguration: ActionConfiguration? = nil,
         actionLogLineCount: Int? = nil,
         actionLogLineRoleArn: String? = nil,
         actionsEnabled: Bool? = nil,
@@ -1612,6 +1617,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutLogAlarmInput(
+            actionConfiguration: actionConfiguration, 
             actionLogLineCount: actionLogLineCount, 
             actionLogLineRoleArn: actionLogLineRoleArn, 
             actionsEnabled: actionsEnabled, 
@@ -1677,6 +1683,7 @@ public struct CloudWatch: AWSService {
     /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries. Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. For PromQL alarms, the alarm state is instead immediately set to OK. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following pre-requisites:   The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role must grant access to the ID of the account where you are creating the alarm.    The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in  Cross-account cross-Region CloudWatch console.
     ///
     /// Parameters:
+    ///   - actionConfiguration: Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
     ///   - alarmActions: The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name      Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
     ///   - alarmDescription: The description for the alarm.
@@ -1706,6 +1713,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putMetricAlarm(
+        actionConfiguration: ActionConfiguration? = nil,
         actionsEnabled: Bool? = nil,
         alarmActions: [String]? = nil,
         alarmDescription: String? = nil,
@@ -1735,6 +1743,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutMetricAlarmInput(
+            actionConfiguration: actionConfiguration, 
             actionsEnabled: actionsEnabled, 
             alarmActions: alarmActions, 
             alarmDescription: alarmDescription, 

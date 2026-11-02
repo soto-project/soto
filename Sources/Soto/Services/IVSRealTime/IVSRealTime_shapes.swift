@@ -2860,6 +2860,30 @@ extension IVSRealTime {
         }
     }
 
+    public struct RevokeConnectionTokenRequest: AWSEncodableShape {
+        /// The ID of the connection token to revoke.
+        public let tokenId: String
+
+        @inlinable
+        public init(tokenId: String) {
+            self.tokenId = tokenId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tokenId, name: "tokenId", parent: name, max: 64)
+            try self.validate(self.tokenId, name: "tokenId", parent: name, min: 1)
+            try self.validate(self.tokenId, name: "tokenId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenId = "tokenId"
+        }
+    }
+
+    public struct RevokeConnectionTokenResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// ARNs of the EncoderConfiguration resource. The encoder configuration and stage resources must be in the same AWS account and region.
         public let encoderConfigurationArns: [String]

@@ -530,6 +530,37 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum RetrievalInstructionFailureReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clientError = "CLIENT_ERROR"
+        case contentRejected = "CONTENT_REJECTED"
+        case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetrievalInstructionFieldName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case answerFormat = "ANSWER_FORMAT"
+        case answerPolicy = "ANSWER_POLICY"
+        case persona = "PERSONA"
+        case retrievalGuidance = "RETRIEVAL_GUIDANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetrievalInstructionLastTransitionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case creating = "CREATING"
+        case updateFailed = "UPDATE_FAILED"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetrievalInstructionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SalesforceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
@@ -3891,6 +3922,173 @@ extension BedrockAgent {
         }
     }
 
+    public struct CreateRetrievalInstructionRequest: AWSEncodableShape {
+        /// A caller-supplied token that makes a retried create return the existing resource rather than a second one. The window is 8 hours.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of a customer managed AWS Key Management Service (AWS KMS) key used to encrypt the instruction content at rest. If you omit it, the service uses an AWS owned key. You fix the key at create and cannot change it later.
+        public let customerEncryptionKeyArn: String?
+        /// Specifies a description of the retrieval instruction.
+        public let description: String?
+        /// The instruction content, as a set of named fields. Get does not return this field until the create review passes.
+        public let instruction: RetrievalInstructionContent
+        /// Specifies the name of the retrieval instruction.
+        public let name: String
+        /// Tags for the retrieval instruction.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateRetrievalInstructionRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, instruction: RetrievalInstructionContent, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.description = description
+            self.instruction = instruction
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.instruction.validate(name: "\(name).instruction")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case description = "description"
+            case instruction = "instruction"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateRetrievalInstructionResponse: AWSDecodableShape {
+        /// When you created the retrieval instruction.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// Always CREATING on this response. Poll GetRetrievalInstruction until this member is neither CREATING nor UPDATING, then read the outcome from it.
+        public let lastTransitionStatus: RetrievalInstructionLastTransitionStatus
+        /// The name of the retrieval instruction.
+        public let name: String
+        /// The ARN of the newly created retrieval instruction.
+        public let retrievalInstructionArn: String
+        /// The identifier of the newly created retrieval instruction.
+        public let retrievalInstructionId: String
+        /// Always INACTIVE on this response. The content review has not run when this call returns, so the resource is not yet usable.
+        public let status: RetrievalInstructionStatus
+        /// When the retrieval instruction was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(createdAt: Date, lastTransitionStatus: RetrievalInstructionLastTransitionStatus, name: String, retrievalInstructionArn: String, retrievalInstructionId: String, status: RetrievalInstructionStatus, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.lastTransitionStatus = lastTransitionStatus
+            self.name = name
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case lastTransitionStatus = "lastTransitionStatus"
+            case name = "name"
+            case retrievalInstructionArn = "retrievalInstructionArn"
+            case retrievalInstructionId = "retrievalInstructionId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct CreateRetrievalInstructionVersionRequest: AWSEncodableShape {
+        /// A caller-supplied token that makes a retried call return the version created by the first call rather than a second version. The window is 8 hours.
+        public let clientToken: String?
+        /// A description of this version. Independent of the retrieval instruction's own description.
+        public let description: String?
+        /// The identifier of the retrieval instruction to version.
+        public let retrievalInstructionId: String
+
+        @inlinable
+        public init(clientToken: String? = CreateRetrievalInstructionVersionRequest.idempotencyToken(), description: String? = nil, retrievalInstructionId: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.retrievalInstructionId = retrievalInstructionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.retrievalInstructionId, key: "retrievalInstructionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, max: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, min: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, pattern: "^[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+        }
+    }
+
+    public struct CreateRetrievalInstructionVersionResponse: AWSDecodableShape {
+        /// When this version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of this version, when one was supplied.
+        public let description: String?
+        /// The ARN of the retrieval instruction. Versions do not have their own ARN.
+        public let retrievalInstructionArn: String
+        /// The identifier of the retrieval instruction.
+        public let retrievalInstructionId: String
+        /// The number of the version created. Versions are numbered from 1 and allocated monotonically; a number is never reused, even after the version is deleted.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, retrievalInstructionArn: String, retrievalInstructionId: String, version: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case retrievalInstructionArn = "retrievalInstructionArn"
+            case retrievalInstructionId = "retrievalInstructionId"
+            case version = "version"
+        }
+    }
+
     public struct CreateVpcConfigurationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
         public let clientToken: String?
@@ -4880,6 +5078,57 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case revisionId = "revisionId"
+        }
+    }
+
+    public struct DeleteRetrievalInstructionRequest: AWSEncodableShape {
+        /// The identifier of the retrieval instruction to delete.
+        public let retrievalInstructionId: String
+        /// The version to delete. Omit this field to delete the retrieval instruction itself, which you can do only when it has no versions; while any version exists the service rejects the request with ConflictException. You cannot delete DRAFT on its own; deleting the retrieval instruction removes it.
+        public let retrievalInstructionVersion: String?
+
+        @inlinable
+        public init(retrievalInstructionId: String, retrievalInstructionVersion: String? = nil) {
+            self.retrievalInstructionId = retrievalInstructionId
+            self.retrievalInstructionVersion = retrievalInstructionVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.retrievalInstructionId, key: "retrievalInstructionId")
+            request.encodeQuery(self.retrievalInstructionVersion, key: "retrievalInstructionVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, max: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, min: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, pattern: "^[a-z0-9]{10}$")
+            try self.validate(self.retrievalInstructionVersion, name: "retrievalInstructionVersion", parent: name, pattern: "^[1-9][0-9]{0,8}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRetrievalInstructionResponse: AWSDecodableShape {
+        /// The ARN of the retrieval instruction.
+        public let retrievalInstructionArn: String
+        /// The identifier of the deleted retrieval instruction.
+        public let retrievalInstructionId: String
+        /// The version that you deleted. Absent when you deleted the whole retrieval instruction.
+        public let version: String?
+
+        @inlinable
+        public init(retrievalInstructionArn: String, retrievalInstructionId: String, version: String? = nil) {
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrievalInstructionArn = "retrievalInstructionArn"
+            case retrievalInstructionId = "retrievalInstructionId"
+            case version = "version"
         }
     }
 
@@ -6497,6 +6746,101 @@ extension BedrockAgent {
         }
     }
 
+    public struct GetRetrievalInstructionRequest: AWSEncodableShape {
+        /// The identifier of the retrieval instruction to get.
+        public let retrievalInstructionId: String
+        /// The version to return: a version number, or DRAFT for the retrieval instruction's current reviewed content. When omitted, DRAFT is used. This default is permanent: omitting retrievalInstructionVersion will never resolve to a numbered version.
+        public let retrievalInstructionVersion: String?
+
+        @inlinable
+        public init(retrievalInstructionId: String, retrievalInstructionVersion: String? = nil) {
+            self.retrievalInstructionId = retrievalInstructionId
+            self.retrievalInstructionVersion = retrievalInstructionVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.retrievalInstructionId, key: "retrievalInstructionId")
+            request.encodeQuery(self.retrievalInstructionVersion, key: "retrievalInstructionVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, max: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, min: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, pattern: "^[a-z0-9]{10}$")
+            try self.validate(self.retrievalInstructionVersion, name: "retrievalInstructionVersion", parent: name, max: 9)
+            try self.validate(self.retrievalInstructionVersion, name: "retrievalInstructionVersion", parent: name, min: 1)
+            try self.validate(self.retrievalInstructionVersion, name: "retrievalInstructionVersion", parent: name, pattern: "^(DRAFT|[1-9][0-9]{0,8})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRetrievalInstructionResponse: AWSDecodableShape {
+        /// When the retrieval instruction was created. On a numbered version, when that version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ARN of the customer managed KMS key protecting this content, when one was supplied at create.
+        public let customerEncryptionKeyArn: String?
+        /// A description of the retrieval instruction. On a numbered version, the description of that version.
+        public let description: String?
+        /// The reviewed content this instruction serves — what AgenticRetrieveStream resolves while status is ACTIVE. Absent until the first create review passes. Always present on a numbered version.
+        public let instruction: RetrievalInstructionContent?
+        /// The outcome or in-progress state of the most recent create or update. CREATING or UPDATING means the operation is still running. Independent of status. Always has a value from the create 202 onward. On a numbered version this is always CREATE_SUCCESSFUL: a version is created once, from reviewed content, and is immutable.
+        public let lastTransitionStatus: RetrievalInstructionLastTransitionStatus
+        /// Why the most recent create or update was rejected. One entry for each rejected field, or a single entry when the review itself failed. Each entry has a machine-readable code and a message, and names the field when it applies to one. The service includes this field only when lastTransitionStatus is CREATE_FAILED or UPDATE_FAILED. Never present on a numbered version.
+        public let lastTransitionStatusReasons: [RetrievalInstructionFailureReason]?
+        /// The largest version number that currently exists for this retrieval instruction, that is, the newest version you can retrieve. Present only on a DRAFT read, and only when at least one version exists. Because version numbers are never reused, deleting versions can leave gaps: this is the newest existing version, not a count and not the highest number ever created.
+        public let latestVersion: String?
+        /// The name of the retrieval instruction.
+        public let name: String
+        /// The ARN of the retrieval instruction.
+        public let retrievalInstructionArn: String
+        /// The identifier of the retrieval instruction.
+        public let retrievalInstructionId: String
+        /// Specifies whether you can use the instruction. You can resolve only an ACTIVE instruction at retrieval time. Monotone: INACTIVE to ACTIVE once, never back. Numbered versions are always ACTIVE.
+        public let status: RetrievalInstructionStatus
+        /// When the retrieval instruction was last updated. Equal to createdAt on a numbered version, which is immutable.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version this response describes: a version number, or DRAFT.
+        public let version: String?
+
+        @inlinable
+        public init(createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, instruction: RetrievalInstructionContent? = nil, lastTransitionStatus: RetrievalInstructionLastTransitionStatus, lastTransitionStatusReasons: [RetrievalInstructionFailureReason]? = nil, latestVersion: String? = nil, name: String, retrievalInstructionArn: String, retrievalInstructionId: String, status: RetrievalInstructionStatus, updatedAt: Date, version: String? = nil) {
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.description = description
+            self.instruction = instruction
+            self.lastTransitionStatus = lastTransitionStatus
+            self.lastTransitionStatusReasons = lastTransitionStatusReasons
+            self.latestVersion = latestVersion
+            self.name = name
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case description = "description"
+            case instruction = "instruction"
+            case lastTransitionStatus = "lastTransitionStatus"
+            case lastTransitionStatusReasons = "lastTransitionStatusReasons"
+            case latestVersion = "latestVersion"
+            case name = "name"
+            case retrievalInstructionArn = "retrievalInstructionArn"
+            case retrievalInstructionId = "retrievalInstructionId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
     public struct GetVpcConfigurationRequest: AWSEncodableShape {
         /// The unique identifier of the knowledge base that owns the VPC configuration.
         public let knowledgeBaseId: String
@@ -6748,12 +7092,15 @@ extension BedrockAgent {
         public let statistics: IngestionJobStatistics?
         /// The status of the data ingestion job.
         public let status: IngestionJobStatus
+        /// The time at which all text content in the data ingestion job finished extraction and became available to query. This time isn't returned until text extraction is complete for all the documents in the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var textReadyAt: Date?
         /// The time the data ingestion job was last updated. If you stop a data ingestion job, the updatedAt time is the time the job was stopped.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
         @inlinable
-        public init(dataSourceId: String, description: String? = nil, failureReasons: [String]? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, updatedAt: Date) {
+        public init(dataSourceId: String, description: String? = nil, failureReasons: [String]? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, textReadyAt: Date? = nil, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
             self.failureReasons = failureReasons
@@ -6762,6 +7109,7 @@ extension BedrockAgent {
             self.startedAt = startedAt
             self.statistics = statistics
             self.status = status
+            self.textReadyAt = textReadyAt
             self.updatedAt = updatedAt
         }
 
@@ -6774,6 +7122,7 @@ extension BedrockAgent {
             case startedAt = "startedAt"
             case statistics = "statistics"
             case status = "status"
+            case textReadyAt = "textReadyAt"
             case updatedAt = "updatedAt"
         }
     }
@@ -6884,12 +7233,15 @@ extension BedrockAgent {
         public let statistics: IngestionJobStatistics?
         /// The status of the data ingestion job.
         public let status: IngestionJobStatus
+        /// The time at which all text content in the data ingestion job finished extraction and became available to query. This time isn't returned until text extraction is complete for all the documents in the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var textReadyAt: Date?
         /// The time the data ingestion job was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
         @inlinable
-        public init(dataSourceId: String, description: String? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, updatedAt: Date) {
+        public init(dataSourceId: String, description: String? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, textReadyAt: Date? = nil, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
             self.ingestionJobId = ingestionJobId
@@ -6897,6 +7249,7 @@ extension BedrockAgent {
             self.startedAt = startedAt
             self.statistics = statistics
             self.status = status
+            self.textReadyAt = textReadyAt
             self.updatedAt = updatedAt
         }
 
@@ -6908,6 +7261,7 @@ extension BedrockAgent {
             case startedAt = "startedAt"
             case statistics = "statistics"
             case status = "status"
+            case textReadyAt = "textReadyAt"
             case updatedAt = "updatedAt"
         }
     }
@@ -8154,6 +8508,111 @@ extension BedrockAgent {
         }
     }
 
+    public struct ListRetrievalInstructionVersionsRequest: AWSEncodableShape {
+        /// Specifies the maximum number of versions to return in a single page. The service enforces the effective upper bound.
+        public let maxResults: Int?
+        /// The pagination token from a previous ListRetrievalInstructionVersions response.
+        public let nextToken: String?
+        /// The identifier of the retrieval instruction whose versions to list.
+        public let retrievalInstructionId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, retrievalInstructionId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.retrievalInstructionId = retrievalInstructionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.retrievalInstructionId, key: "retrievalInstructionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, max: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, min: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, pattern: "^[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRetrievalInstructionVersionsResponse: AWSDecodableShape {
+        /// The pagination token to pass to the next ListRetrievalInstructionVersions call, absent on the last page.
+        public let nextToken: String?
+        /// The version summaries in this page, newest first.
+        public let retrievalInstructionVersionSummaries: [RetrievalInstructionVersionSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, retrievalInstructionVersionSummaries: [RetrievalInstructionVersionSummary]) {
+            self.nextToken = nextToken
+            self.retrievalInstructionVersionSummaries = retrievalInstructionVersionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case retrievalInstructionVersionSummaries = "retrievalInstructionVersionSummaries"
+        }
+    }
+
+    public struct ListRetrievalInstructionsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single page. The effective upper bound is enforced service-side.
+        public let maxResults: Int?
+        /// The pagination token from a previous ListRetrievalInstructions response.
+        public let nextToken: String?
+        /// Return only instructions with this availability status.
+        public let status: RetrievalInstructionStatus?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: RetrievalInstructionStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRetrievalInstructionsResponse: AWSDecodableShape {
+        /// The pagination token to pass to the next ListRetrievalInstructions call, absent on the last page.
+        public let nextToken: String?
+        /// The retrieval instruction summaries in this page.
+        public let retrievalInstructionSummaries: [RetrievalInstructionSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, retrievalInstructionSummaries: [RetrievalInstructionSummary]) {
+            self.nextToken = nextToken
+            self.retrievalInstructionSummaries = retrievalInstructionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case retrievalInstructionSummaries = "retrievalInstructionSummaries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource for which to list tags.
         public let resourceArn: String
@@ -8172,7 +8631,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$)")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$|^arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:retrieval-instruction/[a-z0-9]{10}$)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10310,6 +10769,124 @@ extension BedrockAgent {
         }
     }
 
+    public struct RetrievalInstructionContent: AWSEncodableShape & AWSDecodableShape {
+        /// How the answer is structured, including how sources are cited.
+        public let answerFormat: String?
+        /// Whether and how to answer: how strongly an answer must be supported, and what to do with questions outside scope.
+        public let answerPolicy: String?
+        /// Who the assistant is: identity, tone and language.
+        public let persona: String?
+        /// How to interpret and decompose the question, and what to prioritise when searching.
+        public let retrievalGuidance: String?
+
+        @inlinable
+        public init(answerFormat: String? = nil, answerPolicy: String? = nil, persona: String? = nil, retrievalGuidance: String? = nil) {
+            self.answerFormat = answerFormat
+            self.answerPolicy = answerPolicy
+            self.persona = persona
+            self.retrievalGuidance = retrievalGuidance
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.answerFormat, name: "answerFormat", parent: name, min: 1)
+            try self.validate(self.answerPolicy, name: "answerPolicy", parent: name, min: 1)
+            try self.validate(self.persona, name: "persona", parent: name, min: 1)
+            try self.validate(self.retrievalGuidance, name: "retrievalGuidance", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerFormat = "answerFormat"
+            case answerPolicy = "answerPolicy"
+            case persona = "persona"
+            case retrievalGuidance = "retrievalGuidance"
+        }
+    }
+
+    public struct RetrievalInstructionFailureReason: AWSDecodableShape {
+        /// Stable, machine-readable classification by fault attribution. Valid values:   CONTENT_REJECTED – The review rejected the named field's content; revise the text and resubmit.   CLIENT_ERROR – The review could not run for a customer-side reason, for example the customer managed AWS KMS key could not be used; fix the configuration and resubmit.   INTERNAL_ERROR – The review could not complete due to a service fault; retry the create or update.   New values may be added over time; your client should tolerate values it does not recognize and treat them as a failure.
+        public let code: RetrievalInstructionFailureReasonCode
+        /// The instruction field this entry is about. Present on review rejections of a specific field; absent when the failure applies to the whole review, because a client-side execution failure or a service fault has no single field.
+        public let fieldName: RetrievalInstructionFieldName?
+        /// Human-readable explanation of the specific cause. Never contains the customer's own text.
+        public let message: String
+
+        @inlinable
+        public init(code: RetrievalInstructionFailureReasonCode, fieldName: RetrievalInstructionFieldName? = nil, message: String) {
+            self.code = code
+            self.fieldName = fieldName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case fieldName = "fieldName"
+            case message = "message"
+        }
+    }
+
+    public struct RetrievalInstructionSummary: AWSDecodableShape {
+        /// When you created the retrieval instruction.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// A description of the retrieval instruction.
+        public let description: String?
+        /// The outcome or in-progress state of the most recent create or update of the retrieval instruction.
+        public let lastTransitionStatus: RetrievalInstructionLastTransitionStatus
+        /// The name of the retrieval instruction.
+        public let name: String
+        /// The ARN of the retrieval instruction.
+        public let retrievalInstructionArn: String
+        /// The identifier of the retrieval instruction.
+        public let retrievalInstructionId: String
+        /// Whether the instruction can be used. Only ACTIVE is resolvable at retrieval time.
+        public let status: RetrievalInstructionStatus
+        /// When the retrieval instruction was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, lastTransitionStatus: RetrievalInstructionLastTransitionStatus, name: String, retrievalInstructionArn: String, retrievalInstructionId: String, status: RetrievalInstructionStatus, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastTransitionStatus = lastTransitionStatus
+            self.name = name
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastTransitionStatus = "lastTransitionStatus"
+            case name = "name"
+            case retrievalInstructionArn = "retrievalInstructionArn"
+            case retrievalInstructionId = "retrievalInstructionId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RetrievalInstructionVersionSummary: AWSDecodableShape {
+        /// When this version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The version number.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, version: String) {
+            self.createdAt = createdAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case version = "version"
+        }
+    }
+
     public struct S3Content: AWSEncodableShape {
         /// The S3 location of the file containing the content to ingest.
         public let s3Location: S3Location
@@ -10979,7 +11556,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$)")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$|^arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:retrieval-instruction/[a-z0-9]{10}$)")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -11342,7 +11919,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$)")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$|^arn:aws(-cn|-us-gov|-eusc|-iso(-[b-f])?)?:bedrock:[a-zA-Z0-9-]+:[0-9]{12}:retrieval-instruction/[a-z0-9]{10}$)")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -12251,6 +12828,84 @@ extension BedrockAgent {
             case updatedAt = "updatedAt"
             case variants = "variants"
             case version = "version"
+        }
+    }
+
+    public struct UpdateRetrievalInstructionRequest: AWSEncodableShape {
+        /// A replacement description; applied together with the content when the review passes. Omit to clear.
+        public let description: String?
+        /// The replacement instruction content. This is a full replacement of all four fields, not a patch. During UPDATING, Get continues to return the previously-served content until the update review passes.
+        public let instruction: RetrievalInstructionContent
+        /// The identifier of the retrieval instruction to update.
+        public let retrievalInstructionId: String
+
+        @inlinable
+        public init(description: String? = nil, instruction: RetrievalInstructionContent, retrievalInstructionId: String) {
+            self.description = description
+            self.instruction = instruction
+            self.retrievalInstructionId = retrievalInstructionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.instruction, forKey: .instruction)
+            request.encodePath(self.retrievalInstructionId, key: "retrievalInstructionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.instruction.validate(name: "\(name).instruction")
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, max: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, min: 10)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, pattern: "^[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case instruction = "instruction"
+        }
+    }
+
+    public struct UpdateRetrievalInstructionResponse: AWSDecodableShape {
+        /// When you created the retrieval instruction.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// Always UPDATING on this response. Poll GetRetrievalInstruction until this member is neither CREATING nor UPDATING, then read the outcome from it.
+        public let lastTransitionStatus: RetrievalInstructionLastTransitionStatus
+        /// The name of the retrieval instruction.
+        public let name: String
+        /// The ARN of the retrieval instruction.
+        public let retrievalInstructionArn: String
+        /// The identifier of the retrieval instruction.
+        public let retrievalInstructionId: String
+        /// Whether the instruction can be used. An update never lowers status. Unchanged from the previous value on this response.
+        public let status: RetrievalInstructionStatus
+        /// When the retrieval instruction was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(createdAt: Date, lastTransitionStatus: RetrievalInstructionLastTransitionStatus, name: String, retrievalInstructionArn: String, retrievalInstructionId: String, status: RetrievalInstructionStatus, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.lastTransitionStatus = lastTransitionStatus
+            self.name = name
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case lastTransitionStatus = "lastTransitionStatus"
+            case name = "name"
+            case retrievalInstructionArn = "retrievalInstructionArn"
+            case retrievalInstructionId = "retrievalInstructionId"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS NetworkFirewall service.
 ///
-/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.8. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
+/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 8.0.3. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
 public struct NetworkFirewall: AWSService {
     // MARK: Member variables
 
@@ -1274,7 +1274,8 @@ public struct NetworkFirewall: AWSService {
     /// Returns key information about a specific flow operation.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
@@ -1283,6 +1284,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func describeFlowOperation(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationId: String,
         vpcEndpointAssociationArn: String? = nil,
@@ -1291,6 +1293,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> DescribeFlowOperationResponse {
         let input = DescribeFlowOperationRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
@@ -1973,7 +1976,8 @@ public struct NetworkFirewall: AWSService {
     /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -1984,6 +1988,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func listFlowOperationResults(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationId: String,
         maxResults: Int? = nil,
@@ -1994,6 +1999,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> ListFlowOperationResultsResponse {
         let input = ListFlowOperationResultsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             maxResults: maxResults, 
@@ -2022,7 +2028,8 @@ public struct NetworkFirewall: AWSService {
     /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -2033,6 +2040,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func listFlowOperations(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationType: FlowOperationType? = nil,
         maxResults: Int? = nil,
@@ -2043,6 +2051,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> ListFlowOperationsResponse {
         let input = ListFlowOperationsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationType: flowOperationType, 
             maxResults: maxResults, 
@@ -2409,7 +2418,8 @@ public struct NetworkFirewall: AWSService {
     /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.   To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges.  Instead, we recommend you define more specific criteria with FlowFilters, like narrow IP ranges, ports, or protocols.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
@@ -2419,6 +2429,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func startFlowCapture(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowFilters: [FlowFilter],
         minimumFlowAgeInSeconds: Int? = nil,
@@ -2428,6 +2439,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> StartFlowCaptureResponse {
         let input = StartFlowCaptureRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowFilters: flowFilters, 
             minimumFlowAgeInSeconds: minimumFlowAgeInSeconds, 
@@ -2453,7 +2465,8 @@ public struct NetworkFirewall: AWSService {
     /// Begins the flushing of traffic from the firewall, according to the filters you define.  When the operation starts, impacted flows are temporarily marked as timed out before the Suricata engine prunes,  or flushes, the flows from the firewall table.  While the flush completes, impacted flows are processed as midstream traffic. This may result in a  temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy  before you perform a flush operation.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
@@ -2463,6 +2476,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func startFlowFlush(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowFilters: [FlowFilter],
         minimumFlowAgeInSeconds: Int? = nil,
@@ -2472,6 +2486,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> StartFlowFlushResponse {
         let input = StartFlowFlushRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowFilters: flowFilters, 
             minimumFlowAgeInSeconds: minimumFlowAgeInSeconds, 
@@ -3522,7 +3537,8 @@ extension NetworkFirewall {
     /// Return PaginatorSequence for operation ``listFlowOperationResults(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -3532,6 +3548,7 @@ extension NetworkFirewall {
     @inlinable
     public func listFlowOperationResultsPaginator(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationId: String,
         maxResults: Int? = nil,
@@ -3541,6 +3558,7 @@ extension NetworkFirewall {
     ) -> AWSClient.PaginatorSequence<ListFlowOperationResultsRequest, ListFlowOperationResultsResponse> {
         let input = ListFlowOperationResultsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             maxResults: maxResults, 
@@ -3571,7 +3589,8 @@ extension NetworkFirewall {
     /// Return PaginatorSequence for operation ``listFlowOperations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -3581,6 +3600,7 @@ extension NetworkFirewall {
     @inlinable
     public func listFlowOperationsPaginator(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationType: FlowOperationType? = nil,
         maxResults: Int? = nil,
@@ -3590,6 +3610,7 @@ extension NetworkFirewall {
     ) -> AWSClient.PaginatorSequence<ListFlowOperationsRequest, ListFlowOperationsResponse> {
         let input = ListFlowOperationsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationType: flowOperationType, 
             maxResults: maxResults, 
@@ -3917,6 +3938,7 @@ extension NetworkFirewall.ListFlowOperationResultsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFlowOperationResultsRequest {
         return .init(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             firewallArn: self.firewallArn,
             flowOperationId: self.flowOperationId,
             maxResults: self.maxResults,
@@ -3932,6 +3954,7 @@ extension NetworkFirewall.ListFlowOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFlowOperationsRequest {
         return .init(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             firewallArn: self.firewallArn,
             flowOperationType: self.flowOperationType,
             maxResults: self.maxResults,
@@ -4015,5 +4038,50 @@ extension NetworkFirewall.ListVpcEndpointAssociationsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension NetworkFirewall {
+    /// Waiter for operation ``describeFirewallPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFirewallPolicyActive(
+        _ input: DescribeFirewallPolicyRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeFirewallPolicyRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("firewallPolicyResponse.firewallPolicyStatus", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("firewallPolicyResponse.firewallPolicyStatus", expected: "ERROR")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeFirewallPolicy
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeFirewallPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - firewallPolicyArn: The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallPolicyName: The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFirewallPolicyActive(
+        firewallPolicyArn: String? = nil,
+        firewallPolicyName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeFirewallPolicyRequest(
+            firewallPolicyArn: firewallPolicyArn, 
+            firewallPolicyName: firewallPolicyName
+        )
+        try await self.waitUntilFirewallPolicyActive(input, logger: logger)
     }
 }

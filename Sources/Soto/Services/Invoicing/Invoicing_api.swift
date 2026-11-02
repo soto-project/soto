@@ -178,6 +178,8 @@ public struct Invoicing: AWSService {
     ///   - contacts: List of contact information for portal administrators and technical contacts responsible for the e-invoice integration.
     ///   - einvoiceDeliveryEnabled: Indicates whether e-invoice delivery is enabled for this procurement portal preference. Set to true to enable e-invoice delivery, false to disable.
     ///   - einvoiceDeliveryPreference: Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+    ///   - marketplacePunchOutEnabled: Defaults to false if not provided.
+    ///   - marketplacePunchOutPreference: Required for Coupa when MarketplacePunchOutEnabled is true.
     ///   - procurementPortalInstanceEndpoint: The endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
     ///   - procurementPortalName: The name of the procurement portal.
     ///   - procurementPortalSharedSecret: The shared secret or authentication credential used to establish secure communication with the procurement portal. This value must be encrypted at rest.
@@ -196,6 +198,8 @@ public struct Invoicing: AWSService {
         contacts: [Contact],
         einvoiceDeliveryEnabled: Bool,
         einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil,
+        marketplacePunchOutEnabled: Bool? = nil,
+        marketplacePunchOutPreference: MarketplacePunchOutPreference? = nil,
         procurementPortalInstanceEndpoint: String? = nil,
         procurementPortalName: ProcurementPortalName,
         procurementPortalSharedSecret: String? = nil,
@@ -214,6 +218,8 @@ public struct Invoicing: AWSService {
             contacts: contacts, 
             einvoiceDeliveryEnabled: einvoiceDeliveryEnabled, 
             einvoiceDeliveryPreference: einvoiceDeliveryPreference, 
+            marketplacePunchOutEnabled: marketplacePunchOutEnabled, 
+            marketplacePunchOutPreference: marketplacePunchOutPreference, 
             procurementPortalInstanceEndpoint: procurementPortalInstanceEndpoint, 
             procurementPortalName: procurementPortalName, 
             procurementPortalSharedSecret: procurementPortalSharedSecret, 
@@ -605,6 +611,8 @@ public struct Invoicing: AWSService {
     ///   - contacts: Updated list of contact information for portal administrators and technical contacts.
     ///   - einvoiceDeliveryEnabled: Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.
     ///   - einvoiceDeliveryPreference: Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+    ///   - marketplacePunchOutEnabled: Whether Marketplace PunchOut is enabled for this connection. Defaults to false if not provided.
+    ///   - marketplacePunchOutPreference: Configuration for Marketplace PunchOut. Required when MarketplacePunchOutEnabled is true.
     ///   - procurementPortalInstanceEndpoint: The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
     ///   - procurementPortalPreferenceArn: The Amazon Resource Name (ARN) of the procurement portal preference to update.
     ///   - procurementPortalSharedSecret: The updated shared secret or authentication credential for the procurement portal. This value must be encrypted at rest.
@@ -618,6 +626,8 @@ public struct Invoicing: AWSService {
         contacts: [Contact],
         einvoiceDeliveryEnabled: Bool,
         einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil,
+        marketplacePunchOutEnabled: Bool? = nil,
+        marketplacePunchOutPreference: MarketplacePunchOutPreference? = nil,
         procurementPortalInstanceEndpoint: String? = nil,
         procurementPortalPreferenceArn: String,
         procurementPortalSharedSecret: String? = nil,
@@ -631,6 +641,8 @@ public struct Invoicing: AWSService {
             contacts: contacts, 
             einvoiceDeliveryEnabled: einvoiceDeliveryEnabled, 
             einvoiceDeliveryPreference: einvoiceDeliveryPreference, 
+            marketplacePunchOutEnabled: marketplacePunchOutEnabled, 
+            marketplacePunchOutPreference: marketplacePunchOutPreference, 
             procurementPortalInstanceEndpoint: procurementPortalInstanceEndpoint, 
             procurementPortalPreferenceArn: procurementPortalPreferenceArn, 
             procurementPortalSharedSecret: procurementPortalSharedSecret, 

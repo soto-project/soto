@@ -403,6 +403,10 @@ extension Invoicing {
         public let einvoiceDeliveryEnabled: Bool
         /// Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
         public let einvoiceDeliveryPreference: EinvoiceDeliveryPreference?
+        /// Defaults to false if not provided.
+        public let marketplacePunchOutEnabled: Bool?
+        /// Required for Coupa when MarketplacePunchOutEnabled is true.
+        public let marketplacePunchOutPreference: MarketplacePunchOutPreference?
         /// The endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
         public let procurementPortalInstanceEndpoint: String?
         /// The name of the procurement portal.
@@ -422,13 +426,15 @@ extension Invoicing {
         public let testEnvPreference: TestEnvPreferenceInput?
 
         @inlinable
-        public init(buyerDomain: BuyerDomain, buyerIdentifier: String, clientToken: String? = CreateProcurementPortalPreferenceRequest.idempotencyToken(), contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalName: ProcurementPortalName, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, resourceTags: [ResourceTag]? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, testEnvPreference: TestEnvPreferenceInput? = nil) {
+        public init(buyerDomain: BuyerDomain, buyerIdentifier: String, clientToken: String? = CreateProcurementPortalPreferenceRequest.idempotencyToken(), contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, marketplacePunchOutEnabled: Bool? = nil, marketplacePunchOutPreference: MarketplacePunchOutPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalName: ProcurementPortalName, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, resourceTags: [ResourceTag]? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, testEnvPreference: TestEnvPreferenceInput? = nil) {
             self.buyerDomain = buyerDomain
             self.buyerIdentifier = buyerIdentifier
             self.clientToken = clientToken
             self.contacts = contacts
             self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
             self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+            self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
+            self.marketplacePunchOutPreference = marketplacePunchOutPreference
             self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
             self.procurementPortalName = procurementPortalName
             self.procurementPortalSharedSecret = procurementPortalSharedSecret
@@ -451,6 +457,7 @@ extension Invoicing {
             try self.validate(self.contacts, name: "contacts", parent: name, max: 1)
             try self.validate(self.contacts, name: "contacts", parent: name, min: 1)
             try self.einvoiceDeliveryPreference?.validate(name: "\(name).einvoiceDeliveryPreference")
+            try self.marketplacePunchOutPreference?.validate(name: "\(name).marketplacePunchOutPreference")
             try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, max: 1024)
             try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, pattern: "^\\S+$")
             try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, max: 1024)
@@ -472,6 +479,8 @@ extension Invoicing {
             case contacts = "Contacts"
             case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
             case einvoiceDeliveryPreference = "EinvoiceDeliveryPreference"
+            case marketplacePunchOutEnabled = "MarketplacePunchOutEnabled"
+            case marketplacePunchOutPreference = "MarketplacePunchOutPreference"
             case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
             case procurementPortalName = "ProcurementPortalName"
             case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"
@@ -1561,6 +1570,25 @@ extension Invoicing {
         }
     }
 
+    public struct MarketplacePunchOutPreference: AWSEncodableShape & AWSDecodableShape {
+        /// The URL that buyers are redirected to for approval requests in the procurement portal. This is only supported for Coupa. When provided together with the procurement portal instance endpoint, its host must match the host of that endpoint.
+        public let approvalRequestRedirectUrl: String?
+
+        @inlinable
+        public init(approvalRequestRedirectUrl: String? = nil) {
+            self.approvalRequestRedirectUrl = approvalRequestRedirectUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.approvalRequestRedirectUrl, name: "approvalRequestRedirectUrl", parent: name, max: 1024)
+            try self.validate(self.approvalRequestRedirectUrl, name: "approvalRequestRedirectUrl", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalRequestRedirectUrl = "ApprovalRequestRedirectUrl"
+        }
+    }
+
     public struct ProcurementPortal: AWSDecodableShape {
         /// The default feature configurations for the procurement portal.
         public let defaultFeatureConfigurations: FeatureConfigurations?
@@ -1600,7 +1628,7 @@ extension Invoicing {
         public let createDate: Date
         /// Indicates whether e-invoice delivery is enabled for this procurement portal preference.
         public let einvoiceDeliveryEnabled: Bool
-        /// The configuration settings that specify how e-invoices are delivered to the procurement portal.
+        /// The e-invoice delivery configuration including document types, attachment types, and customization settings.
         public let einvoiceDeliveryPreference: EinvoiceDeliveryPreference?
         /// The current status of the e-invoice delivery preference.
         public let einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus?
@@ -1608,6 +1636,10 @@ extension Invoicing {
         public let einvoiceDeliveryPreferenceStatusReason: String?
         /// The date and time when the procurement portal preference was last updated.
         public let lastUpdateDate: Date
+        /// Indicates whether Marketplace PunchOut is enabled for this procurement portal preference. Defaults to false.
+        public let marketplacePunchOutEnabled: Bool?
+        /// The Marketplace PunchOut configuration for this procurement portal preference. This is present when MarketplacePunchOutEnabled is true.
+        public let marketplacePunchOutPreference: MarketplacePunchOutPreference?
         /// The endpoint URL where e-invoices are delivered to the procurement portal.
         public let procurementPortalInstanceEndpoint: String?
         /// The name of the procurement portal.
@@ -1635,7 +1667,7 @@ extension Invoicing {
         public let version: Int64
 
         @inlinable
-        public init(awsAccountId: String, buyerDomain: BuyerDomain, buyerIdentifier: String, contacts: [Contact]? = nil, createDate: Date, einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, lastUpdateDate: Date, procurementPortalInstanceEndpoint: String? = nil, procurementPortalName: ProcurementPortalName, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, purchaseOrderRetrievalEndpoint: String? = nil, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, testEnvPreference: TestEnvPreference? = nil, version: Int64) {
+        public init(awsAccountId: String, buyerDomain: BuyerDomain, buyerIdentifier: String, contacts: [Contact]? = nil, createDate: Date, einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, lastUpdateDate: Date, marketplacePunchOutEnabled: Bool? = nil, marketplacePunchOutPreference: MarketplacePunchOutPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalName: ProcurementPortalName, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, purchaseOrderRetrievalEndpoint: String? = nil, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, testEnvPreference: TestEnvPreference? = nil, version: Int64) {
             self.awsAccountId = awsAccountId
             self.buyerDomain = buyerDomain
             self.buyerIdentifier = buyerIdentifier
@@ -1646,6 +1678,8 @@ extension Invoicing {
             self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
             self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
             self.lastUpdateDate = lastUpdateDate
+            self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
+            self.marketplacePunchOutPreference = marketplacePunchOutPreference
             self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
             self.procurementPortalName = procurementPortalName
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
@@ -1672,6 +1706,8 @@ extension Invoicing {
             case einvoiceDeliveryPreferenceStatus = "EinvoiceDeliveryPreferenceStatus"
             case einvoiceDeliveryPreferenceStatusReason = "EinvoiceDeliveryPreferenceStatusReason"
             case lastUpdateDate = "LastUpdateDate"
+            case marketplacePunchOutEnabled = "MarketplacePunchOutEnabled"
+            case marketplacePunchOutPreference = "MarketplacePunchOutPreference"
             case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
             case procurementPortalName = "ProcurementPortalName"
             case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
@@ -1737,6 +1773,8 @@ extension Invoicing {
         public let einvoiceDeliveryPreferenceStatusReason: String?
         /// The date and time when the procurement portal preference was last updated.
         public let lastUpdateDate: Date
+        /// Indicates whether Marketplace PunchOut is enabled for this procurement portal preference. Defaults to false.
+        public let marketplacePunchOutEnabled: Bool?
         /// The name of the procurement portal.
         public let procurementPortalName: ProcurementPortalName
         /// The Amazon Resource Name (ARN) of the procurement portal preference.
@@ -1756,7 +1794,7 @@ extension Invoicing {
         public let version: Int64
 
         @inlinable
-        public init(awsAccountId: String, buyerDomain: BuyerDomain, buyerIdentifier: String, createDate: Date, einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, lastUpdateDate: Date, procurementPortalName: ProcurementPortalName, procurementPortalPreferenceArn: String, purchaseOrderRetrievalEnabled: Bool, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, version: Int64) {
+        public init(awsAccountId: String, buyerDomain: BuyerDomain, buyerIdentifier: String, createDate: Date, einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, lastUpdateDate: Date, marketplacePunchOutEnabled: Bool? = nil, procurementPortalName: ProcurementPortalName, procurementPortalPreferenceArn: String, purchaseOrderRetrievalEnabled: Bool, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, version: Int64) {
             self.awsAccountId = awsAccountId
             self.buyerDomain = buyerDomain
             self.buyerIdentifier = buyerIdentifier
@@ -1765,6 +1803,7 @@ extension Invoicing {
             self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
             self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
             self.lastUpdateDate = lastUpdateDate
+            self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
             self.procurementPortalName = procurementPortalName
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
             self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
@@ -1785,6 +1824,7 @@ extension Invoicing {
             case einvoiceDeliveryPreferenceStatus = "EinvoiceDeliveryPreferenceStatus"
             case einvoiceDeliveryPreferenceStatusReason = "EinvoiceDeliveryPreferenceStatusReason"
             case lastUpdateDate = "LastUpdateDate"
+            case marketplacePunchOutEnabled = "MarketplacePunchOutEnabled"
             case procurementPortalName = "ProcurementPortalName"
             case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
             case purchaseOrderRetrievalEnabled = "PurchaseOrderRetrievalEnabled"
@@ -1850,6 +1890,10 @@ extension Invoicing {
         public let einvoiceDeliveryEnabled: Bool
         /// Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
         public let einvoiceDeliveryPreference: EinvoiceDeliveryPreference?
+        /// Whether Marketplace PunchOut is enabled for this connection. Defaults to false if not provided.
+        public let marketplacePunchOutEnabled: Bool?
+        /// Configuration for Marketplace PunchOut. Required when MarketplacePunchOutEnabled is true.
+        public let marketplacePunchOutPreference: MarketplacePunchOutPreference?
         /// The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
         public let procurementPortalInstanceEndpoint: String?
         /// The Amazon Resource Name (ARN) of the procurement portal preference to update.
@@ -1863,11 +1907,13 @@ extension Invoicing {
         public let testEnvPreference: TestEnvPreferenceInput?
 
         @inlinable
-        public init(clientToken: String? = PutProcurementPortalPreferenceRequest.idempotencyToken(), contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, selector: ProcurementPortalPreferenceSelector? = nil, testEnvPreference: TestEnvPreferenceInput? = nil) {
+        public init(clientToken: String? = PutProcurementPortalPreferenceRequest.idempotencyToken(), contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, marketplacePunchOutEnabled: Bool? = nil, marketplacePunchOutPreference: MarketplacePunchOutPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, selector: ProcurementPortalPreferenceSelector? = nil, testEnvPreference: TestEnvPreferenceInput? = nil) {
             self.clientToken = clientToken
             self.contacts = contacts
             self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
             self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+            self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
+            self.marketplacePunchOutPreference = marketplacePunchOutPreference
             self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
             self.procurementPortalSharedSecret = procurementPortalSharedSecret
@@ -1885,6 +1931,7 @@ extension Invoicing {
             try self.validate(self.contacts, name: "contacts", parent: name, max: 1)
             try self.validate(self.contacts, name: "contacts", parent: name, min: 1)
             try self.einvoiceDeliveryPreference?.validate(name: "\(name).einvoiceDeliveryPreference")
+            try self.marketplacePunchOutPreference?.validate(name: "\(name).marketplacePunchOutPreference")
             try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, max: 1024)
             try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, pattern: "^\\S+$")
             try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
@@ -1901,6 +1948,8 @@ extension Invoicing {
             case contacts = "Contacts"
             case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
             case einvoiceDeliveryPreference = "EinvoiceDeliveryPreference"
+            case marketplacePunchOutEnabled = "MarketplacePunchOutEnabled"
+            case marketplacePunchOutPreference = "MarketplacePunchOutPreference"
             case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
             case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
             case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"

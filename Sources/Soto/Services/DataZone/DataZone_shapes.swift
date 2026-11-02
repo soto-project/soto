@@ -103,12 +103,16 @@ extension DataZone {
         case athena = "ATHENA"
         case bigquery = "BIGQUERY"
         case databricks = "DATABRICKS"
+        /// A Databricks Unity Catalog (Iceberg REST) connection type.
+        case databricksicebergrestcatalog = "DATABRICKSICEBERGRESTCATALOG"
         case documentdb = "DOCUMENTDB"
         case dynamodb = "DYNAMODB"
         /// A Git connection type.
         case git = "GIT"
         case hyperpod = "HYPERPOD"
         case iam = "IAM"
+        /// A generic Iceberg REST catalog connection type.
+        case icebergrestcatalog = "ICEBERGRESTCATALOG"
         case mlflow = "MLFLOW"
         case mysql = "MYSQL"
         case opensearch = "OPENSEARCH"
@@ -118,6 +122,8 @@ extension DataZone {
         case s3 = "S3"
         case saphana = "SAPHANA"
         case snowflake = "SNOWFLAKE"
+        /// A Snowflake Horizon (Iceberg REST) catalog connection type.
+        case snowflakeicebergrestcatalog = "SNOWFLAKEICEBERGRESTCATALOG"
         case spark = "SPARK"
         case sqlserver = "SQLSERVER"
         case teradata = "TERADATA"
@@ -212,6 +218,14 @@ extension DataZone {
         case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DesignationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// System-defined designation that cannot be modified or deleted.
+        case managed = "MANAGED"
+        /// Created by a user via the CreateDesignation API.
+        case userCreated = "USER_CREATED"
         public var description: String { return self.rawValue }
     }
 
@@ -326,8 +340,12 @@ extension DataZone {
 
     public enum GlueConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigquery = "BIGQUERY"
+        /// A Databricks Unity Catalog (Iceberg REST) connection type.
+        case databricksicebergrestcatalog = "DATABRICKSICEBERGRESTCATALOG"
         case documentdb = "DOCUMENTDB"
         case dynamodb = "DYNAMODB"
+        /// A generic Iceberg REST catalog connection type.
+        case icebergrestcatalog = "ICEBERGRESTCATALOG"
         case mysql = "MYSQL"
         case opensearch = "OPENSEARCH"
         case oracle = "ORACLE"
@@ -335,6 +353,8 @@ extension DataZone {
         case redshift = "REDSHIFT"
         case saphana = "SAPHANA"
         case snowflake = "SNOWFLAKE"
+        /// A Snowflake Horizon (Iceberg REST) catalog connection type.
+        case snowflakeicebergrestcatalog = "SNOWFLAKEICEBERGRESTCATALOG"
         case sqlserver = "SQLSERVER"
         case teradata = "TERADATA"
         case vertica = "VERTICA"
@@ -546,6 +566,24 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum NotifyOnState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Notify when the notebook run fails.
+        case failed = "FAILED"
+        /// Notify when the notebook run is queued.
+        case queued = "QUEUED"
+        /// Notify when the notebook run is running.
+        case running = "RUNNING"
+        /// Notify when the notebook run is starting.
+        case starting = "STARTING"
+        /// Notify when the notebook run is stopped.
+        case stopped = "STOPPED"
+        /// Notify when the notebook run is stopping.
+        case stopping = "STOPPING"
+        /// Notify when the notebook run succeeds.
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
@@ -582,6 +620,7 @@ extension DataZone {
         case contributor = "CONTRIBUTOR"
         case owner = "OWNER"
         case projectCatalogSteward = "PROJECT_CATALOG_STEWARD"
+        case userCreatedDesignation = "USER_CREATED_DESIGNATION"
         public var description: String { return self.rawValue }
     }
 
@@ -863,6 +902,7 @@ extension DataZone {
         case projectCatalogViewer = "PROJECT_CATALOG_VIEWER"
         case projectContributor = "PROJECT_CONTRIBUTOR"
         case projectOwner = "PROJECT_OWNER"
+        case userCreatedDesignation = "USER_CREATED_DESIGNATION"
         public var description: String { return self.rawValue }
     }
 
@@ -2456,6 +2496,58 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case glueSelfGrantStatus = "glueSelfGrantStatus"
             case redshiftSelfGrantStatus = "redshiftSelfGrantStatus"
+        }
+    }
+
+    public enum SourceLocation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon Simple Storage Service URI of the notebook source file.
+        case s3(String)
+        /// The Amazon Simple Storage Service objects to import as the notebook's cells. One cell is created for each object, in the order in which you list them.
+        case s3Files(S3FilesLocation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .s3:
+                let value = try container.decode(String.self, forKey: .s3)
+                self = .s3(value)
+            case .s3Files:
+                let value = try container.decode(S3FilesLocation.self, forKey: .s3Files)
+                self = .s3Files(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            case .s3Files(let value):
+                try container.encode(value, forKey: .s3Files)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3(let value):
+                try self.validate(value, name: "s3", parent: name, max: 1024)
+                try self.validate(value, name: "s3", parent: name, min: 1)
+                try self.validate(value, name: "s3", parent: name, pattern: "^s3://.+$")
+            case .s3Files(let value):
+                try value.validate(name: "\(name).s3Files")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+            case s3Files = "s3Files"
         }
     }
 
@@ -5998,6 +6090,109 @@ extension DataZone {
         }
     }
 
+    public struct CreateDesignationInput: AWSEncodableShape {
+        /// Whether deletion protection is enabled for this designation. Defaults to true when omitted.
+        public let deletionProtection: Bool?
+        /// A human-readable description of the designation and its intended use.
+        public let description: String?
+        /// The identifier of the Amazon DataZone domain in which the designation is created.
+        public let domainIdentifier: String
+        /// The name of the designation. The name must be unique within the domain.
+        public let name: String
+        /// The Cedar permit policy that defines what actions holders of this
+        /// designation are allowed to perform.
+        public let policy: String
+
+        @inlinable
+        public init(deletionProtection: Bool? = nil, description: String? = nil, domainIdentifier: String, name: String, policy: String) {
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+            self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.policy, forKey: .policy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 10000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+        }
+    }
+
+    public struct CreateDesignationOutput: AWSDecodableShape {
+        /// The date and time when the designation was created.
+        public let createdAt: Date?
+        /// The identifier of the Amazon DataZone user who created the designation.
+        public let createdBy: String
+        /// Whether deletion protection is enabled for this designation. When true,
+        /// DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+        public let deletionProtection: Bool
+        /// A human-readable description of the designation and its intended use.
+        public let description: String?
+        /// The classification of this designation. MANAGED designations are
+        /// system-defined and cannot be modified or deleted.
+        public let designationType: DesignationType
+        /// The identifier of the Amazon DataZone domain in which the designation was created.
+        public let domainId: String
+        /// The unique ID of the designation.
+        public let id: String
+        /// The date and time when the designation was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the designation. The name is unique within the domain.
+        public let name: String
+        /// The Cedar permit policy that governs what actions holders of this
+        /// designation are allowed to perform.
+        public let policy: String
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, deletionProtection: Bool, description: String? = nil, designationType: DesignationType, domainId: String, id: String, lastUpdatedAt: Date? = nil, name: String, policy: String) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.designationType = designationType
+            self.domainId = domainId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case designationType = "designationType"
+            case domainId = "domainId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case policy = "policy"
+        }
+    }
+
     public struct CreateDomainInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7494,6 +7689,9 @@ extension DataZone {
             }
             try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, max: 20)
             try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, min: 1)
+            try self.membershipAssignments?.forEach {
+                try $0.validate(name: "\(name).membershipAssignments[]")
+            }
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
@@ -7534,13 +7732,16 @@ extension DataZone {
         public let member: Member
         /// The ID of the project for which this project membership was created.
         public let projectIdentifier: String
+        /// The ID of the user-created designation to assign to the project member. Required when designation is USER_CREATED_DESIGNATION; must not be provided otherwise.
+        public let userCreatedDesignationId: String?
 
         @inlinable
-        public init(designation: UserDesignation, domainIdentifier: String, member: Member, projectIdentifier: String) {
+        public init(designation: UserDesignation, domainIdentifier: String, member: Member, projectIdentifier: String, userCreatedDesignationId: String? = nil) {
             self.designation = designation
             self.domainIdentifier = domainIdentifier
             self.member = member
             self.projectIdentifier = projectIdentifier
+            self.userCreatedDesignationId = userCreatedDesignationId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -7550,16 +7751,19 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encode(self.member, forKey: .member)
             request.encodePath(self.projectIdentifier, key: "projectIdentifier")
+            try container.encodeIfPresent(self.userCreatedDesignationId, forKey: .userCreatedDesignationId)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.projectIdentifier, name: "projectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.userCreatedDesignationId, name: "userCreatedDesignationId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case designation = "designation"
             case member = "member"
+            case userCreatedDesignationId = "userCreatedDesignationId"
         }
     }
 
@@ -9338,6 +9542,37 @@ extension DataZone {
         }
     }
 
+    public struct DeleteDesignationInput: AWSEncodableShape {
+        /// The identifier of the Amazon DataZone domain that contains the designation to delete.
+        public let domainIdentifier: String
+        /// The unique ID of the designation to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDesignationOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDomainInput: AWSEncodableShape {
         /// Specifies whether to delete the domain along with all of its associated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck. If you don't specify a value, the default is false.
         public let cascadeDelete: Bool?
@@ -10174,6 +10409,52 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case endTimeoutMinutes = "endTimeoutMinutes"
             case startTimeoutMinutes = "startTimeoutMinutes"
+        }
+    }
+
+    public struct DesignationSummary: AWSDecodableShape {
+        /// The date and time when the designation was created.
+        public let createdAt: Date?
+        /// The identifier of the Amazon DataZone user who created the designation.
+        public let createdBy: String
+        /// Whether deletion protection is enabled for this designation.
+        public let deletionProtection: Bool
+        /// A human-readable description of the designation and its intended use.
+        public let description: String?
+        /// The classification of this designation.
+        public let designationType: DesignationType?
+        /// The identifier of the Amazon DataZone domain that contains the designation.
+        public let domainId: String
+        /// The unique ID of the designation.
+        public let id: String
+        /// The name of the designation. The name is unique within the domain.
+        public let name: String
+        /// The date and time when the designation was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, deletionProtection: Bool, description: String? = nil, designationType: DesignationType? = nil, domainId: String, id: String, name: String, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.designationType = designationType
+            self.domainId = domainId
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case designationType = "designationType"
+            case domainId = "domainId"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -12142,6 +12423,86 @@ extension DataZone {
         }
     }
 
+    public struct GetDesignationInput: AWSEncodableShape {
+        /// The identifier of the Amazon DataZone domain that contains the designation.
+        public let domainIdentifier: String
+        /// The unique ID of the designation to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDesignationOutput: AWSDecodableShape {
+        /// The date and time when the designation was created.
+        public let createdAt: Date?
+        /// The identifier of the Amazon DataZone user who created the designation.
+        public let createdBy: String
+        /// Whether deletion protection is enabled for this designation. When true,
+        /// DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+        public let deletionProtection: Bool
+        /// A human-readable description of the designation and its intended use.
+        public let description: String?
+        /// The classification of this designation. MANAGED designations are
+        /// system-defined and cannot be modified or deleted.
+        public let designationType: DesignationType
+        /// The identifier of the Amazon DataZone domain that contains the designation.
+        public let domainId: String
+        /// The unique ID of the designation.
+        public let id: String
+        /// The date and time when the designation was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the designation. The name is unique within the domain.
+        public let name: String
+        /// The Cedar permit policy that governs what actions holders of this
+        /// designation are allowed to perform.
+        public let policy: String
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, deletionProtection: Bool, description: String? = nil, designationType: DesignationType, domainId: String, id: String, lastUpdatedAt: Date? = nil, name: String, policy: String) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.designationType = designationType
+            self.domainId = domainId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case designationType = "designationType"
+            case domainId = "domainId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case policy = "policy"
+        }
+    }
+
     public struct GetDomainInput: AWSEncodableShape {
         /// The identifier of the specified Amazon DataZone domain.
         public let identifier: String
@@ -13879,6 +14240,8 @@ extension DataZone {
         public let networkConfiguration: NetworkConfig?
         /// The identifier of the notebook.
         public let notebookId: String
+        /// The notification configuration of the notebook run, including the notebook run states that trigger notifications.
+        public let notificationConfiguration: NotificationConfig?
         /// The identifier of the project that owns the notebook run.
         public let owningProjectId: String
         /// The sensitive parameters of the notebook run.
@@ -13901,7 +14264,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, notificationConfiguration: NotificationConfig? = nil, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.cellOrder = cellOrder
             self.completedAt = completedAt
             self.computeConfiguration = computeConfiguration
@@ -13914,6 +14277,7 @@ extension DataZone {
             self.metadata = metadata
             self.networkConfiguration = networkConfiguration
             self.notebookId = notebookId
+            self.notificationConfiguration = notificationConfiguration
             self.owningProjectId = owningProjectId
             self.parameters = parameters
             self.scheduleId = scheduleId
@@ -13939,6 +14303,7 @@ extension DataZone {
             case metadata = "metadata"
             case networkConfiguration = "networkConfiguration"
             case notebookId = "notebookId"
+            case notificationConfiguration = "notificationConfiguration"
             case owningProjectId = "owningProjectId"
             case parameters = "parameters"
             case scheduleId = "scheduleId"
@@ -16798,6 +17163,58 @@ extension DataZone {
         }
     }
 
+    public struct ListDesignationsInput: AWSEncodableShape {
+        /// The identifier of the Amazon DataZone domain that contains the designations to list.
+        public let domainIdentifier: String
+        /// The maximum number of designations to return in a single call to ListDesignations. If the number of designations exceeds MaxResults, the response includes a NextToken value. Use that token in a subsequent call to ListDesignations to retrieve the next set of designations. The default value is 20.
+        public let maxResults: Int?
+        /// If the results exceed the value of MaxResults, the previous call returns a pagination token. Specify this token in a subsequent call to ListDesignations to retrieve the next set of results. If not specified, the operation returns the first page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDesignationsOutput: AWSDecodableShape {
+        /// The designation summaries that ListDesignations returned. Each item contains summary information about a designation in the domain.
+        public let items: [DesignationSummary]?
+        /// A pagination token that indicates that more results are available. Pass this token to a subsequent call to ListDesignations to retrieve the next page of results. If there are no more results, this value is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DesignationSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDomainUnitsForParentInput: AWSEncodableShape {
         /// The ID of the domain in which you want to list domain units for a parent domain unit.
         public let domainIdentifier: String
@@ -19283,6 +19700,24 @@ extension DataZone {
         }
     }
 
+    public struct NotificationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The notebook run states that trigger notifications. You can specify up to 7 states, and the ordering of the states is not significant.
+        public let notifyOn: [NotifyOnState]
+
+        @inlinable
+        public init(notifyOn: [NotifyOnState]) {
+            self.notifyOn = notifyOn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notifyOn, name: "notifyOn", parent: name, max: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifyOn = "notifyOn"
+        }
+    }
+
     public struct NotificationOutput: AWSDecodableShape {
         /// The action link included in the notification.
         public let actionLink: String
@@ -19828,16 +20263,20 @@ extension DataZone {
         public let designation: UserDesignation
         /// The membership details of a project member.
         public let memberDetails: MemberDetails
+        /// The ID of the user-created designation held by the project member when designation is USER_CREATED_DESIGNATION.
+        public let userCreatedDesignationId: String?
 
         @inlinable
-        public init(designation: UserDesignation, memberDetails: MemberDetails) {
+        public init(designation: UserDesignation, memberDetails: MemberDetails, userCreatedDesignationId: String? = nil) {
             self.designation = designation
             self.memberDetails = memberDetails
+            self.userCreatedDesignationId = userCreatedDesignationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case designation = "designation"
             case memberDetails = "memberDetails"
+            case userCreatedDesignationId = "userCreatedDesignationId"
         }
     }
 
@@ -19846,16 +20285,24 @@ extension DataZone {
         public let designation: UserDesignation
         /// The details about a project member.
         public let member: Member
+        /// The ID of the user-created designation to assign to this member when creating the project. Required when designation is USER_CREATED_DESIGNATION; must not be provided otherwise.
+        public let userCreatedDesignationId: String?
 
         @inlinable
-        public init(designation: UserDesignation, member: Member) {
+        public init(designation: UserDesignation, member: Member, userCreatedDesignationId: String? = nil) {
             self.designation = designation
             self.member = member
+            self.userCreatedDesignationId = userCreatedDesignationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.userCreatedDesignationId, name: "userCreatedDesignationId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case designation = "designation"
             case member = "member"
+            case userCreatedDesignationId = "userCreatedDesignationId"
         }
     }
 
@@ -19866,23 +20313,28 @@ extension DataZone {
         public let projectGrantFilter: ProjectGrantFilter?
         /// The project ID of the project policy grant principal.
         public let projectIdentifier: String?
+        /// The ID of the user-created designation granted to the project principal. Required when projectDesignation is USER_CREATED_DESIGNATION; must not be provided otherwise.
+        public let userCreatedDesignationId: String?
 
         @inlinable
-        public init(projectDesignation: ProjectDesignation, projectGrantFilter: ProjectGrantFilter? = nil, projectIdentifier: String? = nil) {
+        public init(projectDesignation: ProjectDesignation, projectGrantFilter: ProjectGrantFilter? = nil, projectIdentifier: String? = nil, userCreatedDesignationId: String? = nil) {
             self.projectDesignation = projectDesignation
             self.projectGrantFilter = projectGrantFilter
             self.projectIdentifier = projectIdentifier
+            self.userCreatedDesignationId = userCreatedDesignationId
         }
 
         public func validate(name: String) throws {
             try self.projectGrantFilter?.validate(name: "\(name).projectGrantFilter")
             try self.validate(self.projectIdentifier, name: "projectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.userCreatedDesignationId, name: "userCreatedDesignationId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case projectDesignation = "projectDesignation"
             case projectGrantFilter = "projectGrantFilter"
             case projectIdentifier = "projectIdentifier"
+            case userCreatedDesignationId = "userCreatedDesignationId"
         }
     }
 
@@ -21294,6 +21746,54 @@ extension DataZone {
         }
     }
 
+    public struct S3File: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the Amazon Simple Storage Service object to import.
+        public let key: String
+
+        @inlinable
+        public init(key: String) {
+            self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+        }
+    }
+
+    public struct S3FilesLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon Simple Storage Service bucket that contains the files to import.
+        public let bucket: String
+        /// The files to import. Cells are created in the order in which you list the files. You can specify between 1 and 100 files.
+        public let fileList: [S3File]
+
+        @inlinable
+        public init(bucket: String, fileList: [S3File]) {
+            self.bucket = bucket
+            self.fileList = fileList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$")
+            try self.fileList.forEach {
+                try $0.validate(name: "\(name).fileList[]")
+            }
+            try self.validate(self.fileList, name: "fileList", parent: name, max: 100)
+            try self.validate(self.fileList, name: "fileList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case fileList = "fileList"
+        }
+    }
+
     public struct S3PropertiesInput: AWSEncodableShape {
         /// Specifies whether to register the Amazon S3 Access Grant location.
         public let registerS3AccessGrantLocation: Bool?
@@ -22681,17 +23181,20 @@ extension DataZone {
         public let name: String
         /// The identifier of the project that will own the imported notebook.
         public let owningProjectIdentifier: String
-        /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+        /// The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells.
         public let sourceLocation: SourceLocation
+        /// The type of the notebook to import. If not specified, defaults to DATA.
+        public let type: NotebookType?
 
         @inlinable
-        public init(clientToken: String? = StartNotebookImportInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, sourceLocation: SourceLocation) {
+        public init(clientToken: String? = StartNotebookImportInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, sourceLocation: SourceLocation, type: NotebookType? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.name = name
             self.owningProjectIdentifier = owningProjectIdentifier
             self.sourceLocation = sourceLocation
+            self.type = type
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -22703,6 +23206,7 @@ extension DataZone {
             try container.encode(self.name, forKey: .name)
             try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
             try container.encode(self.sourceLocation, forKey: .sourceLocation)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -22723,6 +23227,7 @@ extension DataZone {
             case name = "name"
             case owningProjectIdentifier = "owningProjectIdentifier"
             case sourceLocation = "sourceLocation"
+            case type = "type"
         }
     }
 
@@ -22745,9 +23250,11 @@ extension DataZone {
         public let sourceLocation: SourceLocation?
         /// The status of the notebook import.
         public let status: NotebookStatus?
+        /// The type of the imported notebook.
+        public let type: NotebookType?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, notebookId: String? = nil, owningProjectId: String? = nil, sourceLocation: SourceLocation? = nil, status: NotebookStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, notebookId: String? = nil, owningProjectId: String? = nil, sourceLocation: SourceLocation? = nil, status: NotebookStatus? = nil, type: NotebookType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -22757,6 +23264,7 @@ extension DataZone {
             self.owningProjectId = owningProjectId
             self.sourceLocation = sourceLocation
             self.status = status
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22769,6 +23277,7 @@ extension DataZone {
             case owningProjectId = "owningProjectId"
             case sourceLocation = "sourceLocation"
             case status = "status"
+            case type = "type"
         }
     }
 
@@ -22785,6 +23294,8 @@ extension DataZone {
         public let networkConfiguration: NetworkConfig?
         /// The identifier of the notebook to run.
         public let notebookIdentifier: String
+        /// The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications.
+        public let notificationConfiguration: NotificationConfig?
         /// The identifier of the project that owns the notebook run.
         public let owningProjectIdentifier: String
         /// The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
@@ -22797,13 +23308,14 @@ extension DataZone {
         public let triggerSource: TriggerSource?
 
         @inlinable
-        public init(clientToken: String? = StartNotebookRunInput.idempotencyToken(), computeConfiguration: ComputeConfig? = nil, domainIdentifier: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookIdentifier: String, owningProjectIdentifier: String, parameters: [String: String]? = nil, scheduleIdentifier: String? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil) {
+        public init(clientToken: String? = StartNotebookRunInput.idempotencyToken(), computeConfiguration: ComputeConfig? = nil, domainIdentifier: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookIdentifier: String, notificationConfiguration: NotificationConfig? = nil, owningProjectIdentifier: String, parameters: [String: String]? = nil, scheduleIdentifier: String? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil) {
             self.clientToken = clientToken
             self.computeConfiguration = computeConfiguration
             self.domainIdentifier = domainIdentifier
             self.metadata = metadata
             self.networkConfiguration = networkConfiguration
             self.notebookIdentifier = notebookIdentifier
+            self.notificationConfiguration = notificationConfiguration
             self.owningProjectIdentifier = owningProjectIdentifier
             self.parameters = parameters
             self.scheduleIdentifier = scheduleIdentifier
@@ -22820,6 +23332,7 @@ extension DataZone {
             try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
             try container.encode(self.notebookIdentifier, forKey: .notebookIdentifier)
+            try container.encodeIfPresent(self.notificationConfiguration, forKey: .notificationConfiguration)
             try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
             try container.encodeIfPresent(self.parameters, forKey: .parameters)
             try container.encodeIfPresent(self.scheduleIdentifier, forKey: .scheduleIdentifier)
@@ -22840,6 +23353,7 @@ extension DataZone {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 50)
             try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
             try self.validate(self.notebookIdentifier, name: "notebookIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.notificationConfiguration?.validate(name: "\(name).notificationConfiguration")
             try self.validate(self.owningProjectIdentifier, name: "owningProjectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 128)
@@ -22855,6 +23369,7 @@ extension DataZone {
             case metadata = "metadata"
             case networkConfiguration = "networkConfiguration"
             case notebookIdentifier = "notebookIdentifier"
+            case notificationConfiguration = "notificationConfiguration"
             case owningProjectIdentifier = "owningProjectIdentifier"
             case parameters = "parameters"
             case scheduleIdentifier = "scheduleIdentifier"
@@ -22888,6 +23403,8 @@ extension DataZone {
         public let networkConfiguration: NetworkConfig?
         /// The identifier of the notebook.
         public let notebookId: String
+        /// The notification configuration of the notebook run, including the notebook run states that trigger notifications.
+        public let notificationConfiguration: NotificationConfig?
         /// The identifier of the project that owns the notebook run.
         public let owningProjectId: String
         /// The sensitive parameters of the notebook run.
@@ -22910,7 +23427,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, notificationConfiguration: NotificationConfig? = nil, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.cellOrder = cellOrder
             self.completedAt = completedAt
             self.computeConfiguration = computeConfiguration
@@ -22923,6 +23440,7 @@ extension DataZone {
             self.metadata = metadata
             self.networkConfiguration = networkConfiguration
             self.notebookId = notebookId
+            self.notificationConfiguration = notificationConfiguration
             self.owningProjectId = owningProjectId
             self.parameters = parameters
             self.scheduleId = scheduleId
@@ -22948,6 +23466,7 @@ extension DataZone {
             case metadata = "metadata"
             case networkConfiguration = "networkConfiguration"
             case notebookId = "notebookId"
+            case notificationConfiguration = "notificationConfiguration"
             case owningProjectId = "owningProjectId"
             case parameters = "parameters"
             case scheduleId = "scheduleId"
@@ -24561,6 +25080,113 @@ extension DataZone {
             case status = "status"
             case type = "type"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct UpdateDesignationInput: AWSEncodableShape {
+        /// Whether deletion protection is enabled for this designation. Omit to keep the existing value.
+        public let deletionProtection: Bool?
+        /// The updated human-readable description of the designation and its intended use.
+        public let description: String?
+        /// The identifier of the Amazon DataZone domain that contains the designation to update.
+        public let domainIdentifier: String
+        /// The unique ID of the designation to update.
+        public let identifier: String
+        /// The updated name of the designation. The name must be unique within the domain.
+        public let name: String?
+        /// The updated Cedar permit policy.
+        public let policy: String?
+
+        @inlinable
+        public init(deletionProtection: Bool? = nil, description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil, policy: String? = nil) {
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.name = name
+            self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.policy, forKey: .policy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 10000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+        }
+    }
+
+    public struct UpdateDesignationOutput: AWSDecodableShape {
+        /// The date and time when the designation was created.
+        public let createdAt: Date?
+        /// The identifier of the Amazon DataZone user who created the designation.
+        public let createdBy: String
+        /// Whether deletion protection is enabled for this designation. When true,
+        /// DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+        public let deletionProtection: Bool
+        /// A human-readable description of the designation and its intended use.
+        public let description: String?
+        /// The classification of this designation. MANAGED designations are
+        /// system-defined and cannot be modified or deleted.
+        public let designationType: DesignationType
+        /// The identifier of the Amazon DataZone domain that contains the designation.
+        public let domainId: String
+        /// The unique ID of the designation.
+        public let id: String
+        /// The date and time when the designation was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the designation. The name is unique within the domain.
+        public let name: String
+        /// The Cedar permit policy that governs what actions holders of this
+        /// designation are allowed to perform.
+        public let policy: String
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, deletionProtection: Bool, description: String? = nil, designationType: DesignationType, domainId: String, id: String, lastUpdatedAt: Date? = nil, name: String, policy: String) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.designationType = designationType
+            self.domainId = domainId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case designationType = "designationType"
+            case domainId = "domainId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case policy = "policy"
         }
     }
 
@@ -27077,26 +27703,6 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case domainUnitTarget = "domainUnitTarget"
-        }
-    }
-
-    public struct SourceLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Simple Storage Service URI of the notebook source file.
-        public let s3: String?
-
-        @inlinable
-        public init(s3: String? = nil) {
-            self.s3 = s3
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.s3, name: "s3", parent: name, max: 1024)
-            try self.validate(self.s3, name: "s3", parent: name, min: 1)
-            try self.validate(self.s3, name: "s3", parent: name, pattern: "^s3://.+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
         }
     }
 }

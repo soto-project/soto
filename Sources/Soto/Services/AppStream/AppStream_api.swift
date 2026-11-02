@@ -962,6 +962,7 @@ public struct AppStream: AWSService {
     ///   - feedbackURL: The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     ///   - name: The name of the stack.
     ///   - redirectURL: The URL that users are redirected to after their streaming session ends.
+    ///   - storageConnectorAuthentication: Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
     ///   - storageConnectors: The storage connectors to enable.
     ///   - streamingExperienceSettings: The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
     ///   - tags: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
@@ -979,6 +980,7 @@ public struct AppStream: AWSService {
         feedbackURL: String? = nil,
         name: String? = nil,
         redirectURL: String? = nil,
+        storageConnectorAuthentication: StorageConnectorAuthentication? = nil,
         storageConnectors: [StorageConnector]? = nil,
         streamingExperienceSettings: StreamingExperienceSettings? = nil,
         tags: [String: String]? = nil,
@@ -996,6 +998,7 @@ public struct AppStream: AWSService {
             feedbackURL: feedbackURL, 
             name: name, 
             redirectURL: redirectURL, 
+            storageConnectorAuthentication: storageConnectorAuthentication, 
             storageConnectors: storageConnectors, 
             streamingExperienceSettings: streamingExperienceSettings, 
             tags: tags, 
@@ -3373,6 +3376,7 @@ public struct AppStream: AWSService {
     ///   - feedbackURL: The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     ///   - name: The name of the stack.
     ///   - redirectURL: The URL that users are redirected to after their streaming session ends.
+    ///   - storageConnectorAuthentication: Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.
     ///   - storageConnectors: The storage connectors to enable.
     ///   - streamingExperienceSettings: The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
     ///   - userSettings: The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
@@ -3390,6 +3394,7 @@ public struct AppStream: AWSService {
         feedbackURL: String? = nil,
         name: String? = nil,
         redirectURL: String? = nil,
+        storageConnectorAuthentication: StorageConnectorAuthentication? = nil,
         storageConnectors: [StorageConnector]? = nil,
         streamingExperienceSettings: StreamingExperienceSettings? = nil,
         userSettings: [UserSetting]? = nil,
@@ -3407,6 +3412,7 @@ public struct AppStream: AWSService {
             feedbackURL: feedbackURL, 
             name: name, 
             redirectURL: redirectURL, 
+            storageConnectorAuthentication: storageConnectorAuthentication, 
             storageConnectors: storageConnectors, 
             streamingExperienceSettings: streamingExperienceSettings, 
             userSettings: userSettings

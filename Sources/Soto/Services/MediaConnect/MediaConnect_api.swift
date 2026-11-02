@@ -271,6 +271,35 @@ public struct MediaConnect: AWSService {
         return try await self.addFlowVpcInterfaces(input, logger: logger)
     }
 
+    /// Retrieves information about multiple destination endpoints in a single request.
+    @Sendable
+    @inlinable
+    public func batchGetDestinationEndpoint(_ input: BatchGetDestinationEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDestinationEndpointResponse {
+        try await self.client.execute(
+            operation: "BatchGetDestinationEndpoint", 
+            path: "/v1/destinationEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about multiple destination endpoints in a single request.
+    ///
+    /// Parameters:
+    ///   - arns: The Amazon Resource Names (ARNs) of one or more destination endpoints to retrieve. You can specify from 1 to 20 ARNs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetDestinationEndpoint(
+        arns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetDestinationEndpointResponse {
+        let input = BatchGetDestinationEndpointRequest(
+            arns: arns
+        )
+        return try await self.batchGetDestinationEndpoint(input, logger: logger)
+    }
+
     /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
     @Sendable
     @inlinable
@@ -356,6 +385,67 @@ public struct MediaConnect: AWSService {
             arns: arns
         )
         return try await self.batchGetRouterOutput(input, logger: logger)
+    }
+
+    /// Retrieves information about multiple source endpoints in a single request.
+    @Sendable
+    @inlinable
+    public func batchGetSourceEndpoint(_ input: BatchGetSourceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSourceEndpointResponse {
+        try await self.client.execute(
+            operation: "BatchGetSourceEndpoint", 
+            path: "/v1/sourceEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about multiple source endpoints in a single request.
+    ///
+    /// Parameters:
+    ///   - arns: The Amazon Resource Names (ARNs) of one or more source endpoints to retrieve. You can specify from 1 to 20 ARNs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetSourceEndpoint(
+        arns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetSourceEndpointResponse {
+        let input = BatchGetSourceEndpointRequest(
+            arns: arns
+        )
+        return try await self.batchGetSourceEndpoint(input, logger: logger)
+    }
+
+    /// Connects a source endpoint to a destination endpoint.
+    @Sendable
+    @inlinable
+    public func connectEndpoints(_ input: ConnectEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConnectEndpointsResponse {
+        try await self.client.execute(
+            operation: "ConnectEndpoints", 
+            path: "/v1/connectEndpoints/{DestinationEndpointArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Connects a source endpoint to a destination endpoint.
+    ///
+    /// Parameters:
+    ///   - destinationEndpointArn: The Amazon Resource Name (ARN) of the destination endpoint to connect.
+    ///   - sourceEndpointArn: The Amazon Resource Name (ARN) of the source endpoint to connect.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func connectEndpoints(
+        destinationEndpointArn: String,
+        sourceEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ConnectEndpointsResponse {
+        let input = ConnectEndpointsRequest(
+            destinationEndpointArn: destinationEndpointArn, 
+            sourceEndpointArn: sourceEndpointArn
+        )
+        return try await self.connectEndpoints(input, logger: logger)
     }
 
     ///  Creates a new bridge. The request must include one source.
@@ -537,7 +627,7 @@ public struct MediaConnect: AWSService {
     ///   - regionName: The Amazon Web Services Region for the router input. Defaults to the current region if not specified.
     ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
     ///   - tags: Key-value pairs that can be used to tag and organize this router input.
-    ///   - tier: The tier level for the router input.
+    ///   - tier: The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - transitEncryption: The transit encryption settings for the router input.
     ///   - logger: Logger use during operation
     @inlinable
@@ -640,7 +730,7 @@ public struct MediaConnect: AWSService {
     ///   - regionName: The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
     ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     ///   - tags: Key-value pairs that can be used to tag this router output.
-    ///   - tier: The tier level for the router output.
+    ///   - tier: The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRouterOutput(
@@ -847,6 +937,35 @@ public struct MediaConnect: AWSService {
         return try await self.deleteRouterOutput(input, logger: logger)
     }
 
+    /// Deregisters a destination endpoint from MediaConnect.
+    @Sendable
+    @inlinable
+    public func deregisterDestinationEndpoint(_ input: DeregisterDestinationEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterDestinationEndpointResponse {
+        try await self.client.execute(
+            operation: "DeregisterDestinationEndpoint", 
+            path: "/v1/destinationEndpoint/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deregisters a destination endpoint from MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to deregister.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterDestinationEndpoint(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterDestinationEndpointResponse {
+        let input = DeregisterDestinationEndpointRequest(
+            arn: arn
+        )
+        return try await self.deregisterDestinationEndpoint(input, logger: logger)
+    }
+
     ///  Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     @Sendable
     @inlinable
@@ -877,6 +996,35 @@ public struct MediaConnect: AWSService {
             gatewayInstanceArn: gatewayInstanceArn
         )
         return try await self.deregisterGatewayInstance(input, logger: logger)
+    }
+
+    /// Deregisters a source endpoint from MediaConnect.
+    @Sendable
+    @inlinable
+    public func deregisterSourceEndpoint(_ input: DeregisterSourceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterSourceEndpointResponse {
+        try await self.client.execute(
+            operation: "DeregisterSourceEndpoint", 
+            path: "/v1/sourceEndpoint/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deregisters a source endpoint from MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to deregister.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterSourceEndpoint(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterSourceEndpointResponse {
+        let input = DeregisterSourceEndpointRequest(
+            arn: arn
+        )
+        return try await self.deregisterSourceEndpoint(input, logger: logger)
     }
 
     ///  Displays the details of a bridge.
@@ -1111,6 +1259,67 @@ public struct MediaConnect: AWSService {
         return try await self.describeReservation(input, logger: logger)
     }
 
+    /// Disconnects a source endpoint from a destination endpoint.
+    @Sendable
+    @inlinable
+    public func disconnectEndpoints(_ input: DisconnectEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectEndpointsResponse {
+        try await self.client.execute(
+            operation: "DisconnectEndpoints", 
+            path: "/v1/disconnectEndpoints/{DestinationEndpointArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disconnects a source endpoint from a destination endpoint.
+    ///
+    /// Parameters:
+    ///   - destinationEndpointArn: The Amazon Resource Name (ARN) of the destination endpoint to disconnect.
+    ///   - sourceEndpointArn: The Amazon Resource Name (ARN) of the source endpoint to disconnect.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disconnectEndpoints(
+        destinationEndpointArn: String,
+        sourceEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisconnectEndpointsResponse {
+        let input = DisconnectEndpointsRequest(
+            destinationEndpointArn: destinationEndpointArn, 
+            sourceEndpointArn: sourceEndpointArn
+        )
+        return try await self.disconnectEndpoints(input, logger: logger)
+    }
+
+    /// Retrieves information about a destination endpoint.
+    @Sendable
+    @inlinable
+    public func getDestinationEndpoint(_ input: GetDestinationEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDestinationEndpointResponse {
+        try await self.client.execute(
+            operation: "GetDestinationEndpoint", 
+            path: "/v1/destinationEndpoint/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a destination endpoint.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDestinationEndpoint(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDestinationEndpointResponse {
+        let input = GetDestinationEndpointRequest(
+            arn: arn
+        )
+        return try await self.getDestinationEndpoint(input, logger: logger)
+    }
+
     /// Retrieves information about a specific router input in AWS Elemental MediaConnect.
     @Sendable
     @inlinable
@@ -1256,6 +1465,35 @@ public struct MediaConnect: AWSService {
         return try await self.getRouterOutput(input, logger: logger)
     }
 
+    /// Retrieves information about a source endpoint.
+    @Sendable
+    @inlinable
+    public func getSourceEndpoint(_ input: GetSourceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSourceEndpointResponse {
+        try await self.client.execute(
+            operation: "GetSourceEndpoint", 
+            path: "/v1/sourceEndpoint/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a source endpoint.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSourceEndpoint(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSourceEndpointResponse {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        return try await self.getSourceEndpoint(input, logger: logger)
+    }
+
     ///  Grants entitlements to an existing flow.
     @Sendable
     @inlinable
@@ -1321,6 +1559,41 @@ public struct MediaConnect: AWSService {
             nextToken: nextToken
         )
         return try await self.listBridges(input, logger: logger)
+    }
+
+    /// Retrieves a list of the destination endpoints in your account. The results are paginated. Use the NextToken value that's returned to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDestinationEndpoints(_ input: ListDestinationEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDestinationEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListDestinationEndpoints", 
+            path: "/v1/destinationEndpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of the destination endpoints in your account. The results are paginated. Use the NextToken value that's returned to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply to the list of destination endpoints.
+    ///   - maxResults: The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+    ///   - nextToken: The token that identifies the next page of results to return. Use the token that a previous request returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDestinationEndpoints(
+        filters: [DestinationEndpointFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDestinationEndpointsResponse {
+        let input = ListDestinationEndpointsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDestinationEndpoints(input, logger: logger)
     }
 
     ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
@@ -1623,6 +1896,41 @@ public struct MediaConnect: AWSService {
         return try await self.listRouterOutputs(input, logger: logger)
     }
 
+    /// Retrieves a list of the source endpoints in your account. The results are paginated. Use the NextToken value that's returned to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listSourceEndpoints(_ input: ListSourceEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListSourceEndpoints", 
+            path: "/v1/sourceEndpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of the source endpoints in your account. The results are paginated. Use the NextToken value that's returned to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply to the list of source endpoints.
+    ///   - maxResults: The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+    ///   - nextToken: The token that identifies the next page of results to return. Use the token that a previous request returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSourceEndpoints(
+        filters: [SourceEndpointFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSourceEndpointsResponse {
+        let input = ListSourceEndpointsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSourceEndpoints(input, logger: logger)
+    }
+
     /// Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
     @Sendable
     @inlinable
@@ -1714,6 +2022,88 @@ public struct MediaConnect: AWSService {
             start: start
         )
         return try await self.purchaseOffering(input, logger: logger)
+    }
+
+    /// Registers a new destination endpoint in MediaConnect.
+    @Sendable
+    @inlinable
+    public func registerDestinationEndpoint(_ input: RegisterDestinationEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterDestinationEndpointResponse {
+        try await self.client.execute(
+            operation: "RegisterDestinationEndpoint", 
+            path: "/v1/destinationEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a new destination endpoint in MediaConnect.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - configuration: The configuration settings for the destination endpoint.
+    ///   - description: A description to help you identify the destination endpoint.
+    ///   - regionName: The name of the Amazon Web Services Region in which to register the destination endpoint. Defaults to the current region if not specified.
+    ///   - tags: The tags to apply to the destination endpoint. Each tag is a key-value pair.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerDestinationEndpoint(
+        clientToken: String? = RegisterDestinationEndpointRequest.idempotencyToken(),
+        configuration: DestinationEndpointConfiguration,
+        description: String? = nil,
+        regionName: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterDestinationEndpointResponse {
+        let input = RegisterDestinationEndpointRequest(
+            clientToken: clientToken, 
+            configuration: configuration, 
+            description: description, 
+            regionName: regionName, 
+            tags: tags
+        )
+        return try await self.registerDestinationEndpoint(input, logger: logger)
+    }
+
+    /// Registers a new source endpoint in MediaConnect.
+    @Sendable
+    @inlinable
+    public func registerSourceEndpoint(_ input: RegisterSourceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterSourceEndpointResponse {
+        try await self.client.execute(
+            operation: "RegisterSourceEndpoint", 
+            path: "/v1/sourceEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a new source endpoint in MediaConnect.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - configuration: The configuration settings for the source endpoint.
+    ///   - description: A description to help you identify the source endpoint.
+    ///   - regionName: The name of the Amazon Web Services Region in which to register the source endpoint. Defaults to the current region if not specified.
+    ///   - tags: The tags to apply to the source endpoint. Each tag is a key-value pair.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerSourceEndpoint(
+        clientToken: String? = RegisterSourceEndpointRequest.idempotencyToken(),
+        configuration: SourceEndpointConfiguration,
+        description: String? = nil,
+        regionName: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterSourceEndpointResponse {
+        let input = RegisterSourceEndpointRequest(
+            clientToken: clientToken, 
+            configuration: configuration, 
+            description: description, 
+            regionName: regionName, 
+            tags: tags
+        )
+        return try await self.registerSourceEndpoint(input, logger: logger)
     }
 
     ///  Removes an output from a bridge.
@@ -2475,6 +2865,41 @@ public struct MediaConnect: AWSService {
         return try await self.updateBridgeState(input, logger: logger)
     }
 
+    /// Updates the configuration of a destination endpoint.
+    @Sendable
+    @inlinable
+    public func updateDestinationEndpoint(_ input: UpdateDestinationEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDestinationEndpointResponse {
+        try await self.client.execute(
+            operation: "UpdateDestinationEndpoint", 
+            path: "/v1/destinationEndpoint/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of a destination endpoint.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to update.
+    ///   - configuration: The updated configuration settings for the destination endpoint.
+    ///   - description: A description to help you identify the destination endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDestinationEndpoint(
+        arn: String,
+        configuration: DestinationEndpointConfiguration? = nil,
+        description: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDestinationEndpointResponse {
+        let input = UpdateDestinationEndpointRequest(
+            arn: arn, 
+            configuration: configuration, 
+            description: description
+        )
+        return try await self.updateDestinationEndpoint(input, logger: logger)
+    }
+
     ///  Updates an existing flow.   Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request.    If you have a MEDIUM flow and you want to change the flow source to NDI®:   First, use the UpdateFlow operation to upgrade the flow size to LARGE.    After that, you can then use the UpdateFlowSource operation to configure the NDI source.      If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:    First, use the UpdateFlowSource operation to change the flow source type.    After that, you can then use the UpdateFlow operation to downgrade the flow size to MEDIUM.
     @Sendable
     @inlinable
@@ -2637,6 +3062,7 @@ public struct MediaConnect: AWSService {
     ///   - maxLatency:  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     ///   - mediaStreamOutputConfigurations:  The media streams that are associated with the output, and the parameters for those associations.
     ///   - minLatency:  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+    ///   - ndiAudioReferenceLevel: The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect leaves the value unchanged.
     ///   - ndiOutputTimecodeSource: Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
     ///   - ndiProgramName:  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     ///   - ndiSpeedHqQuality: A quality setting for the NDI Speed HQ encoder.
@@ -2663,6 +3089,7 @@ public struct MediaConnect: AWSService {
         maxLatency: Int? = nil,
         mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Int? = nil,
+        ndiAudioReferenceLevel: Int? = nil,
         ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil,
         ndiProgramName: String? = nil,
         ndiSpeedHqQuality: Int? = nil,
@@ -2689,6 +3116,7 @@ public struct MediaConnect: AWSService {
             maxLatency: maxLatency, 
             mediaStreamOutputConfigurations: mediaStreamOutputConfigurations, 
             minLatency: minLatency, 
+            ndiAudioReferenceLevel: ndiAudioReferenceLevel, 
             ndiOutputTimecodeSource: ndiOutputTimecodeSource, 
             ndiProgramName: ndiProgramName, 
             ndiSpeedHqQuality: ndiSpeedHqQuality, 
@@ -2858,7 +3286,7 @@ public struct MediaConnect: AWSService {
     ///   - maximumBitrate: The updated maximum bitrate for the router input.
     ///   - name: The updated name for the router input.
     ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
-    ///   - tier: The updated tier level for the router input.
+    ///   - tier: The updated tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - transitEncryption: The updated transit encryption settings for the router input.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2946,7 +3374,7 @@ public struct MediaConnect: AWSService {
     ///   - maximumBitrate: The updated maximum bitrate for the router output.
     ///   - name: The updated name for the router output.
     ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
-    ///   - tier: The updated tier level for the router output.
+    ///   - tier: The updated tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRouterOutput(
@@ -2971,6 +3399,41 @@ public struct MediaConnect: AWSService {
             tier: tier
         )
         return try await self.updateRouterOutput(input, logger: logger)
+    }
+
+    /// Updates the configuration of a source endpoint.
+    @Sendable
+    @inlinable
+    public func updateSourceEndpoint(_ input: UpdateSourceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSourceEndpointResponse {
+        try await self.client.execute(
+            operation: "UpdateSourceEndpoint", 
+            path: "/v1/sourceEndpoint/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of a source endpoint.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to update.
+    ///   - configuration: The updated configuration settings for the source endpoint.
+    ///   - description: A description to help you identify the source endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSourceEndpoint(
+        arn: String,
+        configuration: SourceEndpointConfiguration? = nil,
+        description: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSourceEndpointResponse {
+        let input = UpdateSourceEndpointRequest(
+            arn: arn, 
+            configuration: configuration, 
+            description: description
+        )
+        return try await self.updateSourceEndpoint(input, logger: logger)
     }
 }
 
@@ -3022,6 +3485,43 @@ extension MediaConnect {
             maxResults: maxResults
         )
         return self.listBridgesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDestinationEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDestinationEndpointsPaginator(
+        _ input: ListDestinationEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDestinationEndpointsRequest, ListDestinationEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listDestinationEndpoints,
+            inputKey: \ListDestinationEndpointsRequest.nextToken,
+            outputKey: \ListDestinationEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDestinationEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the list of destination endpoints.
+    ///   - maxResults: The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDestinationEndpointsPaginator(
+        filters: [DestinationEndpointFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDestinationEndpointsRequest, ListDestinationEndpointsResponse> {
+        let input = ListDestinationEndpointsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listDestinationEndpointsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listEntitlements(_:logger:)``.
@@ -3341,6 +3841,43 @@ extension MediaConnect {
         )
         return self.listRouterOutputsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSourceEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceEndpointsPaginator(
+        _ input: ListSourceEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSourceEndpointsRequest, ListSourceEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listSourceEndpoints,
+            inputKey: \ListSourceEndpointsRequest.nextToken,
+            outputKey: \ListSourceEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSourceEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the list of source endpoints.
+    ///   - maxResults: The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceEndpointsPaginator(
+        filters: [SourceEndpointFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSourceEndpointsRequest, ListSourceEndpointsResponse> {
+        let input = ListSourceEndpointsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listSourceEndpointsPaginator(input, logger: logger)
+    }
 }
 
 extension MediaConnect.ListBridgesRequest: AWSPaginateToken {
@@ -3348,6 +3885,17 @@ extension MediaConnect.ListBridgesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListBridgesRequest {
         return .init(
             filterArn: self.filterArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaConnect.ListDestinationEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListDestinationEndpointsRequest {
+        return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -3448,10 +3996,182 @@ extension MediaConnect.ListRouterOutputsRequest: AWSPaginateToken {
     }
 }
 
+extension MediaConnect.ListSourceEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListSourceEndpointsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 // MARK: Waiters
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaConnect {
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointConnected(
+        _ input: GetDestinationEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetDestinationEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("destinationEndpoint.connectionState", expected: "CONNECTED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("destinationEndpoint.connectionState", expected: "DISCONNECTED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getDestinationEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointConnected(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetDestinationEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilDestinationEndpointConnected(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointDeregistered(
+        _ input: GetDestinationEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetDestinationEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("NotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("destinationEndpoint.registrationState", expected: "REGISTRATION_FAILED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getDestinationEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointDeregistered(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetDestinationEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilDestinationEndpointDeregistered(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointDisconnected(
+        _ input: GetDestinationEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetDestinationEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("destinationEndpoint.connectionState", expected: "DISCONNECTED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("destinationEndpoint.connectionState", expected: "CONNECTED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getDestinationEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointDisconnected(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetDestinationEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilDestinationEndpointDisconnected(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointRegistered(
+        _ input: GetDestinationEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetDestinationEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("destinationEndpoint.registrationState", expected: "REGISTERED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("destinationEndpoint.registrationState", expected: "REGISTRATION_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("destinationEndpoint.registrationState", expected: "DEREGISTERING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getDestinationEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getDestinationEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDestinationEndpointRegistered(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetDestinationEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilDestinationEndpointRegistered(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeFlow(_:logger:)``.
     ///
     /// - Parameters:
@@ -3894,5 +4614,244 @@ extension MediaConnect {
             arn: arn
         )
         try await self.waitUntilOutputUnrouted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointConnected(
+        _ input: GetSourceEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSourceEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.connectionState", expected: "CONNECTED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getSourceEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointConnected(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilSourceEndpointConnected(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointConnecting(
+        _ input: GetSourceEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSourceEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.connectionState", expected: "CONNECTING")),
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.connectionState", expected: "CONNECTED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getSourceEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointConnecting(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilSourceEndpointConnecting(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointDeregistered(
+        _ input: GetSourceEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSourceEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("NotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("sourceEndpoint.registrationState", expected: "REGISTRATION_FAILED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getSourceEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointDeregistered(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilSourceEndpointDeregistered(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointDisconnected(
+        _ input: GetSourceEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSourceEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.connectionState", expected: "DISCONNECTED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getSourceEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointDisconnected(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilSourceEndpointDisconnected(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointDisconnecting(
+        _ input: GetSourceEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSourceEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.connectionState", expected: "DISCONNECTING")),
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.connectionState", expected: "DISCONNECTED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getSourceEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointDisconnecting(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilSourceEndpointDisconnecting(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointRegistered(
+        _ input: GetSourceEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetSourceEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("sourceEndpoint.registrationState", expected: "REGISTERED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("sourceEndpoint.registrationState", expected: "REGISTRATION_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("sourceEndpoint.registrationState", expected: "DEREGISTERING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("TooManyRequestsException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getSourceEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getSourceEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilSourceEndpointRegistered(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetSourceEndpointRequest(
+            arn: arn
+        )
+        try await self.waitUntilSourceEndpointRegistered(input, logger: logger)
     }
 }

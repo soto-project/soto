@@ -144,7 +144,7 @@ extension Amplify {
         public let buildSpec: String?
         /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
         public let cacheConfig: CacheConfig?
-        /// The Amazon Resource Name (ARN) of the IAM role for an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role for an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
         public let computeRoleArn: String?
         /// A timestamp of when Amplify created the application.
         public let createTime: Date
@@ -411,7 +411,7 @@ extension Amplify {
         public let branchName: String
         ///  The build specification (build spec) content for the branch of an Amplify app.
         public let buildSpec: String?
-        /// The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
         public let computeRoleArn: String?
         /// A timestamp of when Amplify created the branch.
         public let createTime: Date
@@ -433,7 +433,7 @@ extension Amplify {
         public let enablePerformanceMode: Bool?
         ///  Enables pull request previews for the branch.
         public let enablePullRequestPreview: Bool
-        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the  Amplify User Guide.
         public let enableSkewProtection: Bool?
         ///  The environment variables specific to a branch of an Amplify app.
         public let environmentVariables: [String: String]
@@ -543,7 +543,7 @@ extension Amplify {
         public let certificateVerificationDNSRecord: String?
         /// The Amazon resource name (ARN) for a custom certificate that you have already added to Certificate Manager in your Amazon Web Services account.  This field is required only when the certificate type is CUSTOM.
         public let customCertificateArn: String?
-        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide.
+        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the  ACM User guide.
         public let type: CertificateType
 
         @inlinable
@@ -563,7 +563,7 @@ extension Amplify {
     public struct CertificateSettings: AWSEncodableShape {
         /// The Amazon resource name (ARN) for the custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
         public let customCertificateArn: String?
-        /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide.
+        /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the  ACM User guide.
         public let type: CertificateType
 
         @inlinable
@@ -596,7 +596,7 @@ extension Amplify {
         public let buildSpec: String?
         /// The cache configuration for the Amplify app.
         public let cacheConfig: CacheConfig?
-        /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
         public let computeRoleArn: String?
         /// The custom HTTP headers for an Amplify app.
         public let customHeaders: String?
@@ -819,7 +819,7 @@ extension Amplify {
         public let branchName: String
         ///  The build specification (build spec) for the branch.
         public let buildSpec: String?
-        /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
         public let computeRoleArn: String?
         /// The description for the branch.
         public let description: String?
@@ -835,7 +835,7 @@ extension Amplify {
         public let enablePerformanceMode: Bool?
         ///  Enables pull request previews for this branch.
         public let enablePullRequestPreview: Bool?
-        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the  Amplify User Guide.
         public let enableSkewProtection: Bool?
         ///  The environment variables for the branch.
         public let environmentVariables: [String: String]?
@@ -1502,7 +1502,7 @@ extension Amplify {
         public let statusReason: String
         ///  The subdomains for the domain association.
         public let subDomains: [SubDomain]
-        /// The status of the domain update operation that is currently in progress. The following list describes the valid update states.  REQUESTING_CERTIFICATE  The certificate is in the process of being updated.  PENDING_VERIFICATION  Indicates that an Amplify managed certificate is in the process of being verified. This occurs during the creation of a custom domain or when a custom domain is updated to use a managed certificate.  IMPORTING_CUSTOM_CERTIFICATE  Indicates that an Amplify custom certificate is in the process of being imported. This occurs during the creation of a custom domain or when a custom domain is updated to use a custom certificate.  PENDING_DEPLOYMENT  Indicates that the subdomain or certificate changes are being propagated.  AWAITING_APP_CNAME  Amplify is waiting for CNAME records corresponding to subdomains to be propagated. If your custom domain is on Route 53, Amplify handles this for you automatically. For more information about custom domains, see Setting up custom domains in the Amplify Hosting User Guide.   UPDATE_COMPLETE  The certificate has been associated with a domain.  UPDATE_FAILED  The certificate has failed to be provisioned or associated, and there is no existing active certificate to roll back to.
+        /// The status of the domain update operation that is currently in progress. The following list describes the valid update states.  REQUESTING_CERTIFICATE  The certificate is in the process of being updated.  PENDING_VERIFICATION  Indicates that an Amplify managed certificate is in the process of being verified. This occurs during the creation of a custom domain or when a custom domain is updated to use a managed certificate.  IMPORTING_CUSTOM_CERTIFICATE  Indicates that an Amplify custom certificate is in the process of being imported. This occurs during the creation of a custom domain or when a custom domain is updated to use a custom certificate.  PENDING_DEPLOYMENT  Indicates that the subdomain or certificate changes are being propagated.  AWAITING_APP_CNAME   Amplify is waiting for CNAME records corresponding to subdomains to be propagated. If your custom domain is on Route 53, Amplify handles this for you automatically. For more information about custom domains, see Setting up custom domains in the  Amplify Hosting User Guide.   UPDATE_COMPLETE  The certificate has been associated with a domain.  UPDATE_FAILED  The certificate has failed to be provisioned or associated, and there is no existing active certificate to roll back to.
         public let updateStatus: UpdateStatus?
 
         @inlinable
@@ -2848,7 +2848,7 @@ extension Amplify {
         public let buildSpec: String?
         /// The cache configuration for the Amplify app.
         public let cacheConfig: CacheConfig?
-        /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
         public let computeRoleArn: String?
         /// The custom HTTP headers for an Amplify app.
         public let customHeaders: String?
@@ -3028,7 +3028,7 @@ extension Amplify {
         public let branchName: String
         ///  The build specification (build spec) for the branch.
         public let buildSpec: String?
-        /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the  Amplify User Guide.
         public let computeRoleArn: String?
         ///  The description for the branch.
         public let description: String?
@@ -3044,7 +3044,7 @@ extension Amplify {
         public let enablePerformanceMode: Bool?
         ///  Enables pull request previews for this branch.
         public let enablePullRequestPreview: Bool?
-        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the  Amplify User Guide.
         public let enableSkewProtection: Bool?
         ///  The environment variables for the branch.
         public let environmentVariables: [String: String]?

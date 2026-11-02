@@ -6211,6 +6211,10 @@ extension CustomerProfiles {
     public struct GetProfileObjectTypeTemplateResponse: AWSDecodableShape {
         /// Indicates whether a profile should be created when data is received if one doesn’t exist for an object of this type. The default is FALSE. If the AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE, and if no match is found, then the service creates a new standard profile.
         public let allowProfileCreation: Bool?
+        /// The default maximum number of objects of this object type that can be stored per profile. This default applies when you don't set MaxProfileObjectCount on an object type created from this template. If this value isn't present, no default limit applies.
+        public let defaultMaxProfileObjectCount: Int?
+        /// The timestamp after which DefaultMaxProfileObjectCount takes effect. The default limit applies only to domains created after this time.
+        public let defaultMaxProfileObjectCountEffectiveAfter: Date?
         /// A map of the name and ObjectType field.
         public let fields: [String: ObjectTypeField]?
         /// A list of unique keys that can be used to map data to the profile.
@@ -6221,27 +6225,35 @@ extension CustomerProfiles {
         public let sourceName: String?
         /// The source of the object template.
         public let sourceObject: String?
+        /// Indicates whether the template is store-only. Objects of an object type created from a store-only template are ingested and stored, but the object type can't be used by calculated attributes or event triggers.
+        public let storeOnly: Bool?
         /// A unique identifier for the object template.
         public let templateId: String?
 
         @inlinable
-        public init(allowProfileCreation: Bool? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, sourceLastUpdatedTimestampFormat: String? = nil, sourceName: String? = nil, sourceObject: String? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, defaultMaxProfileObjectCount: Int? = nil, defaultMaxProfileObjectCountEffectiveAfter: Date? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, sourceLastUpdatedTimestampFormat: String? = nil, sourceName: String? = nil, sourceObject: String? = nil, storeOnly: Bool? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
+            self.defaultMaxProfileObjectCount = defaultMaxProfileObjectCount
+            self.defaultMaxProfileObjectCountEffectiveAfter = defaultMaxProfileObjectCountEffectiveAfter
             self.fields = fields
             self.keys = keys
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.sourceName = sourceName
             self.sourceObject = sourceObject
+            self.storeOnly = storeOnly
             self.templateId = templateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case allowProfileCreation = "AllowProfileCreation"
+            case defaultMaxProfileObjectCount = "DefaultMaxProfileObjectCount"
+            case defaultMaxProfileObjectCountEffectiveAfter = "DefaultMaxProfileObjectCountEffectiveAfter"
             case fields = "Fields"
             case keys = "Keys"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case sourceName = "SourceName"
             case sourceObject = "SourceObject"
+            case storeOnly = "StoreOnly"
             case templateId = "TemplateId"
         }
     }

@@ -1400,6 +1400,41 @@ public struct Inspector2: AWSService {
         return try await self.getMember(input, logger: logger)
     }
 
+    /// Retrieves the status of a specific on-demand scan for a resource.
+    @Sendable
+    @inlinable
+    public func getOnDemandScanStatus(_ input: GetOnDemandScanStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOnDemandScanStatusResponse {
+        try await self.client.execute(
+            operation: "GetOnDemandScanStatus", 
+            path: "/ondemand/scan/status", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status of a specific on-demand scan for a resource.
+    ///
+    /// Parameters:
+    ///   - resourceId: The ID of the resource whose on-demand scan status is being requested.
+    ///   - resourceType: The type of the resource whose on-demand scan status is being requested.
+    ///   - scanId: The unique identifier of the on-demand scan whose status is being requested.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getOnDemandScanStatus(
+        resourceId: String,
+        resourceType: OnDemandResourceType,
+        scanId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetOnDemandScanStatusResponse {
+        let input = GetOnDemandScanStatusRequest(
+            resourceId: resourceId, 
+            resourceType: resourceType, 
+            scanId: scanId
+        )
+        return try await self.getOnDemandScanStatus(input, logger: logger)
+    }
+
     /// Gets details of a software bill of materials (SBOM) report.
     @Sendable
     @inlinable
@@ -1429,7 +1464,7 @@ public struct Inspector2: AWSService {
         return try await self.getSbomExport(input, logger: logger)
     }
 
-    ///  Lists the permissions an account has to configure Amazon Inspector.  If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
+    ///  Lists the permissions an account has to configure Amazon Inspector. If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
     @Sendable
     @inlinable
     public func listAccountPermissions(_ input: ListAccountPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountPermissionsResponse {
@@ -1442,7 +1477,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    ///  Lists the permissions an account has to configure Amazon Inspector.  If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
+    ///  Lists the permissions an account has to configure Amazon Inspector. If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
@@ -2060,6 +2095,44 @@ public struct Inspector2: AWSService {
         return try await self.listMembers(input, logger: logger)
     }
 
+    /// Lists the on-demand scans for a resource.
+    @Sendable
+    @inlinable
+    public func listOnDemandScans(_ input: ListOnDemandScansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOnDemandScansResponse {
+        try await self.client.execute(
+            operation: "ListOnDemandScans", 
+            path: "/ondemand/scans", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the on-demand scans for a resource.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page of the response.
+    ///   - nextToken: A pagination token from a previous response used to retrieve the next page of results.
+    ///   - resourceId: The ID of the resource whose on-demand scans are being listed.
+    ///   - resourceType: The type of the resource whose on-demand scans are being listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOnDemandScans(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceId: String,
+        resourceType: OnDemandResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOnDemandScansResponse {
+        let input = ListOnDemandScansRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceId: resourceId, 
+            resourceType: resourceType
+        )
+        return try await self.listOnDemandScans(input, logger: logger)
+    }
+
     /// Lists all tags attached to a given resource.
     @Sendable
     @inlinable
@@ -2319,6 +2392,41 @@ public struct Inspector2: AWSService {
         return try await self.startCodeSecurityScan(input, logger: logger)
     }
 
+    /// Starts an on-demand scan of the specified resource, such as an Amazon Machine Image (AMI).
+    @Sendable
+    @inlinable
+    public func startOnDemandScan(_ input: StartOnDemandScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOnDemandScanResponse {
+        try await self.client.execute(
+            operation: "StartOnDemandScan", 
+            path: "/ondemand/scan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an on-demand scan of the specified resource, such as an Amazon Machine Image (AMI).
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - resourceId: The ID of the resource to scan on demand.
+    ///   - resourceType: The type of the resource to scan on demand.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startOnDemandScan(
+        clientToken: String? = StartOnDemandScanRequest.idempotencyToken(),
+        resourceId: String,
+        resourceType: OnDemandResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartOnDemandScanResponse {
+        let input = StartOnDemandScanRequest(
+            clientToken: clientToken, 
+            resourceId: resourceId, 
+            resourceType: resourceType
+        )
+        return try await self.startOnDemandScan(input, logger: logger)
+    }
+
     ///  Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
     @Sendable
     @inlinable
@@ -2540,6 +2648,7 @@ public struct Inspector2: AWSService {
     ///
     /// Parameters:
     ///   - accountId: The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to update. When specified, you must be the delegated administrator for this member account. If not specified, the operation updates your own configuration and propagates changes to any member accounts that have not been individually configured.
+    ///   - amiConfiguration: The Amazon Machine Image (AMI) scan configuration to apply to the account.
     ///   - ec2Configuration: Specifies how the Amazon EC2 automated scan will be updated for your environment.
     ///   - ecrConfiguration: Specifies how the ECR automated re-scan will be updated for your environment.
     ///   - updateConfigurationInheritance: Specifies which scan-type configurations to reset to the delegated administrator's inherited values for the targeted member account. Each member of this structure is independently optional. When specified, ec2Configuration and ecrConfiguration must be absent, and accountId must also be present. Only INHERIT_FROM_ADMIN is valid for each member. If not specified, the operation uses the ec2Configuration and ecrConfiguration parameters instead.
@@ -2547,6 +2656,7 @@ public struct Inspector2: AWSService {
     @inlinable
     public func updateConfiguration(
         accountId: String? = nil,
+        amiConfiguration: AmiConfiguration? = nil,
         ec2Configuration: Ec2Configuration? = nil,
         ecrConfiguration: EcrConfiguration? = nil,
         updateConfigurationInheritance: UpdateConfigurationInheritance? = nil,
@@ -2554,6 +2664,7 @@ public struct Inspector2: AWSService {
     ) async throws -> UpdateConfigurationResponse {
         let input = UpdateConfigurationRequest(
             accountId: accountId, 
+            amiConfiguration: amiConfiguration, 
             ec2Configuration: ec2Configuration, 
             ecrConfiguration: ecrConfiguration, 
             updateConfigurationInheritance: updateConfigurationInheritance
@@ -3460,6 +3571,46 @@ extension Inspector2 {
         return self.listMembersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listOnDemandScans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOnDemandScansPaginator(
+        _ input: ListOnDemandScansRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOnDemandScansRequest, ListOnDemandScansResponse> {
+        return .init(
+            input: input,
+            command: self.listOnDemandScans,
+            inputKey: \ListOnDemandScansRequest.nextToken,
+            outputKey: \ListOnDemandScansResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOnDemandScans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page of the response.
+    ///   - resourceId: The ID of the resource whose on-demand scans are being listed.
+    ///   - resourceType: The type of the resource whose on-demand scans are being listed.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOnDemandScansPaginator(
+        maxResults: Int? = nil,
+        resourceId: String,
+        resourceType: OnDemandResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOnDemandScansRequest, ListOnDemandScansResponse> {
+        let input = ListOnDemandScansRequest(
+            maxResults: maxResults, 
+            resourceId: resourceId, 
+            resourceType: resourceType
+        )
+        return self.listOnDemandScansPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listUsageTotals(_:logger:)``.
     ///
     /// - Parameters:
@@ -3723,6 +3874,18 @@ extension Inspector2.ListMembersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             onlyAssociated: self.onlyAssociated
+        )
+    }
+}
+
+extension Inspector2.ListOnDemandScansRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListOnDemandScansRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceType: self.resourceType
         )
     }
 }

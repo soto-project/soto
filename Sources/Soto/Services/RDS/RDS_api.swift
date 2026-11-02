@@ -345,6 +345,35 @@ public struct RDS: AWSService {
         return try await self.backtrackDBCluster(input, logger: logger)
     }
 
+    /// Cancels a DB capacity reservation. Amazon RDS changes the state of the reservation to cancelled and stops reporting available capacity for it. Amazon RDS then releases the reserved capacity. A DB instance that uses the reservation keeps running. It continues on unreserved capacity, and Amazon RDS doesn't stop it or modify it. However, Amazon RDS no longer reserves capacity for the DB instance. If Amazon RDS later moves the DB instance to different hardware, for example during hardware maintenance, that move can fail when the Amazon Web Services Region has insufficient capacity for the DB instance class. You can't cancel a reservation in the active state during a capacity commitment. The response of DescribeDBCapacityReservations reports the end of the commitment in CommitmentInfo. Constraints:   The reservation must be in the active, assessing, or delayed state.   The reservation must not be past its end date.
+    @Sendable
+    @inlinable
+    public func cancelDBCapacityReservation(_ input: CancelDBCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDBCapacityReservationResponse {
+        try await self.client.execute(
+            operation: "CancelDBCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a DB capacity reservation. Amazon RDS changes the state of the reservation to cancelled and stops reporting available capacity for it. Amazon RDS then releases the reserved capacity. A DB instance that uses the reservation keeps running. It continues on unreserved capacity, and Amazon RDS doesn't stop it or modify it. However, Amazon RDS no longer reserves capacity for the DB instance. If Amazon RDS later moves the DB instance to different hardware, for example during hardware maintenance, that move can fail when the Amazon Web Services Region has insufficient capacity for the DB instance class. You can't cancel a reservation in the active state during a capacity commitment. The response of DescribeDBCapacityReservations reports the end of the commitment in CommitmentInfo. Constraints:   The reservation must be in the active, assessing, or delayed state.   The reservation must not be past its end date.
+    ///
+    /// Parameters:
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to cancel. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelDBCapacityReservation(
+        dbCapacityReservationIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelDBCapacityReservationResponse {
+        let input = CancelDBCapacityReservationRequest(
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier
+        )
+        return try await self.cancelDBCapacityReservation(input, logger: logger)
+    }
+
     /// Cancels an export task in progress that is exporting a snapshot or cluster to Amazon S3. Any data that has already been written to the S3 bucket isn't removed.
     @Sendable
     @inlinable
@@ -616,6 +645,7 @@ public struct RDS: AWSService {
     ///   - targetDBParameterGroupName: The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated with the source DB instance.
     ///   - targetEngineVersion: The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
     ///   - targetIops: The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see Amazon RDS DB instance storage in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    ///   - targetResourceConfigurations: Specifies resource-level configuration overrides for the green environment. Each entry identifies a resource in the blue environment by its Amazon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configuration as its counterpart in the blue environment. Use this parameter when one or more resources in the green environment require a different configuration than what they have in the blue environment. Constraints:   You can't specify the same SourceArn in more than one entry.
     ///   - targetStorageThroughput: The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
     ///   - targetStorageType: The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2  This setting doesn't apply to Amazon Aurora blue/green deployments.
     ///   - upgradeTargetStorageConfig: Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see Upgrading the storage file system for a DB instance.
@@ -631,6 +661,7 @@ public struct RDS: AWSService {
         targetDBParameterGroupName: String? = nil,
         targetEngineVersion: String? = nil,
         targetIops: Int? = nil,
+        targetResourceConfigurations: [TargetResourceConfiguration]? = nil,
         targetStorageThroughput: Int? = nil,
         targetStorageType: String? = nil,
         upgradeTargetStorageConfig: Bool? = nil,
@@ -646,6 +677,7 @@ public struct RDS: AWSService {
             targetDBParameterGroupName: targetDBParameterGroupName, 
             targetEngineVersion: targetEngineVersion, 
             targetIops: targetIops, 
+            targetResourceConfigurations: targetResourceConfigurations, 
             targetStorageThroughput: targetStorageThroughput, 
             targetStorageType: targetStorageType, 
             upgradeTargetStorageConfig: upgradeTargetStorageConfig
@@ -713,6 +745,62 @@ public struct RDS: AWSService {
             useAwsProvidedLatestImage: useAwsProvidedLatestImage
         )
         return try await self.createCustomDBEngineVersion(input, logger: logger)
+    }
+
+    /// Creates a DB capacity reservation. A DB capacity reservation reserves compute and memory capacity for DB instances of one DB instance class and one database engine. Amazon RDS reserves that capacity in each Availability Zone that you specify. Amazon RDS reserves the same amount of capacity in every Availability Zone in the request. You set that amount with CapacityPerAvailabilityZone, and you set the Availability Zones with AvailabilityZones. The total reserved capacity is CapacityPerAvailabilityZone multiplied by the number of Availability Zones. Specify StartDate and CommitmentDuration together to create a future-dated reservation. A future-dated reservation reserves capacity for a period that starts later. Amazon RDS holds that capacity for the length of the commitment. A future-dated reservation has the following additional constraints:    DBInstanceClass must be a db.c, db.m, db.r, db.t, or db.x DB instance class. The letter after db. gives the DB instance class family. For example, db.x2g.xlarge qualifies, and db.z1d.xlarge doesn't.   If DBInstanceClass is a db.m or db.r DB instance class, it must be from generation 7 or later. The digit after the family letter gives the generation. For example, db.m7g.xlarge qualifies, and db.m5.xlarge doesn't. A db.c, db.t, or db.x DB instance class has no generation requirement.   The reserved capacity must total at least 32 vCPUs in each Availability Zone. Multiply CapacityPerAvailabilityZone by the number of vCPUs of the DB instance class. The product must be 32 or more.    CommitmentDuration must be at least 14 days. For a db.x DB instance class, it must be at least 84 days.    StartDate must be from 5 to 120 days in the future.   Therefore, a DB instance class with 2 vCPUs needs a CapacityPerAvailabilityZone of 16 or more, a class with 4 vCPUs needs 8 or more, a class with 8 vCPUs needs 4 or more, and a class with 16 vCPUs needs 2 or more. For the number of vCPUs of each DB instance class, see DB instance classes in the Amazon RDS User Guide.  You can't modify a future-dated reservation before it starts. You can't cancel a future-dated reservation in the scheduled state. You can't cancel a reservation in the active state during its capacity commitment. Therefore, you can't cancel a future-dated reservation from the time that Amazon RDS schedules it until the commitment ends.
+    @Sendable
+    @inlinable
+    public func createDBCapacityReservation(_ input: CreateDBCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDBCapacityReservationResponse {
+        try await self.client.execute(
+            operation: "CreateDBCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a DB capacity reservation. A DB capacity reservation reserves compute and memory capacity for DB instances of one DB instance class and one database engine. Amazon RDS reserves that capacity in each Availability Zone that you specify. Amazon RDS reserves the same amount of capacity in every Availability Zone in the request. You set that amount with CapacityPerAvailabilityZone, and you set the Availability Zones with AvailabilityZones. The total reserved capacity is CapacityPerAvailabilityZone multiplied by the number of Availability Zones. Specify StartDate and CommitmentDuration together to create a future-dated reservation. A future-dated reservation reserves capacity for a period that starts later. Amazon RDS holds that capacity for the length of the commitment. A future-dated reservation has the following additional constraints:    DBInstanceClass must be a db.c, db.m, db.r, db.t, or db.x DB instance class. The letter after db. gives the DB instance class family. For example, db.x2g.xlarge qualifies, and db.z1d.xlarge doesn't.   If DBInstanceClass is a db.m or db.r DB instance class, it must be from generation 7 or later. The digit after the family letter gives the generation. For example, db.m7g.xlarge qualifies, and db.m5.xlarge doesn't. A db.c, db.t, or db.x DB instance class has no generation requirement.   The reserved capacity must total at least 32 vCPUs in each Availability Zone. Multiply CapacityPerAvailabilityZone by the number of vCPUs of the DB instance class. The product must be 32 or more.    CommitmentDuration must be at least 14 days. For a db.x DB instance class, it must be at least 84 days.    StartDate must be from 5 to 120 days in the future.   Therefore, a DB instance class with 2 vCPUs needs a CapacityPerAvailabilityZone of 16 or more, a class with 4 vCPUs needs 8 or more, a class with 8 vCPUs needs 4 or more, and a class with 16 vCPUs needs 2 or more. For the number of vCPUs of each DB instance class, see DB instance classes in the Amazon RDS User Guide.  You can't modify a future-dated reservation before it starts. You can't cancel a future-dated reservation in the scheduled state. You can't cancel a reservation in the active state during its capacity commitment. Therefore, you can't cancel a future-dated reservation from the time that Amazon RDS schedules it until the commitment ends.
+    ///
+    /// Parameters:
+    ///   - availabilityZones: A list of Availability Zones for the reservation. You can't change the Availability Zones of a reservation after you create it. Reserved capacity in an Availability Zone that no DB instance uses stays unused. Constraints:   Must specify one or more Availability Zones.   Each Availability Zone can appear only once.   Each Availability Zone must be in the Amazon Web Services Region of the request.   Each Availability Zone must have capacity for the requested DB instance class.   Must include two or more Availability Zones to use the reservation for a Multi-AZ DB instance.   A DB instance can use reserved capacity only in an Availability Zone that its DB subnet group covers.   Example: us-east-1a
+    ///   - capacityPerAvailabilityZone: The number of DB instances to reserve in each Availability Zone that you list in AvailabilityZones. Amazon RDS reserves this number of DB instances in every listed Availability Zone. A Single-AZ DB instance uses one unit of reserved capacity, in one Availability Zone. A Multi-AZ DB instance is one DB instance, and it uses one unit of reserved capacity in each of two Availability Zones. Therefore, a Multi-AZ DB instance uses two units in total. A read replica uses one unit of reserved capacity, in the same way as any other DB instance. Amazon RDS reserves capacity in each Availability Zone separately. Reserved capacity in one Availability Zone can't serve a DB instance in another Availability Zone. A request for a DB instance fails when the Availability Zone of the DB instance has no available capacity. Therefore, set this value to the number of DB instances that you want to run at the same time in one Availability Zone. Don't set it to the number that you want in total. This value multiplied by the number of Availability Zones counts against the DB instances quota for your Amazon Web Services account in the Amazon Web Services Region. Your existing DB instances, and the unused capacity of your other reservations, count against the same quota. To find the value of the DB instances quota, see Quotas and constraints for Amazon RDS in the Amazon RDS User Guide. Constraints:   Minimum 1.
+    ///   - commitmentDuration: The length of the capacity commitment that you request for a future-dated reservation, in seconds. Amazon RDS measures this length from StartDate.  Amazon RDS can grant a shorter capacity commitment than you request. Therefore, read CommitmentEndDate in CommitmentInfo for the commitment that Amazon RDS granted.  The commitment doesn't end the reservation. Specify EndDate to set an expiration date. You can't cancel a reservation in the active state during the commitment. Constraints:   Minimum 1209600, which is 14 days. For a db.x DB instance class, such as db.x2g.xlarge, the minimum is 7257600, which is 84 days.   Must be less than 315576000, which is 10 years.   You must also specify StartDate.   Example: 2592000
+    ///   - dbCapacityReservationName: The name of the DB capacity reservation. This name must be unique for your Amazon Web Services account in the Amazon Web Services Region. Constraints:   Must contain from 1 to 63 lowercase letters, digits, or hyphens.   First character must be a lowercase letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't contain more than 16 groups of characters separated by hyphens.   Can't begin with dbcr-.
+    ///   - dbInstanceClass: The compute and memory capacity to reserve, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance classes in the Amazon RDS User Guide. Constraints:   Must be a DB instance class that the specified Engine supports.   For RDS for Oracle with LicenseModel set to license-included, some DB instance classes aren't supported. Either choose a supported DB instance class, or set LicenseModel to bring-your-own-license.
+    ///   - endDate: The date and time when the reservation expires, in Universal Coordinated Time (UTC). If you don't specify a value, the reservation doesn't expire. To change the expiration of an existing reservation, use ModifyDBCapacityReservation. That operation takes EndDateType along with EndDate. Constraints:   Must be a date and time in the future.   For a future-dated reservation, must be at or after StartDate plus CommitmentDuration. For example, a reservation that starts on 2026-12-01 with a 30-day commitment can't expire before 2026-12-31. To reserve capacity for one calendar month, set CommitmentDuration to 30 days or fewer, not to the length of the month.   Example: 2026-12-31T23:59:59Z
+    ///   - engine: The database engine to reserve capacity for. Valid Values: aurora-mysql | aurora-postgresql | mysql | postgres | mariadb | oracle-ee | oracle-ee-cdb | oracle-se2 | oracle-se2-cdb | sqlserver-ee | sqlserver-se | sqlserver-web | sqlserver-ex | sqlserver-dev-ee | sqlserver-dev-se | db2-ae | db2-ce | db2-se   The Developer Edition engines sqlserver-dev-ee and sqlserver-dev-se support no Multi-AZ DB instance and no read replica. Therefore, a reservation for either engine serves Single-AZ DB instances only.
+    ///   - licenseModel: The license model to reserve capacity for. Specify this parameter only for RDS for Microsoft SQL Server Enterprise Edition, Standard Edition, and Developer Edition, for RDS for Oracle, or for RDS for Db2 Standard Edition and Advanced Edition. Amazon RDS rejects the request for any other engine. This includes Amazon Aurora, the Web and Express editions of RDS for Microsoft SQL Server, and RDS for Db2 Community Edition. Valid Values:   RDS for Microsoft SQL Server Enterprise Edition and Standard Edition - license-included | bring-your-own-media    RDS for Microsoft SQL Server Developer Edition - bring-your-own-license    RDS for Oracle - bring-your-own-license | license-included    RDS for Db2 Standard Edition and Advanced Edition - bring-your-own-license | marketplace-license    A DB instance launches into the reservation only when the license model of the DB instance matches the license model of the reservation. For a reservation that holds no license model, Amazon RDS applies no license model check at launch. For RDS for Microsoft SQL Server Enterprise Edition and Standard Edition, if you don't specify a value, Amazon RDS uses license-included. For RDS for Microsoft SQL Server Developer Edition, if you don't specify a value, Amazon RDS uses bring-your-own-license. That is the only license model that these engines accept, and Amazon RDS rejects any other value. For RDS for Oracle, if you don't specify a value, Amazon RDS uses the only orderable license model for the DB instance class. If more than one license model is orderable, you must specify one. For RDS for Db2 Standard Edition and Advanced Edition, if you don't specify a value, Amazon RDS uses bring-your-own-license. To reserve capacity for Db2 DB instances that you license through Amazon Web Services Marketplace, specify marketplace-license.  For RDS for Oracle, the license models that you can reserve depend on the engine and the DB instance class. RDS for Oracle Enterprise Edition doesn't support license-included.
+    ///   - startDate: The date and time when the reservation starts, in Universal Coordinated Time (UTC). Specify this parameter to create a future-dated reservation. If you don't specify a value, the reservation starts immediately. A reservation that starts later always carries a capacity commitment. Therefore, a request that specifies StartDate must also meet every constraint of a future-dated reservation, including the minimum reserved capacity in each Availability Zone. Constraints:   Must be from 5 to 120 days in the future.   You must also specify CommitmentDuration.   Example: 2026-12-01T00:00:00Z
+    ///   - tags: Tags to assign to the DB capacity reservation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDBCapacityReservation(
+        availabilityZones: [String]? = nil,
+        capacityPerAvailabilityZone: Int? = nil,
+        commitmentDuration: Int64? = nil,
+        dbCapacityReservationName: String? = nil,
+        dbInstanceClass: String? = nil,
+        endDate: Date? = nil,
+        engine: String? = nil,
+        licenseModel: String? = nil,
+        startDate: Date? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDBCapacityReservationResponse {
+        let input = CreateDBCapacityReservationRequest(
+            availabilityZones: availabilityZones, 
+            capacityPerAvailabilityZone: capacityPerAvailabilityZone, 
+            commitmentDuration: commitmentDuration, 
+            dbCapacityReservationName: dbCapacityReservationName, 
+            dbInstanceClass: dbInstanceClass, 
+            endDate: endDate, 
+            engine: engine, 
+            licenseModel: licenseModel, 
+            startDate: startDate, 
+            tags: tags
+        )
+        return try await self.createDBCapacityReservation(input, logger: logger)
     }
 
     /// Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the CreateDBInstance operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone. You can use the ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read replica of another DB cluster or Amazon RDS for MySQL or PostgreSQL DB instance. For more information about Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User Guide. You can also use the ReplicationSourceIdentifier parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide. You can use the WithExpressConfiguration parameter to create an Aurora DB Cluster with express configuration and create cluster in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parameters of this API.  You can use the AssociatedRoles parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster. Each associated role lets the DB cluster access other Amazon Web Services on your behalf, such as Amazon S3 for data import and export, or Amazon Web Services Lambda for invoking functions.
@@ -1065,6 +1153,7 @@ public struct RDS: AWSService {
     ///   - copyTagsToSnapshot: Specifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
     ///   - customIamInstanceProfile: The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. This setting is required for RDS Custom. Constraints:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
     ///   - databaseInsightsMode: The mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
     ///   - dbClusterIdentifier: The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     ///   - dbInstanceClass: The compute and memory capacity of the DB instance, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance classes in the Amazon RDS User Guide or Aurora DB instance classes in the Amazon Aurora User Guide.
     ///   - dbInstanceIdentifier: The identifier for this DB instance. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
@@ -1135,6 +1224,7 @@ public struct RDS: AWSService {
         copyTagsToSnapshot: Bool? = nil,
         customIamInstanceProfile: String? = nil,
         databaseInsightsMode: DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
         dbClusterIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
@@ -1205,6 +1295,7 @@ public struct RDS: AWSService {
             copyTagsToSnapshot: copyTagsToSnapshot, 
             customIamInstanceProfile: customIamInstanceProfile, 
             databaseInsightsMode: databaseInsightsMode, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
@@ -1290,6 +1381,7 @@ public struct RDS: AWSService {
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the read replica to snapshots of the read replica. By default, tags aren't copied.
     ///   - customIamInstanceProfile: The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     ///   - databaseInsightsMode: The mode of Database Insights to enable for the read replica.  This setting isn't supported.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to associate with this read replica. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the read replica uses reserved capacity from the specified reservation. A read replica uses one unit of reserved capacity, in the same way as any other DB instance. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the source DB instance must match it. A read replica inherits its license model from the source DB instance.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
     ///   - dbInstanceClass: The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     ///   - dbInstanceIdentifier: The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     ///   - dbParameterGroupName: The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the bring your own license (BYOL) model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see IBM IDs for bring your own license (BYOL) for Db2.  For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
@@ -1307,7 +1399,7 @@ public struct RDS: AWSService {
     ///   - enableIAMDatabaseAuthentication: Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
     ///   - enablePerformanceInsights: Specifies whether to enable Performance Insights for the read replica. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
     ///   - iops: The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance.
-    ///   - kmsKeyId: The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you create an encrypted read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, don't specify a value for this parameter. A read replica in the same Amazon Web Services Region is always encrypted with the same KMS key as the source DB instance or cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
+    ///   - kmsKeyId: The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. For a read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, specifying this parameter is optional. If you specify a KMS key identifier, the read replica is encrypted with that KMS key, which can be different from the KMS key of the source. If you don't specify a value for this parameter, the read replica is encrypted with the same KMS key as the source DB instance or Multi-AZ DB cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
     ///   - maxAllocatedStorage: The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling in the Amazon RDS User Guide.
     ///   - monitoringInterval: The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the read replica. To disable collection of Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must set MonitoringInterval to a value other than 0. This setting doesn't apply to RDS Custom DB instances. Valid Values: 0, 1, 5, 10, 15, 30, 60  Default: 0
     ///   - monitoringRoleArn: The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. This setting doesn't apply to RDS Custom DB instances.
@@ -1342,6 +1434,7 @@ public struct RDS: AWSService {
         copyTagsToSnapshot: Bool? = nil,
         customIamInstanceProfile: String? = nil,
         databaseInsightsMode: DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
         dbParameterGroupName: String? = nil,
@@ -1394,6 +1487,7 @@ public struct RDS: AWSService {
             copyTagsToSnapshot: copyTagsToSnapshot, 
             customIamInstanceProfile: customIamInstanceProfile, 
             databaseInsightsMode: databaseInsightsMode, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
             dbParameterGroupName: dbParameterGroupName, 
@@ -2770,6 +2864,44 @@ public struct RDS: AWSService {
             maxRecords: maxRecords
         )
         return try await self.describeCertificates(input, logger: logger)
+    }
+
+    /// Describes one or more DB capacity reservations. A DB capacity reservation reserves capacity for Amazon RDS DB instances in one or more Availability Zones. If you don't specify a DBCapacityReservationIdentifier, this operation returns information about all DB capacity reservations for your Amazon Web Services account. This operation supports pagination.
+    @Sendable
+    @inlinable
+    public func describeDBCapacityReservations(_ input: DescribeDBCapacityReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDBCapacityReservationsResponse {
+        try await self.client.execute(
+            operation: "DescribeDBCapacityReservations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more DB capacity reservations. A DB capacity reservation reserves capacity for Amazon RDS DB instances in one or more Availability Zones. If you don't specify a DBCapacityReservationIdentifier, this operation returns information about all DB capacity reservations for your Amazon Web Services account. This operation supports pagination.
+    ///
+    /// Parameters:
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to describe. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    ///   - filters: A filter that specifies which DB capacity reservations to describe. Supported filters:    db-capacity-reservation-name - Accepts DB capacity reservation names. The response includes only the reservations that these names identify. Use this filter to describe several reservations by name in one request.    state - Accepts reservation states. The response includes only the reservations in these states.    engine - Accepts database engine names. The response includes only the reservations that reserve capacity for these engines.    db-instance-class - Accepts DB instance classes. The response includes only the reservations that reserve capacity for these DB instance classes.    availability-zone - Accepts Availability Zone names. The response includes only the reservations that cover these Availability Zones.   When you specify more than one value for a filter, the response includes the reservations that match any of those values. When you specify more than one filter, the response includes only the reservations that match every filter. Amazon RDS rejects the request when a filter name isn't in this list, or when a filter specifies no values.  The state filter doesn't accept expired. To find an expired reservation, compare EndDate against the current date and time.
+    ///   - marker: An optional pagination token provided by a previous DescribeDBCapacityReservations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints:   Must be a minimum of 20.   Can't exceed 100.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDBCapacityReservations(
+        dbCapacityReservationIdentifier: String? = nil,
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDBCapacityReservationsResponse {
+        let input = DescribeDBCapacityReservationsRequest(
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords
+        )
+        return try await self.describeDBCapacityReservations(input, logger: logger)
     }
 
     /// Displays backups for both current and deleted DB clusters. For example, use this operation to find details about automated backups for previously deleted clusters. Current clusters are returned for both the DescribeDBClusterAutomatedBackups and DescribeDBClusters operations. All parameters are optional.
@@ -4947,6 +5079,44 @@ public struct RDS: AWSService {
         return try await self.modifyCustomDBEngineVersion(input, logger: logger)
     }
 
+    /// Modifies a DB capacity reservation. You can change the reserved capacity in each Availability Zone of the reservation, and you can change the end date of the reservation. You can't change the Availability Zones of an existing reservation. The reservation must be in the active state. A future-dated reservation that hasn't started isn't modifiable, and neither is a reservation that Amazon RDS is already modifying. You must specify CapacityPerAvailabilityZone, EndDateType, or EndDate. A request that specifies none of the three changes nothing, and Amazon RDS rejects it.
+    @Sendable
+    @inlinable
+    public func modifyDBCapacityReservation(_ input: ModifyDBCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDBCapacityReservationResponse {
+        try await self.client.execute(
+            operation: "ModifyDBCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies a DB capacity reservation. You can change the reserved capacity in each Availability Zone of the reservation, and you can change the end date of the reservation. You can't change the Availability Zones of an existing reservation. The reservation must be in the active state. A future-dated reservation that hasn't started isn't modifiable, and neither is a reservation that Amazon RDS is already modifying. You must specify CapacityPerAvailabilityZone, EndDateType, or EndDate. A request that specifies none of the three changes nothing, and Amazon RDS rejects it.
+    ///
+    /// Parameters:
+    ///   - capacityPerAvailabilityZone: The new number of DB instances to reserve in each Availability Zone of the reservation. Amazon RDS applies this number to every Availability Zone of the reservation. An increase reserves more capacity at the time of the request, so it can fail when the Amazon Web Services Region has insufficient capacity. This value multiplied by the number of Availability Zones counts against the DB instances quota for your Amazon Web Services account in the Amazon Web Services Region. Amazon RDS checks the quota only when you increase the value. Constraints:   Minimum 1.   Can't be less than the highest number of DB instances that use the reservation in any single Availability Zone of the reservation. That number includes a DB instance that holds a unit of reserved capacity for a pending modification. To find that number for an Availability Zone, subtract AvailableCapacity from ReservedCapacityPerAvailabilityZone.   During a capacity commitment, can't be less than CommittedCapacityPerAvailabilityZone.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to modify. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    ///   - endDate: The new end date for the reservation, in Universal Coordinated Time (UTC). Required when EndDateType is limited. Don't specify a value when EndDateType is unlimited. When you specify EndDate, you must also specify EndDateType. Constraints:   Must be a date and time in the future.   During a capacity commitment, must be at or after CommitmentEndDate.
+    ///   - endDateType: The end date type for the reservation. Valid Values:    limited - The reservation has a specific end date. You must also specify EndDate.    unlimited - The reservation doesn't expire. Don't specify EndDate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyDBCapacityReservation(
+        capacityPerAvailabilityZone: Int? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
+        endDate: Date? = nil,
+        endDateType: EndDateType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyDBCapacityReservationResponse {
+        let input = ModifyDBCapacityReservationRequest(
+            capacityPerAvailabilityZone: capacityPerAvailabilityZone, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
+            endDate: endDate, 
+            endDateType: endDateType
+        )
+        return try await self.modifyDBCapacityReservation(input, logger: logger)
+    }
+
     /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     @Sendable
     @inlinable
@@ -5254,6 +5424,7 @@ public struct RDS: AWSService {
     ///   - cloudwatchLogsExportConfiguration: The log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances. The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery | iam-db-auth-error    Aurora PostgreSQL - postgresql | iam-db-auth-error    RDS for MySQL - error | general | slowquery | iam-db-auth-error    RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error    For more information about exporting CloudWatch Logs for Amazon RDS, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation for the DB instance to use. You can specify the identifier, which has the prefix dbcr-, or the reservation name. After the modification completes, the DB instance uses reserved capacity from this reservation. You can't change the DB capacity reservation of a DB instance on its own. A request that changes the reservation must also change the DB instance class, the Multi-AZ setting, the license model, or the engine. Therefore, this request always changes the configuration of the DB instance. If the DB instance already uses the reservation that you specify, this requirement doesn't apply. You can then change another setting, such as the Multi-AZ setting, and keep the reservation. For a DB instance that uses no reservation, change DBInstanceClass to the DB instance class that the reservation reserves. A reservation reserves capacity for one DB instance class, so that change moves the DB instance onto the reserved capacity. That change also resizes the DB instance, which interrupts it. If the DB instance already runs the DB instance class that the reservation reserves, change MultiAZ or LicenseModel instead. Only RDS for Oracle and RDS for Microsoft SQL Server accept a change of license model, so MultiAZ is the remaining choice for every other engine.  If you don't specify this parameter, Amazon RDS moves the DB instance to unreserved capacity, and it releases the reserved capacity that the DB instance holds. A request that changes the DB instance class, the Multi-AZ setting, the license model, or the engine moves the DB instance to different hardware, and Amazon RDS places the DB instance on unreserved capacity. Therefore, to keep the DB instance on reserved capacity, specify this parameter in every request that changes any of those settings. The DB instance keeps its current reservation until Amazon RDS applies the modification. Until then, the DBCapacityReservationIdentifier field of the DB instance still reports that reservation, and PendingModifiedValues reports no reservation. Amazon RDS releases the reserved capacity when it moves the DB instance.  Constraints:   If the request changes which DB capacity reservation the DB instance uses, it must also set a new value for DBInstanceClass, MultiAZ, LicenseModel, or Engine. The new value must differ from the current value. The only engine change that ModifyDBInstance supports is a conversion to the CDB architecture. Repeating the current value doesn't satisfy this requirement. This requirement applies both when the DB instance uses no reservation, and when it moves to a different reservation.   The reservation must reserve capacity for the DB instance class that the DB instance uses after the modification, and for the database engine of the DB instance. Therefore, when the request changes DBInstanceClass, the reservation reserves capacity for a DB instance class that the DB instance doesn't use today.   The reservation must be in the active state, and it must not be past its end date.   The reservation must have available capacity in each Availability Zone that the DB instance uses after the modification.   The reservation must cover the Availability Zone of the DB instance, except when the request changes the DB instance from Multi-AZ to Single-AZ.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones.   If the DB instance is already Multi-AZ, the reservation must cover both of its Availability Zones. If the request converts the DB instance to Multi-AZ, the reservation must cover the current Availability Zone of the DB instance, and Amazon RDS chooses the second Availability Zone from the reservation.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it. Amazon RDS checks the license model only when the request specifies LicenseModel.   You can't specify this parameter together with a change to DBSubnetGroupName.   You can't specify this parameter together with a change to both DBInstanceClass and LicenseModel. Submit those changes as two separate requests.   Can't be specified together with a change to DBInstanceClass when the request also changes the DB instance from Multi-AZ to Single-AZ.   When the request changes the DB instance from Multi-AZ to Single-AZ, the reservation must cover either the primary or the secondary Availability Zone of the DB instance. Amazon RDS keeps the DB instance in its primary Availability Zone, and it removes the standby replica. Therefore, the primary Availability Zone keeps its unit of reserved capacity, and the secondary Availability Zone releases its unit.   Can't be specified together with LicenseModel while a modification of the DB instance class or the Multi-AZ setting is pending.   Can't be specified together with DBInstanceClass or MultiAZ while a modification of the license model is pending.   When a modification is already pending, the reservation must reserve capacity for the DB instance as it will be after both the pending modification and the requested modification complete.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.   Isn't supported for an RDS on Outposts DB instance.   If the reservation expires within one week, you must also enable ApplyImmediately. Otherwise, choose a reservation with a later end date.   Amazon RDS holds a unit of reserved capacity for the DB instance when it accepts the request, even when the modification waits for the maintenance window.
     ///   - dbInstanceClass: The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide or Aurora DB instance classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request.  Default: Uses existing setting Constraints:   If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
     ///   - dbInstanceIdentifier: The identifier of DB instance to modify. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DB instance.
     ///   - dbParameterGroupName: The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. In this case, the DB instance isn't rebooted automatically, and the parameter changes aren't applied during the next maintenance window. However, if you modify dynamic parameters in the newly associated DB parameter group, these changes are applied immediately without a reboot. This setting doesn't apply to RDS Custom DB instances. Default: Uses existing setting Constraints:   Must be in the same DB parameter group family as the DB instance.
@@ -5322,6 +5493,7 @@ public struct RDS: AWSService {
         cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Bool? = nil,
         databaseInsightsMode: DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
         dbParameterGroupName: String? = nil,
@@ -5390,6 +5562,7 @@ public struct RDS: AWSService {
             cloudwatchLogsExportConfiguration: cloudwatchLogsExportConfiguration, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
             databaseInsightsMode: databaseInsightsMode, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
             dbParameterGroupName: dbParameterGroupName, 
@@ -6928,6 +7101,7 @@ public struct RDS: AWSService {
     ///   - caCertificateIdentifier: The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. In most cases, tags aren't copied by default. However, when you restore a DB instance from a DB snapshot, RDS checks whether you specify new tags. If yes, the new tags are added to the restored DB instance. If there are no new tags, RDS looks for the tags from the source DB instance for the DB snapshot, and then adds those tags to the restored DB instance. For more information, see  Copying tags to DB instance snapshots in the Amazon RDS User Guide.
     ///   - customIamInstanceProfile: The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
     ///   - dbClusterSnapshotIdentifier: The identifier for the Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide. Constraints:   Must match the identifier of an existing Multi-AZ DB cluster snapshot.   Can't be specified when DBSnapshotIdentifier is specified.   Must be specified when DBSnapshotIdentifier isn't specified.   If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared snapshot.   Can't be the identifier of an Aurora DB cluster snapshot.
     ///   - dbInstanceClass: The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: The same DBInstanceClass as the original DB instance.
     ///   - dbInstanceIdentifier: The name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 numbers, letters, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id
@@ -6979,6 +7153,7 @@ public struct RDS: AWSService {
         caCertificateIdentifier: String? = nil,
         copyTagsToSnapshot: Bool? = nil,
         customIamInstanceProfile: String? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
         dbClusterSnapshotIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
@@ -7030,6 +7205,7 @@ public struct RDS: AWSService {
             caCertificateIdentifier: caCertificateIdentifier, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
             customIamInstanceProfile: customIamInstanceProfile, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbClusterSnapshotIdentifier: dbClusterSnapshotIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
@@ -7097,6 +7273,7 @@ public struct RDS: AWSService {
     ///   - caCertificateIdentifier: The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
     ///   - dbInstanceClass: The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     ///   - dbInstanceIdentifier: The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
     ///   - dbName: The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance.
@@ -7154,6 +7331,7 @@ public struct RDS: AWSService {
         caCertificateIdentifier: String? = nil,
         copyTagsToSnapshot: Bool? = nil,
         databaseInsightsMode: DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
         dbName: String? = nil,
@@ -7211,6 +7389,7 @@ public struct RDS: AWSService {
             caCertificateIdentifier: caCertificateIdentifier, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
             databaseInsightsMode: databaseInsightsMode, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
             dbName: dbName, 
@@ -7286,6 +7465,7 @@ public struct RDS: AWSService {
     ///   - caCertificateIdentifier: The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the Amazon RDS User Guide and  Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
     ///   - customIamInstanceProfile: The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom.
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:   The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.   If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.   The reservation must be in the active state, and it must not be past its end date.   If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.   For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.   The reservation must have available capacity in each Availability Zone that the DB instance uses.   The DB subnet group must be in a VPC with default tenancy.   The DB subnet group must cover each Availability Zone that the DB instance uses.
     ///   - dbInstanceClass: The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: The same DB instance class as the original DB instance.
     ///   - dbName: The database name for the restored DB instance. This parameter doesn't apply to the following DB instances:   RDS Custom   RDS for Db2   RDS for MariaDB   RDS for MySQL
     ///   - dbParameterGroupName: The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. This setting doesn't apply to RDS Custom. Constraints:   If supplied, must match the name of an existing DB parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
@@ -7341,6 +7521,7 @@ public struct RDS: AWSService {
         caCertificateIdentifier: String? = nil,
         copyTagsToSnapshot: Bool? = nil,
         customIamInstanceProfile: String? = nil,
+        dbCapacityReservationIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbName: String? = nil,
         dbParameterGroupName: String? = nil,
@@ -7396,6 +7577,7 @@ public struct RDS: AWSService {
             caCertificateIdentifier: caCertificateIdentifier, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
             customIamInstanceProfile: customIamInstanceProfile, 
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbName: dbName, 
             dbParameterGroupName: dbParameterGroupName, 
@@ -7570,14 +7752,17 @@ public struct RDS: AWSService {
     /// Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services console, the stop-db-instance CLI command, or the StopDBInstance operation. For more information, see  Starting an Amazon RDS DB instance That Was Previously Stopped in the Amazon RDS User Guide.   This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use StartDBCluster instead.
     ///
     /// Parameters:
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation for the DB instance to use after it starts. You can specify the identifier, which has the prefix dbcr-, or the reservation name. Specify this parameter when the DB instance stopped using a reservation, or when you want the DB instance to use a different reservation. If you omit this parameter, and the DB instance kept a DB capacity reservation when it stopped, Amazon RDS starts the DB instance in that reservation. If that reservation is deleted, ended, or cancelled, the DB instance still starts. Amazon RDS starts the DB instance outside the reservation, on unreserved capacity, and it charges on-demand prices for the DB instance. If that reservation has no available capacity in the Availability Zone of the DB instance, the request fails. Amazon RDS doesn't start the DB instance, and it doesn't wait for capacity in that Availability Zone. Specify a reservation that has available capacity in that Availability Zone, or retry the request after the reservation has available capacity. Constraints:   The reservation must be in the active state.   The reservation must reserve capacity for the DB instance class and the engine of the DB instance.   The reservation must cover the Availability Zone of the DB instance, and it must have available capacity in that Availability Zone.
     ///   - dbInstanceIdentifier: The user-supplied instance identifier.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDBInstance(
+        dbCapacityReservationIdentifier: String? = nil,
         dbInstanceIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartDBInstanceResult {
         let input = StartDBInstanceMessage(
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
             dbInstanceIdentifier: dbInstanceIdentifier
         )
         return try await self.startDBInstance(input, logger: logger)
@@ -7750,16 +7935,19 @@ public struct RDS: AWSService {
     /// Parameters:
     ///   - dbInstanceIdentifier: The user-supplied instance identifier.
     ///   - dbSnapshotIdentifier: The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
+    ///   - detachFromDBCapacityReservation: Specifies whether the DB instance stops using its DB capacity reservation when the DB instance stops. When you specify true, the DB instance belongs to no reservation after it stops, and a later start launches it outside the reservation. By default, a stopped DB instance keeps its DB capacity reservation, and a later start returns the DB instance to the same reservation. Every stop releases the unit of reserved capacity that the DB instance holds, for either value of this parameter. Another DB instance can then use that capacity. This parameter controls the reservation that the DB instance belongs to, and it does not control the release of the capacity. If the DB instance uses no DB capacity reservation, this parameter has no effect.  Amazon RDS holds no capacity for a stopped DB instance. When the reservation has no available capacity in the Availability Zone of the DB instance, a later start waits for capacity in that Availability Zone. When the DB instance belongs to no reservation, a later start can fail because the Amazon Web Services Region has insufficient capacity for the DB instance class.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopDBInstance(
         dbInstanceIdentifier: String? = nil,
         dbSnapshotIdentifier: String? = nil,
+        detachFromDBCapacityReservation: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopDBInstanceResult {
         let input = StopDBInstanceMessage(
             dbInstanceIdentifier: dbInstanceIdentifier, 
-            dbSnapshotIdentifier: dbSnapshotIdentifier
+            dbSnapshotIdentifier: dbSnapshotIdentifier, 
+            detachFromDBCapacityReservation: detachFromDBCapacityReservation
         )
         return try await self.stopDBInstance(input, logger: logger)
     }
@@ -7978,6 +8166,46 @@ extension RDS {
             maxRecords: maxRecords
         )
         return self.describeCertificatesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeDBCapacityReservations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeDBCapacityReservationsPaginator(
+        _ input: DescribeDBCapacityReservationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDBCapacityReservationsRequest, DescribeDBCapacityReservationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeDBCapacityReservations,
+            inputKey: \DescribeDBCapacityReservationsRequest.marker,
+            outputKey: \DescribeDBCapacityReservationsResponse.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeDBCapacityReservations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dbCapacityReservationIdentifier: The identifier or the name of the DB capacity reservation to describe. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    ///   - filters: A filter that specifies which DB capacity reservations to describe. Supported filters:    db-capacity-reservation-name - Accepts DB capacity reservation names. The response includes only the reservations that these names identify. Use this filter to describe several reservations by name in one request.    state - Accepts reservation states. The response includes only the reservations in these states.    engine - Accepts database engine names. The response includes only the reservations that reserve capacity for these engines.    db-instance-class - Accepts DB instance classes. The response includes only the reservations that reserve capacity for these DB instance classes.    availability-zone - Accepts Availability Zone names. The response includes only the reservations that cover these Availability Zones.   When you specify more than one value for a filter, the response includes the reservations that match any of those values. When you specify more than one filter, the response includes only the reservations that match every filter. Amazon RDS rejects the request when a filter name isn't in this list, or when a filter specifies no values.  The state filter doesn't accept expired. To find an expired reservation, compare EndDate against the current date and time.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints:   Must be a minimum of 20.   Can't exceed 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeDBCapacityReservationsPaginator(
+        dbCapacityReservationIdentifier: String? = nil,
+        filters: [Filter]? = nil,
+        maxRecords: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeDBCapacityReservationsRequest, DescribeDBCapacityReservationsResponse> {
+        let input = DescribeDBCapacityReservationsRequest(
+            dbCapacityReservationIdentifier: dbCapacityReservationIdentifier, 
+            filters: filters, 
+            maxRecords: maxRecords
+        )
+        return self.describeDBCapacityReservationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeDBClusterAutomatedBackups(_:logger:)``.
@@ -9796,6 +10024,18 @@ extension RDS.DescribeCertificatesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeCertificatesMessage {
         return .init(
             certificateIdentifier: self.certificateIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension RDS.DescribeDBCapacityReservationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBCapacityReservationsRequest {
+        return .init(
+            dbCapacityReservationIdentifier: self.dbCapacityReservationIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords

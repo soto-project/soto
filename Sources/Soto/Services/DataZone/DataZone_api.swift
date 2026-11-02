@@ -1013,6 +1013,49 @@ public struct DataZone: AWSService {
         return try await self.createDataSource(input, logger: logger)
     }
 
+    /// Creates a new user-defined designation with a Cedar permit policy.
+    /// The designation defines a named role that can be assigned to project members.
+    @Sendable
+    @inlinable
+    public func createDesignation(_ input: CreateDesignationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDesignationOutput {
+        try await self.client.execute(
+            operation: "CreateDesignation", 
+            path: "/v2/domains/{domainIdentifier}/designations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new user-defined designation with a Cedar permit policy.
+    /// The designation defines a named role that can be assigned to project members.
+    ///
+    /// Parameters:
+    ///   - deletionProtection: Whether deletion protection is enabled for this designation. Defaults to true when omitted.
+    ///   - description: A human-readable description of the designation and its intended use.
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which the designation is created.
+    ///   - name: The name of the designation. The name must be unique within the domain.
+    ///   - policy: The Cedar permit policy that defines what actions holders of this
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDesignation(
+        deletionProtection: Bool? = nil,
+        description: String? = nil,
+        domainIdentifier: String,
+        name: String,
+        policy: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDesignationOutput {
+        let input = CreateDesignationInput(
+            deletionProtection: deletionProtection, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            name: name, 
+            policy: policy
+        )
+        return try await self.createDesignation(input, logger: logger)
+    }
+
     /// Creates an Amazon DataZone domain.
     @Sendable
     @inlinable
@@ -1659,6 +1702,7 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which project membership is created.
     ///   - member: The project member whose project membership was created.
     ///   - projectIdentifier: The ID of the project for which this project membership was created.
+    ///   - userCreatedDesignationId: The ID of the user-created designation to assign to the project member. Required when designation is USER_CREATED_DESIGNATION; must not be provided otherwise.
     ///   - logger: Logger use during operation
     @inlinable
     public func createProjectMembership(
@@ -1666,13 +1710,15 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         member: Member,
         projectIdentifier: String,
+        userCreatedDesignationId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProjectMembershipOutput {
         let input = CreateProjectMembershipInput(
             designation: designation, 
             domainIdentifier: domainIdentifier, 
             member: member, 
-            projectIdentifier: projectIdentifier
+            projectIdentifier: projectIdentifier, 
+            userCreatedDesignationId: userCreatedDesignationId
         )
         return try await self.createProjectMembership(input, logger: logger)
     }
@@ -2231,6 +2277,40 @@ public struct DataZone: AWSService {
             retainPermissionsOnRevokeFailure: retainPermissionsOnRevokeFailure
         )
         return try await self.deleteDataSource(input, logger: logger)
+    }
+
+    /// Deletes a designation. Managed designations cannot be deleted.
+    /// This operation is idempotent.
+    @Sendable
+    @inlinable
+    public func deleteDesignation(_ input: DeleteDesignationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDesignationOutput {
+        try await self.client.execute(
+            operation: "DeleteDesignation", 
+            path: "/v2/domains/{domainIdentifier}/designations/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a designation. Managed designations cannot be deleted.
+    /// This operation is idempotent.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain that contains the designation to delete.
+    ///   - identifier: The unique ID of the designation to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDesignation(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDesignationOutput {
+        let input = DeleteDesignationInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteDesignation(input, logger: logger)
     }
 
     /// Deletes a Amazon DataZone domain.
@@ -3303,6 +3383,38 @@ public struct DataZone: AWSService {
             identifier: identifier
         )
         return try await self.getDataSourceRun(input, logger: logger)
+    }
+
+    /// Gets the details of a designation, including its Cedar policy.
+    @Sendable
+    @inlinable
+    public func getDesignation(_ input: GetDesignationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDesignationOutput {
+        try await self.client.execute(
+            operation: "GetDesignation", 
+            path: "/v2/domains/{domainIdentifier}/designations/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a designation, including its Cedar policy.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain that contains the designation.
+    ///   - identifier: The unique ID of the designation to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDesignation(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDesignationOutput {
+        let input = GetDesignationInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getDesignation(input, logger: logger)
     }
 
     /// Gets an Amazon DataZone domain.
@@ -4683,6 +4795,43 @@ public struct DataZone: AWSService {
             type: type
         )
         return try await self.listDataSources(input, logger: logger)
+    }
+
+    /// Lists the designations in a domain. Returns system-managed designations
+    /// first, followed by user-created designations sorted alphabetically by name.
+    @Sendable
+    @inlinable
+    public func listDesignations(_ input: ListDesignationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDesignationsOutput {
+        try await self.client.execute(
+            operation: "ListDesignations", 
+            path: "/v2/domains/{domainIdentifier}/designations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the designations in a domain. Returns system-managed designations
+    /// first, followed by user-created designations sorted alphabetically by name.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain that contains the designations to list.
+    ///   - maxResults: The maximum number of designations to return in a single call to ListDesignations. If the number of designations exceeds MaxResults, the response includes a NextToken value. Use that token in a subsequent call to ListDesignations to retrieve the next set of designations. The default value is 20.
+    ///   - nextToken: If the results exceed the value of MaxResults, the previous call returns a pagination token. Specify this token in a subsequent call to ListDesignations to retrieve the next set of results. If not specified, the operation returns the first page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDesignations(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDesignationsOutput {
+        let input = ListDesignationsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDesignations(input, logger: logger)
     }
 
     /// Lists child domain units for the specified parent domain unit.
@@ -6699,7 +6848,8 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook.
     ///   - name: The name of the imported notebook. The name must be between 1 and 256 characters.
     ///   - owningProjectIdentifier: The identifier of the project that will own the imported notebook.
-    ///   - sourceLocation: The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    ///   - sourceLocation: The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells.
+    ///   - type: The type of the notebook to import. If not specified, defaults to DATA.
     ///   - logger: Logger use during operation
     @inlinable
     public func startNotebookImport(
@@ -6709,6 +6859,7 @@ public struct DataZone: AWSService {
         name: String,
         owningProjectIdentifier: String,
         sourceLocation: SourceLocation,
+        type: NotebookType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartNotebookImportOutput {
         let input = StartNotebookImportInput(
@@ -6717,7 +6868,8 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             name: name, 
             owningProjectIdentifier: owningProjectIdentifier, 
-            sourceLocation: sourceLocation
+            sourceLocation: sourceLocation, 
+            type: type
         )
         return try await self.startNotebookImport(input, logger: logger)
     }
@@ -6744,6 +6896,7 @@ public struct DataZone: AWSService {
     ///   - metadata: The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
     ///   - networkConfiguration: The network configuration for the notebook run, including network access type and optional VPC settings.
     ///   - notebookIdentifier: The identifier of the notebook to run.
+    ///   - notificationConfiguration: The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications.
     ///   - owningProjectIdentifier: The identifier of the project that owns the notebook run.
     ///   - parameters: The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
     ///   - scheduleIdentifier: The identifier of the schedule associated with the notebook run.
@@ -6758,6 +6911,7 @@ public struct DataZone: AWSService {
         metadata: [String: String]? = nil,
         networkConfiguration: NetworkConfig? = nil,
         notebookIdentifier: String,
+        notificationConfiguration: NotificationConfig? = nil,
         owningProjectIdentifier: String,
         parameters: [String: String]? = nil,
         scheduleIdentifier: String? = nil,
@@ -6772,6 +6926,7 @@ public struct DataZone: AWSService {
             metadata: metadata, 
             networkConfiguration: networkConfiguration, 
             notebookIdentifier: notebookIdentifier, 
+            notificationConfiguration: notificationConfiguration, 
             owningProjectIdentifier: owningProjectIdentifier, 
             parameters: parameters, 
             scheduleIdentifier: scheduleIdentifier, 
@@ -7119,6 +7274,50 @@ public struct DataZone: AWSService {
             schedule: schedule
         )
         return try await self.updateDataSource(input, logger: logger)
+    }
+
+    /// Updates an existing designation. Managed designations cannot be modified.
+    @Sendable
+    @inlinable
+    public func updateDesignation(_ input: UpdateDesignationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDesignationOutput {
+        try await self.client.execute(
+            operation: "UpdateDesignation", 
+            path: "/v2/domains/{domainIdentifier}/designations/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing designation. Managed designations cannot be modified.
+    ///
+    /// Parameters:
+    ///   - deletionProtection: Whether deletion protection is enabled for this designation. Omit to keep the existing value.
+    ///   - description: The updated human-readable description of the designation and its intended use.
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain that contains the designation to update.
+    ///   - identifier: The unique ID of the designation to update.
+    ///   - name: The updated name of the designation. The name must be unique within the domain.
+    ///   - policy: The updated Cedar permit policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDesignation(
+        deletionProtection: Bool? = nil,
+        description: String? = nil,
+        domainIdentifier: String,
+        identifier: String,
+        name: String? = nil,
+        policy: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDesignationOutput {
+        let input = UpdateDesignationInput(
+            deletionProtection: deletionProtection, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            name: name, 
+            policy: policy
+        )
+        return try await self.updateDesignation(input, logger: logger)
     }
 
     /// Updates a Amazon DataZone domain.
@@ -8332,6 +8531,43 @@ extension DataZone {
             type: type
         )
         return self.listDataSourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDesignations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDesignationsPaginator(
+        _ input: ListDesignationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDesignationsInput, ListDesignationsOutput> {
+        return .init(
+            input: input,
+            command: self.listDesignations,
+            inputKey: \ListDesignationsInput.nextToken,
+            outputKey: \ListDesignationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDesignations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain that contains the designations to list.
+    ///   - maxResults: The maximum number of designations to return in a single call to ListDesignations. If the number of designations exceeds MaxResults, the response includes a NextToken value. Use that token in a subsequent call to ListDesignations to retrieve the next set of designations. The default value is 20.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDesignationsPaginator(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDesignationsInput, ListDesignationsOutput> {
+        let input = ListDesignationsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listDesignationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listDomainUnitsForParent(_:logger:)``.
@@ -9977,6 +10213,17 @@ extension DataZone.ListDataSourcesInput: AWSPaginateToken {
             projectIdentifier: self.projectIdentifier,
             status: self.status,
             type: self.type
+        )
+    }
+}
+
+extension DataZone.ListDesignationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListDesignationsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

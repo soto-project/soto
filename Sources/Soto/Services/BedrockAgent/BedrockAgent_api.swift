@@ -653,6 +653,85 @@ public struct BedrockAgent: AWSService {
         return try await self.createPromptVersion(input, logger: logger)
     }
 
+    /// Creates a new retrieval instruction. The retrieval instruction is usable once its status becomes ACTIVE. Use GetRetrievalInstruction to check whether it is ready.
+    @Sendable
+    @inlinable
+    public func createRetrievalInstruction(_ input: CreateRetrievalInstructionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRetrievalInstructionResponse {
+        try await self.client.execute(
+            operation: "CreateRetrievalInstruction", 
+            path: "/retrievalinstructions/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new retrieval instruction. The retrieval instruction is usable once its status becomes ACTIVE. Use GetRetrievalInstruction to check whether it is ready.
+    ///
+    /// Parameters:
+    ///   - clientToken: A caller-supplied token that makes a retried create return the existing resource rather than a second one. The window is 8 hours.
+    ///   - customerEncryptionKeyArn: The Amazon Resource Name (ARN) of a customer managed AWS Key Management Service (AWS KMS) key used to encrypt the instruction content at rest. If you omit it, the service uses an AWS owned key. You fix the key at create and cannot change it later.
+    ///   - description: Specifies a description of the retrieval instruction.
+    ///   - instruction: The instruction content, as a set of named fields. Get does not return this field until the create review passes.
+    ///   - name: Specifies the name of the retrieval instruction.
+    ///   - tags: Tags for the retrieval instruction.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRetrievalInstruction(
+        clientToken: String? = CreateRetrievalInstructionRequest.idempotencyToken(),
+        customerEncryptionKeyArn: String? = nil,
+        description: String? = nil,
+        instruction: RetrievalInstructionContent,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRetrievalInstructionResponse {
+        let input = CreateRetrievalInstructionRequest(
+            clientToken: clientToken, 
+            customerEncryptionKeyArn: customerEncryptionKeyArn, 
+            description: description, 
+            instruction: instruction, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createRetrievalInstruction(input, logger: logger)
+    }
+
+    /// Creates an immutable numbered version from the retrieval instruction's current reviewed content. The service creates the version synchronously. The service numbers versions from 1 and assigns them in order, never reusing a number.
+    @Sendable
+    @inlinable
+    public func createRetrievalInstructionVersion(_ input: CreateRetrievalInstructionVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRetrievalInstructionVersionResponse {
+        try await self.client.execute(
+            operation: "CreateRetrievalInstructionVersion", 
+            path: "/retrievalinstructions/{retrievalInstructionId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an immutable numbered version from the retrieval instruction's current reviewed content. The service creates the version synchronously. The service numbers versions from 1 and assigns them in order, never reusing a number.
+    ///
+    /// Parameters:
+    ///   - clientToken: A caller-supplied token that makes a retried call return the version created by the first call rather than a second version. The window is 8 hours.
+    ///   - description: A description of this version. Independent of the retrieval instruction's own description.
+    ///   - retrievalInstructionId: The identifier of the retrieval instruction to version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRetrievalInstructionVersion(
+        clientToken: String? = CreateRetrievalInstructionVersionRequest.idempotencyToken(),
+        description: String? = nil,
+        retrievalInstructionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRetrievalInstructionVersionResponse {
+        let input = CreateRetrievalInstructionVersionRequest(
+            clientToken: clientToken, 
+            description: description, 
+            retrievalInstructionId: retrievalInstructionId
+        )
+        return try await self.createRetrievalInstructionVersion(input, logger: logger)
+    }
+
     /// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING. Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED.
     @Sendable
     @inlinable
@@ -1112,6 +1191,38 @@ public struct BedrockAgent: AWSService {
             resourceArn: resourceArn
         )
         return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
+    /// Deletes a retrieval instruction or a single version of it. Omit retrievalInstructionVersion to delete the retrieval instruction itself; the service rejects that request with ConflictException while the retrieval instruction has versions or while lastTransitionStatus is CREATING or UPDATING. Specify retrievalInstructionVersion to delete only that version; the retrieval instruction and its other versions are unaffected.
+    @Sendable
+    @inlinable
+    public func deleteRetrievalInstruction(_ input: DeleteRetrievalInstructionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRetrievalInstructionResponse {
+        try await self.client.execute(
+            operation: "DeleteRetrievalInstruction", 
+            path: "/retrievalinstructions/{retrievalInstructionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a retrieval instruction or a single version of it. Omit retrievalInstructionVersion to delete the retrieval instruction itself; the service rejects that request with ConflictException while the retrieval instruction has versions or while lastTransitionStatus is CREATING or UPDATING. Specify retrievalInstructionVersion to delete only that version; the retrieval instruction and its other versions are unaffected.
+    ///
+    /// Parameters:
+    ///   - retrievalInstructionId: The identifier of the retrieval instruction to delete.
+    ///   - retrievalInstructionVersion: The version to delete. Omit this field to delete the retrieval instruction itself, which you can do only when it has no versions; while any version exists the service rejects the request with ConflictException. You cannot delete DRAFT on its own; deleting the retrieval instruction removes it.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRetrievalInstruction(
+        retrievalInstructionId: String,
+        retrievalInstructionVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRetrievalInstructionResponse {
+        let input = DeleteRetrievalInstructionRequest(
+            retrievalInstructionId: retrievalInstructionId, 
+            retrievalInstructionVersion: retrievalInstructionVersion
+        )
+        return try await self.deleteRetrievalInstruction(input, logger: logger)
     }
 
     /// Deletes a VPC configuration. This operation is asynchronous: it returns status DELETING. Poll GetVpcConfiguration until it returns a ResourceNotFoundException, indicating the configuration is deleted. Delete requests are idempotent and safe to retry.
@@ -1708,6 +1819,38 @@ public struct BedrockAgent: AWSService {
         return try await self.getResourcePolicy(input, logger: logger)
     }
 
+    /// Gets a retrieval instruction. Also used to poll the terminal reporting of an asynchronous create or update.
+    @Sendable
+    @inlinable
+    public func getRetrievalInstruction(_ input: GetRetrievalInstructionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRetrievalInstructionResponse {
+        try await self.client.execute(
+            operation: "GetRetrievalInstruction", 
+            path: "/retrievalinstructions/{retrievalInstructionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a retrieval instruction. Also used to poll the terminal reporting of an asynchronous create or update.
+    ///
+    /// Parameters:
+    ///   - retrievalInstructionId: The identifier of the retrieval instruction to get.
+    ///   - retrievalInstructionVersion: The version to return: a version number, or DRAFT for the retrieval instruction's current reviewed content. When omitted, DRAFT is used. This default is permanent: omitting retrievalInstructionVersion will never resolve to a numbered version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRetrievalInstruction(
+        retrievalInstructionId: String,
+        retrievalInstructionVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRetrievalInstructionResponse {
+        let input = GetRetrievalInstructionRequest(
+            retrievalInstructionId: retrievalInstructionId, 
+            retrievalInstructionVersion: retrievalInstructionVersion
+        )
+        return try await self.getRetrievalInstruction(input, logger: logger)
+    }
+
     /// Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete.
     @Sendable
     @inlinable
@@ -2278,6 +2421,76 @@ public struct BedrockAgent: AWSService {
             promptIdentifier: promptIdentifier
         )
         return try await self.listPrompts(input, logger: logger)
+    }
+
+    /// Lists the numbered versions of a retrieval instruction, newest first. DRAFT is not listed; read it with GetRetrievalInstruction without retrievalInstructionVersion. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listRetrievalInstructionVersions(_ input: ListRetrievalInstructionVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetrievalInstructionVersionsResponse {
+        try await self.client.execute(
+            operation: "ListRetrievalInstructionVersions", 
+            path: "/retrievalinstructions/{retrievalInstructionId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the numbered versions of a retrieval instruction, newest first. DRAFT is not listed; read it with GetRetrievalInstruction without retrievalInstructionVersion. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: Specifies the maximum number of versions to return in a single page. The service enforces the effective upper bound.
+    ///   - nextToken: The pagination token from a previous ListRetrievalInstructionVersions response.
+    ///   - retrievalInstructionId: The identifier of the retrieval instruction whose versions to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRetrievalInstructionVersions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        retrievalInstructionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRetrievalInstructionVersionsResponse {
+        let input = ListRetrievalInstructionVersionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            retrievalInstructionId: retrievalInstructionId
+        )
+        return try await self.listRetrievalInstructionVersions(input, logger: logger)
+    }
+
+    /// Lists the retrieval instructions in the caller's account. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listRetrievalInstructions(_ input: ListRetrievalInstructionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetrievalInstructionsResponse {
+        try await self.client.execute(
+            operation: "ListRetrievalInstructions", 
+            path: "/retrievalinstructions/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the retrieval instructions in the caller's account. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. The effective upper bound is enforced service-side.
+    ///   - nextToken: The pagination token from a previous ListRetrievalInstructions response.
+    ///   - status: Return only instructions with this availability status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRetrievalInstructions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: RetrievalInstructionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRetrievalInstructionsResponse {
+        let input = ListRetrievalInstructionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listRetrievalInstructions(input, logger: logger)
     }
 
     /// List all the tags for the resource you specify.
@@ -3062,6 +3275,41 @@ public struct BedrockAgent: AWSService {
         return try await self.updatePrompt(input, logger: logger)
     }
 
+    /// Updates the content of a retrieval instruction. The update is processed asynchronously; the stored content is a candidate until content review passes, and the served content does not change while the update is in flight. The service rejects the request with ConflictException while lastTransitionStatus is CREATING or UPDATING.
+    @Sendable
+    @inlinable
+    public func updateRetrievalInstruction(_ input: UpdateRetrievalInstructionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRetrievalInstructionResponse {
+        try await self.client.execute(
+            operation: "UpdateRetrievalInstruction", 
+            path: "/retrievalinstructions/{retrievalInstructionId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the content of a retrieval instruction. The update is processed asynchronously; the stored content is a candidate until content review passes, and the served content does not change while the update is in flight. The service rejects the request with ConflictException while lastTransitionStatus is CREATING or UPDATING.
+    ///
+    /// Parameters:
+    ///   - description: A replacement description; applied together with the content when the review passes. Omit to clear.
+    ///   - instruction: The replacement instruction content. This is a full replacement of all four fields, not a patch. During UPDATING, Get continues to return the previously-served content until the update review passes.
+    ///   - retrievalInstructionId: The identifier of the retrieval instruction to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRetrievalInstruction(
+        description: String? = nil,
+        instruction: RetrievalInstructionContent,
+        retrievalInstructionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRetrievalInstructionResponse {
+        let input = UpdateRetrievalInstructionRequest(
+            description: description, 
+            instruction: instruction, 
+            retrievalInstructionId: retrievalInstructionId
+        )
+        return try await self.updateRetrievalInstruction(input, logger: logger)
+    }
+
     /// Validates the definition of a flow.
     @Sendable
     @inlinable
@@ -3635,6 +3883,80 @@ extension BedrockAgent {
         return self.listPromptsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRetrievalInstructionVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRetrievalInstructionVersionsPaginator(
+        _ input: ListRetrievalInstructionVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRetrievalInstructionVersionsRequest, ListRetrievalInstructionVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listRetrievalInstructionVersions,
+            inputKey: \ListRetrievalInstructionVersionsRequest.nextToken,
+            outputKey: \ListRetrievalInstructionVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRetrievalInstructionVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Specifies the maximum number of versions to return in a single page. The service enforces the effective upper bound.
+    ///   - retrievalInstructionId: The identifier of the retrieval instruction whose versions to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRetrievalInstructionVersionsPaginator(
+        maxResults: Int? = nil,
+        retrievalInstructionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRetrievalInstructionVersionsRequest, ListRetrievalInstructionVersionsResponse> {
+        let input = ListRetrievalInstructionVersionsRequest(
+            maxResults: maxResults, 
+            retrievalInstructionId: retrievalInstructionId
+        )
+        return self.listRetrievalInstructionVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRetrievalInstructions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRetrievalInstructionsPaginator(
+        _ input: ListRetrievalInstructionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRetrievalInstructionsRequest, ListRetrievalInstructionsResponse> {
+        return .init(
+            input: input,
+            command: self.listRetrievalInstructions,
+            inputKey: \ListRetrievalInstructionsRequest.nextToken,
+            outputKey: \ListRetrievalInstructionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRetrievalInstructions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. The effective upper bound is enforced service-side.
+    ///   - status: Return only instructions with this availability status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRetrievalInstructionsPaginator(
+        maxResults: Int? = nil,
+        status: RetrievalInstructionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRetrievalInstructionsRequest, ListRetrievalInstructionsResponse> {
+        let input = ListRetrievalInstructionsRequest(
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listRetrievalInstructionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listVpcConfigurations(_:logger:)``.
     ///
     /// - Parameters:
@@ -3830,6 +4152,28 @@ extension BedrockAgent.ListPromptsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             promptIdentifier: self.promptIdentifier
+        )
+    }
+}
+
+extension BedrockAgent.ListRetrievalInstructionVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListRetrievalInstructionVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            retrievalInstructionId: self.retrievalInstructionId
+        )
+    }
+}
+
+extension BedrockAgent.ListRetrievalInstructionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListRetrievalInstructionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
     }
 }

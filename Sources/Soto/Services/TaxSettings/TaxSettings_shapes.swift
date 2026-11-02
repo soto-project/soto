@@ -257,6 +257,8 @@ extension TaxSettings {
         public let franceAdditionalInfo: FranceAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Georgia.
         public let georgiaAdditionalInfo: GeorgiaAdditionalInfo?
+        /// Additional tax information to specify for a Tax Registration Number (TRN) in Germany.
+        public let germanyAdditionalInfo: GermanyAdditionalInfo?
         /// Additional tax information to specify for a TRN in Greece.
         public let greeceAdditionalInfo: GreeceAdditionalInfo?
         ///
@@ -269,6 +271,8 @@ extension TaxSettings {
         public let kenyaAdditionalInfo: KenyaAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Malaysia.
         public let malaysiaAdditionalInfo: MalaysiaAdditionalInfo?
+        /// Additional tax information to specify for a Tax Registration Number (TRN) in Mexico.
+        public let mexicoAdditionalInfo: MexicoAdditionalInfo?
         /// Additional tax information to specify for a TRN in Monaco.
         public let monacoAdditionalInfo: MonacoAdditionalInfo?
         /// Additional tax information to specify for a TRN in the Philippines.
@@ -293,7 +297,7 @@ extension TaxSettings {
         public let vietnamAdditionalInfo: VietnamAdditionalInfo?
 
         @inlinable
-        public init(belgiumAdditionalInfo: BelgiumAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, chileAdditionalInfo: ChileAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, franceAdditionalInfo: FranceAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, monacoAdditionalInfo: MonacoAdditionalInfo? = nil, philippinesAdditionalInfo: PhilippinesAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
+        public init(belgiumAdditionalInfo: BelgiumAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, chileAdditionalInfo: ChileAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, franceAdditionalInfo: FranceAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, germanyAdditionalInfo: GermanyAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, mexicoAdditionalInfo: MexicoAdditionalInfo? = nil, monacoAdditionalInfo: MonacoAdditionalInfo? = nil, philippinesAdditionalInfo: PhilippinesAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
             self.belgiumAdditionalInfo = belgiumAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
             self.chileAdditionalInfo = chileAdditionalInfo
@@ -301,12 +305,14 @@ extension TaxSettings {
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.franceAdditionalInfo = franceAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.germanyAdditionalInfo = germanyAdditionalInfo
             self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
             self.israelAdditionalInfo = israelAdditionalInfo
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.mexicoAdditionalInfo = mexicoAdditionalInfo
             self.monacoAdditionalInfo = monacoAdditionalInfo
             self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
@@ -327,10 +333,12 @@ extension TaxSettings {
             try self.egyptAdditionalInfo?.validate(name: "\(name).egyptAdditionalInfo")
             try self.estoniaAdditionalInfo?.validate(name: "\(name).estoniaAdditionalInfo")
             try self.franceAdditionalInfo?.validate(name: "\(name).franceAdditionalInfo")
+            try self.germanyAdditionalInfo?.validate(name: "\(name).germanyAdditionalInfo")
             try self.greeceAdditionalInfo?.validate(name: "\(name).greeceAdditionalInfo")
             try self.indonesiaAdditionalInfo?.validate(name: "\(name).indonesiaAdditionalInfo")
             try self.italyAdditionalInfo?.validate(name: "\(name).italyAdditionalInfo")
             try self.malaysiaAdditionalInfo?.validate(name: "\(name).malaysiaAdditionalInfo")
+            try self.mexicoAdditionalInfo?.validate(name: "\(name).mexicoAdditionalInfo")
             try self.monacoAdditionalInfo?.validate(name: "\(name).monacoAdditionalInfo")
             try self.polandAdditionalInfo?.validate(name: "\(name).polandAdditionalInfo")
             try self.southKoreaAdditionalInfo?.validate(name: "\(name).southKoreaAdditionalInfo")
@@ -347,12 +355,14 @@ extension TaxSettings {
             case estoniaAdditionalInfo = "estoniaAdditionalInfo"
             case franceAdditionalInfo = "franceAdditionalInfo"
             case georgiaAdditionalInfo = "georgiaAdditionalInfo"
+            case germanyAdditionalInfo = "germanyAdditionalInfo"
             case greeceAdditionalInfo = "greeceAdditionalInfo"
             case indonesiaAdditionalInfo = "indonesiaAdditionalInfo"
             case israelAdditionalInfo = "israelAdditionalInfo"
             case italyAdditionalInfo = "italyAdditionalInfo"
             case kenyaAdditionalInfo = "kenyaAdditionalInfo"
             case malaysiaAdditionalInfo = "malaysiaAdditionalInfo"
+            case mexicoAdditionalInfo = "mexicoAdditionalInfo"
             case monacoAdditionalInfo = "monacoAdditionalInfo"
             case philippinesAdditionalInfo = "philippinesAdditionalInfo"
             case polandAdditionalInfo = "polandAdditionalInfo"
@@ -384,6 +394,8 @@ extension TaxSettings {
         public let franceAdditionalInfo: FranceAdditionalInfo?
         ///  Additional tax information associated with your TRN in Georgia.
         public let georgiaAdditionalInfo: GeorgiaAdditionalInfo?
+        /// Additional tax information associated with your Tax Registration Number (TRN) in Germany.
+        public let germanyAdditionalInfo: GermanyAdditionalInfo?
         /// Additional tax information to specify for a TRN in Greece.
         public let greeceAdditionalInfo: GreeceAdditionalInfo?
         ///  Additional tax information in India.
@@ -398,6 +410,8 @@ extension TaxSettings {
         public let kenyaAdditionalInfo: KenyaAdditionalInfo?
         ///  Additional tax information associated with your TRN in Malaysia.
         public let malaysiaAdditionalInfo: MalaysiaAdditionalInfo?
+        /// Additional tax information associated with your Tax Registration Number (TRN) in Mexico.
+        public let mexicoAdditionalInfo: MexicoAdditionalInfo?
         /// Additional tax information associated with your TRN in Monaco.
         public let monacoAdditionalInfo: MonacoAdditionalInfo?
         /// Additional tax information associated with your TRN in the Philippines.
@@ -422,7 +436,7 @@ extension TaxSettings {
         public let vietnamAdditionalInfo: VietnamAdditionalInfo?
 
         @inlinable
-        public init(belgiumAdditionalInfo: BelgiumAdditionalInfo? = nil, brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, chileAdditionalInfo: ChileAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, franceAdditionalInfo: FranceAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, monacoAdditionalInfo: MonacoAdditionalInfo? = nil, philippinesAdditionalInfo: PhilippinesAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
+        public init(belgiumAdditionalInfo: BelgiumAdditionalInfo? = nil, brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, chileAdditionalInfo: ChileAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, franceAdditionalInfo: FranceAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, germanyAdditionalInfo: GermanyAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, mexicoAdditionalInfo: MexicoAdditionalInfo? = nil, monacoAdditionalInfo: MonacoAdditionalInfo? = nil, philippinesAdditionalInfo: PhilippinesAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
             self.belgiumAdditionalInfo = belgiumAdditionalInfo
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
@@ -431,6 +445,7 @@ extension TaxSettings {
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.franceAdditionalInfo = franceAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.germanyAdditionalInfo = germanyAdditionalInfo
             self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indiaAdditionalInfo = indiaAdditionalInfo
             self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
@@ -438,6 +453,7 @@ extension TaxSettings {
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.mexicoAdditionalInfo = mexicoAdditionalInfo
             self.monacoAdditionalInfo = monacoAdditionalInfo
             self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
@@ -460,6 +476,7 @@ extension TaxSettings {
             case estoniaAdditionalInfo = "estoniaAdditionalInfo"
             case franceAdditionalInfo = "franceAdditionalInfo"
             case georgiaAdditionalInfo = "georgiaAdditionalInfo"
+            case germanyAdditionalInfo = "germanyAdditionalInfo"
             case greeceAdditionalInfo = "greeceAdditionalInfo"
             case indiaAdditionalInfo = "indiaAdditionalInfo"
             case indonesiaAdditionalInfo = "indonesiaAdditionalInfo"
@@ -467,6 +484,7 @@ extension TaxSettings {
             case italyAdditionalInfo = "italyAdditionalInfo"
             case kenyaAdditionalInfo = "kenyaAdditionalInfo"
             case malaysiaAdditionalInfo = "malaysiaAdditionalInfo"
+            case mexicoAdditionalInfo = "mexicoAdditionalInfo"
             case monacoAdditionalInfo = "monacoAdditionalInfo"
             case philippinesAdditionalInfo = "philippinesAdditionalInfo"
             case polandAdditionalInfo = "polandAdditionalInfo"
@@ -1035,6 +1053,29 @@ extension TaxSettings {
         }
     }
 
+    public struct GermanyAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The economic identification number (Wirtschafts-Identifikationsnummer, or W-IdNr) in Germany.
+        public let economicIdentificationNumber: String?
+        /// The Steuernummer (tax number issued by the local tax office) in Germany.
+        public let steuernummer: String?
+
+        @inlinable
+        public init(economicIdentificationNumber: String? = nil, steuernummer: String? = nil) {
+            self.economicIdentificationNumber = economicIdentificationNumber
+            self.steuernummer = steuernummer
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.economicIdentificationNumber, name: "economicIdentificationNumber", parent: name, pattern: "^DE[0-9]{9}$")
+            try self.validate(self.steuernummer, name: "steuernummer", parent: name, pattern: "^((10|11|21|22|23|24|26|27|28|30|31|32|40|41)[0-9]{11}|[59][0-9]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case economicIdentificationNumber = "economicIdentificationNumber"
+            case steuernummer = "steuernummer"
+        }
+    }
+
     public struct GetTaxExemptionTypesRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1466,6 +1507,35 @@ extension TaxSettings {
             case businessRegistrationNumber = "businessRegistrationNumber"
             case serviceTaxCodes = "serviceTaxCodes"
             case taxInformationNumber = "taxInformationNumber"
+        }
+    }
+
+    public struct MexicoAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The SAT CFDI usage code that identifies the purpose of the invoice in Mexico (for example, G01 for goods acquisition, S01 for no tax effects).
+        public let cfdiUsageCode: String?
+        /// The SAT-assigned tax regime code for your business in Mexico. Must be a 3-digit number (for example, 601 for General de Ley Personas Morales).
+        public let taxRegime: String?
+        /// The full name of the SAT tax regime associated with your business in Mexico.
+        public let taxRegimeFullName: String?
+
+        @inlinable
+        public init(cfdiUsageCode: String? = nil, taxRegime: String? = nil, taxRegimeFullName: String? = nil) {
+            self.cfdiUsageCode = cfdiUsageCode
+            self.taxRegime = taxRegime
+            self.taxRegimeFullName = taxRegimeFullName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cfdiUsageCode, name: "cfdiUsageCode", parent: name, pattern: "^[A-Z]{1,2}\\d{2}$")
+            try self.validate(self.taxRegime, name: "taxRegime", parent: name, pattern: "^\\d{3}$")
+            try self.validate(self.taxRegimeFullName, name: "taxRegimeFullName", parent: name, max: 150)
+            try self.validate(self.taxRegimeFullName, name: "taxRegimeFullName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cfdiUsageCode = "cfdiUsageCode"
+            case taxRegime = "taxRegime"
+            case taxRegimeFullName = "taxRegimeFullName"
         }
     }
 
