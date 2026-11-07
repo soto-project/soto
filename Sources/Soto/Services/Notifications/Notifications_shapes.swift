@@ -750,10 +750,6 @@ extension Notifications {
         }
     }
 
-    public struct DisableNotificationsAccessForOrganizationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableNotificationsAccessForOrganizationResponse: AWSDecodableShape {
         public init() {}
     }
@@ -886,10 +882,6 @@ extension Notifications {
     }
 
     public struct DisassociateOrganizationalUnitResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct EnableNotificationsAccessForOrganizationRequest: AWSEncodableShape {
         public init() {}
     }
 
@@ -1301,10 +1293,6 @@ extension Notifications {
             case creationTime = "creationTime"
             case notificationConfigurationArn = "notificationConfigurationArn"
         }
-    }
-
-    public struct GetNotificationsAccessForOrganizationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetNotificationsAccessForOrganizationResponse: AWSDecodableShape {

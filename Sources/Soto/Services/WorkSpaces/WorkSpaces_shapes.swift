@@ -2783,10 +2783,6 @@ extension WorkSpaces {
         }
     }
 
-    public struct DescribeAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAccountResult: AWSDecodableShape {
         /// The type of linked account.
         public let dedicatedTenancyAccountType: DedicatedTenancyAccountType?

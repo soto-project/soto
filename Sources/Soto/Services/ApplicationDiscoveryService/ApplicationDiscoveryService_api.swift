@@ -628,27 +628,14 @@ public struct ApplicationDiscoveryService: AWSService {
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
     @Sendable
     @inlinable
-    public func getDiscoverySummary(_ input: GetDiscoverySummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDiscoverySummaryResponse {
+    public func getDiscoverySummary(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDiscoverySummaryResponse {
         try await self.client.execute(
             operation: "GetDiscoverySummary", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDiscoverySummary(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDiscoverySummaryResponse {
-        let input = GetDiscoverySummaryRequest(
-        )
-        return try await self.getDiscoverySummary(input, logger: logger)
     }
 
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
@@ -768,27 +755,14 @@ public struct ApplicationDiscoveryService: AWSService {
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     @Sendable
     @inlinable
-    public func startContinuousExport(_ input: StartContinuousExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContinuousExportResponse {
+    public func startContinuousExport(logger: Logger = AWSClient.loggingDisabled) async throws -> StartContinuousExportResponse {
         try await self.client.execute(
             operation: "StartContinuousExport", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Start the continuous flow of agent's discovered data into Amazon Athena.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func startContinuousExport(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StartContinuousExportResponse {
-        let input = StartContinuousExportRequest(
-        )
-        return try await self.startContinuousExport(input, logger: logger)
     }
 
     /// Instructs the specified agents to start collecting data.

@@ -11548,10 +11548,6 @@ extension Glue {
         public init() {}
     }
 
-    public struct DeleteGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteGlueIdentityCenterConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
@@ -15421,10 +15417,6 @@ extension Glue {
         }
     }
 
-    public struct GetDataCatalogExportConfigurationInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDataCatalogExportConfigurationOutput: AWSDecodableShape {
         /// The timestamp at which the export configuration was created.
         public let createdAt: Date?
@@ -16320,10 +16312,6 @@ extension Glue {
             case name = "Name"
             case shortDescription = "ShortDescription"
         }
-    }
-
-    public struct GetGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetGlueIdentityCenterConfigurationResponse: AWSDecodableShape {

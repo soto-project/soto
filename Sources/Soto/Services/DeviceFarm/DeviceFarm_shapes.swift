@@ -1773,10 +1773,6 @@ extension DeviceFarm {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountSettingsResult: AWSDecodableShape {
         /// The account settings.
         public let accountSettings: AccountSettings?

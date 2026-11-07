@@ -85,10 +85,6 @@ extension ResourceGroupsTaggingAPI {
         }
     }
 
-    public struct DescribeReportCreationInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeReportCreationOutput: AWSDecodableShape {
         /// Details of the common errors that all operations return.
         public let errorMessage: String?

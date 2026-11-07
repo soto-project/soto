@@ -1404,27 +1404,14 @@ public struct DatabaseMigrationService: AWSService {
     /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
     @Sendable
     @inlinable
-    public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAttributesResponse {
+    public func describeAccountAttributes(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAttributesResponse {
         try await self.client.execute(
             operation: "DescribeAccountAttributes", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountAttributes(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountAttributesResponse {
-        let input = DescribeAccountAttributesMessage(
-        )
-        return try await self.describeAccountAttributes(input, logger: logger)
     }
 
     /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.

@@ -6339,10 +6339,6 @@ extension Bedrock {
         public init() {}
     }
 
-    public struct DeleteModelInvocationLoggingConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteModelInvocationLoggingConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
@@ -7137,10 +7133,6 @@ extension Bedrock {
             case kbInferenceConfig = "kbInferenceConfig"
             case promptTemplate = "promptTemplate"
         }
-    }
-
-    public struct GetAccountDataRetentionRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAccountDataRetentionResponse: AWSDecodableShape {
@@ -8735,10 +8727,6 @@ extension Bedrock {
         }
     }
 
-    public struct GetModelInvocationLoggingConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetModelInvocationLoggingConfigurationResponse: AWSDecodableShape {
         /// The current configuration values.
         public let loggingConfig: LoggingConfig?
@@ -8951,10 +8939,6 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case resourcePolicy = "resourcePolicy"
         }
-    }
-
-    public struct GetUseCaseForModelAccessRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetUseCaseForModelAccessResponse: AWSDecodableShape {

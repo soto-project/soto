@@ -1059,53 +1059,27 @@ public struct IoTManagedIntegrations: AWSService {
     /// Returns the IoT managed integrations custom endpoint.
     @Sendable
     @inlinable
-    public func getCustomEndpoint(_ input: GetCustomEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomEndpointResponse {
+    public func getCustomEndpoint(logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomEndpointResponse {
         try await self.client.execute(
             operation: "GetCustomEndpoint", 
             path: "/custom-endpoint", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the IoT managed integrations custom endpoint.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getCustomEndpoint(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetCustomEndpointResponse {
-        let input = GetCustomEndpointRequest(
-        )
-        return try await self.getCustomEndpoint(input, logger: logger)
     }
 
     ///  Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the AWS IoT SiteWise User Guide.
     @Sendable
     @inlinable
-    public func getDefaultEncryptionConfiguration(_ input: GetDefaultEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultEncryptionConfigurationResponse {
+    public func getDefaultEncryptionConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultEncryptionConfigurationResponse {
         try await self.client.execute(
             operation: "GetDefaultEncryptionConfiguration", 
             path: "/configuration/account/encryption", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the AWS IoT SiteWise User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDefaultEncryptionConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDefaultEncryptionConfigurationResponse {
-        let input = GetDefaultEncryptionConfigurationRequest(
-        )
-        return try await self.getDefaultEncryptionConfiguration(input, logger: logger)
     }
 
     /// Gets a destination by name.
@@ -1198,27 +1172,14 @@ public struct IoTManagedIntegrations: AWSService {
     /// Get a hub configuration.
     @Sendable
     @inlinable
-    public func getHubConfiguration(_ input: GetHubConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHubConfigurationResponse {
+    public func getHubConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetHubConfigurationResponse {
         try await self.client.execute(
             operation: "GetHubConfiguration", 
             path: "/hub-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get a hub configuration.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getHubConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetHubConfigurationResponse {
-        let input = GetHubConfigurationRequest(
-        )
-        return try await self.getHubConfiguration(input, logger: logger)
     }
 
     ///  Get details of a managed thing including its attributes and capabilities.
@@ -2357,27 +2318,14 @@ public struct IoTManagedIntegrations: AWSService {
     /// Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
     @Sendable
     @inlinable
-    public func registerCustomEndpoint(_ input: RegisterCustomEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterCustomEndpointResponse {
+    public func registerCustomEndpoint(logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterCustomEndpointResponse {
         try await self.client.execute(
             operation: "RegisterCustomEndpoint", 
             path: "/custom-endpoint", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func registerCustomEndpoint(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> RegisterCustomEndpointResponse {
-        let input = RegisterCustomEndpointRequest(
-        )
-        return try await self.registerCustomEndpoint(input, logger: logger)
     }
 
     /// Reset a runtime log configuration for a specific managed thing.

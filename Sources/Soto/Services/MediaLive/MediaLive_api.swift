@@ -1686,27 +1686,14 @@ public struct MediaLive: AWSService {
     /// Describe account configuration
     @Sendable
     @inlinable
-    public func describeAccountConfiguration(_ input: DescribeAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountConfigurationResponse {
+    public func describeAccountConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeAccountConfiguration", 
             path: "/prod/accountConfiguration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describe account configuration
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountConfigurationResponse {
-        let input = DescribeAccountConfigurationRequest(
-        )
-        return try await self.describeAccountConfiguration(input, logger: logger)
     }
 
     /// Gets details about a channel
@@ -3192,27 +3179,14 @@ public struct MediaLive: AWSService {
     /// Retrieves an array of all the encoder engine versions that are available in this AWS account.
     @Sendable
     @inlinable
-    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
+    public func listVersions(logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
         try await self.client.execute(
             operation: "ListVersions", 
             path: "/prod/versions", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves an array of all the encoder engine versions that are available in this AWS account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listVersions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListVersionsResponse {
-        let input = ListVersionsRequest(
-        )
-        return try await self.listVersions(input, logger: logger)
     }
 
     /// Purchase an offering and create a reservation.

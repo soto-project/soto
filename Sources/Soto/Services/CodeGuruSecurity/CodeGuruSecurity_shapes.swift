@@ -583,10 +583,6 @@ extension CodeGuruSecurity {
         }
     }
 
-    public struct GetAccountConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountConfigurationResponse: AWSDecodableShape {
         /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration. If you do not specify a customer-managed key, returns empty.
         public let encryptionConfig: EncryptionConfig

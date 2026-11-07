@@ -778,10 +778,6 @@ extension RAM {
         }
     }
 
-    public struct EnableSharingWithAwsOrganizationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct EnableSharingWithAwsOrganizationResponse: AWSDecodableShape {
         /// A return value of true indicates that the request succeeded.  A value of false indicates that the request failed.
         public let returnValue: Bool?

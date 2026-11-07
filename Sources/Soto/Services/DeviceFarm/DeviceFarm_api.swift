@@ -724,27 +724,14 @@ public struct DeviceFarm: AWSService {
     /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
     @Sendable
     @inlinable
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResult {
+    public func getAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResult {
         try await self.client.execute(
             operation: "GetAccountSettings", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountSettingsResult {
-        let input = GetAccountSettingsRequest(
-        )
-        return try await self.getAccountSettings(input, logger: logger)
     }
 
     /// Gets information about a unique device type.

@@ -1104,10 +1104,6 @@ extension CloudFormation {
         }
     }
 
-    public struct ActivateOrganizationsAccessInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ActivateOrganizationsAccessOutput: AWSDecodableShape {
         public init() {}
     }
@@ -2119,10 +2115,6 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case stackSetId = "StackSetId"
         }
-    }
-
-    public struct DeactivateOrganizationsAccessInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DeactivateOrganizationsAccessOutput: AWSDecodableShape {

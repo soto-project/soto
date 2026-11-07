@@ -280,27 +280,14 @@ public struct Signin: AWSService {
     /// Retrieve the account's consolidated SignIn resource-based policy
     @Sendable
     @inlinable
-    public func getResourcePolicy(_ input: GetResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyOutput {
+    public func getResourcePolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyOutput {
         try await self.client.execute(
             operation: "GetResourcePolicy", 
             path: "/get-resource-policy", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieve the account's consolidated SignIn resource-based policy
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getResourcePolicy(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetResourcePolicyOutput {
-        let input = GetResourcePolicyInput(
-        )
-        return try await self.getResourcePolicy(input, logger: logger)
     }
 
     /// Grants permission to inspect the metadata and state of an OAuth 2.0

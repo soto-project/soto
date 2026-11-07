@@ -1695,27 +1695,14 @@ public struct CostExplorer: AWSService {
     /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family.   StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this operation.
     @Sendable
     @inlinable
-    public func startSavingsPlansPurchaseRecommendationGeneration(_ input: StartSavingsPlansPurchaseRecommendationGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSavingsPlansPurchaseRecommendationGenerationResponse {
+    public func startSavingsPlansPurchaseRecommendationGeneration(logger: Logger = AWSClient.loggingDisabled) async throws -> StartSavingsPlansPurchaseRecommendationGenerationResponse {
         try await self.client.execute(
             operation: "StartSavingsPlansPurchaseRecommendationGeneration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family.   StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this operation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func startSavingsPlansPurchaseRecommendationGeneration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StartSavingsPlansPurchaseRecommendationGenerationResponse {
-        let input = StartSavingsPlansPurchaseRecommendationGenerationRequest(
-        )
-        return try await self.startSavingsPlansPurchaseRecommendationGeneration(input, logger: logger)
     }
 
     /// An API operation for adding one or more tags (key-value pairs) to a resource. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web Services use.

@@ -3215,10 +3215,6 @@ extension ComputeOptimizer {
         }
     }
 
-    public struct GetEnrollmentStatusRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetEnrollmentStatusResponse: AWSDecodableShape {
         /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
         public let lastUpdatedTimestamp: Date?

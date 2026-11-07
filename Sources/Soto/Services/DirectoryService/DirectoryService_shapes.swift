@@ -3585,10 +3585,6 @@ extension DirectoryService {
         }
     }
 
-    public struct GetDirectoryLimitsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDirectoryLimitsResult: AWSDecodableShape {
         /// A DirectoryLimits object that contains the directory limits for the current Region.
         public let directoryLimits: DirectoryLimits?

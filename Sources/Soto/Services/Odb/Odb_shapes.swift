@@ -7085,10 +7085,6 @@ extension Odb {
         }
     }
 
-    public struct GetOciOnboardingStatusInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetOciOnboardingStatusOutput: AWSDecodableShape {
         /// The list of Amazon Web Services Identity and Access Management (IAM) service roles used for Autonomous Database integration with Oracle Cloud Infrastructure (OCI).
         public let autonomousDatabaseOciIntegrationIamRoles: [OciIamRole]?

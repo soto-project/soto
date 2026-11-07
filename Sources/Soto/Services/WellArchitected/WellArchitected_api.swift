@@ -1582,27 +1582,14 @@ public struct WellArchitected: AWSService {
     /// Get profile template.
     @Sendable
     @inlinable
-    public func getProfileTemplate(_ input: GetProfileTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileTemplateOutput {
+    public func getProfileTemplate(logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileTemplateOutput {
         try await self.client.execute(
             operation: "GetProfileTemplate", 
             path: "/profileTemplate", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get profile template.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getProfileTemplate(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetProfileTemplateOutput {
-        let input = GetProfileTemplateInput(
-        )
-        return try await self.getProfileTemplate(input, logger: logger)
     }
 
     /// Get review template.

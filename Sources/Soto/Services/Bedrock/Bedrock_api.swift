@@ -1427,27 +1427,14 @@ public struct Bedrock: AWSService {
     /// Delete the invocation logging.
     @Sendable
     @inlinable
-    public func deleteModelInvocationLoggingConfiguration(_ input: DeleteModelInvocationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteModelInvocationLoggingConfigurationResponse {
+    public func deleteModelInvocationLoggingConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteModelInvocationLoggingConfigurationResponse {
         try await self.client.execute(
             operation: "DeleteModelInvocationLoggingConfiguration", 
             path: "/logging/modelinvocations", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Delete the invocation logging.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteModelInvocationLoggingConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteModelInvocationLoggingConfigurationResponse {
-        let input = DeleteModelInvocationLoggingConfigurationRequest(
-        )
-        return try await self.deleteModelInvocationLoggingConfiguration(input, logger: logger)
     }
 
     /// Deletes a specified prompt router. This action cannot be undone.
@@ -1598,27 +1585,14 @@ public struct Bedrock: AWSService {
     /// Returns the account-wide data retention mode for Amazon Bedrock.
     @Sendable
     @inlinable
-    public func getAccountDataRetention(_ input: GetAccountDataRetentionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountDataRetentionResponse {
+    public func getAccountDataRetention(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountDataRetentionResponse {
         try await self.client.execute(
             operation: "GetAccountDataRetention", 
             path: "/data-retention", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the account-wide data retention mode for Amazon Bedrock.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountDataRetention(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountDataRetentionResponse {
-        let input = GetAccountDataRetentionRequest(
-        )
-        return try await self.getAccountDataRetention(input, logger: logger)
     }
 
     /// Gets information about an advanced prompt optimization job.
@@ -2263,27 +2237,14 @@ public struct Bedrock: AWSService {
     /// Get the current configuration values for model invocation logging.
     @Sendable
     @inlinable
-    public func getModelInvocationLoggingConfiguration(_ input: GetModelInvocationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelInvocationLoggingConfigurationResponse {
+    public func getModelInvocationLoggingConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelInvocationLoggingConfigurationResponse {
         try await self.client.execute(
             operation: "GetModelInvocationLoggingConfiguration", 
             path: "/logging/modelinvocations", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get the current configuration values for model invocation logging.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getModelInvocationLoggingConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetModelInvocationLoggingConfigurationResponse {
-        let input = GetModelInvocationLoggingConfigurationRequest(
-        )
-        return try await self.getModelInvocationLoggingConfiguration(input, logger: logger)
     }
 
     /// Retrieves details about a prompt router.
@@ -2376,27 +2337,14 @@ public struct Bedrock: AWSService {
     /// Get usecase for model access.
     @Sendable
     @inlinable
-    public func getUseCaseForModelAccess(_ input: GetUseCaseForModelAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUseCaseForModelAccessResponse {
+    public func getUseCaseForModelAccess(logger: Logger = AWSClient.loggingDisabled) async throws -> GetUseCaseForModelAccessResponse {
         try await self.client.execute(
             operation: "GetUseCaseForModelAccess", 
             path: "/use-case-for-model-access", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get usecase for model access.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getUseCaseForModelAccess(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetUseCaseForModelAccessResponse {
-        let input = GetUseCaseForModelAccessRequest(
-        )
-        return try await self.getUseCaseForModelAccess(input, logger: logger)
     }
 
     /// Lists the advanced prompt optimization jobs in your account.

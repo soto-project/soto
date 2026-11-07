@@ -2397,10 +2397,6 @@ extension AuditManager {
         public init() {}
     }
 
-    public struct DeregisterAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeregisterAccountResponse: AWSDecodableShape {
         ///  The registration status of the account.
         public let status: AccountStatus?
@@ -2717,10 +2713,6 @@ extension AuditManager {
             case logo = "logo"
             case name = "name"
         }
-    }
-
-    public struct GetAccountStatusRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAccountStatusResponse: AWSDecodableShape {
@@ -3398,10 +3390,6 @@ extension AuditManager {
         }
     }
 
-    public struct GetInsightsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetInsightsResponse: AWSDecodableShape {
         /// The analytics data that the GetInsights API returned.
         public let insights: Insights?
@@ -3414,10 +3402,6 @@ extension AuditManager {
         private enum CodingKeys: String, CodingKey {
             case insights = "insights"
         }
-    }
-
-    public struct GetOrganizationAdminAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetOrganizationAdminAccountResponse: AWSDecodableShape {
@@ -3436,10 +3420,6 @@ extension AuditManager {
             case adminAccountId = "adminAccountId"
             case organizationId = "organizationId"
         }
-    }
-
-    public struct GetServicesInScopeRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetServicesInScopeResponse: AWSDecodableShape {

@@ -1143,27 +1143,14 @@ public struct AppStream: AWSService {
     /// Creates a usage report subscription. Usage reports are generated daily.
     @Sendable
     @inlinable
-    public func createUsageReportSubscription(_ input: CreateUsageReportSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUsageReportSubscriptionResult {
+    public func createUsageReportSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUsageReportSubscriptionResult {
         try await self.client.execute(
             operation: "CreateUsageReportSubscription", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Creates a usage report subscription. Usage reports are generated daily.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createUsageReportSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateUsageReportSubscriptionResult {
-        let input = CreateUsageReportSubscriptionRequest(
-        )
-        return try await self.createUsageReportSubscription(input, logger: logger)
     }
 
     /// Creates a new user in the user pool.
@@ -1535,27 +1522,14 @@ public struct AppStream: AWSService {
     /// Disables usage report generation.
     @Sendable
     @inlinable
-    public func deleteUsageReportSubscription(_ input: DeleteUsageReportSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUsageReportSubscriptionResult {
+    public func deleteUsageReportSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUsageReportSubscriptionResult {
         try await self.client.execute(
             operation: "DeleteUsageReportSubscription", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables usage report generation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteUsageReportSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteUsageReportSubscriptionResult {
-        let input = DeleteUsageReportSubscriptionRequest(
-        )
-        return try await self.deleteUsageReportSubscription(input, logger: logger)
     }
 
     /// Deletes a user from the user pool.

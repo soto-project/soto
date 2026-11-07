@@ -1774,27 +1774,14 @@ public struct GuardDuty: AWSService {
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
     @Sendable
     @inlinable
-    public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
+    public func getInvitationsCount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
         try await self.client.execute(
             operation: "GetInvitationsCount", 
             path: "/invitation/count", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getInvitationsCount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetInvitationsCountResponse {
-        let input = GetInvitationsCountRequest(
-        )
-        return try await self.getInvitationsCount(input, logger: logger)
     }
 
     /// Retrieves the Malware Protection plan details associated with a Malware Protection plan ID.

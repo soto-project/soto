@@ -6137,10 +6137,6 @@ extension GuardDuty {
         }
     }
 
-    public struct GetInvitationsCountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetInvitationsCountResponse: AWSDecodableShape {
         /// The number of received invitations.
         public let invitationsCount: Int?

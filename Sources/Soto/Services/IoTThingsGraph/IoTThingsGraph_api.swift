@@ -273,28 +273,14 @@ public struct IoTThingsGraph: AWSService {
     @available(*, deprecated, message: "since: 2022-08-30")
     @Sendable
     @inlinable
-    public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
+    public func deleteNamespace(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
         try await self.client.execute(
             operation: "DeleteNamespace", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no  request parameters.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @available(*, deprecated, message: "since: 2022-08-30")
-    @inlinable
-    public func deleteNamespace(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteNamespaceResponse {
-        let input = DeleteNamespaceRequest(
-        )
-        return try await self.deleteNamespace(input, logger: logger)
     }
 
     /// Deletes a system instance.  Only system instances that have never been deployed, or that have been undeployed can be deleted. Users can create a new system instance that has the same ID as a deleted system instance.
@@ -626,28 +612,14 @@ public struct IoTThingsGraph: AWSService {
     @available(*, deprecated, message: "since: 2022-08-30")
     @Sendable
     @inlinable
-    public func getNamespaceDeletionStatus(_ input: GetNamespaceDeletionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNamespaceDeletionStatusResponse {
+    public func getNamespaceDeletionStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetNamespaceDeletionStatusResponse {
         try await self.client.execute(
             operation: "GetNamespaceDeletionStatus", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the status of a namespace deletion task.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @available(*, deprecated, message: "since: 2022-08-30")
-    @inlinable
-    public func getNamespaceDeletionStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetNamespaceDeletionStatusResponse {
-        let input = GetNamespaceDeletionStatusRequest(
-        )
-        return try await self.getNamespaceDeletionStatus(input, logger: logger)
     }
 
     /// Gets a system instance.

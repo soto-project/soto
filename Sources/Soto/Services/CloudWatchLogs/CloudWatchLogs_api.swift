@@ -2629,27 +2629,14 @@ public struct CloudWatchLogs: AWSService {
     /// Returns the storage tier policy for the account.
     @Sendable
     @inlinable
-    public func getStorageTierPolicy(_ input: GetStorageTierPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageTierPolicyResponse {
+    public func getStorageTierPolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageTierPolicyResponse {
         try await self.client.execute(
             operation: "GetStorageTierPolicy", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the storage tier policy for the account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getStorageTierPolicy(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetStorageTierPolicyResponse {
-        let input = GetStorageTierPolicyRequest(
-        )
-        return try await self.getStorageTierPolicy(input, logger: logger)
     }
 
     /// Returns the information about the log transformer associated with this log group. This operation returns data only for transformers created at the log group level. To get information for an account-level transformer, use DescribeAccountPolicies.

@@ -3233,10 +3233,6 @@ extension IoT {
         }
     }
 
-    public struct ClearDefaultAuthorizerRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ClearDefaultAuthorizerResponse: AWSDecodableShape {
         public init() {}
     }
@@ -7117,10 +7113,6 @@ extension IoT {
         public init() {}
     }
 
-    public struct DeleteRegistrationCodeRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteRegistrationCodeResponse: AWSDecodableShape {
         public init() {}
     }
@@ -7454,10 +7446,6 @@ extension IoT {
     }
 
     public struct DeprecateThingTypeResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct DescribeAccountAuditConfigurationRequest: AWSEncodableShape {
         public init() {}
     }
 
@@ -7980,10 +7968,6 @@ extension IoT {
         }
     }
 
-    public struct DescribeDefaultAuthorizerRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeDefaultAuthorizerResponse: AWSDecodableShape {
         /// The default authorizer's description.
         public let authorizerDescription: AuthorizerDescription?
@@ -8184,10 +8168,6 @@ extension IoT {
         }
     }
 
-    public struct DescribeEncryptionConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeEncryptionConfigurationResponse: AWSDecodableShape {
         /// The encryption configuration details that include the status information of the KMS key and the KMS access role.
         public let configurationDetails: ConfigurationDetails?
@@ -8253,10 +8233,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case endpointAddress = "endpointAddress"
         }
-    }
-
-    public struct DescribeEventConfigurationsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeEventConfigurationsResponse: AWSDecodableShape {
@@ -10509,10 +10485,6 @@ extension IoT {
         }
     }
 
-    public struct GetIndexingConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetIndexingConfigurationResponse: AWSDecodableShape {
         /// The index configuration.
         public let thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration?
@@ -10573,10 +10545,6 @@ extension IoT {
         }
     }
 
-    public struct GetLoggingOptionsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetLoggingOptionsResponse: AWSDecodableShape {
         /// The logging level.
         public let logLevel: LogLevel?
@@ -10631,10 +10599,6 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case otaUpdateInfo = "otaUpdateInfo"
         }
-    }
-
-    public struct GetPackageConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetPackageConfigurationResponse: AWSDecodableShape {
@@ -10989,10 +10953,6 @@ extension IoT {
             case policyName = "policyName"
             case policyVersionId = "policyVersionId"
         }
-    }
-
-    public struct GetRegistrationCodeRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetRegistrationCodeResponse: AWSDecodableShape {

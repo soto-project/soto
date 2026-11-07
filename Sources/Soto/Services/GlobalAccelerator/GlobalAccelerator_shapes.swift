@@ -2127,10 +2127,6 @@ extension GlobalAccelerator {
         }
     }
 
-    public struct ListCrossAccountResourceAccountsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ListCrossAccountResourceAccountsResponse: AWSDecodableShape {
         /// The account IDs of principals (resource owners) in a cross-account attachment who can work
         /// 			with resources listed in the same attachment.

@@ -701,27 +701,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Removes the current account default protect configuration.
     @Sendable
     @inlinable
-    public func deleteAccountDefaultProtectConfiguration(_ input: DeleteAccountDefaultProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountDefaultProtectConfigurationResult {
+    public func deleteAccountDefaultProtectConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountDefaultProtectConfigurationResult {
         try await self.client.execute(
             operation: "DeleteAccountDefaultProtectConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Removes the current account default protect configuration.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteAccountDefaultProtectConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteAccountDefaultProtectConfigurationResult {
-        let input = DeleteAccountDefaultProtectConfigurationRequest(
-        )
-        return try await self.deleteAccountDefaultProtectConfiguration(input, logger: logger)
     }
 
     /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
@@ -878,27 +865,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the Server Migration Service User Guide.
     @Sendable
     @inlinable
-    public func deleteMediaMessageSpendLimitOverride(_ input: DeleteMediaMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMediaMessageSpendLimitOverrideResult {
+    public func deleteMediaMessageSpendLimitOverride(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMediaMessageSpendLimitOverrideResult {
         try await self.client.execute(
             operation: "DeleteMediaMessageSpendLimitOverride", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the Server Migration Service User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteMediaMessageSpendLimitOverride(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteMediaMessageSpendLimitOverrideResult {
-        let input = DeleteMediaMessageSpendLimitOverrideRequest(
-        )
-        return try await self.deleteMediaMessageSpendLimitOverride(input, logger: logger)
     }
 
     /// Deletes an existing notify configuration. If deletion protection is enabled, an error is returned.
@@ -933,27 +907,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
     @Sendable
     @inlinable
-    public func deleteNotifyMessageSpendLimitOverride(_ input: DeleteNotifyMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotifyMessageSpendLimitOverrideResult {
+    public func deleteNotifyMessageSpendLimitOverride(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotifyMessageSpendLimitOverrideResult {
         try await self.client.execute(
             operation: "DeleteNotifyMessageSpendLimitOverride", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteNotifyMessageSpendLimitOverride(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteNotifyMessageSpendLimitOverrideResult {
-        let input = DeleteNotifyMessageSpendLimitOverrideRequest(
-        )
-        return try await self.deleteNotifyMessageSpendLimitOverride(input, logger: logger)
     }
 
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
@@ -1139,27 +1100,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an account-level monthly spending limit override for sending RCS messages. Deleting a spend limit override sets the EnforcedLimit to equal the MaxLimit, which is set by Amazon Web Services.
     @Sendable
     @inlinable
-    public func deleteRcsMessageSpendLimitOverride(_ input: DeleteRcsMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRcsMessageSpendLimitOverrideResult {
+    public func deleteRcsMessageSpendLimitOverride(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRcsMessageSpendLimitOverrideResult {
         try await self.client.execute(
             operation: "DeleteRcsMessageSpendLimitOverride", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an account-level monthly spending limit override for sending RCS messages. Deleting a spend limit override sets the EnforcedLimit to equal the MaxLimit, which is set by Amazon Web Services.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteRcsMessageSpendLimitOverride(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteRcsMessageSpendLimitOverrideResult {
-        let input = DeleteRcsMessageSpendLimitOverrideRequest(
-        )
-        return try await self.deleteRcsMessageSpendLimitOverride(input, logger: logger)
     }
 
     /// Permanently delete an existing registration from your account.
@@ -1284,27 +1232,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
     @Sendable
     @inlinable
-    public func deleteTextMessageSpendLimitOverride(_ input: DeleteTextMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTextMessageSpendLimitOverrideResult {
+    public func deleteTextMessageSpendLimitOverride(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTextMessageSpendLimitOverrideResult {
         try await self.client.execute(
             operation: "DeleteTextMessageSpendLimitOverride", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteTextMessageSpendLimitOverride(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteTextMessageSpendLimitOverrideResult {
-        let input = DeleteTextMessageSpendLimitOverrideRequest(
-        )
-        return try await self.deleteTextMessageSpendLimitOverride(input, logger: logger)
     }
 
     /// Delete a verified destination phone number.
@@ -1339,27 +1274,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
     @Sendable
     @inlinable
-    public func deleteVoiceMessageSpendLimitOverride(_ input: DeleteVoiceMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVoiceMessageSpendLimitOverrideResult {
+    public func deleteVoiceMessageSpendLimitOverride(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVoiceMessageSpendLimitOverrideResult {
         try await self.client.execute(
             operation: "DeleteVoiceMessageSpendLimitOverride", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteVoiceMessageSpendLimitOverride(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteVoiceMessageSpendLimitOverrideResult {
-        let input = DeleteVoiceMessageSpendLimitOverrideRequest(
-        )
-        return try await self.deleteVoiceMessageSpendLimitOverride(input, logger: logger)
     }
 
     /// Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request. New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse.

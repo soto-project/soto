@@ -1301,10 +1301,6 @@ extension GreengrassV2 {
         }
     }
 
-    public struct DisassociateServiceRoleFromAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisassociateServiceRoleFromAccountResponse: AWSDecodableShape {
         /// The time when the service role was disassociated from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
         public let disassociatedAt: String?
@@ -1680,10 +1676,6 @@ extension GreengrassV2 {
             case tags = "tags"
             case targetArn = "targetArn"
         }
-    }
-
-    public struct GetServiceRoleForAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetServiceRoleForAccountResponse: AWSDecodableShape {

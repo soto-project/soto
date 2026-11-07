@@ -403,10 +403,6 @@ extension Signin {
         }
     }
 
-    public struct GetResourcePolicyInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetResourcePolicyOutput: AWSDecodableShape {
         /// The account's SignIn resource-based policy
         public let signinResourceBasedPolicy: SigninResourceBasedPolicy

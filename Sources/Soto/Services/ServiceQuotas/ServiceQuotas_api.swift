@@ -95,27 +95,14 @@ public struct ServiceQuotas: AWSService {
     /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
     @Sendable
     @inlinable
-    public func associateServiceQuotaTemplate(_ input: AssociateServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateServiceQuotaTemplateResponse {
+    public func associateServiceQuotaTemplate(logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateServiceQuotaTemplateResponse {
         try await self.client.execute(
             operation: "AssociateServiceQuotaTemplate", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func associateServiceQuotaTemplate(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> AssociateServiceQuotaTemplateResponse {
-        let input = AssociateServiceQuotaTemplateRequest(
-        )
-        return try await self.associateServiceQuotaTemplate(input, logger: logger)
     }
 
     /// Creates a Support case for an existing quota increase request. This call only creates  a Support case if the request has a Pending status.
@@ -185,27 +172,14 @@ public struct ServiceQuotas: AWSService {
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     @Sendable
     @inlinable
-    public func disassociateServiceQuotaTemplate(_ input: DisassociateServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceQuotaTemplateResponse {
+    public func disassociateServiceQuotaTemplate(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceQuotaTemplateResponse {
         try await self.client.execute(
             operation: "DisassociateServiceQuotaTemplate", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateServiceQuotaTemplate(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateServiceQuotaTemplateResponse {
-        let input = DisassociateServiceQuotaTemplateRequest(
-        )
-        return try await self.disassociateServiceQuotaTemplate(input, logger: logger)
     }
 
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases.
@@ -243,53 +217,27 @@ public struct ServiceQuotas: AWSService {
     /// Retrieves the status of the association for the quota request template.
     @Sendable
     @inlinable
-    public func getAssociationForServiceQuotaTemplate(_ input: GetAssociationForServiceQuotaTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssociationForServiceQuotaTemplateResponse {
+    public func getAssociationForServiceQuotaTemplate(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssociationForServiceQuotaTemplateResponse {
         try await self.client.execute(
             operation: "GetAssociationForServiceQuotaTemplate", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the status of the association for the quota request template.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAssociationForServiceQuotaTemplate(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAssociationForServiceQuotaTemplateResponse {
-        let input = GetAssociationForServiceQuotaTemplateRequest(
-        )
-        return try await self.getAssociationForServiceQuotaTemplate(input, logger: logger)
     }
 
     /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
     @Sendable
     @inlinable
-    public func getAutoManagementConfiguration(_ input: GetAutoManagementConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoManagementConfigurationResponse {
+    public func getAutoManagementConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoManagementConfigurationResponse {
         try await self.client.execute(
             operation: "GetAutoManagementConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAutoManagementConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAutoManagementConfigurationResponse {
-        let input = GetAutoManagementConfigurationRequest(
-        )
-        return try await self.getAutoManagementConfiguration(input, logger: logger)
     }
 
     /// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns  paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization  percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport  operation. The report generation process is asynchronous and may take several seconds to  complete. Poll this operation periodically to check the status and retrieve results when  the report is ready. Each report contains up to 1,000 quota records per page. Use the NextToken  parameter to retrieve additional pages of results. Reports are automatically deleted after  15 minutes.
@@ -806,53 +754,27 @@ public struct ServiceQuotas: AWSService {
     /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This  asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns  a unique report identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, depending on the  number of quotas in your account. Use the GetQuotaUtilizationReport operation  to check the status and retrieve the results when the report is ready.
     @Sendable
     @inlinable
-    public func startQuotaUtilizationReport(_ input: StartQuotaUtilizationReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQuotaUtilizationReportResponse {
+    public func startQuotaUtilizationReport(logger: Logger = AWSClient.loggingDisabled) async throws -> StartQuotaUtilizationReportResponse {
         try await self.client.execute(
             operation: "StartQuotaUtilizationReport", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This  asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns  a unique report identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, depending on the  number of quotas in your account. Use the GetQuotaUtilizationReport operation  to check the status and retrieve the results when the report is ready.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func startQuotaUtilizationReport(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StartQuotaUtilizationReportResponse {
-        let input = StartQuotaUtilizationReportRequest(
-        )
-        return try await self.startQuotaUtilizationReport(input, logger: logger)
     }
 
     /// Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
     @Sendable
     @inlinable
-    public func stopAutoManagement(_ input: StopAutoManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAutoManagementResponse {
+    public func stopAutoManagement(logger: Logger = AWSClient.loggingDisabled) async throws -> StopAutoManagementResponse {
         try await self.client.execute(
             operation: "StopAutoManagement", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func stopAutoManagement(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StopAutoManagementResponse {
-        let input = StopAutoManagementRequest(
-        )
-        return try await self.stopAutoManagement(input, logger: logger)
     }
 
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.

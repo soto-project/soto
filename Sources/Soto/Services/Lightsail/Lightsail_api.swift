@@ -609,27 +609,14 @@ public struct Lightsail: AWSService {
     /// Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials.  You can only push container images to the container service registry of your Lightsail account. You cannot pull container images or perform any other container image management actions on the container service registry.  After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service.  This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
     @Sendable
     @inlinable
-    public func createContainerServiceRegistryLogin(_ input: CreateContainerServiceRegistryLoginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContainerServiceRegistryLoginResult {
+    public func createContainerServiceRegistryLogin(logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContainerServiceRegistryLoginResult {
         try await self.client.execute(
             operation: "CreateContainerServiceRegistryLogin", 
             path: "/ls/api/2016-11-28/container-registry-login", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials.  You can only push container images to the container service registry of your Lightsail account. You cannot pull container images or perform any other container image management actions on the container service registry.  After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service.  This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createContainerServiceRegistryLogin(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateContainerServiceRegistryLoginResult {
-        let input = CreateContainerServiceRegistryLoginRequest(
-        )
-        return try await self.createContainerServiceRegistryLogin(input, logger: logger)
     }
 
     /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
@@ -2147,27 +2134,14 @@ public struct Lightsail: AWSService {
     /// Downloads the regional Amazon Lightsail default key pair. This action also creates a Lightsail default key pair if a default key pair does not currently exist in the Amazon Web Services Region.
     @Sendable
     @inlinable
-    public func downloadDefaultKeyPair(_ input: DownloadDefaultKeyPairRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DownloadDefaultKeyPairResult {
+    public func downloadDefaultKeyPair(logger: Logger = AWSClient.loggingDisabled) async throws -> DownloadDefaultKeyPairResult {
         try await self.client.execute(
             operation: "DownloadDefaultKeyPair", 
             path: "/ls/api/2016-11-28/DownloadDefaultKeyPair", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Downloads the regional Amazon Lightsail default key pair. This action also creates a Lightsail default key pair if a default key pair does not currently exist in the Amazon Web Services Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func downloadDefaultKeyPair(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DownloadDefaultKeyPairResult {
-        let input = DownloadDefaultKeyPairRequest(
-        )
-        return try await self.downloadDefaultKeyPair(input, logger: logger)
     }
 
     /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
@@ -2636,27 +2610,14 @@ public struct Lightsail: AWSService {
     /// Returns information about Amazon Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
     @Sendable
     @inlinable
-    public func getContainerAPIMetadata(_ input: GetContainerAPIMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContainerAPIMetadataResult {
+    public func getContainerAPIMetadata(logger: Logger = AWSClient.loggingDisabled) async throws -> GetContainerAPIMetadataResult {
         try await self.client.execute(
             operation: "GetContainerAPIMetadata", 
             path: "/ls/api/2016-11-28/container-api-metadata", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns information about Amazon Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getContainerAPIMetadata(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetContainerAPIMetadataResult {
-        let input = GetContainerAPIMetadataRequest(
-        )
-        return try await self.getContainerAPIMetadata(input, logger: logger)
     }
 
     /// Returns the container images that are registered to your Amazon Lightsail container service.  If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service.
@@ -2808,27 +2769,14 @@ public struct Lightsail: AWSService {
     /// Returns the list of powers that can be specified for your Amazon Lightsail container services. The power specifies the amount of memory, the number of vCPUs, and the base price of the container service.
     @Sendable
     @inlinable
-    public func getContainerServicePowers(_ input: GetContainerServicePowersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContainerServicePowersResult {
+    public func getContainerServicePowers(logger: Logger = AWSClient.loggingDisabled) async throws -> GetContainerServicePowersResult {
         try await self.client.execute(
             operation: "GetContainerServicePowers", 
             path: "/ls/api/2016-11-28/container-service-powers", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the list of powers that can be specified for your Amazon Lightsail container services. The power specifies the amount of memory, the number of vCPUs, and the base price of the container service.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getContainerServicePowers(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetContainerServicePowersResult {
-        let input = GetContainerServicePowersRequest(
-        )
-        return try await self.getContainerServicePowers(input, logger: logger)
     }
 
     /// Returns information about one or more of your Amazon Lightsail container services.
@@ -3014,27 +2962,14 @@ public struct Lightsail: AWSService {
     /// Returns the bundles that can be applied to your Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution.
     @Sendable
     @inlinable
-    public func getDistributionBundles(_ input: GetDistributionBundlesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionBundlesResult {
+    public func getDistributionBundles(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionBundlesResult {
         try await self.client.execute(
             operation: "GetDistributionBundles", 
             path: "/ls/api/2016-11-28/GetDistributionBundles", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the bundles that can be applied to your Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDistributionBundles(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDistributionBundlesResult {
-        let input = GetDistributionBundlesRequest(
-        )
-        return try await self.getDistributionBundles(input, logger: logger)
     }
 
     /// Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail content delivery network (CDN) distribution.
@@ -3802,27 +3737,14 @@ public struct Lightsail: AWSService {
     /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner membership details.
     @Sendable
     @inlinable
-    public func getProfile(_ input: GetProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileResult {
+    public func getProfile(logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileResult {
         try await self.client.execute(
             operation: "GetProfile", 
             path: "/ls/api/2016-11-28/GetProfile", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner membership details.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getProfile(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetProfileResult {
-        let input = GetProfileRequest(
-        )
-        return try await self.getProfile(input, logger: logger)
     }
 
     /// Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region.
@@ -4378,27 +4300,14 @@ public struct Lightsail: AWSService {
     /// Returns a Boolean value indicating whether your Lightsail VPC is peered.
     @Sendable
     @inlinable
-    public func isVpcPeered(_ input: IsVpcPeeredRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IsVpcPeeredResult {
+    public func isVpcPeered(logger: Logger = AWSClient.loggingDisabled) async throws -> IsVpcPeeredResult {
         try await self.client.execute(
             operation: "IsVpcPeered", 
             path: "/ls/api/2016-11-28/IsVpcPeered", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns a Boolean value indicating whether your Lightsail VPC is peered.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func isVpcPeered(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> IsVpcPeeredResult {
-        let input = IsVpcPeeredRequest(
-        )
-        return try await self.isVpcPeered(input, logger: logger)
     }
 
     /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Amazon Lightsail Developer Guide.
@@ -4436,27 +4345,14 @@ public struct Lightsail: AWSService {
     /// Peers the Lightsail VPC with the user's default VPC.
     @Sendable
     @inlinable
-    public func peerVpc(_ input: PeerVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PeerVpcResult {
+    public func peerVpc(logger: Logger = AWSClient.loggingDisabled) async throws -> PeerVpcResult {
         try await self.client.execute(
             operation: "PeerVpc", 
             path: "/ls/api/2016-11-28/PeerVpc", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Peers the Lightsail VPC with the user's default VPC.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func peerVpc(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> PeerVpcResult {
-        let input = PeerVpcRequest(
-        )
-        return try await self.peerVpc(input, logger: logger)
     }
 
     /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail. When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration. The put alarm operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide.
@@ -5094,27 +4990,14 @@ public struct Lightsail: AWSService {
     /// Unpeers the Lightsail VPC from the user's default VPC.
     @Sendable
     @inlinable
-    public func unpeerVpc(_ input: UnpeerVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnpeerVpcResult {
+    public func unpeerVpc(logger: Logger = AWSClient.loggingDisabled) async throws -> UnpeerVpcResult {
         try await self.client.execute(
             operation: "UnpeerVpc", 
             path: "/ls/api/2016-11-28/UnpeerVpc", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Unpeers the Lightsail VPC from the user's default VPC.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func unpeerVpc(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UnpeerVpcResult {
-        let input = UnpeerVpcRequest(
-        )
-        return try await self.unpeerVpc(input, logger: logger)
     }
 
     /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the Amazon Lightsail Developer Guide.

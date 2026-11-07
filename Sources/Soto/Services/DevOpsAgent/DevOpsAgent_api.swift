@@ -761,28 +761,15 @@ public struct DevOpsAgent: AWSService {
     /// Retrieves monthly account usage metrics and limits for the AWS account.
     @Sendable
     @inlinable
-    public func getAccountUsage(_ input: GetAccountUsageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountUsageOutput {
+    public func getAccountUsage(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountUsageOutput {
         try await self.client.execute(
             operation: "GetAccountUsage", 
             path: "/usage/account", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             hostPrefix: "dp.", 
             logger: logger
         )
-    }
-    /// Retrieves monthly account usage metrics and limits for the AWS account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountUsage(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountUsageOutput {
-        let input = GetAccountUsageInput(
-        )
-        return try await self.getAccountUsage(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific AgentSpace.
@@ -1595,28 +1582,15 @@ public struct DevOpsAgent: AWSService {
     /// Lists all Private Connections in the caller's account.
     @Sendable
     @inlinable
-    public func listPrivateConnections(_ input: ListPrivateConnectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrivateConnectionsOutput {
+    public func listPrivateConnections(logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrivateConnectionsOutput {
         try await self.client.execute(
             operation: "ListPrivateConnections", 
             path: "/v1/private-connections", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             hostPrefix: "cp.", 
             logger: logger
         )
-    }
-    /// Lists all Private Connections in the caller's account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listPrivateConnections(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListPrivateConnectionsOutput {
-        let input = ListPrivateConnectionsInput(
-        )
-        return try await self.listPrivateConnections(input, logger: logger)
     }
 
     /// Lists recommendations for the specified agent space

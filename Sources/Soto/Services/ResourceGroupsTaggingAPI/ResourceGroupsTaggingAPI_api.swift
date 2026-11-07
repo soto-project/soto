@@ -87,27 +87,14 @@ public struct ResourceGroupsTaggingAPI: AWSService {
     /// Describes the status of the StartReportCreation operation.  You can call this operation only from the organization's  management account and from the us-east-1 Region.
     @Sendable
     @inlinable
-    public func describeReportCreation(_ input: DescribeReportCreationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReportCreationOutput {
+    public func describeReportCreation(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReportCreationOutput {
         try await self.client.execute(
             operation: "DescribeReportCreation", 
             path: "/DescribeReportCreation", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes the status of the StartReportCreation operation.  You can call this operation only from the organization's  management account and from the us-east-1 Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeReportCreation(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeReportCreationOutput {
-        let input = DescribeReportCreationInput(
-        )
-        return try await self.describeReportCreation(input, logger: logger)
     }
 
     /// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see Tag Policies in the Organizations User Guide.  You can call this operation only from the organization's  management account and from the us-east-1 Region. This operation supports pagination, where the response can be sent in  multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.

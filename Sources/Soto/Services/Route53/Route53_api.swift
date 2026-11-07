@@ -1675,32 +1675,14 @@ public struct Route53: AWSService {
     /// 					Guide.
     @Sendable
     @inlinable
-    public func getCheckerIpRanges(_ input: GetCheckerIpRangesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCheckerIpRangesResponse {
+    public func getCheckerIpRanges(logger: Logger = AWSClient.loggingDisabled) async throws -> GetCheckerIpRangesResponse {
         try await self.client.execute(
             operation: "GetCheckerIpRanges", 
             path: "/2013-04-01/checkeripranges", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Route 53 does not perform authorization for this API because it retrieves information
-    /// 			that is already available to the public.   GetCheckerIpRanges still works, but we recommend that you download
-    /// 				ip-ranges.json, which includes IP address ranges for all Amazon Web Services
-    /// 				services. For more information, see IP Address Ranges
-    /// 					of Amazon Route 53 Servers in the Amazon Route 53 Developer
-    /// 					Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getCheckerIpRanges(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetCheckerIpRangesResponse {
-        let input = GetCheckerIpRangesRequest(
-        )
-        return try await self.getCheckerIpRanges(input, logger: logger)
     }
 
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing
@@ -1819,27 +1801,14 @@ public struct Route53: AWSService {
     /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
     @Sendable
     @inlinable
-    public func getHealthCheckCount(_ input: GetHealthCheckCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckCountResponse {
+    public func getHealthCheckCount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckCountResponse {
         try await self.client.execute(
             operation: "GetHealthCheckCount", 
             path: "/2013-04-01/healthcheckcount", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getHealthCheckCount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetHealthCheckCountResponse {
-        let input = GetHealthCheckCountRequest(
-        )
-        return try await self.getHealthCheckCount(input, logger: logger)
     }
 
     /// Gets the reason that a specified health check failed most recently.
@@ -1940,27 +1909,14 @@ public struct Route53: AWSService {
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
     @Sendable
     @inlinable
-    public func getHostedZoneCount(_ input: GetHostedZoneCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneCountResponse {
+    public func getHostedZoneCount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneCountResponse {
         try await self.client.execute(
             operation: "GetHostedZoneCount", 
             path: "/2013-04-01/hostedzonecount", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getHostedZoneCount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetHostedZoneCountResponse {
-        let input = GetHostedZoneCountRequest(
-        )
-        return try await self.getHostedZoneCount(input, logger: logger)
     }
 
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number
@@ -2178,28 +2134,14 @@ public struct Route53: AWSService {
     /// 				Amazon Web Services account.
     @Sendable
     @inlinable
-    public func getTrafficPolicyInstanceCount(_ input: GetTrafficPolicyInstanceCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyInstanceCountResponse {
+    public func getTrafficPolicyInstanceCount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyInstanceCountResponse {
         try await self.client.execute(
             operation: "GetTrafficPolicyInstanceCount", 
             path: "/2013-04-01/trafficpolicyinstancecount", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the number of traffic policy instances that are associated with the current
-    /// 				Amazon Web Services account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getTrafficPolicyInstanceCount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetTrafficPolicyInstanceCountResponse {
-        let input = GetTrafficPolicyInstanceCountRequest(
-        )
-        return try await self.getTrafficPolicyInstanceCount(input, logger: logger)
     }
 
     /// Returns a paginated list of location objects and their CIDR blocks.

@@ -2677,27 +2677,14 @@ public struct RDS: AWSService {
     /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
     @Sendable
     @inlinable
-    public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> AccountAttributesMessage {
+    public func describeAccountAttributes(logger: Logger = AWSClient.loggingDisabled) async throws -> AccountAttributesMessage {
         try await self.client.execute(
             operation: "DescribeAccountAttributes", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountAttributes(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> AccountAttributesMessage {
-        let input = DescribeAccountAttributesMessage(
-        )
-        return try await self.describeAccountAttributes(input, logger: logger)
     }
 
     /// Describes one or more blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the Amazon RDS User Guide and  Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora User Guide.

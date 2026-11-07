@@ -24435,10 +24435,6 @@ extension SecurityHub {
         }
     }
 
-    public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// Whether to automatically enable Security Hub CSPM in new member accounts when they join the organization. If set to true, then Security Hub CSPM is automatically enabled in new accounts. If set to false, then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization accounts.
         public let autoEnable: Bool?
@@ -24557,10 +24553,6 @@ extension SecurityHub {
             case nextToken = "NextToken"
             case productsV2 = "ProductsV2"
         }
-    }
-
-    public struct DescribeSecurityHubV2Request: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeSecurityHubV2Response: AWSDecodableShape {
@@ -24776,15 +24768,7 @@ extension SecurityHub {
         public init() {}
     }
 
-    public struct DisableSecurityHubRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableSecurityHubResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct DisableSecurityHubV2Request: AWSEncodableShape {
         public init() {}
     }
 
@@ -24792,15 +24776,7 @@ extension SecurityHub {
         public init() {}
     }
 
-    public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisassociateFromAdministratorAccountResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public init() {}
     }
 
@@ -25626,10 +25602,6 @@ extension SecurityHub {
             case lat = "Lat"
             case lon = "Lon"
         }
-    }
-
-    public struct GetAdministratorAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAdministratorAccountResponse: AWSDecodableShape {
@@ -26499,10 +26471,6 @@ extension SecurityHub {
         }
     }
 
-    public struct GetInvitationsCountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetInvitationsCountResponse: AWSDecodableShape {
         /// The number of all membership invitations sent to this Security Hub CSPM member account, not including the currently accepted invitation.
         public let invitationsCount: Int?
@@ -26515,10 +26483,6 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case invitationsCount = "InvitationsCount"
         }
-    }
-
-    public struct GetMasterAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetMasterAccountResponse: AWSDecodableShape {

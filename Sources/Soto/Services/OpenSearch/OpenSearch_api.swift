@@ -1869,27 +1869,14 @@ public struct OpenSearch: AWSService {
     /// Gets the ARN of the current default application. If the default application isn't set, the operation returns a resource not found error.
     @Sendable
     @inlinable
-    public func getDefaultApplicationSetting(_ input: GetDefaultApplicationSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultApplicationSettingResponse {
+    public func getDefaultApplicationSetting(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultApplicationSettingResponse {
         try await self.client.execute(
             operation: "GetDefaultApplicationSetting", 
             path: "/2021-01-01/opensearch/defaultApplicationSetting", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the ARN of the current default application. If the default application isn't set, the operation returns a resource not found error.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDefaultApplicationSetting(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDefaultApplicationSettingResponse {
-        let input = GetDefaultApplicationSettingRequest(
-        )
-        return try await self.getDefaultApplicationSetting(input, logger: logger)
     }
 
     ///  Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.

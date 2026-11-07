@@ -2013,10 +2013,6 @@ extension OpenSearchServerless {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountSettingsResponse: AWSDecodableShape {
         /// OpenSearch Serverless-related details for the current account.
         public let accountSettingsDetail: AccountSettingsDetail?
@@ -2067,10 +2063,6 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case indexSchema = "indexSchema"
         }
-    }
-
-    public struct GetPoliciesStatsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetPoliciesStatsResponse: AWSDecodableShape {

@@ -6797,10 +6797,6 @@ extension RDS {
         public init() {}
     }
 
-    public struct DescribeAccountAttributesMessage: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeBlueGreenDeploymentsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 

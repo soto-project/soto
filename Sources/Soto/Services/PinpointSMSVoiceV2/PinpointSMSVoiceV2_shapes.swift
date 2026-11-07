@@ -2639,10 +2639,6 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
-    public struct DeleteAccountDefaultProtectConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteAccountDefaultProtectConfigurationResult: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the account default protect configuration.
         public let defaultProtectConfigurationArn: String
@@ -2909,10 +2905,6 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
-    public struct DeleteMediaMessageSpendLimitOverrideRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteMediaMessageSpendLimitOverrideResult: AWSDecodableShape {
         /// The current monthly limit, in US dollars.
         public let monthlyLimit: Int64?
@@ -3011,10 +3003,6 @@ extension PinpointSMSVoiceV2 {
             case tierUpgradeStatus = "TierUpgradeStatus"
             case useCase = "UseCase"
         }
-    }
-
-    public struct DeleteNotifyMessageSpendLimitOverrideRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DeleteNotifyMessageSpendLimitOverrideResult: AWSDecodableShape {
@@ -3392,10 +3380,6 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
-    public struct DeleteRcsMessageSpendLimitOverrideRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteRcsMessageSpendLimitOverrideResult: AWSDecodableShape {
         /// The current monthly limit to enforce on RCS message spending.
         public let monthlyLimit: Int64?
@@ -3633,10 +3617,6 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
-    public struct DeleteTextMessageSpendLimitOverrideRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteTextMessageSpendLimitOverrideResult: AWSDecodableShape {
         /// The current monthly limit, in US dollars.
         public let monthlyLimit: Int64?
@@ -3695,10 +3675,6 @@ extension PinpointSMSVoiceV2 {
             case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
             case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
         }
-    }
-
-    public struct DeleteVoiceMessageSpendLimitOverrideRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DeleteVoiceMessageSpendLimitOverrideResult: AWSDecodableShape {

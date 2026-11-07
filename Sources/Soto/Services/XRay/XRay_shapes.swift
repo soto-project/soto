@@ -792,10 +792,6 @@ extension XRay {
         }
     }
 
-    public struct GetEncryptionConfigRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetEncryptionConfigResult: AWSDecodableShape {
         /// The encryption configuration document.
         public let encryptionConfig: EncryptionConfig?
@@ -1480,10 +1476,6 @@ extension XRay {
             case nextToken = "NextToken"
             case services = "Services"
         }
-    }
-
-    public struct GetTraceSegmentDestinationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetTraceSegmentDestinationResult: AWSDecodableShape {

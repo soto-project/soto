@@ -3071,10 +3071,6 @@ extension DevOpsAgent {
         }
     }
 
-    public struct GetAccountUsageInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountUsageOutput: AWSDecodableShape {
         /// Monthly evaluation hours usage and limit for an account
         public let monthlyAccountEvaluationHours: UsageMetric?
@@ -4701,10 +4697,6 @@ extension DevOpsAgent {
             case executionId = "executionId"
             case messages = "messages"
         }
-    }
-
-    public struct ListPrivateConnectionsInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct ListPrivateConnectionsOutput: AWSDecodableShape {

@@ -136,27 +136,14 @@ public struct SupportApp: AWSService {
     /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     @Sendable
     @inlinable
-    public func deleteAccountAlias(_ input: DeleteAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountAliasResult {
+    public func deleteAccountAlias(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountAliasResult {
         try await self.client.execute(
             operation: "DeleteAccountAlias", 
             path: "/control/delete-account-alias", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteAccountAlias(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteAccountAliasResult {
-        let input = DeleteAccountAliasRequest(
-        )
-        return try await self.deleteAccountAlias(input, logger: logger)
     }
 
     /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel.
@@ -223,27 +210,14 @@ public struct SupportApp: AWSService {
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     @Sendable
     @inlinable
-    public func getAccountAlias(_ input: GetAccountAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountAliasResult {
+    public func getAccountAlias(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountAliasResult {
         try await self.client.execute(
             operation: "GetAccountAlias", 
             path: "/control/get-account-alias", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountAlias(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountAliasResult {
-        let input = GetAccountAliasRequest(
-        )
-        return try await self.getAccountAlias(input, logger: logger)
     }
 
     /// Lists the Slack channel configurations for an Amazon Web Services account.

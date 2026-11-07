@@ -583,10 +583,6 @@ extension Shield {
         }
     }
 
-    public struct CreateSubscriptionRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct CreateSubscriptionResponse: AWSDecodableShape {
         public init() {}
     }
@@ -639,10 +635,6 @@ extension Shield {
         public init() {}
     }
 
-    public struct DeleteSubscriptionRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteSubscriptionResponse: AWSDecodableShape {
         public init() {}
     }
@@ -681,10 +673,6 @@ extension Shield {
         }
     }
 
-    public struct DescribeAttackStatisticsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAttackStatisticsResponse: AWSDecodableShape {
         /// The data that describes the attacks detected during the time period.
         public let dataItems: [AttackStatisticsDataItem]
@@ -703,10 +691,6 @@ extension Shield {
         }
     }
 
-    public struct DescribeDRTAccessRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeDRTAccessResponse: AWSDecodableShape {
         /// The list of Amazon S3 buckets accessed by the SRT.
         public let logBucketList: [String]?
@@ -723,10 +707,6 @@ extension Shield {
             case logBucketList = "LogBucketList"
             case roleArn = "RoleArn"
         }
-    }
-
-    public struct DescribeEmergencyContactSettingsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeEmergencyContactSettingsResponse: AWSDecodableShape {
@@ -818,10 +798,6 @@ extension Shield {
         }
     }
 
-    public struct DescribeSubscriptionRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeSubscriptionResponse: AWSDecodableShape {
         /// The Shield Advanced subscription details for an account.
         public let subscription: Subscription?
@@ -860,10 +836,6 @@ extension Shield {
         public init() {}
     }
 
-    public struct DisableProactiveEngagementRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableProactiveEngagementResponse: AWSDecodableShape {
         public init() {}
     }
@@ -889,10 +861,6 @@ extension Shield {
     }
 
     public struct DisassociateDRTLogBucketResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct DisassociateDRTRoleRequest: AWSEncodableShape {
         public init() {}
     }
 
@@ -993,15 +961,7 @@ extension Shield {
         public init() {}
     }
 
-    public struct EnableProactiveEngagementRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct EnableProactiveEngagementResponse: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct GetSubscriptionStateRequest: AWSEncodableShape {
         public init() {}
     }
 

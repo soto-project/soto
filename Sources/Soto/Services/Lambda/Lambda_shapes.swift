@@ -4252,10 +4252,6 @@ extension Lambda {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountSettingsResponse: AWSDecodableShape {
         /// Limits that are related to concurrency and code storage.
         public let accountLimit: AccountLimit?

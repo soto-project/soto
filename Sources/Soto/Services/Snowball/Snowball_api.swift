@@ -694,27 +694,14 @@ public struct Snowball: AWSService {
     /// Returns information about the Snow Family service limit for your account, and also the number of Snow devices your account has in use. The default service limit for the number of Snow devices that you can have at one time is 1. If you want to increase your service limit, contact Amazon Web Services Support.
     @Sendable
     @inlinable
-    public func getSnowballUsage(_ input: GetSnowballUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSnowballUsageResult {
+    public func getSnowballUsage(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSnowballUsageResult {
         try await self.client.execute(
             operation: "GetSnowballUsage", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns information about the Snow Family service limit for your account, and also the number of Snow devices your account has in use. The default service limit for the number of Snow devices that you can have at one time is 1. If you want to increase your service limit, contact Amazon Web Services Support.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getSnowballUsage(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetSnowballUsageResult {
-        let input = GetSnowballUsageRequest(
-        )
-        return try await self.getSnowballUsage(input, logger: logger)
     }
 
     /// Returns an Amazon S3 presigned URL for an update file associated with a specified JobId.

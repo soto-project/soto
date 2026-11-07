@@ -165,10 +165,6 @@ extension MigrationHubConfig {
         }
     }
 
-    public struct GetHomeRegionRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetHomeRegionResult: AWSDecodableShape {
         /// The name of the home region of the calling account.
         public let homeRegion: String?

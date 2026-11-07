@@ -178,29 +178,14 @@ public struct DevOpsGuru: AWSService {
     /// 			health of operations in your Amazon Web Services account.
     @Sendable
     @inlinable
-    public func describeAccountHealth(_ input: DescribeAccountHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountHealthResponse {
+    public func describeAccountHealth(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountHealthResponse {
         try await self.client.execute(
             operation: "DescribeAccountHealth", 
             path: "/accounts/health", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Returns the number of open reactive insights, the number of open proactive insights,
-    /// 			and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the
-    /// 			health of operations in your Amazon Web Services account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccountHealth(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountHealthResponse {
-        let input = DescribeAccountHealthRequest(
-        )
-        return try await self.describeAccountHealth(input, logger: logger)
     }
 
     ///  For the time range passed in, returns the number of open reactive insight that were
@@ -277,30 +262,14 @@ public struct DevOpsGuru: AWSService {
     /// 			DevOps Guru.
     @Sendable
     @inlinable
-    public func describeEventSourcesConfig(_ input: DescribeEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventSourcesConfigResponse {
+    public func describeEventSourcesConfig(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventSourcesConfigResponse {
         try await self.client.execute(
             operation: "DescribeEventSourcesConfig", 
             path: "/event-sources", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the integration status of services that are integrated with DevOps Guru as Consumer
-    /// 			via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru
-    /// 			Profiler, which can produce proactive recommendations which can be stored and viewed in
-    /// 			DevOps Guru.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEventSourcesConfig(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEventSourcesConfigResponse {
-        let input = DescribeEventSourcesConfigRequest(
-        )
-        return try await self.describeEventSourcesConfig(input, logger: logger)
     }
 
     ///  Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
@@ -525,28 +494,14 @@ public struct DevOpsGuru: AWSService {
     /// 			The one service that can be integrated with DevOps Guru  	is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
     @Sendable
     @inlinable
-    public func describeServiceIntegration(_ input: DescribeServiceIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceIntegrationResponse {
+    public func describeServiceIntegration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceIntegrationResponse {
         try await self.client.execute(
             operation: "DescribeServiceIntegration", 
             path: "/service-integrations", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Returns the integration status of services that are integrated with DevOps Guru.
-    /// 			The one service that can be integrated with DevOps Guru  	is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeServiceIntegration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeServiceIntegrationResponse {
-        let input = DescribeServiceIntegrationRequest(
-        )
-        return try await self.describeServiceIntegration(input, logger: logger)
     }
 
     /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.

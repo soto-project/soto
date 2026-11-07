@@ -470,27 +470,14 @@ public struct Notifications: AWSService {
     /// Disables service trust between User Notifications and Amazon Web Services Organizations.
     @Sendable
     @inlinable
-    public func disableNotificationsAccessForOrganization(_ input: DisableNotificationsAccessForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableNotificationsAccessForOrganizationResponse {
+    public func disableNotificationsAccessForOrganization(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableNotificationsAccessForOrganizationResponse {
         try await self.client.execute(
             operation: "DisableNotificationsAccessForOrganization", 
             path: "/organization/access", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables service trust between User Notifications and Amazon Web Services Organizations.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableNotificationsAccessForOrganization(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableNotificationsAccessForOrganizationResponse {
-        let input = DisableNotificationsAccessForOrganizationRequest(
-        )
-        return try await self.disableNotificationsAccessForOrganization(input, logger: logger)
     }
 
     /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
@@ -624,27 +611,14 @@ public struct Notifications: AWSService {
     /// Enables service trust between User Notifications and Amazon Web Services Organizations.
     @Sendable
     @inlinable
-    public func enableNotificationsAccessForOrganization(_ input: EnableNotificationsAccessForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableNotificationsAccessForOrganizationResponse {
+    public func enableNotificationsAccessForOrganization(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableNotificationsAccessForOrganizationResponse {
         try await self.client.execute(
             operation: "EnableNotificationsAccessForOrganization", 
             path: "/organization/access", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Enables service trust between User Notifications and Amazon Web Services Organizations.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableNotificationsAccessForOrganization(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableNotificationsAccessForOrganizationResponse {
-        let input = EnableNotificationsAccessForOrganizationRequest(
-        )
-        return try await self.enableNotificationsAccessForOrganization(input, logger: logger)
     }
 
     /// Returns a specified EventRule.
@@ -833,27 +807,14 @@ public struct Notifications: AWSService {
     /// Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
     @Sendable
     @inlinable
-    public func getNotificationsAccessForOrganization(_ input: GetNotificationsAccessForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationsAccessForOrganizationResponse {
+    public func getNotificationsAccessForOrganization(logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationsAccessForOrganizationResponse {
         try await self.client.execute(
             operation: "GetNotificationsAccessForOrganization", 
             path: "/organization/access", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getNotificationsAccessForOrganization(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetNotificationsAccessForOrganizationResponse {
-        let input = GetNotificationsAccessForOrganizationRequest(
-        )
-        return try await self.getNotificationsAccessForOrganization(input, logger: logger)
     }
 
     /// Returns a list of Channels for a NotificationConfiguration.

@@ -993,27 +993,14 @@ public struct Amp: AWSService {
     /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
     @Sendable
     @inlinable
-    public func getDefaultScraperConfiguration(_ input: GetDefaultScraperConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultScraperConfigurationResponse {
+    public func getDefaultScraperConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultScraperConfigurationResponse {
         try await self.client.execute(
             operation: "GetDefaultScraperConfiguration", 
             path: "/scraperconfiguration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDefaultScraperConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDefaultScraperConfigurationResponse {
-        let input = GetDefaultScraperConfigurationRequest(
-        )
-        return try await self.getDefaultScraperConfiguration(input, logger: logger)
     }
 
     /// Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.

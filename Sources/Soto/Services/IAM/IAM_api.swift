@@ -1794,53 +1794,27 @@ public struct IAM: AWSService {
     /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization.
     @Sendable
     @inlinable
-    public func disableOrganizationsRootCredentialsManagement(_ input: DisableOrganizationsRootCredentialsManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootCredentialsManagementResponse {
+    public func disableOrganizationsRootCredentialsManagement(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootCredentialsManagementResponse {
         try await self.client.execute(
             operation: "DisableOrganizationsRootCredentialsManagement", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableOrganizationsRootCredentialsManagement(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableOrganizationsRootCredentialsManagementResponse {
-        let input = DisableOrganizationsRootCredentialsManagementRequest(
-        )
-        return try await self.disableOrganizationsRootCredentialsManagement(input, logger: logger)
     }
 
     /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization.
     @Sendable
     @inlinable
-    public func disableOrganizationsRootSessions(_ input: DisableOrganizationsRootSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootSessionsResponse {
+    public func disableOrganizationsRootSessions(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootSessionsResponse {
         try await self.client.execute(
             operation: "DisableOrganizationsRootSessions", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableOrganizationsRootSessions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableOrganizationsRootSessionsResponse {
-        let input = DisableOrganizationsRootSessionsRequest(
-        )
-        return try await self.disableOrganizationsRootSessions(input, logger: logger)
     }
 
     /// Disables the outbound identity federation feature for your Amazon Web Services account. When disabled, IAM principals in the account cannot  use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation  does not affect tokens that were issued before the feature was disabled.
@@ -1897,53 +1871,27 @@ public struct IAM: AWSService {
     /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
     @Sendable
     @inlinable
-    public func enableOrganizationsRootCredentialsManagement(_ input: EnableOrganizationsRootCredentialsManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootCredentialsManagementResponse {
+    public func enableOrganizationsRootCredentialsManagement(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootCredentialsManagementResponse {
         try await self.client.execute(
             operation: "EnableOrganizationsRootCredentialsManagement", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableOrganizationsRootCredentialsManagement(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableOrganizationsRootCredentialsManagementResponse {
-        let input = EnableOrganizationsRootCredentialsManagementRequest(
-        )
-        return try await self.enableOrganizationsRootCredentialsManagement(input, logger: logger)
     }
 
     /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management User Guide. Before you enable this feature, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
     @Sendable
     @inlinable
-    public func enableOrganizationsRootSessions(_ input: EnableOrganizationsRootSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootSessionsResponse {
+    public func enableOrganizationsRootSessions(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootSessionsResponse {
         try await self.client.execute(
             operation: "EnableOrganizationsRootSessions", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management User Guide. Before you enable this feature, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableOrganizationsRootSessions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableOrganizationsRootSessionsResponse {
-        let input = EnableOrganizationsRootSessionsRequest(
-        )
-        return try await self.enableOrganizationsRootSessions(input, logger: logger)
     }
 
     /// Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account  can use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for secure authentication with external services.  This operation also generates a unique issuer URL for your Amazon Web Services account.
@@ -2116,27 +2064,14 @@ public struct IAM: AWSService {
     /// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties.
     @Sendable
     @inlinable
-    public func getAccountProperties(_ input: GetAccountPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPropertiesResponse {
+    public func getAccountProperties(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPropertiesResponse {
         try await self.client.execute(
             operation: "GetAccountProperties", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountProperties(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountPropertiesResponse {
-        let input = GetAccountPropertiesRequest(
-        )
-        return try await self.getAccountProperties(input, logger: logger)
     }
 
     /// Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services account. For information about IAM quotas, see IAM and STS quotas in the IAM User Guide.
@@ -3515,53 +3450,27 @@ public struct IAM: AWSService {
     /// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider.
     @Sendable
     @inlinable
-    public func listOpenIDConnectProviders(_ input: ListOpenIDConnectProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOpenIDConnectProvidersResponse {
+    public func listOpenIDConnectProviders(logger: Logger = AWSClient.loggingDisabled) async throws -> ListOpenIDConnectProvidersResponse {
         try await self.client.execute(
             operation: "ListOpenIDConnectProviders", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see GetOpenIDConnectProvider.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listOpenIDConnectProviders(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListOpenIDConnectProvidersResponse {
-        let input = ListOpenIDConnectProvidersRequest(
-        )
-        return try await self.listOpenIDConnectProviders(input, logger: logger)
     }
 
     /// Lists the centralized root access features enabled for your organization. For more information, see Centrally manage root access for member accounts.
     @Sendable
     @inlinable
-    public func listOrganizationsFeatures(_ input: ListOrganizationsFeaturesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationsFeaturesResponse {
+    public func listOrganizationsFeatures(logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationsFeaturesResponse {
         try await self.client.execute(
             operation: "ListOrganizationsFeatures", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists the centralized root access features enabled for your organization. For more information, see Centrally manage root access for member accounts.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listOrganizationsFeatures(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListOrganizationsFeaturesResponse {
-        let input = ListOrganizationsFeaturesRequest(
-        )
-        return try await self.listOrganizationsFeatures(input, logger: logger)
     }
 
     /// Lists all the managed policies that are available in your Amazon Web Services account, including your own customer-defined managed policies and all Amazon Web Services managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your Amazon Web Services account, set Scope to Local. To list only Amazon Web Services managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed policies and inline policies in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see GetPolicy.
@@ -3856,27 +3765,14 @@ public struct IAM: AWSService {
     /// Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see GetSAMLProvider.  This operation requires Signature Version 4.
     @Sendable
     @inlinable
-    public func listSAMLProviders(_ input: ListSAMLProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSAMLProvidersResponse {
+    public func listSAMLProviders(logger: Logger = AWSClient.loggingDisabled) async throws -> ListSAMLProvidersResponse {
         try await self.client.execute(
             operation: "ListSAMLProviders", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see GetSAMLProvider.  This operation requires Signature Version 4.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listSAMLProviders(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListSAMLProvidersResponse {
-        let input = ListSAMLProvidersRequest(
-        )
-        return try await self.listSAMLProviders(input, logger: logger)
     }
 
     /// Returns information about the SSH public keys associated with the specified IAM user. If none exists, the operation returns an empty list. The SSH public keys returned by this operation are used only for authenticating the IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see Set up CodeCommit for SSH connections in the CodeCommit User Guide. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.

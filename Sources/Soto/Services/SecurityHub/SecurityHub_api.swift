@@ -1405,27 +1405,14 @@ public struct SecurityHub: AWSService {
     /// Returns information about the way your organization is configured in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     @Sendable
     @inlinable
-    public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
+    public func describeOrganizationConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeOrganizationConfiguration", 
             path: "/organization/configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns information about the way your organization is configured in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeOrganizationConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeOrganizationConfigurationResponse {
-        let input = DescribeOrganizationConfigurationRequest(
-        )
-        return try await self.describeOrganizationConfiguration(input, logger: logger)
     }
 
     /// Returns information about product integrations in Security Hub CSPM. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
@@ -1498,27 +1485,14 @@ public struct SecurityHub: AWSService {
     /// Returns details about the service resource in your account.
     @Sendable
     @inlinable
-    public func describeSecurityHubV2(_ input: DescribeSecurityHubV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityHubV2Response {
+    public func describeSecurityHubV2(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityHubV2Response {
         try await self.client.execute(
             operation: "DescribeSecurityHubV2", 
             path: "/hubv2", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns details about the service resource in your account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeSecurityHubV2(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeSecurityHubV2Response {
-        let input = DescribeSecurityHubV2Request(
-        )
-        return try await self.describeSecurityHubV2(input, logger: logger)
     }
 
     /// Returns a list of the available standards in Security Hub CSPM. For each standard, the results include the standard ARN, the name, and a description.
@@ -1655,27 +1629,14 @@ public struct SecurityHub: AWSService {
     /// Disables Security Hub CSPM in your account only in the current Amazon Web Services Region. To disable Security Hub CSPM in all Regions, you must submit one request per Region where you have enabled Security Hub CSPM. You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM administrator. When you disable Security Hub CSPM, your existing findings and insights and any Security Hub CSPM configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub CSPM.
     @Sendable
     @inlinable
-    public func disableSecurityHub(_ input: DisableSecurityHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubResponse {
+    public func disableSecurityHub(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubResponse {
         try await self.client.execute(
             operation: "DisableSecurityHub", 
             path: "/accounts", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables Security Hub CSPM in your account only in the current Amazon Web Services Region. To disable Security Hub CSPM in all Regions, you must submit one request per Region where you have enabled Security Hub CSPM. You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM administrator. When you disable Security Hub CSPM, your existing findings and insights and any Security Hub CSPM configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub CSPM.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableSecurityHub(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableSecurityHubResponse {
-        let input = DisableSecurityHubRequest(
-        )
-        return try await self.disableSecurityHub(input, logger: logger)
     }
 
     /// Disables an opt-in feature for the calling account in the current Amazon Web Services Region. The operation is idempotent. If the feature is already disabled, no changes are made. You cannot disable a feature that is managed by an organization policy.
@@ -1710,81 +1671,41 @@ public struct SecurityHub: AWSService {
     /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. Disabling the service also disables all opt-in features that are currently enabled in that Region.
     @Sendable
     @inlinable
-    public func disableSecurityHubV2(_ input: DisableSecurityHubV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubV2Response {
+    public func disableSecurityHubV2(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubV2Response {
         try await self.client.execute(
             operation: "DisableSecurityHubV2", 
             path: "/hubv2", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. Disabling the service also disables all opt-in features that are currently enabled in that Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableSecurityHubV2(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableSecurityHubV2Response {
-        let input = DisableSecurityHubV2Request(
-        )
-        return try await self.disableSecurityHubV2(input, logger: logger)
     }
 
     /// Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @Sendable
     @inlinable
-    public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
+    public func disassociateFromAdministratorAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
         try await self.client.execute(
             operation: "DisassociateFromAdministratorAccount", 
             path: "/administrator/disassociate", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateFromAdministratorAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateFromAdministratorAccountResponse {
-        let input = DisassociateFromAdministratorAccountRequest(
-        )
-        return try await self.disassociateFromAdministratorAccount(input, logger: logger)
     }
 
     /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub CSPM console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
     @Sendable
     @inlinable
-    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
+    public func disassociateFromMasterAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
         try await self.client.execute(
             operation: "DisassociateFromMasterAccount", 
             path: "/master/disassociate", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub CSPM console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
-    @inlinable
-    public func disassociateFromMasterAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateFromMasterAccountResponse {
-        let input = DisassociateFromMasterAccountRequest(
-        )
-        return try await self.disassociateFromMasterAccount(input, logger: logger)
     }
 
     /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually.
@@ -2002,27 +1923,14 @@ public struct SecurityHub: AWSService {
     /// Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     @inlinable
-    public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
+    public func getAdministratorAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
         try await self.client.execute(
             operation: "GetAdministratorAccount", 
             path: "/administrator", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAdministratorAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAdministratorAccountResponse {
-        let input = GetAdministratorAccountRequest(
-        )
-        return try await self.getAdministratorAccount(input, logger: logger)
     }
 
     /// Returns the configuration of the specified Aggregator V2.
@@ -2534,55 +2442,28 @@ public struct SecurityHub: AWSService {
     ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     @Sendable
     @inlinable
-    public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
+    public func getInvitationsCount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
         try await self.client.execute(
             operation: "GetInvitationsCount", 
             path: "/invitations/count", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getInvitationsCount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetInvitationsCountResponse {
-        let input = GetInvitationsCountRequest(
-        )
-        return try await self.getInvitationsCount(input, logger: logger)
     }
 
     /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub CSPM console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
     @Sendable
     @inlinable
-    public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
+    public func getMasterAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
         try await self.client.execute(
             operation: "GetMasterAccount", 
             path: "/master", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub CSPM console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
-    @inlinable
-    public func getMasterAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetMasterAccountResponse {
-        let input = GetMasterAccountRequest(
-        )
-        return try await self.getMasterAccount(input, logger: logger)
     }
 
     /// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.

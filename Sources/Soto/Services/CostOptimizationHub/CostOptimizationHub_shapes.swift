@@ -1135,10 +1135,6 @@ extension CostOptimizationHub {
         }
     }
 
-    public struct GetPreferencesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetPreferencesResponse: AWSDecodableShape {
         /// Retrieves the status of the "member account discount visibility" preference.
         public let memberAccountDiscountVisibility: MemberAccountDiscountVisibility?

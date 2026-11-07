@@ -720,27 +720,14 @@ public struct SES: AWSService {
     /// Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     @inlinable
-    public func describeActiveReceiptRuleSet(_ input: DescribeActiveReceiptRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActiveReceiptRuleSetResponse {
+    public func describeActiveReceiptRuleSet(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActiveReceiptRuleSetResponse {
         try await self.client.execute(
             operation: "DescribeActiveReceiptRuleSet", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeActiveReceiptRuleSet(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeActiveReceiptRuleSetResponse {
-        let input = DescribeActiveReceiptRuleSetRequest(
-        )
-        return try await self.describeActiveReceiptRuleSet(input, logger: logger)
     }
 
     /// Returns the details of the specified configuration set. For information about using configuration sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -1212,27 +1199,14 @@ public struct SES: AWSService {
     /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     @Sendable
     @inlinable
-    public func listReceiptFilters(_ input: ListReceiptFiltersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReceiptFiltersResponse {
+    public func listReceiptFilters(logger: Logger = AWSClient.loggingDisabled) async throws -> ListReceiptFiltersResponse {
         try await self.client.execute(
             operation: "ListReceiptFilters", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listReceiptFilters(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListReceiptFiltersResponse {
-        let input = ListReceiptFiltersRequest(
-        )
-        return try await self.listReceiptFilters(input, logger: logger)
     }
 
     /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.

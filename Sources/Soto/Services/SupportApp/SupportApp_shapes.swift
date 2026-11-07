@@ -112,10 +112,6 @@ extension SupportApp {
         public init() {}
     }
 
-    public struct DeleteAccountAliasRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteAccountAliasResult: AWSDecodableShape {
         public init() {}
     }
@@ -174,10 +170,6 @@ extension SupportApp {
     }
 
     public struct DeleteSlackWorkspaceConfigurationResult: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct GetAccountAliasRequest: AWSEncodableShape {
         public init() {}
     }
 

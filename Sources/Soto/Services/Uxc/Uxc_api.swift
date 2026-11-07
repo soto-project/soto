@@ -86,27 +86,14 @@ public struct Uxc: AWSService {
     /// Returns the current account customization settings, including account color, visible services, and visible Regions. Settings that you have not configured return their default values: visible Regions and visible services return `null`, and account color returns `none`.  The visibleServices and visibleRegions settings control only the appearance of services and Regions in the Amazon Web Services Management Console. They do not restrict access through the CLI, SDKs, or other APIs.
     @Sendable
     @inlinable
-    public func getAccountCustomizations(_ input: GetAccountCustomizationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountCustomizationsOutput {
+    public func getAccountCustomizations(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountCustomizationsOutput {
         try await self.client.execute(
             operation: "GetAccountCustomizations", 
             path: "/v1/account-customizations", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the current account customization settings, including account color, visible services, and visible Regions. Settings that you have not configured return their default values: visible Regions and visible services return `null`, and account color returns `none`.  The visibleServices and visibleRegions settings control only the appearance of services and Regions in the Amazon Web Services Management Console. They do not restrict access through the CLI, SDKs, or other APIs.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountCustomizations(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountCustomizationsOutput {
-        let input = GetAccountCustomizationsInput(
-        )
-        return try await self.getAccountCustomizations(input, logger: logger)
     }
 
     /// Returns a paginated list of Amazon Web Services service identifiers that you can use as values for the visibleServices setting in UpdateAccountCustomizations. The available services vary by Amazon Web Services partition. Use pagination to retrieve all results.  The visibleServices setting controls only the appearance of services in the Amazon Web Services Management Console. It does not restrict access through the CLI, SDKs, or other APIs.

@@ -1562,10 +1562,6 @@ extension MigrationHubStrategy {
         }
     }
 
-    public struct GetLatestAssessmentIdRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetLatestAssessmentIdResponse: AWSDecodableShape {
         /// The latest ID for the specific assessment task.
         public let id: String?
@@ -1578,10 +1574,6 @@ extension MigrationHubStrategy {
         private enum CodingKeys: String, CodingKey {
             case id = "id"
         }
-    }
-
-    public struct GetPortfolioPreferencesRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetPortfolioPreferencesResponse: AWSDecodableShape {
@@ -1608,10 +1600,6 @@ extension MigrationHubStrategy {
             case databasePreferences = "databasePreferences"
             case prioritizeBusinessGoals = "prioritizeBusinessGoals"
         }
-    }
-
-    public struct GetPortfolioSummaryRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetPortfolioSummaryResponse: AWSDecodableShape {

@@ -217,27 +217,14 @@ public struct ARCZonalShift: AWSService {
     /// Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be ENABLED or DISABLED. When ENABLED, a notification is sent when an autoshift is triggered. When DISABLED, notifications are not sent.
     @Sendable
     @inlinable
-    public func getAutoshiftObserverNotificationStatus(_ input: GetAutoshiftObserverNotificationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoshiftObserverNotificationStatusResponse {
+    public func getAutoshiftObserverNotificationStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoshiftObserverNotificationStatusResponse {
         try await self.client.execute(
             operation: "GetAutoshiftObserverNotificationStatus", 
             path: "/autoshift-observer-notification", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be ENABLED or DISABLED. When ENABLED, a notification is sent when an autoshift is triggered. When DISABLED, notifications are not sent.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAutoshiftObserverNotificationStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAutoshiftObserverNotificationStatusResponse {
-        let input = GetAutoshiftObserverNotificationStatusRequest(
-        )
-        return try await self.getAutoshiftObserverNotificationStatus(input, logger: logger)
     }
 
     /// Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources.

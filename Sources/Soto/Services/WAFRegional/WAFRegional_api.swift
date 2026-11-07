@@ -1433,34 +1433,14 @@ public struct WAFRegional: AWSService {
     /// 			status of your change token.
     @Sendable
     @inlinable
-    public func getChangeToken(_ input: GetChangeTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeTokenResponse {
+    public func getChangeToken(logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeTokenResponse {
         try await self.client.execute(
             operation: "GetChangeToken", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
-    /// 		       When you want to create, update, or delete AWS WAF objects, get a change token and include the change token in the create, update, or delete request. Change tokens ensure that your application doesn't submit conflicting requests to AWS WAF.
-    /// 		       Each create, update, or delete request must use a unique change token. If your application submits a GetChangeToken request
-    /// 			and then submits a second GetChangeToken request before submitting a create, update, or delete request, the second
-    /// 			GetChangeToken request returns the same value as the first GetChangeToken request.
-    /// 		       When you use a change token in a create, update, or delete request, the status of the change token changes to PENDING,
-    /// 			which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use GetChangeTokenStatus to determine the
-    /// 			status of your change token.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getChangeToken(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetChangeTokenResponse {
-        let input = GetChangeTokenRequest(
-        )
-        return try await self.getChangeToken(input, logger: logger)
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.

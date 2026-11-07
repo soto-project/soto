@@ -105,27 +105,14 @@ public struct CloudFormation: AWSService {
     /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has permissions to create and manage StackSets for your organization.
     @Sendable
     @inlinable
-    public func activateOrganizationsAccess(_ input: ActivateOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateOrganizationsAccessOutput {
+    public func activateOrganizationsAccess(logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateOrganizationsAccessOutput {
         try await self.client.execute(
             operation: "ActivateOrganizationsAccess", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has permissions to create and manage StackSets for your organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func activateOrganizationsAccess(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ActivateOrganizationsAccessOutput {
-        let input = ActivateOrganizationsAccessInput(
-        )
-        return try await self.activateOrganizationsAccess(input, logger: logger)
     }
 
     /// Activates a public third-party extension, such as a resource or module, to make it available for use in stack templates in your current account and Region. It can also create CloudFormation Hooks, which allow you to evaluate resource configurations before CloudFormation provisions them. Hooks integrate with both CloudFormation and Cloud Control API operations. After you activate an extension, you can use SetTypeConfiguration to set specific properties for the extension. To see which extensions have been activated, use ListTypes. To see configuration details for an extension, use DescribeType. For more information, see Activate a third-party public extension in your account in the CloudFormation User Guide. For information about creating Hooks, see the CloudFormation Hooks User Guide.
@@ -661,27 +648,14 @@ public struct CloudFormation: AWSService {
     /// Deactivates trusted access with Organizations. If trusted access is deactivated, the management account does not have permissions to create and manage service-managed StackSets for your organization.
     @Sendable
     @inlinable
-    public func deactivateOrganizationsAccess(_ input: DeactivateOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateOrganizationsAccessOutput {
+    public func deactivateOrganizationsAccess(logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateOrganizationsAccessOutput {
         try await self.client.execute(
             operation: "DeactivateOrganizationsAccess", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deactivates trusted access with Organizations. If trusted access is deactivated, the management account does not have permissions to create and manage service-managed StackSets for your organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deactivateOrganizationsAccess(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeactivateOrganizationsAccessOutput {
-        let input = DeactivateOrganizationsAccessInput(
-        )
-        return try await self.deactivateOrganizationsAccess(input, logger: logger)
     }
 
     /// Deactivates a public third-party extension, such as a resource or module, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporarily disable a CloudFormation Hook instead, you can use SetTypeConfiguration. Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions aren't automatically updated if a new version of the extension is released. To see which extensions are currently activated, use ListTypes.

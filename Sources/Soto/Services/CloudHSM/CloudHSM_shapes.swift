@@ -678,10 +678,6 @@ extension CloudHSM {
         }
     }
 
-    public struct ListAvailableZonesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ListAvailableZonesResponse: AWSDecodableShape {
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let azList: [String]?

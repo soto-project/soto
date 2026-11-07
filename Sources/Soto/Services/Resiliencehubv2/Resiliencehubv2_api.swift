@@ -2165,27 +2165,14 @@ public struct Resiliencehubv2: AWSService {
     /// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
     @Sendable
     @inlinable
-    public func listTestTemplates(_ input: ListTestTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestTemplatesResponse {
+    public func listTestTemplates(logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestTemplatesResponse {
         try await self.client.execute(
             operation: "ListTestTemplates", 
             path: "/v2/list-test-templates", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listTestTemplates(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListTestTemplatesResponse {
-        let input = ListTestTemplatesRequest(
-        )
-        return try await self.listTestTemplates(input, logger: logger)
     }
 
     /// Lists the tests configured for a service.

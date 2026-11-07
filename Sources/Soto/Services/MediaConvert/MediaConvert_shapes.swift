@@ -8428,10 +8428,6 @@ extension MediaConvert {
         public init() {}
     }
 
-    public struct DeletePolicyRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeletePolicyResponse: AWSDecodableShape {
         public init() {}
     }
@@ -9697,10 +9693,6 @@ extension MediaConvert {
             case nextToken = "nextToken"
             case status = "status"
         }
-    }
-
-    public struct GetPolicyRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetPolicyResponse: AWSDecodableShape {

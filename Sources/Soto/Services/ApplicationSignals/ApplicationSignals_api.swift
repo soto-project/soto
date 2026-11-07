@@ -1103,27 +1103,14 @@ public struct ApplicationSignals: AWSService {
     /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    A service-linked CloudTrail event channel is created to process CloudTrail events and return change event information. This includes last deployment time, userName, eventName, and other event metadata. After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see  Enabling Application Signals.
     @Sendable
     @inlinable
-    public func startDiscovery(_ input: StartDiscoveryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDiscoveryOutput {
+    public func startDiscovery(logger: Logger = AWSClient.loggingDisabled) async throws -> StartDiscoveryOutput {
         try await self.client.execute(
             operation: "StartDiscovery", 
             path: "/start-discovery", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    A service-linked CloudTrail event channel is created to process CloudTrail events and return change event information. This includes last deployment time, userName, eventName, and other event metadata. After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see  Enabling Application Signals.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func startDiscovery(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> StartDiscoveryOutput {
-        let input = StartDiscoveryInput(
-        )
-        return try await self.startDiscovery(input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.

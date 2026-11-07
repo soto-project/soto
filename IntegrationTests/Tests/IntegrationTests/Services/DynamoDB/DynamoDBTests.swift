@@ -147,7 +147,7 @@ class DynamoDBTests: XCTestCase {
 
     func testDescribeEndpoints() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        _ = try await Self.dynamoDB.describeEndpoints(.init())
+        _ = try await Self.dynamoDB.describeEndpoints()
     }
 
     func testError() async {

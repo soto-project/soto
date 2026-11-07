@@ -921,27 +921,14 @@ public struct Organizations: AWSService {
     /// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see Enabling all features in your organization in the Organizations User Guide.  This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake.  After you enable all features, you can separately enable or disable individual policy types in a root using EnablePolicyType and DisablePolicyType. To see the status of policy types in a root, use ListRoots. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the management account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The management account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. You can only call this operation from the management account.
     @Sendable
     @inlinable
-    public func enableAllFeatures(_ input: EnableAllFeaturesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableAllFeaturesResponse {
+    public func enableAllFeatures(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableAllFeaturesResponse {
         try await self.client.execute(
             operation: "EnableAllFeatures", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see Enabling all features in your organization in the Organizations User Guide.  This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake.  After you enable all features, you can separately enable or disable individual policy types in a root using EnablePolicyType and DisablePolicyType. To see the status of policy types in a root, use ListRoots. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the management account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The management account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. You can only call this operation from the management account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableAllFeatures(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableAllFeaturesResponse {
-        let input = EnableAllFeaturesRequest(
-        )
-        return try await self.enableAllFeatures(input, logger: logger)
     }
 
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. You can only call this operation from the management account or a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use ListRoots.

@@ -401,27 +401,14 @@ public struct STS: AWSService {
     /// Returns details about the IAM user or role whose credentials are used to call the operation.  No permissions are required to perform this operation. If an administrator attaches a policy to your identity that explicitly denies access to the sts:GetCallerIdentity action, you can still perform this operation. Permissions are not required because the same information is returned when access is denied. To view an example response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the IAM User Guide.
     @Sendable
     @inlinable
-    public func getCallerIdentity(_ input: GetCallerIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCallerIdentityResponse {
+    public func getCallerIdentity(logger: Logger = AWSClient.loggingDisabled) async throws -> GetCallerIdentityResponse {
         try await self.client.execute(
             operation: "GetCallerIdentity", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns details about the IAM user or role whose credentials are used to call the operation.  No permissions are required to perform this operation. If an administrator attaches a policy to your identity that explicitly denies access to the sts:GetCallerIdentity action, you can still perform this operation. Permissions are not required because the same information is returned when access is denied. To view an example response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the IAM User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getCallerIdentity(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetCallerIdentityResponse {
-        let input = GetCallerIdentityRequest(
-        )
-        return try await self.getCallerIdentity(input, logger: logger)
     }
 
     /// Exchanges a trade-in token for temporary Amazon Web Services credentials with the permissions associated with the assumed principal. This operation allows you to obtain credentials for a specific principal based on a trade-in token, enabling delegation of access to Amazon Web Services resources.

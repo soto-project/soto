@@ -1959,10 +1959,6 @@ extension Amp {
         }
     }
 
-    public struct GetDefaultScraperConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDefaultScraperConfigurationResponse: AWSDecodableShape {
         /// The configuration file. Base 64 encoded. For more information, see Scraper configurationin the Amazon Managed Service for Prometheus User Guide.
         public let configuration: AWSBase64Data

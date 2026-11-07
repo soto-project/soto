@@ -210,10 +210,6 @@ extension LicenseManagerLinuxSubscriptions {
         }
     }
 
-    public struct GetServiceSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetServiceSettingsResponse: AWSDecodableShape {
         /// The Region in which License Manager displays the aggregated data for Linux subscriptions.
         public let homeRegions: [String]?

@@ -2684,10 +2684,6 @@ extension IoTManagedIntegrations {
         }
     }
 
-    public struct GetCustomEndpointRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetCustomEndpointResponse: AWSDecodableShape {
         /// The IoT managed integrations dedicated, custom endpoint for the device to route traffic through.
         public let endpointAddress: String
@@ -2700,10 +2696,6 @@ extension IoTManagedIntegrations {
         private enum CodingKeys: String, CodingKey {
             case endpointAddress = "EndpointAddress"
         }
-    }
-
-    public struct GetDefaultEncryptionConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetDefaultEncryptionConfigurationResponse: AWSDecodableShape {
@@ -2944,10 +2936,6 @@ extension IoTManagedIntegrations {
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
         }
-    }
-
-    public struct GetHubConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetHubConfigurationResponse: AWSDecodableShape {
@@ -5806,10 +5794,6 @@ extension IoTManagedIntegrations {
             case deviceDiscoveryId = "DeviceDiscoveryId"
             case managedThingId = "ManagedThingId"
         }
-    }
-
-    public struct RegisterCustomEndpointRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct RegisterCustomEndpointResponse: AWSDecodableShape {

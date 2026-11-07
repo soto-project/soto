@@ -8255,27 +8255,14 @@ public struct SageMaker: AWSService {
     /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     @Sendable
     @inlinable
-    public func disableSagemakerServicecatalogPortfolio(_ input: DisableSagemakerServicecatalogPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
+    public func disableSagemakerServicecatalogPortfolio(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
         try await self.client.execute(
             operation: "DisableSagemakerServicecatalogPortfolio", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableSagemakerServicecatalogPortfolio(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
-        let input = DisableSagemakerServicecatalogPortfolioInput(
-        )
-        return try await self.disableSagemakerServicecatalogPortfolio(input, logger: logger)
     }
 
     /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the AssociateTrialComponent API. To get a list of the trials a component is associated with, use the Search API. Specify ExperimentTrialComponent for the Resource parameter. The list appears in the response under Results.TrialComponent.Parents.
@@ -8313,27 +8300,14 @@ public struct SageMaker: AWSService {
     /// Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     @Sendable
     @inlinable
-    public func enableSagemakerServicecatalogPortfolio(_ input: EnableSagemakerServicecatalogPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
+    public func enableSagemakerServicecatalogPortfolio(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
         try await self.client.execute(
             operation: "EnableSagemakerServicecatalogPortfolio", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableSagemakerServicecatalogPortfolio(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
-        let input = EnableSagemakerServicecatalogPortfolioInput(
-        )
-        return try await self.enableSagemakerServicecatalogPortfolio(input, logger: logger)
     }
 
     /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the  SearchTrainingPlanOfferings  API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the  DescribeTrainingPlanExtensionHistory  API.
@@ -8455,27 +8429,14 @@ public struct SageMaker: AWSService {
     /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     @Sendable
     @inlinable
-    public func getSagemakerServicecatalogPortfolioStatus(_ input: GetSagemakerServicecatalogPortfolioStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
+    public func getSagemakerServicecatalogPortfolioStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
         try await self.client.execute(
             operation: "GetSagemakerServicecatalogPortfolioStatus", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getSagemakerServicecatalogPortfolioStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
-        let input = GetSagemakerServicecatalogPortfolioStatusInput(
-        )
-        return try await self.getSagemakerServicecatalogPortfolioStatus(input, logger: logger)
     }
 
     /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.

@@ -1270,10 +1270,6 @@ extension Snowball {
         }
     }
 
-    public struct GetSnowballUsageRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetSnowballUsageResult: AWSDecodableShape {
         /// The service limit for number of Snow devices this account can have at once. The default service limit is 1 (one).
         public let snowballLimit: Int?

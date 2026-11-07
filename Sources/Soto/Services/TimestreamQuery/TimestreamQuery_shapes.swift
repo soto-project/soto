@@ -374,10 +374,6 @@ extension TimestreamQuery {
         }
     }
 
-    public struct DescribeAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAccountSettingsResponse: AWSDecodableShape {
         /// The maximum number of Timestream compute units (TCUs) the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. This configuration is applicable only for on-demand usage of (TCUs).
         public let maxQueryTCU: Int?
@@ -398,10 +394,6 @@ extension TimestreamQuery {
             case queryCompute = "QueryCompute"
             case queryPricingModel = "QueryPricingModel"
         }
-    }
-
-    public struct DescribeEndpointsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeEndpointsResponse: AWSDecodableShape {

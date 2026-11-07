@@ -5609,10 +5609,6 @@ extension GameLift {
         }
     }
 
-    public struct DescribeVpcPeeringAuthorizationsInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeVpcPeeringAuthorizationsOutput: AWSDecodableShape {
         /// A collection of objects that describe all valid VPC peering operations for the current Amazon Web Services account.
         public let vpcPeeringAuthorizations: [VpcPeeringAuthorization]?

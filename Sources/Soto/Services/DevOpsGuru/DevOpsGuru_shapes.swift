@@ -859,10 +859,6 @@ extension DevOpsGuru {
         public init() {}
     }
 
-    public struct DescribeAccountHealthRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAccountHealthResponse: AWSDecodableShape {
         /// 			Number of resources that DevOps Guru is monitoring in your Amazon Web Services account.
         ///
@@ -992,10 +988,6 @@ extension DevOpsGuru {
             case proactiveAnomaly = "ProactiveAnomaly"
             case reactiveAnomaly = "ReactiveAnomaly"
         }
-    }
-
-    public struct DescribeEventSourcesConfigRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeEventSourcesConfigResponse: AWSDecodableShape {
@@ -1376,10 +1368,6 @@ extension DevOpsGuru {
             case service = "Service"
             case tags = "Tags"
         }
-    }
-
-    public struct DescribeServiceIntegrationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeServiceIntegrationResponse: AWSDecodableShape {

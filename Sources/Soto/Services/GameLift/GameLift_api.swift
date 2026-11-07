@@ -2589,27 +2589,14 @@ public struct GameLift: AWSService {
     ///  This API works with the following fleet types: EC2 Retrieves valid VPC peering authorizations that are pending for the Amazon Web Services account. This operation returns all VPC peering authorizations and requests for peering. This includes those initiated and received by this account.   Related actions   All APIs by task
     @Sendable
     @inlinable
-    public func describeVpcPeeringAuthorizations(_ input: DescribeVpcPeeringAuthorizationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcPeeringAuthorizationsOutput {
+    public func describeVpcPeeringAuthorizations(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcPeeringAuthorizationsOutput {
         try await self.client.execute(
             operation: "DescribeVpcPeeringAuthorizations", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  This API works with the following fleet types: EC2 Retrieves valid VPC peering authorizations that are pending for the Amazon Web Services account. This operation returns all VPC peering authorizations and requests for peering. This includes those initiated and received by this account.   Related actions   All APIs by task
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeVpcPeeringAuthorizations(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeVpcPeeringAuthorizationsOutput {
-        let input = DescribeVpcPeeringAuthorizationsInput(
-        )
-        return try await self.describeVpcPeeringAuthorizations(input, logger: logger)
     }
 
     ///  This API works with the following fleet types: EC2 Retrieves information on VPC peering connections. Use this operation to get peering information for all fleets or for one specific fleet ID.  To retrieve connection information, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Specify a fleet ID or leave the parameter empty to retrieve all connection records. If successful, the retrieved information includes both active and pending connections. Active connections identify the IpV4 CIDR block that the VPC uses to connect.   Related actions   All APIs by task

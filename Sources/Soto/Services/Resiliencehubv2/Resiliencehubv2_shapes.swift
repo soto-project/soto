@@ -4724,10 +4724,6 @@ extension Resiliencehubv2 {
         }
     }
 
-    public struct ListTestTemplatesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ListTestTemplatesResponse: AWSDecodableShape {
         /// The list of test template summaries.
         public let testTemplates: [TestTemplateSummary]

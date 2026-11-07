@@ -3246,10 +3246,6 @@ extension Lightsail {
         }
     }
 
-    public struct CreateContainerServiceRegistryLoginRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct CreateContainerServiceRegistryLoginResult: AWSDecodableShape {
         /// An object that describes the log in information for the container service registry of your Lightsail account.
         public let registryLogin: ContainerServiceRegistryLogin?
@@ -5590,10 +5586,6 @@ extension Lightsail {
         }
     }
 
-    public struct DownloadDefaultKeyPairRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DownloadDefaultKeyPairResult: AWSDecodableShape {
         /// The timestamp when the default key pair was created.
         public let createdAt: Date?
@@ -6310,10 +6302,6 @@ extension Lightsail {
         }
     }
 
-    public struct GetContainerAPIMetadataRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetContainerAPIMetadataResult: AWSDecodableShape {
         /// Metadata about Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
         public let metadata: [[String: String]]?
@@ -6530,10 +6518,6 @@ extension Lightsail {
         }
     }
 
-    public struct GetContainerServicePowersRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetContainerServicePowersResult: AWSDecodableShape {
         /// An array of objects that describe the powers that can be specified for a container service.
         public let powers: [ContainerServicePower]?
@@ -6738,10 +6722,6 @@ extension Lightsail {
             case disks = "disks"
             case nextPageToken = "nextPageToken"
         }
-    }
-
-    public struct GetDistributionBundlesRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetDistributionBundlesResult: AWSDecodableShape {
@@ -7650,10 +7630,6 @@ extension Lightsail {
             case nextPageToken = "nextPageToken"
             case operations = "operations"
         }
-    }
-
-    public struct GetProfileRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetProfileResult: AWSDecodableShape {
@@ -8916,10 +8892,6 @@ extension Lightsail {
         }
     }
 
-    public struct IsVpcPeeredRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct IsVpcPeeredResult: AWSDecodableShape {
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
@@ -9735,10 +9707,6 @@ extension Lightsail {
             case ciphertext = "ciphertext"
             case keyPairName = "keyPairName"
         }
-    }
-
-    public struct PeerVpcRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct PeerVpcResult: AWSDecodableShape {
@@ -11504,10 +11472,6 @@ extension Lightsail {
             case message = "message"
             case tip = "tip"
         }
-    }
-
-    public struct UnpeerVpcRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct UnpeerVpcResult: AWSDecodableShape {

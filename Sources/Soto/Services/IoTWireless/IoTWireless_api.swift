@@ -1457,27 +1457,14 @@ public struct IoTWireless: AWSService {
     /// Get the event configuration based on resource types.
     @Sendable
     @inlinable
-    public func getEventConfigurationByResourceTypes(_ input: GetEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventConfigurationByResourceTypesResponse {
+    public func getEventConfigurationByResourceTypes(logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventConfigurationByResourceTypesResponse {
         try await self.client.execute(
             operation: "GetEventConfigurationByResourceTypes", 
             path: "/event-configurations-resource-types", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get the event configuration based on resource types.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getEventConfigurationByResourceTypes(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetEventConfigurationByResourceTypesResponse {
-        let input = GetEventConfigurationByResourceTypesRequest(
-        )
-        return try await self.getEventConfigurationByResourceTypes(input, logger: logger)
     }
 
     /// Gets information about a FUOTA task.
@@ -1512,53 +1499,27 @@ public struct IoTWireless: AWSService {
     /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
     @Sendable
     @inlinable
-    public func getLogLevelsByResourceTypes(_ input: GetLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogLevelsByResourceTypesResponse {
+    public func getLogLevelsByResourceTypes(logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogLevelsByResourceTypesResponse {
         try await self.client.execute(
             operation: "GetLogLevelsByResourceTypes", 
             path: "/log-levels", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getLogLevelsByResourceTypes(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetLogLevelsByResourceTypesResponse {
-        let input = GetLogLevelsByResourceTypesRequest(
-        )
-        return try await self.getLogLevelsByResourceTypes(input, logger: logger)
     }
 
     /// Get the metric configuration status for this AWS account.
     @Sendable
     @inlinable
-    public func getMetricConfiguration(_ input: GetMetricConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricConfigurationResponse {
+    public func getMetricConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricConfigurationResponse {
         try await self.client.execute(
             operation: "GetMetricConfiguration", 
             path: "/metric-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get the metric configuration status for this AWS account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getMetricConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetMetricConfigurationResponse {
-        let input = GetMetricConfigurationRequest(
-        )
-        return try await self.getMetricConfiguration(input, logger: logger)
     }
 
     /// Get the summary metrics for this AWS account.
@@ -2914,27 +2875,14 @@ public struct IoTWireless: AWSService {
     /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
     @Sendable
     @inlinable
-    public func resetAllResourceLogLevels(_ input: ResetAllResourceLogLevelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetAllResourceLogLevelsResponse {
+    public func resetAllResourceLogLevels(logger: Logger = AWSClient.loggingDisabled) async throws -> ResetAllResourceLogLevelsResponse {
         try await self.client.execute(
             operation: "ResetAllResourceLogLevels", 
             path: "/log-levels", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func resetAllResourceLogLevels(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ResetAllResourceLogLevelsResponse {
-        let input = ResetAllResourceLogLevelsRequest(
-        )
-        return try await self.resetAllResourceLogLevels(input, logger: logger)
     }
 
     /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task.

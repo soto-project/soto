@@ -1155,27 +1155,14 @@ public struct Backup: AWSService {
     /// Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     @Sendable
     @inlinable
-    public func describeGlobalSettings(_ input: DescribeGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGlobalSettingsOutput {
+    public func describeGlobalSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGlobalSettingsOutput {
         try await self.client.execute(
             operation: "DescribeGlobalSettings", 
             path: "/global-settings", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeGlobalSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeGlobalSettingsOutput {
-        let input = DescribeGlobalSettingsInput(
-        )
-        return try await self.describeGlobalSettings(input, logger: logger)
     }
 
     /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
@@ -1245,27 +1232,14 @@ public struct Backup: AWSService {
     /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
     @Sendable
     @inlinable
-    public func describeRegionSettings(_ input: DescribeRegionSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegionSettingsOutput {
+    public func describeRegionSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegionSettingsOutput {
         try await self.client.execute(
             operation: "DescribeRegionSettings", 
             path: "/account-settings", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeRegionSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeRegionSettingsOutput {
-        let input = DescribeRegionSettingsInput(
-        )
-        return try await self.describeRegionSettings(input, logger: logger)
     }
 
     /// Returns the details associated with creating a report as specified by its ReportJobId.

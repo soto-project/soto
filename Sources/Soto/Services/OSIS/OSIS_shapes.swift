@@ -587,10 +587,6 @@ extension OSIS {
         }
     }
 
-    public struct ListPipelineBlueprintsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ListPipelineBlueprintsResponse: AWSDecodableShape {
         /// A list of available blueprints for Data Prepper.
         public let blueprints: [PipelineBlueprintSummary]?

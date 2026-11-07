@@ -162,27 +162,14 @@ public struct Artifact: AWSService {
     /// Get the account settings for Artifact.
     @Sendable
     @inlinable
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
+    public func getAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
         try await self.client.execute(
             operation: "GetAccountSettings", 
             path: "/v1/account-settings/get", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get the account settings for Artifact.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountSettingsResponse {
-        let input = GetAccountSettingsRequest(
-        )
-        return try await self.getAccountSettings(input, logger: logger)
     }
 
     /// Get the metadata for a single compliance inquiry.

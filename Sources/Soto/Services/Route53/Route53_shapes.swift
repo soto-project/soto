@@ -2583,10 +2583,6 @@ extension Route53 {
         }
     }
 
-    public struct GetCheckerIpRangesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetCheckerIpRangesResponse: AWSDecodableShape {
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route
         /// 			53 health checkers.
@@ -2699,10 +2695,6 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case geoLocationDetails = "GeoLocationDetails"
         }
-    }
-
-    public struct GetHealthCheckCountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetHealthCheckCountResponse: AWSDecodableShape {
@@ -2847,10 +2839,6 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case healthCheckObservations = "HealthCheckObservations"
         }
-    }
-
-    public struct GetHostedZoneCountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetHostedZoneCountResponse: AWSDecodableShape {
@@ -3092,10 +3080,6 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case delegationSet = "DelegationSet"
         }
-    }
-
-    public struct GetTrafficPolicyInstanceCountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetTrafficPolicyInstanceCountResponse: AWSDecodableShape {

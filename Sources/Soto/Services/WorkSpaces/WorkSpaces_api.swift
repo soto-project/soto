@@ -1017,27 +1017,14 @@ public struct WorkSpaces: AWSService {
     /// Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account.
     @Sendable
     @inlinable
-    public func describeAccount(_ input: DescribeAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountResult {
+    public func describeAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountResult {
         try await self.client.execute(
             operation: "DescribeAccount", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAccountResult {
-        let input = DescribeAccountRequest(
-        )
-        return try await self.describeAccount(input, logger: logger)
     }
 
     /// Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account.

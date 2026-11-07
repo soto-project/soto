@@ -1353,29 +1353,14 @@ public struct GlobalAccelerator: AWSService {
     /// 				Global Accelerator Developer Guide.
     @Sendable
     @inlinable
-    public func listCrossAccountResourceAccounts(_ input: ListCrossAccountResourceAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrossAccountResourceAccountsResponse {
+    public func listCrossAccountResourceAccounts(logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrossAccountResourceAccountsResponse {
         try await self.client.execute(
             operation: "ListCrossAccountResourceAccounts", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// List the accounts that have cross-account resources. For more information, see
-    /// 			Working with cross-account attachments and resources in Global Accelerator in the
-    /// 				Global Accelerator Developer Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listCrossAccountResourceAccounts(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListCrossAccountResourceAccountsResponse {
-        let input = ListCrossAccountResourceAccountsRequest(
-        )
-        return try await self.listCrossAccountResourceAccounts(input, logger: logger)
     }
 
     /// List the cross-account resources available to work with.

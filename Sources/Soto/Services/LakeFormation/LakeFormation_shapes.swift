@@ -1705,10 +1705,6 @@ extension LakeFormation {
         }
     }
 
-    public struct GetDataLakePrincipalRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDataLakePrincipalResponse: AWSDecodableShape {
         /// A unique identifier of the invoking principal.
         public let identity: String?

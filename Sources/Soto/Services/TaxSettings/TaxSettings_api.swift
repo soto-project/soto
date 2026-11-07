@@ -242,53 +242,27 @@ public struct TaxSettings: AWSService {
     /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     @Sendable
     @inlinable
-    public func getTaxExemptionTypes(_ input: GetTaxExemptionTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxExemptionTypesResponse {
+    public func getTaxExemptionTypes(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxExemptionTypesResponse {
         try await self.client.execute(
             operation: "GetTaxExemptionTypes", 
             path: "/GetTaxExemptionTypes", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getTaxExemptionTypes(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetTaxExemptionTypesResponse {
-        let input = GetTaxExemptionTypesRequest(
-        )
-        return try await self.getTaxExemptionTypes(input, logger: logger)
     }
 
     /// The get account tax inheritance status.
     @Sendable
     @inlinable
-    public func getTaxInheritance(_ input: GetTaxInheritanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxInheritanceResponse {
+    public func getTaxInheritance(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxInheritanceResponse {
         try await self.client.execute(
             operation: "GetTaxInheritance", 
             path: "/GetTaxInheritance", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// The get account tax inheritance status.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getTaxInheritance(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetTaxInheritanceResponse {
-        let input = GetTaxInheritanceRequest(
-        )
-        return try await self.getTaxInheritance(input, logger: logger)
     }
 
     /// Retrieves tax registration for a single account.

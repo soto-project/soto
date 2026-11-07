@@ -358,27 +358,14 @@ public struct TimestreamWrite: AWSService {
     /// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, we don't recommend that you use this API operation unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream    Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
     @Sendable
     @inlinable
-    public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
+    public func describeEndpoints(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
         try await self.client.execute(
             operation: "DescribeEndpoints", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns a list of available endpoints to make Timestream API calls against. This API operation is available through both the Write and Query APIs. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, we don't recommend that you use this API operation unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream    Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEndpoints(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEndpointsResponse {
-        let input = DescribeEndpointsRequest(
-        )
-        return try await self.describeEndpoints(input, logger: logger)
     }
 
     /// Returns information about the table, including the table name, database name, retention duration of the memory store and the magnetic store. Service quotas apply. See code sample for details.
@@ -773,7 +760,7 @@ public struct TimestreamWrite: AWSService {
     @Sendable 
     @usableFromInline 
     func getEndpoint(logger: Logger) async throws -> AWSEndpoints {
-        let response = try await self.describeEndpoints(.init(), logger: logger)
+        let response = try await self.describeEndpoints(logger: logger)
         return .init(endpoints: response.endpoints.map {
             .init(address: "https://\($0.address)", cachePeriodInMinutes: $0.cachePeriodInMinutes)
         })

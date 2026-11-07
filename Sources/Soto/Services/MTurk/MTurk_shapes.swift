@@ -836,10 +836,6 @@ extension MTurk {
         public init() {}
     }
 
-    public struct GetAccountBalanceRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountBalanceResponse: AWSDecodableShape {
         public let availableBalance: String?
         public let onHoldBalance: String?

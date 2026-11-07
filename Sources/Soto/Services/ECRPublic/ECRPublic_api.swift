@@ -461,53 +461,27 @@ public struct ECRPublic: AWSService {
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
     @Sendable
     @inlinable
-    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAuthorizationTokenResponse {
+    public func getAuthorizationToken(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAuthorizationTokenResponse {
         try await self.client.execute(
             operation: "GetAuthorizationToken", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAuthorizationToken(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAuthorizationTokenResponse {
-        let input = GetAuthorizationTokenRequest(
-        )
-        return try await self.getAuthorizationToken(input, logger: logger)
     }
 
     /// Retrieves catalog metadata for a public registry.
     @Sendable
     @inlinable
-    public func getRegistryCatalogData(_ input: GetRegistryCatalogDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryCatalogDataResponse {
+    public func getRegistryCatalogData(logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryCatalogDataResponse {
         try await self.client.execute(
             operation: "GetRegistryCatalogData", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves catalog metadata for a public registry.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getRegistryCatalogData(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetRegistryCatalogDataResponse {
-        let input = GetRegistryCatalogDataRequest(
-        )
-        return try await self.getRegistryCatalogData(input, logger: logger)
     }
 
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.

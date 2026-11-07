@@ -2140,10 +2140,6 @@ extension LicenseManager {
         }
     }
 
-    public struct GetServiceSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetServiceSettingsResponse: AWSDecodableShape {
         /// Cross region discovery home region.
         public let crossRegionDiscoveryHomeRegion: String?
