@@ -28,6 +28,8 @@ extension LambdaCore {
     public enum ComputeResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// MicroVm compute resource type
         case microVm = "MicroVm"
+        /// WebFunction compute resource type
+        case webFunction = "WebFunction"
         public var description: String { return self.rawValue }
     }
 
@@ -45,6 +47,7 @@ extension LambdaCore {
         case internalError = "InternalError"
         case invalidSecurityGroup = "InvalidSecurityGroup"
         case invalidSubnet = "InvalidSubnet"
+        case securityGroupsPerInterfaceLimitExceeded = "SecurityGroupsPerInterfaceLimitExceeded"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
@@ -72,6 +75,7 @@ extension LambdaCore {
         case internalError = "InternalError"
         case invalidSecurityGroup = "InvalidSecurityGroup"
         case invalidSubnet = "InvalidSubnet"
+        case securityGroupsPerInterfaceLimitExceeded = "SecurityGroupsPerInterfaceLimitExceeded"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
@@ -129,7 +133,7 @@ extension LambdaCore {
             try self.configuration.validate(name: "\(name).configuration")
             try self.validate(self.name, name: "name", parent: name, max: 140)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:network-connector:[a-zA-Z0-9-_]+(:[1-9]|[1-9][0-9]+)?)|[a-zA-Z0-9_-]{1,64}$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:network-connector:[a-zA-Z0-9-_]+(:[1-9][0-9]*)?)|[a-zA-Z0-9_-]{1,64}$")
             try self.validate(self.operatorRole, name: "operatorRole", parent: name, max: 10000)
             try self.validate(self.operatorRole, name: "operatorRole", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.tags?.forEach {
@@ -155,6 +159,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The name of the network connector.
         public let name: String
@@ -162,15 +167,21 @@ extension LambdaCore {
         public let operatorRole: String?
         /// The current state of the network connector.
         public let state: NetworkConnectorState?
+        /// The version number assigned to the connector. A newly created connector starts at version 1.
+        public let version: Int64?
+        /// The qualified ARN of the connector version created by this request, including the immutable version suffix.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
+            self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -180,10 +191,13 @@ extension LambdaCore {
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
+            case version = "Version"
+            case versionArn = "VersionArn"
         }
     }
 
     public struct DeleteNetworkConnectorRequest: AWSEncodableShape {
+        /// The identifier of the network connector to delete. Provide an unqualified ARN (or an ID or name) to delete the entire connector and all of its versions, or a version-qualified ARN — one that includes the immutable version suffix — to delete a specific historical version. You can't delete the latest version with a version-qualified identifier; delete the connector instead.
         public let identifier: String
 
         @inlinable
@@ -210,6 +224,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The name of the network connector.
         public let name: String
@@ -217,15 +232,21 @@ extension LambdaCore {
         public let operatorRole: String?
         /// The current state of the network connector. The State field is typically DELETING after this call.
         public let state: NetworkConnectorState?
+        /// The version number of the connector version affected by this request.
+        public let version: Int64?
+        /// The qualified ARN of the connector version affected by this request, including the immutable version suffix.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
+            self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -235,10 +256,13 @@ extension LambdaCore {
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
+            case version = "Version"
+            case versionArn = "VersionArn"
         }
     }
 
     public struct GetNetworkConnectorRequest: AWSEncodableShape {
+        /// The identifier of the network connector to retrieve. You can specify the connector ID, name, or ARN. Provide an unqualified ARN (or an ID or name) to retrieve the connector's latest version, or a version-qualified ARN — one that includes the immutable version suffix — to retrieve a specific historical version.
         public let identifier: String
 
         @inlinable
@@ -265,6 +289,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The date and time when the connector configuration was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -275,6 +300,10 @@ extension LambdaCore {
         public let lastUpdateStatusReason: String?
         /// A machine-readable code indicating the reason for the last update status. Use this for programmatic error handling.
         public let lastUpdateStatusReasonCode: NetworkConnectorLastUpdateStatusReasonCode?
+        /// The version number of the connector's latest active version. Each configuration update creates a new immutable version; this attribute exposes the most recent one. This field is returned only on a standard (unqualified) request.
+        public let latestVersion: Int64?
+        /// The qualified ARN of the connector's latest active version, including the immutable version suffix. This field is returned only on a standard (unqualified) request; when you supply a version-qualified identifier it is not returned, and VersionArn is returned instead.
+        public let latestVersionArn: String?
         /// The name of the network connector.
         public let name: String
         /// The ARN of the IAM role that Lambda uses to manage the underlying ENI resources for this connector.
@@ -285,11 +314,13 @@ extension LambdaCore {
         public let stateReason: String?
         /// A machine-readable code indicating the reason for the current state. Use this for programmatic error handling.
         public let stateReasonCode: NetworkConnectorStateReasonCode?
-        /// The version number of the connector configuration, incremented on each update.
+        /// The version number of the network connector. On a standard (unqualified) request, this is the connector's current version; each configuration update increments it. When you supply a version-qualified identifier, this is the specific version you requested.
         public let version: Int64?
+        /// The qualified ARN of the specific connector version returned by this request, including the immutable version suffix. This is populated only when you supply a version-qualified identifier. On a standard (unqualified) request, this field is not populated; the connector's latest active version is returned instead through the LatestVersionArn and LatestVersion fields described below.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: NetworkConnectorLastUpdateStatusReasonCode? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, stateReason: String? = nil, stateReasonCode: NetworkConnectorStateReasonCode? = nil, version: Int64? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: NetworkConnectorLastUpdateStatusReasonCode? = nil, latestVersion: Int64? = nil, latestVersionArn: String? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, stateReason: String? = nil, stateReasonCode: NetworkConnectorStateReasonCode? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
@@ -297,12 +328,15 @@ extension LambdaCore {
             self.lastUpdateStatus = lastUpdateStatus
             self.lastUpdateStatusReason = lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
             self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -313,12 +347,15 @@ extension LambdaCore {
             case lastUpdateStatus = "LastUpdateStatus"
             case lastUpdateStatusReason = "LastUpdateStatusReason"
             case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
             case stateReason = "StateReason"
             case stateReasonCode = "StateReasonCode"
             case version = "Version"
+            case versionArn = "VersionArn"
         }
     }
 
@@ -336,6 +373,61 @@ extension LambdaCore {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case type = "Type"
+        }
+    }
+
+    public struct ListNetworkConnectorVersionsRequest: AWSEncodableShape {
+        /// The identifier of the network connector whose versions you want to list. You can specify the connector ID, name, or full ARN. Specify an unqualified identifier — this operation lists all versions of the connector, not a specific version.
+        public let identifier: String
+        /// The pagination token from a previous ListNetworkConnectorVersions response. Use this value to retrieve the next page of results.
+        public let marker: String?
+        /// The maximum number of versions to return per page. Valid range: 1 to 100.
+        public let maxItems: Int?
+        /// Optional filter to return only versions in the specified state (for example, ACTIVE or FAILED).
+        public let state: NetworkConnectorState?
+
+        @inlinable
+        public init(identifier: String, marker: String? = nil, maxItems: Int? = nil, state: NetworkConnectorState? = nil) {
+            self.identifier = identifier
+            self.marker = marker
+            self.maxItems = maxItems
+            self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.state, key: "State")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 140)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListNetworkConnectorVersionsResponse: AWSDecodableShape {
+        /// A list of connector version summaries for the current page of results.
+        public let networkConnectorVersions: [NetworkConnectorVersionSummary]
+        /// The pagination token to include in a subsequent request to retrieve the next page. This value is null when there are no more results.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(networkConnectorVersions: [NetworkConnectorVersionSummary], nextMarker: String? = nil) {
+            self.networkConnectorVersions = networkConnectorVersions
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkConnectorVersions = "NetworkConnectorVersions"
+            case nextMarker = "NextMarker"
         }
     }
 
@@ -389,7 +481,7 @@ extension LambdaCore {
     }
 
     public struct NetworkConnectorLimitExceededException: AWSErrorShape {
-        /// A human-readable description of the error.
+        /// The account has reached the maximum number of network connectors allowed.
         public let message: String?
         /// The exception type.
         public let type: String?
@@ -409,10 +501,15 @@ extension LambdaCore {
     public struct NetworkConnectorSummary: AWSDecodableShape {
         /// The ARN of the network connector.
         public let arn: String
+        /// The unique identifier of the network connector.
         public let id: String
         /// The date and time when the connector was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModified: Date?
+        /// The version number of the connector's latest version. Each configuration update creates a new immutable version; this attribute exposes the most recent one.
+        public let latestVersion: Int64?
+        /// The qualified ARN of the connector's latest version, including the immutable version suffix.
+        public let latestVersionArn: String?
         /// The name of the network connector.
         public let name: String
         /// The current state of the network connector.
@@ -421,10 +518,12 @@ extension LambdaCore {
         public let type: NetworkConnectorType
 
         @inlinable
-        public init(arn: String, id: String, lastModified: Date? = nil, name: String, state: NetworkConnectorState? = nil, type: NetworkConnectorType) {
+        public init(arn: String, id: String, lastModified: Date? = nil, latestVersion: Int64? = nil, latestVersionArn: String? = nil, name: String, state: NetworkConnectorState? = nil, type: NetworkConnectorType) {
             self.arn = arn
             self.id = id
             self.lastModified = lastModified
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
             self.name = name
             self.state = state
             self.type = type
@@ -434,18 +533,67 @@ extension LambdaCore {
             case arn = "Arn"
             case id = "Id"
             case lastModified = "LastModified"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
             case name = "Name"
             case state = "State"
             case type = "Type"
         }
     }
 
+    public struct NetworkConnectorVersionSummary: AWSDecodableShape {
+        /// The unqualified ARN of the network connector that this version belongs to.
+        public let arn: String
+        /// The unique identifier of the network connector.
+        public let id: String
+        /// The date and time when this connector version was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The name of the network connector.
+        public let name: String
+        /// The current state of this connector version.
+        public let state: NetworkConnectorState
+        /// A human-readable explanation of the current state, populated when the state is FAILED.
+        public let stateReason: String?
+        /// A machine-readable code indicating the reason for the current state. Use this for programmatic error handling.
+        public let stateReasonCode: NetworkConnectorStateReasonCode?
+        /// The version number of this connector version.
+        public let version: Int64
+        /// The qualified ARN of this connector version, including the immutable version suffix.
+        public let versionArn: String
+
+        @inlinable
+        public init(arn: String, id: String, lastModified: Date? = nil, name: String, state: NetworkConnectorState, stateReason: String? = nil, stateReasonCode: NetworkConnectorStateReasonCode? = nil, version: Int64, versionArn: String) {
+            self.arn = arn
+            self.id = id
+            self.lastModified = lastModified
+            self.name = name
+            self.state = state
+            self.stateReason = stateReason
+            self.stateReasonCode = stateReasonCode
+            self.version = version
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case state = "State"
+            case stateReason = "StateReason"
+            case stateReasonCode = "StateReasonCode"
+            case version = "Version"
+            case versionArn = "VersionArn"
+        }
+    }
+
     public struct NetworkConnectorVpcEgressConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The types of Lambda compute resources that can use this connector. Currently, only MicroVm is supported.
+        /// The types of Lambda compute resources that can use this connector. Valid values are MicroVm and WebFunction. Specify exactly one value.
         public let associatedComputeResourceTypes: [ComputeResourceType]?
         /// The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6.
         public let networkProtocol: NetworkProtocol?
-        /// The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets.
+        /// The IDs of the VPC security groups to attach to the ENIs. All security groups must be in the same VPC as the subnets.
         public let securityGroupIds: [String]?
         /// The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All subnets must be in the same VPC.
         public let subnetIds: [String]?
@@ -465,7 +613,7 @@ extension LambdaCore {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*$")
             }
-            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 16)
             try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 1024)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-z]*$")
@@ -571,6 +719,7 @@ extension LambdaCore {
         public let clientToken: String?
         /// The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs — this replaces the existing configuration.
         public let configuration: NetworkConnectorConfiguration?
+        /// The identifier of the network connector to update. You can specify the connector ID, name, or full ARN.
         public let identifier: String
         /// The updated ARN of the IAM role that Lambda assumes to manage ENIs. Use this to change the operator role without recreating the connector.
         public let operatorRole: String?
@@ -614,6 +763,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The timestamp of this update.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -628,9 +778,13 @@ extension LambdaCore {
         public let operatorRole: String?
         /// The current state of the network connector.
         public let state: NetworkConnectorState?
+        /// The version number of the connector version resulting from this update. A configuration change creates a new, incremented version; a no-op update returns the current version number.
+        public let version: Int64?
+        /// The qualified ARN of the connector version resulting from this update, including the immutable version suffix.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
@@ -640,6 +794,8 @@ extension LambdaCore {
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
+            self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,6 +808,8 @@ extension LambdaCore {
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
+            case version = "Version"
+            case versionArn = "VersionArn"
         }
     }
 
@@ -707,7 +865,7 @@ public struct LambdaCoreErrorType: AWSErrorType {
 
     /// One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// The account has reached the maximum number of network connectors allowed. Delete unused connectors or request a limit increase through Service Quotas.
+    /// The request would exceed a network connector limit. For CreateNetworkConnector, the account has reached the maximum number of network connectors allowed. For UpdateNetworkConnector, the connector has reached the maximum number of versions allowed.
     public static var networkConnectorLimitExceededException: Self { .init(.networkConnectorLimitExceededException) }
     /// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }

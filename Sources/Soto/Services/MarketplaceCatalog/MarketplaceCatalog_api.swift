@@ -403,7 +403,7 @@ public struct MarketplaceCatalog: AWSService {
     ///
     /// Parameters:
     ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
-    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
+    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution, SubsidiaryAuthorization.
     ///   - entityTypeFilters: A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
     ///   - entityTypeSort: A Union object containing Sort shapes for all EntityTypes. Each EntityTypeSort shape will have SortBy and SortOrder applicable for fields on that EntityType. This can be used to sort the results of the filter query.
     ///   - filterList: An array of filter objects. Each filter object contains two attributes, filterName and filterValues.
@@ -612,7 +612,7 @@ public struct MarketplaceCatalog: AWSService {
 extension MarketplaceCatalog {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: MarketplaceCatalog, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -773,7 +773,7 @@ extension MarketplaceCatalog {
     ///
     /// - Parameters:
     ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
-    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
+    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution, SubsidiaryAuthorization.
     ///   - entityTypeFilters: A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
     ///   - entityTypeSort: A Union object containing Sort shapes for all EntityTypes. Each EntityTypeSort shape will have SortBy and SortOrder applicable for fields on that EntityType. This can be used to sort the results of the filter query.
     ///   - filterList: An array of filter objects. Each filter object contains two attributes, filterName and filterValues.

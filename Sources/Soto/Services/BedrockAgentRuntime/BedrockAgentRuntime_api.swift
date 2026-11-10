@@ -102,6 +102,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - messages: The list of messages for the agentic retrieval conversation.
     ///   - nextToken: Opaque continuation token for paginated results.
     ///   - policyConfiguration: Policy configuration for guardrails and content filtering.
+    ///   - retrievalInstructionConfiguration: A retrieval instruction to apply to this request.
     ///   - retrievers: The list of retrievers to use for agentic retrieval.
     ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
@@ -113,6 +114,7 @@ public struct BedrockAgentRuntime: AWSService {
         messages: [AgenticRetrieveMessage],
         nextToken: String? = nil,
         policyConfiguration: AgenticRetrievePolicyConfiguration? = nil,
+        retrievalInstructionConfiguration: AgenticRetrieveInstructionConfiguration? = nil,
         retrievers: [AgenticRetriever],
         userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -124,6 +126,7 @@ public struct BedrockAgentRuntime: AWSService {
             messages: messages, 
             nextToken: nextToken, 
             policyConfiguration: policyConfiguration, 
+            retrievalInstructionConfiguration: retrievalInstructionConfiguration, 
             retrievers: retrievers, 
             userContext: userContext
         )
@@ -410,7 +413,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.getAgentMemory(input, logger: logger)
     }
 
-    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+    /// Retrieves the content of an ingested document from a knowledge base, or of an image embedded in the document. Returns a pre-signed URL for downloading the content. Use this operation to display the source of a Retrieve result.
     @Sendable
     @inlinable
     public func getDocumentContent(_ input: GetDocumentContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentContentResponse {
@@ -423,13 +426,14 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+    /// Retrieves the content of an ingested document from a knowledge base, or of an image embedded in the document. Returns a pre-signed URL for downloading the content. Use this operation to display the source of a Retrieve result.
     ///
     /// Parameters:
     ///   - dataSourceId: The unique identifier of the data source that contains the document.
     ///   - documentId: The unique identifier of the document to retrieve content for.
     ///   - knowledgeBaseId: The unique identifier of the knowledge base that contains the document.
-    ///   - outputFormat: The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
+    ///   - mediaId: The unique identifier (in UUID format) of an image embedded in the specified document. Set this parameter to the _media_id value in the metadata of the corresponding Retrieve result. If you specify this parameter, the response contains a pre-signed URL for the image instead of the document, and you must omit outputFormat or set it to RAW.
+    ///   - outputFormat: The output format for the content. You can specify one of the following values:  RAW  Returns the original document, or the selected image if you specify mediaId.  EXTRACTED  Returns parsed document text as JSON.   If you omit this parameter, the default is RAW. You can't use EXTRACTED with mediaId.
     ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
     @inlinable
@@ -437,6 +441,7 @@ public struct BedrockAgentRuntime: AWSService {
         dataSourceId: String,
         documentId: String,
         knowledgeBaseId: String,
+        mediaId: String? = nil,
         outputFormat: DocumentOutputFormat? = nil,
         userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -445,6 +450,7 @@ public struct BedrockAgentRuntime: AWSService {
             dataSourceId: dataSourceId, 
             documentId: documentId, 
             knowledgeBaseId: knowledgeBaseId, 
+            mediaId: mediaId, 
             outputFormat: outputFormat, 
             userContext: userContext
         )
@@ -1447,7 +1453,7 @@ public struct BedrockAgentRuntime: AWSService {
 extension BedrockAgentRuntime {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: BedrockAgentRuntime, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

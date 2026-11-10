@@ -106,6 +106,8 @@ extension Evs {
         case i4iMetal = "i4i.metal"
         case i7iMetal24Xl = "i7i.metal-24xl"
         case i7iMetal48Xl = "i7i.metal-48xl"
+        case r7iMetal24Xl = "r7i.metal-24xl"
+        case r7iMetal48Xl = "r7i.metal-48xl"
         public var description: String { return self.rawValue }
     }
 
@@ -1252,7 +1254,7 @@ extension Evs {
         public let dedicatedHostId: String?
         /// The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF.
         public let hostName: String
-        /// The EC2 instance type that represents the host.
+        /// The EC2 instance type that represents the host.  With VCF 5.2.x, you can use only the i4i.metal, i7i.metal-24xl, and i7i.metal-48xl instance types. All of these instance types are supported with vcfVersion set to SELF_DEPLOYED.
         public let instanceType: InstanceType
         /// The name of the SSH key that is used to access the host.
         public let keyName: String

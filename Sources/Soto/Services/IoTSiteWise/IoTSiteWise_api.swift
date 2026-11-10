@@ -1138,6 +1138,7 @@ public struct IoTSiteWise: AWSService {
     ///   - destinationS3Uri: The S3 URI where output clips will be written.
     ///   - errorReportLocation: The location where the error report will be written on failure.
     ///   - input: The processing input source.
+    ///   - jobName: An optional name for the export job. When omitted, one will be created based on type of job
     ///   - workspaceName: The name of the workspace in which to create the dataset export job.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1146,6 +1147,7 @@ public struct IoTSiteWise: AWSService {
         destinationS3Uri: String,
         errorReportLocation: ExportErrorReportLocation,
         input: ProcessingInput,
+        jobName: String? = nil,
         workspaceName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDatasetExportJobResponse {
@@ -1154,6 +1156,7 @@ public struct IoTSiteWise: AWSService {
             destinationS3Uri: destinationS3Uri, 
             errorReportLocation: errorReportLocation, 
             input: input, 
+            jobName: jobName, 
             workspaceName: workspaceName
         )
         return try await self.createDatasetExportJob(input, logger: logger)
@@ -6217,7 +6220,7 @@ public struct IoTSiteWise: AWSService {
 extension IoTSiteWise {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: IoTSiteWise, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

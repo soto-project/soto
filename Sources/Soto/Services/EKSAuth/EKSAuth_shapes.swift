@@ -85,14 +85,17 @@ extension EKSAuth {
         public let podIdentityAssociation: PodIdentityAssociation
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
         public let subject: Subject
+        /// The ARN of the workload identity provider for the returned credentials. Returned only for associations with workload identity enabled.
+        public let workloadIdentityProviderArn: String?
 
         @inlinable
-        public init(assumedRoleUser: AssumedRoleUser, audience: String, credentials: Credentials, podIdentityAssociation: PodIdentityAssociation, subject: Subject) {
+        public init(assumedRoleUser: AssumedRoleUser, audience: String, credentials: Credentials, podIdentityAssociation: PodIdentityAssociation, subject: Subject, workloadIdentityProviderArn: String? = nil) {
             self.assumedRoleUser = assumedRoleUser
             self.audience = audience
             self.credentials = credentials
             self.podIdentityAssociation = podIdentityAssociation
             self.subject = subject
+            self.workloadIdentityProviderArn = workloadIdentityProviderArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -101,6 +104,7 @@ extension EKSAuth {
             case credentials = "credentials"
             case podIdentityAssociation = "podIdentityAssociation"
             case subject = "subject"
+            case workloadIdentityProviderArn = "workloadIdentityProviderArn"
         }
     }
 

@@ -410,7 +410,7 @@ extension TimestreamInfluxDB {
         public let allocatedStorage: Int?
         /// The Amazon Resource Name (ARN) of the backup.
         public let arn: String
-        /// The cluster configuration of the resource at the time of backup.
+        /// The cluster configuration of the resource at the time of backup. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
         public let clusterConfiguration: ClusterConfiguration?
         /// The time when the backup was created.
         public let createdAt: Date?
@@ -422,6 +422,8 @@ extension TimestreamInfluxDB {
         public let dbResourceId: String?
         /// The storage type of the resource at the time of backup.
         public let dbStorageType: DbStorageType?
+        /// The deployment configuration of the resource at the time of backup.
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// The deployment type of the resource that the backup was created from.
         public let deploymentType: ResourceDeploymentType?
         /// The engine type of the resource that the backup was created from.
@@ -458,7 +460,38 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = nil
+            self.createdAt = createdAt
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupId = dbParameterGroupId
+            self.dbResourceId = dbResourceId
+            self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+            self.type = type
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        @available(*, deprecated, message: "Members clusterConfiguration have been deprecated")
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
@@ -467,6 +500,7 @@ extension TimestreamInfluxDB {
             self.dbParameterGroupId = dbParameterGroupId
             self.dbResourceId = dbResourceId
             self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
             self.deploymentType = deploymentType
             self.engineType = engineType
             self.expiresAfter = expiresAfter
@@ -495,6 +529,7 @@ extension TimestreamInfluxDB {
             case dbParameterGroupId = "dbParameterGroupId"
             case dbResourceId = "dbResourceId"
             case dbStorageType = "dbStorageType"
+            case deploymentConfiguration = "deploymentConfiguration"
             case deploymentType = "deploymentType"
             case engineType = "engineType"
             case expiresAfter = "expiresAfter"
@@ -522,12 +557,14 @@ extension TimestreamInfluxDB {
         public let bucket: String?
         /// A list of backup configurations to enable automated backups for the DB cluster.
         public let dbBackupConfigurations: [DbBackupConfiguration]?
-        /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
-        public let dbInstanceType: DbInstanceType
+        /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Optional when you define the cluster topology with deploymentConfiguration, because the instance type is then specified per node group.
+        public let dbInstanceType: DbInstanceType?
         /// The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
         public let dbParameterGroupIdentifier: String?
         /// The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements:   Influx I/O Included 3000 IOPS   Influx I/O Included 12000 IOPS   Influx I/O Included 16000 IOPS
         public let dbStorageType: DbStorageType?
+        /// The compute topology for the cluster, defined as a set of node groups. Use deploymentConfiguration to allocate compute per function: ingest, query, compaction, and processing. A deployment configuration becomes the source of truth for the cluster's topology. Timestream for InfluxDB then ignores any node-count parameters in the associated DB parameter group.
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// Specifies the type of cluster to create.
         public let deploymentType: ClusterDeploymentType?
         /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
@@ -560,13 +597,14 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
             self.dbBackupConfigurations = dbBackupConfigurations
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
             self.deploymentType = deploymentType
             self.failoverMode = failoverMode
             self.kmsKeyId = kmsKeyId
@@ -598,6 +636,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_\\-]+$")
@@ -642,6 +681,7 @@ extension TimestreamInfluxDB {
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
+            case deploymentConfiguration = "deploymentConfiguration"
             case deploymentType = "deploymentType"
             case failoverMode = "failoverMode"
             case kmsKeyId = "kmsKeyId"
@@ -1354,7 +1394,7 @@ extension TimestreamInfluxDB {
         public let allocatedStorage: Int?
         /// The Amazon Resource Name (ARN) of the deleted backup.
         public let arn: String
-        /// The cluster configuration of the resource at the time of backup.
+        /// The cluster configuration of the resource at the time of backup. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
         public let clusterConfiguration: ClusterConfiguration?
         /// The time when the backup was created.
         public let createdAt: Date?
@@ -1366,6 +1406,8 @@ extension TimestreamInfluxDB {
         public let dbResourceId: String?
         /// The storage type of the resource at the time of backup.
         public let dbStorageType: DbStorageType?
+        /// The deployment configuration of the resource at the time of backup.
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// The deployment type of the resource that the backup was created from.
         public let deploymentType: ResourceDeploymentType?
         /// The engine type of the resource that the backup was created from.
@@ -1402,7 +1444,38 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = nil
+            self.createdAt = createdAt
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupId = dbParameterGroupId
+            self.dbResourceId = dbResourceId
+            self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+            self.type = type
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        @available(*, deprecated, message: "Members clusterConfiguration have been deprecated")
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
@@ -1411,6 +1484,7 @@ extension TimestreamInfluxDB {
             self.dbParameterGroupId = dbParameterGroupId
             self.dbResourceId = dbResourceId
             self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
             self.deploymentType = deploymentType
             self.engineType = engineType
             self.expiresAfter = expiresAfter
@@ -1439,6 +1513,7 @@ extension TimestreamInfluxDB {
             case dbParameterGroupId = "dbParameterGroupId"
             case dbResourceId = "dbResourceId"
             case dbStorageType = "dbStorageType"
+            case deploymentConfiguration = "deploymentConfiguration"
             case deploymentType = "deploymentType"
             case engineType = "engineType"
             case expiresAfter = "expiresAfter"
@@ -1682,7 +1757,7 @@ extension TimestreamInfluxDB {
         public let allocatedStorage: Int?
         /// The Amazon Resource Name (ARN) of the backup.
         public let arn: String
-        /// The cluster configuration of the resource at the time of backup.
+        /// The cluster configuration of the resource at the time of backup. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
         public let clusterConfiguration: ClusterConfiguration?
         /// The time when the backup was created.
         public let createdAt: Date?
@@ -1694,6 +1769,8 @@ extension TimestreamInfluxDB {
         public let dbResourceId: String?
         /// The storage type of the resource at the time of backup.
         public let dbStorageType: DbStorageType?
+        /// The deployment configuration of the resource at the time of backup.
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// The deployment type of the resource that the backup was created from.
         public let deploymentType: ResourceDeploymentType?
         /// The engine type of the resource that the backup was created from.
@@ -1730,7 +1807,38 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = nil
+            self.createdAt = createdAt
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupId = dbParameterGroupId
+            self.dbResourceId = dbResourceId
+            self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+            self.type = type
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        @available(*, deprecated, message: "Members clusterConfiguration have been deprecated")
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
@@ -1739,6 +1847,7 @@ extension TimestreamInfluxDB {
             self.dbParameterGroupId = dbParameterGroupId
             self.dbResourceId = dbResourceId
             self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
             self.deploymentType = deploymentType
             self.engineType = engineType
             self.expiresAfter = expiresAfter
@@ -1767,6 +1876,7 @@ extension TimestreamInfluxDB {
             case dbParameterGroupId = "dbParameterGroupId"
             case dbResourceId = "dbResourceId"
             case dbStorageType = "dbStorageType"
+            case deploymentConfiguration = "deploymentConfiguration"
             case deploymentType = "deploymentType"
             case engineType = "engineType"
             case expiresAfter = "expiresAfter"
@@ -1812,7 +1922,7 @@ extension TimestreamInfluxDB {
         public let allocatedStorage: Int?
         /// The Amazon Resource Name (ARN) of the DB cluster.
         public let arn: String
-        /// Configuration for node modes in the DbCluster.
+        /// Configuration for node modes in the DbCluster. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
         public let clusterConfiguration: ClusterConfiguration?
         /// The backup configurations for the DB cluster.
         public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
@@ -1822,6 +1932,8 @@ extension TimestreamInfluxDB {
         public let dbParameterGroupIdentifier: String?
         /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
         public let dbStorageType: DbStorageType?
+        /// The current compute topology of the cluster, as a set of node groups. The returned topology reflects the cluster's actual provisioned nodes.
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// Deployment type of the DB cluster.
         public let deploymentType: ClusterDeploymentType?
         /// The ID of the DB parameter group actually applied to your DB cluster. When the service applies optimized defaults, it creates a service-managed DB parameter group and this field reflects that group, while dbParameterGroupIdentifier reflects the customer-provided DB parameter group. When no service-managed DB parameter group is applied, this value matches dbParameterGroupIdentifier.
@@ -1864,7 +1976,40 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, effectiveDbParameterGroupIdentifier: String? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ClusterDeploymentType? = nil, effectiveDbParameterGroupIdentifier: String? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = nil
+            self.dbBackupConfigurations = dbBackupConfigurations
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+            self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentType = deploymentType
+            self.effectiveDbParameterGroupIdentifier = effectiveDbParameterGroupIdentifier
+            self.endpoint = endpoint
+            self.engineType = engineType
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.lastMaintenanceTime = lastMaintenanceTime
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.readerEndpoint = readerEndpoint
+            self.status = status
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        @available(*, deprecated, message: "Members clusterConfiguration have been deprecated")
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentType: ClusterDeploymentType? = nil, effectiveDbParameterGroupIdentifier: String? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
@@ -1872,6 +2017,7 @@ extension TimestreamInfluxDB {
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
+            self.deploymentConfiguration = deploymentConfiguration
             self.deploymentType = deploymentType
             self.effectiveDbParameterGroupIdentifier = effectiveDbParameterGroupIdentifier
             self.endpoint = endpoint
@@ -1902,6 +2048,7 @@ extension TimestreamInfluxDB {
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
+            case deploymentConfiguration = "deploymentConfiguration"
             case deploymentType = "deploymentType"
             case effectiveDbParameterGroupIdentifier = "effectiveDbParameterGroupIdentifier"
             case endpoint = "endpoint"
@@ -2439,6 +2586,28 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct InfluxDBv3EnterpriseDeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The node groups that make up the cluster. Across all node groups, the cluster must include 1 to 4 nodes with the INGEST mode, 0 to 14 nodes with the QUERY mode, and exactly one node with the COMPACT mode.
+        public let nodeGroups: [NodeGroup]
+
+        @inlinable
+        public init(nodeGroups: [NodeGroup]) {
+            self.nodeGroups = nodeGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.nodeGroups.forEach {
+                try $0.validate(name: "\(name).nodeGroups[]")
+            }
+            try self.validate(self.nodeGroups, name: "nodeGroups", parent: name, max: 10)
+            try self.validate(self.nodeGroups, name: "nodeGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroups = "nodeGroups"
+        }
+    }
+
     public struct InfluxDBv3EnterpriseParameters: AWSEncodableShape & AWSDecodableShape {
         /// Defines how often the catalog synchronizes across cluster nodes. Default: 10s
         public let catalogSyncInterval: Duration?
@@ -2478,8 +2647,8 @@ extension TimestreamInfluxDB {
         public let dataFusionRuntimeType: DataFusionRuntimeType?
         /// Uses a cached parquet loader when reading parquet files from the object store.
         public let dataFusionUseCachedParquetLoader: Bool?
-        /// Specifies if the compactor instance should be a standalone instance or not.
-        public let dedicatedCompactor: Bool
+        /// Specifies if the compactor instance should be a standalone instance or not. Deprecated. Use deploymentConfiguration on CreateDbCluster or UpdateDbCluster to define the cluster topology instead. When you supply a deployment configuration, Timestream for InfluxDB ignores this parameter.
+        public let dedicatedCompactor: Bool?
         /// Specifies the grace period before permanently deleting data. Default: 24h
         public let deleteGracePeriod: Duration?
         /// Disables the in-memory Parquet cache. By default, the cache is enabled.
@@ -2498,8 +2667,8 @@ extension TimestreamInfluxDB {
         public let gen1LookbackDuration: Duration?
         /// Sets the default duration for hard deletion of data. Default: 90d
         public let hardDeleteDefaultDuration: Duration?
-        /// Specifies number of instances in the DbCluster which can both ingest and query.
-        public let ingestQueryInstances: Int
+        /// Specifies number of instances in the DbCluster which can both ingest and query. Deprecated. Use deploymentConfiguration on CreateDbCluster or UpdateDbCluster to define the cluster topology instead. When you supply a deployment configuration, Timestream for InfluxDB ignores this parameter.
+        public let ingestQueryInstances: Int?
         /// Specifies the interval to evict expired entries from the Last-N-Value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
         public let lastCacheEvictionInterval: Duration?
         /// Disables populating the last-N-value cache from historical data. If disabled, the cache is still populated with data from the write-ahead log (WAL).
@@ -2528,18 +2697,26 @@ extension TimestreamInfluxDB {
         public let queryFileLimit: Int?
         /// Defines the size of the query log. Up to this many queries remain in the log before older queries are evicted to make room for new ones. Default: 1000
         public let queryLogSize: Int?
-        /// Specifies number of instances in the DbCluster which can only query.
-        public let queryOnlyInstances: Int
+        /// Specifies number of instances in the DbCluster which can only query. Deprecated. Use deploymentConfiguration on CreateDbCluster or UpdateDbCluster to define the cluster topology instead. When you supply a deployment configuration, Timestream for InfluxDB ignores this parameter.
+        public let queryOnlyInstances: Int?
         /// Specifies the interval at which data replication occurs between cluster nodes. Default: 250ms
         public let replicationInterval: Duration?
         /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
         public let retentionCheckInterval: Duration?
+        /// The time-based trigger that controls how often the ingester creates snapshots. This value is also used on query nodes as the bucket rotation interval for the replica buffer.
+        public let snapshotDuration: Duration?
+        /// The maximum size of the active snapshot bucket before it is rotated for snapshotting.
+        public let snapshotSize: PercentOrAbsoluteLong?
         /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
         public let snapshottedWalFilesToKeep: Int?
         /// Limits the concurrency level for table index cache operations. Default: 8
         public let tableIndexCacheConcurrencyLimit: Int?
         /// Specifies the maximum number of entries in the table index cache. Default: 1000
         public let tableIndexCacheMaxEntries: Int?
+        /// Specifies whether to migrate the cluster from the Parquet storage engine to PachaTree. This action cannot be reversed. To create a new cluster on Parquet, set this to false.
+        public let upgradePachaTree: Bool?
+        /// The maximum size, in bytes, of the in-memory WAL buffer before a flush is triggered regardless of the flush interval. Increase this value if WAL files are flushed before the interval elapses.
+        public let walBufferSize: Int64?
         /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
         public let walMaxWriteBufferSize: Int?
         /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
@@ -2550,7 +2727,70 @@ extension TimestreamInfluxDB {
         public let walSnapshotSize: Int?
 
         @inlinable
-        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshotDuration: Duration? = nil, snapshotSize: PercentOrAbsoluteLong? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, upgradePachaTree: Bool? = nil, walBufferSize: Int64? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+            self.catalogSyncInterval = catalogSyncInterval
+            self.compactionCheckInterval = compactionCheckInterval
+            self.compactionCleanupWait = compactionCleanupWait
+            self.compactionGen2Duration = compactionGen2Duration
+            self.compactionMaxNumFilesPerPlan = compactionMaxNumFilesPerPlan
+            self.compactionMultipliers = compactionMultipliers
+            self.compactionRowLimit = compactionRowLimit
+            self.dataFusionConfig = dataFusionConfig
+            self.dataFusionMaxParquetFanout = dataFusionMaxParquetFanout
+            self.dataFusionNumThreads = dataFusionNumThreads
+            self.dataFusionRuntimeDisableLifoSlot = dataFusionRuntimeDisableLifoSlot
+            self.dataFusionRuntimeEventInterval = dataFusionRuntimeEventInterval
+            self.dataFusionRuntimeGlobalQueueInterval = dataFusionRuntimeGlobalQueueInterval
+            self.dataFusionRuntimeMaxBlockingThreads = dataFusionRuntimeMaxBlockingThreads
+            self.dataFusionRuntimeMaxIoEventsPerTick = dataFusionRuntimeMaxIoEventsPerTick
+            self.dataFusionRuntimeThreadKeepAlive = dataFusionRuntimeThreadKeepAlive
+            self.dataFusionRuntimeThreadPriority = dataFusionRuntimeThreadPriority
+            self.dataFusionRuntimeType = dataFusionRuntimeType
+            self.dataFusionUseCachedParquetLoader = dataFusionUseCachedParquetLoader
+            self.dedicatedCompactor = nil
+            self.deleteGracePeriod = deleteGracePeriod
+            self.disableParquetMemCache = disableParquetMemCache
+            self.distinctCacheEvictionInterval = distinctCacheEvictionInterval
+            self.distinctValueCacheDisableFromHistory = distinctValueCacheDisableFromHistory
+            self.execMemPoolBytes = execMemPoolBytes
+            self.forceSnapshotMemThreshold = forceSnapshotMemThreshold
+            self.gen1Duration = gen1Duration
+            self.gen1LookbackDuration = gen1LookbackDuration
+            self.hardDeleteDefaultDuration = hardDeleteDefaultDuration
+            self.ingestQueryInstances = nil
+            self.lastCacheEvictionInterval = lastCacheEvictionInterval
+            self.lastValueCacheDisableFromHistory = lastValueCacheDisableFromHistory
+            self.logFilter = logFilter
+            self.logFormat = logFormat
+            self.maxHttpRequestSize = maxHttpRequestSize
+            self.parquetMemCachePruneInterval = parquetMemCachePruneInterval
+            self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
+            self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
+            self.parquetMemCacheSize = parquetMemCacheSize
+            self.pluginRepositorySecretArn = pluginRepositorySecretArn
+            self.pluginRepositoryUrl = pluginRepositoryUrl
+            self.preemptiveCacheAge = preemptiveCacheAge
+            self.queryFileLimit = queryFileLimit
+            self.queryLogSize = queryLogSize
+            self.queryOnlyInstances = nil
+            self.replicationInterval = replicationInterval
+            self.retentionCheckInterval = retentionCheckInterval
+            self.snapshotDuration = snapshotDuration
+            self.snapshotSize = snapshotSize
+            self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
+            self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
+            self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.upgradePachaTree = upgradePachaTree
+            self.walBufferSize = walBufferSize
+            self.walMaxWriteBufferSize = walMaxWriteBufferSize
+            self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
+            self.walReplayFailOnError = walReplayFailOnError
+            self.walSnapshotSize = walSnapshotSize
+        }
+
+        @available(*, deprecated, message: "Members dedicatedCompactor, ingestQueryInstances, queryOnlyInstances have been deprecated")
+        @inlinable
+        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool? = nil, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int? = nil, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int? = nil, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshotDuration: Duration? = nil, snapshotSize: PercentOrAbsoluteLong? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, upgradePachaTree: Bool? = nil, walBufferSize: Int64? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
             self.catalogSyncInterval = catalogSyncInterval
             self.compactionCheckInterval = compactionCheckInterval
             self.compactionCleanupWait = compactionCleanupWait
@@ -2598,9 +2838,13 @@ extension TimestreamInfluxDB {
             self.queryOnlyInstances = queryOnlyInstances
             self.replicationInterval = replicationInterval
             self.retentionCheckInterval = retentionCheckInterval
+            self.snapshotDuration = snapshotDuration
+            self.snapshotSize = snapshotSize
             self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
             self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
             self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.upgradePachaTree = upgradePachaTree
+            self.walBufferSize = walBufferSize
             self.walMaxWriteBufferSize = walMaxWriteBufferSize
             self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
             self.walReplayFailOnError = walReplayFailOnError
@@ -2661,9 +2905,13 @@ extension TimestreamInfluxDB {
             case queryOnlyInstances = "queryOnlyInstances"
             case replicationInterval = "replicationInterval"
             case retentionCheckInterval = "retentionCheckInterval"
+            case snapshotDuration = "snapshotDuration"
+            case snapshotSize = "snapshotSize"
             case snapshottedWalFilesToKeep = "snapshottedWalFilesToKeep"
             case tableIndexCacheConcurrencyLimit = "tableIndexCacheConcurrencyLimit"
             case tableIndexCacheMaxEntries = "tableIndexCacheMaxEntries"
+            case upgradePachaTree = "upgradePachaTree"
+            case walBufferSize = "walBufferSize"
             case walMaxWriteBufferSize = "walMaxWriteBufferSize"
             case walReplayConcurrencyLimit = "walReplayConcurrencyLimit"
             case walReplayFailOnError = "walReplayFailOnError"
@@ -2966,6 +3214,33 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case preferredMaintenanceWindow = "preferredMaintenanceWindow"
             case timezone = "timezone"
+        }
+    }
+
+    public struct NodeGroup: AWSEncodableShape & AWSDecodableShape {
+        /// The number of nodes in this group. Valid values are 1 to 13.
+        public let count: Int
+        /// The functions that the nodes in this group perform. Provide from 1 to 4 unique modes. Valid modes:   INGEST – Nodes in this mode ingest data. Across all node groups, INGEST nodes must total between 1 and 4.   QUERY – Nodes in this mode query data. Across all node groups, QUERY nodes must total between 0 and 14.   COMPACT – Nodes in this mode compact data. Exactly one node across all node groups must have this mode. If the cluster has more than three non-compaction nodes, place the COMPACT node in its own dedicated node group.   PROCESS – Nodes in this mode process data with the processing engine.
+        public let instanceModes: [InstanceMode]
+        /// The Timestream for InfluxDB DB instance type to run InfluxDB on for the nodes in this group.
+        public let instanceType: DbInstanceType
+
+        @inlinable
+        public init(count: Int, instanceModes: [InstanceMode], instanceType: DbInstanceType) {
+            self.count = count
+            self.instanceModes = instanceModes
+            self.instanceType = instanceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceModes, name: "instanceModes", parent: name, max: 4)
+            try self.validate(self.instanceModes, name: "instanceModes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case instanceModes = "instanceModes"
+            case instanceType = "instanceType"
         }
     }
 
@@ -3423,10 +3698,12 @@ extension TimestreamInfluxDB {
         public let dbBackupConfigurations: [DbBackupConfiguration]?
         /// Service-generated unique identifier of the DB cluster to update.
         public let dbClusterId: String
-        /// Update the DB cluster to use the specified DB instance Type.
+        /// Update the DB cluster to use the specified DB instance Type. You can't specify both dbInstanceType and deploymentConfiguration in the same request. When you use deploymentConfiguration, the instance type is specified per node group.
         public let dbInstanceType: DbInstanceType?
         /// Update the DB cluster to use the specified DB parameter group.
         public let dbParameterGroupIdentifier: String?
+        /// The updated compute topology for the cluster, defined as a set of node groups. Use deploymentConfiguration to change the cluster's topology or scale its compute in a single call. You can't specify both deploymentConfiguration and dbInstanceType in the same request. When you provide a deployment configuration, Timestream for InfluxDB ignores any node-count parameters in the associated DB parameter group.
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// Update the DB cluster's failover behavior.
         public let failoverMode: FailoverMode?
         /// The log delivery configuration to apply to the DB cluster.
@@ -3437,11 +3714,12 @@ extension TimestreamInfluxDB {
         public let port: Int?
 
         @inlinable
-        public init(dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbClusterId: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
+        public init(dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbClusterId: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
             self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+            self.deploymentConfiguration = deploymentConfiguration
             self.failoverMode = failoverMode
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -3460,6 +3738,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
             try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1024)
@@ -3470,6 +3749,7 @@ extension TimestreamInfluxDB {
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
+            case deploymentConfiguration = "deploymentConfiguration"
             case failoverMode = "failoverMode"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
@@ -3692,6 +3972,24 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case reason = "reason"
+        }
+    }
+
+    public struct DeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The deployment configuration for an InfluxDB 3 Enterprise cluster.
+        public let influxDBv3Enterprise: InfluxDBv3EnterpriseDeploymentConfiguration?
+
+        @inlinable
+        public init(influxDBv3Enterprise: InfluxDBv3EnterpriseDeploymentConfiguration? = nil) {
+            self.influxDBv3Enterprise = influxDBv3Enterprise
+        }
+
+        public func validate(name: String) throws {
+            try self.influxDBv3Enterprise?.validate(name: "\(name).influxDBv3Enterprise")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case influxDBv3Enterprise = "InfluxDBv3Enterprise"
         }
     }
 }

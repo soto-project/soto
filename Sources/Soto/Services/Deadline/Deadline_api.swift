@@ -24,7 +24,8 @@ import Foundation
 
 /// Service object for interacting with AWS Deadline service.
 ///
-/// The Amazon Web Services Deadline Cloud API provides infrastructure and centralized management for your projects. Use the Deadline Cloud API to onboard users, assign projects, and attach permissions specific to their job function. With Deadline Cloud, content production teams can deploy resources for their workforce securely in the cloud, reducing the costs of added physical infrastructure. Keep your content production operations secure, while allowing your contributors to access the tools they need, such as scalable high-speed storage, licenses, and cost management services.
+/// The Amazon Web Services Deadline Cloud API provides infrastructure and centralized management for your projects. Use the Deadline Cloud API to onboard users, assign projects, and attach permissions specific to their job function.
+/// With Deadline Cloud, content production teams can deploy resources for their workforce securely in the cloud, reducing the costs of added physical infrastructure. Keep your content production operations secure, while allowing your contributors to access the tools they need, such as scalable high-speed storage, licenses, and cost management services.
 public struct Deadline: AWSService {
     // MARK: Member variables
 
@@ -445,7 +446,8 @@ public struct Deadline: AWSService {
         return try await self.assumeQueueRoleForWorker(input, logger: logger)
     }
 
-    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API. The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API.
+    /// The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchGetJob(_ input: BatchGetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetJobResponse {
@@ -459,7 +461,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API. The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API.
+    /// The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - identifiers: The list of job identifiers to retrieve. You can specify up to 100 identifiers per request.
@@ -514,7 +517,8 @@ public struct Deadline: AWSService {
         return try await self.batchGetJobEntity(input, logger: logger)
     }
 
-    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API. The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API.
+    /// The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchGetSession(_ input: BatchGetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSessionResponse {
@@ -528,7 +532,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API. The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API.
+    /// The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - identifiers: The list of session identifiers to retrieve. You can specify up to 100 identifiers per request.
@@ -544,7 +549,8 @@ public struct Deadline: AWSService {
         return try await self.batchGetSession(input, logger: logger)
     }
 
-    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API. The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API.
+    /// The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchGetSessionAction(_ input: BatchGetSessionActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSessionActionResponse {
@@ -558,7 +564,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API. The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API.
+    /// The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - identifiers: The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request.
@@ -574,7 +581,8 @@ public struct Deadline: AWSService {
         return try await self.batchGetSessionAction(input, logger: logger)
     }
 
-    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API. The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API.
+    /// The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchGetStep(_ input: BatchGetStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetStepResponse {
@@ -588,7 +596,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API. The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API.
+    /// The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - identifiers: The list of step identifiers to retrieve. You can specify up to 100 identifiers per request.
@@ -604,7 +613,8 @@ public struct Deadline: AWSService {
         return try await self.batchGetStep(input, logger: logger)
     }
 
-    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API. The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API.
+    /// The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchGetTask(_ input: BatchGetTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTaskResponse {
@@ -618,7 +628,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API. The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API.
+    /// The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - identifiers: The list of task identifiers to retrieve. You can specify up to 100 identifiers per request.
@@ -634,7 +645,8 @@ public struct Deadline: AWSService {
         return try await self.batchGetTask(input, logger: logger)
     }
 
-    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API.
+    /// The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchGetWorker(_ input: BatchGetWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetWorkerResponse {
@@ -648,7 +660,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API.
+    /// The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - identifiers: The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request.
@@ -697,7 +710,8 @@ public struct Deadline: AWSService {
         return try await self.batchUpdateJob(input, logger: logger)
     }
 
-    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API.
+    /// The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     @inlinable
     public func batchUpdateTask(_ input: BatchUpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateTaskResponse {
@@ -711,7 +725,8 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API.
+    /// The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
@@ -891,7 +906,7 @@ public struct Deadline: AWSService {
     ///   - displayName: The display name of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The farm ID of the farm to connect to the fleet.
     ///   - hostConfiguration: Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
-    ///   - maxWorkerCount: The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
+    ///   - maxWorkerCount: The maximum number of workers for the fleet.
     ///   - minWorkerCount: The minimum number of workers for the fleet.
     ///   - roleArn: The IAM role ARN for the role that the fleet's workers will use.
     ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
@@ -948,7 +963,7 @@ public struct Deadline: AWSService {
     ///   - farmId: The farm ID of the farm to connect to the job.
     ///   - maxFailedTasksCount: The number of task failures before the job stops running and is marked as FAILED.
     ///   - maxRetriesPerTask: The maximum number of retries for each task.
-    ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
+    ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers.
     ///   - nameOverride: A custom name to override the job name derived from the job template.
     ///   - parameters: The parameters for the job.
     ///   - priority: The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
@@ -1165,7 +1180,7 @@ public struct Deadline: AWSService {
     ///   - jobRunAsUser: The jobs in the queue run as the specified POSIX user.
     ///   - requiredFileSystemLocationNames: The file system location name to include in the queue.
     ///   - roleArn: The IAM role ARN that workers will use while running jobs for this queue.
-    ///   - schedulingConfiguration: The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. If not specified, the queue defaults to the priorityFifo scheduling configuration.
+    ///   - schedulingConfiguration: The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue.
     ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3175,6 +3190,51 @@ public struct Deadline: AWSService {
         return try await self.listLimits(input, logger: logger)
     }
 
+    /// Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.
+    @Sendable
+    @inlinable
+    public func listMemberships(_ input: ListMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembershipsResponse {
+        try await self.client.execute(
+            operation: "ListMemberships", 
+            path: "/2023-10-12/memberships", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.
+    ///
+    /// Parameters:
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
+    ///   - identityStoreId: The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - nextToken: The token for the next set of results, or null to start from the beginning.
+    ///   - principalId: The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.
+    ///   - resourceTypes: The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMemberships(
+        identityCenterRegion: String? = nil,
+        identityStoreId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        principalId: String,
+        resourceTypes: [MembershipResourceType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMembershipsResponse {
+        let input = ListMembershipsRequest(
+            identityCenterRegion: identityCenterRegion, 
+            identityStoreId: identityStoreId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            principalId: principalId, 
+            resourceTypes: resourceTypes
+        )
+        return try await self.listMemberships(input, logger: logger)
+    }
+
     /// Lists metered products.
     @Sendable
     @inlinable
@@ -4183,7 +4243,7 @@ public struct Deadline: AWSService {
     ///   - resourceIds: A list of fleet IDs or queue IDs to gather statistics for.
     ///   - startTime: The Linux timestamp of the date and time that the statistics start.
     ///   - statistics: One to four statistics to return.
-    ///   - timezone: The timezone to use for the statistics. Use UTC notation such as "UTC+8."
+    ///   - timezone: The time zone to use for the statistics. Use UTC notation such as "UTC+8."
     ///   - logger: Logger use during operation
     @inlinable
     public func startSessionsStatisticsAggregation(
@@ -4372,7 +4432,7 @@ public struct Deadline: AWSService {
         return try await self.updateFarm(input, logger: logger)
     }
 
-    /// Updates a fleet.
+    /// Updates a fleet.  Workers that are running when you call UpdateFleet keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set maxWorkerCount to 0, use the ListWorkers operation to confirm that the fleet has no workers, and then restore maxWorkerCount.
     @Sendable
     @inlinable
     public func updateFleet(_ input: UpdateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFleetResponse {
@@ -4386,7 +4446,7 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Updates a fleet.
+    /// Updates a fleet.  Workers that are running when you call UpdateFleet keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set maxWorkerCount to 0, use the ListWorkers operation to confirm that the fleet has no workers, and then restore maxWorkerCount.
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
@@ -4396,7 +4456,7 @@ public struct Deadline: AWSService {
     ///   - farmId: The farm ID to update.
     ///   - fleetId: The fleet ID to update.
     ///   - hostConfiguration: Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
-    ///   - maxWorkerCount: The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
+    ///   - maxWorkerCount: The maximum number of workers in the fleet.
     ///   - minWorkerCount: The minimum number of workers in the fleet.
     ///   - roleArn: The IAM role ARN that the fleet's workers assume while running jobs.
     ///   - logger: Logger use during operation
@@ -4453,7 +4513,7 @@ public struct Deadline: AWSService {
     ///   - lifecycleStatus: The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived.  An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     ///   - maxFailedTasksCount: The number of task failures before the job stops running and is marked as FAILED.
     ///   - maxRetriesPerTask: The maximum number of retries for a job.
-    ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
+    ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers.
     ///   - name: The updated job name.
     ///   - priority: The updated job priority.
     ///   - queueId: The queue ID of the job to update.
@@ -4513,7 +4573,7 @@ public struct Deadline: AWSService {
     ///   - displayName: The new display name of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The unique identifier of the farm that contains the limit.
     ///   - limitId: The unique identifier of the limit to update.
-    ///   - maxCount: The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of resources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    ///   - maxCount: The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLimit(
@@ -4636,7 +4696,7 @@ public struct Deadline: AWSService {
     ///   - requiredFileSystemLocationNamesToAdd: The required file system location names to add to the queue.
     ///   - requiredFileSystemLocationNamesToRemove: The required file system location names to remove from the queue.
     ///   - roleArn: The IAM role ARN that's used to run jobs from this queue.
-    ///   - schedulingConfiguration: The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. When updating the scheduling configuration, the entire configuration is replaced. In-progress tasks run to completion before the new scheduling configuration takes effect.
+    ///   - schedulingConfiguration: The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateQueue(
@@ -5075,7 +5135,7 @@ public struct Deadline: AWSService {
 extension Deadline {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Deadline, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -5557,6 +5617,52 @@ extension Deadline {
             maxResults: maxResults
         )
         return self.listLimitsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMemberships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMembershipsPaginator(
+        _ input: ListMembershipsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMembershipsRequest, ListMembershipsResponse> {
+        return .init(
+            input: input,
+            command: self.listMemberships,
+            inputKey: \ListMembershipsRequest.nextToken,
+            outputKey: \ListMembershipsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMemberships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
+    ///   - identityStoreId: The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - principalId: The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.
+    ///   - resourceTypes: The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMembershipsPaginator(
+        identityCenterRegion: String? = nil,
+        identityStoreId: String? = nil,
+        maxResults: Int? = nil,
+        principalId: String,
+        resourceTypes: [MembershipResourceType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMembershipsRequest, ListMembershipsResponse> {
+        let input = ListMembershipsRequest(
+            identityCenterRegion: identityCenterRegion, 
+            identityStoreId: identityStoreId, 
+            maxResults: maxResults, 
+            principalId: principalId, 
+            resourceTypes: resourceTypes
+        )
+        return self.listMembershipsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listMeteredProducts(_:logger:)``.
@@ -6451,6 +6557,20 @@ extension Deadline.ListLimitsRequest: AWSPaginateToken {
             farmId: self.farmId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Deadline.ListMembershipsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Deadline.ListMembershipsRequest {
+        return .init(
+            identityCenterRegion: self.identityCenterRegion,
+            identityStoreId: self.identityStoreId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principalId: self.principalId,
+            resourceTypes: self.resourceTypes
         )
     }
 }

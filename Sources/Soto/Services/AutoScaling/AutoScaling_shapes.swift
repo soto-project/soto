@@ -353,6 +353,40 @@ extension AutoScaling {
         }
     }
 
+    public struct AccountSetting: AWSDecodableShape {
+        ///  The default value of the account setting before the enforcement date. Valid values are enabled and disabled. This parameter is only returned for settings with hard or flexible enforcement types.
+        public let defaultValue: String?
+        ///  The value that will be enforced after the enforcement date. Valid values are enabled and disabled. This parameter is only returned for settings with hard or flexible enforcement types.
+        public let enforcedValue: String?
+        ///  The date when the account setting will be enforced. After this date, for settings with hard enforcement type, you can no longer modify the setting value. This parameter is only returned for settings with hard or flexible enforcement types.
+        public let enforcementDate: Date?
+        ///  The type of enforcement for the account setting. Valid values include: hard (the setting has a hard enforcement date after which the setting will be enforced and cannot be modified), flexible (the setting has a flexible enforcement where you can always modify the setting value), and none (the setting has no enforcement and can always be modified).
+        public let enforcementType: String?
+        ///  The name of the account setting. Each account setting has a unique name that identifies the specific feature it controls.
+        public let name: String?
+        ///  The current value of the account setting.
+        public let value: String?
+
+        @inlinable
+        public init(defaultValue: String? = nil, enforcedValue: String? = nil, enforcementDate: Date? = nil, enforcementType: String? = nil, name: String? = nil, value: String? = nil) {
+            self.defaultValue = defaultValue
+            self.enforcedValue = enforcedValue
+            self.enforcementDate = enforcementDate
+            self.enforcementType = enforcementType
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case enforcedValue = "EnforcedValue"
+            case enforcementDate = "EnforcementDate"
+            case enforcementType = "EnforcementType"
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct ActivitiesType: AWSDecodableShape {
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
         @OptionalCustomCoding<StandardArrayCoder<Activity>>
@@ -835,16 +869,19 @@ extension AutoScaling {
         public var filters: [Filter]?
         ///  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
         public let includeInstances: Bool?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        ///  Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+        public let includeManagedResources: Bool?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         @inlinable
-        public init(autoScalingGroupNames: [String]? = nil, filters: [Filter]? = nil, includeInstances: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(autoScalingGroupNames: [String]? = nil, filters: [Filter]? = nil, includeInstances: Bool? = nil, includeManagedResources: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.autoScalingGroupNames = autoScalingGroupNames
             self.filters = filters
             self.includeInstances = includeInstances
+            self.includeManagedResources = includeManagedResources
             self.maxRecords = maxRecords
             self.nextToken = nextToken
         }
@@ -865,6 +902,7 @@ extension AutoScaling {
             case autoScalingGroupNames = "AutoScalingGroupNames"
             case filters = "Filters"
             case includeInstances = "IncludeInstances"
+            case includeManagedResources = "IncludeManagedResources"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
         }
@@ -1982,6 +2020,54 @@ extension AutoScaling {
         }
     }
 
+    public struct DescribeAccountSettingsAnswer: AWSDecodableShape {
+        ///  A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+        ///  Information about the account settings.
+        @OptionalCustomCoding<StandardArrayCoder<AccountSetting>>
+        public var settings: [AccountSetting]?
+
+        @inlinable
+        public init(nextToken: String? = nil, settings: [AccountSetting]? = nil) {
+            self.nextToken = nextToken
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case settings = "Settings"
+        }
+    }
+
+    public struct DescribeAccountSettingsType: AWSEncodableShape {
+        ///  The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int?
+        ///  The name of the account setting to describe. If you omit this parameter, all account settings are described.
+        public let name: String?
+        ///  The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxRecords: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxRecords = maxRecords
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case name = "Name"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeAdjustmentTypesAnswer: AWSDecodableShape {
         /// The policy adjustment types.
         @OptionalCustomCoding<StandardArrayCoder<AdjustmentType>>
@@ -1998,16 +2084,19 @@ extension AutoScaling {
     }
 
     public struct DescribeAutoScalingInstancesType: AWSEncodableShape {
+        ///  Specifies whether to include managed Auto Scaling instances in the response. When set to true (default), the response includes managed Auto Scaling instances.
+        public let includeManagedResources: Bool?
         /// The IDs of the instances. If you omit this property, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         @inlinable
-        public init(instanceIds: [String]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(includeManagedResources: Bool? = nil, instanceIds: [String]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.includeManagedResources = includeManagedResources
             self.instanceIds = instanceIds
             self.maxRecords = maxRecords
             self.nextToken = nextToken
@@ -2023,6 +2112,7 @@ extension AutoScaling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includeManagedResources = "IncludeManagedResources"
             case instanceIds = "InstanceIds"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
@@ -2302,14 +2392,17 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var autoScalingGroupNames: [String]?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        ///  Specifies whether to include notification configurations for managed Auto Scaling groups in the response. When set to true (default), the response includes notification configurations for managed Auto Scaling groups.
+        public let includeManagedResources: Bool?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         @inlinable
-        public init(autoScalingGroupNames: [String]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(autoScalingGroupNames: [String]? = nil, includeManagedResources: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.autoScalingGroupNames = autoScalingGroupNames
+            self.includeManagedResources = includeManagedResources
             self.maxRecords = maxRecords
             self.nextToken = nextToken
         }
@@ -2325,6 +2418,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupNames = "AutoScalingGroupNames"
+            case includeManagedResources = "IncludeManagedResources"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
         }
@@ -2333,7 +2427,9 @@ extension AutoScaling {
     public struct DescribePoliciesType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
+        ///  Specifies whether to include scaling policies for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling policies for managed Auto Scaling groups.
+        public let includeManagedResources: Bool?
+        /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -2345,8 +2441,9 @@ extension AutoScaling {
         public var policyTypes: [String]?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, policyNames: [String]? = nil, policyTypes: [String]? = nil) {
+        public init(autoScalingGroupName: String? = nil, includeManagedResources: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil, policyNames: [String]? = nil, policyTypes: [String]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
+            self.includeManagedResources = includeManagedResources
             self.maxRecords = maxRecords
             self.nextToken = nextToken
             self.policyNames = policyNames
@@ -2372,6 +2469,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
+            case includeManagedResources = "IncludeManagedResources"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
             case policyNames = "PolicyNames"
@@ -2390,17 +2488,20 @@ extension AutoScaling {
         public var filters: [Filter]?
         /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
         public let includeDeletedGroups: Bool?
-        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
+        ///  Specifies whether to include scaling activities for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling activities for managed Auto Scaling groups.
+        public let includeManagedResources: Bool?
+        /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         @inlinable
-        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, filters: [Filter]? = nil, includeDeletedGroups: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, filters: [Filter]? = nil, includeDeletedGroups: Bool? = nil, includeManagedResources: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.activityIds = activityIds
             self.autoScalingGroupName = autoScalingGroupName
             self.filters = filters
             self.includeDeletedGroups = includeDeletedGroups
+            self.includeManagedResources = includeManagedResources
             self.maxRecords = maxRecords
             self.nextToken = nextToken
         }
@@ -2423,6 +2524,7 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case filters = "Filters"
             case includeDeletedGroups = "IncludeDeletedGroups"
+            case includeManagedResources = "IncludeManagedResources"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
         }
@@ -2433,7 +2535,9 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The latest scheduled start time to return. If scheduled action names are provided, this property is ignored.
         public let endTime: Date?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        ///  Specifies whether to include scheduled actions for managed Auto Scaling groups in the response. When set to true (default), the response includes scheduled actions for managed Auto Scaling groups.
+        public let includeManagedResources: Bool?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -2444,9 +2548,10 @@ extension AutoScaling {
         public let startTime: Date?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scheduledActionNames: [String]? = nil, startTime: Date? = nil) {
+        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, includeManagedResources: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil, scheduledActionNames: [String]? = nil, startTime: Date? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.endTime = endTime
+            self.includeManagedResources = includeManagedResources
             self.maxRecords = maxRecords
             self.nextToken = nextToken
             self.scheduledActionNames = scheduledActionNames
@@ -2468,6 +2573,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case endTime = "EndTime"
+            case includeManagedResources = "IncludeManagedResources"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
             case scheduledActionNames = "ScheduledActionNames"
@@ -2479,14 +2585,17 @@ extension AutoScaling {
         /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
         @OptionalCustomCoding<StandardArrayCoder<Filter>>
         public var filters: [Filter]?
-        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        ///  Specifies whether to include tags for managed Auto Scaling groups in the response. When set to true (default), the response includes tags for managed Auto Scaling groups.
+        public let includeManagedResources: Bool?
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
         @inlinable
-        public init(filters: [Filter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, includeManagedResources: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
+            self.includeManagedResources = includeManagedResources
             self.maxRecords = maxRecords
             self.nextToken = nextToken
         }
@@ -2500,6 +2609,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
+            case includeManagedResources = "IncludeManagedResources"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
         }
@@ -4183,7 +4293,7 @@ extension AutoScaling {
     public struct LoadBalancerState: AWSDecodableShape {
         /// The name of the load balancer.
         public let loadBalancerName: String?
-        /// One of the following load balancer states:    Adding - The Auto Scaling instances are being registered with the load balancer.    Added - All Auto Scaling instances are registered with the load balancer.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the load balancer.
+        /// One of the following load balancer states:    Adding - The Auto Scaling instances are being registered with the load balancer.    Added - All Auto Scaling instances are registered with the load balancer.    InService - At least one Auto Scaling instance passed an ELB health check. Note that the load balancer enters this state immediately if you attach it in the CreateAutoScalingGroup API call.    Removing - The Auto Scaling instances are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the load balancer.
         public let state: String?
 
         @inlinable
@@ -4201,7 +4311,7 @@ extension AutoScaling {
     public struct LoadBalancerTargetGroupState: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the target group.
         public let loadBalancerTargetGroupARN: String?
-        /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.
+        /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check. Note that the target group enters this state immediately if you attach it in the CreateAutoScalingGroup API call.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.
         public let state: String?
 
         @inlinable
@@ -4859,6 +4969,37 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case processes = "Processes"
+        }
+    }
+
+    public struct PutAccountSettingAnswer: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutAccountSettingType: AWSEncodableShape {
+        ///  The name of the account setting to modify. Each account setting has a unique name that identifies the specific feature it controls.
+        public let name: String?
+        ///  The value for the account setting.
+        public let value: String?
+
+        @inlinable
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 

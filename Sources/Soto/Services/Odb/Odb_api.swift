@@ -574,6 +574,8 @@ public struct Odb: AWSService {
     ///   - dbNodeStorageSizeInGBs: The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.
     ///   - dbServers: The list of database servers for the VM cluster.
     ///   - displayName: A user-friendly name for the VM cluster.
+    ///   - exascaleDbStorageVaultId: The unique identifier or Amazon Resource Name (ARN) of the Exascale storage vault to use for the VM cluster. Specify this value to create a VM cluster that uses Exascale storage on dedicated Exadata infrastructure.
+    ///   - fileSystemConfigurationDetails: The list of file system configurations for the VM cluster. Each entry specifies the mount point of a file system and its size, in gigabytes (GB).
     ///   - giVersion: A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and specify the shape of the Exadata infrastructure. Example: 19.0.0.0
     ///   - hostname: The host name for the VM cluster. Constraints:   Can't be "localhost" or "hostname".   Can't contain "-version".   The maximum length of the combined hostname and domain is 63 characters.   The hostname must be unique within the subnet.
     ///   - isLocalBackupEnabled: Specifies whether to enable database backups to local Exadata storage for the VM cluster.
@@ -586,6 +588,8 @@ public struct Odb: AWSService {
     ///   - systemVersion: The version of the operating system of the image for the VM cluster.
     ///   - tags: The list of resource tags to apply to the VM cluster.
     ///   - timeZone: The time zone for the VM cluster. For a list of valid values for time zone, you can check the options in the console. Default: UTC
+    ///   - vmBackupStorageType: The type of storage to use for VM backups. Specify EXASCALE to store VM backups in Exascale storage on the storage servers, or LOCAL to store them on the database servers.
+    ///   - vmFileSystemStorageType: The type of storage to use for the VM file systems. Specify EXASCALE to store the VM file systems in Exascale storage on the storage servers, or LOCAL to store them on the database servers.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCloudVmCluster(
@@ -598,6 +602,8 @@ public struct Odb: AWSService {
         dbNodeStorageSizeInGBs: Int? = nil,
         dbServers: [String]? = nil,
         displayName: String,
+        exascaleDbStorageVaultId: String? = nil,
+        fileSystemConfigurationDetails: [FileSystemConfigurationDetails]? = nil,
         giVersion: String,
         hostname: String,
         isLocalBackupEnabled: Bool? = nil,
@@ -610,6 +616,8 @@ public struct Odb: AWSService {
         systemVersion: String? = nil,
         tags: [String: String]? = nil,
         timeZone: String? = nil,
+        vmBackupStorageType: VmStorageType? = nil,
+        vmFileSystemStorageType: VmStorageType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCloudVmClusterOutput {
         let input = CreateCloudVmClusterInput(
@@ -622,6 +630,8 @@ public struct Odb: AWSService {
             dbNodeStorageSizeInGBs: dbNodeStorageSizeInGBs, 
             dbServers: dbServers, 
             displayName: displayName, 
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId, 
+            fileSystemConfigurationDetails: fileSystemConfigurationDetails, 
             giVersion: giVersion, 
             hostname: hostname, 
             isLocalBackupEnabled: isLocalBackupEnabled, 
@@ -633,7 +643,9 @@ public struct Odb: AWSService {
             sshPublicKeys: sshPublicKeys, 
             systemVersion: systemVersion, 
             tags: tags, 
-            timeZone: timeZone
+            timeZone: timeZone, 
+            vmBackupStorageType: vmBackupStorageType, 
+            vmFileSystemStorageType: vmFileSystemStorageType
         )
         return try await self.createCloudVmCluster(input, logger: logger)
     }
@@ -666,7 +678,7 @@ public struct Odb: AWSService {
     ///   - nodeCount: The number of nodes in the Exascale VM cluster.
     ///   - odbNetworkId: The unique identifier of the ODB network for the Exascale VM cluster.
     ///   - scanListenerPortTcp: The port number for TCP connections to the Single Client Access Name (SCAN) listener.
-    ///   - scanListenerPortTcpSsl: The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener.
+    ///   - scanListenerPortTcpSsl: Reserved for future use.
     ///   - shape: The shape of the Exascale VM cluster.
     ///   - shapeAttribute: The shape attribute for the Exascale VM cluster.
     ///   - sshPublicKeys: The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
@@ -727,7 +739,7 @@ public struct Odb: AWSService {
         return try await self.createExadbVmCluster(input, logger: logger)
     }
 
-    /// Creates an Exascale storage vault.
+    /// Creates an Exascale storage vault. To create the Exascale storage vault on dedicated Exadata infrastructure, specify cloudExadataInfrastructureId.
     @Sendable
     @inlinable
     public func createExascaleDbStorageVault(_ input: CreateExascaleDbStorageVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExascaleDbStorageVaultOutput {
@@ -740,7 +752,7 @@ public struct Odb: AWSService {
             logger: logger
         )
     }
-    /// Creates an Exascale storage vault.
+    /// Creates an Exascale storage vault. To create the Exascale storage vault on dedicated Exadata infrastructure, specify cloudExadataInfrastructureId.
     ///
     /// Parameters:
     ///   - additionalFlashCacheInPercent: The additional flash cache percentage for the Exascale storage vault.
@@ -748,6 +760,7 @@ public struct Odb: AWSService {
     ///   - availabilityZone: The Availability Zone for the Exascale storage vault.
     ///   - availabilityZoneId: The Availability Zone ID for the Exascale storage vault.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
+    ///   - cloudExadataInfrastructureId: The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure on which to create the Exascale storage vault. Specify this value to create the Exascale storage vault on dedicated Exadata infrastructure that has Exascale storage configured. If you specify availabilityZone or availabilityZoneId, the value must match the Availability Zone of the Exadata infrastructure. If you specify neither, the service uses the Availability Zone of the Exadata infrastructure.
     ///   - description: A description of the Exascale storage vault.
     ///   - displayName: A user-friendly name for the Exascale storage vault.
     ///   - highCapacityDatabaseStorageTotalSizeInGBs: The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
@@ -762,6 +775,7 @@ public struct Odb: AWSService {
         availabilityZone: String? = nil,
         availabilityZoneId: String? = nil,
         clientToken: String? = CreateExascaleDbStorageVaultInput.idempotencyToken(),
+        cloudExadataInfrastructureId: String? = nil,
         description: String? = nil,
         displayName: String,
         highCapacityDatabaseStorageTotalSizeInGBs: Int,
@@ -776,6 +790,7 @@ public struct Odb: AWSService {
             availabilityZone: availabilityZone, 
             availabilityZoneId: availabilityZoneId, 
             clientToken: clientToken, 
+            cloudExadataInfrastructureId: cloudExadataInfrastructureId, 
             description: description, 
             displayName: displayName, 
             highCapacityDatabaseStorageTotalSizeInGBs: highCapacityDatabaseStorageTotalSizeInGBs, 
@@ -2235,18 +2250,24 @@ public struct Odb: AWSService {
     /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
     ///
     /// Parameters:
+    ///   - cloudExadataInfrastructureId: The unique identifier or Amazon Resource Name (ARN) of an Exadata infrastructure. If you specify this value, the operation returns only the Exascale storage vaults on that infrastructure that you own or that are shared with you. The infrastructure can be one that's shared with you through Amazon Web Services Resource Access Manager (Amazon Web Services RAM). You can't combine this filter with a vaultType of EXASCALE_INFRASTRUCTURE.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - vaultType: The type of Exascale storage vaults to return. Specify DEDICATED_INFRASTRUCTURE to return Exascale storage vaults on dedicated Exadata infrastructure, or EXASCALE_INFRASTRUCTURE to return Exascale storage vaults for Exascale VM clusters. If you don't specify a value, the operation returns both types. You can't combine EXASCALE_INFRASTRUCTURE with the cloudExadataInfrastructureId filter.
     ///   - logger: Logger use during operation
     @inlinable
     public func listExascaleDbStorageVaults(
+        cloudExadataInfrastructureId: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        vaultType: ExascaleDbStorageVaultType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListExascaleDbStorageVaultsOutput {
         let input = ListExascaleDbStorageVaultsInput(
+            cloudExadataInfrastructureId: cloudExadataInfrastructureId, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            vaultType: vaultType
         )
         return try await self.listExascaleDbStorageVaults(input, logger: logger)
     }
@@ -3135,6 +3156,41 @@ public struct Odb: AWSService {
         return try await self.updateExadbVmCluster(input, logger: logger)
     }
 
+    /// Configures or updates the Exascale storage on an Exadata infrastructure. After you configure Exascale storage, you can create Exascale storage vaults on the infrastructure and VM clusters that use Exascale storage.
+    @Sendable
+    @inlinable
+    public func updateExascaleCloudExadataInfrastructure(_ input: UpdateExascaleCloudExadataInfrastructureInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateExascaleCloudExadataInfrastructureOutput {
+        try await self.client.execute(
+            operation: "UpdateExascaleCloudExadataInfrastructure", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Configures or updates the Exascale storage on an Exadata infrastructure. After you configure Exascale storage, you can create Exascale storage vaults on the infrastructure and VM clusters that use Exascale storage.
+    ///
+    /// Parameters:
+    ///   - cloudExadataInfrastructureId: The unique identifier or Amazon Resource Name (ARN) of the Exadata infrastructure to update.
+    ///   - totalStorageSizeInGBs: The total amount of Exascale storage, in gigabytes (GB), to configure on the Exadata infrastructure.
+    ///   - totalVmStorageSizeInGBs: The total amount of Exascale storage, in gigabytes (GB), to allocate for VM storage on the Exadata infrastructure. VM clusters that store their VM file systems or VM backups in Exascale storage use this capacity.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateExascaleCloudExadataInfrastructure(
+        cloudExadataInfrastructureId: String,
+        totalStorageSizeInGBs: Int,
+        totalVmStorageSizeInGBs: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateExascaleCloudExadataInfrastructureOutput {
+        let input = UpdateExascaleCloudExadataInfrastructureInput(
+            cloudExadataInfrastructureId: cloudExadataInfrastructureId, 
+            totalStorageSizeInGBs: totalStorageSizeInGBs, 
+            totalVmStorageSizeInGBs: totalVmStorageSizeInGBs
+        )
+        return try await self.updateExascaleCloudExadataInfrastructure(input, logger: logger)
+    }
+
     /// Updates the specified Exascale storage vault.
     @Sendable
     @inlinable
@@ -3289,7 +3345,7 @@ public struct Odb: AWSService {
 extension Odb {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Odb, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -3847,15 +3903,21 @@ extension Odb {
     /// Return PaginatorSequence for operation ``listExascaleDbStorageVaults(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - cloudExadataInfrastructureId: The unique identifier or Amazon Resource Name (ARN) of an Exadata infrastructure. If you specify this value, the operation returns only the Exascale storage vaults on that infrastructure that you own or that are shared with you. The infrastructure can be one that's shared with you through Amazon Web Services Resource Access Manager (Amazon Web Services RAM). You can't combine this filter with a vaultType of EXASCALE_INFRASTRUCTURE.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - vaultType: The type of Exascale storage vaults to return. Specify DEDICATED_INFRASTRUCTURE to return Exascale storage vaults on dedicated Exadata infrastructure, or EXASCALE_INFRASTRUCTURE to return Exascale storage vaults for Exascale VM clusters. If you don't specify a value, the operation returns both types. You can't combine EXASCALE_INFRASTRUCTURE with the cloudExadataInfrastructureId filter.
     ///   - logger: Logger used for logging
     @inlinable
     public func listExascaleDbStorageVaultsPaginator(
+        cloudExadataInfrastructureId: String? = nil,
         maxResults: Int? = nil,
+        vaultType: ExascaleDbStorageVaultType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput> {
         let input = ListExascaleDbStorageVaultsInput(
-            maxResults: maxResults
+            cloudExadataInfrastructureId: cloudExadataInfrastructureId, 
+            maxResults: maxResults, 
+            vaultType: vaultType
         )
         return self.listExascaleDbStorageVaultsPaginator(input, logger: logger)
     }
@@ -4253,8 +4315,10 @@ extension Odb.ListExascaleDbStorageVaultsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Odb.ListExascaleDbStorageVaultsInput {
         return .init(
+            cloudExadataInfrastructureId: self.cloudExadataInfrastructureId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            vaultType: self.vaultType
         )
     }
 }

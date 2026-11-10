@@ -56,6 +56,12 @@ extension ConnectContactLens {
         public var description: String { return self.rawValue }
     }
 
+    public enum TagComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        case notEquals = "NOT_EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Categories: AWSDecodableShape {
@@ -76,17 +82,73 @@ extension ConnectContactLens {
         }
     }
 
+    public struct CategoriesAttributeAndCondition: AWSEncodableShape {
+        /// A list of tag conditions. All of the tag conditions must be met for the condition to match.
+        public let tagConditions: [TagCondition]?
+
+        @inlinable
+        public init(tagConditions: [TagCondition]? = nil) {
+            self.tagConditions = tagConditions
+        }
+
+        public func validate(name: String) throws {
+            try self.tagConditions?.forEach {
+                try $0.validate(name: "\(name).tagConditions[]")
+            }
+            try self.validate(self.tagConditions, name: "tagConditions", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagConditions = "TagConditions"
+        }
+    }
+
+    public struct CategoriesAttributeFilter: AWSEncodableShape {
+        /// A condition that the filter evaluates using AND logic. A category segment matches only when all of the tag conditions in the condition are met.
+        public let andCondition: CategoriesAttributeAndCondition?
+        /// A list of conditions that the filter evaluates using OR logic. A category segment matches when at least one of the conditions in the list is met.
+        public let orConditions: [CategoriesAttributeAndCondition]?
+        /// A single tag condition that a category segment must match. The category's rule must have the specified tag.
+        public let tagCondition: TagCondition?
+
+        @inlinable
+        public init(andCondition: CategoriesAttributeAndCondition? = nil, orConditions: [CategoriesAttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
+            self.andCondition = andCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+
+        public func validate(name: String) throws {
+            try self.andCondition?.validate(name: "\(name).andCondition")
+            try self.orConditions?.forEach {
+                try $0.validate(name: "\(name).orConditions[]")
+            }
+            try self.validate(self.orConditions, name: "orConditions", parent: name, max: 25)
+            try self.tagCondition?.validate(name: "\(name).tagCondition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andCondition = "AndCondition"
+            case orConditions = "OrConditions"
+            case tagCondition = "TagCondition"
+        }
+    }
+
     public struct CategoryDetails: AWSDecodableShape {
         /// The section of audio where the category rule was detected.
         public let pointsOfInterest: [PointOfInterest]?
+        /// The unique identifier of the rule that created the matched category.
+        public let ruleId: String?
 
         @inlinable
-        public init(pointsOfInterest: [PointOfInterest]? = nil) {
+        public init(pointsOfInterest: [PointOfInterest]? = nil, ruleId: String? = nil) {
             self.pointsOfInterest = pointsOfInterest
+            self.ruleId = ruleId
         }
 
         private enum CodingKeys: String, CodingKey {
             case pointsOfInterest = "PointsOfInterest"
+            case ruleId = "RuleId"
         }
     }
 
@@ -175,6 +237,8 @@ extension ConnectContactLens {
         public let contactId: String?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String?
+        /// A filter that limits the category segments returned by the operation. When provided, use CategoriesAttributeFilter to return only the category segments whose rules have tags that match the filter. This enforces tag-based access control on the categories that the caller can view.
+        public let listFilter: RealTimeContactAnalysisSegmentsFilter?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -182,9 +246,10 @@ extension ConnectContactLens {
         public let nextToken: String?
 
         @inlinable
-        public init(contactId: String? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(contactId: String? = nil, instanceId: String? = nil, listFilter: RealTimeContactAnalysisSegmentsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactId = contactId
             self.instanceId = instanceId
+            self.listFilter = listFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -196,6 +261,7 @@ extension ConnectContactLens {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 256)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "\\S")
+            try self.listFilter?.validate(name: "\(name).listFilter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131070)
@@ -206,6 +272,7 @@ extension ConnectContactLens {
         private enum CodingKeys: String, CodingKey {
             case contactId = "ContactId"
             case instanceId = "InstanceId"
+            case listFilter = "ListFilter"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -269,6 +336,24 @@ extension ConnectContactLens {
         }
     }
 
+    public struct RealTimeContactAnalysisSegmentsFilter: AWSEncodableShape {
+        /// A filter applied to category segments based on the tags of the rules that create the matched categories.
+        public let categoriesAttributeFilter: CategoriesAttributeFilter?
+
+        @inlinable
+        public init(categoriesAttributeFilter: CategoriesAttributeFilter? = nil) {
+            self.categoriesAttributeFilter = categoriesAttributeFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.categoriesAttributeFilter?.validate(name: "\(name).categoriesAttributeFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoriesAttributeFilter = "CategoriesAttributeFilter"
+        }
+    }
+
     public struct RealtimeContactAnalysisSegment: AWSDecodableShape {
         /// The matched category rules.
         public let categories: Categories?
@@ -292,6 +377,34 @@ extension ConnectContactLens {
             case extractedInformation = "ExtractedInformation"
             case postContactSummary = "PostContactSummary"
             case transcript = "Transcript"
+        }
+    }
+
+    public struct TagCondition: AWSEncodableShape {
+        /// The comparison operator for the tag condition. Valid values: EQUALS | NOT_EQUALS.
+        public let comparisonType: TagComparisonType?
+        /// The tag key in the tag condition.
+        public let tagKey: String?
+        /// The tag value in the tag condition.
+        public let tagValue: String?
+
+        @inlinable
+        public init(comparisonType: TagComparisonType? = nil, tagKey: String? = nil, tagValue: String? = nil) {
+            self.comparisonType = comparisonType
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagValue, name: "tagValue", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonType = "ComparisonType"
+            case tagKey = "TagKey"
+            case tagValue = "TagValue"
         }
     }
 

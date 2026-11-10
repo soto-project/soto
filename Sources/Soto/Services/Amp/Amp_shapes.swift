@@ -279,6 +279,56 @@ extension Amp {
         }
     }
 
+    public enum ExporterConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration that the scraper uses to collect metrics from an Amazon MSK cluster through a managed Kafka exporter.
+        case kafkaConfiguration(KafkaExporterConfiguration)
+        /// The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain.
+        case openSearchConfiguration(OpenSearchExporterConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .kafkaConfiguration:
+                let value = try container.decode(KafkaExporterConfiguration.self, forKey: .kafkaConfiguration)
+                self = .kafkaConfiguration(value)
+            case .openSearchConfiguration:
+                let value = try container.decode(OpenSearchExporterConfiguration.self, forKey: .openSearchConfiguration)
+                self = .openSearchConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .kafkaConfiguration(let value):
+                try container.encode(value, forKey: .kafkaConfiguration)
+            case .openSearchConfiguration(let value):
+                try container.encode(value, forKey: .openSearchConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .kafkaConfiguration(let value):
+                try value.validate(name: "\(name).kafkaConfiguration")
+            case .openSearchConfiguration(let value):
+                try value.validate(name: "\(name).openSearchConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kafkaConfiguration = "kafkaConfiguration"
+            case openSearchConfiguration = "openSearchConfiguration"
+        }
+    }
+
     public enum IgnoreNearExpected: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The absolute amount by which values can differ from expected values before being considered anomalous.
         case amount(Double)
@@ -980,7 +1030,7 @@ extension Amp {
         public let clientToken: String?
         /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
-        /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the scraper is created without an exporter configuration.
+        /// The exporter configurations for the scraper. You can configure at most one exporter, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster. If you don't specify a value, the scraper is created without an exporter configuration.
         public let exporters: [ExporterConfiguration]?
         /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
@@ -1953,6 +2003,36 @@ extension Amp {
         }
     }
 
+    public struct KafkaExporterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon MSK cluster.
+        public let clusterArn: String
+        /// An anchored RE2 regular expression that selects the Kafka consumer groups to monitor. The expression must start with ^ and end with $. If omitted, the default is ^.*$, which selects all consumer groups.
+        public let consumerGroupFilter: String?
+        /// An anchored RE2 regular expression that selects the Kafka topics to monitor. The expression must start with ^ and end with $. If omitted, the default is ^.*$, which selects all topics.
+        public let topicFilter: String?
+
+        @inlinable
+        public init(clusterArn: String, consumerGroupFilter: String? = nil, topicFilter: String? = nil) {
+            self.clusterArn = clusterArn
+            self.consumerGroupFilter = consumerGroupFilter
+            self.topicFilter = topicFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws[-a-z]*:kafka:[-a-z0-9]+:[0-9]{12}:cluster\\/.+$")
+            try self.validate(self.consumerGroupFilter, name: "consumerGroupFilter", parent: name, max: 256)
+            try self.validate(self.consumerGroupFilter, name: "consumerGroupFilter", parent: name, min: 1)
+            try self.validate(self.topicFilter, name: "topicFilter", parent: name, max: 256)
+            try self.validate(self.topicFilter, name: "topicFilter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case consumerGroupFilter = "consumerGroupFilter"
+            case topicFilter = "topicFilter"
+        }
+    }
+
     public struct LimitsPerLabelSet: AWSEncodableShape & AWSDecodableShape {
         /// This defines one label set that will have an enforced active time series limit.  Label values accept ASCII characters and must contain at least one character that isn't whitespace. ASCII control characters are not accepted. If the label name is metric name label __name__, then the metric part of the name must conform to the following pattern: [a-zA-Z_:][a-zA-Z0-9_:]*
         public let labelSet: [String: String]
@@ -2874,7 +2954,7 @@ extension Amp {
         public let createdAt: Date
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
-        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster.
         public let exporters: [ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
@@ -2972,7 +3052,7 @@ extension Amp {
         public let createdAt: Date
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
-        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster.
         public let exporters: [ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
@@ -3330,7 +3410,7 @@ extension Amp {
         public let clientToken: String?
         /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination?
-        /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged.
+        /// The exporter configurations for the scraper. You can configure at most one exporter, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster. If you don't specify a value, the existing exporter configuration remains unchanged. Specify an empty list to remove the exporter.
         public let exporters: [ExporterConfiguration]?
         /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
@@ -3756,24 +3836,6 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case randomCutForest = "randomCutForest"
-        }
-    }
-
-    public struct ExporterConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain.
-        public let openSearchConfiguration: OpenSearchExporterConfiguration?
-
-        @inlinable
-        public init(openSearchConfiguration: OpenSearchExporterConfiguration? = nil) {
-            self.openSearchConfiguration = openSearchConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.openSearchConfiguration?.validate(name: "\(name).openSearchConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case openSearchConfiguration = "openSearchConfiguration"
         }
     }
 

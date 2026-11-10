@@ -602,6 +602,39 @@ public struct Route53Domains: AWSService {
         return try await self.getDomainDetail(input, logger: logger)
     }
 
+    /// Returns the following prices for the specified domain:   Registration   Transfer   Owner change   Renewal   Restoration   For most domains, the prices match the standard prices for the TLD that the ListPrices operation returns. For a premium domain, the registry sets the
+    /// 			price individually. Premium prices might differ from the standard prices and can change
+    /// 			over time.
+    @Sendable
+    @inlinable
+    public func getDomainPrices(_ input: GetDomainPricesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainPricesResponse {
+        try await self.client.execute(
+            operation: "GetDomainPrices", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the following prices for the specified domain:   Registration   Transfer   Owner change   Renewal   Restoration   For most domains, the prices match the standard prices for the TLD that the ListPrices operation returns. For a premium domain, the registry sets the
+    /// 			price individually. Premium prices might differ from the standard prices and can change
+    /// 			over time.
+    ///
+    /// Parameters:
+    ///   - domainName: The name of the domain that you want to get the prices for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDomainPrices(
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDomainPricesResponse {
+        let input = GetDomainPricesRequest(
+            domainName: domainName
+        )
+        return try await self.getDomainPrices(input, logger: logger)
+    }
+
     /// The GetDomainSuggestions operation returns a list of suggested domain names.
     @Sendable
     @inlinable
@@ -620,18 +653,21 @@ public struct Route53Domains: AWSService {
     /// Parameters:
     ///   - domainName: A domain name that you want to use as the basis for a list of possible domain names.
     ///   - onlyAvailable: If OnlyAvailable is true, Route 53 returns only domain names
+    ///   - onlyStandardPrices: If true, Route 53 returns only domain names that are priced at the
     ///   - suggestionCount: The number of suggested domain names that you want Route 53 to return. Specify a value
     ///   - logger: Logger use during operation
     @inlinable
     public func getDomainSuggestions(
         domainName: String,
         onlyAvailable: Bool,
+        onlyStandardPrices: Bool? = nil,
         suggestionCount: Int = 0,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetDomainSuggestionsResponse {
         let input = GetDomainSuggestionsRequest(
             domainName: domainName, 
             onlyAvailable: onlyAvailable, 
+            onlyStandardPrices: onlyStandardPrices, 
             suggestionCount: suggestionCount
         )
         return try await self.getDomainSuggestions(input, logger: logger)
@@ -758,7 +794,10 @@ public struct Route53Domains: AWSService {
     }
 
     /// Lists the following prices for either all the TLDs supported by Route 53, or
-    /// 			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
+    /// 			the specified TLD:   Registration   Transfer   Owner change   Renewal   Restoration    The prices that ListPrices returns are the standard rates for a TLD.
+    /// 					ListPrices doesn't return registry premium prices, which apply to
+    /// 				individual domain names rather than to a TLD. To get accurate pricing for a specific
+    /// 				domain name, including premium prices, call GetDomainPrices.
     @Sendable
     @inlinable
     public func listPrices(_ input: ListPricesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPricesResponse {
@@ -772,7 +811,10 @@ public struct Route53Domains: AWSService {
         )
     }
     /// Lists the following prices for either all the TLDs supported by Route 53, or
-    /// 			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
+    /// 			the specified TLD:   Registration   Transfer   Owner change   Renewal   Restoration    The prices that ListPrices returns are the standard rates for a TLD.
+    /// 					ListPrices doesn't return registry premium prices, which apply to
+    /// 				individual domain names rather than to a TLD. To get accurate pricing for a specific
+    /// 				domain name, including premium prices, call GetDomainPrices.
     ///
     /// Parameters:
     ///   - marker: For an initial request for a list of prices, omit this element. If the number of
@@ -906,6 +948,7 @@ public struct Route53Domains: AWSService {
     ///   - adminContact: Provides detailed contact information. For information about the values that you
     ///   - autoRenew: Indicates whether the domain will be automatically renewed (true) or not
     ///   - billingContact: Provides detailed contact information. For information about the values that you
+    ///   - consent: Specifies the maximum price that you agree to pay to register the domain name. This element is
     ///   - domainName: The domain name that you want to register. The top-level domain (TLD), such as .com,
     ///   - durationInYears: The number of years that you want to register the domain for. Domains are registered
     ///   - idnLangCode: Reserved for future use.
@@ -921,6 +964,7 @@ public struct Route53Domains: AWSService {
         adminContact: ContactDetail,
         autoRenew: Bool? = nil,
         billingContact: ContactDetail? = nil,
+        consent: Consent? = nil,
         domainName: String,
         durationInYears: Int,
         idnLangCode: String? = nil,
@@ -936,6 +980,7 @@ public struct Route53Domains: AWSService {
             adminContact: adminContact, 
             autoRenew: autoRenew, 
             billingContact: billingContact, 
+            consent: consent, 
             domainName: domainName, 
             durationInYears: durationInYears, 
             idnLangCode: idnLangCode, 
@@ -1008,18 +1053,21 @@ public struct Route53Domains: AWSService {
     /// 				Guide.
     ///
     /// Parameters:
+    ///   - consent: Specifies the maximum price that you agree to pay to renew the domain name. This element is
     ///   - currentExpiryYear: The year when the registration for the domain is set to expire. This value must match
     ///   - domainName: The name of the domain that you want to renew.
     ///   - durationInYears: The number of years that you want to renew the domain for. The maximum number of years
     ///   - logger: Logger use during operation
     @inlinable
     public func renewDomain(
+        consent: Consent? = nil,
         currentExpiryYear: Int = 0,
         domainName: String,
         durationInYears: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RenewDomainResponse {
         let input = RenewDomainRequest(
+            consent: consent, 
             currentExpiryYear: currentExpiryYear, 
             domainName: domainName, 
             durationInYears: durationInYears
@@ -1087,6 +1135,60 @@ public struct Route53Domains: AWSService {
             operationId: operationId
         )
         return try await self.resendOperationAuthorization(input, logger: logger)
+    }
+
+    /// Restores a domain that has expired, or was deleted, before it becomes available
+    /// 			for others to register. The cost of restoring your domain is billed to your Amazon Web Services account. Not every TLD registry supports restoring domains, and the period during which a
+    /// 			domain can be restored varies by TLD. To find out whether your domain can be restored
+    /// 			and the period during which you can restore it, see Domains that you can
+    /// 				register with Amazon Route 53 in the Amazon Route 53 Developer
+    /// 				Guide.  Restoring a domain typically costs more, and sometimes much more, than registering
+    /// 				or renewing a domain. To get the restoration price for a domain before you restore
+    /// 				it, use GetDomainPrices.  Restoration is asynchronous. The response includes an operation ID that you can use
+    /// 			with GetOperationDetail to track the progress of the request. When the restoration
+    /// 			succeeds, the domain reappears in the response to ListDomains. For more information, see Restoring an
+    /// 				expired or deleted domain in the Amazon Route 53 Developer
+    /// 				Guide.
+    @Sendable
+    @inlinable
+    public func restoreDomain(_ input: RestoreDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreDomainResponse {
+        try await self.client.execute(
+            operation: "RestoreDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restores a domain that has expired, or was deleted, before it becomes available
+    /// 			for others to register. The cost of restoring your domain is billed to your Amazon Web Services account. Not every TLD registry supports restoring domains, and the period during which a
+    /// 			domain can be restored varies by TLD. To find out whether your domain can be restored
+    /// 			and the period during which you can restore it, see Domains that you can
+    /// 				register with Amazon Route 53 in the Amazon Route 53 Developer
+    /// 				Guide.  Restoring a domain typically costs more, and sometimes much more, than registering
+    /// 				or renewing a domain. To get the restoration price for a domain before you restore
+    /// 				it, use GetDomainPrices.  Restoration is asynchronous. The response includes an operation ID that you can use
+    /// 			with GetOperationDetail to track the progress of the request. When the restoration
+    /// 			succeeds, the domain reappears in the response to ListDomains. For more information, see Restoring an
+    /// 				expired or deleted domain in the Amazon Route 53 Developer
+    /// 				Guide.
+    ///
+    /// Parameters:
+    ///   - consent: Specifies the maximum price that you agree to pay to restore the domain name. This element is
+    ///   - domainName: The name of the domain that you want to restore. The domain must have been registered
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restoreDomain(
+        consent: Consent? = nil,
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestoreDomainResponse {
+        let input = RestoreDomainRequest(
+            consent: consent, 
+            domainName: domainName
+        )
+        return try await self.restoreDomain(input, logger: logger)
     }
 
     /// This operation returns the authorization code for the domain. To transfer a domain to
@@ -1174,6 +1276,7 @@ public struct Route53Domains: AWSService {
     ///   - authCode: The authorization code for the domain. You get this value from the current
     ///   - autoRenew: Indicates whether the domain will be automatically renewed (true) or not (false). Auto
     ///   - billingContact: Provides detailed contact information.
+    ///   - consent: Specifies the maximum price that you agree to pay to transfer the domain name to Route 53. This element is
     ///   - domainName: The name of the domain that you want to transfer to Route 53. The top-level domain
     ///   - durationInYears: Reserved for future use. Currently, the effect of a domain transfer on the registration period varies by TLD. For information about how transferring a domain affects the expiration date, see the Transfer Term column in the pricing information at Amazon Route 53 Pricing. Default: 1
     ///   - idnLangCode: Reserved for future use.
@@ -1191,6 +1294,7 @@ public struct Route53Domains: AWSService {
         authCode: String? = nil,
         autoRenew: Bool? = nil,
         billingContact: ContactDetail? = nil,
+        consent: Consent? = nil,
         domainName: String,
         durationInYears: Int? = nil,
         idnLangCode: String? = nil,
@@ -1208,6 +1312,7 @@ public struct Route53Domains: AWSService {
             authCode: authCode, 
             autoRenew: autoRenew, 
             billingContact: billingContact, 
+            consent: consent, 
             domainName: domainName, 
             durationInYears: durationInYears, 
             idnLangCode: idnLangCode, 
@@ -1298,7 +1403,7 @@ public struct Route53Domains: AWSService {
     /// Parameters:
     ///   - adminContact: Provides detailed contact information.
     ///   - billingContact: Provides detailed contact information.
-    ///   - consent:  Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
+    ///   - consent:  The maximum amount that you agree to pay for the owner change. Required if the domain is not free (consent price is more than USD $0.00).
     ///   - domainName: The name of the domain that you want to update contact information for.
     ///   - registrantContact: Provides detailed contact information.
     ///   - techContact: Provides detailed contact information.
@@ -1509,7 +1614,7 @@ public struct Route53Domains: AWSService {
 extension Route53Domains {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Route53Domains, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

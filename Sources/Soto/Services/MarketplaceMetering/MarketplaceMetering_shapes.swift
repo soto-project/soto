@@ -79,6 +79,20 @@ extension MarketplaceMetering {
         }
     }
 
+    public struct Metadata: AWSDecodableShape {
+        /// The unique identifier of the Amazon Web Services Marketplace agreement the customer accepted. Use it to call Amazon Web Services Marketplace Agreement APIs.
+        public let agreementId: String?
+
+        @inlinable
+        public init(agreementId: String? = nil) {
+            self.agreementId = agreementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+        }
+    }
+
     public struct MeterUsageRequest: AWSEncodableShape {
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotencyConflictException error.
         public let clientToken: String?
@@ -221,14 +235,17 @@ extension MarketplaceMetering {
         public let customerIdentifier: String?
         /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord.  Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
         public let licenseArn: String?
+        /// The metadata associated with the resolved customer, including the AgreementId of the Amazon Web Services Marketplace agreement the customer accepted.
+        public let metadata: Metadata?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
         public let productCode: String?
 
         @inlinable
-        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, licenseArn: String? = nil, productCode: String? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, licenseArn: String? = nil, metadata: Metadata? = nil, productCode: String? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.licenseArn = licenseArn
+            self.metadata = metadata
             self.productCode = productCode
         }
 
@@ -236,6 +253,7 @@ extension MarketplaceMetering {
             case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
             case licenseArn = "LicenseArn"
+            case metadata = "Metadata"
             case productCode = "ProductCode"
         }
     }

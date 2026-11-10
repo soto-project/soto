@@ -652,7 +652,7 @@ extension CodeStarNotifications {
     public struct Target: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.
         public let targetAddress: String?
-        /// The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.   Amazon Q Developer in chat applications topics are specified as SNS.   Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
+        /// The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.    Amazon Q Developer in chat applications topics are specified as SNS.    Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.    Amazon Q Developer in chat applications clients for Microsoft Teams are specified as AWSChatbotMicrosoftTeams.
         public let targetType: String?
 
         @inlinable
@@ -678,7 +678,7 @@ extension CodeStarNotifications {
         public let targetAddress: String?
         /// The status of the target.
         public let targetStatus: TargetStatus?
-        /// The type of the target (for example, SNS).   Amazon Q Developer in chat applications topics are specified as SNS.   Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
+        /// The type of the target (for example, SNS).    Amazon Q Developer in chat applications topics are specified as SNS.    Amazon Q Developer in chat applications clients for Slack are specified as AWSChatbotSlack.    Amazon Q Developer in chat applications clients for Microsoft Teams are specified as AWSChatbotMicrosoftTeams.
         public let targetType: String?
 
         @inlinable
@@ -855,9 +855,9 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
+    ///  CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    ///  CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// Some or all of the configuration is incomplete, missing, or not valid.
     public static var configurationException: Self { .init(.configurationException) }
@@ -867,7 +867,7 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// A resource with the same name or ID already exists. Notification rule names must be unique in your Amazon Web Services account.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// CodeStar Notifications can't find a resource that matches the provided ARN.
+    ///  CodeStar Notifications can't find a resource that matches the provided ARN.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// One or more parameter values are not valid.
     public static var validationException: Self { .init(.validationException) }

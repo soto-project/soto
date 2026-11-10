@@ -583,6 +583,35 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateStandardsControlAssociations(input, logger: logger)
     }
 
+    /// Cancels a findings export job that is in progress. Security Hub transitions a running job to the CANCELLED state and returns the ExportJobId and its new Status. Canceling a job that is already in the CANCELLED state succeeds and returns the same result, so you can safely retry a cancel request. You can't cancel an export job that has already reached a terminal SUCCEEDED or FAILED state; in that case, this operation returns a ConflictException. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException. The Status value returned by this operation reflects the cancellation immediately, even though the job can take a short time to stop completely.
+    @Sendable
+    @inlinable
+    public func cancelExportJobV2(_ input: CancelExportJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelExportJobV2Response {
+        try await self.client.execute(
+            operation: "CancelExportJobV2", 
+            path: "/exportjobsv2/{ExportJobId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a findings export job that is in progress. Security Hub transitions a running job to the CANCELLED state and returns the ExportJobId and its new Status. Canceling a job that is already in the CANCELLED state succeeds and returns the same result, so you can safely retry a cancel request. You can't cancel an export job that has already reached a terminal SUCCEEDED or FAILED state; in that case, this operation returns a ConflictException. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException. The Status value returned by this operation reflects the cancellation immediately, even though the job can take a short time to stop completely.
+    ///
+    /// Parameters:
+    ///   - exportJobId: The unique identifier of the export job to cancel. This is the value returned by StartExportJobV2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelExportJobV2(
+        exportJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelExportJobV2Response {
+        let input = CancelExportJobV2Request(
+            exportJobId: exportJobId
+        )
+        return try await self.cancelExportJobV2(input, logger: logger)
+    }
+
     /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events.
     @Sendable
     @inlinable
@@ -2233,6 +2262,35 @@ public struct SecurityHub: AWSService {
         return try await self.getEnabledStandards(input, logger: logger)
     }
 
+    /// Returns the details of a single findings export job, including its current Status, the Destination it writes to, the OutputConfiguration it was started with, and its StartedAt and EndedAt timestamps. Use this operation to poll an export job that you started with StartExportJobV2 until it reaches a terminal state (SUCCEEDED, FAILED, or CANCELLED). If the job failed, the response includes a FailureCode and FailureMessage that describe the reason. Input values such as Scopes and Filters are echoed back as they were submitted, with relative date ranges returned unresolved. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException.
+    @Sendable
+    @inlinable
+    public func getExportJobV2(_ input: GetExportJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportJobV2Response {
+        try await self.client.execute(
+            operation: "GetExportJobV2", 
+            path: "/exportjobsv2/{ExportJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the details of a single findings export job, including its current Status, the Destination it writes to, the OutputConfiguration it was started with, and its StartedAt and EndedAt timestamps. Use this operation to poll an export job that you started with StartExportJobV2 until it reaches a terminal state (SUCCEEDED, FAILED, or CANCELLED). If the job failed, the response includes a FailureCode and FailureMessage that describe the reason. Input values such as Scopes and Filters are echoed back as they were submitted, with relative date ranges returned unresolved. If no export job matches the ExportJobId that you provide, this operation returns a ResourceNotFoundException.
+    ///
+    /// Parameters:
+    ///   - exportJobId: The unique identifier of the export job to retrieve. This is the value returned by StartExportJobV2.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExportJobV2(
+        exportJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExportJobV2Response {
+        let input = GetExportJobV2Request(
+            exportJobId: exportJobId
+        )
+        return try await self.getExportJobV2(input, logger: logger)
+    }
+
     ///  The aggregation Region is now called the home Region.  Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes
     /// the home Region and any linked Regions.
     @Sendable
@@ -2645,6 +2703,53 @@ public struct SecurityHub: AWSService {
         return try await self.getRecommendedPolicyV2(input, logger: logger)
     }
 
+    /// Retrieves remediation targets for the account, or for all member accounts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or MetadataUid to scope the request to a single target or finding.
+    @Sendable
+    @inlinable
+    public func getRemediationsV2(_ input: GetRemediationsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRemediationsV2Response {
+        try await self.client.execute(
+            operation: "GetRemediationsV2", 
+            path: "/GetRemediationsV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves remediation targets for the account, or for all member accounts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or MetadataUid to scope the request to a single target or finding.
+    ///
+    /// Parameters:
+    ///   - filters: Filters remediation targets based on a set of criteria. You can't use Filters together with TargetUid or MetadataUid.
+    ///   - guidanceFormat: The format of the remediation guidance examples to return. Valid values are All, AwsCli, Cli, Python, Terraform, Cdk, CloudFormation, IaC, and Template. If you don't specify a value, all formats are returned. Applies only when ShowGuidance is true.
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - metadataUid: The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding. Returns the remediation targets associated with that finding. You can't use MetadataUid together with TargetUid or Filters.
+    ///   - nextToken: The token used to paginate the remediations target list returned. On your first call to GetRemediationsV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    ///   - showGuidance: Specifies whether to show remediation target guidance.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to return. Returns the single matching target. You can't use TargetUid together with MetadataUid or Filters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRemediationsV2(
+        filters: RemediationFilters? = nil,
+        guidanceFormat: GuidanceFormat? = nil,
+        maxResults: Int? = nil,
+        metadataUid: String? = nil,
+        nextToken: String? = nil,
+        showGuidance: Bool? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRemediationsV2Response {
+        let input = GetRemediationsV2Request(
+            filters: filters, 
+            guidanceFormat: guidanceFormat, 
+            maxResults: maxResults, 
+            metadataUid: metadataUid, 
+            nextToken: nextToken, 
+            showGuidance: showGuidance, 
+            targetUid: targetUid
+        )
+        return try await self.getRemediationsV2(input, logger: logger)
+    }
+
     /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. If you set GroupByField to ResourceSubCategory, ResourceInfo.AIDetails.HostResourceType, or ResourceInfo.AIDetails.CanonicalId, you must include a ResourceCategory string filter with comparison set to EQUALS and value AI/ML in the corresponding ResourceGroupByRule.
     @Sendable
     @inlinable
@@ -2792,6 +2897,135 @@ public struct SecurityHub: AWSService {
             securityControlId: securityControlId
         )
         return try await self.getSecurityControlDefinition(input, logger: logger)
+    }
+
+    /// Returns a list of resources that contain a specific software package. You identify the package with PackageName and PackageType. To narrow the results to one version of the package, include PackageVersion. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to further refine results based on resource attributes, such as ResourceType or Region.
+    @Sendable
+    @inlinable
+    public func getSoftwareResourcesV2(_ input: GetSoftwareResourcesV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSoftwareResourcesV2Response {
+        try await self.client.execute(
+            operation: "GetSoftwareResourcesV2", 
+            path: "/softwarev2/resources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of resources that contain a specific software package. You identify the package with PackageName and PackageType. To narrow the results to one version of the package, include PackageVersion. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to further refine results based on resource attributes, such as ResourceType or Region.
+    ///
+    /// Parameters:
+    ///   - filters: Filters the returned resources based on a set of criteria. You can nest composite filters up to three levels deep.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. The default is 100.
+    ///   - nextToken: The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response. A token expires one hour after it's issued. If you change the request parameters between calls, the token is no longer valid and the request fails with a ValidationException.
+    ///   - packageName: The name of the software package, for example openssl. This value must match the PackageName returned by GetSoftwareV2.
+    ///   - packageType: The type of the software package, for example operating-system, application, or library. This value must match the PackageType returned by GetSoftwareV2.
+    ///   - packageVersion: The version of the software package, for example 3.0.8. If you omit this value, the response includes resources that contain any version of the package.
+    ///   - scopes: Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees resources from all accounts across the entire organization. Other accounts see only their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    ///   - sortCriteria: The resource attribute used to sort the list of returned resources, for example Region or ResourceType. You can specify one sort criterion.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSoftwareResourcesV2(
+        filters: SoftwareFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        packageName: String? = nil,
+        packageType: String? = nil,
+        packageVersion: String? = nil,
+        scopes: SoftwareScopes? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSoftwareResourcesV2Response {
+        let input = GetSoftwareResourcesV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            packageName: packageName, 
+            packageType: packageType, 
+            packageVersion: packageVersion, 
+            scopes: scopes, 
+            sortCriteria: sortCriteria
+        )
+        return try await self.getSoftwareResourcesV2(input, logger: logger)
+    }
+
+    /// Retrieves aggregated counts of software packages installed on your resources, grouped by a field that you specify. For example, you can return the most common package types or the accounts with the most installed packages. Each count is the number of package-to-resource pairs that match the grouping value. A package installed on three resources contributes three to the count. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate software from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. This operation doesn't paginate. Use MaxStatisticResults to control how many grouping values are returned.
+    @Sendable
+    @inlinable
+    public func getSoftwareStatisticsV2(_ input: GetSoftwareStatisticsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSoftwareStatisticsV2Response {
+        try await self.client.execute(
+            operation: "GetSoftwareStatisticsV2", 
+            path: "/softwarev2/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves aggregated counts of software packages installed on your resources, grouped by a field that you specify. For example, you can return the most common package types or the accounts with the most installed packages. Each count is the number of package-to-resource pairs that match the grouping value. A package installed on three resources contributes three to the count. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate software from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. This operation doesn't paginate. Use MaxStatisticResults to control how many grouping values are returned.
+    ///
+    /// Parameters:
+    ///   - groupByRules: How software statistics should be aggregated and organized in the response.
+    ///   - maxStatisticResults: The maximum number of grouping values to return. Valid values are 1–400. The default is 400.
+    ///   - scopes: Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    ///   - sortOrder: Sorts aggregated statistics by count. The default is descending, which returns the values with the highest counts first.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSoftwareStatisticsV2(
+        groupByRules: [SoftwareGroupByRule]? = nil,
+        maxStatisticResults: Int? = nil,
+        scopes: SoftwareScopes? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSoftwareStatisticsV2Response {
+        let input = GetSoftwareStatisticsV2Request(
+            groupByRules: groupByRules, 
+            maxStatisticResults: maxStatisticResults, 
+            scopes: scopes, 
+            sortOrder: sortOrder
+        )
+        return try await self.getSoftwareStatisticsV2(input, logger: logger)
+    }
+
+    /// Returns a list of software packages installed on your resources. Each result identifies a package by name, version, and type, and includes the number of resources that contain that package. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve software from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to refine results based on package and resource attributes. You can use Scopes and Filters independently or together. When both are provided, Scopes narrows the data set first, and then Filters refines results within that scoped data set. To list the resources that contain a specific package, use GetSoftwareResourcesV2. To get counts of software grouped by a field, use GetSoftwareStatisticsV2.
+    @Sendable
+    @inlinable
+    public func getSoftwareV2(_ input: GetSoftwareV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSoftwareV2Response {
+        try await self.client.execute(
+            operation: "GetSoftwareV2", 
+            path: "/softwarev2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of software packages installed on your resources. Each result identifies a package by name, version, and type, and includes the number of resources that contain that package. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve software from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to refine results based on package and resource attributes. You can use Scopes and Filters independently or together. When both are provided, Scopes narrows the data set first, and then Filters refines results within that scoped data set. To list the resources that contain a specific package, use GetSoftwareResourcesV2. To get counts of software grouped by a field, use GetSoftwareStatisticsV2.
+    ///
+    /// Parameters:
+    ///   - filters: Filters software packages based on a set of criteria. You can nest composite filters up to three levels deep.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. The default is 100.
+    ///   - nextToken: The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response. A token expires one hour after it's issued. If you change Filters or SortCriteria between calls, the token is no longer valid and the request fails with a ValidationException.
+    ///   - scopes: Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees software from all accounts across the entire organization. Other accounts see only software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    ///   - sortCriteria: The software attributes used to sort the list of returned software packages. You can't sort by ResourceCount.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSoftwareV2(
+        filters: SoftwareFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        scopes: SoftwareScopes? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSoftwareV2Response {
+        let input = GetSoftwareV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            scopes: scopes, 
+            sortCriteria: sortCriteria
+        )
+        return try await self.getSoftwareV2(input, logger: logger)
     }
 
     ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub CSPM. When the account owner enables Security Hub CSPM and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
@@ -3098,6 +3332,79 @@ public struct SecurityHub: AWSService {
             nextToken: nextToken
         )
         return try await self.listEnabledProductsForImport(input, logger: logger)
+    }
+
+    /// Returns the findings export jobs in your account as a paginated list of ExportSummary objects. You can filter the results by job Status or DataType. To page through the results, use the MaxResults and NextToken parameters. If the response includes a NextToken value, pass it in a subsequent request to retrieve the next page of results. Each ExportSummary reports the output Format of the job but not its full OutputConfiguration. To retrieve the filters and selected fields that a job was started with, call GetExportJobV2.
+    @Sendable
+    @inlinable
+    public func listExportJobsV2(_ input: ListExportJobsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportJobsV2Response {
+        try await self.client.execute(
+            operation: "ListExportJobsV2", 
+            path: "/exportjobsv2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the findings export jobs in your account as a paginated list of ExportSummary objects. You can filter the results by job Status or DataType. To page through the results, use the MaxResults and NextToken parameters. If the response includes a NextToken value, pass it in a subsequent request to retrieve the next page of results. Each ExportSummary reports the output Format of the job but not its full OutputConfiguration. To retrieve the filters and selected fields that a job was started with, call GetExportJobV2.
+    ///
+    /// Parameters:
+    ///   - dataType: Filters the results to export jobs that produce the specified data type.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1–20.
+    ///   - nextToken: The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    ///   - status: Filters the results to export jobs that have the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExportJobsV2(
+        dataType: ExportDataType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: ExportStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExportJobsV2Response {
+        let input = ListExportJobsV2Request(
+            dataType: dataType, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listExportJobsV2(input, logger: logger)
+    }
+
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are paginated.
+    @Sendable
+    @inlinable
+    public func listExposuresByRemediationV2(_ input: ListExposuresByRemediationV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExposuresByRemediationV2Response {
+        try await self.client.execute(
+            operation: "ListExposuresByRemediationV2", 
+            path: "/ListExposuresByRemediationV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are paginated.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - nextToken: The token used to paginate the exposures list returned. On your first call to ListExposuresByRemediationV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to list exposure findings for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExposuresByRemediationV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExposuresByRemediationV2Response {
+        let input = ListExposuresByRemediationV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            targetUid: targetUid
+        )
+        return try await self.listExposuresByRemediationV2(input, logger: logger)
     }
 
     /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN)
@@ -3470,6 +3777,47 @@ public struct SecurityHub: AWSService {
             target: target
         )
         return try await self.startConfigurationPolicyDisassociation(input, logger: logger)
+    }
+
+    /// Starts an ad hoc export job that writes Security Hub findings to an Amazon Simple Storage Service (Amazon S3) bucket that you own. Because the export runs asynchronously, this operation returns only the ExportJobId of the new job; it doesn't wait for the export to finish. Use GetExportJobV2 to poll the job, and ListExportJobsV2 to view the export jobs in your account. Security Hub allows only one export job in the RUNNING state per account at a time. If an export job is already running, this operation returns a ServiceQuotaExceededException. Wait for the running job to finish, or cancel it with CancelExportJobV2, before you start a new one. Specify the destination bucket and Amazon Web Services Key Management Service (Amazon Web Services KMS) key in the Destination parameter, and the output format (CSV or OCSF_JSON), optional filters, and field selection in the OutputConfiguration parameter. Before you call this operation, you must grant Security Hub permission to write to your bucket and use your Amazon Web Services KMS key by adding the bucket policy and key policy statements shown in the Examples section. Two identities use your Amazon Web Services KMS key, and each needs its own permission. Security Hub uses the key when it writes the export objects to your bucket. The IAM principal that calls StartExportJobV2 must also have kms:GenerateDataKey and kms:Decrypt permissions on the key. The Examples section shows both grants. A delegated administrator can use the optional Scopes parameter to export findings for specific organizations or organizational units (OUs). To make the request idempotent, provide a ClientToken. If you retry a StartExportJobV2 request with the same ClientToken and the same request parameters, Security Hub returns the ExportJobId of the original job instead of starting a new one. If you reuse a ClientToken with different request parameters, this operation returns a ConflictException.
+    @Sendable
+    @inlinable
+    public func startExportJobV2(_ input: StartExportJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportJobV2Response {
+        try await self.client.execute(
+            operation: "StartExportJobV2", 
+            path: "/exportjobsv2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an ad hoc export job that writes Security Hub findings to an Amazon Simple Storage Service (Amazon S3) bucket that you own. Because the export runs asynchronously, this operation returns only the ExportJobId of the new job; it doesn't wait for the export to finish. Use GetExportJobV2 to poll the job, and ListExportJobsV2 to view the export jobs in your account. Security Hub allows only one export job in the RUNNING state per account at a time. If an export job is already running, this operation returns a ServiceQuotaExceededException. Wait for the running job to finish, or cancel it with CancelExportJobV2, before you start a new one. Specify the destination bucket and Amazon Web Services Key Management Service (Amazon Web Services KMS) key in the Destination parameter, and the output format (CSV or OCSF_JSON), optional filters, and field selection in the OutputConfiguration parameter. Before you call this operation, you must grant Security Hub permission to write to your bucket and use your Amazon Web Services KMS key by adding the bucket policy and key policy statements shown in the Examples section. Two identities use your Amazon Web Services KMS key, and each needs its own permission. Security Hub uses the key when it writes the export objects to your bucket. The IAM principal that calls StartExportJobV2 must also have kms:GenerateDataKey and kms:Decrypt permissions on the key. The Examples section shows both grants. A delegated administrator can use the optional Scopes parameter to export findings for specific organizations or organizational units (OUs). To make the request idempotent, provide a ClientToken. If you retry a StartExportJobV2 request with the same ClientToken and the same request parameters, Security Hub returns the ExportJobId of the original job instead of starting a new one. If you reuse a ClientToken with different request parameters, this operation returns a ConflictException.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique identifier used to ensure idempotency.
+    ///   - destination: The destination that Security Hub writes the export to. You must specify exactly one destination type. Currently, the only supported type is Amazon S3.
+    ///   - name: An optional, user-provided name for the export job that helps you identify it in ListExportJobsV2 results. The value can be 1–256 characters. Alphanumeric characters, spaces, and the following ASCII characters are permitted: . _ , : ( ) / + -.
+    ///   - outputConfiguration: Specifies what data to export and how to format it. You must specify exactly one output type. Currently, the only supported type is Findings.
+    ///   - scopes: Limits the export to findings from specific organizational units (OUs) or from the delegated administrator's organization. Only the delegated administrator account can use this parameter; other accounts that specify it receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator exports findings from all accounts across the entire organization, and other accounts export only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If you specify multiple entries, Security Hub combines them using OR logic.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startExportJobV2(
+        clientToken: String? = StartExportJobV2Request.idempotencyToken(),
+        destination: ExportDestination? = nil,
+        name: String? = nil,
+        outputConfiguration: ExportOutput? = nil,
+        scopes: ExportScopes? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartExportJobV2Response {
+        let input = StartExportJobV2Request(
+            clientToken: clientToken, 
+            destination: destination, 
+            name: name, 
+            outputConfiguration: outputConfiguration, 
+            scopes: scopes
+        )
+        return try await self.startExportJobV2(input, logger: logger)
     }
 
     /// Adds one or more tags to a resource.
@@ -4013,7 +4361,7 @@ public struct SecurityHub: AWSService {
 extension SecurityHub {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: SecurityHub, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -4488,6 +4836,55 @@ extension SecurityHub {
         return self.getRecommendedPolicyV2Paginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getRemediationsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getRemediationsV2Paginator(
+        _ input: GetRemediationsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetRemediationsV2Request, GetRemediationsV2Response> {
+        return .init(
+            input: input,
+            command: self.getRemediationsV2,
+            inputKey: \GetRemediationsV2Request.nextToken,
+            outputKey: \GetRemediationsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getRemediationsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters remediation targets based on a set of criteria. You can't use Filters together with TargetUid or MetadataUid.
+    ///   - guidanceFormat: The format of the remediation guidance examples to return. Valid values are All, AwsCli, Cli, Python, Terraform, Cdk, CloudFormation, IaC, and Template. If you don't specify a value, all formats are returned. Applies only when ShowGuidance is true.
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - metadataUid: The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding. Returns the remediation targets associated with that finding. You can't use MetadataUid together with TargetUid or Filters.
+    ///   - showGuidance: Specifies whether to show remediation target guidance.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to return. Returns the single matching target. You can't use TargetUid together with MetadataUid or Filters.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getRemediationsV2Paginator(
+        filters: RemediationFilters? = nil,
+        guidanceFormat: GuidanceFormat? = nil,
+        maxResults: Int? = nil,
+        metadataUid: String? = nil,
+        showGuidance: Bool? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetRemediationsV2Request, GetRemediationsV2Response> {
+        let input = GetRemediationsV2Request(
+            filters: filters, 
+            guidanceFormat: guidanceFormat, 
+            maxResults: maxResults, 
+            metadataUid: metadataUid, 
+            showGuidance: showGuidance, 
+            targetUid: targetUid
+        )
+        return self.getRemediationsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getResourcesTrendsV2(_:logger:)``.
     ///
     /// - Parameters:
@@ -4572,6 +4969,101 @@ extension SecurityHub {
             sortCriteria: sortCriteria
         )
         return self.getResourcesV2Paginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getSoftwareResourcesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSoftwareResourcesV2Paginator(
+        _ input: GetSoftwareResourcesV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetSoftwareResourcesV2Request, GetSoftwareResourcesV2Response> {
+        return .init(
+            input: input,
+            command: self.getSoftwareResourcesV2,
+            inputKey: \GetSoftwareResourcesV2Request.nextToken,
+            outputKey: \GetSoftwareResourcesV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getSoftwareResourcesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters the returned resources based on a set of criteria. You can nest composite filters up to three levels deep.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. The default is 100.
+    ///   - packageName: The name of the software package, for example openssl. This value must match the PackageName returned by GetSoftwareV2.
+    ///   - packageType: The type of the software package, for example operating-system, application, or library. This value must match the PackageType returned by GetSoftwareV2.
+    ///   - packageVersion: The version of the software package, for example 3.0.8. If you omit this value, the response includes resources that contain any version of the package.
+    ///   - scopes: Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees resources from all accounts across the entire organization. Other accounts see only their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    ///   - sortCriteria: The resource attribute used to sort the list of returned resources, for example Region or ResourceType. You can specify one sort criterion.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSoftwareResourcesV2Paginator(
+        filters: SoftwareFilters? = nil,
+        maxResults: Int? = nil,
+        packageName: String? = nil,
+        packageType: String? = nil,
+        packageVersion: String? = nil,
+        scopes: SoftwareScopes? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetSoftwareResourcesV2Request, GetSoftwareResourcesV2Response> {
+        let input = GetSoftwareResourcesV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            packageName: packageName, 
+            packageType: packageType, 
+            packageVersion: packageVersion, 
+            scopes: scopes, 
+            sortCriteria: sortCriteria
+        )
+        return self.getSoftwareResourcesV2Paginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getSoftwareV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSoftwareV2Paginator(
+        _ input: GetSoftwareV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetSoftwareV2Request, GetSoftwareV2Response> {
+        return .init(
+            input: input,
+            command: self.getSoftwareV2,
+            inputKey: \GetSoftwareV2Request.nextToken,
+            outputKey: \GetSoftwareV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getSoftwareV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters software packages based on a set of criteria. You can nest composite filters up to three levels deep.
+    ///   - maxResults: The maximum number of results to return. Valid values are 1–100. The default is 100.
+    ///   - scopes: Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees software from all accounts across the entire organization. Other accounts see only software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    ///   - sortCriteria: The software attributes used to sort the list of returned software packages. You can't sort by ResourceCount.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSoftwareV2Paginator(
+        filters: SoftwareFilters? = nil,
+        maxResults: Int? = nil,
+        scopes: SoftwareScopes? = nil,
+        sortCriteria: [SortCriterion]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetSoftwareV2Request, GetSoftwareV2Response> {
+        let input = GetSoftwareV2Request(
+            filters: filters, 
+            maxResults: maxResults, 
+            scopes: scopes, 
+            sortCriteria: sortCriteria
+        )
+        return self.getSoftwareV2Paginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAggregatorsV2(_:logger:)``.
@@ -4711,6 +5203,83 @@ extension SecurityHub {
             maxResults: maxResults
         )
         return self.listEnabledProductsForImportPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExportJobsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExportJobsV2Paginator(
+        _ input: ListExportJobsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExportJobsV2Request, ListExportJobsV2Response> {
+        return .init(
+            input: input,
+            command: self.listExportJobsV2,
+            inputKey: \ListExportJobsV2Request.nextToken,
+            outputKey: \ListExportJobsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExportJobsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dataType: Filters the results to export jobs that produce the specified data type.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1–20.
+    ///   - status: Filters the results to export jobs that have the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExportJobsV2Paginator(
+        dataType: ExportDataType? = nil,
+        maxResults: Int? = nil,
+        status: ExportStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExportJobsV2Request, ListExportJobsV2Response> {
+        let input = ListExportJobsV2Request(
+            dataType: dataType, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listExportJobsV2Paginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExposuresByRemediationV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExposuresByRemediationV2Paginator(
+        _ input: ListExposuresByRemediationV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExposuresByRemediationV2Request, ListExposuresByRemediationV2Response> {
+        return .init(
+            input: input,
+            command: self.listExposuresByRemediationV2,
+            inputKey: \ListExposuresByRemediationV2Request.nextToken,
+            outputKey: \ListExposuresByRemediationV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExposuresByRemediationV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    ///   - targetUid: The unique identifier (ID) of an existing remediation target to list exposure findings for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExposuresByRemediationV2Paginator(
+        maxResults: Int? = nil,
+        targetUid: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExposuresByRemediationV2Request, ListExposuresByRemediationV2Response> {
+        let input = ListExposuresByRemediationV2Request(
+            maxResults: maxResults, 
+            targetUid: targetUid
+        )
+        return self.listExposuresByRemediationV2Paginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listFindingAggregators(_:logger:)``.
@@ -5112,6 +5681,21 @@ extension SecurityHub.GetRecommendedPolicyV2Request: AWSPaginateToken {
     }
 }
 
+extension SecurityHub.GetRemediationsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetRemediationsV2Request {
+        return .init(
+            filters: self.filters,
+            guidanceFormat: self.guidanceFormat,
+            maxResults: self.maxResults,
+            metadataUid: self.metadataUid,
+            nextToken: token,
+            showGuidance: self.showGuidance,
+            targetUid: self.targetUid
+        )
+    }
+}
+
 extension SecurityHub.GetResourcesTrendsV2Request: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetResourcesTrendsV2Request {
@@ -5128,6 +5712,35 @@ extension SecurityHub.GetResourcesTrendsV2Request: AWSPaginateToken {
 extension SecurityHub.GetResourcesV2Request: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityHub.GetResourcesV2Request {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scopes: self.scopes,
+            sortCriteria: self.sortCriteria
+        )
+    }
+}
+
+extension SecurityHub.GetSoftwareResourcesV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetSoftwareResourcesV2Request {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageName: self.packageName,
+            packageType: self.packageType,
+            packageVersion: self.packageVersion,
+            scopes: self.scopes,
+            sortCriteria: self.sortCriteria
+        )
+    }
+}
+
+extension SecurityHub.GetSoftwareV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.GetSoftwareV2Request {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,
@@ -5175,6 +5788,29 @@ extension SecurityHub.ListEnabledProductsForImportRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SecurityHub.ListExportJobsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListExportJobsV2Request {
+        return .init(
+            dataType: self.dataType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension SecurityHub.ListExposuresByRemediationV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListExposuresByRemediationV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            targetUid: self.targetUid
         )
     }
 }

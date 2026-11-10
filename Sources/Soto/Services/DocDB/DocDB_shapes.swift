@@ -900,6 +900,8 @@ extension DocDB {
         public var readReplicaIdentifiers: [String]?
         /// Contains the identifier of the source cluster if this cluster is a secondary cluster.
         public let replicationSourceIdentifier: String?
+        /// The version of the Amazon DocumentDB Serverless platform used by the cluster.
+        public let serverlessV2PlatformVersion: String?
         /// The scaling configuration of an Amazon DocumentDB Serverless cluster.
         public let serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo?
         /// Specifies the current state of this cluster.
@@ -913,7 +915,7 @@ extension DocDB {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, networkType: String? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, networkType: String? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2PlatformVersion: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -947,6 +949,7 @@ extension DocDB {
             self.readerEndpoint = readerEndpoint
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
@@ -988,6 +991,7 @@ extension DocDB {
             case readerEndpoint = "ReaderEndpoint"
             case readReplicaIdentifiers = "ReadReplicaIdentifiers"
             case replicationSourceIdentifier = "ReplicationSourceIdentifier"
+            case serverlessV2PlatformVersion = "ServerlessV2PlatformVersion"
             case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
@@ -2342,6 +2346,47 @@ extension DocDB {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case resourceIdentifier = "ResourceIdentifier"
+        }
+    }
+
+    public struct DescribeServerlessV2PlatformVersionsMessage: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+        public let defaultOnly: Bool?
+        /// The database engine to return platform version details for.
+        public let engine: String?
+        /// This parameter isn't currently supported.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// Specifies whether to also include platform versions that are no longer in use. If you don't specify a value, the response includes only active platform versions.
+        public let includeAll: Bool?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+        /// A specific platform version to return details for. Example: 3
+        public let serverlessV2PlatformVersion: String?
+
+        @inlinable
+        public init(defaultOnly: Bool? = nil, engine: String? = nil, filters: [Filter]? = nil, includeAll: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, serverlessV2PlatformVersion: String? = nil) {
+            self.defaultOnly = defaultOnly
+            self.engine = engine
+            self.filters = filters
+            self.includeAll = includeAll
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultOnly = "DefaultOnly"
+            case engine = "Engine"
+            case filters = "Filters"
+            case includeAll = "IncludeAll"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case serverlessV2PlatformVersion = "ServerlessV2PlatformVersion"
         }
     }
 
@@ -3818,6 +3863,61 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case maxCapacity = "MaxCapacity"
             case minCapacity = "MinCapacity"
+        }
+    }
+
+    public struct ServerlessV2PlatformVersionInfo: AWSDecodableShape {
+        /// The name of the database engine.
+        public let engine: String?
+        /// Specifies whether this platform version is the default version for the engine. The default platform version is the version used for new DB clusters.
+        public let isDefault: Bool?
+        /// Specifies any Amazon DocumentDB Serverless v2 properties or limits that differ between platform versions. You can retrieve the platform version of an existing cluster and check whether it supports specific features before you use them.
+        public let serverlessV2FeaturesSupport: ServerlessV2FeaturesSupport?
+        /// The version number of the serverless platform.
+        public let serverlessV2PlatformVersion: String?
+        /// The description of the serverless platform.
+        public let serverlessV2PlatformVersionDescription: String?
+        /// The status of the serverless platform. Valid statuses are the following:    enabled - The platform version is in use.    disabled - The platform version is not in use.
+        public let status: String?
+
+        @inlinable
+        public init(engine: String? = nil, isDefault: Bool? = nil, serverlessV2FeaturesSupport: ServerlessV2FeaturesSupport? = nil, serverlessV2PlatformVersion: String? = nil, serverlessV2PlatformVersionDescription: String? = nil, status: String? = nil) {
+            self.engine = engine
+            self.isDefault = isDefault
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+            self.serverlessV2PlatformVersionDescription = serverlessV2PlatformVersionDescription
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case isDefault = "IsDefault"
+            case serverlessV2FeaturesSupport = "ServerlessV2FeaturesSupport"
+            case serverlessV2PlatformVersion = "ServerlessV2PlatformVersion"
+            case serverlessV2PlatformVersionDescription = "ServerlessV2PlatformVersionDescription"
+            case status = "Status"
+        }
+    }
+
+    public struct ServerlessV2PlatformVersionsMessage: AWSDecodableShape {
+        public struct _ServerlessV2PlatformVersionsEncoding: ArrayCoderProperties { public static let member = "ServerlessV2PlatformVersionInfo" }
+
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// A list of ServerlessV2PlatformVersionInfo elements.
+        @OptionalCustomCoding<ArrayCoder<_ServerlessV2PlatformVersionsEncoding, ServerlessV2PlatformVersionInfo>>
+        public var serverlessV2PlatformVersions: [ServerlessV2PlatformVersionInfo]?
+
+        @inlinable
+        public init(marker: String? = nil, serverlessV2PlatformVersions: [ServerlessV2PlatformVersionInfo]? = nil) {
+            self.marker = marker
+            self.serverlessV2PlatformVersions = serverlessV2PlatformVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case serverlessV2PlatformVersions = "ServerlessV2PlatformVersions"
         }
     }
 

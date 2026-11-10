@@ -26,23 +26,30 @@ extension Signin {
     // MARK: Enums
 
     public enum OAuth2ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// Authorization code has expired
+        /// Authorization code has expired.
         case authcodeExpired = "AUTHCODE_EXPIRED"
-        /// Request conflicts with current state of the resource
+        /// Request conflicts with the current state of the resource.
         case conflict = "CONFLICT"
-        /// Insufficient permissions to perform this operation
+        /// Insufficient permissions to perform this operation.
         case insufficientPermissions = "INSUFFICIENT_PERMISSIONS"
-        /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed
+        /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed.
         case invalidRequest = "INVALID_REQUEST"
-        /// Requested resource was not found
+        case oauthInvalidGrant = "invalid_grant"
+        case oauthInvalidRequest = "invalid_request"
+        case oauthInvalidScope = "invalid_scope"
+        case oauthInvalidTarget = "invalid_target"
+        case oauthRateExceeded = "rate_exceeded"
+        case oauthServiceUnavailable = "service_unavailable"
+        case oauthUnsupportedGrantType = "unsupported_grant_type"
+        /// Requested resource was not found.
         case resourceNotFound = "RESOURCE_NOT_FOUND"
-        /// Internal server error occurred
+        /// Internal server error occurred.
         case serverError = "server_error"
-        /// Request would cause a service quota to be exceeded
+        /// Request would cause a service quota to be exceeded.
         case serviceQuotaExceeded = "SERVICE_QUOTA_EXCEEDED"
-        /// Token has expired and needs to be refreshed
+        /// Token has expired.
         case tokenExpired = "TOKEN_EXPIRED"
-        /// User credentials have been changed
+        /// User credentials have been changed.
         case userCredentialsChanged = "USER_CREDENTIALS_CHANGED"
         public var description: String { return self.rawValue }
     }
@@ -50,11 +57,9 @@ extension Signin {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
-        /// OAuth 2.0 error code indicating the specific type of access denial
-        /// Can be TOKEN_EXPIRED, AUTHCODE_EXPIRED, USER_CREDENTIALS_CHANGED, or INSUFFICIENT_PERMISSIONS
+        /// One of TOKEN_EXPIRED, AUTHCODE_EXPIRED, USER_CREDENTIALS_CHANGED, or INSUFFICIENT_PERMISSIONS.
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the access denial
-        /// Provides specific information about why access was denied
+        /// The reason access was denied.
         public let message: String
 
         @inlinable
@@ -70,11 +75,11 @@ extension Signin {
     }
 
     public struct AccessToken: AWSDecodableShape {
-        /// AWS access key ID for temporary credentials
+        /// The AWS access key ID for the temporary credentials.
         public let accessKeyId: String
-        /// AWS secret access key for temporary credentials
+        /// The AWS secret access key used to sign requests.
         public let secretAccessKey: String
-        /// AWS session token for temporary credentials
+        /// The session token that validates the temporary security credentials.
         public let sessionToken: String
 
         @inlinable
@@ -111,9 +116,60 @@ extension Signin {
         }
     }
 
+    public struct CreateBearerTokenRequest: AWSEncodableShape {
+        /// The requested token lifetime in seconds, from 300 (5 minutes) up to the maximum allowed for the service, currently 43200 (12 hours). If omitted, the token is valid for 12 hours.
+        public let durationSeconds: Int?
+        /// The grant type. Must be "client_credentials".
+        public let grantType: String
+        /// The AWS service the bearer token is for.
+        /// Example: "ecr.amazonaws.com".
+        public let resource: String
+
+        @inlinable
+        public init(durationSeconds: Int? = nil, grantType: String, resource: String) {
+            self.durationSeconds = durationSeconds
+            self.grantType = grantType
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 300)
+            try self.validate(self.grantType, name: "grantType", parent: name, pattern: "^client_credentials$")
+            try self.validate(self.resource, name: "resource", parent: name, max: 2048)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationSeconds = "duration"
+            case grantType = "grant_type"
+            case resource = "resource"
+        }
+    }
+
+    public struct CreateBearerTokenResponse: AWSDecodableShape {
+        /// The bearer token. Present it to the AWS service named in the request.
+        public let accessToken: String
+        /// Token lifetime in seconds.
+        public let expiresIn: Int
+        /// The token type. Always "Bearer".
+        public let tokenType: String
+
+        @inlinable
+        public init(accessToken: String, expiresIn: Int, tokenType: String) {
+            self.accessToken = accessToken
+            self.expiresIn = expiresIn
+            self.tokenType = tokenType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "access_token"
+            case expiresIn = "expires_in"
+            case tokenType = "token_type"
+        }
+    }
+
     public struct CreateOAuth2TokenRequest: AWSEncodableShape {
-        /// Flattened token operation inputs
-        /// The specific operation is determined by grant_type in the request body
+        /// Flattened token operation inputs. The "grant_type" in the request body determines the specific operation.
         public let tokenInput: CreateOAuth2TokenRequestBody
 
         @inlinable
@@ -134,23 +190,24 @@ extension Signin {
     }
 
     public struct CreateOAuth2TokenRequestBody: AWSEncodableShape {
-        /// The client identifier (ARN) used during Sign-In onboarding
-        /// Required for both authorization code and refresh token flows
+        /// The OAuth 2.0 client identifier. Expected values: "arn:aws:signin:::devtools/same-device"
+        /// or "arn:aws:signin:::devtools/cross-device".
         public let clientId: String
-        /// The authorization code received from /v1/authorize
-        /// Required only when grant_type=authorization_code
+        /// The authorization code received from the "/v1/authorize" endpoint.
+        /// Required when "grant_type=authorization_code".
         public let code: String?
-        /// PKCE code verifier to prove possession of the original code challenge
-        /// Required only when grant_type=authorization_code
+        /// The PKCE code verifier that proves possession of the original code challenge.
+        /// Required when "grant_type=authorization_code".
         public let codeVerifier: String?
-        /// OAuth 2.0 grant type - determines which flow is used
-        /// Must be "authorization_code" or "refresh_token"
+        /// The OAuth 2.0 grant type. Supported values:
+        /// - "authorization_code" - Exchange an authorization code for tokens.
+        /// - "refresh_token" - Use a refresh token to obtain a new access token.
         public let grantType: String
-        /// The redirect URI that must match the original authorization request
-        /// Required only when grant_type=authorization_code
+        /// The redirect URI that was used in the original authorization request. Must match exactly.
+        /// Required when "grant_type=authorization_code".
         public let redirectUri: String?
-        /// The refresh token returned from auth_code redemption
-        /// Required only when grant_type=refresh_token
+        /// The refresh token issued by a previous token response.
+        /// Required when "grant_type=refresh_token".
         public let refreshToken: String?
 
         @inlinable
@@ -188,8 +245,8 @@ extension Signin {
     }
 
     public struct CreateOAuth2TokenResponse: AWSDecodableShape {
-        /// Flattened token operation outputs
-        /// The specific response fields depend on the grant_type used in the request
+        /// Flattened token operation outputs.
+        /// The specific response fields depend on the grant_type used in the request.
         public let tokenOutput: CreateOAuth2TokenResponseBody
 
         @inlinable
@@ -206,21 +263,17 @@ extension Signin {
     }
 
     public struct CreateOAuth2TokenResponseBody: AWSDecodableShape {
-        /// Scoped-down AWS credentials (15 minute duration)
-        /// Present for both authorization code redemption and token refresh
+        /// The access token issued by the authorization server. The token contains temporary
+        /// AWS security credentials that you use to sign requests with SigV4.
         public let accessToken: AccessToken
-        /// Time to expiry in seconds (maximum 900)
-        /// Present for both authorization code redemption and token refresh
+        /// The number of seconds until the access token expires. Maximum value is 900 seconds (15 minutes).
         public let expiresIn: Int
-        /// ID token containing user identity information
-        /// Present only in authorization code redemption response (grant_type=authorization_code)
-        /// Not included in token refresh responses
+        /// A JSON Web Token (JWT) containing user identity claims. Present only when
+        /// "grant_type=authorization_code". Not included in refresh token responses.
         public let idToken: String?
-        /// Encrypted refresh token with cnf.jkt (SHA-256 thumbprint of presented jwk)
-        /// Always present in responses (required for both flows)
+        /// A refresh token that can be used to obtain new access tokens without re-authenticating.
         public let refreshToken: String
-        /// Token type indicating this is AWS SigV4 credentials
-        /// Value is "aws_sigv4" for both flows
+        /// The type of token issued. Value is "aws_sigv4".
         public let tokenType: String
 
         @inlinable
@@ -242,7 +295,7 @@ extension Signin {
     }
 
     public struct CreateOAuth2TokenWithIAMRequest: AWSEncodableShape {
-        /// OAuth 2.0 grant type. Must be "client_credentials".
+        /// The OAuth 2.0 grant type. Must be "client_credentials".
         public let grantType: String
         /// The OAuth resource for which the access token is requested.
         /// Example: "aws-mcp.amazonaws.com".
@@ -256,6 +309,8 @@ extension Signin {
 
         public func validate(name: String) throws {
             try self.validate(self.grantType, name: "grantType", parent: name, pattern: "^client_credentials$")
+            try self.validate(self.resource, name: "resource", parent: name, max: 2048)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,11 +320,11 @@ extension Signin {
     }
 
     public struct CreateOAuth2TokenWithIAMResponse: AWSDecodableShape {
-        /// JWT access token containing principal identity, resource scope, and session metadata
+        /// Access token containing principal identity, resource scope, and session metadata.
         public let accessToken: String
-        /// Token lifetime in seconds. Value is the minimum of session validity and 1 hour.
+        /// Token lifetime in seconds. Value is the minimum of the caller's session validity and 1 hour (3600 seconds).
         public let expiresIn: Int
-        /// Always "Bearer" per OAuth 2.1 specification
+        /// The token type. Always "Bearer" as defined in RFC 6749.
         public let tokenType: String
 
         @inlinable
@@ -282,6 +337,79 @@ extension Signin {
         private enum CodingKeys: String, CodingKey {
             case accessToken = "access_token"
             case expiresIn = "expires_in"
+            case tokenType = "token_type"
+        }
+    }
+
+    public struct CreateOAuth2TokenWithTokenExchangeRequest: AWSEncodableShape {
+        /// The OAuth 2.0 grant type. Currently only supports "urn:ietf:params:oauth:grant-type:token-exchange".
+        public let grantType: String
+        /// The OAuth resource for which the access token is requested.
+        /// Required when "grant_type=urn:ietf:params:oauth:grant-type:token-exchange".
+        /// Example: "glue.amazonaws.com".
+        public let resource: String?
+        /// IAM managed policy Amazon Resource Names (ARNs) to apply as session policies that further
+        /// scope down the permissions of the issued access token, provided as a space-delimited list.
+        /// Example: "arn:aws:iam::444455556666:policy/MyPolicy".
+        public let scope: String?
+        /// The subject token that represents the identity of the party on whose behalf the request is made.
+        /// Required when "grant_type=urn:ietf:params:oauth:grant-type:token-exchange".
+        public let subjectToken: String?
+        /// The token type of the subject token. Currently only supports "urn:ietf:params:oauth:token-type:jwt".
+        /// Required when "grant_type=urn:ietf:params:oauth:grant-type:token-exchange".
+        public let subjectTokenType: String?
+
+        @inlinable
+        public init(grantType: String, resource: String? = nil, scope: String? = nil, subjectToken: String? = nil, subjectTokenType: String? = nil) {
+            self.grantType = grantType
+            self.resource = resource
+            self.scope = scope
+            self.subjectToken = subjectToken
+            self.subjectTokenType = subjectTokenType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.grantType, name: "grantType", parent: name, pattern: "^urn:ietf:params:oauth:grant-type:token-exchange$")
+            try self.validate(self.resource, name: "resource", parent: name, max: 2048)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+            try self.validate(self.scope, name: "scope", parent: name, max: 4096)
+            try self.validate(self.scope, name: "scope", parent: name, min: 1)
+            try self.validate(self.subjectToken, name: "subjectToken", parent: name, max: 20000)
+            try self.validate(self.subjectToken, name: "subjectToken", parent: name, min: 4)
+            try self.validate(self.subjectTokenType, name: "subjectTokenType", parent: name, pattern: "^urn:ietf:params:oauth:token-type:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantType = "grant_type"
+            case resource = "resource"
+            case scope = "scope"
+            case subjectToken = "subject_token"
+            case subjectTokenType = "subject_token_type"
+        }
+    }
+
+    public struct CreateOAuth2TokenWithTokenExchangeResponse: AWSDecodableShape {
+        /// Access token containing principal identity, resource scope, and session metadata.
+        public let accessToken: String
+        /// Token lifetime in seconds. Value is the minimum of the subject token's validity and 1 hour (3600 seconds).
+        public let expiresIn: Int
+        /// The token type of the issued token. Always "urn:ietf:params:oauth:token-type:access_token" as defined in RFC 8693 §2.2.1.
+        public let issuedTokenType: String?
+        /// The token type. Currently only supports "Bearer" as defined in RFC 6749.
+        public let tokenType: String
+
+        @inlinable
+        public init(accessToken: String, expiresIn: Int, issuedTokenType: String? = nil, tokenType: String) {
+            self.accessToken = accessToken
+            self.expiresIn = expiresIn
+            self.issuedTokenType = issuedTokenType
+            self.tokenType = tokenType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "access_token"
+            case expiresIn = "expires_in"
+            case issuedTokenType = "issued_token_type"
             case tokenType = "token_type"
         }
     }
@@ -418,11 +546,9 @@ extension Signin {
     }
 
     public struct InternalServerException: AWSErrorShape {
-        /// OAuth 2.0 error code indicating server error
-        /// Will be SERVER_ERROR for internal server errors
+        /// Will be server_error.
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the server error
-        /// May include error details for debugging purposes
+        /// The server error detail.
         public let message: String
 
         @inlinable
@@ -438,12 +564,10 @@ extension Signin {
     }
 
     public struct IntrospectOAuth2TokenWithIAMRequest: AWSEncodableShape {
-        /// The string value of the token to introspect.
-        /// May be either an access_token or a refresh_token issued by AWS Sign-In.
+        /// The access token or refresh token issued by AWS Sign-In.
         public let token: String
-        /// Optional hint about the type of the token submitted for introspection.
-        /// The server uses this hint to optimize lookup, but still falls back to
-        /// the other token type on miss. Allowed values: access_token, refresh_token.
+        /// An optional hint about the type of the token submitted for introspection, as defined in RFC 7662 §2.1.
+        /// The server checks both token types regardless of the hint. Allowed values: "access_token", "refresh_token".
         public let tokenTypeHint: String?
 
         @inlinable
@@ -468,12 +592,11 @@ extension Signin {
     public struct IntrospectOAuth2TokenWithIAMResponse: AWSDecodableShape {
         /// 12-digit AWS account ID of the token's subject principal.
         public let accountId: String?
-        /// Indicates whether the token is currently active. `true` only when the
-        /// token is valid, has not expired, has not been revoked, and belongs to
-        /// the caller's account.
+        /// Indicates whether the token is currently active. Returns "true" only when the token is valid,
+        /// has not expired, has not been revoked, and belongs to the caller's account.
         public let active: Bool
-        /// Audience of the token: the OAuth resource the token is scoped to
-        /// (for example, "aws-mcp.amazonaws.com"). Omitted for refresh tokens.
+        /// The OAuth resource the token is scoped to. Omitted for refresh tokens.
+        /// Example: "aws-mcp.amazonaws.com".
         public let aud: String?
         /// Client identifier for the OAuth 2.0 client that requested the token.
         public let clientId: String?
@@ -487,22 +610,17 @@ extension Signin {
         public let jti: String?
         /// Token "not before" time as a NumericDate (Unix epoch seconds).
         public let nbf: Int64?
-        /// The OAuth resource the token is scoped to during Human OAuth flow.
-        /// Only present for refresh token introspection.
+        /// The OAuth resource the token is scoped to. Only present for refresh token introspection.
         public let resource: String?
         /// AWS Sign-In session ARN bound to the token, of the form
         /// arn:aws:signin:{region}:{account}:session/{uuid}.
         public let signinSession: String?
-        /// Subject of the token: the IAM principal ARN. For assumed-role sessions,
-        /// this is the session ARN (matches sts:GetCallerIdentity's `Arn` field),
-        /// e.g. arn:aws:sts::123456789012:assumed-role/MyRole/session-name.
+        /// The IAM principal Amazon Resource Name (ARN). For assumed-role sessions, this is the session ARN.
         public let sub: String?
         /// Indicates which kind of token was introspected.
         /// One of "access_token" or "refresh_token".
         public let tokenType: String?
-        /// User identifier matching sts:GetCallerIdentity's `UserId` field for the
-        /// token's subject principal (e.g. "AIDAEXAMPLE" for an IAM user, or
-        /// "AROAEXAMPLE:session-name" for an assumed role).
+        /// User identifier matching the "UserId" field from "sts:GetCallerIdentity" for the token's subject principal.
         public let userId: String?
 
         @inlinable
@@ -538,6 +656,40 @@ extension Signin {
             case sub = "sub"
             case tokenType = "token_type"
             case userId = "user_id"
+        }
+    }
+
+    public struct InvalidGrantException: AWSErrorShape {
+        /// Will be invalid_grant.
+        public let error: OAuth2ErrorCode
+        public let message: String
+
+        @inlinable
+        public init(error: OAuth2ErrorCode, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
+        }
+    }
+
+    public struct InvalidScopeException: AWSErrorShape {
+        /// Will be invalid_scope.
+        public let error: OAuth2ErrorCode
+        public let message: String
+
+        @inlinable
+        public init(error: OAuth2ErrorCode, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
         }
     }
 
@@ -765,8 +917,8 @@ extension Signin {
     }
 
     public struct RevokeOAuth2TokenWithIAMRequest: AWSEncodableShape {
-        /// The refresh_token to revoke. Must be a refresh_token issued by AWS
-        /// Sign-In (prefix "ASOR"); access_tokens are not accepted for revocation.
+        /// The refresh token to revoke. Must be a refresh token issued by AWS Sign-In.
+        /// Access tokens are not accepted for revocation.
         public let token: String
 
         @inlinable
@@ -809,6 +961,23 @@ extension Signin {
         }
     }
 
+    public struct ServiceUnavailableException: AWSErrorShape {
+        /// Will be service_unavailable.
+        public let error: OAuth2ErrorCode
+        public let message: String
+
+        @inlinable
+        public init(error: OAuth2ErrorCode, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
+        }
+    }
+
     public struct SigninResourceBasedPolicy: AWSDecodableShape {
         /// Policy statements
         public let statement: [PolicyStatement]?
@@ -828,11 +997,9 @@ extension Signin {
     }
 
     public struct TooManyRequestsError: AWSErrorShape {
-        /// OAuth 2.0 error code indicating the specific type of error
-        /// Will be INVALID_REQUEST for rate limiting scenarios
+        /// Will be rate_exceeded.
         public let error: OAuth2ErrorCode
-        /// Detailed message about the rate limiting
-        /// May include retry-after information or rate limit details
+        /// Details about the rate limit.
         public let message: String
 
         @inlinable
@@ -848,11 +1015,9 @@ extension Signin {
     }
 
     public struct ValidationException: AWSErrorShape {
-        /// OAuth 2.0 error code indicating validation failure
-        /// Will be INVALID_REQUEST for validation errors
+        /// The specific code depends on which validation failed.
         public let error: OAuth2ErrorCode
-        /// Detailed message explaining the validation failure
-        /// Provides specific information about which validation failed
+        /// The validation constraint that failed.
         public let message: String
 
         @inlinable
@@ -876,8 +1041,11 @@ public struct SigninErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case invalidGrantException = "InvalidGrantException"
+        case invalidScopeException = "InvalidScopeException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case tooManyRequestsError = "TooManyRequestsError"
         case validationException = "ValidationException"
     }
@@ -900,21 +1068,18 @@ public struct SigninErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Error thrown for access denied scenarios with flexible HTTP status mapping
-    /// Runtime HTTP Status Code Mapping:
-    /// - HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    /// - HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    /// The specific HTTP status code is determined at runtime based on the error enum value.
-    /// Consumers should use the error field to determine the specific access denial reason.
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Error thrown when request conflicts with current state
     /// HTTP Status Code: 409 Conflict
     /// Used when the request conflicts with the current state of the resource
     public static var conflictException: Self { .init(.conflictException) }
-    /// Error thrown when an internal server error occurs
-    /// HTTP Status Code: 500 Internal Server Error
-    /// Used for unexpected server-side errors that prevent request processing.
+    /// The request failed because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request failed because the provided grant is invalid or expired.
+    public static var invalidGrantException: Self { .init(.invalidGrantException) }
+    /// The request failed because the requested scope is invalid or exceeds the scope that can be granted.
+    public static var invalidScopeException: Self { .init(.invalidScopeException) }
     /// Error thrown when requested resource is not found
     /// HTTP Status Code: 404 Not Found
     /// Used when the specified resource does not exist
@@ -923,20 +1088,11 @@ public struct SigninErrorType: AWSErrorType {
     /// HTTP Status Code: 402 Payment Required (used as quota exceeded indicator)
     /// Used when the request would cause a service quota to be exceeded
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// Error thrown when rate limit is exceeded
-    /// HTTP Status Code: 429 Too Many Requests
-    /// Possible OAuth2ErrorCode values:
-    /// - INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    /// Possible causes:
-    /// - Too many token requests from the same client
-    /// - Rate limiting based on client_id or IP address
-    /// - Abuse prevention mechanisms triggered
-    /// - Service protection against excessive token generation
+    /// The request failed because a dependency is temporarily unavailable. You can retry the request.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request failed because you exceeded the request rate limit for this operation.
     public static var tooManyRequestsError: Self { .init(.tooManyRequestsError) }
-    /// Error thrown when request validation fails
-    /// HTTP Status Code: 400 Bad Request
-    /// Used for request validation errors such as malformed parameters,
-    /// missing required fields, or invalid parameter values.
+    /// The request failed because it contains a malformed, missing, or invalid parameter.
     public static var validationException: Self { .init(.validationException) }
 }
 
@@ -945,8 +1101,11 @@ extension SigninErrorType: AWSServiceErrorType {
         "AccessDeniedException": Signin.AccessDeniedException.self,
         "ConflictException": Signin.ConflictException.self,
         "InternalServerException": Signin.InternalServerException.self,
+        "InvalidGrantException": Signin.InvalidGrantException.self,
+        "InvalidScopeException": Signin.InvalidScopeException.self,
         "ResourceNotFoundException": Signin.ResourceNotFoundException.self,
         "ServiceQuotaExceededException": Signin.ServiceQuotaExceededException.self,
+        "ServiceUnavailableException": Signin.ServiceUnavailableException.self,
         "TooManyRequestsError": Signin.TooManyRequestsError.self,
         "ValidationException": Signin.ValidationException.self
     ]

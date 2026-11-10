@@ -188,7 +188,7 @@ public struct LambdaMicrovms: AWSService {
     ///   - codeArtifact: The code artifact containing the application code and metadata for the MicroVM image.
     ///   - cpuConfigurations: The list of supported CPU configurations for the MicroVM.
     ///   - description: A description of the MicroVM image.
-    ///   - egressNetworkConnectors: The list of egress network connectors available to the MicroVM at runtime.
+    ///   - egressNetworkConnectors: The list of egress network connectors available to the MicroVM at image build time.
     ///   - environmentVariables: Environment variables set in the MicroVM runtime environment.
     ///   - hooks: 
     ///   - logging: The logging configuration for build-time and runtime logs. Specify {"cloudWatch": {"logGroup": "..."}} to stream logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging.
@@ -750,7 +750,7 @@ public struct LambdaMicrovms: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-    ///   - egressNetworkConnectors: The list of egress network connectors to configure for the MicroVM.
+    ///   - egressNetworkConnectors: The list of egress network connectors available to the MicroVM at runtime.
     ///   - executionRoleArn: The ARN of the IAM role to be assumed by the MicroVM during execution.
     ///   - idlePolicy: Configuration to control auto-suspend and auto-resume behavior.
     ///   - imageIdentifier: The identifier (ARN or ID) of the MicroVM image to run.
@@ -935,7 +935,7 @@ public struct LambdaMicrovms: AWSService {
     ///   - codeArtifact: The code artifact containing the application code and metadata for the MicroVM image.
     ///   - cpuConfigurations: The list of supported CPU configurations for the MicroVM.
     ///   - description: The description of the MicroVM image.
-    ///   - egressNetworkConnectors: The list of egress network connectors available to the MicroVM at runtime.
+    ///   - egressNetworkConnectors: The list of egress network connectors available to the MicroVM at image build time.
     ///   - environmentVariables: Environment variables set in the MicroVM runtime environment.
     ///   - hooks: 
     ///   - imageIdentifier: The unique identifier (ARN or ID) of the MicroVM image to update.
@@ -1018,7 +1018,7 @@ public struct LambdaMicrovms: AWSService {
 extension LambdaMicrovms {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: LambdaMicrovms, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

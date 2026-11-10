@@ -123,6 +123,12 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case _self = "SELF"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobManifestFieldName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bucket = "Bucket"
         case ignore = "Ignore"
@@ -3683,6 +3689,8 @@ extension S3Control {
         public let auditContext: String?
         /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
         public let durationSeconds: Int?
+        /// The scope of S3 Access Grants instances to search for a grant matching the requested S3 URI path.    SELF – Searches only the instance of the Amazon Web Services account ID in the request.    ALL – Searches the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
+        public let instanceScope: InstanceScope?
         /// The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
         public let permission: Permission
         /// The scope of the temporary access credential that S3 Access Grants vends to the grantee or client application.     Default – The scope of the returned temporary access token is the scope of the grant that is closest to the target scope.    Minimal – The scope of the returned temporary access token is the same as the requested target scope as long as the requested scope is the same as or a subset of the grant scope.
@@ -3693,10 +3701,11 @@ extension S3Control {
         public let targetType: S3PrefixType?
 
         @inlinable
-        public init(accountId: String, auditContext: String? = nil, durationSeconds: Int? = nil, permission: Permission, privilege: Privilege? = nil, target: String, targetType: S3PrefixType? = nil) {
+        public init(accountId: String, auditContext: String? = nil, durationSeconds: Int? = nil, instanceScope: InstanceScope? = nil, permission: Permission, privilege: Privilege? = nil, target: String, targetType: S3PrefixType? = nil) {
             self.accountId = accountId
             self.auditContext = auditContext
             self.durationSeconds = durationSeconds
+            self.instanceScope = instanceScope
             self.permission = permission
             self.privilege = privilege
             self.target = target
@@ -3710,6 +3719,7 @@ extension S3Control {
             request.encodeHostPrefix(self.accountId, key: "AccountId")
             request.encodeQuery(self.auditContext, key: "auditContext")
             request.encodeQuery(self.durationSeconds, key: "durationSeconds")
+            request.encodeQuery(self.instanceScope, key: "instanceScope")
             request.encodeQuery(self.permission, key: "permission")
             request.encodeQuery(self.privilege, key: "privilege")
             request.encodeQuery(self.target, key: "target")
@@ -3739,18 +3749,22 @@ extension S3Control {
         public let grantee: Grantee?
         /// The S3 URI path of the data to which you are being granted temporary access credentials.
         public let matchedGrantTarget: String?
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance containing the grant that matched the requested S3 URI path.
+        public let matchedInstanceArn: String?
 
         @inlinable
-        public init(credentials: Credentials? = nil, grantee: Grantee? = nil, matchedGrantTarget: String? = nil) {
+        public init(credentials: Credentials? = nil, grantee: Grantee? = nil, matchedGrantTarget: String? = nil, matchedInstanceArn: String? = nil) {
             self.credentials = credentials
             self.grantee = grantee
             self.matchedGrantTarget = matchedGrantTarget
+            self.matchedInstanceArn = matchedInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentials = "Credentials"
             case grantee = "Grantee"
             case matchedGrantTarget = "MatchedGrantTarget"
+            case matchedInstanceArn = "MatchedInstanceArn"
         }
     }
 
@@ -5408,6 +5422,8 @@ extension S3Control {
     }
 
     public struct ListCallerAccessGrantsEntry: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance in which the grant was created.
+        public let accessGrantsInstanceArn: String?
         /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
         public let applicationArn: String?
         /// The S3 path of the data to which you have been granted access.
@@ -5416,13 +5432,15 @@ extension S3Control {
         public let permission: Permission?
 
         @inlinable
-        public init(applicationArn: String? = nil, grantScope: String? = nil, permission: Permission? = nil) {
+        public init(accessGrantsInstanceArn: String? = nil, applicationArn: String? = nil, grantScope: String? = nil, permission: Permission? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.applicationArn = applicationArn
             self.grantScope = grantScope
             self.permission = permission
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
             case applicationArn = "ApplicationArn"
             case grantScope = "GrantScope"
             case permission = "Permission"
@@ -5437,16 +5455,19 @@ extension S3Control {
         public let allowedByApplication: Bool?
         /// The S3 path of the data that you would like to access. Must start with s3://. You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment.
         public let grantScope: String?
+        /// The scope of S3 Access Grants instances to list grants from.    SELF – Lists grants from the instance of the Amazon Web Services account ID in the request.    ALL – Lists grants from the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
+        public let instanceScope: InstanceScope?
         /// The maximum number of access grants that you would like returned in the List Caller Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
         public let maxResults: Int?
         /// A pagination token to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
-        public init(accountId: String, allowedByApplication: Bool? = nil, grantScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(accountId: String, allowedByApplication: Bool? = nil, grantScope: String? = nil, instanceScope: InstanceScope? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.allowedByApplication = allowedByApplication
             self.grantScope = grantScope
+            self.instanceScope = instanceScope
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5458,6 +5479,7 @@ extension S3Control {
             request.encodeHostPrefix(self.accountId, key: "AccountId")
             request.encodeQuery(self.allowedByApplication, key: "allowedByApplication")
             request.encodeQuery(self.grantScope, key: "grantscope")
+            request.encodeQuery(self.instanceScope, key: "instanceScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }

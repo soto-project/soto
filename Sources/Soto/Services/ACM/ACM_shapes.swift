@@ -2432,7 +2432,7 @@ extension ACM {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
-            try self.validate(self.privateKey, name: "privateKey", parent: name, max: 5120)
+            try self.validate(self.privateKey, name: "privateKey", parent: name, max: 8192)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
