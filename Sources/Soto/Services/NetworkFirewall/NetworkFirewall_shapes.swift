@@ -56,6 +56,13 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum DNSExpiryExceptionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `continue` = "CONTINUE"
+        case drop = "DROP"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnabledAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
@@ -65,6 +72,12 @@ extension NetworkFirewall {
     public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerKms = "CUSTOMER_KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallPolicyErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dnsFirewallRuleGroupUnavailable = "DNS_FIREWALL_RULE_GROUP_UNAVAILABLE"
+        case route53ResolvedIpValidationMissing = "ROUTE53_RESOLVED_IP_VALIDATION_MISSING"
         public var description: String { return self.rawValue }
     }
 
@@ -196,12 +209,20 @@ extension NetworkFirewall {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case error = "ERROR"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum RevocationCheckAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case drop = "DROP"
         case pass = "PASS"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Route53ResolvedIPValidationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alert = "ALERT"
+        case drop = "DROP"
         case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
@@ -298,6 +319,7 @@ extension NetworkFirewall {
     }
 
     public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsRoute53ResolvedDomain = "AWS_ROUTE_53_RESOLVED_DOMAIN"
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
         public var description: String { return self.rawValue }
@@ -889,9 +911,9 @@ extension NetworkFirewall {
     }
 
     public struct ContainerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The attribute key to filter on.
+        /// The attribute key to filter on. For Amazon EKS, specify namespace to filter by namespace, or specify a Kubernetes label key. For Amazon ECS, specify a container instance attribute name. Keys don't support wildcards. Valid characters are letters, numbers, spaces, hyphens (-), underscores (_), periods (.), forward slashes (/), and colons (:).
         public let key: String
-        /// The attribute value to match.
+        /// The attribute value to match. You can specify an exact value, such as payments-api, or a wildcard pattern, such as payments-*. Valid characters are letters, numbers, spaces, hyphens (-), underscores (_), periods (.), forward slashes (/), colons (:), asterisks (*), and backslashes (\). Network Firewall evaluates the value using the following rules:   An asterisk (*) matches zero or more characters. For example, payments-* matches payments-, payments-api, and payments-api-v2, and *-prod matches web-prod.   The pattern must match the entire value. For example, payments-* doesn't match my-payments-api. To match a value that contains payments anywhere, use *payments*.   Matching is case sensitive. For example, Payments-* doesn't match payments-api.   To match a literal asterisk, escape it with a backslash (\*). To match a literal backslash, use \\. A backslash followed by any other character matches a literal backslash followed by that character.   A wildcard pattern matches only containers that have the attribute. For example, a filter with key app and value * matches every container that has an app label, but doesn't match a container without an app label.   A value that doesn't contain * or \ matches only that exact value.   A value can contain at most 10 unescaped asterisks. Escaped asterisks (\*) don't count toward this limit. A value can't end with a single unescaped backslash.
         public let value: String
 
         @inlinable
@@ -916,7 +938,7 @@ extension NetworkFirewall {
     }
 
     public struct ContainerMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only).
+        /// Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). Attribute values can contain wildcard patterns, for example payments-*. Attribute keys must match exactly.
         public let attributeFilters: [ContainerAttribute]?
         /// The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association.
         public let clusterArn: String
@@ -2557,8 +2579,10 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFlowOperationRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
@@ -2569,8 +2593,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowOperationId: String, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
@@ -2594,6 +2619,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
             case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
@@ -2602,8 +2628,10 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFlowOperationResponse: AWSDecodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// Returns key information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation.
@@ -2625,8 +2653,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperation = flowOperation
             self.flowOperationId = flowOperationId
@@ -2640,6 +2669,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperation = "FlowOperation"
             case flowOperationId = "FlowOperationId"
@@ -3655,6 +3685,8 @@ extension NetworkFirewall {
         public let enableTLSSessionHolding: Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public let policyVariables: PolicyVariables?
+        /// The settings that enable resolved IP validation for the policy. Resolved IP validation verifies that a connection's destination IP address is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. The response must come from a VPC that's associated with the Route 53 Resolver DNS Firewall rule group that you specify. This checks how the destination IP address was obtained, instead of relying only on the domain that the client asserts in its TLS Server Name Indication (SNI) or HTTP Host header. For more information, see Route53ResolvedIPValidation.
+        public let route53ResolvedIPValidation: Route53ResolvedIPValidation?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   aws:drop_established_app_layer   aws:alert_established_app_layer   aws:drop_established_app_layer_to_server   aws:alert_established_app_layer_to_server   For more information, see Strict evaluation order in the Network Firewall Developer Guide.
         public let statefulDefaultActions: [String]?
         /// Additional options governing how Network Firewall handles stateful rules. The stateful rule groups that you use in your policy must have stateful rule options settings that are compatible with these settings.
@@ -3673,9 +3705,10 @@ extension NetworkFirewall {
         public let tlsInspectionConfigurationArn: String?
 
         @inlinable
-        public init(enableTLSSessionHolding: Bool? = nil, policyVariables: PolicyVariables? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
+        public init(enableTLSSessionHolding: Bool? = nil, policyVariables: PolicyVariables? = nil, route53ResolvedIPValidation: Route53ResolvedIPValidation? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
             self.enableTLSSessionHolding = enableTLSSessionHolding
             self.policyVariables = policyVariables
+            self.route53ResolvedIPValidation = route53ResolvedIPValidation
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
@@ -3688,6 +3721,7 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.policyVariables?.validate(name: "\(name).policyVariables")
+            try self.route53ResolvedIPValidation?.validate(name: "\(name).route53ResolvedIPValidation")
             try self.statefulRuleGroupReferences?.forEach {
                 try $0.validate(name: "\(name).statefulRuleGroupReferences[]")
             }
@@ -3705,6 +3739,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case enableTLSSessionHolding = "EnableTLSSessionHolding"
             case policyVariables = "PolicyVariables"
+            case route53ResolvedIPValidation = "Route53ResolvedIPValidation"
             case statefulDefaultActions = "StatefulDefaultActions"
             case statefulEngineOptions = "StatefulEngineOptions"
             case statefulRuleGroupReferences = "StatefulRuleGroupReferences"
@@ -3713,6 +3748,28 @@ extension NetworkFirewall {
             case statelessFragmentDefaultActions = "StatelessFragmentDefaultActions"
             case statelessRuleGroupReferences = "StatelessRuleGroupReferences"
             case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        }
+    }
+
+    public struct FirewallPolicyError: AWSDecodableShape {
+        /// The error code identifies the type of error. Valid values are the following:    DNS_FIREWALL_RULE_GROUP_UNAVAILABLE – The Amazon Route 53 Resolver DNS Firewall rule group that resolved IP validation references is unavailable, for example, because it was deleted or is no longer accessible from your account. Update the rule group ID or remove the resolved IP validation configuration.    ROUTE53_RESOLVED_IP_VALIDATION_MISSING – An associated stateful rule group uses the aws_route_53_resolved_domain keyword, but the policy doesn't have resolved IP validation configured. The affected rules are inactive until you add resolved IP validation to the policy or remove the keyword rules.
+        public let code: FirewallPolicyErrorCode
+        /// A description of the error and how to resolve it.
+        public let message: String
+        /// The ID of the resource that the error relates to, when applicable. For example, for DNS_FIREWALL_RULE_GROUP_UNAVAILABLE this is the Amazon Route 53 Resolver DNS Firewall rule group ID.
+        public let resourceId: String?
+
+        @inlinable
+        public init(code: FirewallPolicyErrorCode, message: String, resourceId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -3745,6 +3802,8 @@ extension NetworkFirewall {
         public let description: String?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall policy.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// Any configuration errors that apply to the firewall policy. Network Firewall detects these errors asynchronously, after you create or update the policy, so an error can appear after the request that caused it has already succeeded. Each entry describes the problem and how to resolve it, and Network Firewall clears it automatically after you resolve the problem.
+        public let errors: [FirewallPolicyError]?
         /// The Amazon Resource Name (ARN) of the firewall policy.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
         public let firewallPolicyArn: String
         /// The unique identifier for the firewall policy.
@@ -3757,22 +3816,26 @@ extension NetworkFirewall {
         public let lastModifiedTime: Date?
         /// The number of firewalls that are associated with this firewall policy.
         public let numberOfAssociations: Int?
+        /// Additional detail about the firewall policy's current status, when applicable. For example, while an Amazon Route 53 Resolver DNS Firewall rule group change is in progress, the status is UPDATING and this message is "A DNS Firewall rule group change is in progress."
+        public let statusMessage: String?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
         @inlinable
-        public init(consumedStatefulDomainCapacity: Int? = nil, consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
+        public init(consumedStatefulDomainCapacity: Int? = nil, consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errors: [FirewallPolicyError]? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.consumedStatefulDomainCapacity = consumedStatefulDomainCapacity
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
+            self.errors = errors
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyId = firewallPolicyId
             self.firewallPolicyName = firewallPolicyName
             self.firewallPolicyStatus = firewallPolicyStatus
             self.lastModifiedTime = lastModifiedTime
             self.numberOfAssociations = numberOfAssociations
+            self.statusMessage = statusMessage
             self.tags = tags
         }
 
@@ -3782,12 +3845,14 @@ extension NetworkFirewall {
             case consumedStatelessRuleCapacity = "ConsumedStatelessRuleCapacity"
             case description = "Description"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errors = "Errors"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyId = "FirewallPolicyId"
             case firewallPolicyName = "FirewallPolicyName"
             case firewallPolicyStatus = "FirewallPolicyStatus"
             case lastModifiedTime = "LastModifiedTime"
             case numberOfAssociations = "NumberOfAssociations"
+            case statusMessage = "StatusMessage"
             case tags = "Tags"
         }
     }
@@ -4368,8 +4433,10 @@ extension NetworkFirewall {
     }
 
     public struct ListFlowOperationResultsRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
@@ -4384,8 +4451,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.maxResults = maxResults
@@ -4416,6 +4484,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
             case maxResults = "MaxResults"
@@ -4426,8 +4495,10 @@ extension NetworkFirewall {
     }
 
     public struct ListFlowOperationResultsResponse: AWSDecodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
@@ -4448,8 +4519,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.flowOperationStatus = flowOperationStatus
@@ -4463,6 +4535,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
             case flowOperationStatus = "FlowOperationStatus"
@@ -4476,8 +4549,10 @@ extension NetworkFirewall {
     }
 
     public struct ListFlowOperationsRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// An optional string that defines whether any or all operation types are returned.
@@ -4492,8 +4567,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationType = flowOperationType
             self.maxResults = maxResults
@@ -4521,6 +4597,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationType = "FlowOperationType"
             case maxResults = "MaxResults"
@@ -5719,6 +5796,50 @@ extension NetworkFirewall {
         }
     }
 
+    public struct Route53ResolvedIPValidation: AWSEncodableShape & AWSDecodableShape {
+        /// The action that Network Firewall takes for a connection whose destination IP address fails resolved IP validation. A destination IP address fails validation when the Route 53 Resolver didn't return it in a DNS response in an associated VPC. Valid values are the following:    ALERT – Tags the matching connection in the firewall's flow logs without blocking it, when you enable logging. Use this to observe the effect of resolved IP validation before you enforce it.    DROP – Silently blocks the connection without sending any response to the client.    REJECT – Blocks the connection and sends a TCP reset (RST) to the client. Because a TCP reset applies only to TCP connections, Network Firewall drops non-TCP traffic instead of resetting it.
+        public let action: Route53ResolvedIPValidationAction
+        /// The destination IP address ranges that are exempt from the policy-level resolved IP check. Network Firewall doesn't apply the Action in this configuration to a connection whose destination falls in these ranges, even if the Route 53 Resolver didn't return that IP address in an associated VPC. Specify each entry as an IPv4 or IPv6 address or CIDR range, up to 100 entries. This exemption applies only to the policy-level check. Stateful rules that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain keyword still evaluate connections to these destinations and match them independently of this list.
+        public let bypassDestinationValidationIPRanges: [Address]?
+        /// The action that Network Firewall takes when the DNS resolution recorded for a destination IP address has expired from the resolved IP cache. This applies when Network Firewall still sees traffic to that IP address after the expiry. Network Firewall keeps a resolution for longer than the DNS record's time to live (TTL). Valid values are the following:    CONTINUE – Treats the expired resolution as still valid and doesn't block the connection because of expiry.    DROP – Silently blocks traffic to the IP address after its resolution has expired, without sending any response to the client.    REJECT – Blocks traffic to the IP address after its resolution has expired and sends a TCP reset (RST) to the client. Network Firewall drops non-TCP traffic instead of resetting it.
+        public let dnsExpiryExceptionPolicy: DNSExpiryExceptionPolicy
+        /// The ID of the Route 53 Resolver DNS Firewall rule group that determines which VPCs' DNS resolutions count for resolved IP validation. A destination IP address counts as resolved for a domain only when the Route 53 Resolver returned it in a DNS response within a VPC that's associated with this rule group. Associate the rule group with the VPCs that send traffic to the firewall. The ID must match the pattern ^rslvr-frg-[0-9a-f]+$. It must also exist and be accessible from your account. Network Firewall validates this when you create or update the policy. Changing this value swaps the managed rule group association. Network Firewall processes the swap asynchronously. Each policy can have only one managed Route 53 Resolver DNS Firewall association. While a swap is in progress, Network Firewall rejects further changes to this setting. Wait until the swap completes, then retry.
+        public let dnsFirewallRuleGroupId: String
+        /// The client source IP address ranges whose connections are subject to resolved IP validation. Specify each entry as an IPv4 or IPv6 address or CIDR range, up to 100 entries. If you omit this field, resolved IP validation applies to the CIDR ranges of the firewall's VPC and of any additional VPCs attached to the firewall. Specifying an empty list is not the same as omitting the field: an empty list means that Network Firewall doesn't validate any source addresses. This scope applies to the policy-level check only. Stateful rules that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain keyword still evaluate their destinations regardless of SourceIPRanges.
+        public let sourceIPRanges: [Address]?
+
+        @inlinable
+        public init(action: Route53ResolvedIPValidationAction, bypassDestinationValidationIPRanges: [Address]? = nil, dnsExpiryExceptionPolicy: DNSExpiryExceptionPolicy, dnsFirewallRuleGroupId: String, sourceIPRanges: [Address]? = nil) {
+            self.action = action
+            self.bypassDestinationValidationIPRanges = bypassDestinationValidationIPRanges
+            self.dnsExpiryExceptionPolicy = dnsExpiryExceptionPolicy
+            self.dnsFirewallRuleGroupId = dnsFirewallRuleGroupId
+            self.sourceIPRanges = sourceIPRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.bypassDestinationValidationIPRanges?.forEach {
+                try $0.validate(name: "\(name).bypassDestinationValidationIPRanges[]")
+            }
+            try self.validate(self.bypassDestinationValidationIPRanges, name: "bypassDestinationValidationIPRanges", parent: name, max: 100)
+            try self.validate(self.dnsFirewallRuleGroupId, name: "dnsFirewallRuleGroupId", parent: name, max: 256)
+            try self.validate(self.dnsFirewallRuleGroupId, name: "dnsFirewallRuleGroupId", parent: name, min: 1)
+            try self.validate(self.dnsFirewallRuleGroupId, name: "dnsFirewallRuleGroupId", parent: name, pattern: "^rslvr-frg-[0-9a-f]+$")
+            try self.sourceIPRanges?.forEach {
+                try $0.validate(name: "\(name).sourceIPRanges[]")
+            }
+            try self.validate(self.sourceIPRanges, name: "sourceIPRanges", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case bypassDestinationValidationIPRanges = "BypassDestinationValidationIPRanges"
+            case dnsExpiryExceptionPolicy = "DNSExpiryExceptionPolicy"
+            case dnsFirewallRuleGroupId = "DNSFirewallRuleGroupId"
+            case sourceIPRanges = "SourceIPRanges"
+        }
+    }
+
     public struct RuleDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The actions to take on a packet that matches one of the stateless rule definition's match attributes. You must specify a standard action and you can add custom actions.   Network Firewall only forwards a packet for stateful rule inspection if you specify aws:forward_to_sfe for a rule that the packet matches, or if the packet doesn't match any stateless rule and you specify aws:forward_to_sfe for the StatelessDefaultActions setting for the FirewallPolicy.  For every rule, you must specify exactly one of the following standard actions.     aws:pass - Discontinues all inspection of the packet and permits it to go to its intended destination.    aws:drop - Discontinues all inspection of the packet and blocks it from going to its intended destination.    aws:forward_to_sfe - Discontinues stateless inspection of the packet and forwards it to the stateful rule engine for inspection.    Additionally, you can specify a custom action. To do this, you define a custom action by name and type, then provide the name you've assigned to the action in this Actions setting. For information about the options, see CustomAction.  To provide more than one action in this setting, separate the settings with a comma. For example, if you have a custom PublishMetrics action that you've named MyMetricsAction, then you could specify the standard action aws:pass and the custom action with [“aws:pass”, “MyMetricsAction”].
         public let actions: [String]
@@ -5996,7 +6117,7 @@ extension NetworkFirewall {
         public let generatedRulesType: GeneratedRulesType
         /// The domains that you want to inspect for in your traffic flows. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
         public let targets: [String]
-        /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
+        /// The types of matching to perform against the domains in Targets. You can specify any combination of the following:    AWS_ROUTE_53_RESOLVED_DOMAIN – Match the domain against the domain that the Amazon Route 53 Resolver resolved the connection's destination IP address for.    HTTP_HOST – Match the domain against the Host header of HTTP traffic.    TLS_SNI – Match the domain against the Server Name Indication (SNI) of HTTPS traffic.    AWS_ROUTE_53_RESOLVED_DOMAIN matches on how the destination IP address was resolved, rather than on the domain that the client asserts in its TLS SNI or HTTP Host header. This target type takes effect when you configure resolved IP validation on the firewall policy. For more information, see Route53ResolvedIPValidation. Whether you include AWS_ROUTE_53_RESOLVED_DOMAIN changes what the generated rules match, together with GeneratedRulesType:   Combining AWS_ROUTE_53_RESOLVED_DOMAIN with TLS_SNI or HTTP_HOST in an ALLOWLIST requires both conditions to match. The SNI or Host header must match the domain, and the Route 53 Resolver must have resolved the destination IP address for that domain. Network Firewall allows traffic only in that case. Traffic that matches one condition, such as a spoofed Host header sent to an unresolved IP address, is not allowed.   In a DENYLIST, or when AWS_ROUTE_53_RESOLVED_DOMAIN is the only target type, Network Firewall evaluates each condition independently: a match on either the domain (SNI or Host) or the resolved destination IP address triggers the rule.   When you don't include AWS_ROUTE_53_RESOLVED_DOMAIN, the generated rules match only on the SNI or Host header, without checking how the destination IP address was resolved.   An ALLOWLIST whose only target type is AWS_ROUTE_53_RESOLVED_DOMAIN is additive: it allows matching traffic but doesn't generate a default rule that drops non-matching traffic. Only the TLS_SNI and HTTP_HOST target types generate that default drop. To allow only the resolved domains and drop all other traffic, include a protocol target type as well.
         public let targetTypes: [TargetType]
 
         @inlinable
@@ -6195,8 +6316,10 @@ extension NetworkFirewall {
     }
 
     public struct StartFlowCaptureRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
@@ -6210,8 +6333,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowFilters = flowFilters
             self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
@@ -6236,6 +6360,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowFilters = "FlowFilters"
             case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
@@ -6268,8 +6393,10 @@ extension NetworkFirewall {
     }
 
     public struct StartFlowFlushRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
@@ -6283,8 +6410,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowFilters = flowFilters
             self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
@@ -6309,6 +6437,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowFilters = "FlowFilters"
             case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"

@@ -457,6 +457,7 @@ extension MediaLive {
 
     public enum CloudWatchAlarmTemplateTargetResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
+        case elementalInferenceFeed = "ELEMENTAL_INFERENCE_FEED"
         case mediaconnectFlow = "MEDIACONNECT_FLOW"
         case medialiveChannel = "MEDIALIVE_CHANNEL"
         case medialiveInputDevice = "MEDIALIVE_INPUT_DEVICE"
@@ -961,6 +962,12 @@ extension MediaLive {
         case max = "MAX"
         case medium = "MEDIUM"
         case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264AllowExplicitWeightedPrediction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -2041,6 +2048,12 @@ extension MediaLive {
         case multiviewEqualSizeView = "MULTIVIEW_EQUAL_SIZE_VIEW"
         case multiviewPrimaryView = "MULTIVIEW_PRIMARY_VIEW"
         case multiviewSecondaryView = "MULTIVIEW_SECONDARY_VIEW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PerceptualFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case strength1 = "STRENGTH_1"
+        case strength2 = "STRENGTH_2"
         public var description: String { return self.rawValue }
     }
 
@@ -3242,6 +3255,10 @@ extension MediaLive {
         }
     }
 
+    public struct AutoFilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AutomaticInputFailoverSettings: AWSEncodableShape & AWSDecodableShape {
         /// This clear time defines the requirement a recovered input must meet to be considered healthy. The input must have no failover conditions for this length of time. Enter a time in milliseconds. This value is particularly important if the input_preference for the failover pair is set to PRIMARY_INPUT_PREFERRED, because after this time, MediaLive will switch back to the primary input.
         public let errorClearTimeMsec: Int?
@@ -3293,6 +3310,25 @@ extension MediaLive {
         }
     }
 
+    public struct Av1FilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public let autoFilterSettings: AutoFilterSettings?
+        public let noneFilterSettings: NoneFilterSettings?
+        public let perceptualFilterSettings: PerceptualFilterSettings?
+
+        @inlinable
+        public init(autoFilterSettings: AutoFilterSettings? = nil, noneFilterSettings: NoneFilterSettings? = nil, perceptualFilterSettings: PerceptualFilterSettings? = nil) {
+            self.autoFilterSettings = autoFilterSettings
+            self.noneFilterSettings = noneFilterSettings
+            self.perceptualFilterSettings = perceptualFilterSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoFilterSettings = "autoFilterSettings"
+            case noneFilterSettings = "noneFilterSettings"
+            case perceptualFilterSettings = "perceptualFilterSettings"
+        }
+    }
+
     public struct Av1Settings: AWSEncodableShape & AWSDecodableShape {
         /// Configures whether MediaLive will write AFD values into the video.
         /// AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid).
@@ -3307,6 +3343,8 @@ extension MediaLive {
         public let bufSize: Int?
         /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public let colorSpaceSettings: Av1ColorSpaceSettings?
+        /// Optional filters that you can apply to an encode.
+        public let filterSettings: Av1FilterSettings?
         /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
         public let fixedAfd: FixedAfd?
         /// The denominator for the framerate. Framerate is a fraction, for example, 24000 / 1001.
@@ -3368,12 +3406,13 @@ extension MediaLive {
         public let timecodeInsertion: Av1TimecodeInsertionBehavior?
 
         @inlinable
-        public init(afdSignaling: AfdSignaling? = nil, bitDepth: Av1BitDepth? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, spatialAq: Av1SpatialAq? = nil, temporalAq: Av1TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: Av1TimecodeInsertionBehavior? = nil) {
+        public init(afdSignaling: AfdSignaling? = nil, bitDepth: Av1BitDepth? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, filterSettings: Av1FilterSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, spatialAq: Av1SpatialAq? = nil, temporalAq: Av1TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: Av1TimecodeInsertionBehavior? = nil) {
             self.afdSignaling = afdSignaling
             self.bitDepth = bitDepth
             self.bitrate = bitrate
             self.bufSize = bufSize
             self.colorSpaceSettings = colorSpaceSettings
+            self.filterSettings = filterSettings
             self.fixedAfd = fixedAfd
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
@@ -3401,6 +3440,7 @@ extension MediaLive {
             case bitrate = "bitrate"
             case bufSize = "bufSize"
             case colorSpaceSettings = "colorSpaceSettings"
+            case filterSettings = "filterSettings"
             case fixedAfd = "fixedAfd"
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
@@ -9593,17 +9633,26 @@ extension MediaLive {
     }
 
     public struct H264FilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public let autoFilterSettings: AutoFilterSettings?
         public let bandwidthReductionFilterSettings: BandwidthReductionFilterSettings?
+        public let noneFilterSettings: NoneFilterSettings?
+        public let perceptualFilterSettings: PerceptualFilterSettings?
         public let temporalFilterSettings: TemporalFilterSettings?
 
         @inlinable
-        public init(bandwidthReductionFilterSettings: BandwidthReductionFilterSettings? = nil, temporalFilterSettings: TemporalFilterSettings? = nil) {
+        public init(autoFilterSettings: AutoFilterSettings? = nil, bandwidthReductionFilterSettings: BandwidthReductionFilterSettings? = nil, noneFilterSettings: NoneFilterSettings? = nil, perceptualFilterSettings: PerceptualFilterSettings? = nil, temporalFilterSettings: TemporalFilterSettings? = nil) {
+            self.autoFilterSettings = autoFilterSettings
             self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
+            self.noneFilterSettings = noneFilterSettings
+            self.perceptualFilterSettings = perceptualFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoFilterSettings = "autoFilterSettings"
             case bandwidthReductionFilterSettings = "bandwidthReductionFilterSettings"
+            case noneFilterSettings = "noneFilterSettings"
+            case perceptualFilterSettings = "perceptualFilterSettings"
             case temporalFilterSettings = "temporalFilterSettings"
         }
     }
@@ -9613,6 +9662,8 @@ extension MediaLive {
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public let afdSignaling: AfdSignaling?
+        /// Specifies whether the encoder may apply explicit weighted prediction (EWP), an H.264 coding tool that can improve compression. EWP applies a scaling factor and offset to reference frames, which helps when brightness changes between frames, such as during a fade. When this setting is enabled, the encoder decides whether to apply EWP based on the output's other codec settings, such as profile and quality level. We recommend that you keep the default, enabled. When disabled, the encoder never applies EWP.
+        public let allowExplicitWeightedPrediction: H264AllowExplicitWeightedPrediction?
         /// Average bitrate in bits/second. Required when the rate control mode is VBR or CBR. Not used for QVBR. In an MS Smooth output group, each output must have a unique value when its bitrate is rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
@@ -9732,9 +9783,10 @@ extension MediaLive {
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
         @inlinable
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, allowExplicitWeightedPrediction: H264AllowExplicitWeightedPrediction? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
+            self.allowExplicitWeightedPrediction = allowExplicitWeightedPrediction
             self.bitrate = bitrate
             self.bufFillPct = bufFillPct
             self.bufSize = bufSize
@@ -9782,6 +9834,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case afdSignaling = "afdSignaling"
+            case allowExplicitWeightedPrediction = "allowExplicitWeightedPrediction"
             case bitrate = "bitrate"
             case bufFillPct = "bufFillPct"
             case bufSize = "bufSize"
@@ -9856,17 +9909,26 @@ extension MediaLive {
     }
 
     public struct H265FilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public let autoFilterSettings: AutoFilterSettings?
         public let bandwidthReductionFilterSettings: BandwidthReductionFilterSettings?
+        public let noneFilterSettings: NoneFilterSettings?
+        public let perceptualFilterSettings: PerceptualFilterSettings?
         public let temporalFilterSettings: TemporalFilterSettings?
 
         @inlinable
-        public init(bandwidthReductionFilterSettings: BandwidthReductionFilterSettings? = nil, temporalFilterSettings: TemporalFilterSettings? = nil) {
+        public init(autoFilterSettings: AutoFilterSettings? = nil, bandwidthReductionFilterSettings: BandwidthReductionFilterSettings? = nil, noneFilterSettings: NoneFilterSettings? = nil, perceptualFilterSettings: PerceptualFilterSettings? = nil, temporalFilterSettings: TemporalFilterSettings? = nil) {
+            self.autoFilterSettings = autoFilterSettings
             self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
+            self.noneFilterSettings = noneFilterSettings
+            self.perceptualFilterSettings = perceptualFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoFilterSettings = "autoFilterSettings"
             case bandwidthReductionFilterSettings = "bandwidthReductionFilterSettings"
+            case noneFilterSettings = "noneFilterSettings"
+            case perceptualFilterSettings = "perceptualFilterSettings"
             case temporalFilterSettings = "temporalFilterSettings"
         }
     }
@@ -13924,54 +13986,78 @@ extension MediaLive {
     }
 
     public struct MulticastSource: AWSDecodableShape {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public let secondarySourceIp: String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public let secondaryUrl: String?
         /// This represents the ip address of the device sending the multicast stream.
         public let sourceIp: String?
         /// This represents the customer's source URL where multicast stream is pulled from.
         public let url: String?
 
         @inlinable
-        public init(sourceIp: String? = nil, url: String? = nil) {
+        public init(secondarySourceIp: String? = nil, secondaryUrl: String? = nil, sourceIp: String? = nil, url: String? = nil) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
+            case secondarySourceIp = "secondarySourceIp"
+            case secondaryUrl = "secondaryUrl"
             case sourceIp = "sourceIp"
             case url = "url"
         }
     }
 
     public struct MulticastSourceCreateRequest: AWSEncodableShape {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public let secondarySourceIp: String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public let secondaryUrl: String?
         /// This represents the ip address of the device sending the multicast stream.
         public let sourceIp: String?
         /// This represents the customer's source URL where multicast stream is pulled from.
         public let url: String?
 
         @inlinable
-        public init(sourceIp: String? = nil, url: String? = nil) {
+        public init(secondarySourceIp: String? = nil, secondaryUrl: String? = nil, sourceIp: String? = nil, url: String? = nil) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
+            case secondarySourceIp = "secondarySourceIp"
+            case secondaryUrl = "secondaryUrl"
             case sourceIp = "sourceIp"
             case url = "url"
         }
     }
 
     public struct MulticastSourceUpdateRequest: AWSEncodableShape {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public let secondarySourceIp: String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public let secondaryUrl: String?
         /// This represents the ip address of the device sending the multicast stream.
         public let sourceIp: String?
         /// This represents the customer's source URL where multicast stream is pulled from.
         public let url: String?
 
         @inlinable
-        public init(sourceIp: String? = nil, url: String? = nil) {
+        public init(secondarySourceIp: String? = nil, secondaryUrl: String? = nil, sourceIp: String? = nil, url: String? = nil) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
+            case secondarySourceIp = "secondarySourceIp"
+            case secondaryUrl = "secondaryUrl"
             case sourceIp = "sourceIp"
             case url = "url"
         }
@@ -14697,6 +14783,10 @@ extension MediaLive {
         }
     }
 
+    public struct NoneFilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Offering: AWSDecodableShape {
         /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
         public let arn: String?
@@ -15002,6 +15092,22 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case pipelines = "pipelines"
+        }
+    }
+
+    public struct PerceptualFilterSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Selects the perceptual noise filter strength. Strength 1 (perceptual lite) is the recommended default and adds
+        /// approximately 30% of an AVC encode of compute on the highest rendition. Strength 2 adds approximately 60% of an
+        /// AVC encode of compute and can introduce slight softening on noisy content.
+        public let strength: PerceptualFilterStrength?
+
+        @inlinable
+        public init(strength: PerceptualFilterStrength? = nil) {
+            self.strength = strength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case strength = "strength"
         }
     }
 

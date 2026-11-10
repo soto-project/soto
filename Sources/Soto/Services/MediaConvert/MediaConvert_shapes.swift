@@ -397,7 +397,15 @@ extension MediaConvert {
     }
 
     public enum Av1RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cbr = "CBR"
         case qvbr = "QVBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case transitionDetection = "TRANSITION_DETECTION"
         public var description: String { return self.rawValue }
     }
 
@@ -574,6 +582,12 @@ extension MediaConvert {
         case teletext = "TELETEXT"
         case ttml = "TTML"
         case webvtt = "WEBVTT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptionSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inputCaptionSelector = "INPUT_CAPTION_SELECTOR"
+        case smartSubtitle = "SMART_SUBTITLE"
         public var description: String { return self.rawValue }
     }
 
@@ -937,6 +951,11 @@ extension MediaConvert {
     public enum CopyProtectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case passthrough = "PASSTHROUGH"
         case strip = "STRIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashAdaptationSetGrouping: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codec = "CODEC"
         public var description: String { return self.rawValue }
     }
 
@@ -1370,6 +1389,7 @@ extension MediaConvert {
 
     public enum ElementalInferenceFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case smartCrop = "SMART_CROP"
+        case smartSubtitle = "SMART_SUBTITLE"
         public var description: String { return self.rawValue }
     }
 
@@ -2897,6 +2917,8 @@ extension MediaConvert {
         case gaussian = "GAUSSIAN"
         case lanczos = "LANCZOS"
         case mean = "MEAN"
+        case none = "NONE"
+        case perceptual = "PERCEPTUAL"
         case sharpen = "SHARPEN"
         case spatial = "SPATIAL"
         case temporal = "TEMPORAL"
@@ -4558,6 +4580,8 @@ extension MediaConvert {
         public let adaptiveQuantization: Av1AdaptiveQuantization?
         /// Specify the Bit depth. You can choose 8-bit or 10-bit.
         public let bitDepth: Av1BitDepth?
+        /// Specify the average bitrate in bits per second. Required when Rate control mode is CBR.
+        public let bitrate: Int?
         /// Film grain synthesis replaces film grain present in your content with similar quality synthesized AV1 film grain. We recommend that you choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep the default value, Disabled. When you include Film grain synthesis, you cannot include the Noise reducer preprocessor.
         public let filmGrainSynthesis: Av1FilmGrainSynthesis?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
@@ -4576,19 +4600,26 @@ extension MediaConvert {
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
-        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
+        /// Settings for quality-defined variable bitrate encoding with the AV1 codec. Use these settings only when you set QVBR for Rate control mode.
         public let qvbrSettings: Av1QvbrSettings?
-        /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
+        /// 'With AV1 outputs, for rate control mode, MediaConvert supports quality-defined variable bitrate (QVBR) and constant bitrate (CBR). You can''t use VBR.'
         public let rateControlMode: Av1RateControlMode?
+        /// Optional. Use this setting to have the service insert I-frames at scene changes that it automatically detects. For AV1, scene change detection is disabled by default. Choose Enabled to insert I-frames at detected scene changes, which can improve video quality. If this output uses QVBR, you can instead choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+        public let sceneChangeDetect: Av1SceneChangeDetect?
         /// Specify the number of slices per picture. This value must be 1, 2, 4, 8, 16, or 32. For progressive pictures, this value must be less than or equal to the number of macroblock rows. For interlaced pictures, this value must be less than or equal to half the number of macroblock rows.
         public let slices: Int?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public let slidingWindowMs: Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the QVBR rate control mode. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public let slidingWindowPeakBitrate: Int?
         /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public let spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization?
 
         @inlinable
-        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, bitDepth: Av1BitDepth? = nil, filmGrainSynthesis: Av1FilmGrainSynthesis? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, slices: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
+        public init(adaptiveQuantization: Av1AdaptiveQuantization? = nil, bitDepth: Av1BitDepth? = nil, bitrate: Int? = nil, filmGrainSynthesis: Av1FilmGrainSynthesis? = nil, framerateControl: Av1FramerateControl? = nil, framerateConversionAlgorithm: Av1FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, maxBitrate: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qvbrSettings: Av1QvbrSettings? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, slices: Int? = nil, slidingWindowMs: Int? = nil, slidingWindowPeakBitrate: Int? = nil, spatialAdaptiveQuantization: Av1SpatialAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
+            self.bitrate = bitrate
             self.filmGrainSynthesis = filmGrainSynthesis
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
@@ -4600,11 +4631,16 @@ extension MediaConvert {
             self.perFrameMetrics = perFrameMetrics
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
+            self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1152000000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
@@ -4616,11 +4652,16 @@ extension MediaConvert {
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, max: 3000)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, min: 1000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, max: 1152000000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, min: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case bitDepth = "bitDepth"
+            case bitrate = "bitrate"
             case filmGrainSynthesis = "filmGrainSynthesis"
             case framerateControl = "framerateControl"
             case framerateConversionAlgorithm = "framerateConversionAlgorithm"
@@ -4632,7 +4673,10 @@ extension MediaConvert {
             case perFrameMetrics = "perFrameMetrics"
             case qvbrSettings = "qvbrSettings"
             case rateControlMode = "rateControlMode"
+            case sceneChangeDetect = "sceneChangeDetect"
             case slices = "slices"
+            case slidingWindowMs = "slidingWindowMs"
+            case slidingWindowPeakBitrate = "slidingWindowPeakBitrate"
             case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
         }
     }
@@ -4917,6 +4961,8 @@ extension MediaConvert {
     }
 
     public struct CaptionDescription: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the audio selector or audio selector group that MediaConvert uses to generate Smart subtitles. The audio selector you choose must exist in all inputs for the job. If MediaConvert can't detect speech in the audio, it can't generate subtitles. Required when source is SMART_SUBTITLE; not allowed otherwise.
+        public let audioSourceNames: [String]?
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public let captionSelectorName: String?
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
@@ -4927,28 +4973,37 @@ extension MediaConvert {
         public let languageCode: LanguageCode?
         /// Specify a label for this set of output captions. For example, "English", "Director commentary", or "track_2". For streaming outputs, MediaConvert passes this information into destination manifests for display on the end-viewer's player device. For outputs in other output groups, the service ignores this setting.
         public let languageDescription: String?
+        /// Specify the source of the captions for this caption description. Choose Captions input source (INPUT_CAPTION_SELECTOR) to use a caption selector from your input. Choose Smart subtitling (SMART_SUBTITLE) to have MediaConvert and Elemental Inference generate subtitles automatically from an audio source that you specify.
+        public let source: CaptionSource?
 
         @inlinable
-        public init(captionSelectorName: String? = nil, customLanguageCode: String? = nil, destinationSettings: CaptionDestinationSettings? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil) {
+        public init(audioSourceNames: [String]? = nil, captionSelectorName: String? = nil, customLanguageCode: String? = nil, destinationSettings: CaptionDestinationSettings? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil, source: CaptionSource? = nil) {
+            self.audioSourceNames = audioSourceNames
             self.captionSelectorName = captionSelectorName
             self.customLanguageCode = customLanguageCode
             self.destinationSettings = destinationSettings
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+            self.source = source
         }
 
         public func validate(name: String) throws {
+            try self.audioSourceNames?.forEach {
+                try validate($0, name: "audioSourceNames[]", parent: name, min: 1)
+            }
             try self.validate(self.captionSelectorName, name: "captionSelectorName", parent: name, min: 1)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, pattern: "^[A-Za-z]{2,3}(-[A-Za-z-]+)?$")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioSourceNames = "audioSourceNames"
             case captionSelectorName = "captionSelectorName"
             case customLanguageCode = "customLanguageCode"
             case destinationSettings = "destinationSettings"
             case languageCode = "languageCode"
             case languageDescription = "languageDescription"
+            case source = "source"
         }
     }
 
@@ -5285,6 +5340,8 @@ extension MediaConvert {
         public let clientCache: CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: CmafCodecSpecification?
+        /// Specify additional criteria for partitioning video outputs into separate AdaptationSets. These criteria are applied on top of the grouping produced by DashManifestStyle.
+        public let dashAdaptationSetGrouping: [DashAdaptationSetGrouping]?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public let dashIFrameTrickPlayNameModifier: String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
@@ -5337,11 +5394,12 @@ extension MediaConvert {
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
         @inlinable
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, dashIFrameTrickPlayNameModifier: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, imageBasedTrickPlayVariants: [CmafImageBasedTrickPlayVariant]? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, dashAdaptationSetGrouping: [DashAdaptationSetGrouping]? = nil, dashIFrameTrickPlayNameModifier: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, imageBasedTrickPlayVariants: [CmafImageBasedTrickPlayVariant]? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
+            self.dashAdaptationSetGrouping = dashAdaptationSetGrouping
             self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
@@ -5395,6 +5453,7 @@ extension MediaConvert {
             case baseUrl = "baseUrl"
             case clientCache = "clientCache"
             case codecSpecification = "codecSpecification"
+            case dashAdaptationSetGrouping = "dashAdaptationSetGrouping"
             case dashIFrameTrickPlayNameModifier = "dashIFrameTrickPlayNameModifier"
             case dashManifestStyle = "dashManifestStyle"
             case destination = "destination"
@@ -5906,6 +5965,8 @@ extension MediaConvert {
         public let billingTagsSource: BillingTagsSource?
         /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
         public let clientRequestToken: String?
+        /// The Elemental Inference settings used in this job.
+        public let elementalInferenceSettings: ElementalInferenceSettings?
         /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
         public let hopDestinations: [HopDestination]?
         /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
@@ -5930,10 +5991,11 @@ extension MediaConvert {
         public let userMetadata: [String: String]?
 
         @inlinable
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobEngineVersion: String? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), elementalInferenceSettings: ElementalInferenceSettings? = nil, hopDestinations: [HopDestination]? = nil, jobEngineVersion: String? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.hopDestinations = hopDestinations
             self.jobEngineVersion = jobEngineVersion
             self.jobTemplate = jobTemplate
@@ -5948,6 +6010,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.elementalInferenceSettings?.validate(name: "\(name).elementalInferenceSettings")
             try self.hopDestinations?.forEach {
                 try $0.validate(name: "\(name).hopDestinations[]")
             }
@@ -5960,6 +6023,7 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case billingTagsSource = "billingTagsSource"
             case clientRequestToken = "clientRequestToken"
+            case elementalInferenceSettings = "elementalInferenceSettings"
             case hopDestinations = "hopDestinations"
             case jobEngineVersion = "jobEngineVersion"
             case jobTemplate = "jobTemplate"
@@ -5995,6 +6059,8 @@ extension MediaConvert {
         public let category: String?
         /// Optional. A description of the job template you are creating.
         public let description: String?
+        /// The Elemental Inference settings used in this job.
+        public let elementalInferenceSettings: ElementalInferenceSettings?
         /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
         public let hopDestinations: [HopDestination]?
         /// The name of the job template you are creating.
@@ -6011,10 +6077,11 @@ extension MediaConvert {
         public let tags: [String: String]?
 
         @inlinable
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String? = nil, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, elementalInferenceSettings: ElementalInferenceSettings? = nil, hopDestinations: [HopDestination]? = nil, name: String? = nil, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.hopDestinations = hopDestinations
             self.name = name
             self.priority = priority
@@ -6025,6 +6092,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.elementalInferenceSettings?.validate(name: "\(name).elementalInferenceSettings")
             try self.hopDestinations?.forEach {
                 try $0.validate(name: "\(name).hopDestinations[]")
             }
@@ -6037,6 +6105,7 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
             case description = "description"
+            case elementalInferenceSettings = "elementalInferenceSettings"
             case hopDestinations = "hopDestinations"
             case name = "name"
             case priority = "priority"
@@ -6245,6 +6314,8 @@ extension MediaConvert {
         public let audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
+        /// Specify additional criteria for partitioning video outputs into separate AdaptationSets. These criteria are applied on top of the grouping produced by DashManifestStyle.
+        public let dashAdaptationSetGrouping: [DashAdaptationSetGrouping]?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public let dashIFrameTrickPlayNameModifier: String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
@@ -6287,10 +6358,11 @@ extension MediaConvert {
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
         @inlinable
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, dashIFrameTrickPlayNameModifier: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, imageBasedTrickPlayVariants: [DashIsoImageBasedTrickPlayVariant]? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, videoCompositionOffsets: DashIsoVideoCompositionOffsets? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, dashAdaptationSetGrouping: [DashAdaptationSetGrouping]? = nil, dashIFrameTrickPlayNameModifier: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, imageBasedTrickPlayVariants: [DashIsoImageBasedTrickPlayVariant]? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, videoCompositionOffsets: DashIsoVideoCompositionOffsets? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
+            self.dashAdaptationSetGrouping = dashAdaptationSetGrouping
             self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
@@ -6338,6 +6410,7 @@ extension MediaConvert {
             case additionalManifests = "additionalManifests"
             case audioChannelConfigSchemeIdUri = "audioChannelConfigSchemeIdUri"
             case baseUrl = "baseUrl"
+            case dashAdaptationSetGrouping = "dashAdaptationSetGrouping"
             case dashIFrameTrickPlayNameModifier = "dashIFrameTrickPlayNameModifier"
             case dashManifestStyle = "dashManifestStyle"
             case destination = "destination"
@@ -7275,7 +7348,7 @@ extension MediaConvert {
     public struct ElementalInferenceConfiguration: AWSDecodableShape {
         /// A list of Elemental Inference features used in this job.
         public let features: [ElementalInferenceFeature]?
-        /// A list of Elemental Inference feeds used by this job.
+        /// A list of Elemental Inference feeds created during this job.
         public let feeds: [ElementalInferenceFeed]?
 
         @inlinable
@@ -7291,7 +7364,7 @@ extension MediaConvert {
     }
 
     public struct ElementalInferenceFeed: AWSDecodableShape {
-        /// Feed ARN.
+        /// The ARN of an AWS Elemental Inference Feed.
         public let arn: String?
         /// Elemental Inference Feed management state.
         public let feedManagementState: ElementalInferenceFeedManagementState?
@@ -7305,6 +7378,42 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case feedManagementState = "feedManagementState"
+        }
+    }
+
+    public struct ElementalInferenceFeedConfigurationSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of an Elemental Inference Feed.
+        public let feedArn: String?
+
+        @inlinable
+        public init(feedArn: String? = nil) {
+            self.feedArn = feedArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.feedArn, name: "feedArn", parent: name, pattern: "^arn:aws:elemental-inference:.*:feed/[a-z0-9]{19}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedArn = "feedArn"
+        }
+    }
+
+    public struct ElementalInferenceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optional. The source of your Elemental Inference Feed configuration. MediaConvert will reference this configuration source when you specify job settings which use Elemental Inference.
+        public let feedConfigurationSource: ElementalInferenceFeedConfigurationSource?
+
+        @inlinable
+        public init(feedConfigurationSource: ElementalInferenceFeedConfigurationSource? = nil) {
+            self.feedConfigurationSource = feedConfigurationSource
+        }
+
+        public func validate(name: String) throws {
+            try self.feedConfigurationSource?.validate(name: "\(name).feedConfigurationSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedConfigurationSource = "feedConfigurationSource"
         }
     }
 
@@ -8006,6 +8115,10 @@ extension MediaConvert {
         public let sceneChangeDetect: H264SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public let slidingWindowMs: Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the VBR, CBR, and QVBR rate control modes. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public let slidingWindowPeakBitrate: Int?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: H264SlowPal?
         /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
@@ -8024,7 +8137,7 @@ extension MediaConvert {
         public let writeMp4PackagingType: H264WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, explicitWeightedPrediction: H264ExplicitWeightedPrediction? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H264WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, explicitWeightedPrediction: H264ExplicitWeightedPrediction? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slidingWindowMs: Int? = nil, slidingWindowPeakBitrate: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H264WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
@@ -8064,6 +8177,8 @@ extension MediaConvert {
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.slowPal = slowPal
             self.softness = softness
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
@@ -8104,6 +8219,10 @@ extension MediaConvert {
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, max: 3000)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, min: 1000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, max: 1152000000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, min: 1000)
             try self.validate(self.softness, name: "softness", parent: name, max: 128)
             try self.validate(self.softness, name: "softness", parent: name, min: 0)
         }
@@ -8148,6 +8267,8 @@ extension MediaConvert {
             case scanTypeConversionMode = "scanTypeConversionMode"
             case sceneChangeDetect = "sceneChangeDetect"
             case slices = "slices"
+            case slidingWindowMs = "slidingWindowMs"
+            case slidingWindowPeakBitrate = "slidingWindowPeakBitrate"
             case slowPal = "slowPal"
             case softness = "softness"
             case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
@@ -8267,6 +8388,10 @@ extension MediaConvert {
         public let sceneChangeDetect: H265SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public let slidingWindowMs: Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the VBR, CBR, and QVBR rate control modes. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public let slidingWindowPeakBitrate: Int?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: H265SlowPal?
         /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
@@ -8293,7 +8418,7 @@ extension MediaConvert {
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tiles: H265Tiles? = nil, tileWidth: Int? = nil, treeBlockSize: H265TreeBlockSize? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slidingWindowMs: Int? = nil, slidingWindowPeakBitrate: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tiles: H265Tiles? = nil, tileWidth: Int? = nil, treeBlockSize: H265TreeBlockSize? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bandwidthReductionFilter = bandwidthReductionFilter
@@ -8333,6 +8458,8 @@ extension MediaConvert {
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.slowPal = slowPal
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
             self.telecine = telecine
@@ -8377,6 +8504,10 @@ extension MediaConvert {
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, max: 3000)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, min: 1000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, max: 1466400000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, min: 1000)
             try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2160)
             try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 64)
             try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 3840)
@@ -8423,6 +8554,8 @@ extension MediaConvert {
             case scanTypeConversionMode = "scanTypeConversionMode"
             case sceneChangeDetect = "sceneChangeDetect"
             case slices = "slices"
+            case slidingWindowMs = "slidingWindowMs"
+            case slidingWindowPeakBitrate = "slidingWindowPeakBitrate"
             case slowPal = "slowPal"
             case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
             case telecine = "telecine"
@@ -9646,6 +9779,8 @@ extension MediaConvert {
         public let currentPhase: JobPhase?
         /// The Elemental Inference configuration used in this job.
         public let elementalInferenceConfiguration: ElementalInferenceConfiguration?
+        /// The Elemental Inference settings used in this job.
+        public let elementalInferenceSettings: ElementalInferenceSettings?
         /// Error code for the job
         public let errorCode: Int?
         /// Error message of Job
@@ -9696,7 +9831,7 @@ extension MediaConvert {
         public let warnings: [WarningGroup]?
 
         @inlinable
-        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, elementalInferenceConfiguration: ElementalInferenceConfiguration? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobEngineVersionRequested: String? = nil, jobEngineVersionUsed: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, lastShareDetails: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, shareStatus: ShareStatus? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, elementalInferenceConfiguration: ElementalInferenceConfiguration? = nil, elementalInferenceSettings: ElementalInferenceSettings? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobEngineVersionRequested: String? = nil, jobEngineVersionUsed: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, lastShareDetails: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, shareStatus: ShareStatus? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -9705,6 +9840,7 @@ extension MediaConvert {
             self.createdAt = createdAt
             self.currentPhase = currentPhase
             self.elementalInferenceConfiguration = elementalInferenceConfiguration
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.hopDestinations = hopDestinations
@@ -9740,6 +9876,7 @@ extension MediaConvert {
             case createdAt = "createdAt"
             case currentPhase = "currentPhase"
             case elementalInferenceConfiguration = "elementalInferenceConfiguration"
+            case elementalInferenceSettings = "elementalInferenceSettings"
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
             case hopDestinations = "hopDestinations"
@@ -9815,7 +9952,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
@@ -9913,6 +10050,8 @@ extension MediaConvert {
         public var createdAt: Date?
         /// An optional description you create for each job template.
         public let description: String?
+        /// The Elemental Inference settings used in this job.
+        public let elementalInferenceSettings: ElementalInferenceSettings?
         /// Optional list of hop destinations.
         public let hopDestinations: [HopDestination]?
         /// The timestamp in epoch seconds when the Job template was last updated.
@@ -9932,12 +10071,13 @@ extension MediaConvert {
         public let type: `Type`?
 
         @inlinable
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: Date? = nil, name: String? = nil, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, elementalInferenceSettings: ElementalInferenceSettings? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: Date? = nil, name: String? = nil, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.category = category
             self.createdAt = createdAt
             self.description = description
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.hopDestinations = hopDestinations
             self.lastUpdated = lastUpdated
             self.name = name
@@ -9954,6 +10094,7 @@ extension MediaConvert {
             case category = "category"
             case createdAt = "createdAt"
             case description = "description"
+            case elementalInferenceSettings = "elementalInferenceSettings"
             case hopDestinations = "hopDestinations"
             case lastUpdated = "lastUpdated"
             case name = "name"
@@ -9976,7 +10117,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
@@ -11390,6 +11531,10 @@ extension MediaConvert {
         public let scanTypeConversionMode: Mpeg2ScanTypeConversionMode?
         /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default.
         public let sceneChangeDetect: Mpeg2SceneChangeDetect?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public let slidingWindowMs: Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the VBR and CBR rate control modes. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public let slidingWindowPeakBitrate: Int?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public let slowPal: Mpeg2SlowPal?
         /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, to use the AWS Elemental default matrices. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
@@ -11404,7 +11549,7 @@ extension MediaConvert {
         public let temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization?
 
         @inlinable
-        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
+        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, bitrate: Int? = nil, codecLevel: Mpeg2CodecLevel? = nil, codecProfile: Mpeg2CodecProfile? = nil, dynamicSubGop: Mpeg2DynamicSubGop? = nil, framerateControl: Mpeg2FramerateControl? = nil, framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: Mpeg2InterlaceMode? = nil, intraDcPrecision: Mpeg2IntraDcPrecision? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, parControl: Mpeg2ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: Mpeg2QualityTuningLevel? = nil, rateControlMode: Mpeg2RateControlMode? = nil, scanTypeConversionMode: Mpeg2ScanTypeConversionMode? = nil, sceneChangeDetect: Mpeg2SceneChangeDetect? = nil, slidingWindowMs: Int? = nil, slidingWindowPeakBitrate: Int? = nil, slowPal: Mpeg2SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: Mpeg2SpatialAdaptiveQuantization? = nil, syntax: Mpeg2Syntax? = nil, telecine: Mpeg2Telecine? = nil, temporalAdaptiveQuantization: Mpeg2TemporalAdaptiveQuantization? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
             self.codecLevel = codecLevel
@@ -11433,6 +11578,8 @@ extension MediaConvert {
             self.rateControlMode = rateControlMode
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.slowPal = slowPal
             self.softness = softness
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
@@ -11466,6 +11613,10 @@ extension MediaConvert {
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, max: 3000)
+            try self.validate(self.slidingWindowMs, name: "slidingWindowMs", parent: name, min: 1000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, max: 300000000)
+            try self.validate(self.slidingWindowPeakBitrate, name: "slidingWindowPeakBitrate", parent: name, min: 1000)
             try self.validate(self.softness, name: "softness", parent: name, max: 128)
             try self.validate(self.softness, name: "softness", parent: name, min: 0)
         }
@@ -11499,6 +11650,8 @@ extension MediaConvert {
             case rateControlMode = "rateControlMode"
             case scanTypeConversionMode = "scanTypeConversionMode"
             case sceneChangeDetect = "sceneChangeDetect"
+            case slidingWindowMs = "slidingWindowMs"
+            case slidingWindowPeakBitrate = "slidingWindowPeakBitrate"
             case slowPal = "slowPal"
             case softness = "softness"
             case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
@@ -11821,7 +11974,7 @@ extension MediaConvert {
     }
 
     public struct NoiseReducer: AWSEncodableShape & AWSDecodableShape {
-        /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
+        /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion. * Perceptual exploits perceptual masking, avoiding encoding bits spent on imperceptible detail. * None disables noise reduction, including the perceptual filter that MediaConvert otherwise applies by default for AVC, HEVC, AV1, MPEG-2, VP8, and VP9 outputs. MediaConvert doesn't apply that default to mezzanine and archival outputs (AVC-Intra, XAVC, Apple ProRes, VC3, Uncompressed), to frame capture outputs, or to outputs that use Dolby Vision, which doesn't support any noise reducer.
         public let filter: NoiseReducerFilter?
         /// Settings for a noise reducer filter
         public let filterSettings: NoiseReducerFilterSettings?
@@ -13500,6 +13653,8 @@ extension MediaConvert {
         public let category: String?
         /// The new description for the job template, if you are changing it.
         public let description: String?
+        /// The Elemental Inference settings used in this job.
+        public let elementalInferenceSettings: ElementalInferenceSettings?
         /// Optional list of hop destinations.
         public let hopDestinations: [HopDestination]?
         /// The name of the job template you are modifying
@@ -13514,10 +13669,11 @@ extension MediaConvert {
         public let statusUpdateInterval: StatusUpdateInterval?
 
         @inlinable
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, elementalInferenceSettings: ElementalInferenceSettings? = nil, hopDestinations: [HopDestination]? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.hopDestinations = hopDestinations
             self.name = name
             self.priority = priority
@@ -13532,6 +13688,7 @@ extension MediaConvert {
             try container.encodeIfPresent(self.accelerationSettings, forKey: .accelerationSettings)
             try container.encodeIfPresent(self.category, forKey: .category)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.elementalInferenceSettings, forKey: .elementalInferenceSettings)
             try container.encodeIfPresent(self.hopDestinations, forKey: .hopDestinations)
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.priority, forKey: .priority)
@@ -13541,6 +13698,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.elementalInferenceSettings?.validate(name: "\(name).elementalInferenceSettings")
             try self.hopDestinations?.forEach {
                 try $0.validate(name: "\(name).hopDestinations[]")
             }
@@ -13553,6 +13711,7 @@ extension MediaConvert {
             case accelerationSettings = "accelerationSettings"
             case category = "category"
             case description = "description"
+            case elementalInferenceSettings = "elementalInferenceSettings"
             case hopDestinations = "hopDestinations"
             case priority = "priority"
             case queue = "queue"

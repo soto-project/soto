@@ -112,6 +112,12 @@ extension SSOAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allRegions = "ALL_REGIONS"
+        case currentRegion = "CURRENT_REGION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case adding = "ADDING"
@@ -3403,11 +3409,14 @@ extension SSOAdmin {
         public let maxResults: Int?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
+        /// Specifies which Amazon Web Services Regions to list IAM Identity Center instances from. Valid values:    CURRENT_REGION - Lists only the instances in the Region that you call this API from.    ALL_REGIONS - Lists the instances that the caller owns or that are shared with the caller across all Regions.   If you don't specify a value, the default is CURRENT_REGION.
+        public let regionScope: RegionScope?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, regionScope: RegionScope? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.regionScope = regionScope
         }
 
         public func validate(name: String) throws {
@@ -3420,6 +3429,7 @@ extension SSOAdmin {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case regionScope = "RegionScope"
         }
     }
 
@@ -4720,7 +4730,7 @@ extension SSOAdmin {
         public let instanceArn: String
         /// Updates the instance name.
         public let name: String?
-        /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+        /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. You can make these calls in parallel.
         public let permissionSetsEnabled: Bool?
 
         @inlinable

@@ -47,6 +47,12 @@ extension ElasticBeanstalk {
         public var description: String { return self.rawValue }
     }
 
+    public enum AmiArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case arm64 = "arm64"
+        case x8664 = "x86_64"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case building = "Building"
         case failed = "Failed"
@@ -976,7 +982,7 @@ extension ElasticBeanstalk {
         public let description: String?
         /// The source of the container image for this application version. You can specify an image that you built and pushed to a container registry yourself, or settings for Elastic Beanstalk to build one from your source bundle. Specify exactly one of the Source and Build members. Don't specify ImageConfiguration together with BuildConfiguration, which configures an CodeBuild build instead.
         public let imageConfiguration: ImageConfiguration?
-        /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using CodeBuild or CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
+        /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using CodeBuild or CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. For application versions with ImageConfiguration.Build, Process determines when Elastic Beanstalk builds the container image. Set it to true to build the image when you create the application version. If you don't, Elastic Beanstalk builds the image when you first deploy the application version to an environment.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
         public let process: Bool?
         /// Specify a commit in an CodeCommit Git repository to use as the source code for the application version.
         public let sourceBuildInformation: SourceBuildInformation?
@@ -1285,6 +1291,24 @@ extension ElasticBeanstalk {
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
             case virtualizationType = "VirtualizationType"
+        }
+    }
+
+    public struct DefaultAmi: AWSDecodableShape {
+        /// The processor architecture of the AMI.
+        public let architecture: AmiArchitecture?
+        /// The ID of the AMI.
+        public let imageId: String?
+
+        @inlinable
+        public init(architecture: AmiArchitecture? = nil, imageId: String? = nil) {
+            self.architecture = architecture
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "Architecture"
+            case imageId = "ImageId"
         }
     }
 
@@ -2380,7 +2404,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ImageConfiguration: AWSEncodableShape {
-        /// Settings that Elastic Beanstalk uses to build a container image from the source bundle of the application version. If you specify Build, also specify the request's SourceBundle parameter, and don't specify Source.
+        /// Settings that Elastic Beanstalk uses to build a container image from the source bundle of the application version. If you specify Build, also specify the request's SourceBundle parameter, and don't specify Source. To build the image when you create the application version instead of on first deployment, also set Process to true.
         public let build: ImageBuildConfiguration?
         /// The location of a container image that you built and pushed to a container registry yourself. Elastic Beanstalk deploys the image without a build step. If you specify Source, don't specify Build or the request's SourceBundle parameter.
         public let source: ImageSource?
@@ -2915,13 +2939,16 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformDescription: AWSDecodableShape {
-        /// The custom AMIs supported by the platform version.
+        /// The AMIs of the platform version, by virtualization type. For Elastic Beanstalk managed platforms, these are the default x86_64 AMIs; for custom platforms, the hvm entry is the AMI built for the platform version. To find a managed platform's default AMIs for every supported processor architecture, including arm64, use DefaultAmiList.
         @OptionalCustomCoding<StandardArrayCoder<CustomAmi>>
         public var customAmiList: [CustomAmi]?
         /// The date when the platform version was created.
         public let dateCreated: Date?
         /// The date when the platform version was last updated.
         public let dateUpdated: Date?
+        /// The AMIs that Elastic Beanstalk uses by default for the platform version, one for each supported processor architecture. When an environment doesn't specify a custom AMI, Elastic Beanstalk chooses the default AMI that matches the environment's architecture. This list isn't returned for custom platforms.
+        @OptionalCustomCoding<StandardArrayCoder<DefaultAmi>>
+        public var defaultAmiList: [DefaultAmi]?
         /// The description of the platform version.
         public let description: String?
         /// The frameworks supported by the platform version.
@@ -2964,10 +2991,11 @@ extension ElasticBeanstalk {
         public var supportedTierList: [String]?
 
         @inlinable
-        public init(customAmiList: [CustomAmi]? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
+        public init(customAmiList: [CustomAmi]? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, defaultAmiList: [DefaultAmi]? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
             self.customAmiList = customAmiList
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
+            self.defaultAmiList = defaultAmiList
             self.description = description
             self.frameworks = frameworks
             self.maintainer = maintainer
@@ -2992,6 +3020,7 @@ extension ElasticBeanstalk {
             case customAmiList = "CustomAmiList"
             case dateCreated = "DateCreated"
             case dateUpdated = "DateUpdated"
+            case defaultAmiList = "DefaultAmiList"
             case description = "Description"
             case frameworks = "Frameworks"
             case maintainer = "Maintainer"

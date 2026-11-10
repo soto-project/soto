@@ -49,6 +49,7 @@ extension MediaTailor {
     public enum AdsInteractionExcludeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adMarkerFound = "AD_MARKER_FOUND"
         case beaconFired = "BEACON_FIRED"
+        case beaconReceived = "BEACON_RECEIVED"
         case emptyVastResponse = "EMPTY_VAST_RESPONSE"
         case emptyVmapResponse = "EMPTY_VMAP_RESPONSE"
         case errorAdsInvalidResponse = "ERROR_ADS_INVALID_RESPONSE"
@@ -125,9 +126,26 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum BeaconEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mute = "MUTE"
+        case pause = "PAUSE"
+        case skip = "SKIP"
+        case unmute = "UNMUTE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChannelState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case running = "RUNNING"
         case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClientSideBeaconingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Tracking response returned unmodified.
+        case disabled = "DISABLED"
+        /// EMT beacon URLs added alongside the ad server's. Effective default when
+        /// BeaconingConfiguration is absent.
+        case insights = "INSIGHTS"
         public var description: String { return self.rawValue }
     }
 
@@ -638,6 +656,8 @@ extension MediaTailor {
     public struct AwsServiceRequestConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An expression that evaluates to the request body for the AWS service API call. The body must conform to the input format that the target service operation expects. Applies only when the target operation accepts a request body. The maximum size after evaluation is 64 KB.
         public let body: String?
+        /// The optional response-caching configuration for the function. When present, MediaTailor caches the responses that the function receives from the AWS service, within the time-to-live (TTL) bounds that you specify. Omit this configuration to disable response caching.
+        public let cache: HttpRequestCacheConfiguration?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request to the AWS service. Use this to pass any headers required by the target service operation. You can include a maximum of 50 headers.
         public let headers: [String: String]?
         /// Specifies how the function sends the request to the target service. The value must match what the target service operation requires. Valid values:    GET – Retrieves data from the target service.    POST – Submits a request body to the target service.
@@ -656,8 +676,9 @@ extension MediaTailor {
         public let url: String
 
         @inlinable
-        public init(body: String? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, targetRegion: String, targetService: String, url: String) {
+        public init(body: String? = nil, cache: HttpRequestCacheConfiguration? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, targetRegion: String, targetService: String, url: String) {
             self.body = body
+            self.cache = cache
             self.headers = headers
             self.methodType = methodType
             self.output = output
@@ -669,6 +690,7 @@ extension MediaTailor {
         }
 
         public func validate(name: String) throws {
+            try self.cache?.validate(name: "\(name).cache")
             try self.validate(self.targetService, name: "targetService", parent: name, max: 63)
             try self.validate(self.targetService, name: "targetService", parent: name, min: 1)
             try self.validate(self.targetService, name: "targetService", parent: name, pattern: "^[a-z0-9-]+$")
@@ -676,6 +698,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case cache = "Cache"
             case headers = "Headers"
             case methodType = "MethodType"
             case output = "Output"
@@ -684,6 +707,20 @@ extension MediaTailor {
             case targetRegion = "TargetRegion"
             case targetService = "TargetService"
             case url = "Url"
+        }
+    }
+
+    public struct BeaconingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The beaconing settings for client-side reporting sessions. If you omit this object, MediaTailor uses INSIGHTS reporting mode.
+        public let clientSide: ClientSideBeaconingConfiguration?
+
+        @inlinable
+        public init(clientSide: ClientSideBeaconingConfiguration? = nil) {
+            self.clientSide = clientSide
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientSide = "ClientSide"
         }
     }
 
@@ -780,6 +817,24 @@ extension MediaTailor {
             case playbackMode = "PlaybackMode"
             case tags = "tags"
             case tier = "Tier"
+        }
+    }
+
+    public struct ClientSideBeaconingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The player operation events to report on, in addition to the ad progress events that MediaTailor always reports on. The default is an empty list. This parameter is valid only when ReportingMode is INSIGHTS. MediaTailor rejects the request if you specify a value while ReportingMode is DISABLED, or if you specify duplicate values.
+        public let additionalEventTypes: [BeaconEventType]?
+        /// Specifies whether MediaTailor includes its beacons in the ad tracking response. Valid values, which are case-sensitive:    INSIGHTS – MediaTailor includes its beacons in the ad tracking response.    DISABLED – MediaTailor doesn't include its beacons in the ad tracking response.   If you send a ClientSide object, this setting is required. If you omit BeaconingConfiguration or ClientSide entirely, MediaTailor uses INSIGHTS.  PutPlaybackConfiguration replaces the whole playback configuration. To keep beaconing off, include DISABLED in every subsequent write.
+        public let reportingMode: ClientSideBeaconingMode
+
+        @inlinable
+        public init(additionalEventTypes: [BeaconEventType]? = nil, reportingMode: ClientSideBeaconingMode) {
+            self.additionalEventTypes = additionalEventTypes
+            self.reportingMode = reportingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEventTypes = "AdditionalEventTypes"
+            case reportingMode = "ReportingMode"
         }
     }
 
@@ -2446,6 +2501,8 @@ extension MediaTailor {
         public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
+        /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. MediaTailor always returns this setting. If you created the playback configuration before this setting existed, MediaTailor reports ReportingMode as INSIGHTS. This is also the value MediaTailor uses for that configuration at playback time.
+        public let beaconingConfiguration: BeaconingConfiguration?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -2492,13 +2549,14 @@ extension MediaTailor {
         public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, beaconingConfiguration: BeaconingConfiguration? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
             self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
+            self.beaconingConfiguration = beaconingConfiguration
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
@@ -2530,6 +2588,7 @@ extension MediaTailor {
             case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
             case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
+            case beaconingConfiguration = "BeaconingConfiguration"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
@@ -2721,9 +2780,38 @@ extension MediaTailor {
         }
     }
 
+    public struct HttpRequestCacheConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A JSONata expression that MediaTailor evaluates to a custom cache key. By default, the cache key is a hash of the HTTP URL, the request body, and the HTTP method; request headers are not included. You can specify a custom cache key expression to vary caching by request headers and more. The evaluated key must be smaller than 1 KB; otherwise the HTTP function will fail.
+        public let key: String?
+        /// The upper bound, in seconds, on how long MediaTailor caches a response. This value must be greater than or equal to TtlMinimumSeconds.
+        public let ttlMaximumSeconds: Int
+        /// The lower bound, in seconds, on how long MediaTailor caches a response. MediaTailor also uses this value as the cache duration when a response has no Cache-Control max-age directive.
+        public let ttlMinimumSeconds: Int
+
+        @inlinable
+        public init(key: String? = nil, ttlMaximumSeconds: Int, ttlMinimumSeconds: Int) {
+            self.key = key
+            self.ttlMaximumSeconds = ttlMaximumSeconds
+            self.ttlMinimumSeconds = ttlMinimumSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ttlMaximumSeconds, name: "ttlMaximumSeconds", parent: name, min: 1)
+            try self.validate(self.ttlMinimumSeconds, name: "ttlMinimumSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case ttlMaximumSeconds = "TtlMaximumSeconds"
+            case ttlMinimumSeconds = "TtlMinimumSeconds"
+        }
+    }
+
     public struct HttpRequestConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An expression that evaluates to the request body. Used with POST requests. The maximum size after evaluation is 64 KB.
         public let body: String?
+        /// The optional response-caching configuration for the function. When present, MediaTailor caches the responses that the function receives from the HTTP endpoint, within the time-to-live (TTL) bounds that you specify. Omit this configuration to disable response caching.
+        public let cache: HttpRequestCacheConfiguration?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound HTTP request. Maximum 50 headers.
         public let headers: [String: String]?
         /// The HTTP method for the request. Valid values: GET and POST.
@@ -2738,8 +2826,9 @@ extension MediaTailor {
         public let url: String
 
         @inlinable
-        public init(body: String? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, url: String) {
+        public init(body: String? = nil, cache: HttpRequestCacheConfiguration? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, url: String) {
             self.body = body
+            self.cache = cache
             self.headers = headers
             self.methodType = methodType
             self.output = output
@@ -2748,8 +2837,13 @@ extension MediaTailor {
             self.url = url
         }
 
+        public func validate(name: String) throws {
+            try self.cache?.validate(name: "\(name).cache")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case cache = "Cache"
             case headers = "Headers"
             case methodType = "MethodType"
             case output = "Output"
@@ -3344,6 +3438,8 @@ extension MediaTailor {
         public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
+        /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response.
+        public let beaconingConfiguration: BeaconingConfiguration?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -3390,13 +3486,14 @@ extension MediaTailor {
         public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, beaconingConfiguration: BeaconingConfiguration? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
             self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
+            self.beaconingConfiguration = beaconingConfiguration
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
@@ -3428,6 +3525,7 @@ extension MediaTailor {
             case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
             case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
+            case beaconingConfiguration = "BeaconingConfiguration"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
@@ -3668,6 +3766,8 @@ extension MediaTailor {
 
         public func validate(name: String) throws {
             try self.awsServiceRequestConfiguration?.validate(name: "\(name).awsServiceRequestConfiguration")
+            try self.httpRequestConfiguration?.validate(name: "\(name).httpRequestConfiguration")
+            try self.vastRequestConfiguration?.validate(name: "\(name).vastRequestConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3750,6 +3850,8 @@ extension MediaTailor {
         public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
+        /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. If you omit this setting, MediaTailor uses INSIGHTS.
+        public let beaconingConfiguration: BeaconingConfiguration?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -3782,13 +3884,14 @@ extension MediaTailor {
         public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, functionMapping: [EventName: String]? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, beaconingConfiguration: BeaconingConfiguration? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, functionMapping: [EventName: String]? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
             self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
+            self.beaconingConfiguration = beaconingConfiguration
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
@@ -3818,6 +3921,7 @@ extension MediaTailor {
             case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
             case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
+            case beaconingConfiguration = "BeaconingConfiguration"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
@@ -3849,6 +3953,8 @@ extension MediaTailor {
         public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
+        /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response.
+        public let beaconingConfiguration: BeaconingConfiguration?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -3895,13 +4001,14 @@ extension MediaTailor {
         public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, beaconingConfiguration: BeaconingConfiguration? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
             self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
+            self.beaconingConfiguration = beaconingConfiguration
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
@@ -3933,6 +4040,7 @@ extension MediaTailor {
             case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
             case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
+            case beaconingConfiguration = "BeaconingConfiguration"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
@@ -5037,6 +5145,8 @@ extension MediaTailor {
     public struct VastRequestConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An expression that evaluates to the request body, for example to send an OpenRTB bid request. The expression can be up to 100,000 characters, and the body after evaluation can be up to 64 KB.
         public let body: String?
+        /// The optional response-caching configuration for the function. When present, MediaTailor caches the responses that the function receives from the HTTP endpoint, within the time-to-live (TTL) bounds that you specify. Omit this configuration to disable response caching.
+        public let cache: HttpRequestCacheConfiguration?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request. Headers beginning with X-Amz- are reserved by the service, and method override headers are not allowed.
         public let headers: [String: String]?
         /// The HTTP method for the request to the VAST endpoint. Valid values: GET and POST. Use POST to send a bid request body, such as an OpenRTB payload.
@@ -5051,8 +5161,9 @@ extension MediaTailor {
         public let url: String
 
         @inlinable
-        public init(body: String? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, url: String) {
+        public init(body: String? = nil, cache: HttpRequestCacheConfiguration? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, url: String) {
             self.body = body
+            self.cache = cache
             self.headers = headers
             self.methodType = methodType
             self.output = output
@@ -5061,8 +5172,13 @@ extension MediaTailor {
             self.url = url
         }
 
+        public func validate(name: String) throws {
+            try self.cache?.validate(name: "\(name).cache")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
+            case cache = "Cache"
             case headers = "Headers"
             case methodType = "MethodType"
             case output = "Output"

@@ -1033,7 +1033,7 @@ public struct SSM: AWSService {
         return try await self.deleteOpsMetadata(input, logger: logger)
     }
 
-    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.  This operation is authorized against the ssm:DeleteParameter action. Denying that action alone doesn't restrict DeleteParameters, which is authorized against its own action. For more information, see Restricting access to specific parameters and paths in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     @inlinable
     public func deleteParameter(_ input: DeleteParameterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteParameterResult {
@@ -1046,7 +1046,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.  This operation is authorized against the ssm:DeleteParameter action. Denying that action alone doesn't restrict DeleteParameters, which is authorized against its own action. For more information, see Restricting access to specific parameters and paths in the Amazon Web Services Systems Manager User Guide.
     ///
     /// Parameters:
     ///   - name: The name of the parameter to delete.  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
@@ -1062,7 +1062,7 @@ public struct SSM: AWSService {
         return try await self.deleteParameter(input, logger: logger)
     }
 
-    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.  This operation is authorized against the ssm:DeleteParameters action, not against ssm:DeleteParameter. Denying ssm:DeleteParameter for a parameter doesn't prevent a principal from deleting that parameter with this operation. For more information, see Restricting access to specific parameters and paths in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     @inlinable
     public func deleteParameters(_ input: DeleteParametersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteParametersResult {
@@ -1075,7 +1075,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.  This operation is authorized against the ssm:DeleteParameters action, not against ssm:DeleteParameter. Denying ssm:DeleteParameter for a parameter doesn't prevent a principal from deleting that parameter with this operation. For more information, see Restricting access to specific parameters and paths in the Amazon Web Services Systems Manager User Guide.
     ///
     /// Parameters:
     ///   - names: The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
@@ -1188,6 +1188,32 @@ public struct SSM: AWSService {
             resourceArn: resourceArn
         )
         return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
+    /// Removes the Default Host Management Configuration (DHMC) for an Amazon Web Services account and Amazon Web Services Region. After you deregister DHMC, Amazon EC2 instances are no longer automatically managed as managed nodes by Amazon Web Services Systems Manager. To use this operation, you must have the following permissions:   You need the ssm:GetServiceSetting and ssm:ResetServiceSetting permissions for the /ssm/managed-instance/default-ec2-instance-management-role service setting.   If the registered role is service-managed, you also need the iam:DeleteRole permission so that Amazon Web Services Systems Manager can remove the role it created.
+    @Sendable
+    @inlinable
+    public func deregisterDefaultHostManagementConfiguration(_ input: DeregisterDefaultHostManagementConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterDefaultHostManagementConfigurationResult {
+        try await self.client.execute(
+            operation: "DeregisterDefaultHostManagementConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the Default Host Management Configuration (DHMC) for an Amazon Web Services account and Amazon Web Services Region. After you deregister DHMC, Amazon EC2 instances are no longer automatically managed as managed nodes by Amazon Web Services Systems Manager. To use this operation, you must have the following permissions:   You need the ssm:GetServiceSetting and ssm:ResetServiceSetting permissions for the /ssm/managed-instance/default-ec2-instance-management-role service setting.   If the registered role is service-managed, you also need the iam:DeleteRole permission so that Amazon Web Services Systems Manager can remove the role it created.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterDefaultHostManagementConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterDefaultHostManagementConfigurationResult {
+        let input = DeregisterDefaultHostManagementConfigurationRequest(
+        )
+        return try await self.deregisterDefaultHostManagementConfiguration(input, logger: logger)
     }
 
     /// Removes the server or virtual machine from the list of registered servers. If you want to reregister an on-premises server, edge device, or VM, you must use a different Activation Code and Activation ID than used to register the machine previously. The Activation Code and Activation ID must not have already been used on the maximum number of activations specified when they were created. For more information, see Deregistering managed nodes in a hybrid and multicloud environment in the Amazon Web Services Systems Manager User Guide.
@@ -3244,7 +3270,7 @@ public struct SSM: AWSService {
         return try await self.getOpsSummary(input, logger: logger)
     }
 
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.   Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.   This operation is authorized against the ssm:GetParameter action. Denying that action alone doesn't restrict GetParameters, GetParameterHistory, or GetParametersByPath, each of which is authorized against its own action. For more information, see How Parameter Store authorizes parameter retrieval in the Amazon Web Services Systems Manager User Guide.   Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     @Sendable
     @inlinable
     public func getParameter(_ input: GetParameterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParameterResult {
@@ -3257,7 +3283,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.   Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.   This operation is authorized against the ssm:GetParameter action. Denying that action alone doesn't restrict GetParameters, GetParameterHistory, or GetParametersByPath, each of which is authorized against its own action. For more information, see How Parameter Store authorizes parameter retrieval in the Amazon Web Services Systems Manager User Guide.   Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     ///
     /// Parameters:
     ///   - name: The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
@@ -3276,7 +3302,7 @@ public struct SSM: AWSService {
         return try await self.getParameter(input, logger: logger)
     }
 
-    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
+    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.   This operation is authorized against the ssm:GetParameterHistory action, not against ssm:GetParameter. Because parameter history includes every version of a parameter, including the current one, a principal who is denied ssm:GetParameter, ssm:GetParameters, and ssm:GetParametersByPath but allowed ssm:GetParameterHistory can still read the current value. To restrict access to a parameter value, deny every action that can return it. For more information, see How Parameter Store authorizes parameter retrieval in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     @inlinable
     public func getParameterHistory(_ input: GetParameterHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParameterHistoryResult {
@@ -3289,7 +3315,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
+    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.   This operation is authorized against the ssm:GetParameterHistory action, not against ssm:GetParameter. Because parameter history includes every version of a parameter, including the current one, a principal who is denied ssm:GetParameter, ssm:GetParameters, and ssm:GetParametersByPath but allowed ssm:GetParameterHistory can still read the current value. To restrict access to a parameter value, deny every action that can return it. For more information, see How Parameter Store authorizes parameter retrieval in the Amazon Web Services Systems Manager User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -3314,7 +3340,7 @@ public struct SSM: AWSService {
         return try await self.getParameterHistory(input, logger: logger)
     }
 
-    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
+    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.   This operation is authorized against the ssm:GetParameters action, not against ssm:GetParameter. Denying ssm:GetParameter for a parameter doesn't prevent a principal from retrieving that parameter with this operation. To restrict access to a parameter value, deny every action that can return it. For more information, see How Parameter Store authorizes parameter retrieval in the Amazon Web Services Systems Manager User Guide.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     @Sendable
     @inlinable
     public func getParameters(_ input: GetParametersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParametersResult {
@@ -3327,7 +3353,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
+    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.   This operation is authorized against the ssm:GetParameters action, not against ssm:GetParameter. Denying ssm:GetParameter for a parameter doesn't prevent a principal from retrieving that parameter with this operation. To restrict access to a parameter value, deny every action that can return it. For more information, see How Parameter Store authorizes parameter retrieval in the Amazon Web Services Systems Manager User Guide.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     ///
     /// Parameters:
     ///   - names: The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".  The results for GetParameters requests are listed in alphabetical order in query responses.  For information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
@@ -3346,7 +3372,7 @@ public struct SSM: AWSService {
         return try await self.getParameters(input, logger: logger)
     }
 
-    /// Retrieve information about one or more parameters under a specified level in a hierarchy.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
+    /// Retrieve information about one or more parameters under a specified level in a hierarchy.   This operation is authorized against the ssm:GetParametersByPath action for the path that you specify in the request. It isn't authorized against the individual parameters that it returns, and it isn't authorized against ssm:GetParameter. A principal who is allowed to call this operation for the path /a with Recursive set to true receives every parameter under that path, including /a/b, even if a policy explicitly denies access to /a/b. To prevent a parameter from being returned by this operation, deny the ssm:GetParametersByPath action on every ancestor path that could include the parameter in its results. For more information, see Restricting access to specific parameters and paths in the Amazon Web Services Systems Manager User Guide.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     @Sendable
     @inlinable
     public func getParametersByPath(_ input: GetParametersByPathRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParametersByPathResult {
@@ -3359,14 +3385,14 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Retrieve information about one or more parameters under a specified level in a hierarchy.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
+    /// Retrieve information about one or more parameters under a specified level in a hierarchy.   This operation is authorized against the ssm:GetParametersByPath action for the path that you specify in the request. It isn't authorized against the individual parameters that it returns, and it isn't authorized against ssm:GetParameter. A principal who is allowed to call this operation for the path /a with Recursive set to true receives every parameter under that path, including /a/b, even if a policy explicitly denies access to /a/b. To prevent a parameter from being returned by this operation, deny the ssm:GetParametersByPath action on every ancestor path that could include the parameter in its results. For more information, see Restricting access to specific parameters and paths in the Amazon Web Services Systems Manager User Guide.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     ///   - nextToken: A token to start the list. Use this token to get the next set of results.
     ///   - parameterFilters: Filters to limit the request results.  The following Key values are supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
     ///   - path: The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
-    ///   - recursive: Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API operation recursively for /a and view /a/b.
+    ///   - recursive: Retrieve all parameters within a hierarchy.
     ///   - withDecryption: Retrieve all parameters in a hierarchy with their value decrypted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4477,6 +4503,41 @@ public struct SSM: AWSService {
             resourceArn: resourceArn
         )
         return try await self.putResourcePolicy(input, logger: logger)
+    }
+
+    /// Enables Default Host Management Configuration (DHMC) for the current Amazon Web Services account and Amazon Web Services Region. With DHMC enabled, you don't need to configure additional resources, such as an instance profile, to use your Amazon EC2 instances as managed nodes in Amazon Web Services Systems Manager. To use this operation, you must have the following permissions:   You need the ssm:GetServiceSetting and ssm:UpdateServiceSetting permissions for the /ssm/managed-instance/default-ec2-instance-management-role service setting.   You need the iam:GetRole and iam:PassRole permissions for the role used for Default Host Management Configuration.   If PermissionModel is SERVICE_MANAGED, you also need the iam:CreateRole and iam:AttachRolePolicy permissions so that Amazon Web Services Systems Manager can create and configure the role on your behalf.
+    @Sendable
+    @inlinable
+    public func registerDefaultHostManagementConfiguration(_ input: RegisterDefaultHostManagementConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterDefaultHostManagementConfigurationResult {
+        try await self.client.execute(
+            operation: "RegisterDefaultHostManagementConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables Default Host Management Configuration (DHMC) for the current Amazon Web Services account and Amazon Web Services Region. With DHMC enabled, you don't need to configure additional resources, such as an instance profile, to use your Amazon EC2 instances as managed nodes in Amazon Web Services Systems Manager. To use this operation, you must have the following permissions:   You need the ssm:GetServiceSetting and ssm:UpdateServiceSetting permissions for the /ssm/managed-instance/default-ec2-instance-management-role service setting.   You need the iam:GetRole and iam:PassRole permissions for the role used for Default Host Management Configuration.   If PermissionModel is SERVICE_MANAGED, you also need the iam:CreateRole and iam:AttachRolePolicy permissions so that Amazon Web Services Systems Manager can create and configure the role on your behalf.
+    ///
+    /// Parameters:
+    ///   - overwrite: Specifies whether to override the role that is currently registered for Default Host Management Configuration. The default is false, which acts as a guardrail against accidentally replacing an existing configuration. Set this to true to replace the currently registered role.
+    ///   - permissionModel: The permission model that determines how the IAM role for Default Host Management Configuration is provided. The permission model can be one of the following values:  SERVICE_MANAGED  Amazon Web Services Systems Manager creates and manages the role on your behalf.  SELF_MANAGED  You provide the role to register in RoleArn.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the self-managed IAM role that you register for Default Host Management Configuration. The requirement for this value depends on the permission model:   If PermissionModel is SELF_MANAGED, this value is required.   If PermissionModel is SERVICE_MANAGED, this value must not be set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerDefaultHostManagementConfiguration(
+        overwrite: Bool? = nil,
+        permissionModel: DHMCPermissionModel,
+        roleArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterDefaultHostManagementConfigurationResult {
+        let input = RegisterDefaultHostManagementConfigurationRequest(
+            overwrite: overwrite, 
+            permissionModel: permissionModel, 
+            roleArn: roleArn
+        )
+        return try await self.registerDefaultHostManagementConfiguration(input, logger: logger)
     }
 
     /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
@@ -6013,7 +6074,7 @@ public struct SSM: AWSService {
 extension SSM {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: SSM, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -7364,7 +7425,7 @@ extension SSM {
     ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     ///   - parameterFilters: Filters to limit the request results.  The following Key values are supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
     ///   - path: The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
-    ///   - recursive: Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API operation recursively for /a and view /a/b.
+    ///   - recursive: Retrieve all parameters within a hierarchy.
     ///   - withDecryption: Retrieve all parameters in a hierarchy with their value decrypted.
     ///   - logger: Logger used for logging
     @inlinable

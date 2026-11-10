@@ -1356,14 +1356,17 @@ public struct XRay: AWSService {
     ///  Modifies the destination of data sent to PutTraceSegments. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
     ///
     /// Parameters:
+    ///   - cloudWatchLogsConfiguration: Specifies settings for the CloudWatch Logs log groups that X-Ray creates for Transaction Search. Specify this only when Destination is CloudWatchLogs.
     ///   - destination: The configured destination of trace segments.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTraceSegmentDestination(
+        cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil,
         destination: TraceSegmentDestination? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateTraceSegmentDestinationResult {
         let input = UpdateTraceSegmentDestinationRequest(
+            cloudWatchLogsConfiguration: cloudWatchLogsConfiguration, 
             destination: destination
         )
         return try await self.updateTraceSegmentDestination(input, logger: logger)
@@ -1373,7 +1376,7 @@ public struct XRay: AWSService {
 extension XRay {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: XRay, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

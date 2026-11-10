@@ -277,6 +277,85 @@ public struct SecurityAgent: AWSService {
         return try await self.batchDeleteThreatModels(input, logger: logger)
     }
 
+    /// Disassociates a batch of findings from their linked issues.
+    @Sendable
+    @inlinable
+    public func batchDisassociateFindingIssue(_ input: BatchDisassociateFindingIssueInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateFindingIssueOutput {
+        try await self.client.execute(
+            operation: "BatchDisassociateFindingIssue", 
+            path: "/BatchDisassociateFindingIssue", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a batch of findings from their linked issues.
+    ///
+    /// Parameters:
+    ///   - agentSpaceId: The identifier of the agent space where the job exists.
+    ///   - codeReviewJobId: The identifier of the code review job. This parameter is mutually exclusive with pentestJobId.
+    ///   - findingIds: The identifiers of the findings to disassociate from their issues. Each must belong to the specified job.
+    ///   - pentestJobId: The identifier of the penetration test job. This parameter is mutually exclusive with codeReviewJobId.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDisassociateFindingIssue(
+        agentSpaceId: String,
+        codeReviewJobId: String? = nil,
+        findingIds: [String],
+        pentestJobId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDisassociateFindingIssueOutput {
+        let input = BatchDisassociateFindingIssueInput(
+            agentSpaceId: agentSpaceId, 
+            codeReviewJobId: codeReviewJobId, 
+            findingIds: findingIds, 
+            pentestJobId: pentestJobId
+        )
+        return try await self.batchDisassociateFindingIssue(input, logger: logger)
+    }
+
+    /// Exports a batch of findings to the connected issue tracker as issues.
+    @Sendable
+    @inlinable
+    public func batchExportFindings(_ input: BatchExportFindingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchExportFindingsOutput {
+        try await self.client.execute(
+            operation: "BatchExportFindings", 
+            path: "/BatchExportFindings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Exports a batch of findings to the connected issue tracker as issues.
+    ///
+    /// Parameters:
+    ///   - agentSpaceId: The identifier of the agent space where the job exists.
+    ///   - codeReviewJobId: The identifier of the code review job. This parameter is mutually exclusive with pentestJobId.
+    ///   - findingIds: The identifiers of the findings to export. Each must belong to the specified job.
+    ///   - issueDestination: The destination issue-tracker project the findings are exported to. Must be a connected capability of the agent space.
+    ///   - pentestJobId: The identifier of the penetration test job. This parameter is mutually exclusive with codeReviewJobId.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchExportFindings(
+        agentSpaceId: String,
+        codeReviewJobId: String? = nil,
+        findingIds: [String],
+        issueDestination: IssueDestination,
+        pentestJobId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchExportFindingsOutput {
+        let input = BatchExportFindingsInput(
+            agentSpaceId: agentSpaceId, 
+            codeReviewJobId: codeReviewJobId, 
+            findingIds: findingIds, 
+            issueDestination: issueDestination, 
+            pentestJobId: pentestJobId
+        )
+        return try await self.batchExportFindings(input, logger: logger)
+    }
+
     /// Retrieves information about one or more agent spaces.
     @Sendable
     @inlinable
@@ -944,7 +1023,7 @@ public struct SecurityAgent: AWSService {
     ///   - integrationDisplayName: The display name for the integration.
     ///   - kmsKeyId: The identifier of the AWS KMS key to use for encrypting data associated with the integration.
     ///   - privateConnectionName: The name of an active private connection used to reach a self-hosted provider instance over private networking. Specify this when the instance is not publicly reachable.
-    ///   - provider: The integration provider. Currently, only GITHUB is supported.
+    ///   - provider: The integration provider.
     ///   - tags: The tags to associate with the integration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -968,7 +1047,7 @@ public struct SecurityAgent: AWSService {
         return try await self.createIntegration(input, logger: logger)
     }
 
-    /// Creates a new membership, granting a user access to an agent space within an application.
+    /// Creates a new membership, granting a user or group access to an agent space within an application.
     @Sendable
     @inlinable
     public func createMembership(_ input: CreateMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembershipResponse {
@@ -981,14 +1060,14 @@ public struct SecurityAgent: AWSService {
             logger: logger
         )
     }
-    /// Creates a new membership, granting a user access to an agent space within an application.
+    /// Creates a new membership, granting a user or group access to an agent space within an application.
     ///
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space to grant access to.
     ///   - applicationId: The unique identifier of the application that contains the agent space.
     ///   - config: The configuration for the membership, such as the user role.
     ///   - membershipId: The unique identifier for the membership.
-    ///   - memberType: The type of member. Currently, only USER is supported.
+    ///   - memberType: The type of member. Use USER for an individual user or GROUP for an IAM Identity Center group. All members of a group have access to the agent space.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMembership(
@@ -1037,6 +1116,7 @@ public struct SecurityAgent: AWSService {
     ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
     ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The IAM service role to use for the pentest.
+    ///   - testScope: 
     ///   - title: The title of the pentest.
     ///   - vpcConfig: The VPC configuration for the pentest.
     ///   - logger: Logger use during operation
@@ -1054,6 +1134,7 @@ public struct SecurityAgent: AWSService {
         reportDestination: ReportDestination? = nil,
         reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
+        testScope: TestScope? = nil,
         title: String,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1071,6 +1152,7 @@ public struct SecurityAgent: AWSService {
             reportDestination: reportDestination, 
             reportFilters: reportFilters, 
             serviceRole: serviceRole, 
+            testScope: testScope, 
             title: title, 
             vpcConfig: vpcConfig
         )
@@ -1431,7 +1513,7 @@ public struct SecurityAgent: AWSService {
         return try await self.deleteIntegration(input, logger: logger)
     }
 
-    /// Deletes a membership, revoking a user's access to an agent space.
+    /// Deletes a membership, revoking a user's or group's access to an agent space.
     @Sendable
     @inlinable
     public func deleteMembership(_ input: DeleteMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMembershipResponse {
@@ -1444,7 +1526,7 @@ public struct SecurityAgent: AWSService {
             logger: logger
         )
     }
-    /// Deletes a membership, revoking a user's access to an agent space.
+    /// Deletes a membership, revoking a user's or group's access to an agent space.
     ///
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space to revoke access from.
@@ -1752,15 +1834,27 @@ public struct SecurityAgent: AWSService {
     /// Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization.
     ///
     /// Parameters:
-    ///   - provider: The provider to initiate registration with. Currently, only GITHUB is supported.
+    ///   - clientId: The client ID of the OAuth application registered on your self-managed provider instance.
+    ///   - clientSecret: The client secret of the OAuth application registered on your self-managed provider instance.
+    ///   - organizationName: The name of the organization to connect.
+    ///   - provider: The provider to initiate registration with.
+    ///   - targetUrl: The HTTPS URL of a self-managed provider instance. Omit for SaaS providers.
     ///   - logger: Logger use during operation
     @inlinable
     public func initiateProviderRegistration(
+        clientId: String? = nil,
+        clientSecret: String? = nil,
+        organizationName: String? = nil,
         provider: Provider,
+        targetUrl: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InitiateProviderRegistrationOutput {
         let input = InitiateProviderRegistrationInput(
-            provider: provider
+            clientId: clientId, 
+            clientSecret: clientSecret, 
+            organizationName: organizationName, 
+            provider: provider, 
+            targetUrl: targetUrl
         )
         return try await self.initiateProviderRegistration(input, logger: logger)
     }
@@ -3206,6 +3300,38 @@ public struct SecurityAgent: AWSService {
         return try await self.updateIntegratedResources(input, logger: logger)
     }
 
+    /// Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again.
+    @Sendable
+    @inlinable
+    public func updateIntegration(_ input: UpdateIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIntegrationOutput {
+        try await self.client.execute(
+            operation: "UpdateIntegration", 
+            path: "/UpdateIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again.
+    ///
+    /// Parameters:
+    ///   - integrationId: The ID of the integration whose webhook you want to create or rotate.
+    ///   - webhookAction: The action to perform on the integration's webhook.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIntegration(
+        integrationId: String,
+        webhookAction: WebhookAction,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIntegrationOutput {
+        let input = UpdateIntegrationInput(
+            integrationId: integrationId, 
+            webhookAction: webhookAction
+        )
+        return try await self.updateIntegration(input, logger: logger)
+    }
+
     /// Updates an existing pentest configuration.
     @Sendable
     @inlinable
@@ -3235,6 +3361,7 @@ public struct SecurityAgent: AWSService {
     ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
     ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The updated IAM service role for the pentest.
+    ///   - testScope: 
     ///   - title: The updated title of the pentest.
     ///   - vpcConfig: The updated VPC configuration for the pentest.
     ///   - logger: Logger use during operation
@@ -3253,6 +3380,7 @@ public struct SecurityAgent: AWSService {
         reportDestination: ReportDestination? = nil,
         reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
+        testScope: TestScope? = nil,
         title: String? = nil,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3271,6 +3399,7 @@ public struct SecurityAgent: AWSService {
             reportDestination: reportDestination, 
             reportFilters: reportFilters, 
             serviceRole: serviceRole, 
+            testScope: testScope, 
             title: title, 
             vpcConfig: vpcConfig
         )
@@ -3539,7 +3668,7 @@ public struct SecurityAgent: AWSService {
 extension SecurityAgent {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: SecurityAgent, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

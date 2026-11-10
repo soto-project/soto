@@ -109,6 +109,35 @@ public struct Neptunedata: AWSService {
         return try await self.cancelGremlinQuery(input, logger: logger)
     }
 
+    /// Cancels an in-progress index rebuild operation. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelIndexRebuild IAM action in that cluster.
+    @Sendable
+    @inlinable
+    public func cancelIndexRebuild(_ input: CancelIndexRebuildInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelIndexRebuildOutput {
+        try await self.client.execute(
+            operation: "CancelIndexRebuild", 
+            path: "/storage/indexes/rebuilds/{rebuildId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an in-progress index rebuild operation. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelIndexRebuild IAM action in that cluster.
+    ///
+    /// Parameters:
+    ///   - rebuildId: The unique identifier of the index rebuild job to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelIndexRebuild(
+        rebuildId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelIndexRebuildOutput {
+        let input = CancelIndexRebuildInput(
+            rebuildId: rebuildId
+        )
+        return try await self.cancelIndexRebuild(input, logger: logger)
+    }
+
     /// Cancels a specified load job. This is an HTTP DELETE request. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
     @Sendable
     @inlinable
@@ -632,6 +661,35 @@ public struct Neptunedata: AWSService {
         return try await self.getGremlinQueryStatus(input, logger: logger)
     }
 
+    /// Retrieves the status of an index rebuild operation. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetIndexRebuildStatus IAM action in that cluster.
+    @Sendable
+    @inlinable
+    public func getIndexRebuildStatus(_ input: GetIndexRebuildStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexRebuildStatusOutput {
+        try await self.client.execute(
+            operation: "GetIndexRebuildStatus", 
+            path: "/storage/indexes/rebuilds/{rebuildId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status of an index rebuild operation. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetIndexRebuildStatus IAM action in that cluster.
+    ///
+    /// Parameters:
+    ///   - rebuildId: The unique identifier of the index rebuild job returned by the StartIndexRebuild operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIndexRebuildStatus(
+        rebuildId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIndexRebuildStatusOutput {
+        let input = GetIndexRebuildStatusInput(
+            rebuildId: rebuildId
+        )
+        return try await self.getIndexRebuildStatus(input, logger: logger)
+    }
+
     /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job. See Neptune Loader Get-Status API for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
     @Sendable
     @inlinable
@@ -996,6 +1054,19 @@ public struct Neptunedata: AWSService {
         return try await self.getSparqlStream(input, logger: logger)
     }
 
+    /// Retrieves storage information for the Neptune database instance, including approximate total storage used and per-category size and entry counts. Storage categories include:    Quad indexes - the indexes that store graph data, for both RDF (SPARQL) and Property Graph (Gremlin/openCypher) models.    Dictionaries - the term dictionaries, including total dictionary storage and the portion used by blob (large value) entries.    Undo logs - the undo logs, reported as a total size and the number of entries in the undo log list.    Streams - the change-log streams.    Schema - the schema.    DFE statistics - the DFE engine statistics.    System metadata - internal system metadata.   When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStorageInfo IAM action in that cluster.
+    @Sendable
+    @inlinable
+    public func getStorageInfo(logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageOutput {
+        try await self.client.execute(
+            operation: "GetStorageInfo", 
+            path: "/storage/info", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     /// Lists active Gremlin queries. See Gremlin query status API for details about the output. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
     @Sendable
     @inlinable
@@ -1023,6 +1094,19 @@ public struct Neptunedata: AWSService {
             includeWaiting: includeWaiting
         )
         return try await self.listGremlinQueries(input, logger: logger)
+    }
+
+    /// Retrieves a list of all index rebuild operation identifiers. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListIndexRebuilds IAM action in that cluster.
+    @Sendable
+    @inlinable
+    public func listIndexRebuilds(logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndexRebuildsOutput {
+        try await self.client.execute(
+            operation: "ListIndexRebuilds", 
+            path: "/storage/indexes/rebuilds", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of the loadIds for all active loader jobs. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
@@ -1270,6 +1354,44 @@ public struct Neptunedata: AWSService {
             mode: mode
         )
         return try await self.manageSparqlStatistics(input, logger: logger)
+    }
+
+    /// Initiates an index rebuild operation to optimize storage and improve query performance. The rebuild operation reorganizes index to reclaim space and improve efficiency. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartIndexRebuild IAM action in that cluster.
+    @Sendable
+    @inlinable
+    public func startIndexRebuild(_ input: StartIndexRebuildInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartIndexRebuildOutput {
+        try await self.client.execute(
+            operation: "StartIndexRebuild", 
+            path: "/storage/indexes/rebuilds", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates an index rebuild operation to optimize storage and improve query performance. The rebuild operation reorganizes index to reclaim space and improve efficiency. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartIndexRebuild IAM action in that cluster.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the SDK automatically generates one.
+    ///   - concurrency: The number of concurrent indexes to rebuild in parallel. If not specified, defaults to 1. Valid values are between 1 and the number of vCPUs available on the writer instance. If the value exceeds the available vCPUs, it is capped at the maximum instead of returning an InvalidParameterException. The effective (capped) value is returned in the response. Higher concurrency can shorten the overall rebuild, but also increases CPU and I/O load during the operation.
+    ///   - scope: Specifies the scope of the rebuild operation. Possible values are:    ALL - Rebuild all (quads and dictionaries). This is the default if not specified.    QUADS - Rebuild only the quad indexes.     DICTIONARIES - Rebuild only the dictionaries.
+    ///   - writeBufferSize: Controls the buffer size used for tracking concurrent write operations during the index rebuild. If your database has high write traffic during the rebuild, a larger buffer prevents the operation from failing due to buffer overflow. Possible values are:    LOW - Suitable for databases with light to moderate write activity. This is the default.    MEDIUM - Recommended for databases with sustained write traffic or bulk loading.    HIGH - Use when rebuilding indexes during heavy write workloads or continuous bulk data ingestion.   If your rebuild fails and you are actively writing data to the database, retry with a higher writeBufferSize value. For bulk load operations, consider using HIGH.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startIndexRebuild(
+        clientToken: String? = StartIndexRebuildInput.idempotencyToken(),
+        concurrency: Int? = nil,
+        scope: Scope? = nil,
+        writeBufferSize: WriteBufferSize? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartIndexRebuildOutput {
+        let input = StartIndexRebuildInput(
+            clientToken: clientToken, 
+            concurrency: concurrency, 
+            scope: scope, 
+            writeBufferSize: writeBufferSize
+        )
+        return try await self.startIndexRebuild(input, logger: logger)
     }
 
     /// Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See Using the Amazon Neptune Bulk Loader to Ingest Data. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
@@ -1560,7 +1682,7 @@ public struct Neptunedata: AWSService {
 extension Neptunedata {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Neptunedata, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

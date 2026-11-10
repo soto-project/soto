@@ -25,6 +25,27 @@ import Foundation
 extension S3Tables {
     // MARK: Enums
 
+    public enum CompressionCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gzip = "gzip"
+        case snappy = "snappy"
+        case uncompressed = "uncompressed"
+        case zstd = "zstd"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataFileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case parquet = "parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `internal` = "internal"
+        case access = "access"
+        case data = "data"
+        case metadata = "metadata"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IcebergCompactionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "auto"
         case binpack = "binpack"
@@ -45,6 +66,12 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncompatibleValuesPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "fail"
+        case setNull = "setNull"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case failed = "Failed"
@@ -56,6 +83,50 @@ extension S3Tables {
     public enum MaintenanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destinationPermissions = "destinationPermissions"
+        case internalError = "internalError"
+        case objectCompatibilityReport = "objectCompatibilityReport"
+        case objectMigrationReport = "objectMigrationReport"
+        case reportBucketNotSupported = "reportBucketNotSupported"
+        case resourceNotFound = "resourceNotFound"
+        case rolePermissions = "rolePermissions"
+        case sourceNotSupported = "sourceNotSupported"
+        case sourcePermissions = "sourcePermissions"
+        case tableCompatibilityReport = "tableCompatibilityReport"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationRequestedState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "cancelled"
+        case queued = "queued"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case glueTable = "glueTable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "cancelled"
+        case cancelling = "cancelling"
+        case failed = "failed"
+        case migrating = "migrating"
+        case new = "new"
+        case pendingReview = "pendingReview"
+        case planning = "planning"
+        case queued = "queued"
+        case succeeded = "succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case start = "start"
+        case sync = "sync"
         public var description: String { return self.rawValue }
     }
 
@@ -132,6 +203,12 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum UnmatchedSourceFieldsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drop = "drop"
+        case fail = "fail"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TableMaintenanceSettings: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Contains details about the Iceberg compaction settings for the table.
         case icebergCompaction(IcebergCompactionSettings)
@@ -183,6 +260,30 @@ extension S3Tables {
     }
 
     // MARK: Shapes
+
+    public struct CompleteTableMigrationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the migrated table to complete the migration of.
+        public let tableARN: String
+
+        @inlinable
+        public init(tableARN: String) {
+            self.tableARN = tableARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableARN, key: "tableARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableARN, name: "tableARN", parent: name, max: 2048)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, min: 1)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
 
     public struct CreateNamespaceRequest: AWSEncodableShape {
         /// A name for the namespace.
@@ -369,6 +470,46 @@ extension S3Tables {
         private enum CodingKeys: String, CodingKey {
             case tableARN = "tableARN"
             case versionToken = "versionToken"
+        }
+    }
+
+    public struct DataMigrationOverview: AWSDecodableShape {
+        /// The maintenance settings for the destination table. The migration applies them when it creates the table: snapshot management starts then, and compaction starts after you complete the migration. If you don't specify a setting, the migration uses its default: a target file size of 512 MB, the binpack compaction strategy, at least 3 snapshots, and a maximum snapshot age of 120 hours. Unreferenced file removal follows the table bucket's configuration after you complete the migration.
+        public let maintenanceSettings: MaintenanceSettings
+        /// The policies for source data that doesn't fit the destination schema.
+        public let migrationPolicies: MigrationPolicies
+
+        @inlinable
+        public init(maintenanceSettings: MaintenanceSettings, migrationPolicies: MigrationPolicies) {
+            self.maintenanceSettings = maintenanceSettings
+            self.migrationPolicies = migrationPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceSettings = "maintenanceSettings"
+            case migrationPolicies = "migrationPolicies"
+        }
+    }
+
+    public struct DataMigrationSettings: AWSEncodableShape {
+        /// The maintenance settings for the destination table. The migration applies them when it creates the table: snapshot management starts then, and compaction starts after you complete the migration. If you don't specify a setting, the migration uses its default: a target file size of 512 MB, the binpack compaction strategy, at least 3 snapshots, and a maximum snapshot age of 120 hours. Unreferenced file removal follows the table bucket's configuration after you complete the migration.
+        public let maintenanceSettings: MaintenanceSettings?
+        /// The policies for source data that doesn't fit the destination schema.
+        public let migrationPolicies: MigrationPolicies?
+
+        @inlinable
+        public init(maintenanceSettings: MaintenanceSettings? = nil, migrationPolicies: MigrationPolicies? = nil) {
+            self.maintenanceSettings = maintenanceSettings
+            self.migrationPolicies = migrationPolicies
+        }
+
+        public func validate(name: String) throws {
+            try self.maintenanceSettings?.validate(name: "\(name).maintenanceSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceSettings = "maintenanceSettings"
+            case migrationPolicies = "migrationPolicies"
         }
     }
 
@@ -621,6 +762,67 @@ extension S3Tables {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DestinationTable: AWSEncodableShape {
+        /// The encryption configuration for the table. If you don't specify one, the table uses the default encryption configuration of its table bucket. If you specify an encryption configuration, the migration role must have the s3tables:PutTableEncryption permission. If you choose SSE-KMS, the migration role must have the kms:DescribeKey, kms:GenerateDataKey and kms:Decrypt permissions on the KMS key, and the S3 Tables maintenance principal must have access to it. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The sort order of the rows within each data file that the migration writes. A sort order can have up to five fields, each naming a column of the schema that you specify by its field ID, so to use a sort order you must specify a schema. StartTableMigration rejects a field that names no column of the schema, or whose transform doesn't fit the column's type.
+        public let icebergSortOrder: IcebergSortOrder?
+        /// The name of the table to create.
+        public let name: String
+        /// The namespace to create the table in.
+        public let namespace: String
+        /// The properties of the destination table, such as its Iceberg format version and the format of its data files.
+        public let properties: MigrationTableProperties?
+        /// The schema of the table to create. If you don't specify a schema, the migration infers it from the source table, with every column optional. A schema that you specify must include every partition column of the source table. It can leave out other columns only if unmatchedSourceFieldsPolicy is drop. A struct column must have the same fields as the source column. Column default values aren't supported. If you mark a column as required, every source object must have a value for it: an object with a null value in a required column fails to migrate. The destination table is partitioned in the same way as the source table. To specify fields in icebergSortOrder, you must specify a schema.
+        public let schema: IcebergSchemaV2?
+        /// The storage class configuration for the table. If you don't specify one, the table inherits the storage class configuration of its table bucket. If you specify a storage class configuration, the migration role must have the s3tables:PutTableStorageClass permission.
+        public let storageClassConfiguration: StorageClassConfiguration?
+        /// The Amazon Resource Name (ARN) of the table bucket to create the table in.
+        public let tableBucketARN: String
+        /// The tags to add to the table. A tag is a key-value pair that you apply to your resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC). If you specify tags, the migration role must have the s3tables:TagResource permission.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, icebergSortOrder: IcebergSortOrder? = nil, name: String, namespace: String, properties: MigrationTableProperties? = nil, schema: IcebergSchemaV2? = nil, storageClassConfiguration: StorageClassConfiguration? = nil, tableBucketARN: String, tags: [String: String]? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.icebergSortOrder = icebergSortOrder
+            self.name = name
+            self.namespace = namespace
+            self.properties = properties
+            self.schema = schema
+            self.storageClassConfiguration = storageClassConfiguration
+            self.tableBucketARN = tableBucketARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
+            case icebergSortOrder = "icebergSortOrder"
+            case name = "name"
+            case namespace = "namespace"
+            case properties = "properties"
+            case schema = "schema"
+            case storageClassConfiguration = "storageClassConfiguration"
+            case tableBucketARN = "tableBucketARN"
+            case tags = "tags"
+        }
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -1204,6 +1406,123 @@ extension S3Tables {
         }
     }
 
+    public struct GetTableMigrationRequest: AWSEncodableShape {
+        /// The ID of the migration to get. Specify either migrationId or tableARN, not both.
+        public let migrationId: String?
+        /// The Amazon Resource Name (ARN) of the destination table. Gets the table's most recent migration. Specify either tableARN or migrationId, not both.
+        public let tableARN: String?
+
+        @inlinable
+        public init(migrationId: String? = nil, tableARN: String? = nil) {
+            self.migrationId = migrationId
+            self.tableARN = tableARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.migrationId, key: "migrationId")
+            request.encodeQuery(self.tableARN, key: "tableARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationId, name: "migrationId", parent: name, max: 64)
+            try self.validate(self.migrationId, name: "migrationId", parent: name, min: 1)
+            try self.validate(self.migrationId, name: "migrationId", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.tableARN, name: "tableARN", parent: name, max: 2048)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, min: 1)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableMigrationResponse: AWSDecodableShape {
+        /// The date and time that the migration was created.
+        public let createdAt: Date
+        /// The maintenance settings and migration policies for the destination table.
+        public let dataMigration: DataMigrationOverview
+        /// The reason that the migration failed. The code names the cause, such as a migration role that S3 Tables can't assume or an Amazon Web Services Glue table that doesn't exist, or the report that lists the findings. This value is returned only when the migration is in the failed state.
+        public let failureReason: MigrationFailureReason?
+        /// A Boolean value that specifies whether planning produced a plan that the migration can run. If planning hasn't finished, this value isn't returned.
+        public let hasValidPlan: Bool?
+        /// The ID of the migration.
+        public let migrationId: String
+        /// The bucket and prefixes for the migration's reports, and the location of each report once it is written.
+        public let migrationOutput: MigrationOutputOverview
+        /// The number of objects that migrated, failed or are pending. These counts are set when planning finishes and updated when the migration ends.
+        public let migrationStats: MigrationStats?
+        /// The name of the destination table.
+        public let name: String
+        /// The namespace of the destination table.
+        public let namespace: String
+        /// Statistics about the source and the partitions in the migration. This value is returned after planning finishes.
+        public let planningStats: PlanningStats?
+        /// A Boolean value that specifies whether the migration waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data.
+        public let reviewMigrationPlan: Bool
+        /// The Amazon Resource Name (ARN) of the IAM role that the migration uses.
+        public let roleARN: String
+        /// The source table of the migration.
+        public let source: SourceConfiguration
+        /// The type of the migration's source.
+        public let sourceType: MigrationSourceType
+        /// The state of the migration. Valid values:    new - S3 Tables accepted the request.    planning - The migration is checking the source table, its objects and the destination for compatibility, and writing the compatibility reports.    pendingReview - Planning finished, and the migration waits for you to continue or cancel it with UpdateTableMigration.    queued - The migration is waiting to start migrating data.    migrating - The migration is running the plan from the planning state: it copies data and commits it to the destination table. A migration reaches this state only if hasValidPlan is true.    succeeded - Every planned object migrated.    failed - The migration failed. Check failureReason for the cause.    cancelling - You cancelled the migration, and it is finishing the work in progress.    cancelled - The migration is cancelled.   A migration ends in the succeeded, failed or cancelled state. You can cancel it until it ends.
+        public let state: MigrationState
+        /// The date and time that the migration's state last changed.
+        public let stateUpdatedAt: Date
+        /// The Amazon Resource Name (ARN) of the destination table, once the migration creates it.
+        public let tableARN: String?
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the destination table.
+        public let tableBucketARN: String
+        /// The type of the migration. Valid values:    start - A migration that StartTableMigration started.    sync - A migration that SyncTableMigration started.
+        public let type: MigrationType
+
+        @inlinable
+        public init(createdAt: Date, dataMigration: DataMigrationOverview, failureReason: MigrationFailureReason? = nil, hasValidPlan: Bool? = nil, migrationId: String, migrationOutput: MigrationOutputOverview, migrationStats: MigrationStats? = nil, name: String, namespace: String, planningStats: PlanningStats? = nil, reviewMigrationPlan: Bool, roleARN: String, source: SourceConfiguration, sourceType: MigrationSourceType, state: MigrationState, stateUpdatedAt: Date, tableARN: String? = nil, tableBucketARN: String, type: MigrationType) {
+            self.createdAt = createdAt
+            self.dataMigration = dataMigration
+            self.failureReason = failureReason
+            self.hasValidPlan = hasValidPlan
+            self.migrationId = migrationId
+            self.migrationOutput = migrationOutput
+            self.migrationStats = migrationStats
+            self.name = name
+            self.namespace = namespace
+            self.planningStats = planningStats
+            self.reviewMigrationPlan = reviewMigrationPlan
+            self.roleARN = roleARN
+            self.source = source
+            self.sourceType = sourceType
+            self.state = state
+            self.stateUpdatedAt = stateUpdatedAt
+            self.tableARN = tableARN
+            self.tableBucketARN = tableBucketARN
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case dataMigration = "dataMigration"
+            case failureReason = "failureReason"
+            case hasValidPlan = "hasValidPlan"
+            case migrationId = "migrationId"
+            case migrationOutput = "migrationOutput"
+            case migrationStats = "migrationStats"
+            case name = "name"
+            case namespace = "namespace"
+            case planningStats = "planningStats"
+            case reviewMigrationPlan = "reviewMigrationPlan"
+            case roleARN = "roleARN"
+            case source = "source"
+            case sourceType = "sourceType"
+            case state = "state"
+            case stateUpdatedAt = "stateUpdatedAt"
+            case tableARN = "tableARN"
+            case tableBucketARN = "tableBucketARN"
+            case type = "type"
+        }
+    }
+
     public struct GetTablePolicyRequest: AWSEncodableShape {
         /// The name of the table.
         public let name: String
@@ -1597,6 +1916,28 @@ extension S3Tables {
         }
     }
 
+    public struct GlueTableSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Data Catalog that contains the table. It must be your account ID.
+        public let catalogId: String
+        /// The name of the database that contains the table.
+        public let databaseName: String
+        /// The name of the table.
+        public let tableName: String
+
+        @inlinable
+        public init(catalogId: String, databaseName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "catalogId"
+            case databaseName = "databaseName"
+            case tableName = "tableName"
+        }
+    }
+
     public struct IcebergCompactionSettings: AWSEncodableShape & AWSDecodableShape {
         /// The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations.
         public let strategy: IcebergCompactionStrategy?
@@ -1957,6 +2298,87 @@ extension S3Tables {
         }
     }
 
+    public struct ListTableMigrationsRequest: AWSEncodableShape {
+        /// The hasValidPlan value to filter the list by. Migrations that are still planning aren't listed, whichever value you specify.
+        public let hasValidPlan: Bool?
+        /// The maximum number of migrations to return, from 1 to 1,000. If you don't specify a value, the default is 100.
+        public let maxResults: Int?
+        /// The name of the table to list migrations for. Requires tableBucketARN and namespace.
+        public let name: String?
+        /// The namespace to list migrations for. Requires tableBucketARN.
+        public let namespace: String?
+        /// The nextToken from a previous response, to get the next page of results.
+        public let nextToken: String?
+        /// The state to filter the list by. For the valid values, see the state member of GetTableMigration.
+        public let state: MigrationState?
+        /// The Amazon Resource Name (ARN) of the table to list migrations for. The list includes the migrations into this table. To also list migrations into an earlier table of the same name, specify tableBucketARN, namespace and name instead. Specify either tableARN or tableBucketARN, not both.
+        public let tableARN: String?
+        /// The Amazon Resource Name (ARN) of the table bucket to list migrations for.
+        public let tableBucketARN: String?
+
+        @inlinable
+        public init(hasValidPlan: Bool? = nil, maxResults: Int? = nil, name: String? = nil, namespace: String? = nil, nextToken: String? = nil, state: MigrationState? = nil, tableARN: String? = nil, tableBucketARN: String? = nil) {
+            self.hasValidPlan = hasValidPlan
+            self.maxResults = maxResults
+            self.name = name
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.state = state
+            self.tableARN = tableARN
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hasValidPlan, key: "hasValidPlan")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.state, key: "state")
+            request.encodeQuery(self.tableARN, key: "tableARN")
+            request.encodeQuery(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, max: 2048)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, min: 1)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTableMigrationsResponse: AWSDecodableShape {
+        /// The migrations, newest first.
+        public let migrations: [MigrationSummary]
+        /// A token to pass as nextToken to get the next page of results. If there are no more results, this value isn't returned.
+        public let nextToken: String?
+
+        @inlinable
+        public init(migrations: [MigrationSummary], nextToken: String? = nil) {
+            self.migrations = migrations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrations = "migrations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListTablesRequest: AWSEncodableShape {
         ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
         public let continuationToken: String?
@@ -2058,6 +2480,29 @@ extension S3Tables {
         }
     }
 
+    public struct MaintenanceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The compaction settings.
+        public let icebergCompaction: MigrationCompactionSettings?
+        /// The snapshot management settings.
+        public let icebergSnapshotManagement: MigrationSnapshotManagementSettings?
+
+        @inlinable
+        public init(icebergCompaction: MigrationCompactionSettings? = nil, icebergSnapshotManagement: MigrationSnapshotManagementSettings? = nil) {
+            self.icebergCompaction = icebergCompaction
+            self.icebergSnapshotManagement = icebergSnapshotManagement
+        }
+
+        public func validate(name: String) throws {
+            try self.icebergCompaction?.validate(name: "\(name).icebergCompaction")
+            try self.icebergSnapshotManagement?.validate(name: "\(name).icebergSnapshotManagement")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergCompaction = "icebergCompaction"
+            case icebergSnapshotManagement = "icebergSnapshotManagement"
+        }
+    }
+
     public struct ManagedTableInformation: AWSDecodableShape {
         /// If this table is a replica, contains information about the source table from which it is replicated.
         public let replicationInformation: ReplicationInformation?
@@ -2069,6 +2514,266 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case replicationInformation = "replicationInformation"
+        }
+    }
+
+    public struct MigrationCompactionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The compaction strategy. The only valid value is binpack, which is the default.
+        public let strategy: IcebergCompactionStrategy?
+        /// The target size, from 64 to 512 MB, of the data files that the migration writes, and of the files that compaction writes after you complete the migration. The default is 512.
+        public let targetFileSizeMB: Int?
+
+        @inlinable
+        public init(strategy: IcebergCompactionStrategy? = nil, targetFileSizeMB: Int? = nil) {
+            self.strategy = strategy
+            self.targetFileSizeMB = targetFileSizeMB
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetFileSizeMB, name: "targetFileSizeMB", parent: name, max: 512)
+            try self.validate(self.targetFileSizeMB, name: "targetFileSizeMB", parent: name, min: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case strategy = "strategy"
+            case targetFileSizeMB = "targetFileSizeMB"
+        }
+    }
+
+    public struct MigrationFailureReason: AWSDecodableShape {
+        /// The failure code. It names the cause or the report that lists the findings. Valid values:    rolePermissions - S3 Tables couldn't assume the migration role, or the role doesn't have a permission that the migration needs. detail is the role ARN.    sourcePermissions - The migration role couldn't read the Amazon Web Services Glue table or the source objects. detail names the table (database.table) or the source bucket.    destinationPermissions - The migration role couldn't write to the table bucket or the report bucket. detail names the bucket.    resourceNotFound - A resource that you specified doesn't exist, such as the Amazon Web Services Glue table or the source bucket. detail names it.    sourceNotSupported - The source table can't be migrated, for example because it is empty, has too many objects, or has columns or partitions that can't be migrated. The table compatibility report lists the findings.    tableCompatibilityReport - The migration couldn't create the destination table, for example because a table with that name already exists or the KMS key can't be used. For a sync, the destination table changed after the previous migration. The table compatibility report lists the finding.    objectCompatibilityReport - Some source objects can't be migrated, for example because they are archived, or because they were overwritten after an earlier migration migrated them. The object compatibility report lists them.    objectMigrationReport - Some source objects failed to migrate. The object migration report lists them and the cause for each.    reportBucketNotSupported - The report bucket can't receive the migration's reports, for example because it is in a different Region than the table bucket.    internalError - S3 Tables encountered an internal error. Retry the migration, and contact Amazon Web Services Support if the error persists.
+        public let code: MigrationFailureCode
+        /// The resource that the failure applies to, such as the role ARN, the Amazon Web Services Glue table (database.table) or a bucket. For sourceNotSupported, the reason that the source isn't supported, such as EMPTY_TABLE. This value isn't returned for the report codes or for internalError.
+        public let detail: String?
+
+        @inlinable
+        public init(code: MigrationFailureCode, detail: String? = nil) {
+            self.code = code
+            self.detail = detail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detail = "detail"
+        }
+    }
+
+    public struct MigrationOutputConfiguration: AWSEncodableShape {
+        /// The general purpose bucket that the migration writes every report to.
+        public let bucket: String
+        /// The key prefix for each report.
+        public let prefixes: MigrationReportPrefixes?
+
+        @inlinable
+        public init(bucket: String, prefixes: MigrationReportPrefixes? = nil) {
+            self.bucket = bucket
+            self.prefixes = prefixes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 1024)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 12)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3[a-z]*:[-a-z0-9]*:([0-9]{12})?:.+$")
+            try self.prefixes?.validate(name: "\(name).prefixes")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case prefixes = "prefixes"
+        }
+    }
+
+    public struct MigrationOutputOverview: AWSDecodableShape {
+        /// The general purpose bucket that the migration writes every report to.
+        public let bucket: String
+        /// The object compatibility report: one row for each source object under the source table's location, with whether the migration includes the object and its most severe finding. The migration writes it when planning finishes. If planning fails, the report might not be written.
+        public let objectCompatibilityReport: ReportOverview
+        /// The object migration report: one row for each source object that the migration tried to migrate, with whether it migrated, how it was transformed, and why it failed. The migration writes it once, when the migration ends. It isn't written if planning fails or if a sync has nothing to migrate.
+        public let objectMigrationReport: ReportOverview
+        /// The table compatibility report: the sample object that the schema is inferred from, the table-level findings, and one row for each destination column with its type change and how the migration policies apply to it. The migration writes it when planning finishes, before any data migrates. If planning fails, the report might not be written.
+        public let tableCompatibilityReport: ReportOverview
+
+        @inlinable
+        public init(bucket: String, objectCompatibilityReport: ReportOverview, objectMigrationReport: ReportOverview, tableCompatibilityReport: ReportOverview) {
+            self.bucket = bucket
+            self.objectCompatibilityReport = objectCompatibilityReport
+            self.objectMigrationReport = objectMigrationReport
+            self.tableCompatibilityReport = tableCompatibilityReport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case objectCompatibilityReport = "objectCompatibilityReport"
+            case objectMigrationReport = "objectMigrationReport"
+            case tableCompatibilityReport = "tableCompatibilityReport"
+        }
+    }
+
+    public struct MigrationPolicies: AWSEncodableShape & AWSDecodableShape {
+        /// The migration policy for a source value that the destination column's type can't hold. Valid values:    fail - Fails the migration. This is the default.    setNull - Writes null for a value that the destination column's type can't hold. If a column's type in a source object is incompatible with the destination column's type, the column is null for that whole object.   A required column, or a type that migration doesn't support, fails the migration under either value.
+        public let incompatibleValuesPolicy: IncompatibleValuesPolicy?
+        /// The migration policy for a source field that has no matching column in the destination schema. Valid values:    fail - Fails the migration. This is the default.    drop - Leaves source columns that the destination schema doesn't have out of the destination table, and doesn't migrate source objects outside the Amazon Web Services Glue table's partition locations.   A destination schema that leaves out a partition column or a field of a struct column fails the migration under either value.
+        public let unmatchedSourceFieldsPolicy: UnmatchedSourceFieldsPolicy?
+
+        @inlinable
+        public init(incompatibleValuesPolicy: IncompatibleValuesPolicy? = nil, unmatchedSourceFieldsPolicy: UnmatchedSourceFieldsPolicy? = nil) {
+            self.incompatibleValuesPolicy = incompatibleValuesPolicy
+            self.unmatchedSourceFieldsPolicy = unmatchedSourceFieldsPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case incompatibleValuesPolicy = "incompatibleValuesPolicy"
+            case unmatchedSourceFieldsPolicy = "unmatchedSourceFieldsPolicy"
+        }
+    }
+
+    public struct MigrationReportPrefixes: AWSEncodableShape {
+        /// The key prefix for the object compatibility report, up to 512 bytes. If not specified, the report's keys start at the root of the bucket.
+        public let objectCompatibilityReport: String?
+        /// The key prefix for the object migration report, up to 512 bytes. If not specified, the report's keys start at the root of the bucket.
+        public let objectMigrationReport: String?
+        /// The key prefix for the table compatibility report, up to 512 bytes. If not specified, the report's keys start at the root of the bucket.
+        public let tableCompatibilityReport: String?
+
+        @inlinable
+        public init(objectCompatibilityReport: String? = nil, objectMigrationReport: String? = nil, tableCompatibilityReport: String? = nil) {
+            self.objectCompatibilityReport = objectCompatibilityReport
+            self.objectMigrationReport = objectMigrationReport
+            self.tableCompatibilityReport = tableCompatibilityReport
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectCompatibilityReport, name: "objectCompatibilityReport", parent: name, max: 512)
+            try self.validate(self.objectMigrationReport, name: "objectMigrationReport", parent: name, max: 512)
+            try self.validate(self.tableCompatibilityReport, name: "tableCompatibilityReport", parent: name, max: 512)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectCompatibilityReport = "objectCompatibilityReport"
+            case objectMigrationReport = "objectMigrationReport"
+            case tableCompatibilityReport = "tableCompatibilityReport"
+        }
+    }
+
+    public struct MigrationSnapshotManagementSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum age, in hours, of a snapshot before it can be expired. The default is 120.
+        public let maxSnapshotAgeHours: Int?
+        /// The minimum number of snapshots to keep. The value must be 3 or more. The default is 3.
+        public let minSnapshotsToKeep: Int?
+
+        @inlinable
+        public init(maxSnapshotAgeHours: Int? = nil, minSnapshotsToKeep: Int? = nil) {
+            self.maxSnapshotAgeHours = maxSnapshotAgeHours
+            self.minSnapshotsToKeep = minSnapshotsToKeep
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxSnapshotAgeHours, name: "maxSnapshotAgeHours", parent: name, max: 2147483647)
+            try self.validate(self.maxSnapshotAgeHours, name: "maxSnapshotAgeHours", parent: name, min: 1)
+            try self.validate(self.minSnapshotsToKeep, name: "minSnapshotsToKeep", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSnapshotAgeHours = "maxSnapshotAgeHours"
+            case minSnapshotsToKeep = "minSnapshotsToKeep"
+        }
+    }
+
+    public struct MigrationStats: AWSDecodableShape {
+        /// The number of source objects that didn't migrate, because they failed or because another object, such as an object in the same partition, failed. The object migration report lists the cause for each object.
+        public let objectsFailedMigration: Int64?
+        /// The number of source objects whose data the migration wrote to the destination table. Migrated data can be queried after the migration commits it. If the migration fails or is cancelled, some migrated objects might not be committed.
+        public let objectsMigrated: Int64?
+        /// The number of source objects that haven't migrated or failed yet. When a migration fails or is cancelled, these are the objects that it didn't migrate.
+        public let objectsPendingMigration: Int64?
+
+        @inlinable
+        public init(objectsFailedMigration: Int64? = nil, objectsMigrated: Int64? = nil, objectsPendingMigration: Int64? = nil) {
+            self.objectsFailedMigration = objectsFailedMigration
+            self.objectsMigrated = objectsMigrated
+            self.objectsPendingMigration = objectsPendingMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectsFailedMigration = "objectsFailedMigration"
+            case objectsMigrated = "objectsMigrated"
+            case objectsPendingMigration = "objectsPendingMigration"
+        }
+    }
+
+    public struct MigrationSummary: AWSDecodableShape {
+        /// The date and time that the migration was created.
+        public let createdAt: Date
+        /// A Boolean value that specifies whether planning produced a plan that the migration can run. If planning hasn't finished, this value isn't returned.
+        public let hasValidPlan: Bool?
+        /// The ID of the migration.
+        public let migrationId: String
+        /// The name of the destination table.
+        public let name: String
+        /// The namespace of the destination table.
+        public let namespace: String
+        /// The state of the migration. Valid values:    new - S3 Tables accepted the request.    planning - The migration is checking the source table, its objects and the destination for compatibility, and writing the compatibility reports.    pendingReview - Planning finished, and the migration waits for you to continue or cancel it with UpdateTableMigration.    queued - The migration is waiting to start migrating data.    migrating - The migration is running the plan from the planning state: it copies data and commits it to the destination table. A migration reaches this state only if hasValidPlan is true.    succeeded - Every planned object migrated.    failed - The migration failed. Check failureReason for the cause.    cancelling - You cancelled the migration, and it is finishing the work in progress.    cancelled - The migration is cancelled.
+        public let state: MigrationState
+        /// The date and time that the migration's state last changed.
+        public let stateUpdatedAt: Date
+        /// The Amazon Resource Name (ARN) of the destination table, once the migration creates it.
+        public let tableARN: String?
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the destination table.
+        public let tableBucketARN: String
+        /// The type of the migration. Valid values:    start - A migration that StartTableMigration started.    sync - A migration that SyncTableMigration started.
+        public let type: MigrationType
+
+        @inlinable
+        public init(createdAt: Date, hasValidPlan: Bool? = nil, migrationId: String, name: String, namespace: String, state: MigrationState, stateUpdatedAt: Date, tableARN: String? = nil, tableBucketARN: String, type: MigrationType) {
+            self.createdAt = createdAt
+            self.hasValidPlan = hasValidPlan
+            self.migrationId = migrationId
+            self.name = name
+            self.namespace = namespace
+            self.state = state
+            self.stateUpdatedAt = stateUpdatedAt
+            self.tableARN = tableARN
+            self.tableBucketARN = tableBucketARN
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case hasValidPlan = "hasValidPlan"
+            case migrationId = "migrationId"
+            case name = "name"
+            case namespace = "namespace"
+            case state = "state"
+            case stateUpdatedAt = "stateUpdatedAt"
+            case tableARN = "tableARN"
+            case tableBucketARN = "tableBucketARN"
+            case type = "type"
+        }
+    }
+
+    public struct MigrationTableProperties: AWSEncodableShape {
+        /// The compression codec of the data files. The default is zstd.
+        public let compressionCodec: CompressionCodec?
+        /// Specifies whether the data files use dictionary encoding. The default is true.
+        public let dictionaryEncoding: Bool?
+        /// The Iceberg format version of the destination table. Valid values are 2 and 3. The default is 2.
+        public let icebergFormatVersion: Int?
+        /// The file format of the data files. The only supported format is parquet, the default.
+        public let writeFormat: DataFileFormat?
+
+        @inlinable
+        public init(compressionCodec: CompressionCodec? = nil, dictionaryEncoding: Bool? = nil, icebergFormatVersion: Int? = nil, writeFormat: DataFileFormat? = nil) {
+            self.compressionCodec = compressionCodec
+            self.dictionaryEncoding = dictionaryEncoding
+            self.icebergFormatVersion = icebergFormatVersion
+            self.writeFormat = writeFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionCodec = "compressionCodec"
+            case dictionaryEncoding = "dictionaryEncoding"
+            case icebergFormatVersion = "icebergFormatVersion"
+            case writeFormat = "writeFormat"
         }
     }
 
@@ -2103,6 +2808,28 @@ extension S3Tables {
             case namespaceId = "namespaceId"
             case ownerAccountId = "ownerAccountId"
             case tableBucketId = "tableBucketId"
+        }
+    }
+
+    public struct PlanningStats: AWSDecodableShape {
+        /// The number of source objects in the migration. For a start, these are the data files in the Amazon Web Services Glue table's partitions, or under the table's location if the table isn't partitioned. For a sync, these are all the data files of the table after the sync, including files that earlier migrations migrated.
+        public let objectsPlanned: Int64?
+        /// The number of source objects that the migration found under the source table's location, whether or not it migrates them. The object compatibility report has one row for each.
+        public let objectsScanned: Int64?
+        /// The number of partitions in the destination table after this migration, or 0 if the source table isn't partitioned. This value is returned when planning produces a valid plan.
+        public let partitionCount: Int64?
+
+        @inlinable
+        public init(objectsPlanned: Int64? = nil, objectsScanned: Int64? = nil, partitionCount: Int64? = nil) {
+            self.objectsPlanned = objectsPlanned
+            self.objectsScanned = objectsScanned
+            self.partitionCount = partitionCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectsPlanned = "objectsPlanned"
+            case objectsScanned = "objectsScanned"
+            case partitionCount = "partitionCount"
         }
     }
 
@@ -2597,6 +3324,32 @@ extension S3Tables {
         }
     }
 
+    public struct ReportOverview: AWSDecodableShape {
+        /// The Base64-encoded CRC64NVME checksum of the object that key names. For a report that has a manifest, the manifest lists the checksum of each report file. This value is returned after the migration writes the report.
+        public let checksumCRC64NVME: String?
+        /// For the compatibility reports, the number of blocking findings in each category. The object compatibility report counts each blocked object once, under its most severe finding. Categories with no blocking findings are left out.
+        public let invalidFindings: [FindingCategory: Int64]?
+        /// The key of the report object in the bucket. For the object compatibility and object migration reports, this is the report's manifest; for the table compatibility report, it is the report itself. This value is returned after the migration writes the report. A migration doesn't always write every report. For example, a migration that fails during planning doesn't write the object migration report.
+        public let key: String?
+        /// The key prefix that the report is written under.
+        public let prefix: String?
+
+        @inlinable
+        public init(checksumCRC64NVME: String? = nil, invalidFindings: [FindingCategory: Int64]? = nil, key: String? = nil, prefix: String? = nil) {
+            self.checksumCRC64NVME = checksumCRC64NVME
+            self.invalidFindings = invalidFindings
+            self.key = key
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksumCRC64NVME = "checksumCRC64NVME"
+            case invalidFindings = "invalidFindings"
+            case key = "key"
+            case prefix = "prefix"
+        }
+    }
+
     public struct SchemaField: AWSEncodableShape {
         /// An optional unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes. If not specified, S3 Tables automatically assigns field IDs.
         public let id: Int?
@@ -2653,6 +3406,71 @@ extension S3Tables {
         }
     }
 
+    public struct StartTableMigrationRequest: AWSEncodableShape {
+        /// The maintenance settings and migration policies for the destination table.
+        public let dataMigration: DataMigrationSettings?
+        /// The table to create and migrate the source into.
+        public let destinationTable: DestinationTable
+        /// The bucket and prefixes that the migration writes its reports to. The bucket must be a general purpose bucket in your account and in the same Region as the table bucket, and the migration role must be able to write objects to it. Otherwise, the migration fails when it writes its first report.
+        public let migrationOutput: MigrationOutputConfiguration
+        /// Specifies whether the migration waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data. If true, the migration continues when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. The default is false.
+        public let reviewMigrationPlan: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the migration uses to read the source table and its data and to write the destination table and the reports. The role must be in your account, and its trust policy must allow migration.s3tables.amazonaws.com to assume it. You can limit the trust policy to the destination table bucket with the aws:SourceArn and aws:SourceAccount condition keys.
+        public let roleARN: String
+        /// The source table to migrate.
+        public let source: SourceConfiguration
+        /// The type of the source. It must match the member that you set in source.
+        public let sourceType: MigrationSourceType
+
+        @inlinable
+        public init(dataMigration: DataMigrationSettings? = nil, destinationTable: DestinationTable, migrationOutput: MigrationOutputConfiguration, reviewMigrationPlan: Bool? = nil, roleARN: String, source: SourceConfiguration, sourceType: MigrationSourceType) {
+            self.dataMigration = dataMigration
+            self.destinationTable = destinationTable
+            self.migrationOutput = migrationOutput
+            self.reviewMigrationPlan = reviewMigrationPlan
+            self.roleARN = roleARN
+            self.source = source
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.dataMigration?.validate(name: "\(name).dataMigration")
+            try self.destinationTable.validate(name: "\(name).destinationTable")
+            try self.migrationOutput.validate(name: "\(name).migrationOutput")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigration = "dataMigration"
+            case destinationTable = "destinationTable"
+            case migrationOutput = "migrationOutput"
+            case reviewMigrationPlan = "reviewMigrationPlan"
+            case roleARN = "roleARN"
+            case source = "source"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct StartTableMigrationResponse: AWSDecodableShape {
+        /// The ID of the migration.
+        public let migrationId: String
+        /// The state of the migration when the request is accepted, such as planning.
+        public let state: MigrationState
+
+        @inlinable
+        public init(migrationId: String, state: MigrationState) {
+            self.migrationId = migrationId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationId = "migrationId"
+            case state = "state"
+        }
+    }
+
     public struct StorageClassConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles.
         public let storageClass: StorageClass
@@ -2664,6 +3482,60 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case storageClass = "storageClass"
+        }
+    }
+
+    public struct SyncTableMigrationRequest: AWSEncodableShape {
+        /// The bucket and prefixes that the sync writes its reports to. The bucket must be a general purpose bucket in your account and in the same Region as the table bucket, and the migration role must be able to write objects to it. Otherwise, the migration fails when it writes its first report.
+        public let migrationOutput: MigrationOutputConfiguration
+        /// Specifies whether the sync waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data. If true, the migration continues when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. The default is false.
+        public let reviewMigrationPlan: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the sync uses to read the source table and its data and to write the destination table and the reports. The role must be in your account, and its trust policy must allow migration.s3tables.amazonaws.com to assume it. You can limit the trust policy to the destination table bucket with the aws:SourceArn and aws:SourceAccount condition keys.
+        public let roleARN: String
+        /// The Amazon Resource Name (ARN) of the destination table to sync. The table must have a migration, and you must not have called CompleteTableMigration for it.
+        public let tableARN: String
+
+        @inlinable
+        public init(migrationOutput: MigrationOutputConfiguration, reviewMigrationPlan: Bool? = nil, roleARN: String, tableARN: String) {
+            self.migrationOutput = migrationOutput
+            self.reviewMigrationPlan = reviewMigrationPlan
+            self.roleARN = roleARN
+            self.tableARN = tableARN
+        }
+
+        public func validate(name: String) throws {
+            try self.migrationOutput.validate(name: "\(name).migrationOutput")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.tableARN, name: "tableARN", parent: name, max: 2048)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, min: 1)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationOutput = "migrationOutput"
+            case reviewMigrationPlan = "reviewMigrationPlan"
+            case roleARN = "roleARN"
+            case tableARN = "tableARN"
+        }
+    }
+
+    public struct SyncTableMigrationResponse: AWSDecodableShape {
+        /// The migration ID of the sync.
+        public let migrationId: String
+        /// The state of the migration when the request is accepted, such as planning.
+        public let state: MigrationState
+
+        @inlinable
+        public init(migrationId: String, state: MigrationState) {
+            self.migrationId = migrationId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationId = "migrationId"
+            case state = "state"
         }
     }
 
@@ -3131,6 +4003,84 @@ extension S3Tables {
             case namespace = "namespace"
             case tableARN = "tableARN"
             case versionToken = "versionToken"
+        }
+    }
+
+    public struct UpdateTableMigrationRequest: AWSEncodableShape {
+        /// The ID of the migration to update. Specify either migrationId or tableARN, not both.
+        public let migrationId: String?
+        /// The state to move the migration to: queued to continue a migration in the pendingReview state, or cancelled to cancel a migration in the new, planning, pendingReview, queued or migrating state.
+        public let requestedState: MigrationRequestedState
+        /// The Amazon Resource Name (ARN) of the destination table. Updates the table's most recent migration. Until the migration creates the destination table, specify migrationId. Specify either tableARN or migrationId, not both.
+        public let tableARN: String?
+        /// A description of the update, up to 1,024 characters, with no control characters. GetTableMigration doesn't return it.
+        public let updateDescription: String?
+
+        @inlinable
+        public init(migrationId: String? = nil, requestedState: MigrationRequestedState, tableARN: String? = nil, updateDescription: String? = nil) {
+            self.migrationId = migrationId
+            self.requestedState = requestedState
+            self.tableARN = tableARN
+            self.updateDescription = updateDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.migrationId, key: "migrationId")
+            try container.encode(self.requestedState, forKey: .requestedState)
+            request.encodeQuery(self.tableARN, key: "tableARN")
+            try container.encodeIfPresent(self.updateDescription, forKey: .updateDescription)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationId, name: "migrationId", parent: name, max: 64)
+            try self.validate(self.migrationId, name: "migrationId", parent: name, min: 1)
+            try self.validate(self.migrationId, name: "migrationId", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.tableARN, name: "tableARN", parent: name, max: 2048)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, min: 1)
+            try self.validate(self.tableARN, name: "tableARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestedState = "requestedState"
+            case updateDescription = "updateDescription"
+        }
+    }
+
+    public struct UpdateTableMigrationResponse: AWSDecodableShape {
+        /// The ID of the migration.
+        public let migrationId: String
+        /// The state of the migration after the update, such as queued, migrating or cancelling.
+        public let state: MigrationState
+        /// The Amazon Resource Name (ARN) of the destination table.
+        public let tableARN: String?
+
+        @inlinable
+        public init(migrationId: String, state: MigrationState, tableARN: String? = nil) {
+            self.migrationId = migrationId
+            self.state = state
+            self.tableARN = tableARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationId = "migrationId"
+            case state = "state"
+            case tableARN = "tableARN"
+        }
+    }
+
+    public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon Web Services Glue Data Catalog table to migrate. The table must be an external Apache Hive table whose data is stored as Parquet in a general purpose bucket in the same account and Region as the table bucket. Views, transactional (ACID) tables, tables in an open table format such as Apache Iceberg, and tables registered with Amazon Web Services Lake Formation can't be migrated. If the table can't be migrated, the migration fails, and the table compatibility report lists the reason.
+        public let glueTable: GlueTableSource?
+
+        @inlinable
+        public init(glueTable: GlueTableSource? = nil) {
+            self.glueTable = glueTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueTable = "glueTable"
         }
     }
 

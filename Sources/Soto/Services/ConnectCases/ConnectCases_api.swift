@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ConnectCases service.
 ///
-///    Cases actions     Cases data types    With Amazon Connect Cases, your agents can track and manage customer issues that require multiple interactions, follow-up tasks, and teams in your contact center. A case represents a customer issue. It records the issue, the steps and interactions taken to resolve the issue, and the outcome. For more information, see Amazon Connect Cases in the Amazon Connect Administrator Guide.
+///    Cases actions     Cases data types    With Connect Customer Cases, your agents can track and manage customer issues that require multiple interactions, follow-up tasks, and teams in your contact center. A case represents a customer issue. It records the issue, the steps and interactions taken to resolve the issue, and the outcome. For more information, see Connect Customer Cases in the Connect Customer Administrator Guide.
 public struct ConnectCases: AWSService {
     // MARK: Member variables
 
@@ -87,7 +87,48 @@ public struct ConnectCases: AWSService {
 
     // MARK: API Calls
 
-    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Creates a comment and associates it with multiple cases in a single request. All cases must belong to the same domain. This operation supports only the Comment related item type. Each case is processed independently. If some cases fail, the remaining cases still receive the related item. To determine whether individual items failed, inspect the failedItems array in the response. The entire request fails, and no related items are created, in the following cases:   The specified domain doesn't exist.   A reference ID doesn't match any case in the domain.   The request contains duplicate case IDs.   The content isn't comment content.    This operation uses the same IAM action as CreateRelatedItem (cases:CreateRelatedItem). You can use the cases:IsBatchAction condition key in IAM policies to allow or deny batch operations independently from single-case operations.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.   Endpoints: See Connect Customer endpoints and quotas.
+    @Sendable
+    @inlinable
+    public func batchCreateRelatedItem(_ input: BatchCreateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateRelatedItemResponse {
+        try await self.client.execute(
+            operation: "BatchCreateRelatedItem", 
+            path: "/cases:batchCreateRelatedItem", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a comment and associates it with multiple cases in a single request. All cases must belong to the same domain. This operation supports only the Comment related item type. Each case is processed independently. If some cases fail, the remaining cases still receive the related item. To determine whether individual items failed, inspect the failedItems array in the response. The entire request fails, and no related items are created, in the following cases:   The specified domain doesn't exist.   A reference ID doesn't match any case in the domain.   The request contains duplicate case IDs.   The content isn't comment content.    This operation uses the same IAM action as CreateRelatedItem (cases:CreateRelatedItem). You can use the cases:IsBatchAction condition key in IAM policies to allow or deny batch operations independently from single-case operations.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.   Endpoints: See Connect Customer endpoints and quotas.
+    ///
+    /// Parameters:
+    ///   - cases: The list of cases to associate the related item with. All cases must belong to the same domain.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If you retry a request with the same client token, the service returns the original response instead of processing the request again. If you reuse a client token with different request parameters, the request fails with a ConflictException.
+    ///   - content: The content of the related item to be created. The same content is applied to every case in the request. Only comment content is supported for batch creation.
+    ///   - domainId: The unique identifier of the Cases domain.
+    ///   - performedBy: The entity that created the related item.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchCreateRelatedItem(
+        cases: [BatchCreateRelatedItemIdentifier],
+        clientToken: String? = BatchCreateRelatedItemRequest.idempotencyToken(),
+        content: RelatedItemInputContent,
+        domainId: String,
+        performedBy: UserUnion? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchCreateRelatedItemResponse {
+        let input = BatchCreateRelatedItemRequest(
+            cases: cases, 
+            clientToken: clientToken, 
+            content: content, 
+            domainId: domainId, 
+            performedBy: performedBy
+        )
+        return try await self.batchCreateRelatedItem(input, logger: logger)
+    }
+
+    /// Gets a batch of case rules. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func batchGetCaseRule(_ input: BatchGetCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCaseRuleResponse {
@@ -100,7 +141,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Gets a batch of case rules. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - caseRules: A list of case rule identifiers.
@@ -186,7 +227,57 @@ public struct ConnectCases: AWSService {
         return try await self.batchPutFieldOptions(input, logger: logger)
     }
 
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    /// Updates fields on multiple cases in a single request. All cases must belong to the same domain. Set the title, status, and customer ID through the top-level title, status, and customerId parameters, and set other fields through the fields array. Each case is processed independently. If some cases fail, the remaining cases are still updated. To determine whether individual cases failed, inspect the failedCases array in the response. The entire request fails, and no cases are updated, in the following cases:   The specified domain doesn't exist.   A reference ID doesn't match any case in the domain.   The request contains duplicate case IDs.   The request doesn't specify any update. Provide at least one entry in fields, or a title, status, or customerId.   A field identifier in fields doesn't resolve to a field in the domain, for example, an unknown field name.   A field name contains a pipe (|) or comma (,) character.    fields includes title, status, or customerId.    This operation uses the same IAM action as UpdateCase (cases:UpdateCase). You can use the cases:IsBatchAction condition key in IAM policies to allow or deny batch operations independently from single-case operations.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.   Endpoints: See Connect Customer endpoints and quotas.
+    @Sendable
+    @inlinable
+    public func batchUpdateCase(_ input: BatchUpdateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateCaseResponse {
+        try await self.client.execute(
+            operation: "BatchUpdateCase", 
+            path: "/cases:batchUpdateCase", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates fields on multiple cases in a single request. All cases must belong to the same domain. Set the title, status, and customer ID through the top-level title, status, and customerId parameters, and set other fields through the fields array. Each case is processed independently. If some cases fail, the remaining cases are still updated. To determine whether individual cases failed, inspect the failedCases array in the response. The entire request fails, and no cases are updated, in the following cases:   The specified domain doesn't exist.   A reference ID doesn't match any case in the domain.   The request contains duplicate case IDs.   The request doesn't specify any update. Provide at least one entry in fields, or a title, status, or customerId.   A field identifier in fields doesn't resolve to a field in the domain, for example, an unknown field name.   A field name contains a pipe (|) or comma (,) character.    fields includes title, status, or customerId.    This operation uses the same IAM action as UpdateCase (cases:UpdateCase). You can use the cases:IsBatchAction condition key in IAM policies to allow or deny batch operations independently from single-case operations.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.   Endpoints: See Connect Customer endpoints and quotas.
+    ///
+    /// Parameters:
+    ///   - cases: The list of cases to update. All cases must belong to the same domain.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If you retry a request with the same client token, the service returns the original response instead of processing the request again. If you reuse a client token with different request parameters, the request fails with a ConflictException.
+    ///   - customerId: The ARN of the customer profile to associate with all cases in the request.
+    ///   - domainId: The unique identifier of the Cases domain.
+    ///   - fields: An array of objects, each with a fieldIdentifier and a value. You can identify each field by its ID or by its name; identifying a field by name is supported only in BatchUpdateCase. The same field values are applied to every case in the request. This field must be present, but can be an empty list when you provide the top-level title, status, or customerId parameters. Do not include title, status, or customerId in this list; set those values only through their top-level parameters. Duplicating them in fields results in a validation error.
+    ///   - performedBy: The entity that performed the action.
+    ///   - status: The status to apply to all cases in the request.
+    ///   - title: The title to apply to all cases in the request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateCase(
+        cases: [BatchUpdateCaseIdentifier],
+        clientToken: String? = BatchUpdateCaseRequest.idempotencyToken(),
+        customerId: String? = nil,
+        domainId: String,
+        fields: [FieldValueInput],
+        performedBy: UserUnion? = nil,
+        status: String? = nil,
+        title: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateCaseResponse {
+        let input = BatchUpdateCaseRequest(
+            cases: cases, 
+            clientToken: clientToken, 
+            customerId: customerId, 
+            domainId: domainId, 
+            fields: fields, 
+            performedBy: performedBy, 
+            status: status, 
+            title: title
+        )
+        return try await self.batchUpdateCase(input, logger: logger)
+    }
+
+    ///  If you provide a value for PerformedBy.UserArn, you must also have the connect:DescribeUser permission on the user ARN that you provide.  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following field is always required when creating a case:    title    The following field may be required depending on the template configuration:    customer_id - Required only if the template's requiredFields list includes customer_id. When required, provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account_ID:domains/your_profiles_domain_name/profiles/profile_ID. When not required, the field is optional and can be omitted, added, changed, or removed after case creation.
     @Sendable
     @inlinable
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseResponse {
@@ -199,14 +290,14 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    ///  If you provide a value for PerformedBy.UserArn, you must also have the connect:DescribeUser permission on the user ARN that you provide.  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following field is always required when creating a case:    title    The following field may be required depending on the template configuration:    customer_id - Required only if the template's requiredFields list includes customer_id. When required, provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account_ID:domains/your_profiles_domain_name/profiles/profile_ID. When not required, the field is optional and can be omitted, added, changed, or removed after case creation.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fields: An array of objects with field ID (matching ListFields/DescribeField) and value union data.
     ///   - performedBy: 
-    ///   - tags: A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+    ///   - tags: A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
     ///   - templateId: A unique identifier of a template.
     ///   - logger: Logger use during operation
     @inlinable
@@ -230,7 +321,7 @@ public struct ConnectCases: AWSService {
         return try await self.createCase(input, logger: logger)
     }
 
-    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Creates a new case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func createCaseRule(_ input: CreateCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseRuleResponse {
@@ -243,7 +334,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Creates a new case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - description: The description of a case rule.
@@ -268,7 +359,7 @@ public struct ConnectCases: AWSService {
         return try await self.createCaseRule(input, logger: logger)
     }
 
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Connect Customer instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Connect Customer CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
     @Sendable
     @inlinable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
@@ -281,7 +372,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Connect Customer instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Connect Customer CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
     ///
     /// Parameters:
     ///   - name: The name for your Cases domain. It must be unique for your Amazon Web Services account.
@@ -373,7 +464,7 @@ public struct ConnectCases: AWSService {
         return try await self.createLayout(input, logger: logger)
     }
 
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas.  Use cases  Following are examples of related items that you may want to associate with a case:   Related contacts, such as calls, chats, emails tasks   Comments, for agent notes   SLAs, to capture target resolution goals   Cases, to capture related Amazon Connect Cases   Files, such as policy documentation or customer-provided attachments   Custom related items, which provide flexibility for you to define related items that such as bookings, orders, products, notices, and more    Important things to know    If you are associating a contact to a case by passing in Contact for a type, you must have DescribeContact permission on the ARN of the contact that you provide in content.contact.contactArn.   A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.   The type field is reserved for internal use only.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.  Use cases  Following are examples of related items that you may want to associate with a case:   Related contacts, such as calls, chats, emails tasks   Comments, for agent notes   SLAs, to capture target resolution goals   Cases, to capture related Connect Customer Cases   Files, such as policy documentation or customer-provided attachments   Custom related items, which provide flexibility for you to define related items that such as bookings, orders, products, notices, and more    Important things to know    If you are associating a contact to a case by passing in Contact for a type, you must have DescribeContact permission on the ARN of the contact that you provide in content.contact.contactArn.   A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func createRelatedItem(_ input: CreateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRelatedItemResponse {
@@ -386,7 +477,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas.  Use cases  Following are examples of related items that you may want to associate with a case:   Related contacts, such as calls, chats, emails tasks   Comments, for agent notes   SLAs, to capture target resolution goals   Cases, to capture related Amazon Connect Cases   Files, such as policy documentation or customer-provided attachments   Custom related items, which provide flexibility for you to define related items that such as bookings, orders, products, notices, and more    Important things to know    If you are associating a contact to a case by passing in Contact for a type, you must have DescribeContact permission on the ARN of the contact that you provide in content.contact.contactArn.   A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.   The type field is reserved for internal use only.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.  Use cases  Following are examples of related items that you may want to associate with a case:   Related contacts, such as calls, chats, emails tasks   Comments, for agent notes   SLAs, to capture target resolution goals   Cases, to capture related Connect Customer Cases   Files, such as policy documentation or customer-provided attachments   Custom related items, which provide flexibility for you to define related items that such as bookings, orders, products, notices, and more    Important things to know    If you are associating a contact to a case by passing in Contact for a type, you must have DescribeContact permission on the ARN of the contact that you provide in content.contact.contactArn.   A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
     ///   - caseId: A unique identifier of the case.
@@ -434,7 +525,7 @@ public struct ConnectCases: AWSService {
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - layoutConfiguration: Configuration of layouts associated to the template.
     ///   - name: A name for the template. It must be unique per domain.
-    ///   - requiredFields: A list of fields that must contain a value for a case to be successfully created with this template.
+    ///   - requiredFields: A list of fields that must contain a value for a case to be successfully created with this template. To require a Customer Profile when creating cases, include customer_id in this list. If customer_id is omitted, the Customer Profile field is optional and can be added, changed, or removed after case creation.
     ///   - rules: A list of case rules (also known as case field conditions) on a template.
     ///   - status: The status of the template.
     ///   - tagPropagationConfigurations: Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
@@ -496,7 +587,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteCase(input, logger: logger)
     }
 
-    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Deletes a case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func deleteCaseRule(_ input: DeleteCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCaseRuleResponse {
@@ -509,7 +600,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Deletes a case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - caseRuleId: Unique identifier of a case rule.
@@ -528,7 +619,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteCaseRule(input, logger: logger)
     }
 
-    /// Deletes a Cases domain.  After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
+    /// Deletes a Cases domain.  After deleting your domain you must disassociate the deleted domain from your Connect Customer instance with another API call before being able to use Cases again with this Connect Customer instance. See DeleteIntegrationAssociation.
     @Sendable
     @inlinable
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
@@ -541,7 +632,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Cases domain.  After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
+    /// Deletes a Cases domain.  After deleting your domain you must disassociate the deleted domain from your Connect Customer instance with another API call before being able to use Cases again with this Connect Customer instance. See DeleteIntegrationAssociation.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -557,7 +648,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteDomain(input, logger: logger)
     }
 
-    /// Deletes a field from a cases template. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
+    /// Deletes a field from a Cases template. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
     @Sendable
     @inlinable
     public func deleteField(_ input: DeleteFieldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFieldResponse {
@@ -570,7 +661,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a field from a cases template. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
+    /// Deletes a field from a Cases template. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -589,7 +680,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteField(input, logger: logger)
     }
 
-    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
+    /// Deletes a layout from a Cases template. You can delete up to 100 layouts per domain. After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
     @Sendable
     @inlinable
     public func deleteLayout(_ input: DeleteLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLayoutResponse {
@@ -602,7 +693,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
+    /// Deletes a layout from a Cases template. You can delete up to 100 layouts per domain. After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -656,7 +747,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteRelatedItem(input, logger: logger)
     }
 
-    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
+    /// Deletes a Cases template. You can delete up to 100 templates per domain. After a Cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
     @Sendable
     @inlinable
     public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateResponse {
@@ -669,7 +760,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
+    /// Deletes a Cases template. You can delete up to 100 templates per domain. After a Cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -886,7 +977,7 @@ public struct ConnectCases: AWSService {
         return try await self.getTemplate(input, logger: logger)
     }
 
-    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Lists all case rules in a Cases domain. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func listCaseRules(_ input: ListCaseRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCaseRulesResponse {
@@ -899,7 +990,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Lists all case rules in a Cases domain. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - domainId: Unique identifier of a Cases domain.
@@ -937,7 +1028,7 @@ public struct ConnectCases: AWSService {
     /// Lists cases for a given contact.
     ///
     /// Parameters:
-    ///   - contactArn: A unique identifier of a contact in Amazon Connect.
+    ///   - contactArn: A unique identifier of a contact in Connect Customer.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -1169,7 +1260,7 @@ public struct ConnectCases: AWSService {
         return try await self.listTemplates(input, logger: logger)
     }
 
-    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the Amazon Connect Administrator Guide
+    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func putCaseEventConfiguration(_ input: PutCaseEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutCaseEventConfigurationResponse {
@@ -1182,7 +1273,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the Amazon Connect Administrator Guide
+    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see Create case fields in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -1201,7 +1292,7 @@ public struct ConnectCases: AWSService {
         return try await self.putCaseEventConfiguration(input, logger: logger)
     }
 
-    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.  Use cases  Following are common uses cases for this API:   Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.   Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.    Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.    Important things to know    This API returns case identifiers, not complete case objects. To retrieve full case details, you must make additional calls to the GetCase API for each returned case ID.    This API searches across related items content, not case fields. Use the SearchCases API to search within case field values.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.  Use cases  Following are common uses cases for this API:   Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.   Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.    Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.    Important things to know    This API returns case identifiers, not complete case objects. To retrieve full case details, you must make additional calls to the GetCase API for each returned case ID.    This API searches across related items content, not case fields. Use the SearchCases API to search within case field values.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func searchAllRelatedItems(_ input: SearchAllRelatedItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAllRelatedItemsResponse {
@@ -1214,7 +1305,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.  Use cases  Following are common uses cases for this API:   Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.   Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.    Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.    Important things to know    This API returns case identifiers, not complete case objects. To retrieve full case details, you must make additional calls to the GetCase API for each returned case ID.    This API searches across related items content, not case fields. Use the SearchCases API to search within case field values.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific SearchRelatedItems API.  Use cases  Following are common uses cases for this API:   Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.   Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.    Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.    Important things to know    This API returns case identifiers, not complete case objects. To retrieve full case details, you must make additional calls to the GetCase API for each returned case ID.    This API searches across related items content, not case fields. Use the SearchCases API to search within case field values.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -1347,7 +1438,7 @@ public struct ConnectCases: AWSService {
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN)
-    ///   - tags: A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+    ///   - tags: A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -1394,7 +1485,7 @@ public struct ConnectCases: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///  If you provide a value for PerformedBy.UserArn, you must also have the connect:DescribeUser permission on the user ARN that you provide.  Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     @inlinable
     public func updateCase(_ input: UpdateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCaseResponse {
@@ -1407,7 +1498,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///  If you provide a value for PerformedBy.UserArn, you must also have the connect:DescribeUser permission on the user ARN that you provide.  Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// Parameters:
     ///   - caseId: A unique identifier of the case.
@@ -1432,7 +1523,7 @@ public struct ConnectCases: AWSService {
         return try await self.updateCase(input, logger: logger)
     }
 
-    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Updates a case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     @Sendable
     @inlinable
     public func updateCaseRule(_ input: UpdateCaseRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCaseRuleResponse {
@@ -1445,7 +1536,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
+    /// Updates a case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see Add case field conditions to a case template.
     ///
     /// Parameters:
     ///   - caseRuleId: Unique identifier of a case rule.
@@ -1552,7 +1643,7 @@ public struct ConnectCases: AWSService {
         return try await self.updateLayout(input, logger: logger)
     }
 
-    /// Updates the content of a related item associated with a case. The following related item types are supported:    Comment - Update the text content of an existing comment    Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas.    Important things to know    When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.    System case fields cannot be used in a custom related item.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Updates the content of a related item associated with a case. The following related item types are supported:    Comment - Update the text content of an existing comment    Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.    Important things to know    When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.    System case fields cannot be used in a custom related item.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func updateRelatedItem(_ input: UpdateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRelatedItemResponse {
@@ -1565,7 +1656,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Updates the content of a related item associated with a case. The following related item types are supported:    Comment - Update the text content of an existing comment    Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas.    Important things to know    When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.    System case fields cannot be used in a custom related item.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Updates the content of a related item associated with a case. The following related item types are supported:    Comment - Update the text content of an existing comment    Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.    Important things to know    When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.   If you provide a value for performedBy.userArn, you must also have DescribeUser permission on the ARN of the user that you provide.    System case fields cannot be used in a custom related item.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
     ///   - caseId: A unique identifier of the case.
@@ -1613,7 +1704,7 @@ public struct ConnectCases: AWSService {
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - layoutConfiguration: Configuration of layouts associated to the template.
     ///   - name: The name of the template. It must be unique per domain.
-    ///   - requiredFields: A list of fields that must contain a value for a case to be successfully created with this template.
+    ///   - requiredFields: A list of fields that must contain a value for a case to be successfully created with this template. To require a Customer Profile when creating cases, include customer_id in this list. If customer_id is omitted, the Customer Profile field is optional and can be added, changed, or removed after case creation.
     ///   - rules: A list of case rules (also known as case field conditions) on a template.
     ///   - status: The status of the template.
     ///   - tagPropagationConfigurations: Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
@@ -1650,7 +1741,7 @@ public struct ConnectCases: AWSService {
 extension ConnectCases {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ConnectCases, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1798,7 +1889,7 @@ extension ConnectCases {
     /// Return PaginatorSequence for operation ``listCasesForContact(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - contactArn: A unique identifier of a contact in Amazon Connect.
+    ///   - contactArn: A unique identifier of a contact in Connect Customer.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging

@@ -88,7 +88,6 @@ extension Artifact {
 
     public enum InquirySupportMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aiOnly = "AI_ONLY"
-        case fullSupport = "FULL_SUPPORT"
         public var description: String { return self.rawValue }
     }
 
@@ -613,7 +612,7 @@ extension Artifact {
         public let status: InquiryStatus
         /// Status message providing additional context.
         public let statusMessage: InquiryStatusMessage
-        /// Support mode for this inquiry. AI_ONLY provides AI-generated responses. FULL_SUPPORT includes human expert review.
+        /// Support mode for this inquiry. AI_ONLY provides AI-generated responses.
         public let supportMode: InquirySupportMode?
         /// Timestamp indicating when the resource was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>

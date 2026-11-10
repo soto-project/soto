@@ -27,6 +27,7 @@ extension LambdaMicrovms {
 
     public enum Architecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arm64 = "ARM_64"
+        case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
@@ -46,6 +47,7 @@ extension LambdaMicrovms {
 
     public enum Chipset: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case graviton = "GRAVITON"
+        case intel = "INTEL"
         public var description: String { return self.rawValue }
     }
 
@@ -60,6 +62,7 @@ extension LambdaMicrovms {
         case available = "AVAILABLE"
         /// The version is deprecated. Do not use this version for new MicroVM images. Existing MicroVM images that use this version will continue to function.
         case deprecated = "DEPRECATED"
+        case recalled = "RECALLED"
         public var description: String { return self.rawValue }
     }
 
@@ -310,7 +313,7 @@ extension LambdaMicrovms {
         public let cpuConfigurations: [CpuConfiguration]?
         /// A description of the MicroVM image.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?
@@ -365,7 +368,7 @@ extension LambdaMicrovms {
                 try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^[^\\s]+$")
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 4096)
             }
-            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 50)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
@@ -415,7 +418,7 @@ extension LambdaMicrovms {
         public let createdAt: Date
         /// The description of the MicroVM image.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?
@@ -827,7 +830,7 @@ extension LambdaMicrovms {
         public let createdAt: Date
         /// The description of the version.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?
@@ -923,7 +926,7 @@ extension LambdaMicrovms {
     }
 
     public struct GetMicrovmResponse: AWSDecodableShape {
-        /// The list of egress network connectors configured for the MicroVM.
+        /// The list of egress network connectors available to the MicroVM at runtime.
         public let egressNetworkConnectors: [String]?
         /// The HTTPS endpoint URL for communicating with the MicroVM. Include a valid authentication token in the X-aws-proxy-auth header when sending requests.
         public let endpoint: String
@@ -1453,15 +1456,18 @@ extension LambdaMicrovms {
         public let imageVersion: String
         /// The lifecycle status of the managed MicroVM image version. Valid values: AVAILABLE (the version is available for use) or DEPRECATED (the version is deprecated; do not use it for new MicroVM images).
         public let status: ManagedMicrovmImageVersionStatus?
+        /// CPU configurations supported by this managed base image version.
+        public let supportedCpuConfigurations: [CpuConfiguration]?
         /// The timestamp when the version was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date, imageArn: String, imageVersion: String, status: ManagedMicrovmImageVersionStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date, imageArn: String, imageVersion: String, status: ManagedMicrovmImageVersionStatus? = nil, supportedCpuConfigurations: [CpuConfiguration]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.imageArn = imageArn
             self.imageVersion = imageVersion
             self.status = status
+            self.supportedCpuConfigurations = supportedCpuConfigurations
             self.updatedAt = updatedAt
         }
 
@@ -1470,6 +1476,7 @@ extension LambdaMicrovms {
             case imageArn = "imageArn"
             case imageVersion = "imageVersion"
             case status = "status"
+            case supportedCpuConfigurations = "supportedCpuConfigurations"
             case updatedAt = "updatedAt"
         }
     }
@@ -1639,7 +1646,7 @@ extension LambdaMicrovms {
         public let createdAt: Date
         /// The description of the version.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?
@@ -1848,7 +1855,7 @@ extension LambdaMicrovms {
     public struct RunMicrovmRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The list of egress network connectors to configure for the MicroVM.
+        /// The list of egress network connectors available to the MicroVM at runtime.
         public let egressNetworkConnectors: [String]?
         /// The ARN of the IAM role to be assumed by the MicroVM during execution.
         public let executionRoleArn: String?
@@ -1918,7 +1925,7 @@ extension LambdaMicrovms {
     }
 
     public struct RunMicrovmResponse: AWSDecodableShape {
-        /// The list of egress network connectors configured for the MicroVM.
+        /// The list of egress network connectors available to the MicroVM at runtime.
         public let egressNetworkConnectors: [String]?
         /// The HTTPS endpoint URL for communicating with the MicroVM. Include a valid authentication token in the X-aws-proxy-auth header when sending requests.
         public let endpoint: String
@@ -2238,7 +2245,7 @@ extension LambdaMicrovms {
         public let cpuConfigurations: [CpuConfiguration]?
         /// The description of the MicroVM image.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?
@@ -2309,7 +2316,7 @@ extension LambdaMicrovms {
                 try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^[^\\s]+$")
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 4096)
             }
-            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 50)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 100)
             try self.validate(self.imageIdentifier, name: "imageIdentifier", parent: name, max: 256)
             try self.validate(self.imageIdentifier, name: "imageIdentifier", parent: name, min: 1)
             try self.validate(self.resources, name: "resources", parent: name, max: 1)
@@ -2349,7 +2356,7 @@ extension LambdaMicrovms {
         public let createdAt: Date
         /// The description of the MicroVM image.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?
@@ -2474,7 +2481,7 @@ extension LambdaMicrovms {
         public let createdAt: Date
         /// The description of the version.
         public let description: String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public let egressNetworkConnectors: [String]?
         /// Environment variables set in the MicroVM runtime environment.
         public let environmentVariables: [String: String]?

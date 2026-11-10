@@ -1015,6 +1015,50 @@ public struct SageMaker: AWSService {
         return try await self.createCluster(input, logger: logger)
     }
 
+    /// Installs an extension, such as sagemaker-observability, on a SageMaker HyperPod cluster orchestrated by Slurm. The cluster must have NodeProvisioningMode set to Continuous and can have only one extension with a given name. To track the installation, call DescribeClusterExtension.
+    @Sendable
+    @inlinable
+    public func createClusterExtension(_ input: CreateClusterExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterExtensionResponse {
+        try await self.client.execute(
+            operation: "CreateClusterExtension", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Installs an extension, such as sagemaker-observability, on a SageMaker HyperPod cluster orchestrated by Slurm. The cluster must have NodeProvisioningMode set to Continuous and can have only one extension with a given name. To track the installation, call DescribeClusterExtension.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide so that the operation completes no more than one time. This token is valid for 8 hours. If you retry the request with the same client token and the same parameters within this time, the API returns the Amazon Resource Name (ARN) of the extension that the original request created, without creating a duplicate. If you use the same client token with different parameters, the request fails.
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which to install the extension. The cluster must use Slurm as the orchestrator and have NodeProvisioningMode set to Continuous.
+    ///   - configurationValues: The configuration settings for the extension, as a JSON object serialized as a string, for example {"metricsProvider":{"nodeMetrics":{"level":"ADVANCED"}}}. Each extension version defines which settings it accepts. SageMaker HyperPod validates the settings against that definition, and rejects the request if a setting is unknown or has an invalid value. Settings that you omit use the extension's default values. If you omit ConfigurationValues, all settings use their default values.
+    ///   - extensionName: The name of the extension to install, for example sagemaker-observability.
+    ///   - extensionVersion: The version of the extension to install, in MAJOR.MINOR.PATCH format, for example 1.0.0. If you don't specify a version, SageMaker HyperPod installs the latest available version of the extension.
+    ///   - tags: Custom tags for managing the extension as an Amazon Web Services resource. You can add tags to your extension in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide. To use this operation to add tags when you create an extension, you must have the sagemaker:AddTags permission.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createClusterExtension(
+        clientToken: String? = nil,
+        clusterArn: String? = nil,
+        configurationValues: String? = nil,
+        extensionName: String? = nil,
+        extensionVersion: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateClusterExtensionResponse {
+        let input = CreateClusterExtensionRequest(
+            clientToken: clientToken, 
+            clusterArn: clusterArn, 
+            configurationValues: configurationValues, 
+            extensionName: extensionName, 
+            extensionVersion: extensionVersion, 
+            tags: tags
+        )
+        return try await self.createClusterExtension(input, logger: logger)
+    }
+
     /// Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
     @Sendable
     @inlinable
@@ -1033,7 +1077,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterArn: ARN of the cluster.
     ///   - description: Description of the cluster policy.
-    ///   - name: Name for the cluster policy.
+    ///   - name: The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     ///   - schedulerConfig: Configuration about the monitoring schedule.
     ///   - tags: Tags of the cluster policy.
     ///   - logger: Logger use during operation
@@ -1162,7 +1206,7 @@ public struct SageMaker: AWSService {
     ///   - computeQuotaConfig: Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
     ///   - computeQuotaTarget: The target entity to allocate compute resources to.
     ///   - description: Description of the compute allocation definition.
-    ///   - name: Name to the compute allocation definition.
+    ///   - name: The name of the compute allocation definition. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     ///   - tags: Tags of the compute allocation definition.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3211,6 +3255,7 @@ public struct SageMaker: AWSService {
     ///   - pipelineDescription: A description of the pipeline.
     ///   - pipelineDisplayName: The display name of the pipeline.
     ///   - pipelineName: The name of the pipeline.
+    ///   - pipelineVersionAliases: The aliases to assign to the first version of the pipeline. You can use an alias instead of a pipeline version ID to start an execution, describe the pipeline, or list its executions. Each alias can contain 1-128 letters, numbers, periods (.), hyphens (-), and underscores (_), and can't consist of numbers only. An alias must be unique within the pipeline, and a version can have up to 10 aliases.
     ///   - roleArn: The Amazon Resource Name (ARN) of the role used by the pipeline to access and create resources.
     ///   - tags: A list of tags to apply to the created pipeline.
     ///   - logger: Logger use during operation
@@ -3223,6 +3268,7 @@ public struct SageMaker: AWSService {
         pipelineDescription: String? = nil,
         pipelineDisplayName: String? = nil,
         pipelineName: String? = nil,
+        pipelineVersionAliases: [String]? = nil,
         roleArn: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3235,6 +3281,7 @@ public struct SageMaker: AWSService {
             pipelineDescription: pipelineDescription, 
             pipelineDisplayName: pipelineDisplayName, 
             pipelineName: pipelineName, 
+            pipelineVersionAliases: pipelineVersionAliases, 
             roleArn: roleArn, 
             tags: tags
         )
@@ -3718,6 +3765,56 @@ public struct SageMaker: AWSService {
             trainingPlanOfferingId: trainingPlanOfferingId
         )
         return try await self.createTrainingPlan(input, logger: logger)
+    }
+
+    /// Creates a training session in Amazon SageMaker. A training session provisions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can submit training operations and sample inference requests through the Amazon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession:    DescribeTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    @Sendable
+    @inlinable
+    public func createTrainingSession(_ input: CreateTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "CreateTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a training session in Amazon SageMaker. A training session provisions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can submit training operations and sample inference requests through the Amazon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession:    DescribeTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    ///
+    /// Parameters:
+    ///   - loraConfig: The Low-Rank Adaptation (LoRA) configuration for the training session, including the rank and alpha parameters.
+    ///   - modelConfig: The configuration for the base model, including the model ARN and end-user license agreement (EULA) acceptance.
+    ///   - modelPackageGroupArn: The Amazon Resource Name (ARN) of the model package group where checkpoints and fine-tuned model artifacts are published.
+    ///   - outputConfig: The output configuration for the training session, including the S3 location and optional encryption settings.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to access resources on your behalf. The role must have permissions to access the output S3 path and model package group.
+    ///   - tags: An array of key-value pairs to apply to the training session as tags. For more information, see Tagging Amazon Web Services Resources.
+    ///   - trainingSessionName: The name of the training session.
+    ///   - vpcConfig: The Virtual Private Cloud (VPC) configuration for the training session. Specify subnets and security groups to run the training session in your VPC.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTrainingSession(
+        loraConfig: LoraConfig? = nil,
+        modelConfig: TrainingSessionModelConfig? = nil,
+        modelPackageGroupArn: String? = nil,
+        outputConfig: TrainingSessionOutputConfig? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        trainingSessionName: String? = nil,
+        vpcConfig: VpcConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTrainingSessionResponse {
+        let input = CreateTrainingSessionRequest(
+            loraConfig: loraConfig, 
+            modelConfig: modelConfig, 
+            modelPackageGroupArn: modelPackageGroupArn, 
+            outputConfig: outputConfig, 
+            roleArn: roleArn, 
+            tags: tags, 
+            trainingSessionName: trainingSessionName, 
+            vpcConfig: vpcConfig
+        )
+        return try await self.createTrainingSession(input, logger: logger)
     }
 
     /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:    TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.    ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances and AMI image versions for the transform job.   For more information about how batch transformation works, see Batch Transform.
@@ -4329,6 +4426,38 @@ public struct SageMaker: AWSService {
             clusterName: clusterName
         )
         return try await self.deleteCluster(input, logger: logger)
+    }
+
+    /// Deletes an extension from a SageMaker HyperPod cluster. SageMaker HyperPod removes the extension's software from every node in the cluster. While SageMaker HyperPod removes the extension, its status is Deleting. After SageMaker HyperPod removes the extension from all nodes, it no longer appears in ListClusterExtensions, and DescribeClusterExtension returns a ResourceNotFound error. Deleting an extension doesn't delete data that the extension sent to other Amazon Web Services services, such as metrics in Amazon CloudWatch or Amazon Managed Service for Prometheus.
+    @Sendable
+    @inlinable
+    public func deleteClusterExtension(_ input: DeleteClusterExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterExtensionResponse {
+        try await self.client.execute(
+            operation: "DeleteClusterExtension", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an extension from a SageMaker HyperPod cluster. SageMaker HyperPod removes the extension's software from every node in the cluster. While SageMaker HyperPod removes the extension, its status is Deleting. After SageMaker HyperPod removes the extension from all nodes, it no longer appears in ListClusterExtensions, and DescribeClusterExtension returns a ResourceNotFound error. Deleting an extension doesn't delete data that the extension sent to other Amazon Web Services services, such as metrics in Amazon CloudWatch or Amazon Managed Service for Prometheus.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    ///   - extensionArn: The Amazon Resource Name (ARN) of the extension to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteClusterExtension(
+        clusterArn: String? = nil,
+        extensionArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteClusterExtensionResponse {
+        let input = DeleteClusterExtensionRequest(
+            clusterArn: clusterArn, 
+            extensionArn: extensionArn
+        )
+        return try await self.deleteClusterExtension(input, logger: logger)
     }
 
     /// Deletes the cluster policy of the cluster.
@@ -5736,6 +5865,35 @@ public struct SageMaker: AWSService {
         return try await self.deleteTrainingJob(input, logger: logger)
     }
 
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession:    CreateTrainingSession     DescribeTrainingSession     StopTrainingSession
+    @Sendable
+    @inlinable
+    public func deleteTrainingSession(_ input: DeleteTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "DeleteTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession:    CreateTrainingSession     DescribeTrainingSession     StopTrainingSession
+    ///
+    /// Parameters:
+    ///   - trainingSessionName: The name of the training session to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTrainingSession(
+        trainingSessionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTrainingSessionResponse {
+        let input = DeleteTrainingSessionRequest(
+            trainingSessionName: trainingSessionName
+        )
+        return try await self.deleteTrainingSession(input, logger: logger)
+    }
+
     /// Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
     @Sendable
     @inlinable
@@ -6277,6 +6435,38 @@ public struct SageMaker: AWSService {
             eventId: eventId
         )
         return try await self.describeClusterEvent(input, logger: logger)
+    }
+
+    /// Retrieves information about an extension installed on a SageMaker HyperPod cluster. The information includes the extension's version, configuration, and status, and a summary of how many cluster nodes are running the current version and configuration of the extension.
+    @Sendable
+    @inlinable
+    public func describeClusterExtension(_ input: DescribeClusterExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterExtensionResponse {
+        try await self.client.execute(
+            operation: "DescribeClusterExtension", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an extension installed on a SageMaker HyperPod cluster. The information includes the extension's version, configuration, and status, and a summary of how many cluster nodes are running the current version and configuration of the extension.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    ///   - extensionArn: The Amazon Resource Name (ARN) of the extension to describe. CreateClusterExtension returns this ARN, and ListClusterExtensions lists it. If you delete an extension and create it again, the new extension has a new ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeClusterExtension(
+        clusterArn: String? = nil,
+        extensionArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeClusterExtensionResponse {
+        let input = DescribeClusterExtensionRequest(
+            clusterArn: clusterArn, 
+            extensionArn: extensionArn
+        )
+        return try await self.describeClusterExtension(input, logger: logger)
     }
 
     /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster.
@@ -7693,16 +7883,19 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - pipelineName: The name or Amazon Resource Name (ARN) of the pipeline to describe.
-    ///   - pipelineVersionId: The ID of the pipeline version to describe.
+    ///   - pipelineVersionAlias: The alias of the pipeline version to describe. You can't specify this with PipelineVersionId. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error. If you specify neither, SageMaker describes the latest version of the pipeline.
+    ///   - pipelineVersionId: The ID of the pipeline version to describe. You can't specify this with PipelineVersionAlias.
     ///   - logger: Logger use during operation
     @inlinable
     public func describePipeline(
         pipelineName: String? = nil,
+        pipelineVersionAlias: String? = nil,
         pipelineVersionId: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribePipelineResponse {
         let input = DescribePipelineRequest(
             pipelineName: pipelineName, 
+            pipelineVersionAlias: pipelineVersionAlias, 
             pipelineVersionId: pipelineVersionId
         )
         return try await self.describePipeline(input, logger: logger)
@@ -8034,6 +8227,35 @@ public struct SageMaker: AWSService {
             trainingPlanArn: trainingPlanArn
         )
         return try await self.describeTrainingPlanExtensionHistory(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parameters, and timestamps. The following operations are related to DescribeTrainingSession:    CreateTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    @Sendable
+    @inlinable
+    public func describeTrainingSession(_ input: DescribeTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "DescribeTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parameters, and timestamps. The following operations are related to DescribeTrainingSession:    CreateTrainingSession     ListTrainingSessions     StopTrainingSession     DeleteTrainingSession
+    ///
+    /// Parameters:
+    ///   - trainingSessionName: The name of the training session to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTrainingSession(
+        trainingSessionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTrainingSessionResponse {
+        let input = DescribeTrainingSessionRequest(
+            trainingSessionName: trainingSessionName
+        )
+        return try await self.describeTrainingSession(input, logger: logger)
     }
 
     /// Returns information about a transform job.
@@ -9260,6 +9482,47 @@ public struct SageMaker: AWSService {
             sortOrder: sortOrder
         )
         return try await self.listClusterEvents(input, logger: logger)
+    }
+
+    /// Lists the extensions installed on a SageMaker HyperPod cluster.
+    @Sendable
+    @inlinable
+    public func listClusterExtensions(_ input: ListClusterExtensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterExtensionsResponse {
+        try await self.client.execute(
+            operation: "ListClusterExtensions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the extensions installed on a SageMaker HyperPod cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster whose extensions you want to list.
+    ///   - creationTimeAfter: A filter that returns extensions created at or after the specified time. Timestamps are formatted according to the ISO 8601 standard.
+    ///   - creationTimeBefore: A filter that returns extensions created at or before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter.
+    ///   - maxResults: The maximum number of extensions to return in the response. If you don't specify a value, SageMaker HyperPod returns up to 100 extensions.
+    ///   - nextToken: If the result of the previous ListClusterExtensions request was truncated, the response includes a NextToken. To retrieve the next set of extensions, use the token in the next request. When you use the CreationTimeAfter or CreationTimeBefore filters, a response can contain fewer extensions than MaxResults, or none, and still include a NextToken. Continue until the response doesn't include a NextToken.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listClusterExtensions(
+        clusterArn: String? = nil,
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListClusterExtensionsResponse {
+        let input = ListClusterExtensionsRequest(
+            clusterArn: clusterArn, 
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listClusterExtensions(input, logger: logger)
     }
 
     /// Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod cluster.
@@ -12093,6 +12356,7 @@ public struct SageMaker: AWSService {
     ///   - maxResults: The maximum number of pipeline executions to return in the response.
     ///   - nextToken: If the result of the previous ListPipelineExecutions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline executions, use the token in the next request.
     ///   - pipelineName: The name or Amazon Resource Name (ARN) of the pipeline.
+    ///   - pipelineVersionAlias: The alias of a pipeline version. The response includes only the executions of the version that has this alias when you make the request. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
     ///   - sortBy: The field by which to sort results. The default is CreatedTime.
     ///   - sortOrder: The sort order for results.
     ///   - logger: Logger use during operation
@@ -12103,6 +12367,7 @@ public struct SageMaker: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         pipelineName: String? = nil,
+        pipelineVersionAlias: String? = nil,
         sortBy: SortPipelineExecutionsBy? = nil,
         sortOrder: SortOrder? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -12113,6 +12378,7 @@ public struct SageMaker: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             pipelineName: pipelineName, 
+            pipelineVersionAlias: pipelineVersionAlias, 
             sortBy: sortBy, 
             sortOrder: sortOrder
         )
@@ -12216,6 +12482,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - createdAfter: A filter that returns the pipelines that were created after a specified time.
     ///   - createdBefore: A filter that returns the pipelines that were created before a specified time.
+    ///   - managedBy: Filters the pipelines by who manages them. Specify AWS to return pipelines that AWS manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
     ///   - maxResults: The maximum number of pipelines to return in the response.
     ///   - nextToken: If the result of the previous ListPipelines request was truncated, the response includes a NextToken. To retrieve the next set of pipelines, use the token in the next request.
     ///   - pipelineNamePrefix: The prefix of the pipeline name.
@@ -12226,6 +12493,7 @@ public struct SageMaker: AWSService {
     public func listPipelines(
         createdAfter: Date? = nil,
         createdBefore: Date? = nil,
+        managedBy: PipelineManagedBy? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         pipelineNamePrefix: String? = nil,
@@ -12236,6 +12504,7 @@ public struct SageMaker: AWSService {
         let input = ListPipelinesRequest(
             createdAfter: createdAfter, 
             createdBefore: createdBefore, 
+            managedBy: managedBy, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             pipelineNamePrefix: pipelineNamePrefix, 
@@ -12757,6 +13026,50 @@ public struct SageMaker: AWSService {
             startTimeBefore: startTimeBefore
         )
         return try await self.listTrainingPlans(input, logger: logger)
+    }
+
+    /// Lists training sessions in your account. You can filter results by creation time, name, and status. The operation paginates results. To retrieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions:    CreateTrainingSession     DescribeTrainingSession
+    @Sendable
+    @inlinable
+    public func listTrainingSessions(_ input: ListTrainingSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrainingSessionsResponse {
+        try await self.client.execute(
+            operation: "ListTrainingSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists training sessions in your account. You can filter results by creation time, name, and status. The operation paginates results. To retrieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions:    CreateTrainingSession     DescribeTrainingSession
+    ///
+    /// Parameters:
+    ///   - creationTimeAfter: A filter that returns only training sessions created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only training sessions created before the specified time.
+    ///   - maxResults: The maximum number of training sessions to return in the response.
+    ///   - nameContains: A string in the training session name to filter results. Only sessions whose name contains the specified string are returned.
+    ///   - nextToken: If the response was truncated, use the token returned in the previous response to retrieve the next page of results.
+    ///   - statusEquals: A filter that returns only training sessions with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrainingSessions(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        statusEquals: TrainingSessionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrainingSessionsResponse {
+        let input = ListTrainingSessionsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            statusEquals: statusEquals
+        )
+        return try await self.listTrainingSessions(input, logger: logger)
     }
 
     /// Lists transform jobs.
@@ -13642,7 +13955,9 @@ public struct SageMaker: AWSService {
     ///   - pipelineExecutionDisplayName: The display name of the pipeline execution.
     ///   - pipelineName: The name or Amazon Resource Name (ARN) of the pipeline.
     ///   - pipelineParameters: Contains a list of pipeline parameters. This list can be empty.
-    ///   - pipelineVersionId: The ID of the pipeline version to start execution from.
+    ///   - pipelineVersionAlias: The alias of the pipeline version to start the execution from. You can't specify this with PipelineVersionId. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
+    ///   - pipelineVersionId: The ID of the pipeline version to start execution from. You can't specify this with PipelineVersionAlias.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the execution uses. You must specify this parameter when you start an execution of a pipeline that AWS manages. You can't specify it for a pipeline that you create, because its executions use the pipeline's role.
     ///   - selectiveExecutionConfig: The selective execution configuration applied to the pipeline run.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13654,7 +13969,9 @@ public struct SageMaker: AWSService {
         pipelineExecutionDisplayName: String? = nil,
         pipelineName: String? = nil,
         pipelineParameters: [Parameter]? = nil,
+        pipelineVersionAlias: String? = nil,
         pipelineVersionId: Int64? = nil,
+        roleArn: String? = nil,
         selectiveExecutionConfig: SelectiveExecutionConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartPipelineExecutionResponse {
@@ -13666,7 +13983,9 @@ public struct SageMaker: AWSService {
             pipelineExecutionDisplayName: pipelineExecutionDisplayName, 
             pipelineName: pipelineName, 
             pipelineParameters: pipelineParameters, 
+            pipelineVersionAlias: pipelineVersionAlias, 
             pipelineVersionId: pipelineVersionId, 
+            roleArn: roleArn, 
             selectiveExecutionConfig: selectiveExecutionConfig
         )
         return try await self.startPipelineExecution(input, logger: logger)
@@ -14244,6 +14563,35 @@ public struct SageMaker: AWSService {
         return try await self.stopTrainingJob(input, logger: logger)
     }
 
+    /// Stops a running training session and sets the session status to Stopping. After the session stops, the status changes to Stopped. To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession:    CreateTrainingSession     DescribeTrainingSession     DeleteTrainingSession
+    @Sendable
+    @inlinable
+    public func stopTrainingSession(_ input: StopTrainingSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTrainingSessionResponse {
+        try await self.client.execute(
+            operation: "StopTrainingSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running training session and sets the session status to Stopping. After the session stops, the status changes to Stopped. To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession:    CreateTrainingSession     DescribeTrainingSession     DeleteTrainingSession
+    ///
+    /// Parameters:
+    ///   - trainingSessionName: The name of the training session to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopTrainingSession(
+        trainingSessionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopTrainingSessionResponse {
+        let input = StopTrainingSessionRequest(
+            trainingSessionName: trainingSessionName
+        )
+        return try await self.stopTrainingSession(input, logger: logger)
+    }
+
     /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
     @Sendable
     @inlinable
@@ -14447,6 +14795,47 @@ public struct SageMaker: AWSService {
             tieredStorageConfig: tieredStorageConfig
         )
         return try await self.updateCluster(input, logger: logger)
+    }
+
+    /// Updates the configuration or the version of an extension installed on a SageMaker HyperPod cluster. SageMaker HyperPod applies the change to every node in the cluster. You can change the configuration, the version, or both in one request.    Configuration: You can change settings by sending ConfigurationValues. Settings that you include are changed. Settings that you omit keep their current values. A setting with the value null is removed and returns to its default value.    Version: You can update to a later version. You can't update to an earlier version. To use an earlier version, delete the extension and create it again with that version.   You can't update an extension while it is being deleted.
+    @Sendable
+    @inlinable
+    public func updateClusterExtension(_ input: UpdateClusterExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterExtensionResponse {
+        try await self.client.execute(
+            operation: "UpdateClusterExtension", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration or the version of an extension installed on a SageMaker HyperPod cluster. SageMaker HyperPod applies the change to every node in the cluster. You can change the configuration, the version, or both in one request.    Configuration: You can change settings by sending ConfigurationValues. Settings that you include are changed. Settings that you omit keep their current values. A setting with the value null is removed and returns to its default value.    Version: You can update to a later version. You can't update to an earlier version. To use an earlier version, delete the extension and create it again with that version.   You can't update an extension while it is being deleted.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide so that the request is idempotent. If you send the same update more than once, SageMaker HyperPod applies it once and doesn't return an error.
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    ///   - configurationValues: The configuration changes to apply, as a JSON object serialized as a string. Settings that you include are changed, settings that you omit are unchanged, and a setting with the value null returns to its default value. The resulting configuration must be valid for the target extension version. If you omit ConfigurationValues, the configuration is unchanged.
+    ///   - extensionArn: The Amazon Resource Name (ARN) of the extension to update.
+    ///   - extensionVersion: The version to update the extension to, in MAJOR.MINOR.PATCH format. The version must be later than the extension's current version. If you omit this parameter, the extension keeps its current version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateClusterExtension(
+        clientToken: String? = nil,
+        clusterArn: String? = nil,
+        configurationValues: String? = nil,
+        extensionArn: String? = nil,
+        extensionVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateClusterExtensionResponse {
+        let input = UpdateClusterExtensionRequest(
+            clientToken: clientToken, 
+            clusterArn: clusterArn, 
+            configurationValues: configurationValues, 
+            extensionArn: extensionArn, 
+            extensionVersion: extensionVersion
+        )
+        return try await self.updateClusterExtension(input, logger: logger)
     }
 
     /// Update the cluster policy configuration.
@@ -15758,6 +16147,7 @@ public struct SageMaker: AWSService {
     ///   - pipelineDescription: The description of the pipeline.
     ///   - pipelineDisplayName: The display name of the pipeline.
     ///   - pipelineName: The name of the pipeline to update.
+    ///   - pipelineVersionAliases: The aliases to assign to the new pipeline version that this update creates. You can specify aliases only when the update changes the pipeline definition. To change the aliases of an existing version, use UpdatePipelineVersion. An alias must be unique within the pipeline. To move an alias from an existing version to the new version, first remove the alias from the existing version with UpdatePipelineVersion.
     ///   - roleArn: The Amazon Resource Name (ARN) that the pipeline uses to execute.
     ///   - logger: Logger use during operation
     @inlinable
@@ -15768,6 +16158,7 @@ public struct SageMaker: AWSService {
         pipelineDescription: String? = nil,
         pipelineDisplayName: String? = nil,
         pipelineName: String? = nil,
+        pipelineVersionAliases: [String]? = nil,
         roleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePipelineResponse {
@@ -15778,6 +16169,7 @@ public struct SageMaker: AWSService {
             pipelineDescription: pipelineDescription, 
             pipelineDisplayName: pipelineDisplayName, 
             pipelineName: pipelineName, 
+            pipelineVersionAliases: pipelineVersionAliases, 
             roleArn: roleArn
         )
         return try await self.updatePipeline(input, logger: logger)
@@ -15838,6 +16230,7 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - pipelineArn: The Amazon Resource Name (ARN) of the pipeline.
+    ///   - pipelineVersionAliasOperations: The aliases to add to or remove from the pipeline version.
     ///   - pipelineVersionDescription: The description of the pipeline version.
     ///   - pipelineVersionDisplayName: The display name of the pipeline version.
     ///   - pipelineVersionId: The pipeline version ID to update.
@@ -15845,6 +16238,7 @@ public struct SageMaker: AWSService {
     @inlinable
     public func updatePipelineVersion(
         pipelineArn: String? = nil,
+        pipelineVersionAliasOperations: AliasOperations? = nil,
         pipelineVersionDescription: String? = nil,
         pipelineVersionDisplayName: String? = nil,
         pipelineVersionId: Int64? = nil,
@@ -15852,6 +16246,7 @@ public struct SageMaker: AWSService {
     ) async throws -> UpdatePipelineVersionResponse {
         let input = UpdatePipelineVersionRequest(
             pipelineArn: pipelineArn, 
+            pipelineVersionAliasOperations: pipelineVersionAliasOperations, 
             pipelineVersionDescription: pipelineVersionDescription, 
             pipelineVersionDisplayName: pipelineVersionDisplayName, 
             pipelineVersionId: pipelineVersionId
@@ -16191,7 +16586,7 @@ public struct SageMaker: AWSService {
 extension SageMaker {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: SageMaker, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -16964,6 +17359,49 @@ extension SageMaker {
             sortOrder: sortOrder
         )
         return self.listClusterEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listClusterExtensions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterExtensionsPaginator(
+        _ input: ListClusterExtensionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClusterExtensionsRequest, ListClusterExtensionsResponse> {
+        return .init(
+            input: input,
+            command: self.listClusterExtensions,
+            inputKey: \ListClusterExtensionsRequest.nextToken,
+            outputKey: \ListClusterExtensionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listClusterExtensions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster whose extensions you want to list.
+    ///   - creationTimeAfter: A filter that returns extensions created at or after the specified time. Timestamps are formatted according to the ISO 8601 standard.
+    ///   - creationTimeBefore: A filter that returns extensions created at or before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter.
+    ///   - maxResults: The maximum number of extensions to return in the response. If you don't specify a value, SageMaker HyperPod returns up to 100 extensions.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterExtensionsPaginator(
+        clusterArn: String? = nil,
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListClusterExtensionsRequest, ListClusterExtensionsResponse> {
+        let input = ListClusterExtensionsRequest(
+            clusterArn: clusterArn, 
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults
+        )
+        return self.listClusterExtensionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listClusterNodes(_:logger:)``.
@@ -19737,6 +20175,7 @@ extension SageMaker {
     ///   - createdBefore: A filter that returns the pipeline executions that were created before a specified time.
     ///   - maxResults: The maximum number of pipeline executions to return in the response.
     ///   - pipelineName: The name or Amazon Resource Name (ARN) of the pipeline.
+    ///   - pipelineVersionAlias: The alias of a pipeline version. The response includes only the executions of the version that has this alias when you make the request. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
     ///   - sortBy: The field by which to sort results. The default is CreatedTime.
     ///   - sortOrder: The sort order for results.
     ///   - logger: Logger used for logging
@@ -19746,6 +20185,7 @@ extension SageMaker {
         createdBefore: Date? = nil,
         maxResults: Int? = nil,
         pipelineName: String? = nil,
+        pipelineVersionAlias: String? = nil,
         sortBy: SortPipelineExecutionsBy? = nil,
         sortOrder: SortOrder? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -19755,6 +20195,7 @@ extension SageMaker {
             createdBefore: createdBefore, 
             maxResults: maxResults, 
             pipelineName: pipelineName, 
+            pipelineVersionAlias: pipelineVersionAlias, 
             sortBy: sortBy, 
             sortOrder: sortOrder
         )
@@ -19867,6 +20308,7 @@ extension SageMaker {
     /// - Parameters:
     ///   - createdAfter: A filter that returns the pipelines that were created after a specified time.
     ///   - createdBefore: A filter that returns the pipelines that were created before a specified time.
+    ///   - managedBy: Filters the pipelines by who manages them. Specify AWS to return pipelines that AWS manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
     ///   - maxResults: The maximum number of pipelines to return in the response.
     ///   - pipelineNamePrefix: The prefix of the pipeline name.
     ///   - sortBy: The field by which to sort results. The default is CreatedTime.
@@ -19876,6 +20318,7 @@ extension SageMaker {
     public func listPipelinesPaginator(
         createdAfter: Date? = nil,
         createdBefore: Date? = nil,
+        managedBy: PipelineManagedBy? = nil,
         maxResults: Int? = nil,
         pipelineNamePrefix: String? = nil,
         sortBy: SortPipelinesBy? = nil,
@@ -19885,6 +20328,7 @@ extension SageMaker {
         let input = ListPipelinesRequest(
             createdAfter: createdAfter, 
             createdBefore: createdBefore, 
+            managedBy: managedBy, 
             maxResults: maxResults, 
             pipelineNamePrefix: pipelineNamePrefix, 
             sortBy: sortBy, 
@@ -20427,6 +20871,52 @@ extension SageMaker {
             startTimeBefore: startTimeBefore
         )
         return self.listTrainingPlansPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTrainingSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainingSessionsPaginator(
+        _ input: ListTrainingSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrainingSessionsRequest, ListTrainingSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listTrainingSessions,
+            inputKey: \ListTrainingSessionsRequest.nextToken,
+            outputKey: \ListTrainingSessionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrainingSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: A filter that returns only training sessions created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only training sessions created before the specified time.
+    ///   - maxResults: The maximum number of training sessions to return in the response.
+    ///   - nameContains: A string in the training session name to filter results. Only sessions whose name contains the specified string are returned.
+    ///   - statusEquals: A filter that returns only training sessions with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainingSessionsPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        statusEquals: TrainingSessionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrainingSessionsRequest, ListTrainingSessionsResponse> {
+        let input = ListTrainingSessionsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            statusEquals: statusEquals
+        )
+        return self.listTrainingSessionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listTransformJobs(_:logger:)``.
@@ -21096,6 +21586,19 @@ extension SageMaker.ListClusterEventsRequest: AWSPaginateToken {
             resourceType: self.resourceType,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListClusterExtensionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListClusterExtensionsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -21955,6 +22458,7 @@ extension SageMaker.ListPipelineExecutionsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             pipelineName: self.pipelineName,
+            pipelineVersionAlias: self.pipelineVersionAlias,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )
@@ -21992,6 +22496,7 @@ extension SageMaker.ListPipelinesRequest: AWSPaginateToken {
         return .init(
             createdAfter: self.createdAfter,
             createdBefore: self.createdBefore,
+            managedBy: self.managedBy,
             maxResults: self.maxResults,
             nextToken: token,
             pipelineNamePrefix: self.pipelineNamePrefix,
@@ -22161,6 +22666,20 @@ extension SageMaker.ListTrainingPlansRequest: AWSPaginateToken {
             sortOrder: self.sortOrder,
             startTimeAfter: self.startTimeAfter,
             startTimeBefore: self.startTimeBefore
+        )
+    }
+}
+
+extension SageMaker.ListTrainingSessionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingSessionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            statusEquals: self.statusEquals
         )
     }
 }
@@ -22431,7 +22950,7 @@ extension SageMaker {
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageRequest, _>(
             acceptors: [
-                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFound")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("imageStatus", expected: "DELETE_FAILED")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
@@ -22554,7 +23073,7 @@ extension SageMaker {
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageVersionRequest, _>(
             acceptors: [
-                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFound")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("imageVersionStatus", expected: "DELETE_FAILED")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],

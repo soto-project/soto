@@ -4687,15 +4687,19 @@ extension IoTSiteWise {
         public let errorReportLocation: ExportErrorReportLocation
         /// The processing input source.
         public let input: ProcessingInput
+        /// An optional name for the export job. When omitted, one will be created based on type of job
+        /// and start time.
+        public let jobName: String?
         /// The name of the workspace in which to create the dataset export job.
         public let workspaceName: String
 
         @inlinable
-        public init(clientToken: String? = CreateDatasetExportJobRequest.idempotencyToken(), destinationS3Uri: String, errorReportLocation: ExportErrorReportLocation, input: ProcessingInput, workspaceName: String) {
+        public init(clientToken: String? = CreateDatasetExportJobRequest.idempotencyToken(), destinationS3Uri: String, errorReportLocation: ExportErrorReportLocation, input: ProcessingInput, jobName: String? = nil, workspaceName: String) {
             self.clientToken = clientToken
             self.destinationS3Uri = destinationS3Uri
             self.errorReportLocation = errorReportLocation
             self.input = input
+            self.jobName = jobName
             self.workspaceName = workspaceName
         }
 
@@ -4706,6 +4710,7 @@ extension IoTSiteWise {
             try container.encode(self.destinationS3Uri, forKey: .destinationS3Uri)
             try container.encode(self.errorReportLocation, forKey: .errorReportLocation)
             try container.encode(self.input, forKey: .input)
+            try container.encodeIfPresent(self.jobName, forKey: .jobName)
             request.encodePath(self.workspaceName, key: "workspaceName")
         }
 
@@ -4718,6 +4723,9 @@ extension IoTSiteWise {
             try self.validate(self.destinationS3Uri, name: "destinationS3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+$")
             try self.errorReportLocation.validate(name: "\(name).errorReportLocation")
             try self.input.validate(name: "\(name).input")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[^\\x00-\\x1f\\x7f]+$")
             try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
             try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
             try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -4728,6 +4736,7 @@ extension IoTSiteWise {
             case destinationS3Uri = "destinationS3Uri"
             case errorReportLocation = "errorReportLocation"
             case input = "input"
+            case jobName = "jobName"
         }
     }
 
@@ -7696,6 +7705,8 @@ extension IoTSiteWise {
         public let input: ProcessingInput
         /// The unique identifier for the dataset export job.
         public let jobId: String
+        /// The name of the dataset export job.
+        public let jobName: String?
         /// The timestamp when the job started processing.
         public let startedAt: Date
         /// The current status of the dataset export job.
@@ -7704,12 +7715,13 @@ extension IoTSiteWise {
         public let workspaceName: String
 
         @inlinable
-        public init(completedAt: Date? = nil, destinationS3Uri: String, errorReportLocation: ExportErrorReportLocation, input: ProcessingInput, jobId: String, startedAt: Date, status: DatasetExportJobStatus, workspaceName: String) {
+        public init(completedAt: Date? = nil, destinationS3Uri: String, errorReportLocation: ExportErrorReportLocation, input: ProcessingInput, jobId: String, jobName: String? = nil, startedAt: Date, status: DatasetExportJobStatus, workspaceName: String) {
             self.completedAt = completedAt
             self.destinationS3Uri = destinationS3Uri
             self.errorReportLocation = errorReportLocation
             self.input = input
             self.jobId = jobId
+            self.jobName = jobName
             self.startedAt = startedAt
             self.status = status
             self.workspaceName = workspaceName
@@ -7721,6 +7733,7 @@ extension IoTSiteWise {
             case errorReportLocation = "errorReportLocation"
             case input = "input"
             case jobId = "jobId"
+            case jobName = "jobName"
             case startedAt = "startedAt"
             case status = "status"
             case workspaceName = "workspaceName"
@@ -9569,16 +9582,19 @@ extension IoTSiteWise {
         public let destinationS3Uri: String
         /// The unique identifier for the dataset export job.
         public let jobId: String
+        /// The name of the dataset export job.
+        public let jobName: String?
         /// The timestamp when the job started processing.
         public let startedAt: Date
         /// The current status of the dataset export job.
         public let status: DatasetExportJobStatus
 
         @inlinable
-        public init(completedAt: Date? = nil, destinationS3Uri: String, jobId: String, startedAt: Date, status: DatasetExportJobStatus) {
+        public init(completedAt: Date? = nil, destinationS3Uri: String, jobId: String, jobName: String? = nil, startedAt: Date, status: DatasetExportJobStatus) {
             self.completedAt = completedAt
             self.destinationS3Uri = destinationS3Uri
             self.jobId = jobId
+            self.jobName = jobName
             self.startedAt = startedAt
             self.status = status
         }
@@ -9587,6 +9603,7 @@ extension IoTSiteWise {
             case completedAt = "completedAt"
             case destinationS3Uri = "destinationS3Uri"
             case jobId = "jobId"
+            case jobName = "jobName"
             case startedAt = "startedAt"
             case status = "status"
         }

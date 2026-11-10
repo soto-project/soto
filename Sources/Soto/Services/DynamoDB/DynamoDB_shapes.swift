@@ -81,6 +81,28 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum BulkOperationInputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dynamodbJson = "DYNAMODB_JSON"
+        case ion = "ION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BulkOperationPerformanceTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accelerated = "ACCELERATED"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BulkOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `in` = "IN"
         case beginsWith = "BEGINS_WITH"
@@ -138,6 +160,11 @@ extension DynamoDB {
         case enableFailed = "ENABLE_FAILED"
         case enabling = "ENABLING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DisassociationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case waitForReplication = "WAIT_FOR_REPLICATION"
         public var description: String { return self.rawValue }
     }
 
@@ -221,6 +248,12 @@ extension DynamoDB {
     public enum MultiRegionConsistency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventual = "EVENTUAL"
         case strong = "STRONG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conditionCheckFailure = "CONDITION_CHECK_FAILURE"
+        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -1117,6 +1150,227 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case billingMode = "BillingMode"
             case lastUpdateToPayPerRequestDateTime = "LastUpdateToPayPerRequestDateTime"
+        }
+    }
+
+    public struct BulkOperationBytes: AWSDecodableShape {
+        /// The number of bulk put bytes.
+        public let bulkPutBytes: Int64?
+
+        @inlinable
+        public init(bulkPutBytes: Int64? = nil) {
+            self.bulkPutBytes = bulkPutBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkPutBytes = "BulkPutBytes"
+        }
+    }
+
+    public struct BulkOperationDescription: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bulk operation.
+        public let bulkOperationArn: String?
+        /// The current status of the bulk operation can be one of the following values:   IN_PROGRESS   DynamoDB is processing the input.   COMPLETED   The bulk operation finished without parsing or validation errors. Condition-check failures do not cause the operation to complete with errors.   COMPLETED_WITH_ERRORS   The bulk operation finished, but DynamoDB couldn't process at least one input item because of a parsing or validation error. When you enable ERROR output, DynamoDB writes the details to the configured Amazon S3 output location.   CANCELLING   DynamoDB accepted a cancellation request and is stopping the operation.   CANCELLED   DynamoDB stopped the operation after a cancellation request.   FAILED   The bulk operation failed. DynamoDB might write some items before the operation reaches this status. See FailureCode and FailureMessage for details.
+        public let bulkOperationStatus: BulkOperationStatus?
+        /// Usage information for the table and its indexes.
+        public let bulkOperationUsage: [BulkOperationUsage]?
+        /// The idempotency token associated with the start request.
+        public let clientToken: String?
+        /// The time when the operation reached a terminal status. DynamoDB omits this value while the operation remains in progress.
+        public let endTime: Date?
+        /// The number of processed input items that failed because of parsing or validation errors. This count is included in ProcessedItemCount. Condition-check failures do not increase this count.
+        public let failedItemCount: Int64?
+        /// A code that identifies why the bulk operation failed or was cancelled. DynamoDB returns this value only when BulkOperationStatus is FAILED or CANCELLED.
+        public let failureCode: String?
+        /// A message that describes why the bulk operation failed or was cancelled. DynamoDB returns this value only when BulkOperationStatus is FAILED or CANCELLED.
+        public let failureMessage: String?
+        /// The Amazon S3 input configuration associated with the bulk operation.
+        public let inputS3Configuration: InputS3Configuration?
+        /// The maximum write request unit rate configured for the bulk operation.
+        public let maxWriteRequestUnits: Int64?
+        /// The Amazon S3 output configuration associated with the bulk operation.
+        public let outputS3Configuration: OutputS3Configuration?
+        /// The performance tier selected for the bulk operation. Valid values are STANDARD and ACCELERATED. If the start request omitted this value, DynamoDB uses STANDARD.
+        public let performanceTier: BulkOperationPerformanceTier?
+        /// The number of bytes that DynamoDB has read from the Amazon S3 input objects.
+        public let processedInputBytes: Int64?
+        /// The number of input items that DynamoDB has processed. This count includes successful writes, parsing or validation failures, and condition-check failures.
+        public let processedItemCount: Int64?
+        /// The time when DynamoDB accepted the start request.
+        public let startTime: Date?
+        /// A list containing identifying information for the table targeted by the bulk operation.
+        public let tableDetails: [BulkOperationTableDetail]?
+        /// The total size, in bytes, of the Amazon S3 input objects. DynamoDB omits this value until the initial input-size calculation completes.
+        public let totalInputBytes: Int64?
+
+        @inlinable
+        public init(bulkOperationArn: String? = nil, bulkOperationStatus: BulkOperationStatus? = nil, bulkOperationUsage: [BulkOperationUsage]? = nil, clientToken: String? = nil, endTime: Date? = nil, failedItemCount: Int64? = nil, failureCode: String? = nil, failureMessage: String? = nil, inputS3Configuration: InputS3Configuration? = nil, maxWriteRequestUnits: Int64? = nil, outputS3Configuration: OutputS3Configuration? = nil, performanceTier: BulkOperationPerformanceTier? = nil, processedInputBytes: Int64? = nil, processedItemCount: Int64? = nil, startTime: Date? = nil, tableDetails: [BulkOperationTableDetail]? = nil, totalInputBytes: Int64? = nil) {
+            self.bulkOperationArn = bulkOperationArn
+            self.bulkOperationStatus = bulkOperationStatus
+            self.bulkOperationUsage = bulkOperationUsage
+            self.clientToken = clientToken
+            self.endTime = endTime
+            self.failedItemCount = failedItemCount
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.inputS3Configuration = inputS3Configuration
+            self.maxWriteRequestUnits = maxWriteRequestUnits
+            self.outputS3Configuration = outputS3Configuration
+            self.performanceTier = performanceTier
+            self.processedInputBytes = processedInputBytes
+            self.processedItemCount = processedItemCount
+            self.startTime = startTime
+            self.tableDetails = tableDetails
+            self.totalInputBytes = totalInputBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationArn = "BulkOperationArn"
+            case bulkOperationStatus = "BulkOperationStatus"
+            case bulkOperationUsage = "BulkOperationUsage"
+            case clientToken = "ClientToken"
+            case endTime = "EndTime"
+            case failedItemCount = "FailedItemCount"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case inputS3Configuration = "InputS3Configuration"
+            case maxWriteRequestUnits = "MaxWriteRequestUnits"
+            case outputS3Configuration = "OutputS3Configuration"
+            case performanceTier = "PerformanceTier"
+            case processedInputBytes = "ProcessedInputBytes"
+            case processedItemCount = "ProcessedItemCount"
+            case startTime = "StartTime"
+            case tableDetails = "TableDetails"
+            case totalInputBytes = "TotalInputBytes"
+        }
+    }
+
+    public struct BulkOperationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bulk operation.
+        public let bulkOperationArn: String
+        /// The current status of the bulk operation.
+        public let bulkOperationStatus: BulkOperationStatus
+        /// The time when the operation reached a terminal status. DynamoDB omits this value while the operation remains in progress.
+        public let endTime: Date?
+        /// The time when DynamoDB accepted the start request.
+        public let startTime: Date
+
+        @inlinable
+        public init(bulkOperationArn: String, bulkOperationStatus: BulkOperationStatus, endTime: Date? = nil, startTime: Date) {
+            self.bulkOperationArn = bulkOperationArn
+            self.bulkOperationStatus = bulkOperationStatus
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationArn = "BulkOperationArn"
+            case bulkOperationStatus = "BulkOperationStatus"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct BulkOperationTableDetail: AWSDecodableShape {
+        /// The unique identifier of the table associated with the bulk operation.
+        public let tableId: String?
+        /// The name or ARN of the table associated with the bulk operation.
+        public let tableName: String?
+
+        @inlinable
+        public init(tableId: String? = nil, tableName: String? = nil) {
+            self.tableId = tableId
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableId = "TableId"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct BulkOperationUsage: AWSDecodableShape {
+        /// The total number of bulk put bytes used by the operation. This value excludes bulk put vector bytes.
+        public let bulkPutBytes: Int64?
+        /// The bulk put bytes used on each global secondary index affected by the operation, keyed by index name.
+        public let globalSecondaryIndexes: [String: BulkOperationBytes]?
+        /// The bulk put bytes used on each local secondary index affected by the operation, keyed by index name.
+        public let localSecondaryIndexes: [String: BulkOperationBytes]?
+        /// The number of bulk put bytes for the table, excluding its indexes.
+        public let table: BulkOperationBytes?
+        /// The name or ARN of the table associated with the reported usage.
+        public let tableName: String?
+        /// The bulk put vector bytes used on each vector index affected by the operation, keyed by index name.
+        public let vectorIndexes: [String: BulkOperationVectorBytes]?
+
+        @inlinable
+        public init(bulkPutBytes: Int64? = nil, globalSecondaryIndexes: [String: BulkOperationBytes]? = nil, localSecondaryIndexes: [String: BulkOperationBytes]? = nil, table: BulkOperationBytes? = nil, tableName: String? = nil, vectorIndexes: [String: BulkOperationVectorBytes]? = nil) {
+            self.bulkPutBytes = bulkPutBytes
+            self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.localSecondaryIndexes = localSecondaryIndexes
+            self.table = table
+            self.tableName = tableName
+            self.vectorIndexes = vectorIndexes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkPutBytes = "BulkPutBytes"
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case table = "Table"
+            case tableName = "TableName"
+            case vectorIndexes = "VectorIndexes"
+        }
+    }
+
+    public struct BulkOperationVectorBytes: AWSDecodableShape {
+        /// The number of bulk put vector bytes used on the vector index.
+        public let bulkPutVectorBytes: Int64?
+
+        @inlinable
+        public init(bulkPutVectorBytes: Int64? = nil) {
+            self.bulkPutVectorBytes = bulkPutVectorBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkPutVectorBytes = "BulkPutVectorBytes"
+        }
+    }
+
+    public struct CancelBulkOperationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the bulk operation to cancel.
+        public let bulkOperationArn: String
+
+        @inlinable
+        public init(bulkOperationArn: String) {
+            self.bulkOperationArn = bulkOperationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bulkOperationArn, name: "bulkOperationArn", parent: name, max: 1024)
+            try self.validate(self.bulkOperationArn, name: "bulkOperationArn", parent: name, min: 37)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationArn = "BulkOperationArn"
+        }
+    }
+
+    public struct CancelBulkOperationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bulk operation for which DynamoDB accepted the cancellation request.
+        public let bulkOperationArn: String
+        /// The status returned after DynamoDB accepts the cancellation request. This value is CANCELLING. Use DescribeBulkOperation to determine when the operation reaches CANCELLED.
+        public let bulkOperationStatus: BulkOperationStatus
+
+        @inlinable
+        public init(bulkOperationArn: String, bulkOperationStatus: BulkOperationStatus) {
+            self.bulkOperationArn = bulkOperationArn
+            self.bulkOperationStatus = bulkOperationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationArn = "BulkOperationArn"
+            case bulkOperationStatus = "BulkOperationStatus"
         }
     }
 
@@ -2120,6 +2374,39 @@ extension DynamoDB {
         }
     }
 
+    public struct DescribeBulkOperationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the bulk operation to describe.
+        public let bulkOperationArn: String
+
+        @inlinable
+        public init(bulkOperationArn: String) {
+            self.bulkOperationArn = bulkOperationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bulkOperationArn, name: "bulkOperationArn", parent: name, max: 1024)
+            try self.validate(self.bulkOperationArn, name: "bulkOperationArn", parent: name, min: 37)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationArn = "BulkOperationArn"
+        }
+    }
+
+    public struct DescribeBulkOperationOutput: AWSDecodableShape {
+        /// Contains detailed information about the bulk operation.
+        public let bulkOperationDescription: BulkOperationDescription
+
+        @inlinable
+        public init(bulkOperationDescription: BulkOperationDescription) {
+            self.bulkOperationDescription = bulkOperationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationDescription = "BulkOperationDescription"
+        }
+    }
+
     public struct DescribeContinuousBackupsInput: AWSEncodableShape {
         /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
@@ -2538,6 +2825,24 @@ extension DynamoDB {
         }
     }
 
+    public struct DisassociateReplicationGroupMemberAction: AWSEncodableShape {
+        /// The mode for handling pending replication before disassociation completes. You must specify WAIT_FOR_REPLICATION. For more information, see Disassociating a global table replica in the Amazon DynamoDB Developer Guide.
+        public let disassociationMode: DisassociationMode
+        /// The Region of the replica to disassociate. Set this value to the Region where you send the UpdateTable request. You must use credentials for the account that owns the replica.
+        public let regionName: String
+
+        @inlinable
+        public init(disassociationMode: DisassociationMode, regionName: String) {
+            self.disassociationMode = disassociationMode
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociationMode = "DisassociationMode"
+            case regionName = "RegionName"
+        }
+    }
+
     public struct EnableKinesisStreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND.
         public let approximateCreationDateTimePrecision: ApproximateCreationDateTimePrecision?
@@ -2750,6 +3055,8 @@ extension DynamoDB {
         public let failureCode: String?
         /// Export failure reason description.
         public let failureMessage: String?
+        /// The filter criteria applied to the export. When present, only items that match the specified key conditions and filter expressions are included in the export output.
+        public let filterSpecification: FilterSpecification?
         /// Optional object containing the parameters specific to an incremental export.
         public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The number of items exported.
@@ -2772,7 +3079,7 @@ extension DynamoDB {
         public let tableId: String?
 
         @inlinable
-        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
+        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, filterSpecification: FilterSpecification? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
             self.billedSizeBytes = billedSizeBytes
             self.clientToken = clientToken
             self.endTime = endTime
@@ -2784,6 +3091,7 @@ extension DynamoDB {
             self.exportType = exportType
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.filterSpecification = filterSpecification
             self.incrementalExportSpecification = incrementalExportSpecification
             self.itemCount = itemCount
             self.s3Bucket = s3Bucket
@@ -2808,6 +3116,7 @@ extension DynamoDB {
             case exportType = "ExportType"
             case failureCode = "FailureCode"
             case failureMessage = "FailureMessage"
+            case filterSpecification = "FilterSpecification"
             case incrementalExportSpecification = "IncrementalExportSpecification"
             case itemCount = "ItemCount"
             case s3Bucket = "S3Bucket"
@@ -2852,6 +3161,8 @@ extension DynamoDB {
         public let exportTime: Date?
         /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
         public let exportType: ExportType?
+        /// The criteria used to filter which items are included in the point-in-time export. When you specify this parameter, only items that match the key conditions and filter expressions are exported.
+        public let filterSpecification: FilterSpecification?
         /// Optional object containing the parameters specific to an incremental export.
         public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The name of the Amazon S3 bucket to export the snapshot to.
@@ -2868,11 +3179,12 @@ extension DynamoDB {
         public let tableArn: String
 
         @inlinable
-        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
+        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, filterSpecification: FilterSpecification? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
             self.clientToken = clientToken
             self.exportFormat = exportFormat
             self.exportTime = exportTime
             self.exportType = exportType
+            self.filterSpecification = filterSpecification
             self.incrementalExportSpecification = incrementalExportSpecification
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -2884,6 +3196,7 @@ extension DynamoDB {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[^\\$]+$")
+            try self.filterSpecification?.validate(name: "\(name).filterSpecification")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
             try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -2899,6 +3212,7 @@ extension DynamoDB {
             case exportFormat = "ExportFormat"
             case exportTime = "ExportTime"
             case exportType = "ExportType"
+            case filterSpecification = "FilterSpecification"
             case incrementalExportSpecification = "IncrementalExportSpecification"
             case s3Bucket = "S3Bucket"
             case s3BucketOwner = "S3BucketOwner"
@@ -2938,6 +3252,45 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case exceptionDescription = "ExceptionDescription"
             case exceptionName = "ExceptionName"
+        }
+    }
+
+    public struct FilterSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// One or more substitution tokens for attribute names in an expression. For more information, see Expression Attribute Names in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeNames: [String: String]?
+        /// One or more values that can be substituted in an expression. For more information, see Expression Attribute Values in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeValues: [String: AttributeValue]?
+        /// A condition that filters which items are included in the export. This parameter uses the same syntax as FilterExpression in Query and Scan. If you don't provide KeyConditionExpression, this expression can also reference key attributes. If you don't specify this parameter, all items are included in the export.
+        public let filterExpression: String?
+        /// A condition expression that filters items by key values. The expression must test equality on a single partition key value and can optionally compare a sort key value. This parameter uses the same syntax as KeyConditionExpression in Query. When you provide this parameter, FilterExpression can only reference non-key attributes. If you don't specify this parameter, all items are eligible for export.
+        public let keyConditionExpression: String?
+        /// The attributes you want to retrieve for items included in the export. Separate attribute names in the expression with commas. If you don't specify this parameter, all attributes are returned.
+        public let projectionExpression: String?
+
+        @inlinable
+        public init(expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, keyConditionExpression: String? = nil, projectionExpression: String? = nil) {
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.filterExpression = filterExpression
+            self.keyConditionExpression = keyConditionExpression
+            self.projectionExpression = projectionExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.expressionAttributeNames?.forEach {
+                try validate($0.value, name: "expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
+            }
+            try self.expressionAttributeValues?.forEach {
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case filterExpression = "FilterExpression"
+            case keyConditionExpression = "KeyConditionExpression"
+            case projectionExpression = "ProjectionExpression"
         }
     }
 
@@ -3627,6 +3980,43 @@ extension DynamoDB {
         }
     }
 
+    public struct InputS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The compression type of the input objects. Valid values are GZIP, ZSTD, and NONE. If you don't specify a value, DynamoDB uses NONE.
+        public let inputCompressionType: InputCompressionType?
+        /// The format of the input objects. DYNAMODB_JSON uses JSON Lines, with one JSON record per line. ION uses a sequence of Ion structs.
+        public let inputFormat: BulkOperationInputFormat
+        /// The name of the Amazon S3 bucket that contains the input objects.
+        public let s3Bucket: String
+        /// The Amazon Web Services account ID of the input bucket owner. If you omit this value, DynamoDB uses the Amazon Web Services account ID of the requester.   S3BucketOwner is required when the bucket is owned by another Amazon Web Services account.
+        public let s3BucketOwner: String?
+        /// An optional key prefix that limits the input to matching objects in the Amazon S3 bucket.
+        public let s3KeyPrefix: String?
+
+        @inlinable
+        public init(inputCompressionType: InputCompressionType? = nil, inputFormat: BulkOperationInputFormat, s3Bucket: String, s3BucketOwner: String? = nil, s3KeyPrefix: String? = nil) {
+            self.inputCompressionType = inputCompressionType
+            self.inputFormat = inputFormat
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputCompressionType = "InputCompressionType"
+            case inputFormat = "InputFormat"
+            case s3Bucket = "S3Bucket"
+            case s3BucketOwner = "S3BucketOwner"
+            case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
     public struct ItemCollectionMetrics: AWSDecodableShape {
         /// The partition key value of the item collection. This value is the same as the partition key value of the item.
         public let itemCollectionKey: [String: AttributeValue]?
@@ -3863,6 +4253,50 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case backupSummaries = "BackupSummaries"
             case lastEvaluatedBackupArn = "LastEvaluatedBackupArn"
+        }
+    }
+
+    public struct ListBulkOperationsInput: AWSEncodableShape {
+        /// The maximum number of bulk operation summaries to return in one page. If you don't specify a value, DynamoDB uses 10.
+        public let maxResults: Int?
+        /// An optional string that, if supplied, must be copied from the output of a previous call to ListBulkOperations. When provided in this manner, the API fetches the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([0-9a-f]{16})+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBulkOperationsOutput: AWSDecodableShape {
+        /// A list of bulk operation summaries for the current Amazon Web Services account and Amazon Web Services Region.
+        public let bulkOperationsSummaryList: [BulkOperationSummary]?
+        /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListBulkOperations again, with NextToken set to this value.
+        public let nextToken: String?
+
+        @inlinable
+        public init(bulkOperationsSummaryList: [BulkOperationSummary]? = nil, nextToken: String? = nil) {
+            self.bulkOperationsSummaryList = bulkOperationsSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationsSummaryList = "BulkOperationsSummaryList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4259,6 +4693,49 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case maxReadRequestUnits = "MaxReadRequestUnits"
+        }
+    }
+
+    public struct OutputS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The following values describe the types of output that DynamoDB writes for individual input items. Include one or both values.   ERROR   Reports input records or input objects that DynamoDB couldn't process. This includes malformed input and item validation failures, such as a missing or incorrectly typed primary key attribute or an item that exceeds a DynamoDB limit.   CONDITION_CHECK_FAILURE   Reports the attempted item and, when present, the existing item for a write whose condition expression evaluates to false.
+        public let outputType: [OutputTypeEnum]
+        /// The name of the Amazon S3 bucket where DynamoDB writes output records.
+        public let s3Bucket: String?
+        /// The Amazon Web Services account ID of the output bucket owner. If you omit this value, DynamoDB uses the Amazon Web Services account ID of the requester.   S3BucketOwner is required when the bucket is owned by another Amazon Web Services account.
+        public let s3BucketOwner: String?
+        /// An optional key prefix under which DynamoDB writes the output records.
+        public let s3KeyPrefix: String?
+        /// The server-side encryption algorithm for the output objects. Valid values are AES256 and KMS. If you don't specify a value, Amazon S3 applies the destination bucket's default encryption settings.
+        public let s3SseAlgorithm: S3SseAlgorithm?
+        /// The identifier of the KMS key that encrypts the output objects. Specify this value when S3SseAlgorithm is KMS. Don't specify it when the algorithm is AES256.
+        public let s3SseKmsKeyId: String?
+
+        @inlinable
+        public init(outputType: [OutputTypeEnum], s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3KeyPrefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil) {
+            self.outputType = outputType
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3KeyPrefix = s3KeyPrefix
+            self.s3SseAlgorithm = s3SseAlgorithm
+            self.s3SseKmsKeyId = s3SseKmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 1024)
+            try self.validate(self.s3SseKmsKeyId, name: "s3SseKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.s3SseKmsKeyId, name: "s3SseKmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputType = "OutputType"
+            case s3Bucket = "S3Bucket"
+            case s3BucketOwner = "S3BucketOwner"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case s3SseAlgorithm = "S3SseAlgorithm"
+            case s3SseKmsKeyId = "S3SseKmsKeyId"
         }
     }
 
@@ -5221,13 +5698,16 @@ extension DynamoDB {
         public let create: CreateReplicationGroupMemberAction?
         /// The parameters required for deleting a replica for the table.
         public let delete: DeleteReplicationGroupMemberAction?
+        /// The parameters for disassociating the local replica from the global table and retaining it as a standalone regional table.
+        public let disassociate: DisassociateReplicationGroupMemberAction?
         /// The parameters required for updating a replica for the table.
         public let update: UpdateReplicationGroupMemberAction?
 
         @inlinable
-        public init(create: CreateReplicationGroupMemberAction? = nil, delete: DeleteReplicationGroupMemberAction? = nil, update: UpdateReplicationGroupMemberAction? = nil) {
+        public init(create: CreateReplicationGroupMemberAction? = nil, delete: DeleteReplicationGroupMemberAction? = nil, disassociate: DisassociateReplicationGroupMemberAction? = nil, update: UpdateReplicationGroupMemberAction? = nil) {
             self.create = create
             self.delete = delete
+            self.disassociate = disassociate
             self.update = update
         }
 
@@ -5239,6 +5719,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case create = "Create"
             case delete = "Delete"
+            case disassociate = "Disassociate"
             case update = "Update"
         }
     }
@@ -5716,7 +6197,7 @@ extension DynamoDB {
         /// A string that identifies one or more attributes to retrieve from the index. Separate attribute names with commas. If not specified, the operation returns all attributes projected into the vector index. Only attributes projected into the vector index can be retrieved.
         public let projectionExpression: String?
         public let returnConsumedCapacity: ReturnConsumedCapacity?
-        /// A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. Only the equality operator (=) is supported for HASH attributes. Comparison and range operators are supported for INLINE_FILTER attributes. Only top-level attributes from the search schema can be referenced.
+        /// A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. The HASH and INLINE_FILTER attributes support only the equality operator (=). You can reference only top-level attributes from the search schema.
         public let searchConditionExpression: String?
         /// The search vector to compare against the indexed vectors. Each element is a 32-bit IEEE-754 floating point number, provided in DynamoDB list format. The number of dimensions must match the number of dimensions configured for the vector index.
         public let searchVector: [AttributeValue]
@@ -5872,6 +6353,63 @@ extension DynamoDB {
         }
     }
 
+    public struct StartBulkPutItemsInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that ensures the bulk operation starts no more than one time. During the 8 hours after the initial request, repeated requests that use the same token and parameters return the same bulk operation. If a request reuses the token with different parameters, DynamoDB returns an IdempotentParameterMismatchException. If you omit the token, an Amazon Web Services SDK automatically generates one.
+        public let clientToken: String?
+        /// The Amazon S3 location, data format, and compression settings for the input objects.
+        public let inputS3Configuration: InputS3Configuration
+        /// The maximum rate, in write request units per second, at which the bulk operation attempts to write. The value must be at least 1,024. With this setting, you limit only the bulk operation; the table's provisioned or on-demand capacity settings don't change. The actual write rate can be lower.
+        public let maxWriteRequestUnits: Int64?
+        /// The Amazon S3 location, encryption settings, and output types for the bulk operation.
+        public let outputS3Configuration: OutputS3Configuration
+        /// The performance tier for the bulk operation. Valid values are STANDARD and ACCELERATED. If you don't specify a value, the operation uses STANDARD.
+        public let performanceTier: BulkOperationPerformanceTier?
+        /// The name or ARN of the existing DynamoDB table that receives the items.
+        public let tableName: String
+
+        @inlinable
+        public init(clientToken: String? = StartBulkPutItemsInput.idempotencyToken(), inputS3Configuration: InputS3Configuration, maxWriteRequestUnits: Int64? = nil, outputS3Configuration: OutputS3Configuration, performanceTier: BulkOperationPerformanceTier? = nil, tableName: String) {
+            self.clientToken = clientToken
+            self.inputS3Configuration = inputS3Configuration
+            self.maxWriteRequestUnits = maxWriteRequestUnits
+            self.outputS3Configuration = outputS3Configuration
+            self.performanceTier = performanceTier
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[^\\$]+$")
+            try self.inputS3Configuration.validate(name: "\(name).inputS3Configuration")
+            try self.validate(self.maxWriteRequestUnits, name: "maxWriteRequestUnits", parent: name, min: 1024)
+            try self.outputS3Configuration.validate(name: "\(name).outputS3Configuration")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 1024)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case inputS3Configuration = "InputS3Configuration"
+            case maxWriteRequestUnits = "MaxWriteRequestUnits"
+            case outputS3Configuration = "OutputS3Configuration"
+            case performanceTier = "PerformanceTier"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct StartBulkPutItemsOutput: AWSDecodableShape {
+        /// Contains detailed information about a bulk operation.
+        public let bulkOperationDescription: BulkOperationDescription
+
+        @inlinable
+        public init(bulkOperationDescription: BulkOperationDescription) {
+            self.bulkOperationDescription = bulkOperationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bulkOperationDescription = "BulkOperationDescription"
+        }
+    }
+
     public struct StreamSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
         public let streamEnabled: Bool
@@ -6004,6 +6542,8 @@ extension DynamoDB {
         public let creationDateTime: Date?
         /// Indicates whether deletion protection is enabled (true) or disabled (false) on the table.
         public let deletionProtectionEnabled: Bool?
+        /// Specifies whether disassociation protection is enabled (true) or disabled (false) for the local global table replica. Protection is enabled by default.
+        public let disassociationProtectionEnabled: Bool?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)  You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
         /// Indicates one of the settings synchronization modes for the global table:    ENABLED: Indicates that the settings synchronization mode for the global table is enabled.    DISABLED: Indicates that the settings synchronization mode for the global table is disabled.    ENABLED_WITH_OVERRIDES: This mode is set by default for a same account global table. Indicates that certain global table settings can be overridden.
@@ -6028,7 +6568,7 @@ extension DynamoDB {
         public let onDemandThroughput: OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public let provisionedThroughput: ProvisionedThroughputDescription?
-        /// Represents replicas of the table.
+        /// Represents replicas of the table. After a successful disassociation, this list is absent or empty. To confirm disassociation, also verify that TableStatus is ACTIVE.
         public let replicas: [ReplicaDescription]?
         /// Contains details for the restore.
         public let restoreSummary: RestoreSummary?
@@ -6054,12 +6594,13 @@ extension DynamoDB {
         public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, vectorIndexes: [VectorIndexDescription]? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, disassociationProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, vectorIndexes: [VectorIndexDescription]? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.disassociationProtectionEnabled = disassociationProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.globalTableVersion = globalTableVersion
@@ -6092,6 +6633,7 @@ extension DynamoDB {
             case billingModeSummary = "BillingModeSummary"
             case creationDateTime = "CreationDateTime"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case disassociationProtectionEnabled = "DisassociationProtectionEnabled"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case globalTableSettingsReplicationMode = "GlobalTableSettingsReplicationMode"
             case globalTableVersion = "GlobalTableVersion"
@@ -6942,6 +7484,8 @@ extension DynamoDB {
         public let billingMode: BillingMode?
         /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
         public let deletionProtectionEnabled: Bool?
+        /// Specifies whether disassociation protection is enabled (true) or disabled (false) for the local replica of a multi-Region eventual consistency (MREC) global table using Version 2019.11.21. Disassociation protection is enabled by default. If you omit this parameter, the existing setting is unchanged. This setting is independent of DeletionProtectionEnabled. You can't combine this change with any other change in the same UpdateTable request.
+        public let disassociationProtectionEnabled: Bool?
         /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
         /// Controls the settings replication mode for a global table replica. This attribute can be defined using UpdateTable operation only on a regional table with values:    ENABLED: Defines settings replication on a regional table to be used as a source table for creating Multi-Account Global Table.    DISABLED: Remove settings replication on a regional table. Settings replication needs to be defined to ENABLED again in order to create a Multi-Account Global Table using this table.
@@ -6954,7 +7498,7 @@ extension DynamoDB {
         public let onDemandThroughput: OnDemandThroughput?
         /// The new provisioned throughput settings for the specified table or index.
         public let provisionedThroughput: ProvisionedThroughput?
-        /// A list of replica update actions (create, delete, or update) for the table.
+        /// A list of replica update actions (create, delete, update, or disassociate) for the table.
         public let replicaUpdates: [ReplicationGroupUpdate]?
         /// The new server-side encryption settings for the specified table.
         public let sseSpecification: SSESpecification?
@@ -6970,10 +7514,11 @@ extension DynamoDB {
         public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, vectorIndexUpdates: [VectorIndexUpdate]? = nil, warmThroughput: WarmThroughput? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, disassociationProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, vectorIndexUpdates: [VectorIndexUpdate]? = nil, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.disassociationProtectionEnabled = disassociationProtectionEnabled
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
             self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.globalTableWitnessUpdates = globalTableWitnessUpdates
@@ -7014,6 +7559,7 @@ extension DynamoDB {
             case attributeDefinitions = "AttributeDefinitions"
             case billingMode = "BillingMode"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case disassociationProtectionEnabled = "DisassociationProtectionEnabled"
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
             case globalTableSettingsReplicationMode = "GlobalTableSettingsReplicationMode"
             case globalTableWitnessUpdates = "GlobalTableWitnessUpdates"

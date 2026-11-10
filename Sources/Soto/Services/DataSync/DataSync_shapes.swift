@@ -46,6 +46,7 @@ extension DataSync {
 
     public enum AzureBlobAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
+        case oidc = "OIDC"
         case sas = "SAS"
         public var description: String { return self.rawValue }
     }
@@ -139,6 +140,13 @@ extension DataSync {
         case nfs3 = "NFS3"
         case nfs40 = "NFS4_0"
         case nfs41 = "NFS4_1"
+        case nfs42 = "NFS4_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
         public var description: String { return self.rawValue }
     }
 
@@ -371,6 +379,57 @@ extension DataSync {
         }
     }
 
+    public struct AzureFederatedIdentityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the ARN for an Amazon Web Services role that allows DataSync to invoke STS GetWebIdentityToken API on behalf of the customer account and to obtain Amazon Web Services STS JWT (web token).
+        public let awsIamRole: String?
+        /// External identity parameters for Azure Blob Storage.
+        public let azureOidc: AzureOidcConfig?
+
+        @inlinable
+        public init(awsIamRole: String? = nil, azureOidc: AzureOidcConfig? = nil) {
+            self.awsIamRole = awsIamRole
+            self.azureOidc = azureOidc
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsIamRole, name: "awsIamRole", parent: name, max: 2048)
+            try self.validate(self.awsIamRole, name: "awsIamRole", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
+            try self.azureOidc?.validate(name: "\(name).azureOidc")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIamRole = "AwsIamRole"
+            case azureOidc = "AzureOidc"
+        }
+    }
+
+    public struct AzureOidcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Azure client ID string.
+        public let clientId: String
+        /// Azure tenant ID string.
+        public let tenantId: String
+
+        @inlinable
+        public init(clientId: String, tenantId: String) {
+            self.clientId = clientId
+            self.tenantId = tenantId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 36)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 36)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.tenantId, name: "tenantId", parent: name, max: 36)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, min: 36)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case tenantId = "TenantId"
+        }
+    }
+
     public struct CancelTaskExecutionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the task execution to stop.
         public let taskExecutionArn: String
@@ -424,13 +483,13 @@ extension DataSync {
         public let activationKey: String
         /// Specifies a name for your agent. We recommend specifying a name that you can remember.
         public let agentName: String?
-        /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN.
+        /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. The ARN must specify your own account, even when the security group was shared with you from the account that owns the VPC. The security group must belong to the same VPC as the subnet that you specify in SubnetArns.
         public let securityGroupArns: [String]?
-        /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN.
+        /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC service endpoint. The subnet can be one that another Amazon Web Services account shared with you through RAM, in which case the ARN must specify the account that owns the subnet. For more information, see Using a single VPC service endpoint across multiple subnets.
         public let subnetArns: [String]?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
         public let tags: [TagListEntry]?
-        /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
+        /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).  The endpoint ID is informational. DataSync doesn't verify it or use it to connect to your agent. For more information, see Using a single VPC service endpoint across multiple subnets.
         public let vpcEndpointId: String?
 
         @inlinable
@@ -496,7 +555,7 @@ extension DataSync {
         public let accessTier: AzureAccessTier?
         /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer.  Make sure you configure this parameter correctly when you first create your storage location. You cannot add or remove agents from a storage location after you create it.
         public let agentArns: [String]?
-        /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+        /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS) or an OpenID Connect (OIDC) token.
         public let authenticationType: AzureBlobAuthenticationType
         /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
         public let blobType: AzureBlobType?
@@ -506,6 +565,8 @@ extension DataSync {
         public let containerUrl: String
         /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
+        /// Specifies the federated identity configuration that allows DataSync to access your Azure Blob Storage using an OpenID Connect (OIDC) token instead of a shared access signature (SAS). Provide either FederatedIdentity or SasConfiguration, but not both.
+        public let federatedIdentity: AzureFederatedIdentityConfig?
         /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.  If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
         public let sasConfiguration: AzureBlobSasConfiguration?
         /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
@@ -514,7 +575,7 @@ extension DataSync {
         public let tags: [TagListEntry]?
 
         @inlinable
-        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType, blobType: AzureBlobType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, containerUrl: String, customSecretConfig: CustomSecretConfig? = nil, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType, blobType: AzureBlobType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, containerUrl: String, customSecretConfig: CustomSecretConfig? = nil, federatedIdentity: AzureFederatedIdentityConfig? = nil, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.accessTier = accessTier
             self.agentArns = agentArns
             self.authenticationType = authenticationType
@@ -522,6 +583,7 @@ extension DataSync {
             self.cmkSecretConfig = cmkSecretConfig
             self.containerUrl = containerUrl
             self.customSecretConfig = customSecretConfig
+            self.federatedIdentity = federatedIdentity
             self.sasConfiguration = sasConfiguration
             self.subdirectory = subdirectory
             self.tags = tags
@@ -538,6 +600,7 @@ extension DataSync {
             try self.validate(self.containerUrl, name: "containerUrl", parent: name, max: 325)
             try self.validate(self.containerUrl, name: "containerUrl", parent: name, pattern: "^https:\\/\\/[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}\\/[a-z0-9](-?[a-z0-9]){2,62}$")
             try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
+            try self.federatedIdentity?.validate(name: "\(name).federatedIdentity")
             try self.sasConfiguration?.validate(name: "\(name).sasConfiguration")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 1024)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}\\p{C}]*$")
@@ -555,6 +618,7 @@ extension DataSync {
             case cmkSecretConfig = "CmkSecretConfig"
             case containerUrl = "ContainerUrl"
             case customSecretConfig = "CustomSecretConfig"
+            case federatedIdentity = "FederatedIdentity"
             case sasConfiguration = "SasConfiguration"
             case subdirectory = "Subdirectory"
             case tags = "Tags"
@@ -1095,6 +1159,8 @@ extension DataSync {
         public let cmkSecretConfig: CmkSecretConfig?
         /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
+        /// Specifies the federated identity configuration that allows DataSync to access your object storage using an OpenID Connect (OIDC) token instead of a long-term access key and secret key. Provide either FederatedIdentity or the AccessKey/SecretKey credentials, but not both.
+        public let federatedIdentity: ObjectStorageFederatedIdentityConfig?
         /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.  If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
         public let secretKey: String?
         /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS.
@@ -1111,12 +1177,13 @@ extension DataSync {
         public let tags: [TagListEntry]?
 
         @inlinable
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, bucketName: String, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, bucketName: String, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, federatedIdentity: ObjectStorageFederatedIdentityConfig? = nil, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.bucketName = bucketName
             self.cmkSecretConfig = cmkSecretConfig
             self.customSecretConfig = customSecretConfig
+            self.federatedIdentity = federatedIdentity
             self.secretKey = secretKey
             self.serverCertificate = serverCertificate
             self.serverHostname = serverHostname
@@ -1140,6 +1207,7 @@ extension DataSync {
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\.\\(\\)\\$\\p{Zs}]+$")
             try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
             try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
+            try self.federatedIdentity?.validate(name: "\(name).federatedIdentity")
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.*$")
             try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
@@ -1161,6 +1229,7 @@ extension DataSync {
             case bucketName = "BucketName"
             case cmkSecretConfig = "CmkSecretConfig"
             case customSecretConfig = "CustomSecretConfig"
+            case federatedIdentity = "FederatedIdentity"
             case secretKey = "SecretKey"
             case serverCertificate = "ServerCertificate"
             case serverHostname = "ServerHostname"
@@ -1391,7 +1460,7 @@ extension DataSync {
         public let sourceLocationArn: String
         /// Specifies the tags that you want to apply to your task.  Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
         public let tags: [TagListEntry]?
-        /// Specifies one of the following task modes for your data transfer:    ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations, transfers between Azure Blob and Amazon S3 without an agent, and transfers between other clouds and Amazon S3 without an agent.  To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.     BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to quotas on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.   For more information, see Understanding task mode differences.
+        /// Specifies one of the following task modes for your data transfer:    ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for all transfers except those that use Amazon S3 on Outposts.  To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.     BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to quotas on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.   For more information, see Understanding task mode differences.
         public let taskMode: TaskMode?
         /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
         public let taskReportConfig: TaskReportConfig?
@@ -1648,7 +1717,7 @@ extension DataSync {
         public let accessTier: AzureAccessTier?
         /// The ARNs of the DataSync agents that can connect with your Azure Blob Storage container.
         public let agentArns: [String]?
-        /// The authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+        /// The authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS) or an OpenID Connect (OIDC) token.
         public let authenticationType: AzureBlobAuthenticationType?
         /// The type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
         public let blobType: AzureBlobType?
@@ -1658,6 +1727,8 @@ extension DataSync {
         public let creationTime: Date?
         /// Describes configuration information for a customer-managed secret, such as an authentication token that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
+        /// The federated identity configuration that DataSync uses to access your Azure Blob Storage using an OpenID Connect (OIDC) token.
+        public let federatedIdentity: AzureFederatedIdentityConfig?
         /// The ARN of your Azure Blob Storage transfer location.
         public let locationArn: String?
         /// The URL of the Azure Blob Storage container involved in your transfer.
@@ -1666,7 +1737,7 @@ extension DataSync {
         public let managedSecretConfig: ManagedSecretConfig?
 
         @inlinable
-        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil) {
+        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, federatedIdentity: AzureFederatedIdentityConfig? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil) {
             self.accessTier = accessTier
             self.agentArns = agentArns
             self.authenticationType = authenticationType
@@ -1674,6 +1745,7 @@ extension DataSync {
             self.cmkSecretConfig = cmkSecretConfig
             self.creationTime = creationTime
             self.customSecretConfig = customSecretConfig
+            self.federatedIdentity = federatedIdentity
             self.locationArn = locationArn
             self.locationUri = locationUri
             self.managedSecretConfig = managedSecretConfig
@@ -1687,6 +1759,7 @@ extension DataSync {
             case cmkSecretConfig = "CmkSecretConfig"
             case creationTime = "CreationTime"
             case customSecretConfig = "CustomSecretConfig"
+            case federatedIdentity = "FederatedIdentity"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
             case managedSecretConfig = "ManagedSecretConfig"
@@ -2131,6 +2204,8 @@ extension DataSync {
         public let creationTime: Date?
         /// Describes configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
+        /// The federated identity configuration that DataSync uses to access your object storage using an OpenID Connect (OIDC) token.
+        public let federatedIdentity: ObjectStorageFederatedIdentityConfig?
         /// The ARN of the object storage system location.
         public let locationArn: String?
         /// The URI of the object storage system location.
@@ -2145,12 +2220,13 @@ extension DataSync {
         public let serverProtocol: ObjectStorageServerProtocol?
 
         @inlinable
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, federatedIdentity: ObjectStorageFederatedIdentityConfig? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.cmkSecretConfig = cmkSecretConfig
             self.creationTime = creationTime
             self.customSecretConfig = customSecretConfig
+            self.federatedIdentity = federatedIdentity
             self.locationArn = locationArn
             self.locationUri = locationUri
             self.managedSecretConfig = managedSecretConfig
@@ -2165,6 +2241,7 @@ extension DataSync {
             case cmkSecretConfig = "CmkSecretConfig"
             case creationTime = "CreationTime"
             case customSecretConfig = "CustomSecretConfig"
+            case federatedIdentity = "FederatedIdentity"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
             case managedSecretConfig = "ManagedSecretConfig"
@@ -2785,6 +2862,47 @@ extension DataSync {
         }
     }
 
+    public struct GoogleOidcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Human-readable pool name (e.g. "my-pool").
+        public let identityPoolName: String
+        /// Human-readable provider name (e.g. "my-oidc-provider").
+        public let identityProviderName: String
+        /// Human-readable project name (e.g. "my-project").
+        public let projectName: String
+        /// Numeric project ID as a string (e.g. "123456789").
+        public let projectNumber: String
+
+        @inlinable
+        public init(identityPoolName: String, identityProviderName: String, projectName: String, projectNumber: String) {
+            self.identityPoolName = identityPoolName
+            self.identityProviderName = identityProviderName
+            self.projectName = projectName
+            self.projectNumber = projectNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityPoolName, name: "identityPoolName", parent: name, max: 32)
+            try self.validate(self.identityPoolName, name: "identityPoolName", parent: name, min: 4)
+            try self.validate(self.identityPoolName, name: "identityPoolName", parent: name, pattern: "^(?!gcp-)[a-z][a-z0-9-]{2,30}[a-z0-9]$")
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, max: 32)
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, min: 4)
+            try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, pattern: "^(?!gcp-)[a-z][a-z0-9-]{2,30}[a-z0-9]$")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 30)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 6)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-z][a-z0-9-]{4,28}[a-z0-9]$")
+            try self.validate(self.projectNumber, name: "projectNumber", parent: name, max: 20)
+            try self.validate(self.projectNumber, name: "projectNumber", parent: name, min: 1)
+            try self.validate(self.projectNumber, name: "projectNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolName = "IdentityPoolName"
+            case identityProviderName = "IdentityProviderName"
+            case projectName = "ProjectName"
+            case projectNumber = "ProjectNumber"
+        }
+    }
+
     public struct HdfsNameNode: AWSEncodableShape & AWSDecodableShape {
         /// The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network.
         public let hostname: String
@@ -3181,7 +3299,7 @@ extension DataSync {
     }
 
     public struct NfsMountOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
+        /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1. For Amazon FSx for OpenZFS locations, DataSync first attempts to use NFS version 4.2, then falls back to version 4.1, and then to earlier versions if needed.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    NFSv4_2: Stateful protocol version that supports sparse file operations, space reservation, and server-side copy operations, in addition to all features available in version 4.1. Selecting NFS version 4.2 requires an Enhanced mode task.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
         public let version: NfsVersion?
 
         @inlinable
@@ -3191,6 +3309,48 @@ extension DataSync {
 
         private enum CodingKeys: String, CodingKey {
             case version = "Version"
+        }
+    }
+
+    public struct ObjectStorageExternalIdentityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// External identity parameters for Google Cloud Storage.
+        public let googleOidc: GoogleOidcConfig?
+
+        @inlinable
+        public init(googleOidc: GoogleOidcConfig? = nil) {
+            self.googleOidc = googleOidc
+        }
+
+        public func validate(name: String) throws {
+            try self.googleOidc?.validate(name: "\(name).googleOidc")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case googleOidc = "GoogleOidc"
+        }
+    }
+
+    public struct ObjectStorageFederatedIdentityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the ARN for an Amazon Web Services role that allows DataSync to invoke STS GetWebIdentityToken API on behalf of the customer account and to obtain Amazon Web Services STS JWT (web token).
+        public let awsIamRole: String?
+        /// Specifies cloud-provider-specific external identity parameters used when exchanging the Amazon Web Services web token for an OpenID Connect token at the object storage provider.
+        public let externalIdentity: ObjectStorageExternalIdentityConfig?
+
+        @inlinable
+        public init(awsIamRole: String? = nil, externalIdentity: ObjectStorageExternalIdentityConfig? = nil) {
+            self.awsIamRole = awsIamRole
+            self.externalIdentity = externalIdentity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsIamRole, name: "awsIamRole", parent: name, max: 2048)
+            try self.validate(self.awsIamRole, name: "awsIamRole", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
+            try self.externalIdentity?.validate(name: "\(name).externalIdentity")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIamRole = "AwsIamRole"
+            case externalIdentity = "ExternalIdentity"
         }
     }
 
@@ -3228,6 +3388,8 @@ extension DataSync {
         public let logLevel: LogLevel?
         /// Specifies whether to preserve metadata indicating the last time that a file was written to before the PREPARING step of your task execution. This option is required when you need to run the a task more than once.    PRESERVE (default) - Preserves original Mtime, which is recommended.    NONE - Ignores Mtime.    The following applies only to Basic mode tasks: If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  Enhanced mode tasks don't support Mtime set to NONE.
         public let mtime: Mtime?
+        /// Specifies whether you want DataSync to PRESERVE object metadata (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object metadata, specify the NONE value.  Even if you specify NONE, metadata for the last modified time is still preserved.
+        public let objectMetadata: ObjectMetadata?
         /// Specifies whether you want DataSync to PRESERVE object tags (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value.
         public let objectTags: ObjectTags?
         /// Specifies whether DataSync should modify or preserve data at the destination location.    ALWAYS (default) - DataSync modifies data in the destination location when source data (including metadata) has changed. If DataSync overwrites objects, you might incur additional charges for certain Amazon S3 storage classes (for example, for retrieval or early deletion). For more information, see Storage class considerations with Amazon S3 transfers.    NEVER - DataSync doesn't overwrite data in the destination location even if the source data has changed. You can use this option to protect against overwriting changes made to files or objects in the destination.
@@ -3250,12 +3412,13 @@ extension DataSync {
         public let verifyMode: VerifyMode?
 
         @inlinable
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectMetadata: ObjectMetadata? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
             self.logLevel = logLevel
             self.mtime = mtime
+            self.objectMetadata = objectMetadata
             self.objectTags = objectTags
             self.overwriteMode = overwriteMode
             self.posixPermissions = posixPermissions
@@ -3278,6 +3441,7 @@ extension DataSync {
             case gid = "Gid"
             case logLevel = "LogLevel"
             case mtime = "Mtime"
+            case objectMetadata = "ObjectMetadata"
             case objectTags = "ObjectTags"
             case overwriteMode = "OverwriteMode"
             case posixPermissions = "PosixPermissions"
@@ -3310,9 +3474,9 @@ extension DataSync {
         public let privateLinkEndpoint: String?
         /// Specifies the Amazon Resource Names (ARN) of the security group that provides DataSync access to your VPC endpoint. You can only specify one ARN.
         public let securityGroupArns: [String]?
-        /// Specifies the ARN of the subnet where your VPC endpoint is located. You can only specify one ARN.
+        /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC endpoint.
         public let subnetArns: [String]?
-        /// Specifies the ID of the VPC endpoint that your agent connects to.
+        /// Specifies the ID of the VPC service endpoint that's recorded for your agent. The endpoint ID is informational and isn't verified by DataSync. Your agent communicates through the private IP address in PrivateLinkEndpoint, which is set when you activate the agent.
         public let vpcEndpointId: String?
 
         @inlinable
@@ -4040,7 +4204,7 @@ extension DataSync {
         public let accessTier: AzureAccessTier?
         /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer.  You cannot add or remove agents from a storage location after you initially create it.
         public let agentArns: [String]?
-        /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+        /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS) or an OpenID Connect (OIDC) token.
         public let authenticationType: AzureBlobAuthenticationType?
         /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
         public let blobType: AzureBlobType?
@@ -4048,6 +4212,8 @@ extension DataSync {
         public let cmkSecretConfig: CmkSecretConfig?
         /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
+        /// Specifies the federated identity configuration that allows DataSync to access your Azure Blob Storage using an OpenID Connect (OIDC) token instead of a shared access signature (SAS). Provide either FederatedIdentity or SasConfiguration, but not both.
+        public let federatedIdentity: AzureFederatedIdentityConfig?
         /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
         public let locationArn: String
         /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
@@ -4056,13 +4222,14 @@ extension DataSync {
         public let subdirectory: String?
 
         @inlinable
-        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, locationArn: String, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil) {
+        public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, federatedIdentity: AzureFederatedIdentityConfig? = nil, locationArn: String, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil) {
             self.accessTier = accessTier
             self.agentArns = agentArns
             self.authenticationType = authenticationType
             self.blobType = blobType
             self.cmkSecretConfig = cmkSecretConfig
             self.customSecretConfig = customSecretConfig
+            self.federatedIdentity = federatedIdentity
             self.locationArn = locationArn
             self.sasConfiguration = sasConfiguration
             self.subdirectory = subdirectory
@@ -4077,6 +4244,7 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
             try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
+            try self.federatedIdentity?.validate(name: "\(name).federatedIdentity")
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.sasConfiguration?.validate(name: "\(name).sasConfiguration")
@@ -4091,6 +4259,7 @@ extension DataSync {
             case blobType = "BlobType"
             case cmkSecretConfig = "CmkSecretConfig"
             case customSecretConfig = "CustomSecretConfig"
+            case federatedIdentity = "FederatedIdentity"
             case locationArn = "LocationArn"
             case sasConfiguration = "SasConfiguration"
             case subdirectory = "Subdirectory"
@@ -4320,7 +4489,7 @@ extension DataSync {
         public let kmsKeyProviderUri: String?
         /// The Amazon Resource Name (ARN) of the source HDFS cluster location.
         public let locationArn: String
-        /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:   Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.   Basic mode – You can specify only one NameNode.
+        /// The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:    Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.    Basic mode – You can specify only one NameNode.
         public let nameNodes: [HdfsNameNode]?
         /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop Distributed File System (HDFS) cluster.
         public let qopConfiguration: QopConfiguration?
@@ -4458,6 +4627,8 @@ extension DataSync {
         public let cmkSecretConfig: CmkSecretConfig?
         /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
+        /// Specifies the federated identity configuration that allows DataSync to access your object storage using an OpenID Connect (OIDC) token instead of a long-term access key and secret key. Provide either FederatedIdentity or the AccessKey/SecretKey credentials, but not both.
+        public let federatedIdentity: ObjectStorageFederatedIdentityConfig?
         /// Specifies the ARN of the object storage system location that you're updating.
         public let locationArn: String
         /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.  If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
@@ -4474,11 +4645,12 @@ extension DataSync {
         public let subdirectory: String?
 
         @inlinable
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, locationArn: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, federatedIdentity: ObjectStorageFederatedIdentityConfig? = nil, locationArn: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.cmkSecretConfig = cmkSecretConfig
             self.customSecretConfig = customSecretConfig
+            self.federatedIdentity = federatedIdentity
             self.locationArn = locationArn
             self.secretKey = secretKey
             self.serverCertificate = serverCertificate
@@ -4499,6 +4671,7 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
             try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
+            try self.federatedIdentity?.validate(name: "\(name).federatedIdentity")
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
@@ -4517,6 +4690,7 @@ extension DataSync {
             case agentArns = "AgentArns"
             case cmkSecretConfig = "CmkSecretConfig"
             case customSecretConfig = "CustomSecretConfig"
+            case federatedIdentity = "FederatedIdentity"
             case locationArn = "LocationArn"
             case secretKey = "SecretKey"
             case serverCertificate = "ServerCertificate"

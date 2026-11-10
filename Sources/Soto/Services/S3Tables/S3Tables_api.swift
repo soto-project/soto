@@ -79,6 +79,35 @@ public struct S3Tables: AWSService {
 
     // MARK: API Calls
 
+    /// Completes the migration of a table. The table's most recent migration must be in the succeeded, failed or cancelled state. After you complete the migration, you can't sync the table again, and you can write to and maintain the table as you do any other table: compaction starts, and unreferenced file removal follows the table bucket's configuration. You can't undo this operation. Calling it again for the same table returns a ConflictException.  Permissions    You must have the s3tables:CompleteTableMigration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func completeTableMigration(_ input: CompleteTableMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "CompleteTableMigration", 
+            path: "/complete-table-migration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Completes the migration of a table. The table's most recent migration must be in the succeeded, failed or cancelled state. After you complete the migration, you can't sync the table again, and you can write to and maintain the table as you do any other table: compaction starts, and unreferenced file removal follows the table bucket's configuration. You can't undo this operation. Calling it again for the same table returns a ConflictException.  Permissions    You must have the s3tables:CompleteTableMigration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableARN: The Amazon Resource Name (ARN) of the migrated table to complete the migration of.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func completeTableMigration(
+        tableARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = CompleteTableMigrationRequest(
+            tableARN: tableARN
+        )
+        return try await self.completeTableMigration(input, logger: logger)
+    }
+
     /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateNamespace permission to use this operation.
     @Sendable
     @inlinable
@@ -897,6 +926,38 @@ public struct S3Tables: AWSService {
         return try await self.getTableMetadataLocation(input, logger: logger)
     }
 
+    /// Gets the details of a migration, including its state, the reason it failed, its statistics and the location of its reports. Identify the migration by its migrationId, or specify the tableARN of a destination table to get that table's most recent migration.  Permissions    You must have the s3tables:GetTableMigration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableMigration(_ input: GetTableMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableMigrationResponse {
+        try await self.client.execute(
+            operation: "GetTableMigration", 
+            path: "/get-table-migration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a migration, including its state, the reason it failed, its statistics and the location of its reports. Identify the migration by its migrationId, or specify the tableARN of a destination table to get that table's most recent migration.  Permissions    You must have the s3tables:GetTableMigration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - migrationId: The ID of the migration to get. Specify either migrationId or tableARN, not both.
+    ///   - tableARN: The Amazon Resource Name (ARN) of the destination table. Gets the table's most recent migration. Specify either tableARN or migrationId, not both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableMigration(
+        migrationId: String? = nil,
+        tableARN: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableMigrationResponse {
+        let input = GetTableMigrationRequest(
+            migrationId: migrationId, 
+            tableARN: tableARN
+        )
+        return try await self.getTableMigration(input, logger: logger)
+    }
+
     /// Gets details about a table policy. For more information, see Viewing a table policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTablePolicy permission to use this operation.
     @Sendable
     @inlinable
@@ -1157,6 +1218,56 @@ public struct S3Tables: AWSService {
             type: type
         )
         return try await self.listTableBuckets(input, logger: logger)
+    }
+
+    /// Lists the migrations whose destination is in a table bucket, a namespace or a table. Specify a tableBucketARN to list the migrations into a table bucket, and add a namespace, or a namespace and a name, to narrow the list. Or specify a tableARN to list the migrations into a table. Migrations are listed newest first. Results are paginated: use maxResults to set the page size, and pass the nextToken from a response to retrieve the next page of results. A page can contain fewer migrations than maxResults, or none, and still return a nextToken. Continue until a response has no nextToken.  Permissions    You must have the s3tables:ListTableMigrations permission to use this operation.
+    @Sendable
+    @inlinable
+    public func listTableMigrations(_ input: ListTableMigrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTableMigrationsResponse {
+        try await self.client.execute(
+            operation: "ListTableMigrations", 
+            path: "/list-table-migrations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the migrations whose destination is in a table bucket, a namespace or a table. Specify a tableBucketARN to list the migrations into a table bucket, and add a namespace, or a namespace and a name, to narrow the list. Or specify a tableARN to list the migrations into a table. Migrations are listed newest first. Results are paginated: use maxResults to set the page size, and pass the nextToken from a response to retrieve the next page of results. A page can contain fewer migrations than maxResults, or none, and still return a nextToken. Continue until a response has no nextToken.  Permissions    You must have the s3tables:ListTableMigrations permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - hasValidPlan: The hasValidPlan value to filter the list by. Migrations that are still planning aren't listed, whichever value you specify.
+    ///   - maxResults: The maximum number of migrations to return, from 1 to 1,000. If you don't specify a value, the default is 100.
+    ///   - name: The name of the table to list migrations for. Requires tableBucketARN and namespace.
+    ///   - namespace: The namespace to list migrations for. Requires tableBucketARN.
+    ///   - nextToken: The nextToken from a previous response, to get the next page of results.
+    ///   - state: The state to filter the list by. For the valid values, see the state member of GetTableMigration.
+    ///   - tableARN: The Amazon Resource Name (ARN) of the table to list migrations for. The list includes the migrations into this table. To also list migrations into an earlier table of the same name, specify tableBucketARN, namespace and name instead. Specify either tableARN or tableBucketARN, not both.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket to list migrations for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTableMigrations(
+        hasValidPlan: Bool? = nil,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        namespace: String? = nil,
+        nextToken: String? = nil,
+        state: MigrationState? = nil,
+        tableARN: String? = nil,
+        tableBucketARN: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTableMigrationsResponse {
+        let input = ListTableMigrationsRequest(
+            hasValidPlan: hasValidPlan, 
+            maxResults: maxResults, 
+            name: name, 
+            namespace: namespace, 
+            nextToken: nextToken, 
+            state: state, 
+            tableARN: tableARN, 
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.listTableMigrations(input, logger: logger)
     }
 
     /// List tables in the given table bucket. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListTables permission to use this operation.
@@ -1614,6 +1725,91 @@ public struct S3Tables: AWSService {
         return try await self.renameTable(input, logger: logger)
     }
 
+    /// Starts migrating an Amazon Web Services Glue Data Catalog table into a new table in a table bucket. The migration runs asynchronously: this operation returns the migration ID and its initial state, and you track progress with GetTableMigration. The namespace must already exist, and a table with the specified name must not. The migration creates the table during planning and commits data to it as it runs. Until you call CompleteTableMigration, you can read the table but you can't write to it. If the migration fails or is cancelled, the table and the data already committed to it remain. The migration first checks the source and the destination, and writes the table compatibility and object compatibility reports to the bucket that you specify in migrationOutput. If you set reviewMigrationPlan to true, the migration waits in the pendingReview state so that you can review the reports, and continues only when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. Otherwise it continues to migrate the data, and writes the object migration report when the migration ends. If planning fails, the migration writes no object migration report.  Permissions    You must have the s3tables:StartTableMigration permission to use this operation.   You must have the iam:PassRole permission on the role that you specify in roleARN, with a condition that allows passing it to migration.s3tables.amazonaws.com. The associated resource is the table bucket.   If destinationTable specifies SSE-KMS encryption, you must have the kms:DescribeKey and kms:GenerateDataKey permissions on the KMS key. You must also grant the S3 Tables maintenance principal access to the key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+    @Sendable
+    @inlinable
+    public func startTableMigration(_ input: StartTableMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTableMigrationResponse {
+        try await self.client.execute(
+            operation: "StartTableMigration", 
+            path: "/start-table-migration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts migrating an Amazon Web Services Glue Data Catalog table into a new table in a table bucket. The migration runs asynchronously: this operation returns the migration ID and its initial state, and you track progress with GetTableMigration. The namespace must already exist, and a table with the specified name must not. The migration creates the table during planning and commits data to it as it runs. Until you call CompleteTableMigration, you can read the table but you can't write to it. If the migration fails or is cancelled, the table and the data already committed to it remain. The migration first checks the source and the destination, and writes the table compatibility and object compatibility reports to the bucket that you specify in migrationOutput. If you set reviewMigrationPlan to true, the migration waits in the pendingReview state so that you can review the reports, and continues only when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. Otherwise it continues to migrate the data, and writes the object migration report when the migration ends. If planning fails, the migration writes no object migration report.  Permissions    You must have the s3tables:StartTableMigration permission to use this operation.   You must have the iam:PassRole permission on the role that you specify in roleARN, with a condition that allows passing it to migration.s3tables.amazonaws.com. The associated resource is the table bucket.   If destinationTable specifies SSE-KMS encryption, you must have the kms:DescribeKey and kms:GenerateDataKey permissions on the KMS key. You must also grant the S3 Tables maintenance principal access to the key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+    ///
+    /// Parameters:
+    ///   - dataMigration: The maintenance settings and migration policies for the destination table.
+    ///   - destinationTable: The table to create and migrate the source into.
+    ///   - migrationOutput: The bucket and prefixes that the migration writes its reports to. The bucket must be a general purpose bucket in your account and in the same Region as the table bucket, and the migration role must be able to write objects to it. Otherwise, the migration fails when it writes its first report.
+    ///   - reviewMigrationPlan: Specifies whether the migration waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data. If true, the migration continues when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. The default is false.
+    ///   - roleARN: The Amazon Resource Name (ARN) of the IAM role that the migration uses to read the source table and its data and to write the destination table and the reports. The role must be in your account, and its trust policy must allow migration.s3tables.amazonaws.com to assume it. You can limit the trust policy to the destination table bucket with the aws:SourceArn and aws:SourceAccount condition keys.
+    ///   - source: The source table to migrate.
+    ///   - sourceType: The type of the source. It must match the member that you set in source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTableMigration(
+        dataMigration: DataMigrationSettings? = nil,
+        destinationTable: DestinationTable,
+        migrationOutput: MigrationOutputConfiguration,
+        reviewMigrationPlan: Bool? = nil,
+        roleARN: String,
+        source: SourceConfiguration,
+        sourceType: MigrationSourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartTableMigrationResponse {
+        let input = StartTableMigrationRequest(
+            dataMigration: dataMigration, 
+            destinationTable: destinationTable, 
+            migrationOutput: migrationOutput, 
+            reviewMigrationPlan: reviewMigrationPlan, 
+            roleARN: roleARN, 
+            source: source, 
+            sourceType: sourceType
+        )
+        return try await self.startTableMigration(input, logger: logger)
+    }
+
+    /// Migrates the changes in the source table since the previous start or sync, such as added and deleted source objects, into the destination table. The sync runs asynchronously: this operation returns the migration ID of the sync and its initial state, and you track progress with GetTableMigration. A sync uses the source, destination and data migration settings of the table's migration, and plans the work and writes its reports in the same way as StartTableMigration. You can sync after a start or sync that succeeded, failed or was cancelled, if an earlier start or sync of the table has a valid plan (hasValidPlan). You can't sync a table while a start or sync is in progress for it, and you can sync a table until you call CompleteTableMigration for it. If a source object that an earlier migration migrated has since been overwritten, the sync fails.  Permissions    You must have the s3tables:SyncTableMigration permission to use this operation.   You must have the iam:PassRole permission on the role that you specify in roleARN, with a condition that allows passing it to migration.s3tables.amazonaws.com. The associated resource is the table.
+    @Sendable
+    @inlinable
+    public func syncTableMigration(_ input: SyncTableMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SyncTableMigrationResponse {
+        try await self.client.execute(
+            operation: "SyncTableMigration", 
+            path: "/sync-table-migration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Migrates the changes in the source table since the previous start or sync, such as added and deleted source objects, into the destination table. The sync runs asynchronously: this operation returns the migration ID of the sync and its initial state, and you track progress with GetTableMigration. A sync uses the source, destination and data migration settings of the table's migration, and plans the work and writes its reports in the same way as StartTableMigration. You can sync after a start or sync that succeeded, failed or was cancelled, if an earlier start or sync of the table has a valid plan (hasValidPlan). You can't sync a table while a start or sync is in progress for it, and you can sync a table until you call CompleteTableMigration for it. If a source object that an earlier migration migrated has since been overwritten, the sync fails.  Permissions    You must have the s3tables:SyncTableMigration permission to use this operation.   You must have the iam:PassRole permission on the role that you specify in roleARN, with a condition that allows passing it to migration.s3tables.amazonaws.com. The associated resource is the table.
+    ///
+    /// Parameters:
+    ///   - migrationOutput: The bucket and prefixes that the sync writes its reports to. The bucket must be a general purpose bucket in your account and in the same Region as the table bucket, and the migration role must be able to write objects to it. Otherwise, the migration fails when it writes its first report.
+    ///   - reviewMigrationPlan: Specifies whether the sync waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data. If true, the migration continues when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. The default is false.
+    ///   - roleARN: The Amazon Resource Name (ARN) of the IAM role that the sync uses to read the source table and its data and to write the destination table and the reports. The role must be in your account, and its trust policy must allow migration.s3tables.amazonaws.com to assume it. You can limit the trust policy to the destination table bucket with the aws:SourceArn and aws:SourceAccount condition keys.
+    ///   - tableARN: The Amazon Resource Name (ARN) of the destination table to sync. The table must have a migration, and you must not have called CompleteTableMigration for it.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func syncTableMigration(
+        migrationOutput: MigrationOutputConfiguration,
+        reviewMigrationPlan: Bool? = nil,
+        roleARN: String,
+        tableARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SyncTableMigrationResponse {
+        let input = SyncTableMigrationRequest(
+            migrationOutput: migrationOutput, 
+            reviewMigrationPlan: reviewMigrationPlan, 
+            roleARN: roleARN, 
+            tableARN: tableARN
+        )
+        return try await self.syncTableMigration(input, logger: logger)
+    }
+
     /// Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 resource.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:TagResource permission to use this operation.
     @Sendable
     @inlinable
@@ -1718,12 +1914,50 @@ public struct S3Tables: AWSService {
         )
         return try await self.updateTableMetadataLocation(input, logger: logger)
     }
+
+    /// Requests a state change for a migration. Identify the migration by its migrationId or by the tableARN of its destination table. Set requestedState to queued to continue a migration in the pendingReview state; the migration moves to queued or migrating. Set it to cancelled to cancel a migration in the new, planning, pendingReview, queued or migrating state; the migration moves to cancelling, finishes the work in progress, and then ends in the cancelled state, or in the failed state if any objects failed to migrate. Data that the migration already committed stays in the destination table.  Permissions    You must have the s3tables:UpdateTableMigration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func updateTableMigration(_ input: UpdateTableMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableMigrationResponse {
+        try await self.client.execute(
+            operation: "UpdateTableMigration", 
+            path: "/update-table-migration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Requests a state change for a migration. Identify the migration by its migrationId or by the tableARN of its destination table. Set requestedState to queued to continue a migration in the pendingReview state; the migration moves to queued or migrating. Set it to cancelled to cancel a migration in the new, planning, pendingReview, queued or migrating state; the migration moves to cancelling, finishes the work in progress, and then ends in the cancelled state, or in the failed state if any objects failed to migrate. Data that the migration already committed stays in the destination table.  Permissions    You must have the s3tables:UpdateTableMigration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - migrationId: The ID of the migration to update. Specify either migrationId or tableARN, not both.
+    ///   - requestedState: The state to move the migration to: queued to continue a migration in the pendingReview state, or cancelled to cancel a migration in the new, planning, pendingReview, queued or migrating state.
+    ///   - tableARN: The Amazon Resource Name (ARN) of the destination table. Updates the table's most recent migration. Until the migration creates the destination table, specify migrationId. Specify either tableARN or migrationId, not both.
+    ///   - updateDescription: A description of the update, up to 1,024 characters, with no control characters. GetTableMigration doesn't return it.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTableMigration(
+        migrationId: String? = nil,
+        requestedState: MigrationRequestedState,
+        tableARN: String? = nil,
+        updateDescription: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTableMigrationResponse {
+        let input = UpdateTableMigrationRequest(
+            migrationId: migrationId, 
+            requestedState: requestedState, 
+            tableARN: tableARN, 
+            updateDescription: updateDescription
+        )
+        return try await self.updateTableMigration(input, logger: logger)
+    }
 }
 
 extension S3Tables {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: S3Tables, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1813,6 +2047,58 @@ extension S3Tables {
         return self.listTableBucketsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTableMigrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTableMigrationsPaginator(
+        _ input: ListTableMigrationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTableMigrationsRequest, ListTableMigrationsResponse> {
+        return .init(
+            input: input,
+            command: self.listTableMigrations,
+            inputKey: \ListTableMigrationsRequest.nextToken,
+            outputKey: \ListTableMigrationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTableMigrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - hasValidPlan: The hasValidPlan value to filter the list by. Migrations that are still planning aren't listed, whichever value you specify.
+    ///   - maxResults: The maximum number of migrations to return, from 1 to 1,000. If you don't specify a value, the default is 100.
+    ///   - name: The name of the table to list migrations for. Requires tableBucketARN and namespace.
+    ///   - namespace: The namespace to list migrations for. Requires tableBucketARN.
+    ///   - state: The state to filter the list by. For the valid values, see the state member of GetTableMigration.
+    ///   - tableARN: The Amazon Resource Name (ARN) of the table to list migrations for. The list includes the migrations into this table. To also list migrations into an earlier table of the same name, specify tableBucketARN, namespace and name instead. Specify either tableARN or tableBucketARN, not both.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket to list migrations for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTableMigrationsPaginator(
+        hasValidPlan: Bool? = nil,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        namespace: String? = nil,
+        state: MigrationState? = nil,
+        tableARN: String? = nil,
+        tableBucketARN: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTableMigrationsRequest, ListTableMigrationsResponse> {
+        let input = ListTableMigrationsRequest(
+            hasValidPlan: hasValidPlan, 
+            maxResults: maxResults, 
+            name: name, 
+            namespace: namespace, 
+            state: state, 
+            tableARN: tableARN, 
+            tableBucketARN: tableBucketARN
+        )
+        return self.listTableMigrationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTables(_:logger:)``.
     ///
     /// - Parameters:
@@ -1877,6 +2163,22 @@ extension S3Tables.ListTableBucketsRequest: AWSPaginateToken {
             maxBuckets: self.maxBuckets,
             prefix: self.prefix,
             type: self.type
+        )
+    }
+}
+
+extension S3Tables.ListTableMigrationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> S3Tables.ListTableMigrationsRequest {
+        return .init(
+            hasValidPlan: self.hasValidPlan,
+            maxResults: self.maxResults,
+            name: self.name,
+            namespace: self.namespace,
+            nextToken: token,
+            state: self.state,
+            tableARN: self.tableARN,
+            tableBucketARN: self.tableBucketARN
         )
     }
 }

@@ -5084,6 +5084,35 @@ public struct QuickSight: AWSService {
         return try await self.describeRefreshSchedule(input, logger: logger)
     }
 
+    /// Describes the service role configuration for your Amazon Quick Sight account. Call this operation in the Amazon Web Services Region where your Amazon Quick Sight account is registered (the home Region).
+    @Sendable
+    @inlinable
+    public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeResourcePermissions", 
+            path: "/accounts/{AwsAccountId}/account-resource-permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the service role configuration for your Amazon Quick Sight account. Call this operation in the Amazon Web Services Region where your Amazon Quick Sight account is registered (the home Region).
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account whose service role configuration you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeResourcePermissions(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeResourcePermissionsResponse {
+        let input = DescribeResourcePermissionsRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeResourcePermissions(input, logger: logger)
+    }
+
     /// Describes all custom permissions that are  mapped to a role.
     @Sendable
     @inlinable
@@ -10627,6 +10656,41 @@ public struct QuickSight: AWSService {
         return try await self.updateRefreshSchedule(input, logger: logger)
     }
 
+    /// Updates the service role configuration that Amazon Quick Sight uses to access resources in your Amazon Web Services account. To use this operation, you must have the quicksight:UpdateResourcePermissions and iam:PassRole permissions. Call this operation in the Amazon Web Services Region where your Amazon Quick Sight account is registered (the home Region). You can switch from a role managed by Amazon Quick Sight to a customer-managed role, or replace one customer-managed role with another. You can't use this operation to switch back to a role managed by Amazon Quick Sight.
+    @Sendable
+    @inlinable
+    public func updateResourcePermissions(_ input: UpdateResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourcePermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateResourcePermissions", 
+            path: "/accounts/{AwsAccountId}/account-resource-permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the service role configuration that Amazon Quick Sight uses to access resources in your Amazon Web Services account. To use this operation, you must have the quicksight:UpdateResourcePermissions and iam:PassRole permissions. Call this operation in the Amazon Web Services Region where your Amazon Quick Sight account is registered (the home Region). You can switch from a role managed by Amazon Quick Sight to a customer-managed role, or replace one customer-managed role with another. You can't use this operation to switch back to a role managed by Amazon Quick Sight.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account whose service role configuration you want to update.
+    ///   - customerManagedRoleArn: The ARN of the customer-managed role that you want Amazon Quick Sight to use. To use this operation, you must have the iam:PassRole permission for the role. Configure the role as follows:   The role must belong to the Amazon Web Services account specified by AwsAccountId.   Configure the role trust policy to allow the Amazon Quick Sight service principal to call sts:AssumeRole.   Attach a permissions policy that allows access to the resources that you want Amazon Quick Sight to use.   To use features that rely on session tags, configure the role trust policy to allow the Amazon Quick Sight service principal to call sts:TagSession.   If the role doesn't exist or its trust policy doesn't allow sts:AssumeRole, the request returns an AccessDeniedException. When you call this operation, Amazon Quick Sight attempts to assume the role with session tags and records whether the attempt succeeds. If you later add or remove sts:TagSession from the trust policy, call this operation again with the same role ARN to refresh the stored capability.
+    ///   - roleType: The type of service role that you want Amazon Quick Sight to use. The only supported value for this operation is CUSTOMER_MANAGED. Requests that specify QUICKSIGHT_MANAGED are rejected.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateResourcePermissions(
+        awsAccountId: String,
+        customerManagedRoleArn: String,
+        roleType: ServiceRoleType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateResourcePermissionsResponse {
+        let input = UpdateResourcePermissionsRequest(
+            awsAccountId: awsAccountId, 
+            customerManagedRoleArn: customerManagedRoleArn, 
+            roleType: roleType
+        )
+        return try await self.updateResourcePermissions(input, logger: logger)
+    }
+
     /// Updates the custom permissions that are associated with a role.
     @Sendable
     @inlinable
@@ -11469,7 +11533,7 @@ public struct QuickSight: AWSService {
 extension QuickSight {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: QuickSight, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

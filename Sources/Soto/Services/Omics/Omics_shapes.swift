@@ -297,6 +297,12 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum RunOutputUriPrefixMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noneWithOverwrite = "NONE_WITH_OVERWRITE"
+        case serviceDefined = "SERVICE_DEFINED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RunRetentionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case remove = "REMOVE"
         case retain = "RETAIN"
@@ -1230,7 +1236,7 @@ extension Omics {
     public struct ContainerRegistryMap: AWSEncodableShape & AWSDecodableShape {
         /// Image mappings specify path mappings between the ECR private repository and their corresponding external repositories.
         public let imageMappings: [ImageMapping]?
-        /// Mapping that provides the ECR repository path where upstream container images are pulled and synchronized.
+        /// The mappings between upstream container registries and repository prefixes in your Amazon Elastic Container Registry (Amazon ECR) private registry. The list can include both pull through cache mappings and mappings for registries that Amazon Web Services HealthOmics copies images from.
         public let registryMappings: [RegistryMapping]?
 
         @inlinable
@@ -4708,6 +4714,8 @@ extension Omics {
         public let networkingMode: NetworkingMode?
         /// The run's output URI.
         public let outputUri: String?
+        /// The service returns the value that the StartRun request specified for outputUriPrefixMode. The service returns SERVICE_DEFINED if the request did not specify a value.
+        public let outputUriPrefixMode: RunOutputUriPrefixMode?
         /// The run's parameters.
         public let parameters: AWSDocument?
         /// The run's priority.
@@ -4762,7 +4770,7 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, batchId: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configuration: ConfigurationDetails? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineSettings: AWSDocument? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, vpcConfig: VpcConfigResponse? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, batchId: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configuration: ConfigurationDetails? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineSettings: AWSDocument? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String? = nil, outputUriPrefixMode: RunOutputUriPrefixMode? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, vpcConfig: VpcConfigResponse? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.batchId = batchId
@@ -4781,6 +4789,7 @@ extension Omics {
             self.name = name
             self.networkingMode = networkingMode
             self.outputUri = outputUri
+            self.outputUriPrefixMode = outputUriPrefixMode
             self.parameters = parameters
             self.priority = priority
             self.resourceDigests = resourceDigests
@@ -4827,6 +4836,7 @@ extension Omics {
             case name = "name"
             case networkingMode = "networkingMode"
             case outputUri = "outputUri"
+            case outputUriPrefixMode = "outputUriPrefixMode"
             case parameters = "parameters"
             case priority = "priority"
             case resourceDigests = "resourceDigests"
@@ -8057,6 +8067,8 @@ extension Omics {
     }
 
     public struct RegistryMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that holds the credentials for the upstream registry. You must specify this value when Amazon Elastic Container Registry (Amazon ECR) doesn't support pull through cache for the upstream registry. HealthOmics supports only some of these registries. The workflow role must have permission to call the secretsmanager:GetSecretValue operation on the secret. For more information about the supported registries, see Container images in the Amazon Web Services HealthOmics User Guide.
+        public let credentialArn: String?
         /// Account ID of the account that owns the upstream container image.
         public let ecrAccountId: String?
         /// The repository prefix to use in the ECR private repository.
@@ -8067,7 +8079,8 @@ extension Omics {
         public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(ecrAccountId: String? = nil, ecrRepositoryPrefix: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
+        public init(credentialArn: String? = nil, ecrAccountId: String? = nil, ecrRepositoryPrefix: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
+            self.credentialArn = credentialArn
             self.ecrAccountId = ecrAccountId
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.upstreamRegistryUrl = upstreamRegistryUrl
@@ -8075,6 +8088,9 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 2048)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 20)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws(-\\w+)*:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9\\/_+=.@-]+$")
             try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, max: 12)
             try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, min: 12)
             try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, pattern: "^[0-9]+$")
@@ -8090,6 +8106,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case credentialArn = "credentialArn"
             case ecrAccountId = "ecrAccountId"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
@@ -9255,6 +9272,8 @@ extension Omics {
         public let networkingMode: NetworkingMode?
         /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
         public let outputUri: String
+        /// You can control the path prefixes that the service adds beneath outputUri. If you don't specify a value, the service uses SERVICE_DEFINED, which adds a run-specific prefix.
+        public let outputUriPrefixMode: RunOutputUriPrefixMode?
         /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
         public let parameters: AWSDocument?
         /// Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide.
@@ -9289,7 +9308,7 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String, outputUriPrefixMode: RunOutputUriPrefixMode? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.configurationName = configurationName
@@ -9298,6 +9317,7 @@ extension Omics {
             self.name = name
             self.networkingMode = networkingMode
             self.outputUri = outputUri
+            self.outputUriPrefixMode = outputUriPrefixMode
             self.parameters = parameters
             self.priority = priority
             self.requestId = requestId
@@ -9367,6 +9387,7 @@ extension Omics {
             case name = "name"
             case networkingMode = "networkingMode"
             case outputUri = "outputUri"
+            case outputUriPrefixMode = "outputUriPrefixMode"
             case parameters = "parameters"
             case priority = "priority"
             case requestId = "requestId"
@@ -10545,11 +10566,14 @@ extension Omics {
         public let securityGroupIds: [String]?
         /// List of subnet IDs. Maximum of 16 subnets allowed.
         public let subnetIds: [String]?
+        /// The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations.
+        public let vpcOwnerAccountId: String?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcOwnerAccountId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
 
         public func validate(name: String) throws {
@@ -10563,11 +10587,15 @@ extension Omics {
                 try validate($0, name: "subnetIds[]", parent: name, min: 8)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-f]+$")
             }
+            try self.validate(self.vpcOwnerAccountId, name: "vpcOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.vpcOwnerAccountId, name: "vpcOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.vpcOwnerAccountId, name: "vpcOwnerAccountId", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
+            case vpcOwnerAccountId = "vpcOwnerAccountId"
         }
     }
 
@@ -10578,18 +10606,22 @@ extension Omics {
         public let subnetIds: [String]?
         /// VPC ID computed from the provided subnet IDs.
         public let vpcId: String?
+        /// The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations.
+        public let vpcOwnerAccountId: String?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil, vpcOwnerAccountId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+            case vpcOwnerAccountId = "vpcOwnerAccountId"
         }
     }
 

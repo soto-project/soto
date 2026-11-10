@@ -973,6 +973,47 @@ public struct ECR: AWSService {
         return try await self.describeRegistry(input, logger: logger)
     }
 
+    /// Returns the status, progress, and per-image results for a replication backfill. The backfill to describe is identified by the replicationBackfillId returned by the StartReplicationBackfill operation.  The per-image results are available only after the replication backfill reaches a terminal status.
+    @Sendable
+    @inlinable
+    public func describeReplicationBackfillResults(_ input: DescribeReplicationBackfillResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationBackfillResultsResponse {
+        try await self.client.execute(
+            operation: "DescribeReplicationBackfillResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the status, progress, and per-image results for a replication backfill. The backfill to describe is identified by the replicationBackfillId returned by the StartReplicationBackfill operation.  The per-image results are available only after the replication backfill reaches a terminal status.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of replication backfill results returned by DescribeReplicationBackfillResults in paginated output. When this parameter is used, DescribeReplicationBackfillResults only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeReplicationBackfillResults request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeReplicationBackfillResults returns up to 100 results and a nextToken value, if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated DescribeReplicationBackfillResults request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the replication backfill to describe. If you do not specify a registry, the default registry is assumed.
+    ///   - replicationBackfillId: The ID of the replication backfill to describe.
+    ///   - resultStatusFilter: The status used to filter the returned results. Each result has a status of COMPLETE or FAILED. If you omit this parameter, results with both statuses are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeReplicationBackfillResults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        registryId: String? = nil,
+        replicationBackfillId: String,
+        resultStatusFilter: ReplicationBackfillResultStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeReplicationBackfillResultsResponse {
+        let input = DescribeReplicationBackfillResultsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            registryId: registryId, 
+            replicationBackfillId: replicationBackfillId, 
+            resultStatusFilter: resultStatusFilter
+        )
+        return try await self.describeReplicationBackfillResults(input, logger: logger)
+    }
+
     /// Describes image repositories in a registry.
     @Sendable
     @inlinable
@@ -1471,6 +1512,41 @@ public struct ECR: AWSService {
         return try await self.listPullTimeUpdateExclusions(input, logger: logger)
     }
 
+    /// Lists the replication backfills for a registry, including their status and progress.  Replication backfills that have reached a terminal status are retained for 90 days after they end, after which they are no longer returned.
+    @Sendable
+    @inlinable
+    public func listReplicationBackfills(_ input: ListReplicationBackfillsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReplicationBackfillsResponse {
+        try await self.client.execute(
+            operation: "ListReplicationBackfills", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the replication backfills for a registry, including their status and progress.  Replication backfills that have reached a terminal status are retained for 90 days after they end, after which they are no longer returned.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of replication backfill results returned by ListReplicationBackfills in paginated output. When this parameter is used, ListReplicationBackfills only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListReplicationBackfills request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListReplicationBackfills returns up to 25 results and a nextToken value, if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated ListReplicationBackfills request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry for which to list replication backfills. If you do not specify a registry, the default registry is assumed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listReplicationBackfills(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        registryId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListReplicationBackfillsResponse {
+        let input = ListReplicationBackfillsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            registryId: registryId
+        )
+        return try await self.listReplicationBackfills(input, logger: logger)
+    }
+
     /// List the tags for an Amazon ECR resource.
     @Sendable
     @inlinable
@@ -1940,6 +2016,70 @@ public struct ECR: AWSService {
         return try await self.startLifecyclePolicyPreview(input, logger: logger)
     }
 
+    /// Starts a replication backfill for a registry. A replication backfill replicates a registry's existing images that match its replication configuration to the specified destination. Use the DescribeReplicationBackfillResults operation to monitor the progress of a replication backfill, and to retrieve its per-image results after it reaches a terminal status.  The destination must already be configured in the registry's replication configuration.   Only one replication backfill can be in progress for a given destination Region at a time. Starting a replication backfill for a destination Region that already has one in progress fails with a ReplicationBackfillInProgressException. In addition, a registry can have at most 10 replication backfills in progress at once. Starting a replication backfill that would exceed this limit fails with a LimitExceededException.
+    @Sendable
+    @inlinable
+    public func startReplicationBackfill(_ input: StartReplicationBackfillRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationBackfillResponse {
+        try await self.client.execute(
+            operation: "StartReplicationBackfill", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a replication backfill for a registry. A replication backfill replicates a registry's existing images that match its replication configuration to the specified destination. Use the DescribeReplicationBackfillResults operation to monitor the progress of a replication backfill, and to retrieve its per-image results after it reaches a terminal status.  The destination must already be configured in the registry's replication configuration.   Only one replication backfill can be in progress for a given destination Region at a time. Starting a replication backfill for a destination Region that already has one in progress fails with a ReplicationBackfillInProgressException. In addition, a registry can have at most 10 replication backfills in progress at once. Starting a replication backfill that would exceed this limit fails with a LimitExceededException.
+    ///
+    /// Parameters:
+    ///   - destination: The destination Region and registry to which the images are replicated.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry from which to start the replication backfill. If you do not specify a registry, the default registry is assumed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startReplicationBackfill(
+        destination: ReplicationDestination,
+        registryId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartReplicationBackfillResponse {
+        let input = StartReplicationBackfillRequest(
+            destination: destination, 
+            registryId: registryId
+        )
+        return try await self.startReplicationBackfill(input, logger: logger)
+    }
+
+    /// Stops an in progress replication backfill for a registry. The backfill to stop is identified by the replicationBackfillId returned by the StartReplicationBackfill operation.  Images that have already been replicated are not affected, and replications that are already in progress continue to completion.
+    @Sendable
+    @inlinable
+    public func stopReplicationBackfill(_ input: StopReplicationBackfillRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopReplicationBackfillResponse {
+        try await self.client.execute(
+            operation: "StopReplicationBackfill", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an in progress replication backfill for a registry. The backfill to stop is identified by the replicationBackfillId returned by the StartReplicationBackfill operation.  Images that have already been replicated are not affected, and replications that are already in progress continue to completion.
+    ///
+    /// Parameters:
+    ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the replication backfill to stop. If you do not specify a registry, the default registry is assumed.
+    ///   - replicationBackfillId: The ID of the replication backfill to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopReplicationBackfill(
+        registryId: String? = nil,
+        replicationBackfillId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopReplicationBackfillResponse {
+        let input = StopReplicationBackfillRequest(
+            registryId: registryId, 
+            replicationBackfillId: replicationBackfillId
+        )
+        return try await self.stopReplicationBackfill(input, logger: logger)
+    }
+
     /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
     @Sendable
     @inlinable
@@ -2216,7 +2356,7 @@ public struct ECR: AWSService {
 extension ECR {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ECR, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -2353,6 +2493,49 @@ extension ECR {
             registryId: registryId
         )
         return self.describePullThroughCacheRulesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeReplicationBackfillResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeReplicationBackfillResultsPaginator(
+        _ input: DescribeReplicationBackfillResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeReplicationBackfillResultsRequest, DescribeReplicationBackfillResultsResponse> {
+        return .init(
+            input: input,
+            command: self.describeReplicationBackfillResults,
+            inputKey: \DescribeReplicationBackfillResultsRequest.nextToken,
+            outputKey: \DescribeReplicationBackfillResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeReplicationBackfillResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of replication backfill results returned by DescribeReplicationBackfillResults in paginated output. When this parameter is used, DescribeReplicationBackfillResults only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeReplicationBackfillResults request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeReplicationBackfillResults returns up to 100 results and a nextToken value, if applicable.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the replication backfill to describe. If you do not specify a registry, the default registry is assumed.
+    ///   - replicationBackfillId: The ID of the replication backfill to describe.
+    ///   - resultStatusFilter: The status used to filter the returned results. Each result has a status of COMPLETE or FAILED. If you omit this parameter, results with both statuses are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeReplicationBackfillResultsPaginator(
+        maxResults: Int? = nil,
+        registryId: String? = nil,
+        replicationBackfillId: String,
+        resultStatusFilter: ReplicationBackfillResultStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeReplicationBackfillResultsRequest, DescribeReplicationBackfillResultsResponse> {
+        let input = DescribeReplicationBackfillResultsRequest(
+            maxResults: maxResults, 
+            registryId: registryId, 
+            replicationBackfillId: replicationBackfillId, 
+            resultStatusFilter: resultStatusFilter
+        )
+        return self.describeReplicationBackfillResultsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeRepositories(_:logger:)``.
@@ -2520,6 +2703,43 @@ extension ECR {
         )
         return self.listImagesPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listReplicationBackfills(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReplicationBackfillsPaginator(
+        _ input: ListReplicationBackfillsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReplicationBackfillsRequest, ListReplicationBackfillsResponse> {
+        return .init(
+            input: input,
+            command: self.listReplicationBackfills,
+            inputKey: \ListReplicationBackfillsRequest.nextToken,
+            outputKey: \ListReplicationBackfillsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listReplicationBackfills(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of replication backfill results returned by ListReplicationBackfills in paginated output. When this parameter is used, ListReplicationBackfills only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListReplicationBackfills request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListReplicationBackfills returns up to 25 results and a nextToken value, if applicable.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry for which to list replication backfills. If you do not specify a registry, the default registry is assumed.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReplicationBackfillsPaginator(
+        maxResults: Int? = nil,
+        registryId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListReplicationBackfillsRequest, ListReplicationBackfillsResponse> {
+        let input = ListReplicationBackfillsRequest(
+            maxResults: maxResults, 
+            registryId: registryId
+        )
+        return self.listReplicationBackfillsPaginator(input, logger: logger)
+    }
 }
 
 extension ECR.DescribeImageScanFindingsRequest: AWSPaginateToken {
@@ -2557,6 +2777,19 @@ extension ECR.DescribePullThroughCacheRulesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             registryId: self.registryId
+        )
+    }
+}
+
+extension ECR.DescribeReplicationBackfillResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ECR.DescribeReplicationBackfillResultsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            registryId: self.registryId,
+            replicationBackfillId: self.replicationBackfillId,
+            resultStatusFilter: self.resultStatusFilter
         )
     }
 }
@@ -2607,6 +2840,17 @@ extension ECR.ListImagesRequest: AWSPaginateToken {
             nextToken: token,
             registryId: self.registryId,
             repositoryName: self.repositoryName
+        )
+    }
+}
+
+extension ECR.ListReplicationBackfillsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ECR.ListReplicationBackfillsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            registryId: self.registryId
         )
     }
 }

@@ -1986,7 +1986,7 @@ public struct S3Control: AWSService {
         return try await self.getBucketVersioning(input, logger: logger)
     }
 
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data. By default, S3 Access Grants searches for a matching grant in the instance of the Amazon Web Services account ID in the request. To also search instances shared with the caller through Amazon Web Services Resource Access Manager (RAM), set the InstanceScope parameter to ALL.  Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
     @Sendable
     @inlinable
     public func getDataAccess(_ input: GetDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAccessResult {
@@ -2000,12 +2000,13 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data. By default, S3 Access Grants searches for a matching grant in the instance of the Amazon Web Services account ID in the request. To also search instances shared with the caller through Amazon Web Services Resource Access Manager (RAM), set the InstanceScope parameter to ALL.  Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
     ///   - auditContext: The context to identify the job or query associated with the credential request. This information will be displayed in CloudTrail log in your account.
     ///   - durationSeconds: The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
+    ///   - instanceScope: The scope of S3 Access Grants instances to search for a grant matching the requested S3 URI path.    SELF – Searches only the instance of the Amazon Web Services account ID in the request.    ALL – Searches the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
     ///   - permission: The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
     ///   - privilege: The scope of the temporary access credential that S3 Access Grants vends to the grantee or client application.     Default – The scope of the returned temporary access token is the scope of the grant that is closest to the target scope.    Minimal – The scope of the returned temporary access token is the same as the requested target scope as long as the requested scope is the same as or a subset of the grant scope.
     ///   - target: The S3 URI path of the data to which you are requesting temporary access credentials. If the requesting account has an access grant for this data, S3 Access Grants vends temporary access credentials in the response.
@@ -2016,6 +2017,7 @@ public struct S3Control: AWSService {
         accountId: String,
         auditContext: String? = nil,
         durationSeconds: Int? = nil,
+        instanceScope: InstanceScope? = nil,
         permission: Permission,
         privilege: Privilege? = nil,
         target: String,
@@ -2026,6 +2028,7 @@ public struct S3Control: AWSService {
             accountId: accountId, 
             auditContext: auditContext, 
             durationSeconds: durationSeconds, 
+            instanceScope: instanceScope, 
             permission: permission, 
             privilege: privilege, 
             target: target, 
@@ -2573,7 +2576,7 @@ public struct S3Control: AWSService {
         return try await self.listAccessPointsForObjectLambda(input, logger: logger)
     }
 
-    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. By default, S3 Access Grants returns grants from the instance of the Amazon Web Services account ID in the request. To return grants from all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM), set the InstanceScope parameter to ALL. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
     @Sendable
     @inlinable
     public func listCallerAccessGrants(_ input: ListCallerAccessGrantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCallerAccessGrantsResult {
@@ -2587,12 +2590,13 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. By default, S3 Access Grants returns grants from the instance of the Amazon Web Services account ID in the request. To return grants from all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM), set the InstanceScope parameter to ALL. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see List the caller's access grants in the Amazon S3 User Guide.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
     ///   - allowedByApplication: If this optional parameter is passed in the request, a filter is applied to the results. The results will include only the access grants for the caller's Identity Center application or for any other applications (ALL).
     ///   - grantScope: The S3 path of the data that you would like to access. Must start with s3://. You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment.
+    ///   - instanceScope: The scope of S3 Access Grants instances to list grants from.    SELF – Lists grants from the instance of the Amazon Web Services account ID in the request.    ALL – Lists grants from the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
     ///   - maxResults: The maximum number of access grants that you would like returned in the List Caller Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
     ///   - nextToken: A pagination token to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
     ///   - logger: Logger use during operation
@@ -2601,6 +2605,7 @@ public struct S3Control: AWSService {
         accountId: String,
         allowedByApplication: Bool? = nil,
         grantScope: String? = nil,
+        instanceScope: InstanceScope? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2609,6 +2614,7 @@ public struct S3Control: AWSService {
             accountId: accountId, 
             allowedByApplication: allowedByApplication, 
             grantScope: grantScope, 
+            instanceScope: instanceScope, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -3634,7 +3640,7 @@ public struct S3Control: AWSService {
 extension S3Control {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: S3Control, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -3920,6 +3926,7 @@ extension S3Control {
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
     ///   - allowedByApplication: If this optional parameter is passed in the request, a filter is applied to the results. The results will include only the access grants for the caller's Identity Center application or for any other applications (ALL).
     ///   - grantScope: The S3 path of the data that you would like to access. Must start with s3://. You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment.
+    ///   - instanceScope: The scope of S3 Access Grants instances to list grants from.    SELF – Lists grants from the instance of the Amazon Web Services account ID in the request.    ALL – Lists grants from the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
     ///   - maxResults: The maximum number of access grants that you would like returned in the List Caller Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3927,6 +3934,7 @@ extension S3Control {
         accountId: String,
         allowedByApplication: Bool? = nil,
         grantScope: String? = nil,
+        instanceScope: InstanceScope? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCallerAccessGrantsRequest, ListCallerAccessGrantsResult> {
@@ -3934,6 +3942,7 @@ extension S3Control {
             accountId: accountId, 
             allowedByApplication: allowedByApplication, 
             grantScope: grantScope, 
+            instanceScope: instanceScope, 
             maxResults: maxResults
         )
         return self.listCallerAccessGrantsPaginator(input, logger: logger)
@@ -4208,6 +4217,7 @@ extension S3Control.ListCallerAccessGrantsRequest: AWSPaginateToken {
             accountId: self.accountId,
             allowedByApplication: self.allowedByApplication,
             grantScope: self.grantScope,
+            instanceScope: self.instanceScope,
             maxResults: self.maxResults,
             nextToken: token
         )

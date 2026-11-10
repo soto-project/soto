@@ -102,6 +102,11 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lexicon = "lexicon"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case polly = "polly"
         public var description: String { return self.rawValue }
@@ -144,6 +149,7 @@ extension Polly {
         case amy = "Amy"
         case andres = "Andres"
         case aria = "Aria"
+        case arjun = "Arjun"
         case arlet = "Arlet"
         case arthur = "Arthur"
         case astrid = "Astrid"
@@ -154,11 +160,14 @@ extension Polly {
         case burcu = "Burcu"
         case camila = "Camila"
         case carla = "Carla"
+        case carlos = "Carlos"
         case carmen = "Carmen"
+        case carolina = "Carolina"
         case celine = "Celine"
         case chantal = "Chantal"
         case conchita = "Conchita"
         case cristiano = "Cristiano"
+        case curtis = "Curtis"
         case daniel = "Daniel"
         case danielle = "Danielle"
         case dora = "Dora"
@@ -177,6 +186,7 @@ extension Polly {
         case hannah = "Hannah"
         case hans = "Hans"
         case hiujin = "Hiujin"
+        case hyunduk = "Hyunduk"
         case ida = "Ida"
         case ines = "Ines"
         case isabelle = "Isabelle"
@@ -193,11 +203,14 @@ extension Polly {
         case karl = "Karl"
         case kazuha = "Kazuha"
         case kendra = "Kendra"
+        case kenneth = "Kenneth"
         case kevin = "Kevin"
+        case kiara = "Kiara"
         case kimberly = "Kimberly"
         case laura = "Laura"
         case lea = "Lea"
         case lennart = "Lennart"
+        case leo = "Leo"
         case liam = "Liam"
         case lisa = "Lisa"
         case liv = "Liv"
@@ -215,6 +228,7 @@ extension Polly {
         case miguel = "Miguel"
         case mizuki = "Mizuki"
         case naja = "Naja"
+        case nate = "Nate"
         case niamh = "Niamh"
         case nicole = "Nicole"
         case ola = "Ola"
@@ -238,6 +252,7 @@ extension Polly {
         case tatyana = "Tatyana"
         case thiago = "Thiago"
         case tiffany = "Tiffany"
+        case tina = "Tina"
         case tomoko = "Tomoko"
         case vicki = "Vicki"
         case vitoria = "Vitoria"
@@ -533,7 +548,7 @@ extension Polly {
     }
 
     public struct LexiconAttributes: AWSDecodableShape {
-        /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
+        /// Phonetic alphabet used in the lexicon. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana.
         public let alphabet: String?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
         public let languageCode: LanguageCode?
@@ -674,16 +689,56 @@ extension Polly {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon Polly lexicon.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// The tags for the resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct PutLexiconInput: AWSEncodableShape {
         /// Content of the PLS lexicon as string data.
         public let content: String
-        /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
+        /// Name of the lexicon. The name must follow the regular expression format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
         public let name: String
+        /// The metadata that you apply to the lexicon to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. You can't replace the tags of an existing lexicon by overwriting it with PutLexicon.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(content: String, name: String) {
+        public init(content: String, name: String, tags: [String: String]? = nil) {
             self.content = content
             self.name = name
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -691,19 +746,49 @@ extension Polly {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.content, forKey: .content)
             request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]{1,20}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
+            case tags = "Tags"
         }
     }
 
     public struct PutLexiconOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the resource that wasn't found.
+        public let resourceId: String
+        /// The type of the resource that wasn't found.
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: ResourceType) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
     }
 
     public struct ServiceFailureException: AWSDecodableShape {
@@ -856,7 +941,7 @@ extension Polly {
             try self.validate(self.lexiconNames, name: "lexiconNames", parent: name, max: 5)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\):;\\$@=+\\,\\?&]{0,800}$")
-            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov|eusc))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$")
             try self.validate(self.speechMarkTypes, name: "speechMarkTypes", parent: name, max: 4)
         }
 
@@ -1055,6 +1140,40 @@ extension Polly {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct TagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the only supported resource is an Amazon Polly lexicon.
+        public let resourceArn: String
+        /// The tags to add to the resource, as key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TextEvent: AWSEncodableShape {
         /// Configuration for controlling when synthesized audio flushes to the output stream.
         public let flushStreamConfiguration: FlushStreamConfiguration?
@@ -1110,6 +1229,39 @@ extension Polly {
             case reason = "reason"
             case resource = "resource"
         }
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon Polly lexicon.
+        public let resourceArn: String
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ValidationException: AWSErrorShape {
@@ -1203,6 +1355,7 @@ public struct PollyErrorType: AWSErrorType {
         case invalidSampleRateException = "InvalidSampleRateException"
         case invalidSnsTopicArnException = "InvalidSnsTopicArnException"
         case invalidSsmlException = "InvalidSsmlException"
+        case invalidTagParameterException = "InvalidTagParameterException"
         case invalidTaskIdException = "InvalidTaskIdException"
         case languageNotSupportedException = "LanguageNotSupportedException"
         case lexiconNotFoundException = "LexiconNotFoundException"
@@ -1210,12 +1363,14 @@ public struct PollyErrorType: AWSErrorType {
         case marksNotSupportedForFormatException = "MarksNotSupportedForFormatException"
         case maxLexemeLengthExceededException = "MaxLexemeLengthExceededException"
         case maxLexiconsNumberExceededException = "MaxLexiconsNumberExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case serviceFailureException = "ServiceFailureException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case ssmlMarksNotSupportedForTextTypeException = "SsmlMarksNotSupportedForTextTypeException"
         case synthesisTaskNotFoundException = "SynthesisTaskNotFoundException"
         case textLengthExceededException = "TextLengthExceededException"
         case throttlingException = "ThrottlingException"
+        case tooManyTagsException = "TooManyTagsException"
         case unsupportedPlsAlphabetException = "UnsupportedPlsAlphabetException"
         case unsupportedPlsLanguageException = "UnsupportedPlsLanguageException"
         case validationException = "ValidationException"
@@ -1255,6 +1410,8 @@ public struct PollyErrorType: AWSErrorType {
     public static var invalidSnsTopicArnException: Self { .init(.invalidSnsTopicArnException) }
     /// The SSML you provided is invalid. Verify the SSML syntax, spelling of tags and values, and then try again.
     public static var invalidSsmlException: Self { .init(.invalidSsmlException) }
+    /// The resource ARN or a tag in the request isn't valid. Specify the ARN of a supported resource in the Amazon Web Services account and Region of the request. Tag keys can have a maximum length of 128 characters, and tag values can have a maximum length of 256 characters. Correct the ARN or the tags, and then try again.
+    public static var invalidTagParameterException: Self { .init(.invalidTagParameterException) }
     /// The provided Task ID is not valid. Please provide a valid Task ID and try again.
     public static var invalidTaskIdException: Self { .init(.invalidTaskIdException) }
     /// The language specified is not currently supported by Amazon Polly in this capacity.
@@ -1269,6 +1426,8 @@ public struct PollyErrorType: AWSErrorType {
     public static var maxLexemeLengthExceededException: Self { .init(.maxLexemeLengthExceededException) }
     /// The maximum number of lexicons would be exceeded by this operation.
     public static var maxLexiconsNumberExceededException: Self { .init(.maxLexiconsNumberExceededException) }
+    /// Amazon Polly can't find the specified resource. Verify that the resource exists in the Amazon Web Services account and Region of the request and that its ARN is spelled correctly, and then try again.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// An unknown condition has caused a service failure.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
     /// The request would cause a service quota to be exceeded.
@@ -1281,7 +1440,9 @@ public struct PollyErrorType: AWSErrorType {
     public static var textLengthExceededException: Self { .init(.textLengthExceededException) }
     /// The request was denied because of request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
+    /// The list of tags on the resource is over the limit. The maximum number of tags that can be applied to a resource is 50. Remove unused tags or reduce the number of tags in the request, and then try again.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana. Replace the unsupported alphabet with one of the valid values and resubmit your request.
     public static var unsupportedPlsAlphabetException: Self { .init(.unsupportedPlsAlphabetException) }
     /// The language specified in the lexicon is unsupported. For a list of supported languages, see Lexicon Attributes.
     public static var unsupportedPlsLanguageException: Self { .init(.unsupportedPlsLanguageException) }
@@ -1291,6 +1452,7 @@ public struct PollyErrorType: AWSErrorType {
 
 extension PollyErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": Polly.ResourceNotFoundException.self,
         "ServiceQuotaExceededException": Polly.ServiceQuotaExceededException.self,
         "ThrottlingException": Polly.ThrottlingException.self,
         "ValidationException": Polly.ValidationException.self

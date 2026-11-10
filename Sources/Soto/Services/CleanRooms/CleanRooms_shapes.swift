@@ -72,6 +72,7 @@ extension CleanRooms {
 
     public enum AnalysisFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pyspark10 = "PYSPARK_1_0"
+        case pyspark20 = "PYSPARK_2_0"
         case sql = "SQL"
         public var description: String { return self.rawValue }
     }
@@ -614,6 +615,14 @@ extension CleanRooms {
     public enum SyntheticDataColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case categorical = "CATEGORICAL"
         case numerical = "NUMERICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableReferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case athena = "ATHENA"
+        case databricks = "DATABRICKS"
+        case glue = "GLUE"
+        case snowflake = "SNOWFLAKE"
         public var description: String { return self.rawValue }
     }
 
@@ -1322,6 +1331,8 @@ extension CleanRooms {
     public enum TableReference: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  If present, a reference to the Athena table referred to by this table reference.
         case athena(AthenaTableReference)
+        ///  If present, a reference to the Databricks table referred to by this table reference.
+        case databricks(DatabricksTableReference)
         /// If present, a reference to the Glue table referred to by this table reference.
         case glue(GlueTableReference)
         ///  If present, a reference to the Snowflake table referred to by this table reference.
@@ -1340,6 +1351,9 @@ extension CleanRooms {
             case .athena:
                 let value = try container.decode(AthenaTableReference.self, forKey: .athena)
                 self = .athena(value)
+            case .databricks:
+                let value = try container.decode(DatabricksTableReference.self, forKey: .databricks)
+                self = .databricks(value)
             case .glue:
                 let value = try container.decode(GlueTableReference.self, forKey: .glue)
                 self = .glue(value)
@@ -1354,6 +1368,8 @@ extension CleanRooms {
             switch self {
             case .athena(let value):
                 try container.encode(value, forKey: .athena)
+            case .databricks(let value):
+                try container.encode(value, forKey: .databricks)
             case .glue(let value):
                 try container.encode(value, forKey: .glue)
             case .snowflake(let value):
@@ -1365,6 +1381,8 @@ extension CleanRooms {
             switch self {
             case .athena(let value):
                 try value.validate(name: "\(name).athena")
+            case .databricks(let value):
+                try value.validate(name: "\(name).databricks")
             case .glue(let value):
                 try value.validate(name: "\(name).glue")
             case .snowflake(let value):
@@ -1374,6 +1392,7 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case athena = "athena"
+            case databricks = "databricks"
             case glue = "glue"
             case snowflake = "snowflake"
         }
@@ -3673,11 +3692,13 @@ extension CleanRooms {
         public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// The table that this configured table represents.
         public let tableReference: TableReference
+        /// Type of the Configured Table DataSource, example: Glue, Snowflake, Athena, Databricks
+        public let tableType: TableReferenceType?
         /// The time the configured table was last updated
         public let updateTime: Date
 
         @inlinable
-        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, description: String? = nil, id: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, tableReference: TableReference, updateTime: Date) {
+        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, description: String? = nil, id: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, tableReference: TableReference, tableType: TableReferenceType? = nil, updateTime: Date) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
@@ -3688,6 +3709,7 @@ extension CleanRooms {
             self.name = name
             self.selectedAnalysisMethods = selectedAnalysisMethods
             self.tableReference = tableReference
+            self.tableType = tableType
             self.updateTime = updateTime
         }
 
@@ -3702,6 +3724,7 @@ extension CleanRooms {
             case name = "name"
             case selectedAnalysisMethods = "selectedAnalysisMethods"
             case tableReference = "tableReference"
+            case tableType = "tableType"
             case updateTime = "updateTime"
         }
     }
@@ -4008,11 +4031,13 @@ extension CleanRooms {
         public let name: String
         ///  The selected analysis methods for the configured table summary.
         public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
+        /// Type of the Configured Table DataSource, example: Glue, Snowflake, Athena, Databricks
+        public let tableType: TableReferenceType?
         /// The time the configured table was last updated.
         public let updateTime: Date
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, id: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, id: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, tableType: TableReferenceType? = nil, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
@@ -4020,6 +4045,7 @@ extension CleanRooms {
             self.id = id
             self.name = name
             self.selectedAnalysisMethods = selectedAnalysisMethods
+            self.tableType = tableType
             self.updateTime = updateTime
         }
 
@@ -4031,6 +4057,7 @@ extension CleanRooms {
             case id = "id"
             case name = "name"
             case selectedAnalysisMethods = "selectedAnalysisMethods"
+            case tableType = "tableType"
             case updateTime = "updateTime"
         }
     }
@@ -5232,6 +5259,72 @@ extension CleanRooms {
             case allowDuplicates = "allowDuplicates"
             case allowJoinsOnColumnsWithDifferentNames = "allowJoinsOnColumnsWithDifferentNames"
             case preserveNulls = "preserveNulls"
+        }
+    }
+
+    public struct DatabricksDeltaSharingConnection: AWSEncodableShape & AWSDecodableShape {
+        /// The base URL of a Delta Sharing server that hosts shared datasets.
+        public let deltaShareEndpoint: String
+        /// Name of the Share used for OpenSharing (Delta Sharing) the Databricks Table.
+        public let shareName: String
+
+        @inlinable
+        public init(deltaShareEndpoint: String, shareName: String) {
+            self.deltaShareEndpoint = deltaShareEndpoint
+            self.shareName = shareName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deltaShareEndpoint, name: "deltaShareEndpoint", parent: name, max: 1024)
+            try self.validate(self.deltaShareEndpoint, name: "deltaShareEndpoint", parent: name, min: 10)
+            try self.validate(self.deltaShareEndpoint, name: "deltaShareEndpoint", parent: name, pattern: "^https://(?:[a-zA-Z0-9.-]+\\.cloud\\.databricks\\.com/api/2\\.0/delta-sharing|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.opensharing\\.[a-z0-9-]+\\.cloud\\.databricks\\.com/api/2\\.0/opensharing)/metastores/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/recipients/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.shareName, name: "shareName", parent: name, max: 255)
+            try self.validate(self.shareName, name: "shareName", parent: name, min: 1)
+            try self.validate(self.shareName, name: "shareName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deltaShareEndpoint = "deltaShareEndpoint"
+            case shareName = "shareName"
+        }
+    }
+
+    public struct DatabricksTableReference: AWSEncodableShape & AWSDecodableShape {
+        /// Type of the connector to be used for connecting to Databricks. Supported connector: Delta Sharing
+        public let connectionType: DatabricksConnectionType
+        /// Name of the Schema within Databricks.
+        public let schemaName: String
+        /// Name of the Table within Databricks.
+        public let tableName: String
+        /// URL for the Databricks Workspace.
+        public let workspaceUrl: String
+
+        @inlinable
+        public init(connectionType: DatabricksConnectionType, schemaName: String, tableName: String, workspaceUrl: String) {
+            self.connectionType = connectionType
+            self.schemaName = schemaName
+            self.tableName = tableName
+            self.workspaceUrl = workspaceUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionType.validate(name: "\(name).connectionType")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}]+$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}]+$")
+            try self.validate(self.workspaceUrl, name: "workspaceUrl", parent: name, max: 256)
+            try self.validate(self.workspaceUrl, name: "workspaceUrl", parent: name, min: 10)
+            try self.validate(self.workspaceUrl, name: "workspaceUrl", parent: name, pattern: "^https://[a-zA-Z0-9.-]+\\.cloud\\.databricks\\.com/?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionType = "connectionType"
+            case schemaName = "schemaName"
+            case tableName = "tableName"
+            case workspaceUrl = "workspaceUrl"
         }
     }
 
@@ -10596,11 +10689,14 @@ extension CleanRooms {
         public let bucket: String
         /// The S3 prefix to unload the protected job results.
         public let keyPrefix: String?
+        /// The file format of the protected job results. If you don't specify a format, results are written as CSV.
+        public let resultFormat: ResultFormat?
 
         @inlinable
-        public init(bucket: String, keyPrefix: String? = nil) {
+        public init(bucket: String, keyPrefix: String? = nil, resultFormat: ResultFormat? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
+            self.resultFormat = resultFormat
         }
 
         public func validate(name: String) throws {
@@ -10611,6 +10707,7 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case bucket = "bucket"
             case keyPrefix = "keyPrefix"
+            case resultFormat = "resultFormat"
         }
     }
 
@@ -12879,6 +12976,24 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case v1 = "v1"
+        }
+    }
+
+    public struct DatabricksConnectionType: AWSEncodableShape & AWSDecodableShape {
+        /// Details about Connector for Databricks
+        public let deltaSharing: DatabricksDeltaSharingConnection?
+
+        @inlinable
+        public init(deltaSharing: DatabricksDeltaSharingConnection? = nil) {
+            self.deltaSharing = deltaSharing
+        }
+
+        public func validate(name: String) throws {
+            try self.deltaSharing?.validate(name: "\(name).deltaSharing")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deltaSharing = "deltaSharing"
         }
     }
 

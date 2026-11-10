@@ -81,6 +81,7 @@ public struct LookoutEquipment: AWSService {
     // MARK: API Calls
 
     /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
@@ -102,6 +103,7 @@ public struct LookoutEquipment: AWSService {
     ///   - serverSideKmsKeyId: Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
     ///   - tags: Any tags associated with the ingested data described in the dataset.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func createDataset(
         clientToken: String = CreateDatasetRequest.idempotencyToken(),
@@ -122,6 +124,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func createInferenceScheduler(_ input: CreateInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInferenceSchedulerResponse {
@@ -148,6 +151,7 @@ public struct LookoutEquipment: AWSService {
     ///   - serverSideKmsKeyId: Provides the identifier of the KMS key used to encrypt inference scheduler data by Amazon Lookout for Equipment.
     ///   - tags: Any tags associated with the inference scheduler.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func createInferenceScheduler(
         clientToken: String = CreateInferenceSchedulerRequest.idempotencyToken(),
@@ -178,6 +182,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Creates a label for an event.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func createLabel(_ input: CreateLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelResponse {
@@ -202,6 +207,7 @@ public struct LookoutEquipment: AWSService {
     ///   - rating:  Indicates whether a labeled event represents an anomaly.
     ///   - startTime:  The start time of the labeled event.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func createLabel(
         clientToken: String = CreateLabelRequest.idempotencyToken(),
@@ -228,6 +234,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Creates a group of labels.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func createLabelGroup(_ input: CreateLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelGroupResponse {
@@ -248,6 +255,7 @@ public struct LookoutEquipment: AWSService {
     ///   - labelGroupName:  Names a group of labels. Data in this field will be retained for service usage. Follow best practices for the security of your data.
     ///   - tags:  Tags that provide metadata about the label group you are creating.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func createLabelGroup(
         clientToken: String = CreateLabelGroupRequest.idempotencyToken(),
@@ -266,6 +274,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Creates a machine learning model for data inference.  A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func createModel(_ input: CreateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelResponse {
@@ -297,6 +306,7 @@ public struct LookoutEquipment: AWSService {
     ///   - trainingDataEndTime: Indicates the time reference in the dataset that should be used to end the subset of training data for the machine learning model.
     ///   - trainingDataStartTime: Indicates the time reference in the dataset that should be used to begin the subset of training data for the machine learning model.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func createModel(
         clientToken: String = CreateModelRequest.idempotencyToken(),
@@ -337,6 +347,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Creates a retraining scheduler on the specified model.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func createRetrainingScheduler(_ input: CreateRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRetrainingSchedulerResponse {
@@ -359,6 +370,7 @@ public struct LookoutEquipment: AWSService {
     ///   - retrainingFrequency: This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
     ///   - retrainingStartDate: The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func createRetrainingScheduler(
         clientToken: String = CreateRetrainingSchedulerRequest.idempotencyToken(),
@@ -381,6 +393,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -398,6 +411,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - datasetName: The name of the dataset to be deleted.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteDataset(
         datasetName: String,
@@ -410,6 +424,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteInferenceScheduler(_ input: DeleteInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -427,6 +442,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - inferenceSchedulerName: The name of the inference scheduler to be deleted.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteInferenceScheduler(
         inferenceSchedulerName: String,
@@ -439,6 +455,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Deletes a label.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteLabel(_ input: DeleteLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -457,6 +474,7 @@ public struct LookoutEquipment: AWSService {
     ///   - labelGroupName:  The name of the label group that contains the label that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
     ///   - labelId:  The ID of the label that you want to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteLabel(
         labelGroupName: String,
@@ -471,6 +489,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Deletes a group of labels.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteLabelGroup(_ input: DeleteLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -488,6 +507,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - labelGroupName:  The name of the label group that you want to delete. Data in this field will be retained for service usage. Follow best practices for the security of your data.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteLabelGroup(
         labelGroupName: String,
@@ -500,6 +520,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteModel(_ input: DeleteModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -517,6 +538,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - modelName: The name of the machine learning model to be deleted.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteModel(
         modelName: String,
@@ -529,6 +551,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Deletes the resource policy attached to the resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -546,6 +569,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which the resource policy should be deleted.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteResourcePolicy(
         resourceArn: String,
@@ -558,6 +582,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func deleteRetrainingScheduler(_ input: DeleteRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -575,6 +600,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - modelName: The name of the model whose retraining scheduler you want to delete.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func deleteRetrainingScheduler(
         modelName: String,
@@ -587,6 +613,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeDataIngestionJob(_ input: DescribeDataIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataIngestionJobResponse {
@@ -604,6 +631,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - jobId: The job ID of the data ingestion job.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeDataIngestionJob(
         jobId: String,
@@ -616,6 +644,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDatasetResponse {
@@ -633,6 +662,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - datasetName: The name of the dataset to be described.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeDataset(
         datasetName: String,
@@ -645,6 +675,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeInferenceScheduler(_ input: DescribeInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInferenceSchedulerResponse {
@@ -662,6 +693,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - inferenceSchedulerName: The name of the inference scheduler being described.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeInferenceScheduler(
         inferenceSchedulerName: String,
@@ -674,6 +706,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Returns the name of the label.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeLabel(_ input: DescribeLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLabelResponse {
@@ -692,6 +725,7 @@ public struct LookoutEquipment: AWSService {
     ///   - labelGroupName:  Returns the name of the group containing the label.
     ///   - labelId:  Returns the ID of the label.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeLabel(
         labelGroupName: String,
@@ -706,6 +740,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Returns information about the label group.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeLabelGroup(_ input: DescribeLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLabelGroupResponse {
@@ -723,6 +758,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - labelGroupName:  Returns the name of the label group.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeLabelGroup(
         labelGroupName: String,
@@ -735,6 +771,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeModel(_ input: DescribeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelResponse {
@@ -752,6 +789,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - modelName: The name of the machine learning model to be described.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeModel(
         modelName: String,
@@ -764,6 +802,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Retrieves information about a specific machine learning model version.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeModelVersion(_ input: DescribeModelVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelVersionResponse {
@@ -782,6 +821,7 @@ public struct LookoutEquipment: AWSService {
     ///   - modelName: The name of the machine learning model that this version belongs to.
     ///   - modelVersion: The version of the machine learning model.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeModelVersion(
         modelName: String,
@@ -796,6 +836,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Provides the details of a resource policy attached to a resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeResourcePolicy(_ input: DescribeResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePolicyResponse {
@@ -813,6 +854,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that is associated with the resource policy.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeResourcePolicy(
         resourceArn: String,
@@ -825,6 +867,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func describeRetrainingScheduler(_ input: DescribeRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRetrainingSchedulerResponse {
@@ -842,6 +885,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - modelName: The name of the model that the retraining scheduler is attached to.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func describeRetrainingScheduler(
         modelName: String,
@@ -854,6 +898,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Imports a dataset.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func importDataset(_ input: ImportDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDatasetResponse {
@@ -875,6 +920,7 @@ public struct LookoutEquipment: AWSService {
     ///   - sourceDatasetArn: The Amazon Resource Name (ARN) of the dataset to import.
     ///   - tags: Any tags associated with the dataset to be created.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func importDataset(
         clientToken: String = ImportDatasetRequest.idempotencyToken(),
@@ -895,6 +941,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Imports a model that has been trained successfully.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func importModelVersion(_ input: ImportModelVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportModelVersionResponse {
@@ -920,6 +967,7 @@ public struct LookoutEquipment: AWSService {
     ///   - sourceModelVersionArn: The Amazon Resource Name (ARN) of the model version to import.
     ///   - tags: The tags associated with the machine learning model to be created.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func importModelVersion(
         clientToken: String = ImportModelVersionRequest.idempotencyToken(),
@@ -948,6 +996,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listDataIngestionJobs(_ input: ListDataIngestionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataIngestionJobsResponse {
@@ -968,6 +1017,7 @@ public struct LookoutEquipment: AWSService {
     ///   - nextToken: An opaque pagination token indicating where to continue the listing of data ingestion jobs.
     ///   - status: Indicates the status of the data ingestion job.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listDataIngestionJobs(
         datasetName: String? = nil,
@@ -986,6 +1036,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Lists all datasets currently available in your account, filtering on the dataset name.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetsResponse {
@@ -1005,6 +1056,7 @@ public struct LookoutEquipment: AWSService {
     ///   - maxResults:  Specifies the maximum number of datasets to list.
     ///   - nextToken:  An opaque pagination token indicating where to continue the listing of datasets.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listDatasets(
         datasetNameBeginsWith: String? = nil,
@@ -1021,6 +1073,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Lists all inference events that have been found for the specified inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listInferenceEvents(_ input: ListInferenceEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInferenceEventsResponse {
@@ -1042,6 +1095,7 @@ public struct LookoutEquipment: AWSService {
     ///   - maxResults: Specifies the maximum number of inference events to list.
     ///   - nextToken: An opaque pagination token indicating where to continue the listing of inference events.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceEvents(
         inferenceSchedulerName: String,
@@ -1062,6 +1116,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Lists all inference executions that have been performed by the specified inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listInferenceExecutions(_ input: ListInferenceExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInferenceExecutionsResponse {
@@ -1084,6 +1139,7 @@ public struct LookoutEquipment: AWSService {
     ///   - nextToken: An opaque pagination token indicating where to continue the listing of inference executions.
     ///   - status: The status of the inference execution.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceExecutions(
         dataEndTimeBefore: Date? = nil,
@@ -1106,6 +1162,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Retrieves a list of all inference schedulers currently available for your account.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listInferenceSchedulers(_ input: ListInferenceSchedulersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInferenceSchedulersResponse {
@@ -1127,6 +1184,7 @@ public struct LookoutEquipment: AWSService {
     ///   - nextToken:  An opaque pagination token indicating where to continue the listing of inference schedulers.
     ///   - status: Specifies the current status of the inference schedulers.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceSchedulers(
         inferenceSchedulerNameBeginsWith: String? = nil,
@@ -1147,6 +1205,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Returns a list of the label groups.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listLabelGroups(_ input: ListLabelGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLabelGroupsResponse {
@@ -1166,6 +1225,7 @@ public struct LookoutEquipment: AWSService {
     ///   - maxResults:  Specifies the maximum number of label groups to list.
     ///   - nextToken:  An opaque pagination token indicating where to continue the listing of label groups.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listLabelGroups(
         labelGroupNameBeginsWith: String? = nil,
@@ -1182,6 +1242,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Provides a list of labels.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listLabels(_ input: ListLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLabelsResponse {
@@ -1205,6 +1266,7 @@ public struct LookoutEquipment: AWSService {
     ///   - maxResults:  Specifies the maximum number of labels to list.
     ///   - nextToken:  An opaque pagination token indicating where to continue the listing of label groups.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listLabels(
         equipment: String? = nil,
@@ -1229,6 +1291,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listModelVersions(_ input: ListModelVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelVersionsResponse {
@@ -1254,6 +1317,7 @@ public struct LookoutEquipment: AWSService {
     ///   - sourceType: Filter the results based on the way the model version was generated.
     ///   - status: Filter the results based on the current status of the model version.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listModelVersions(
         createdAtEndTime: Date? = nil,
@@ -1282,6 +1346,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listModels(_ input: ListModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelsResponse {
@@ -1303,6 +1368,7 @@ public struct LookoutEquipment: AWSService {
     ///   - nextToken:  An opaque pagination token indicating where to continue the listing of machine learning models.
     ///   - status: The status of the machine learning model.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listModels(
         datasetNameBeginsWith: String? = nil,
@@ -1323,6 +1389,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listRetrainingSchedulers(_ input: ListRetrainingSchedulersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetrainingSchedulersResponse {
@@ -1343,6 +1410,7 @@ public struct LookoutEquipment: AWSService {
     ///   - nextToken: If the number of results exceeds the maximum, a pagination token is returned. Use the token in the request to show the next page of retraining schedulers.
     ///   - status: Specify this field to only list retraining schedulers whose status matches the value you specify.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listRetrainingSchedulers(
         maxResults: Int? = nil,
@@ -1361,6 +1429,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listSensorStatistics(_ input: ListSensorStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSensorStatisticsResponse {
@@ -1381,6 +1450,7 @@ public struct LookoutEquipment: AWSService {
     ///   - maxResults: Specifies the maximum number of sensors for which to retrieve statistics.
     ///   - nextToken: An opaque pagination token indicating where to continue the listing of sensor statistics.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listSensorStatistics(
         datasetName: String,
@@ -1399,6 +1469,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Lists all the tags for a specified resource, including key and value.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1416,6 +1487,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource (such as the dataset or model) that is the focus of the ListTagsForResource operation.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listTagsForResource(
         resourceArn: String,
@@ -1428,6 +1500,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Creates a resource control policy for a given resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
@@ -1448,6 +1521,7 @@ public struct LookoutEquipment: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which the policy is being created.
     ///   - resourcePolicy: The JSON-formatted resource policy to create.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func putResourcePolicy(
         clientToken: String = PutResourcePolicyRequest.idempotencyToken(),
@@ -1466,6 +1540,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func startDataIngestionJob(_ input: StartDataIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataIngestionJobResponse {
@@ -1486,6 +1561,7 @@ public struct LookoutEquipment: AWSService {
     ///   - ingestionInputConfiguration:  Specifies information for the input data for the data ingestion job, including dataset S3 location.
     ///   - roleArn:  The Amazon Resource Name (ARN) of a role with permission to access the data source for the data ingestion job.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func startDataIngestionJob(
         clientToken: String = StartDataIngestionJobRequest.idempotencyToken(),
@@ -1504,6 +1580,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Starts an inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func startInferenceScheduler(_ input: StartInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInferenceSchedulerResponse {
@@ -1521,6 +1598,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - inferenceSchedulerName: The name of the inference scheduler to be started.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func startInferenceScheduler(
         inferenceSchedulerName: String,
@@ -1533,6 +1611,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Starts a retraining scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func startRetrainingScheduler(_ input: StartRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRetrainingSchedulerResponse {
@@ -1550,6 +1629,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - modelName: The name of the model whose retraining scheduler you want to start.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func startRetrainingScheduler(
         modelName: String,
@@ -1562,6 +1642,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Stops an inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func stopInferenceScheduler(_ input: StopInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInferenceSchedulerResponse {
@@ -1579,6 +1660,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - inferenceSchedulerName: The name of the inference scheduler to be stopped.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func stopInferenceScheduler(
         inferenceSchedulerName: String,
@@ -1591,6 +1673,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Stops a retraining scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func stopRetrainingScheduler(_ input: StopRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRetrainingSchedulerResponse {
@@ -1608,6 +1691,7 @@ public struct LookoutEquipment: AWSService {
     /// Parameters:
     ///   - modelName: The name of the model whose retraining scheduler you want to stop.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func stopRetrainingScheduler(
         modelName: String,
@@ -1620,6 +1704,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Associates a given tag to a resource in your account. A tag is a key-value pair which can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your resources as well as helping you to search and filter by tag. Multiple tags can be added to a resource, either when you create it, or later. Up to 50 tags can be associated with each resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1638,6 +1723,7 @@ public struct LookoutEquipment: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the specific resource to which the tag should be associated.
     ///   - tags: The tag or tags to be associated with a specific resource. Both the tag key and value are specified.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func tagResource(
         resourceArn: String,
@@ -1652,6 +1738,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Removes a specific tag from a given resource. The tag is specified by its key.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1670,6 +1757,7 @@ public struct LookoutEquipment: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tag is currently associated.
     ///   - tagKeys: Specifies the key of the tag to be removed from a specified resource.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func untagResource(
         resourceArn: String,
@@ -1684,6 +1772,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Sets the active model version for a given machine learning model.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func updateActiveModelVersion(_ input: UpdateActiveModelVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateActiveModelVersionResponse {
@@ -1702,6 +1791,7 @@ public struct LookoutEquipment: AWSService {
     ///   - modelName: The name of the machine learning model for which the active model version is being set.
     ///   - modelVersion: The version of the machine learning model for which the active model version is being set.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func updateActiveModelVersion(
         modelName: String,
@@ -1716,6 +1806,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Updates an inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func updateInferenceScheduler(_ input: UpdateInferenceSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1738,6 +1829,7 @@ public struct LookoutEquipment: AWSService {
     ///   - inferenceSchedulerName: The name of the inference scheduler to be updated.
     ///   - roleArn:  The Amazon Resource Name (ARN) of a role with permission to access the data source for the inference scheduler.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func updateInferenceScheduler(
         dataDelayOffsetInMinutes: Int64? = nil,
@@ -1760,6 +1852,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     ///  Updates the label group.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func updateLabelGroup(_ input: UpdateLabelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1778,6 +1871,7 @@ public struct LookoutEquipment: AWSService {
     ///   - faultCodes:  Updates the code indicating the type of anomaly associated with the label.  Data in this field will be retained for service usage. Follow best practices for the security of your data.
     ///   - labelGroupName:  The name of the label group to be updated.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func updateLabelGroup(
         faultCodes: [String]? = nil,
@@ -1792,6 +1886,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Updates a model in the account.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func updateModel(_ input: UpdateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1812,6 +1907,7 @@ public struct LookoutEquipment: AWSService {
     ///   - modelName: The name of the model to update.
     ///   - roleArn: The ARN of the model to update.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func updateModel(
         labelsInputConfiguration: LabelsInputConfiguration? = nil,
@@ -1830,6 +1926,7 @@ public struct LookoutEquipment: AWSService {
     }
 
     /// Updates a retraining scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @Sendable
     @inlinable
     public func updateRetrainingScheduler(_ input: UpdateRetrainingSchedulerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1851,6 +1948,7 @@ public struct LookoutEquipment: AWSService {
     ///   - retrainingFrequency: This parameter uses the ISO 8601 standard to set the frequency at which you want retraining to occur in terms of Years, Months, and/or Days (note: other parameters like Time are not currently supported). The minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
     ///   - retrainingStartDate: The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func updateRetrainingScheduler(
         lookbackWindow: String? = nil,
@@ -1874,7 +1972,7 @@ public struct LookoutEquipment: AWSService {
 extension LookoutEquipment {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: LookoutEquipment, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1889,6 +1987,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listDataIngestionJobsPaginator(
         _ input: ListDataIngestionJobsRequest,
@@ -1909,6 +2008,7 @@ extension LookoutEquipment {
     ///   - maxResults:  Specifies the maximum number of data ingestion jobs to list.
     ///   - status: Indicates the status of the data ingestion job.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listDataIngestionJobsPaginator(
         datasetName: String? = nil,
@@ -1929,6 +2029,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listDatasetsPaginator(
         _ input: ListDatasetsRequest,
@@ -1948,6 +2049,7 @@ extension LookoutEquipment {
     ///   - datasetNameBeginsWith: The beginning of the name of the datasets to be listed.
     ///   - maxResults:  Specifies the maximum number of datasets to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listDatasetsPaginator(
         datasetNameBeginsWith: String? = nil,
@@ -1966,6 +2068,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceEventsPaginator(
         _ input: ListInferenceEventsRequest,
@@ -1987,6 +2090,7 @@ extension LookoutEquipment {
     ///   - intervalStartTime:  Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.
     ///   - maxResults: Specifies the maximum number of inference events to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceEventsPaginator(
         inferenceSchedulerName: String,
@@ -2009,6 +2113,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceExecutionsPaginator(
         _ input: ListInferenceExecutionsRequest,
@@ -2031,6 +2136,7 @@ extension LookoutEquipment {
     ///   - maxResults: Specifies the maximum number of inference executions to list.
     ///   - status: The status of the inference execution.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceExecutionsPaginator(
         dataEndTimeBefore: Date? = nil,
@@ -2055,6 +2161,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceSchedulersPaginator(
         _ input: ListInferenceSchedulersRequest,
@@ -2076,6 +2183,7 @@ extension LookoutEquipment {
     ///   - modelName: The name of the machine learning model used by the inference scheduler to be listed.
     ///   - status: Specifies the current status of the inference schedulers.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listInferenceSchedulersPaginator(
         inferenceSchedulerNameBeginsWith: String? = nil,
@@ -2098,6 +2206,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listLabelGroupsPaginator(
         _ input: ListLabelGroupsRequest,
@@ -2117,6 +2226,7 @@ extension LookoutEquipment {
     ///   - labelGroupNameBeginsWith:  The beginning of the name of the label groups to be listed.
     ///   - maxResults:  Specifies the maximum number of label groups to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listLabelGroupsPaginator(
         labelGroupNameBeginsWith: String? = nil,
@@ -2135,6 +2245,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listLabelsPaginator(
         _ input: ListLabelsRequest,
@@ -2158,6 +2269,7 @@ extension LookoutEquipment {
     ///   - labelGroupName:  Returns the name of the label group.
     ///   - maxResults:  Specifies the maximum number of labels to list.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listLabelsPaginator(
         equipment: String? = nil,
@@ -2184,6 +2296,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listModelVersionsPaginator(
         _ input: ListModelVersionsRequest,
@@ -2209,6 +2322,7 @@ extension LookoutEquipment {
     ///   - sourceType: Filter the results based on the way the model version was generated.
     ///   - status: Filter the results based on the current status of the model version.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listModelVersionsPaginator(
         createdAtEndTime: Date? = nil,
@@ -2239,6 +2353,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listModelsPaginator(
         _ input: ListModelsRequest,
@@ -2260,6 +2375,7 @@ extension LookoutEquipment {
     ///   - modelNameBeginsWith: The beginning of the name of the machine learning models being listed.
     ///   - status: The status of the machine learning model.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listModelsPaginator(
         datasetNameBeginsWith: String? = nil,
@@ -2282,6 +2398,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listRetrainingSchedulersPaginator(
         _ input: ListRetrainingSchedulersRequest,
@@ -2302,6 +2419,7 @@ extension LookoutEquipment {
     ///   - modelNameBeginsWith: Specify this field to only list retraining schedulers whose machine learning models begin with the value you specify.
     ///   - status: Specify this field to only list retraining schedulers whose status matches the value you specify.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listRetrainingSchedulersPaginator(
         maxResults: Int? = nil,
@@ -2322,6 +2440,7 @@ extension LookoutEquipment {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listSensorStatisticsPaginator(
         _ input: ListSensorStatisticsRequest,
@@ -2342,6 +2461,7 @@ extension LookoutEquipment {
     ///   - ingestionJobId:  The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs.
     ///   - maxResults: Specifies the maximum number of sensors for which to retrieve statistics.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/")
     @inlinable
     public func listSensorStatisticsPaginator(
         datasetName: String,

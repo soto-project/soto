@@ -123,6 +123,8 @@ extension MWAAServerless {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for this workflow. This determines the feature set, supported operators, and execution environment capabilities available to your workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains backward compatibility across versions while introducing new features and improvements. Currently supports version 1 with plans for additional versions as the service evolves.
         public let engineVersion: EngineVersion?
+        /// The environment variables to set for tasks in the workflow. If you don't specify this parameter, the workflow has no environment variables.
+        public let environment: Environment?
         /// The configuration for workflow logging. Specifies the CloudWatch log group where workflow execution logs are stored. Amazon Managed Workflows for Apache Airflow Serverless automatically exports worker logs and task-level information to the specified log group in your account using remote logging functionality. This provides comprehensive observability for debugging and monitoring workflow execution across the distributed, serverless environment.
         public let loggingConfiguration: LoggingConfiguration?
         /// The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle.
@@ -137,13 +139,14 @@ extension MWAAServerless {
         public let triggerMode: String?
 
         @inlinable
-        public init(clientToken: String? = CreateWorkflowRequest.idempotencyToken(), code: Code? = nil, definitionS3Location: DefinitionS3Location, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, tags: [String: String]? = nil, triggerMode: String? = nil) {
+        public init(clientToken: String? = CreateWorkflowRequest.idempotencyToken(), code: Code? = nil, definitionS3Location: DefinitionS3Location, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, environment: Environment? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, tags: [String: String]? = nil, triggerMode: String? = nil) {
             self.clientToken = clientToken
             self.code = code
             self.definitionS3Location = definitionS3Location
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
             self.engineVersion = engineVersion
+            self.environment = environment
             self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.networkConfiguration = networkConfiguration
@@ -159,6 +162,7 @@ extension MWAAServerless {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.+$")
+            try self.environment?.validate(name: "\(name).environment")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*$")
@@ -186,6 +190,7 @@ extension MWAAServerless {
             case description = "Description"
             case encryptionConfiguration = "EncryptionConfiguration"
             case engineVersion = "EngineVersion"
+            case environment = "Environment"
             case loggingConfiguration = "LoggingConfiguration"
             case name = "Name"
             case networkConfiguration = "NetworkConfiguration"
@@ -239,7 +244,7 @@ extension MWAAServerless {
         public let bucket: String
         /// The key (name) of the workflow definition file within the S3 bucket.
         public let objectKey: String
-        /// Optional. The version ID of the workflow definition file in Amazon S3. If not specified, the latest version is used.
+        /// Optional. The version ID of the workflow definition file in Amazon S3. If you don't specify a version, we use the latest version.
         public let versionId: String?
 
         @inlinable
@@ -278,7 +283,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, max: 32)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, min: 32)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, pattern: "^[a-z0-9]{32}$")
@@ -323,6 +328,30 @@ extension MWAAServerless {
         }
     }
 
+    public struct Environment: AWSEncodableShape & AWSDecodableShape {
+        /// A map of environment variable names to values. Your workflow tasks use these variables while they run. You can specify up to 50 environment variables. Each name must be between 1 and 128 characters, start with a letter, and contain only letters, numbers, and underscores. Each value can be up to 255 characters. Names that start with AWS_ or AIRFLOW__ are reserved. You can use the following Apache Airflow secrets backend settings, which are exceptions:    AIRFLOW__WORKERS__SECRETS_BACKEND – The secrets backend class that workers use.    AIRFLOW__WORKERS__SECRETS_BACKEND_KWARGS – The keyword arguments for the secrets backend, as a JSON string.    AIRFLOW__WORKERS__SECRETS_BACKEND_KWARG__* – Names with this prefix, for additional secrets backend configuration.   If you set EncryptionConfiguration to use a customer managed AWS KMS key, we encrypt the environment variables with that key. Otherwise, we store them with default encryption at rest.
+        public let variables: [String: String]?
+
+        @inlinable
+        public init(variables: [String: String]? = nil) {
+            self.variables = variables
+        }
+
+        public func validate(name: String) throws {
+            try self.variables?.forEach {
+                try validate($0.key, name: "variables.key", parent: name, max: 128)
+                try validate($0.key, name: "variables.key", parent: name, min: 1)
+                try validate($0.key, name: "variables.key", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "variables[\"\($0.key)\"]", parent: name, max: 255)
+            }
+            try self.validate(self.variables, name: "variables", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variables = "Variables"
+        }
+    }
+
     public struct GetTaskInstanceRequest: AWSEncodableShape {
         /// The unique identifier of the workflow run that contains the task instance.
         public let runId: String
@@ -355,7 +384,7 @@ extension MWAAServerless {
             try self.validate(self.taskInstanceId, name: "taskInstanceId", parent: name, pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*$")
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -456,7 +485,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, max: 32)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, min: 32)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, pattern: "^[a-z0-9]{32}$")
@@ -482,6 +511,8 @@ extension MWAAServerless {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that this workflow uses.
         public let engineVersion: EngineVersion?
+        /// The environment variables that tasks in the workflow use during execution.
+        public let environment: Environment?
         /// The logging configuration for the workflow.
         public let loggingConfiguration: LoggingConfiguration?
         /// The timestamp when the workflow was last modified, in ISO 8601 date-time format.
@@ -507,7 +538,7 @@ extension MWAAServerless {
         public let workflowVersion: String?
 
         @inlinable
-        public init(code: Code? = nil, codeSnapshottedAt: Date? = nil, createdAt: Date? = nil, definitionS3Location: DefinitionS3Location? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, modifiedAt: Date? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, triggerMode: String? = nil, workflowArn: String, workflowDefinition: String? = nil, workflowStatus: WorkflowStatus? = nil, workflowVersion: String? = nil) {
+        public init(code: Code? = nil, codeSnapshottedAt: Date? = nil, createdAt: Date? = nil, definitionS3Location: DefinitionS3Location? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, environment: Environment? = nil, loggingConfiguration: LoggingConfiguration? = nil, modifiedAt: Date? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, triggerMode: String? = nil, workflowArn: String, workflowDefinition: String? = nil, workflowStatus: WorkflowStatus? = nil, workflowVersion: String? = nil) {
             self.code = code
             self.codeSnapshottedAt = codeSnapshottedAt
             self.createdAt = createdAt
@@ -515,6 +546,7 @@ extension MWAAServerless {
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
             self.engineVersion = engineVersion
+            self.environment = environment
             self.loggingConfiguration = loggingConfiguration
             self.modifiedAt = modifiedAt
             self.name = name
@@ -536,6 +568,7 @@ extension MWAAServerless {
             case description = "Description"
             case encryptionConfiguration = "EncryptionConfiguration"
             case engineVersion = "EngineVersion"
+            case environment = "Environment"
             case loggingConfiguration = "LoggingConfiguration"
             case modifiedAt = "ModifiedAt"
             case name = "Name"
@@ -575,7 +608,7 @@ extension MWAAServerless {
             try self.validate(self.runId, name: "runId", parent: name, pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*$")
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -656,7 +689,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -709,7 +742,7 @@ extension MWAAServerless {
             try self.validate(self.runId, name: "runId", parent: name, pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*$")
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -763,7 +796,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, max: 2048)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, min: 1)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, pattern: "^.+$")
@@ -816,7 +849,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -980,7 +1013,7 @@ extension MWAAServerless {
         public let bucket: String
         /// The key of the code artifact within the Amazon S3 bucket.
         public let objectKey: String
-        /// The version ID of the object in Amazon S3. If not specified, the latest version is used.
+        /// Specifies the version ID of the object in Amazon S3. If you don't specify a version, we use the latest version.
         public let versionId: String?
 
         @inlinable
@@ -1047,7 +1080,7 @@ extension MWAAServerless {
         public let overrideParameters: [String: AWSDocument]?
         /// The Amazon Resource Name (ARN) of the workflow you want to run.
         public let workflowArn: String
-        /// Optional. The specific version of the workflow to execute. If not specified, the latest version is used.
+        /// Optional. The specific version of the workflow to execute. If you don't specify a version, we use the latest version.
         public let workflowVersion: String?
 
         @inlinable
@@ -1073,7 +1106,7 @@ extension MWAAServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, max: 2048)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, min: 1)
             try self.validate(self.workflowVersion, name: "workflowVersion", parent: name, pattern: "^.+$")
@@ -1134,7 +1167,7 @@ extension MWAAServerless {
             try self.validate(self.runId, name: "runId", parent: name, pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*$")
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1188,7 +1221,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1301,7 +1334,7 @@ extension MWAAServerless {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1327,6 +1360,8 @@ extension MWAAServerless {
         public let description: String?
         /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for the updated workflow.
         public let engineVersion: EngineVersion?
+        /// The environment variables to set for tasks in the workflow.  The variables that you specify replace all existing environment variables for the workflow. If you don't specify this parameter, the workflow has no environment variables. To keep existing environment variables, include them in the request.
+        public let environment: Environment?
         /// Updated logging configuration for the workflow.
         public let loggingConfiguration: LoggingConfiguration?
         /// Updated network configuration for the workflow execution environment.
@@ -1339,11 +1374,12 @@ extension MWAAServerless {
         public let workflowArn: String
 
         @inlinable
-        public init(code: Code? = nil, definitionS3Location: DefinitionS3Location, description: String? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, triggerMode: String? = nil, workflowArn: String) {
+        public init(code: Code? = nil, definitionS3Location: DefinitionS3Location, description: String? = nil, engineVersion: EngineVersion? = nil, environment: Environment? = nil, loggingConfiguration: LoggingConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, triggerMode: String? = nil, workflowArn: String) {
             self.code = code
             self.definitionS3Location = definitionS3Location
             self.description = description
             self.engineVersion = engineVersion
+            self.environment = environment
             self.loggingConfiguration = loggingConfiguration
             self.networkConfiguration = networkConfiguration
             self.roleArn = roleArn
@@ -1358,6 +1394,7 @@ extension MWAAServerless {
             try container.encode(self.definitionS3Location, forKey: .definitionS3Location)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.engineVersion, forKey: .engineVersion)
+            try container.encodeIfPresent(self.environment, forKey: .environment)
             try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
             try container.encode(self.roleArn, forKey: .roleArn)
@@ -1369,6 +1406,7 @@ extension MWAAServerless {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.+$")
+            try self.environment?.validate(name: "\(name).environment")
             try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
@@ -1378,7 +1416,7 @@ extension MWAAServerless {
             try self.validate(self.triggerMode, name: "triggerMode", parent: name, pattern: "^.*$")
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, max: 2048)
             try self.validate(self.workflowArn, name: "workflowArn", parent: name, min: 1)
-            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-[a-z]+-[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
+            try self.validate(self.workflowArn, name: "workflowArn", parent: name, pattern: "^arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:airflow-serverless:([a-z]{2}-(?:[a-z]+-)+[0-9]{1}):([0-9]{12}):workflow/([a-zA-Z0-9][a-zA-Z0-9\\.\\-_]{0,254}-[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1386,6 +1424,7 @@ extension MWAAServerless {
             case definitionS3Location = "DefinitionS3Location"
             case description = "Description"
             case engineVersion = "EngineVersion"
+            case environment = "Environment"
             case loggingConfiguration = "LoggingConfiguration"
             case networkConfiguration = "NetworkConfiguration"
             case roleArn = "RoleArn"

@@ -871,6 +871,41 @@ public struct AutoScaling: AWSService {
         )
     }
 
+    ///  Describes the current Amazon EC2 Auto Scaling account settings for your account. Account settings are a framework that allows you to enable or disable features for your account. The framework also gives you visibility into features that will be enforced by a given date, providing a time window to prepare for backwards-incompatible changes.
+    @Sendable
+    @inlinable
+    public func describeAccountSettings(_ input: DescribeAccountSettingsType, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsAnswer {
+        try await self.client.execute(
+            operation: "DescribeAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Describes the current Amazon EC2 Auto Scaling account settings for your account. Account settings are a framework that allows you to enable or disable features for your account. The framework also gives you visibility into features that will be enforced by a given date, providing a time window to prepare for backwards-incompatible changes.
+    ///
+    /// Parameters:
+    ///   - maxRecords:  The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - name:  The name of the account setting to describe. If you omit this parameter, all account settings are described.
+    ///   - nextToken:  The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAccountSettings(
+        maxRecords: Int? = nil,
+        name: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAccountSettingsAnswer {
+        let input = DescribeAccountSettingsType(
+            maxRecords: maxRecords, 
+            name: name, 
+            nextToken: nextToken
+        )
+        return try await self.describeAccountSettings(input, logger: logger)
+    }
+
     /// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported:    ChangeInCapacity     ExactCapacity     PercentChangeInCapacity
     @Sendable
     @inlinable
@@ -903,7 +938,8 @@ public struct AutoScaling: AWSService {
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
     ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
@@ -911,6 +947,7 @@ public struct AutoScaling: AWSService {
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
         includeInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -919,6 +956,7 @@ public struct AutoScaling: AWSService {
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
             includeInstances: includeInstances, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -941,18 +979,21 @@ public struct AutoScaling: AWSService {
     /// Gets information about the Auto Scaling instances in the account and Region.
     ///
     /// Parameters:
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling instances in the response. When set to true (default), the response includes managed Auto Scaling instances.
     ///   - instanceIds: The IDs of the instances. If you omit this property, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 50. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAutoScalingInstances(
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AutoScalingInstancesType {
         let input = DescribeAutoScalingInstancesType(
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxRecords: maxRecords, 
             nextToken: nextToken
@@ -1191,18 +1232,21 @@ public struct AutoScaling: AWSService {
     ///
     /// Parameters:
     ///   - autoScalingGroupNames: The name of the Auto Scaling group.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include notification configurations for managed Auto Scaling groups in the response. When set to true (default), the response includes notification configurations for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func describeNotificationConfigurations(
         autoScalingGroupNames: [String]? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeNotificationConfigurationsAnswer {
         let input = DescribeNotificationConfigurationsType(
             autoScalingGroupNames: autoScalingGroupNames, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -1226,7 +1270,8 @@ public struct AutoScaling: AWSService {
     ///
     /// Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
-    ///   - maxRecords: The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include scaling policies for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling policies for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - policyNames: The names of one or more policies. If you omit this property, all policies are described. If a group name is provided, the results are limited to that group. If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum number of 50 items.
     ///   - policyTypes: One or more policy types. The valid values are SimpleScaling, StepScaling, TargetTrackingScaling, and PredictiveScaling.
@@ -1234,6 +1279,7 @@ public struct AutoScaling: AWSService {
     @inlinable
     public func describePolicies(
         autoScalingGroupName: String? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         policyNames: [String]? = nil,
@@ -1242,6 +1288,7 @@ public struct AutoScaling: AWSService {
     ) async throws -> PoliciesType {
         let input = DescribePoliciesType(
             autoScalingGroupName: autoScalingGroupName, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken, 
             policyNames: policyNames, 
@@ -1270,7 +1317,8 @@ public struct AutoScaling: AWSService {
     ///   - autoScalingGroupName: The name of the Auto Scaling group.   Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
     ///   - filters:  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.     StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.     2000-01-18T08:15:00Z     2000-01-18T16:15:00+08:00
     ///   - includeDeletedGroups: Indicates whether to include scaling activity from deleted Auto Scaling groups.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include scaling activities for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling activities for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 100 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
@@ -1279,6 +1327,7 @@ public struct AutoScaling: AWSService {
         autoScalingGroupName: String? = nil,
         filters: [Filter]? = nil,
         includeDeletedGroups: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1288,6 +1337,7 @@ public struct AutoScaling: AWSService {
             autoScalingGroupName: autoScalingGroupName, 
             filters: filters, 
             includeDeletedGroups: includeDeletedGroups, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -1325,7 +1375,8 @@ public struct AutoScaling: AWSService {
     /// Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
     ///   - endTime: The latest scheduled start time to return. If scheduled action names are provided, this property is ignored.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include scheduled actions for managed Auto Scaling groups in the response. When set to true (default), the response includes scheduled actions for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - scheduledActionNames: The names of one or more scheduled actions. If you omit this property, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. Array Members: Maximum number of 50 actions.
     ///   - startTime: The earliest scheduled start time to return. If scheduled action names are provided, this property is ignored.
@@ -1334,6 +1385,7 @@ public struct AutoScaling: AWSService {
     public func describeScheduledActions(
         autoScalingGroupName: String? = nil,
         endTime: Date? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         scheduledActionNames: [String]? = nil,
@@ -1343,6 +1395,7 @@ public struct AutoScaling: AWSService {
         let input = DescribeScheduledActionsType(
             autoScalingGroupName: autoScalingGroupName, 
             endTime: endTime, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken, 
             scheduledActionNames: scheduledActionNames, 
@@ -1368,18 +1421,21 @@ public struct AutoScaling: AWSService {
     ///
     /// Parameters:
     ///   - filters: One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include tags for managed Auto Scaling groups in the response. When set to true (default), the response includes tags for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func describeTags(
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TagsType {
         let input = DescribeTagsType(
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -1861,6 +1917,38 @@ public struct AutoScaling: AWSService {
             subnetIds: subnetIds
         )
         return try await self.launchInstances(input, logger: logger)
+    }
+
+    ///  Modifies an account setting for your account. You can use this operation to opt in or opt out of features provided through account settings when permitted. Account settings give you control over features that might have backwards-incompatible changes. When Amazon EC2 Auto Scaling introduces such changes, account settings allow you to test and adopt new features. Some account settings are enforced after a specified date. This means that after the enforcement date, you can no longer modify the setting.
+    @Sendable
+    @inlinable
+    public func putAccountSetting(_ input: PutAccountSettingType, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingAnswer {
+        try await self.client.execute(
+            operation: "PutAccountSetting", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Modifies an account setting for your account. You can use this operation to opt in or opt out of features provided through account settings when permitted. Account settings give you control over features that might have backwards-incompatible changes. When Amazon EC2 Auto Scaling introduces such changes, account settings allow you to test and adopt new features. Some account settings are enforced after a specified date. This means that after the enforcement date, you can no longer modify the setting.
+    ///
+    /// Parameters:
+    ///   - name:  The name of the account setting to modify. Each account setting has a unique name that identifies the specific feature it controls.
+    ///   - value:  The value for the account setting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountSetting(
+        name: String? = nil,
+        value: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAccountSettingAnswer {
+        let input = PutAccountSettingType(
+            name: name, 
+            value: value
+        )
+        return try await self.putAccountSetting(input, logger: logger)
     }
 
     /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook.   (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda function when an instance is put into a wait state due to a lifecycle hook.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.    Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.    If you need more time, record the lifecycle action heartbeat to keep the instance in a wait state using the RecordLifecycleActionHeartbeat API call.   If you finish before the timeout period ends, send a callback by using the CompleteLifecycleAction API call.   For more information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling group, the call fails. You can view the lifecycle hooks for an Auto Scaling group using the  DescribeLifecycleHooks API call. If you are no longer using a lifecycle hook, you can delete it by calling the DeleteLifecycleHook API.
@@ -2542,7 +2630,7 @@ public struct AutoScaling: AWSService {
 extension AutoScaling {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: AutoScaling, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -2576,13 +2664,15 @@ extension AutoScaling {
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
     ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeAutoScalingGroupsPaginator(
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
         includeInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<AutoScalingGroupNamesType, AutoScalingGroupsType> {
@@ -2590,6 +2680,7 @@ extension AutoScaling {
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
             includeInstances: includeInstances, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords
         )
         return self.describeAutoScalingGroupsPaginator(input, logger: logger)
@@ -2616,16 +2707,19 @@ extension AutoScaling {
     /// Return PaginatorSequence for operation ``describeAutoScalingInstances(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling instances in the response. When set to true (default), the response includes managed Auto Scaling instances.
     ///   - instanceIds: The IDs of the instances. If you omit this property, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 50. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeAutoScalingInstancesPaginator(
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeAutoScalingInstancesType, AutoScalingInstancesType> {
         let input = DescribeAutoScalingInstancesType(
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxRecords: maxRecords
         )
@@ -2805,16 +2899,19 @@ extension AutoScaling {
     ///
     /// - Parameters:
     ///   - autoScalingGroupNames: The name of the Auto Scaling group.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include notification configurations for managed Auto Scaling groups in the response. When set to true (default), the response includes notification configurations for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeNotificationConfigurationsPaginator(
         autoScalingGroupNames: [String]? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeNotificationConfigurationsType, DescribeNotificationConfigurationsAnswer> {
         let input = DescribeNotificationConfigurationsType(
             autoScalingGroupNames: autoScalingGroupNames, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords
         )
         return self.describeNotificationConfigurationsPaginator(input, logger: logger)
@@ -2842,13 +2939,15 @@ extension AutoScaling {
     ///
     /// - Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
-    ///   - maxRecords: The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include scaling policies for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling policies for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - policyNames: The names of one or more policies. If you omit this property, all policies are described. If a group name is provided, the results are limited to that group. If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum number of 50 items.
     ///   - policyTypes: One or more policy types. The valid values are SimpleScaling, StepScaling, TargetTrackingScaling, and PredictiveScaling.
     ///   - logger: Logger used for logging
     @inlinable
     public func describePoliciesPaginator(
         autoScalingGroupName: String? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         policyNames: [String]? = nil,
         policyTypes: [String]? = nil,
@@ -2856,6 +2955,7 @@ extension AutoScaling {
     ) -> AWSClient.PaginatorSequence<DescribePoliciesType, PoliciesType> {
         let input = DescribePoliciesType(
             autoScalingGroupName: autoScalingGroupName, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             policyNames: policyNames, 
             policyTypes: policyTypes
@@ -2888,7 +2988,8 @@ extension AutoScaling {
     ///   - autoScalingGroupName: The name of the Auto Scaling group.   Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
     ///   - filters:  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.     StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.     2000-01-18T08:15:00Z     2000-01-18T16:15:00+08:00
     ///   - includeDeletedGroups: Indicates whether to include scaling activity from deleted Auto Scaling groups.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include scaling activities for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling activities for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 100 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeScalingActivitiesPaginator(
@@ -2896,6 +2997,7 @@ extension AutoScaling {
         autoScalingGroupName: String? = nil,
         filters: [Filter]? = nil,
         includeDeletedGroups: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeScalingActivitiesType, ActivitiesType> {
@@ -2904,6 +3006,7 @@ extension AutoScaling {
             autoScalingGroupName: autoScalingGroupName, 
             filters: filters, 
             includeDeletedGroups: includeDeletedGroups, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords
         )
         return self.describeScalingActivitiesPaginator(input, logger: logger)
@@ -2932,7 +3035,8 @@ extension AutoScaling {
     /// - Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
     ///   - endTime: The latest scheduled start time to return. If scheduled action names are provided, this property is ignored.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include scheduled actions for managed Auto Scaling groups in the response. When set to true (default), the response includes scheduled actions for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - scheduledActionNames: The names of one or more scheduled actions. If you omit this property, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. Array Members: Maximum number of 50 actions.
     ///   - startTime: The earliest scheduled start time to return. If scheduled action names are provided, this property is ignored.
     ///   - logger: Logger used for logging
@@ -2940,6 +3044,7 @@ extension AutoScaling {
     public func describeScheduledActionsPaginator(
         autoScalingGroupName: String? = nil,
         endTime: Date? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         scheduledActionNames: [String]? = nil,
         startTime: Date? = nil,
@@ -2948,6 +3053,7 @@ extension AutoScaling {
         let input = DescribeScheduledActionsType(
             autoScalingGroupName: autoScalingGroupName, 
             endTime: endTime, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             scheduledActionNames: scheduledActionNames, 
             startTime: startTime
@@ -2977,16 +3083,19 @@ extension AutoScaling {
     ///
     /// - Parameters:
     ///   - filters: One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include tags for managed Auto Scaling groups in the response. When set to true (default), the response includes tags for managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeTagsPaginator(
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeTagsType, TagsType> {
         let input = DescribeTagsType(
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords
         )
         return self.describeTagsPaginator(input, logger: logger)
@@ -3077,6 +3186,7 @@ extension AutoScaling.AutoScalingGroupNamesType: AWSPaginateToken {
             autoScalingGroupNames: self.autoScalingGroupNames,
             filters: self.filters,
             includeInstances: self.includeInstances,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )
@@ -3087,6 +3197,7 @@ extension AutoScaling.DescribeAutoScalingInstancesType: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeAutoScalingInstancesType {
         return .init(
+            includeManagedResources: self.includeManagedResources,
             instanceIds: self.instanceIds,
             maxRecords: self.maxRecords,
             nextToken: token
@@ -3133,6 +3244,7 @@ extension AutoScaling.DescribeNotificationConfigurationsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeNotificationConfigurationsType {
         return .init(
             autoScalingGroupNames: self.autoScalingGroupNames,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )
@@ -3144,6 +3256,7 @@ extension AutoScaling.DescribePoliciesType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribePoliciesType {
         return .init(
             autoScalingGroupName: self.autoScalingGroupName,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token,
             policyNames: self.policyNames,
@@ -3160,6 +3273,7 @@ extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateToken {
             autoScalingGroupName: self.autoScalingGroupName,
             filters: self.filters,
             includeDeletedGroups: self.includeDeletedGroups,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )
@@ -3172,6 +3286,7 @@ extension AutoScaling.DescribeScheduledActionsType: AWSPaginateToken {
         return .init(
             autoScalingGroupName: self.autoScalingGroupName,
             endTime: self.endTime,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token,
             scheduledActionNames: self.scheduledActionNames,
@@ -3185,6 +3300,7 @@ extension AutoScaling.DescribeTagsType: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AutoScaling.DescribeTagsType {
         return .init(
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )
@@ -3256,7 +3372,8 @@ extension AutoScaling {
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
     ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger used for logging
     @inlinable
@@ -3264,6 +3381,7 @@ extension AutoScaling {
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
         includeInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3272,6 +3390,7 @@ extension AutoScaling {
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
             includeInstances: includeInstances, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -3305,7 +3424,8 @@ extension AutoScaling {
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
     ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger used for logging
     @inlinable
@@ -3313,6 +3433,7 @@ extension AutoScaling {
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
         includeInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3321,6 +3442,7 @@ extension AutoScaling {
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
             includeInstances: includeInstances, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )
@@ -3354,7 +3476,8 @@ extension AutoScaling {
     ///   - autoScalingGroupNames: The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     ///   - filters: One or more filters to limit the results based on specific tags.
     ///   - includeInstances:  Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
-    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - includeManagedResources:  Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+    ///   - maxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger used for logging
     @inlinable
@@ -3362,6 +3485,7 @@ extension AutoScaling {
         autoScalingGroupNames: [String]? = nil,
         filters: [Filter]? = nil,
         includeInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3370,6 +3494,7 @@ extension AutoScaling {
             autoScalingGroupNames: autoScalingGroupNames, 
             filters: filters, 
             includeInstances: includeInstances, 
+            includeManagedResources: includeManagedResources, 
             maxRecords: maxRecords, 
             nextToken: nextToken
         )

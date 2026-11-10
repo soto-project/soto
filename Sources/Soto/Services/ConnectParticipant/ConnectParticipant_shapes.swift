@@ -55,6 +55,12 @@ extension ConnectParticipant {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContentDisposition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachment = "ATTACHMENT"
+        case inline = "INLINE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
@@ -399,13 +405,16 @@ extension ConnectParticipant {
         public let attachmentId: String
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
+        /// Specifies how a browser handles the file at the pre-signed URL. The following values are valid:  INLINE  Displays the file in the browser.  ATTACHMENT  Downloads the file. This is the default behavior.
+        public let urlContentDisposition: ContentDisposition?
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiryInSeconds: Int?
 
         @inlinable
-        public init(attachmentId: String, connectionToken: String, urlExpiryInSeconds: Int? = nil) {
+        public init(attachmentId: String, connectionToken: String, urlContentDisposition: ContentDisposition? = nil, urlExpiryInSeconds: Int? = nil) {
             self.attachmentId = attachmentId
             self.connectionToken = connectionToken
+            self.urlContentDisposition = urlContentDisposition
             self.urlExpiryInSeconds = urlExpiryInSeconds
         }
 
@@ -414,6 +423,7 @@ extension ConnectParticipant {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.attachmentId, forKey: .attachmentId)
             request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encodeIfPresent(self.urlContentDisposition, forKey: .urlContentDisposition)
             try container.encodeIfPresent(self.urlExpiryInSeconds, forKey: .urlExpiryInSeconds)
         }
 
@@ -428,6 +438,7 @@ extension ConnectParticipant {
 
         private enum CodingKeys: String, CodingKey {
             case attachmentId = "AttachmentId"
+            case urlContentDisposition = "UrlContentDisposition"
             case urlExpiryInSeconds = "UrlExpiryInSeconds"
         }
     }
@@ -808,7 +819,7 @@ extension ConnectParticipant {
         public let clientToken: String?
         /// The authentication token associated with the connection.
         public let connectionToken: String
-        /// The content of the message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.    For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
+        /// The content of the message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see Chat message size limits by channel in the Amazon Connect Customer Administrator Guide.
         public let content: String
         /// The type of the content. Possible types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.  Supported types on the contact are configured through SupportedMessagingContentTypes on StartChatContact and StartOutboundChatContact. For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported.
         public let contentType: String

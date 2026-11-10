@@ -244,6 +244,8 @@ extension Lightsail {
         case http5xxErrorRate = "Http5xxErrorRate"
         case requests = "Requests"
         case totalErrorRate = "TotalErrorRate"
+        case wafAllowedRequests = "WafAllowedRequests"
+        case wafBlockedRequests = "WafBlockedRequests"
         public var description: String { return self.rawValue }
     }
 
@@ -335,6 +337,28 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceHealthStatusDetailName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case reachability = "reachability"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceHealthStatusDetailValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "failed"
+        case initializing = "initializing"
+        case insufficientData = "insufficient-data"
+        case passed = "passed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceHealthStatusValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case impaired = "impaired"
+        case initializing = "initializing"
+        case insufficientData = "insufficient-data"
+        case notApplicable = "not-applicable"
+        case ok = "ok"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceMetadataState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applied = "applied"
         case pending = "pending"
@@ -345,6 +369,13 @@ extension Lightsail {
         case burstCapacityPercentage = "BurstCapacityPercentage"
         case burstCapacityTime = "BurstCapacityTime"
         case cpuUtilization = "CPUUtilization"
+        case diskQueueLength = "DiskQueueLength"
+        case diskReadBytes = "DiskReadBytes"
+        case diskReadOps = "DiskReadOps"
+        case diskTotalReadTime = "DiskTotalReadTime"
+        case diskTotalWriteTime = "DiskTotalWriteTime"
+        case diskWriteBytes = "DiskWriteBytes"
+        case diskWriteOps = "DiskWriteOps"
         case metadataNoToken = "MetadataNoToken"
         case networkIn = "NetworkIn"
         case networkOut = "NetworkOut"
@@ -478,6 +509,13 @@ extension Lightsail {
         case cpuUtilization = "CPUUtilization"
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
+        case diskQueueLength = "DiskQueueLength"
+        case diskReadBytes = "DiskReadBytes"
+        case diskReadOps = "DiskReadOps"
+        case diskTotalReadTime = "DiskTotalReadTime"
+        case diskTotalWriteTime = "DiskTotalWriteTime"
+        case diskWriteBytes = "DiskWriteBytes"
+        case diskWriteOps = "DiskWriteOps"
         case freeStorageSpace = "FreeStorageSpace"
         case freeableMemory = "FreeableMemory"
         case healthyHostCount = "HealthyHostCount"
@@ -859,6 +897,18 @@ extension Lightsail {
         case tlSv122018 = "TLSv1.2_2018"
         case tlSv122019 = "TLSv1.2_2019"
         case tlSv122021 = "TLSv1.2_2021"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WafInspectionLevelEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case common = "COMMON"
+        case targeted = "TARGETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WafPayloadTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case formEncoded = "FORM_ENCODED"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
@@ -3171,6 +3221,8 @@ extension Lightsail {
         public let distributionName: String
         /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
         public let enablePrivateOriginAccess: Bool?
+        /// Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests.  WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle.
+        public let enableWaf: Bool?
         /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -3179,9 +3231,11 @@ extension Lightsail {
         public let tags: [Tag]?
         /// The minimum TLS protocol version for the SSL/TLS certificate.
         public let viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum?
+        /// An array of objects that describe the WAF rule groups to enable for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:    medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.    large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
+        public let wafRules: [WafRule]?
 
         @inlinable
-        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior, defaultRootObject: String? = nil, distributionName: String, enablePrivateOriginAccess: Bool? = nil, ipAddressType: IpAddressType? = nil, origin: InputOrigin, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil) {
+        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior, defaultRootObject: String? = nil, distributionName: String, enablePrivateOriginAccess: Bool? = nil, enableWaf: Bool? = nil, ipAddressType: IpAddressType? = nil, origin: InputOrigin, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil, wafRules: [WafRule]? = nil) {
             self.bundleId = bundleId
             self.cacheBehaviors = cacheBehaviors
             self.cacheBehaviorSettings = cacheBehaviorSettings
@@ -3191,10 +3245,12 @@ extension Lightsail {
             self.defaultRootObject = defaultRootObject
             self.distributionName = distributionName
             self.enablePrivateOriginAccess = enablePrivateOriginAccess
+            self.enableWaf = enableWaf
             self.ipAddressType = ipAddressType
             self.origin = origin
             self.tags = tags
             self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+            self.wafRules = wafRules
         }
 
         public func validate(name: String) throws {
@@ -3214,10 +3270,12 @@ extension Lightsail {
             case defaultRootObject = "defaultRootObject"
             case distributionName = "distributionName"
             case enablePrivateOriginAccess = "enablePrivateOriginAccess"
+            case enableWaf = "enableWaf"
             case ipAddressType = "ipAddressType"
             case origin = "origin"
             case tags = "tags"
             case viewerMinimumTlsProtocolVersion = "viewerMinimumTlsProtocolVersion"
+            case wafRules = "wafRules"
         }
     }
 
@@ -6459,7 +6517,7 @@ extension Lightsail {
         public let distributionName: String
         /// The end of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let endTime: Date
-        /// The metric for which you want to return information. Valid distribution metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     Requests - The total number of viewer requests received by your Lightsail distribution, for all HTTP methods, and for both HTTP and HTTPS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesDownloaded - The number of bytes downloaded by viewers for GET, HEAD, and OPTIONS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesUploaded  - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     TotalErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 4xx or 5xx.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     4xxErrorRate - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     5xxErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.
+        /// The metric for which you want to return information. Valid distribution metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     Requests - The total number of viewer requests received by your Lightsail distribution, for all HTTP methods, and for both HTTP and HTTPS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesDownloaded - The number of bytes downloaded by viewers for GET, HEAD, and OPTIONS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesUploaded  - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     TotalErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 4xx or 5xx.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     4xxErrorRate - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     5xxErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     WafAllowedRequests - The number of viewer requests that Web Application Firewall (WAF) allowed. This metric is available only when WAF is enabled for the distribution.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     WafBlockedRequests - The number of viewer requests that WAF blocked. This metric is available only when WAF is enabled for the distribution.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.
         public let metricName: DistributionMetricName
         /// The granularity, in seconds, for the metric data points that will be returned.
         public let period: Int
@@ -6689,7 +6747,7 @@ extension Lightsail {
         public let endTime: Date
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
-        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
+        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     DiskReadOps - The number of read operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     DiskWriteOps - The number of write operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     DiskReadBytes - The number of bytes read from the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     DiskWriteBytes - The number of bytes written to the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     DiskTotalReadTime - The total number of seconds spent by all read operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     DiskTotalWriteTime - The total number of seconds spent by all write operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     DiskQueueLength - The number of read and write requests that are waiting to access the system disk of the instance. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Average.  Unit: The published unit is Count.   For more information about system disk performance metrics, see View system disk performance metrics for your Lightsail instance.
         public let metricName: InstanceMetricName
         /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
@@ -6779,11 +6837,14 @@ extension Lightsail {
     }
 
     public struct GetInstanceRequest: AWSEncodableShape {
+        /// Specifies whether to include the instance health status checks in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of the instance. When omitted or set to false, the response doesn't include them.
+        public let includeHealthStatus: Bool?
         /// The name of the instance.
         public let instanceName: String
 
         @inlinable
-        public init(instanceName: String) {
+        public init(includeHealthStatus: Bool? = nil, instanceName: String) {
+            self.includeHealthStatus = includeHealthStatus
             self.instanceName = instanceName
         }
 
@@ -6792,6 +6853,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includeHealthStatus = "includeHealthStatus"
             case instanceName = "instanceName"
         }
     }
@@ -6907,15 +6969,19 @@ extension Lightsail {
     }
 
     public struct GetInstancesRequest: AWSEncodableShape {
+        /// Specifies whether to include the instance health status checks of each instance in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of each instance. When omitted or set to false, the response doesn't include them.
+        public let includeHealthStatus: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         @inlinable
-        public init(pageToken: String? = nil) {
+        public init(includeHealthStatus: Bool? = nil, pageToken: String? = nil) {
+            self.includeHealthStatus = includeHealthStatus
             self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includeHealthStatus = "includeHealthStatus"
             case pageToken = "pageToken"
         }
     }
@@ -8088,6 +8154,8 @@ extension Lightsail {
         public let createdAt: Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public let hardware: InstanceHardware?
+        /// Reports impaired functionality that stems from issues internal to the instance, such as impaired reachability. This value is returned only when you set includeHealthStatus to true in your request.
+        public let instanceStatus: InstanceHealthStatus?
         /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType?
         /// The IPv6 addresses of the instance.
@@ -8114,13 +8182,15 @@ extension Lightsail {
         public let state: InstanceState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
+        /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems. This value is returned only when you set includeHealthStatus to true in your request.
+        public let systemStatus: InstanceHealthStatus?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
         /// The user name for connecting to the instance (ec2-user).
         public let username: String?
 
         @inlinable
-        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, ipAddressType: IpAddressType? = nil, ipv6Addresses: [String]? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, metadataOptions: InstanceMetadataOptions? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, hardware: InstanceHardware? = nil, instanceStatus: InstanceHealthStatus? = nil, ipAddressType: IpAddressType? = nil, ipv6Addresses: [String]? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, metadataOptions: InstanceMetadataOptions? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, systemStatus: InstanceHealthStatus? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.addOns = addOns
             self.arn = arn
             self.blueprintId = blueprintId
@@ -8128,6 +8198,7 @@ extension Lightsail {
             self.bundleId = bundleId
             self.createdAt = createdAt
             self.hardware = hardware
+            self.instanceStatus = instanceStatus
             self.ipAddressType = ipAddressType
             self.ipv6Addresses = ipv6Addresses
             self.isStaticIp = isStaticIp
@@ -8141,6 +8212,7 @@ extension Lightsail {
             self.sshKeyName = sshKeyName
             self.state = state
             self.supportCode = supportCode
+            self.systemStatus = systemStatus
             self.tags = tags
             self.username = username
         }
@@ -8153,6 +8225,7 @@ extension Lightsail {
             case bundleId = "bundleId"
             case createdAt = "createdAt"
             case hardware = "hardware"
+            case instanceStatus = "instanceStatus"
             case ipAddressType = "ipAddressType"
             case ipv6Addresses = "ipv6Addresses"
             case isStaticIp = "isStaticIp"
@@ -8166,6 +8239,7 @@ extension Lightsail {
             case sshKeyName = "sshKeyName"
             case state = "state"
             case supportCode = "supportCode"
+            case systemStatus = "systemStatus"
             case tags = "tags"
             case username = "username"
         }
@@ -8225,6 +8299,24 @@ extension Lightsail {
         }
     }
 
+    public struct InstanceAttributeUpdates: AWSEncodableShape {
+        /// The ID of the bundle to update the instance to. Specify one of the following values for the bundle ID:     auto – Updates an instance that runs on a previous-generation bundle to the newer-generation equivalent of that bundle. For example, specify auto to update an instance that runs on small_2_0 to small_3_0.    Newer-generation bundle ID – Updates an instance that runs on a previous-generation bundle to the specified bundle. For example, specify small_3_0 to update an instance that runs on small_2_0 to small_3_0.    Original bundle ID – Updates an instance to the previous-generation bundle that it ran on before an earlier update. For example, specify small_2_0 to return an instance that runs on small_3_0 to small_2_0.    The instance must be in the stopped state to update its bundle. There is no additional cost to update an instance to a newer-generation bundle.
+        public let bundleId: String?
+
+        @inlinable
+        public init(bundleId: String? = nil) {
+            self.bundleId = bundleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+        }
+    }
+
     public struct InstanceEntry: AWSEncodableShape {
         /// The Availability Zone for the new Amazon EC2 instance.
         public let availabilityZone: String
@@ -8279,6 +8371,46 @@ extension Lightsail {
             case cpuCount = "cpuCount"
             case disks = "disks"
             case ramSizeInGb = "ramSizeInGb"
+        }
+    }
+
+    public struct InstanceHealthStatus: AWSDecodableShape {
+        /// The system instance health or instance health.
+        public let details: [InstanceHealthStatusDetail]?
+        /// The status. The following values are possible:    ok - All checks are passing. The instance is reachable.    impaired - One or more checks have failed.    initializing - The instance was recently started, and the checks are in progress.    insufficient-data - There isn't enough data yet to determine the result.    not-applicable - The check doesn't apply because the instance isn't running.
+        public let status: InstanceHealthStatusValue?
+
+        @inlinable
+        public init(details: [InstanceHealthStatusDetail]? = nil, status: InstanceHealthStatusValue? = nil) {
+            self.details = details
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case status = "status"
+        }
+    }
+
+    public struct InstanceHealthStatusDetail: AWSDecodableShape {
+        /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
+        public let impairedSince: Date?
+        /// The type of instance status. The only possible value is reachability.
+        public let name: InstanceHealthStatusDetailName?
+        /// The status. The following values are possible:    passed - The check passed.    failed - The check failed.    initializing - The check is in progress.    insufficient-data - There isn't enough data yet to determine the result.
+        public let status: InstanceHealthStatusDetailValue?
+
+        @inlinable
+        public init(impairedSince: Date? = nil, name: InstanceHealthStatusDetailName? = nil, status: InstanceHealthStatusDetailValue? = nil) {
+            self.impairedSince = impairedSince
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impairedSince = "impairedSince"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -8683,9 +8815,11 @@ extension Lightsail {
         public let tags: [Tag]?
         /// The minimum TLS protocol version that the distribution can use to communicate with viewers.
         public let viewerMinimumTlsProtocolVersion: String?
+        /// An object that describes the Web Application Firewall (WAF) configuration of the distribution.
+        public let waf: WafConfig?
 
         @inlinable
-        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior? = nil, defaultRootObject: String? = nil, domainName: String? = nil, ipAddressType: IpAddressType? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: String? = nil) {
+        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior? = nil, defaultRootObject: String? = nil, domainName: String? = nil, ipAddressType: IpAddressType? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: String? = nil, waf: WafConfig? = nil) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
             self.arn = arn
@@ -8709,6 +8843,7 @@ extension Lightsail {
             self.supportCode = supportCode
             self.tags = tags
             self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+            self.waf = waf
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8735,6 +8870,7 @@ extension Lightsail {
             case supportCode = "supportCode"
             case tags = "tags"
             case viewerMinimumTlsProtocolVersion = "viewerMinimumTlsProtocolVersion"
+            case waf = "waf"
         }
     }
 
@@ -9539,7 +9675,7 @@ extension Lightsail {
         public let datapointsToAlarm: Int?
         /// The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods) is the N. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).
         public let evaluationPeriods: Int
-        /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:    Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System.    Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.    Relational databases: CPUUtilization, DatabaseConnections, DiskQueueDepth, FreeStorageSpace, NetworkReceiveThroughput, and NetworkTransmitThroughput.   For more information about these metrics, see Metrics available in Lightsail.
+        /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:    Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, StatusCheckFailed_System, DiskReadOps, DiskWriteOps, DiskReadBytes, DiskWriteBytes, DiskTotalReadTime, DiskTotalWriteTime, and DiskQueueLength.    Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.    Relational databases: CPUUtilization, DatabaseConnections, DiskQueueDepth, FreeStorageSpace, NetworkReceiveThroughput, and NetworkTransmitThroughput.   For more information about these metrics, see Metrics available in Lightsail.
         public let metricName: MetricName
         /// The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms.
         public let monitoredResourceName: String
@@ -10795,19 +10931,24 @@ extension Lightsail {
     }
 
     public struct StartInstanceRequest: AWSEncodableShape {
+        /// An object that describes the attributes to update on the instance before it starts.
+        public let attributeUpdates: InstanceAttributeUpdates?
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
 
         @inlinable
-        public init(instanceName: String) {
+        public init(attributeUpdates: InstanceAttributeUpdates? = nil, instanceName: String) {
+            self.attributeUpdates = attributeUpdates
             self.instanceName = instanceName
         }
 
         public func validate(name: String) throws {
+            try self.attributeUpdates?.validate(name: "\(name).attributeUpdates")
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "^\\w[\\w\\-]*\\w$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributeUpdates = "attributeUpdates"
             case instanceName = "instanceName"
         }
     }
@@ -11448,6 +11589,8 @@ extension Lightsail {
         public let distributionName: String
         /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
         public let enablePrivateOriginAccess: Bool?
+        /// Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests.  WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle. Setting this parameter to false disables WAF for the distribution and removes its WAF rule groups. You must enable the WAF rule groups again if you enable WAF again.
+        public let enableWaf: Bool?
         /// Indicates whether to enable the distribution.
         public let isEnabled: Bool?
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -11456,9 +11599,11 @@ extension Lightsail {
         public let useDefaultCertificate: Bool?
         /// Use this parameter to update the minimum TLS protocol version for the SSL/TLS certificate that's attached to the distribution.
         public let viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum?
+        /// An array of objects that describe the WAF rule groups to enable for the distribution. The array that you specify replaces the existing WAF rule groups of the distribution. To keep a WAF rule group enabled, include it in the array. To disable all WAF rule groups, specify an empty array. You can specify this parameter only when WAF is enabled for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:    medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.    large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
+        public let wafRules: [WafRule]?
 
         @inlinable
-        public init(cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior? = nil, defaultRootObject: String? = nil, distributionName: String, enablePrivateOriginAccess: Bool? = nil, isEnabled: Bool? = nil, origin: InputOrigin? = nil, useDefaultCertificate: Bool? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil) {
+        public init(cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior? = nil, defaultRootObject: String? = nil, distributionName: String, enablePrivateOriginAccess: Bool? = nil, enableWaf: Bool? = nil, isEnabled: Bool? = nil, origin: InputOrigin? = nil, useDefaultCertificate: Bool? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil, wafRules: [WafRule]? = nil) {
             self.cacheBehaviors = cacheBehaviors
             self.cacheBehaviorSettings = cacheBehaviorSettings
             self.certificateName = certificateName
@@ -11467,10 +11612,12 @@ extension Lightsail {
             self.defaultRootObject = defaultRootObject
             self.distributionName = distributionName
             self.enablePrivateOriginAccess = enablePrivateOriginAccess
+            self.enableWaf = enableWaf
             self.isEnabled = isEnabled
             self.origin = origin
             self.useDefaultCertificate = useDefaultCertificate
             self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+            self.wafRules = wafRules
         }
 
         public func validate(name: String) throws {
@@ -11489,10 +11636,12 @@ extension Lightsail {
             case defaultRootObject = "defaultRootObject"
             case distributionName = "distributionName"
             case enablePrivateOriginAccess = "enablePrivateOriginAccess"
+            case enableWaf = "enableWaf"
             case isEnabled = "isEnabled"
             case origin = "origin"
             case useDefaultCertificate = "useDefaultCertificate"
             case viewerMinimumTlsProtocolVersion = "viewerMinimumTlsProtocolVersion"
+            case wafRules = "wafRules"
         }
     }
 
@@ -11741,6 +11890,138 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
+        }
+    }
+
+    public struct WafAcfpConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The path of the endpoint that accepts completed account creation forms (for example, /signup/submit). This endpoint must accept POST requests. Constraints:   Must start with a forward slash (/).   Must contain from 1 to 256 characters.
+        public let creationPath: String?
+        /// The content type of the request body of account creation requests. The following content types are possible:    JSON – The request body is in JSON format.    FORM_ENCODED – The request body is form encoded.
+        public let payloadType: WafPayloadTypeEnum?
+        /// The path of the page that displays the account creation form (for example, /signup). Constraints:   Must start with a forward slash (/).   Must contain from 1 to 256 characters.
+        public let registrationPagePath: String?
+        /// An object that describes the HTTP status codes that your application returns for successful and failed account creation attempts.
+        public let responseInspection: WafResponseInspection?
+
+        @inlinable
+        public init(creationPath: String? = nil, payloadType: WafPayloadTypeEnum? = nil, registrationPagePath: String? = nil, responseInspection: WafResponseInspection? = nil) {
+            self.creationPath = creationPath
+            self.payloadType = payloadType
+            self.registrationPagePath = registrationPagePath
+            self.responseInspection = responseInspection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationPath = "creationPath"
+            case payloadType = "payloadType"
+            case registrationPagePath = "registrationPagePath"
+            case responseInspection = "responseInspection"
+        }
+    }
+
+    public struct WafAtpConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The path of the login endpoint of your application (for example, /login). Login paths that start with the path that you specify are a match. Constraints:   Must start with a forward slash (/).   Must contain from 1 to 256 characters.
+        public let loginPath: String?
+        /// The name of the field in the request body that contains the password (for example, /password for JSON or password for FORM_ENCODED). Constraints:   For a JSON payload, must be a JSON pointer that starts with a forward slash (/).   Must contain from 1 to 512 characters.
+        public let passwordField: String?
+        /// The content type of the request body of login requests. The following content types are possible:    JSON – The request body is in JSON format.    FORM_ENCODED – The request body is form encoded.
+        public let payloadType: WafPayloadTypeEnum?
+        /// An object that describes the HTTP status codes that your application returns for successful and failed login attempts.
+        public let responseInspection: WafResponseInspection?
+        /// The name of the field in the request body that contains the username (for example, /username for JSON or username for FORM_ENCODED). Constraints:   For a JSON payload, must be a JSON pointer that starts with a forward slash (/).   Must contain from 1 to 512 characters.
+        public let usernameField: String?
+
+        @inlinable
+        public init(loginPath: String? = nil, passwordField: String? = nil, payloadType: WafPayloadTypeEnum? = nil, responseInspection: WafResponseInspection? = nil, usernameField: String? = nil) {
+            self.loginPath = loginPath
+            self.passwordField = passwordField
+            self.payloadType = payloadType
+            self.responseInspection = responseInspection
+            self.usernameField = usernameField
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loginPath = "loginPath"
+            case passwordField = "passwordField"
+            case payloadType = "payloadType"
+            case responseInspection = "responseInspection"
+            case usernameField = "usernameField"
+        }
+    }
+
+    public struct WafBotControlConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The inspection level of the bot control rule group. The following inspection levels are possible:    COMMON – Detects a variety of bots that identify themselves, such as web scraping frameworks, search engines, and automated browsers.    TARGETED – Includes the COMMON protections, and adds detection for sophisticated bots that don't identify themselves. This level uses rate limiting, CAPTCHA, and background browser challenges.
+        public let inspectionLevel: WafInspectionLevelEnum?
+
+        @inlinable
+        public init(inspectionLevel: WafInspectionLevelEnum? = nil) {
+            self.inspectionLevel = inspectionLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inspectionLevel = "inspectionLevel"
+        }
+    }
+
+    public struct WafConfig: AWSDecodableShape {
+        /// Specifies whether WAF is enabled for the distribution.
+        public let isWafEnabled: Bool?
+        /// An array of objects that describe the WAF rule groups enabled for the distribution.
+        public let wafRules: [WafRule]?
+
+        @inlinable
+        public init(isWafEnabled: Bool? = nil, wafRules: [WafRule]? = nil) {
+            self.isWafEnabled = isWafEnabled
+            self.wafRules = wafRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isWafEnabled = "isWafEnabled"
+            case wafRules = "wafRules"
+        }
+    }
+
+    public struct WafResponseInspection: AWSEncodableShape & AWSDecodableShape {
+        /// The HTTP status codes that indicate a failed attempt (for example, 401). Constraints:   Must contain from 1 to 10 status codes.   Each status code must be from 0 to 999.   Can't contain a status code that is also in successCodes.
+        public let failureCodes: [Int]?
+        /// The HTTP status codes that indicate a successful attempt (for example, 200). Constraints:   Must contain from 1 to 10 status codes.   Each status code must be from 0 to 999.   Can't contain a status code that is also in failureCodes.
+        public let successCodes: [Int]?
+
+        @inlinable
+        public init(failureCodes: [Int]? = nil, successCodes: [Int]? = nil) {
+            self.failureCodes = failureCodes
+            self.successCodes = successCodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCodes = "failureCodes"
+            case successCodes = "successCodes"
+        }
+    }
+
+    public struct WafRule: AWSEncodableShape & AWSDecodableShape {
+        /// An object that describes the configuration of the account creation fraud prevention rule group. Constraints:   Define this parameter only when the name is AWSManagedRulesACFPRuleSet.   This parameter is required when the name is AWSManagedRulesACFPRuleSet.
+        public let acfpConfig: WafAcfpConfig?
+        /// An object that describes the configuration of the account takeover prevention rule group. Constraints:   Define this parameter only when the name is AWSManagedRulesATPRuleSet.   This parameter is required when the name is AWSManagedRulesATPRuleSet.
+        public let atpConfig: WafAtpConfig?
+        /// An object that describes the configuration of the bot control rule group. Constraints:   Define this parameter only when the name is AWSManagedRulesBotControlRuleSet.   This parameter is required when the name is AWSManagedRulesBotControlRuleSet.
+        public let botControlConfig: WafBotControlConfig?
+        /// The name of the WAF rule group (for example, AWSManagedRulesCommonRuleSet). For the WAF rule groups that you can specify for each bundle, see the wafRules parameter of the CreateDistribution action.
+        public let name: String
+
+        @inlinable
+        public init(acfpConfig: WafAcfpConfig? = nil, atpConfig: WafAtpConfig? = nil, botControlConfig: WafBotControlConfig? = nil, name: String) {
+            self.acfpConfig = acfpConfig
+            self.atpConfig = atpConfig
+            self.botControlConfig = botControlConfig
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acfpConfig = "acfpConfig"
+            case atpConfig = "atpConfig"
+            case botControlConfig = "botControlConfig"
+            case name = "name"
         }
     }
 }

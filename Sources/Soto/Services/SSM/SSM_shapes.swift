@@ -250,6 +250,12 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum DHMCPermissionModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case selfManaged = "SELF_MANAGED"
+        case serviceManaged = "SERVICE_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case removeSharing = "RemoveSharing"
         case rollbackMigration = "RollbackMigration"
@@ -4296,6 +4302,14 @@ extension SSM {
         public init() {}
     }
 
+    public struct DeregisterDefaultHostManagementConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeregisterDefaultHostManagementConfigurationResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeregisterManagedInstanceRequest: AWSEncodableShape {
         /// The ID assigned to the managed node when you registered it using the activation process.
         public let instanceId: String
@@ -8171,7 +8185,7 @@ extension SSM {
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
         public let path: String
-        /// Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API operation recursively for /a and view /a/b.
+        /// Retrieve all parameters within a hierarchy.
         public let recursive: Bool?
         /// Retrieve all parameters in a hierarchy with their value decrypted.
         public let withDecryption: Bool?
@@ -13048,6 +13062,48 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case policyHash = "PolicyHash"
             case policyId = "PolicyId"
+        }
+    }
+
+    public struct RegisterDefaultHostManagementConfigurationRequest: AWSEncodableShape {
+        /// Specifies whether to override the role that is currently registered for Default Host Management Configuration. The default is false, which acts as a guardrail against accidentally replacing an existing configuration. Set this to true to replace the currently registered role.
+        public let overwrite: Bool?
+        /// The permission model that determines how the IAM role for Default Host Management Configuration is provided. The permission model can be one of the following values:  SERVICE_MANAGED  Amazon Web Services Systems Manager creates and manages the role on your behalf.  SELF_MANAGED  You provide the role to register in RoleArn.
+        public let permissionModel: DHMCPermissionModel
+        /// The Amazon Resource Name (ARN) of the self-managed IAM role that you register for Default Host Management Configuration. The requirement for this value depends on the permission model:   If PermissionModel is SELF_MANAGED, this value is required.   If PermissionModel is SERVICE_MANAGED, this value must not be set.
+        public let roleArn: String?
+
+        @inlinable
+        public init(overwrite: Bool? = nil, permissionModel: DHMCPermissionModel, roleArn: String? = nil) {
+            self.overwrite = overwrite
+            self.permissionModel = permissionModel
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:iam::\\d{12}:role/[\\w+=,.@/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overwrite = "Overwrite"
+            case permissionModel = "PermissionModel"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct RegisterDefaultHostManagementConfigurationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role registered for Default Host Management Configuration. The value depends on the permission model:  SERVICE_MANAGED  The ARN of the role that Amazon Web Services Systems Manager created in the IAM reserved path.  SELF_MANAGED  The RoleArn that you provided.
+        public let roleArn: String?
+
+        @inlinable
+        public init(roleArn: String? = nil) {
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
         }
     }
 

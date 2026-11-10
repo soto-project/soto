@@ -175,6 +175,8 @@ extension RolesAnywhere {
     }
 
     public struct CreateTrustAnchorRequest: AWSEncodableShape {
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public let crlDpRevocationEnabled: Bool?
         /// Specifies whether the trust anchor is enabled.
         public let enabled: Bool?
         /// The name of the trust anchor.
@@ -187,7 +189,8 @@ extension RolesAnywhere {
         public let tags: [Tag]?
 
         @inlinable
-        public init(enabled: Bool? = nil, name: String, notificationSettings: [NotificationSetting]? = nil, source: Source, tags: [Tag]? = nil) {
+        public init(crlDpRevocationEnabled: Bool? = nil, enabled: Bool? = nil, name: String, notificationSettings: [NotificationSetting]? = nil, source: Source, tags: [Tag]? = nil) {
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.enabled = enabled
             self.name = name
             self.notificationSettings = notificationSettings
@@ -207,6 +210,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crlDpRevocationEnabled = "crlDpRevocationEnabled"
             case enabled = "enabled"
             case name = "name"
             case notificationSettings = "notificationSettings"
@@ -936,6 +940,24 @@ extension RolesAnywhere {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ServiceUnavailableException: AWSErrorShape {
+        /// The exception message.
+        public let message: String
+        /// The recommended number of seconds after which the client should retry the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case retryAfterSeconds = "retryAfterSeconds"
+        }
+    }
+
     public struct Source: AWSEncodableShape & AWSDecodableShape {
         /// The data field of the trust anchor depending on its type.
         public let sourceData: SourceData?
@@ -1112,6 +1134,8 @@ extension RolesAnywhere {
     public struct TrustAnchorDetail: AWSDecodableShape {
         /// The ISO-8601 timestamp when the trust anchor was created.
         public let createdAt: Date?
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public let crlDpRevocationEnabled: Bool?
         /// Indicates whether the trust anchor is enabled.
         public let enabled: Bool?
         /// The name of the trust anchor.
@@ -1128,8 +1152,9 @@ extension RolesAnywhere {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, enabled: Bool? = nil, name: String? = nil, notificationSettings: [NotificationSettingDetail]? = nil, source: Source? = nil, trustAnchorArn: String? = nil, trustAnchorId: String? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, crlDpRevocationEnabled: Bool? = nil, enabled: Bool? = nil, name: String? = nil, notificationSettings: [NotificationSettingDetail]? = nil, source: Source? = nil, trustAnchorArn: String? = nil, trustAnchorId: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.enabled = enabled
             self.name = name
             self.notificationSettings = notificationSettings
@@ -1141,6 +1166,7 @@ extension RolesAnywhere {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case crlDpRevocationEnabled = "crlDpRevocationEnabled"
             case enabled = "enabled"
             case name = "name"
             case notificationSettings = "notificationSettings"
@@ -1302,6 +1328,8 @@ extension RolesAnywhere {
     }
 
     public struct UpdateTrustAnchorRequest: AWSEncodableShape {
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public let crlDpRevocationEnabled: Bool?
         /// The name of the trust anchor.
         public let name: String?
         /// The trust anchor type and its related certificate data.
@@ -1310,7 +1338,8 @@ extension RolesAnywhere {
         public let trustAnchorId: String
 
         @inlinable
-        public init(name: String? = nil, source: Source? = nil, trustAnchorId: String) {
+        public init(crlDpRevocationEnabled: Bool? = nil, name: String? = nil, source: Source? = nil, trustAnchorId: String) {
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.name = name
             self.source = source
             self.trustAnchorId = trustAnchorId
@@ -1319,6 +1348,7 @@ extension RolesAnywhere {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.crlDpRevocationEnabled, forKey: .crlDpRevocationEnabled)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.source, forKey: .source)
             request.encodePath(self.trustAnchorId, key: "trustAnchorId")
@@ -1334,6 +1364,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crlDpRevocationEnabled = "crlDpRevocationEnabled"
             case name = "name"
             case source = "source"
         }
@@ -1347,6 +1378,7 @@ public struct RolesAnywhereErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case tooManyTagsException = "TooManyTagsException"
         case validationException = "ValidationException"
     }
@@ -1373,10 +1405,18 @@ public struct RolesAnywhereErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request has failed due to a temporary failure of the service.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Too many tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Validation exception error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension RolesAnywhereErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ServiceUnavailableException": RolesAnywhere.ServiceUnavailableException.self
+    ]
 }
 
 extension RolesAnywhereErrorType: Equatable {

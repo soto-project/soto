@@ -160,6 +160,7 @@ public struct RolesAnywhere: AWSService {
     /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.  Required permissions:  rolesanywhere:CreateTrustAnchor.
     ///
     /// Parameters:
+    ///   - crlDpRevocationEnabled: Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
     ///   - enabled: Specifies whether the trust anchor is enabled.
     ///   - name: The name of the trust anchor.
     ///   - notificationSettings: A list of notification settings to be associated to the trust anchor.
@@ -168,6 +169,7 @@ public struct RolesAnywhere: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createTrustAnchor(
+        crlDpRevocationEnabled: Bool? = nil,
         enabled: Bool? = nil,
         name: String,
         notificationSettings: [NotificationSetting]? = nil,
@@ -176,6 +178,7 @@ public struct RolesAnywhere: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TrustAnchorDetailResponse {
         let input = CreateTrustAnchorRequest(
+            crlDpRevocationEnabled: crlDpRevocationEnabled, 
             enabled: enabled, 
             name: name, 
             notificationSettings: notificationSettings, 
@@ -1056,18 +1059,21 @@ public struct RolesAnywhere: AWSService {
     /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.  Required permissions:  rolesanywhere:UpdateTrustAnchor.
     ///
     /// Parameters:
+    ///   - crlDpRevocationEnabled: Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
     ///   - name: The name of the trust anchor.
     ///   - source: The trust anchor type and its related certificate data.
     ///   - trustAnchorId: The unique identifier of the trust anchor.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTrustAnchor(
+        crlDpRevocationEnabled: Bool? = nil,
         name: String? = nil,
         source: Source? = nil,
         trustAnchorId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TrustAnchorDetailResponse {
         let input = UpdateTrustAnchorRequest(
+            crlDpRevocationEnabled: crlDpRevocationEnabled, 
             name: name, 
             source: source, 
             trustAnchorId: trustAnchorId
@@ -1079,7 +1085,7 @@ public struct RolesAnywhere: AWSService {
 extension RolesAnywhere {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: RolesAnywhere, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

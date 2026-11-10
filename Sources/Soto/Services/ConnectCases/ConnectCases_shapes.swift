@@ -290,6 +290,41 @@ extension ConnectCases {
         }
     }
 
+    public enum CaseIdentifierUnion: AWSEncodableShape, Sendable {
+        /// The unique identifier of the case.
+        case caseId(String)
+        /// The reference ID of the case. Reference IDs are unique within a domain, and uniqueness isn't case sensitive.
+        case referenceId(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .caseId(let value):
+                try container.encode(value, forKey: .caseId)
+            case .referenceId(let value):
+                try container.encode(value, forKey: .referenceId)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .caseId(let value):
+                try self.validate(value, name: "caseId", parent: name, max: 500)
+                try self.validate(value, name: "caseId", parent: name, min: 1)
+                try self.validate(value, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
+            case .referenceId(let value):
+                try self.validate(value, name: "referenceId", parent: name, max: 50)
+                try self.validate(value, name: "referenceId", parent: name, min: 1)
+                try self.validate(value, name: "referenceId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+            case referenceId = "referenceId"
+        }
+    }
+
     public enum CaseRuleDetails: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Which options are available in a child field based on the selected value in a parent field.
         case fieldOptions(FieldOptionsCaseRule)
@@ -457,6 +492,40 @@ extension ConnectCases {
         }
     }
 
+    public enum FieldIdentifierUnion: AWSEncodableShape, Sendable {
+        /// The unique identifier of the field.
+        case id(String)
+        /// The name of the field.
+        case name(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .id(let value):
+                try container.encode(value, forKey: .id)
+            case .name(let value):
+                try container.encode(value, forKey: .name)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .id(let value):
+                try self.validate(value, name: "id", parent: name, max: 500)
+                try self.validate(value, name: "id", parent: name, min: 1)
+            case .name(let value):
+                try self.validate(value, name: "name", parent: name, max: 100)
+                try self.validate(value, name: "name", parent: name, min: 1)
+                try self.validate(value, name: "name", parent: name, pattern: "^.*[\\S]$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+        }
+    }
+
     public enum FieldValueUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Can be either null, or have a Boolean value type. Only one value can be provided.
         case booleanValue(Bool)
@@ -582,7 +651,7 @@ extension ConnectCases {
     public enum RelatedItemContent: AWSDecodableShape, Sendable {
         /// Represents the content of a comment to be returned to agents.
         case comment(CommentContent)
-        /// Represents the Amazon Connect case to be created as a related item.
+        /// Represents the Connect Customer case to be created as a related item.
         case connectCase(ConnectCaseContent)
         /// Represents the content of a contact to be returned to agents.
         case contact(ContactContent)
@@ -637,9 +706,9 @@ extension ConnectCases {
     public enum RelatedItemInputContent: AWSEncodableShape, Sendable {
         /// Represents the content of a comment to be returned to agents.
         case comment(CommentContent)
-        /// Represents the Amazon Connect case to be created as a related item.
+        /// Represents the Connect Customer case to be created as a related item.
         case connectCase(ConnectCaseInputContent)
-        /// Object representing a contact in Amazon Connect as an API request field.
+        /// Object representing a contact in Connect Customer as an API request field.
         case contact(Contact)
         /// Represents the content of a Custom type related item.
         case custom(CustomInputContent)
@@ -696,7 +765,7 @@ extension ConnectCases {
     public enum RelatedItemTypeFilter: AWSEncodableShape, Sendable {
         /// A filter for related items of type Comment.
         case comment(CommentFilter)
-        /// Represents the Amazon Connect case to be created as a related item.
+        /// Represents the Connect Customer case to be created as a related item.
         case connectCase(ConnectCaseFilter)
         /// A filter for related items of type Contact.
         case contact(ContactFilter)
@@ -784,7 +853,7 @@ extension ConnectCases {
     public enum UserUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Any provided entity.
         case customEntity(String)
-        /// Represents the Amazon Connect ARN of the user.
+        /// Represents the Connect Customer ARN of the user.
         case userArn(String)
 
         public init(from decoder: Decoder) throws {
@@ -930,6 +999,126 @@ extension ConnectCases {
         private enum CodingKeys: String, CodingKey {
             case moreInfo = "moreInfo"
             case topPanel = "topPanel"
+        }
+    }
+
+    public struct BatchCreateRelatedItemErrorEntry: AWSDecodableShape {
+        /// The identifiers of the case that the related item wasn't created for.
+        public let caseIdentifier: CaseIdentifier
+        /// The error code. For possible values, see failedItems.
+        public let errorCode: String
+        /// A message that describes the error.
+        public let errorMessage: String
+
+        @inlinable
+        public init(caseIdentifier: CaseIdentifier, errorCode: String, errorMessage: String) {
+            self.caseIdentifier = caseIdentifier
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseIdentifier = "caseIdentifier"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct BatchCreateRelatedItemIdentifier: AWSEncodableShape {
+        /// The identifier of the case to associate the related item with. Specify either the case ID or the reference ID.
+        public let caseIdentifier: CaseIdentifierUnion
+
+        @inlinable
+        public init(caseIdentifier: CaseIdentifierUnion) {
+            self.caseIdentifier = caseIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.caseIdentifier.validate(name: "\(name).caseIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseIdentifier = "caseIdentifier"
+        }
+    }
+
+    public struct BatchCreateRelatedItemRequest: AWSEncodableShape {
+        /// The list of cases to associate the related item with. All cases must belong to the same domain.
+        public let cases: [BatchCreateRelatedItemIdentifier]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If you retry a request with the same client token, the service returns the original response instead of processing the request again. If you reuse a client token with different request parameters, the request fails with a ConflictException.
+        public let clientToken: String?
+        /// The content of the related item to be created. The same content is applied to every case in the request. Only comment content is supported for batch creation.
+        public let content: RelatedItemInputContent
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// The entity that created the related item.
+        public let performedBy: UserUnion?
+
+        @inlinable
+        public init(cases: [BatchCreateRelatedItemIdentifier], clientToken: String? = BatchCreateRelatedItemRequest.idempotencyToken(), content: RelatedItemInputContent, domainId: String, performedBy: UserUnion? = nil) {
+            self.cases = cases
+            self.clientToken = clientToken
+            self.content = content
+            self.domainId = domainId
+            self.performedBy = performedBy
+        }
+
+        public func validate(name: String) throws {
+            try self.cases.forEach {
+                try $0.validate(name: "\(name).cases[]")
+            }
+            try self.content.validate(name: "\(name).content")
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.performedBy?.validate(name: "\(name).performedBy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cases = "cases"
+            case clientToken = "clientToken"
+            case content = "content"
+            case domainId = "domainId"
+            case performedBy = "performedBy"
+        }
+    }
+
+    public struct BatchCreateRelatedItemResponse: AWSDecodableShape {
+        /// The list of related items that were not created. Each entry includes an error code and message. Possible error codes include:    CASE_NOT_FOUND - No case exists with the specified case ID.    VALIDATION_ERROR - The request contains invalid input.    CONFLICT - Another operation is in progress on the case, such as a concurrent update or a merge of the case into another case.    THROTTLED - The request rate exceeded the allowed limit.    ACCESS_DENIED - The caller lacks permission to perform the operation.    SERVICE_QUOTA_EXCEEDED - The request exceeded a service quota.    DOMAIN_NOT_FOUND - The case domain was deleted while the request was being processed.    INTERNAL_ERROR - An unexpected error occurred on the server.
+        public let failedItems: [BatchCreateRelatedItemErrorEntry]
+        /// The list of related items that were successfully created and associated with their cases.
+        public let successfulItems: [BatchCreateRelatedItemSuccessEntry]
+
+        @inlinable
+        public init(failedItems: [BatchCreateRelatedItemErrorEntry], successfulItems: [BatchCreateRelatedItemSuccessEntry]) {
+            self.failedItems = failedItems
+            self.successfulItems = successfulItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+            case successfulItems = "successfulItems"
+        }
+    }
+
+    public struct BatchCreateRelatedItemSuccessEntry: AWSDecodableShape {
+        /// The identifiers of the case that the related item is associated with.
+        public let caseIdentifier: CaseIdentifier
+        /// The Amazon Resource Name (ARN) of the related item.
+        public let relatedItemArn: String
+        /// The unique identifier of the related item.
+        public let relatedItemId: String
+
+        @inlinable
+        public init(caseIdentifier: CaseIdentifier, relatedItemArn: String, relatedItemId: String) {
+            self.caseIdentifier = caseIdentifier
+            self.relatedItemArn = relatedItemArn
+            self.relatedItemId = relatedItemId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseIdentifier = "caseIdentifier"
+            case relatedItemArn = "relatedItemArn"
+            case relatedItemId = "relatedItemId"
         }
     }
 
@@ -1093,6 +1282,141 @@ extension ConnectCases {
         }
     }
 
+    public struct BatchUpdateCaseErrorEntry: AWSDecodableShape {
+        /// The identifiers of the case that wasn't updated.
+        public let caseIdentifier: CaseIdentifier
+        /// The error code. For possible values, see failedCases.
+        public let errorCode: String
+        /// A message that describes the error.
+        public let errorMessage: String
+
+        @inlinable
+        public init(caseIdentifier: CaseIdentifier, errorCode: String, errorMessage: String) {
+            self.caseIdentifier = caseIdentifier
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseIdentifier = "caseIdentifier"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct BatchUpdateCaseIdentifier: AWSEncodableShape {
+        /// The identifier of the case to update. Specify either the case ID or the reference ID.
+        public let caseIdentifier: CaseIdentifierUnion
+
+        @inlinable
+        public init(caseIdentifier: CaseIdentifierUnion) {
+            self.caseIdentifier = caseIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.caseIdentifier.validate(name: "\(name).caseIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseIdentifier = "caseIdentifier"
+        }
+    }
+
+    public struct BatchUpdateCaseRequest: AWSEncodableShape {
+        /// The list of cases to update. All cases must belong to the same domain.
+        public let cases: [BatchUpdateCaseIdentifier]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If you retry a request with the same client token, the service returns the original response instead of processing the request again. If you reuse a client token with different request parameters, the request fails with a ConflictException.
+        public let clientToken: String?
+        /// The ARN of the customer profile to associate with all cases in the request.
+        public let customerId: String?
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// An array of objects, each with a fieldIdentifier and a value. You can identify each field by its ID or by its name; identifying a field by name is supported only in BatchUpdateCase. The same field values are applied to every case in the request. This field must be present, but can be an empty list when you provide the top-level title, status, or customerId parameters. Do not include title, status, or customerId in this list; set those values only through their top-level parameters. Duplicating them in fields results in a validation error.
+        public let fields: [FieldValueInput]
+        /// The entity that performed the action.
+        public let performedBy: UserUnion?
+        /// The status to apply to all cases in the request.
+        public let status: String?
+        /// The title to apply to all cases in the request.
+        public let title: String?
+
+        @inlinable
+        public init(cases: [BatchUpdateCaseIdentifier], clientToken: String? = BatchUpdateCaseRequest.idempotencyToken(), customerId: String? = nil, domainId: String, fields: [FieldValueInput], performedBy: UserUnion? = nil, status: String? = nil, title: String? = nil) {
+            self.cases = cases
+            self.clientToken = clientToken
+            self.customerId = customerId
+            self.domainId = domainId
+            self.fields = fields
+            self.performedBy = performedBy
+            self.status = status
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.cases.forEach {
+                try $0.validate(name: "\(name).cases[]")
+            }
+            try self.validate(self.customerId, name: "customerId", parent: name, max: 500)
+            try self.validate(self.customerId, name: "customerId", parent: name, min: 1)
+            try self.validate(self.customerId, name: "customerId", parent: name, pattern: "^[a-zA-Z0-9/_\\-:.]+$")
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.performedBy?.validate(name: "\(name).performedBy")
+            try self.validate(self.status, name: "status", parent: name, max: 100)
+            try self.validate(self.status, name: "status", parent: name, min: 1)
+            try self.validate(self.status, name: "status", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 500)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cases = "cases"
+            case clientToken = "clientToken"
+            case customerId = "customerId"
+            case domainId = "domainId"
+            case fields = "fields"
+            case performedBy = "performedBy"
+            case status = "status"
+            case title = "title"
+        }
+    }
+
+    public struct BatchUpdateCaseResponse: AWSDecodableShape {
+        /// The list of cases that were not updated. Each entry includes an error code and message. Possible error codes include:    CASE_NOT_FOUND - No case exists with the specified case ID.    VALIDATION_ERROR - The request contains invalid input.    CONFLICT - Another operation is in progress on the case, such as a concurrent update or a merge of the case into another case.    THROTTLED - The request rate exceeded the allowed limit.    ACCESS_DENIED - The caller lacks permission to perform the operation.    SERVICE_QUOTA_EXCEEDED - The request exceeded a service quota.    DOMAIN_NOT_FOUND - The case domain was deleted while the request was being processed.    INTERNAL_ERROR - An unexpected error occurred on the server.
+        public let failedCases: [BatchUpdateCaseErrorEntry]
+        /// The list of cases that were successfully updated.
+        public let successfulCases: [BatchUpdateCaseSuccessEntry]
+
+        @inlinable
+        public init(failedCases: [BatchUpdateCaseErrorEntry], successfulCases: [BatchUpdateCaseSuccessEntry]) {
+            self.failedCases = failedCases
+            self.successfulCases = successfulCases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedCases = "failedCases"
+            case successfulCases = "successfulCases"
+        }
+    }
+
+    public struct BatchUpdateCaseSuccessEntry: AWSDecodableShape {
+        /// The identifiers of the updated case.
+        public let caseIdentifier: CaseIdentifier
+
+        @inlinable
+        public init(caseIdentifier: CaseIdentifier) {
+            self.caseIdentifier = caseIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseIdentifier = "caseIdentifier"
+        }
+    }
+
     public struct BooleanOperands: AWSEncodableShape & AWSDecodableShape {
         /// Represents the left hand operand in the condition.
         public let operandOne: OperandOne
@@ -1136,6 +1460,28 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
+        }
+    }
+
+    public struct CaseIdentifier: AWSDecodableShape {
+        /// The unique identifier of the case.
+        public let caseId: String?
+        /// The reference ID of the case. Cases created before reference IDs were available don't have one.
+        public let referenceId: String?
+        /// The reference number of the case. Reference numbers aren't guaranteed to be unique. BatchUpdateCase and BatchCreateRelatedItem don't return this value.
+        public let referenceNumber: String?
+
+        @inlinable
+        public init(caseId: String? = nil, referenceId: String? = nil, referenceNumber: String? = nil) {
+            self.caseId = caseId
+            self.referenceId = referenceId
+            self.referenceNumber = referenceNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+            case referenceId = "referenceId"
+            case referenceNumber = "referenceNumber"
         }
     }
 
@@ -1325,6 +1671,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1344,6 +1691,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1352,7 +1700,7 @@ extension ConnectCases {
     }
 
     public struct Contact: AWSEncodableShape {
-        /// A unique identifier of a contact in Amazon Connect.
+        /// A unique identifier of a contact in Connect Customer.
         public let contactArn: String
 
         @inlinable
@@ -1376,7 +1724,7 @@ extension ConnectCases {
         /// The difference between the InitiationTimestamp and the DisconnectTimestamp of the contact.
         @CustomCoding<ISO8601DateCoder>
         public var connectedToSystemTime: Date
-        /// A unique identifier of a contact in Amazon Connect.
+        /// A unique identifier of a contact in Connect Customer.
         public let contactArn: String
 
         @inlinable
@@ -1396,7 +1744,7 @@ extension ConnectCases {
     public struct ContactFilter: AWSEncodableShape {
         /// A list of channels to filter on for related items of type Contact.
         public let channel: [String]?
-        /// A unique identifier of a contact in Amazon Connect.
+        /// A unique identifier of a contact in Connect Customer.
         public let contactArn: String?
 
         @inlinable
@@ -1428,7 +1776,7 @@ extension ConnectCases {
         /// An array of objects with field ID (matching ListFields/DescribeField) and value union data.
         public let fields: [FieldValue]
         public let performedBy: UserUnion?
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier of a template.
         public let templateId: String
@@ -1760,6 +2108,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.content.validate(name: "\(name).content")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
@@ -1800,7 +2149,7 @@ extension ConnectCases {
         public let layoutConfiguration: LayoutConfiguration?
         /// A name for the template. It must be unique per domain.
         public let name: String
-        /// A list of fields that must contain a value for a case to be successfully created with this template.
+        /// A list of fields that must contain a value for a case to be successfully created with this template. To require a Customer Profile when creating cases, include customer_id in this list. If customer_id is omitted, the Customer Profile field is optional and can be added, changed, or removed after case creation.
         public let requiredFields: [RequiredField]?
         /// A list of case rules (also known as case field conditions) on a template.
         public let rules: [TemplateRule]?
@@ -1979,6 +2328,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
         }
@@ -2142,6 +2492,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
             try self.validate(self.relatedItemId, name: "relatedItemId", parent: name, max: 500)
@@ -2490,8 +2841,30 @@ extension ConnectCases {
         }
     }
 
+    public struct FieldValueInput: AWSEncodableShape {
+        /// The field to update, identified by field ID or field name.
+        public let fieldIdentifier: FieldIdentifierUnion
+        /// The value to set for the field.
+        public let value: FieldValueUnion
+
+        @inlinable
+        public init(fieldIdentifier: FieldIdentifierUnion, value: FieldValueUnion) {
+            self.fieldIdentifier = fieldIdentifier
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldIdentifier.validate(name: "\(name).fieldIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldIdentifier = "fieldIdentifier"
+            case value = "value"
+        }
+    }
+
     public struct FileContent: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a File in Amazon Connect.
+        /// The Amazon Resource Name (ARN) of a File in Connect Customer.
         public let fileArn: String
 
         @inlinable
@@ -2558,6 +2931,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 9000)
@@ -2654,6 +3028,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
             try self.fields.forEach {
@@ -2673,7 +3048,7 @@ extension ConnectCases {
         public let fields: [FieldValue]
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier of a template.
         public let templateId: String
@@ -2713,7 +3088,7 @@ extension ConnectCases {
         public let name: String
         /// Represents what rule type should take place, under what conditions.
         public let rule: CaseRuleDetails
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
@@ -2777,7 +3152,7 @@ extension ConnectCases {
         public let domainStatus: DomainStatus
         /// The name of the Cases domain.
         public let name: String
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
@@ -2821,7 +3196,7 @@ extension ConnectCases {
         public let name: String
         /// Namespace of the field.
         public let namespace: FieldNamespace
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// Type of the field.
         public let type: FieldType
@@ -2902,7 +3277,7 @@ extension ConnectCases {
         public let layoutId: String
         /// The name of the layout. It must be unique.
         public let name: String
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
@@ -2981,7 +3356,7 @@ extension ConnectCases {
         public let status: TemplateStatus
         /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
         public let tagPropagationConfigurations: [TagPropagationConfiguration]?
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String
@@ -3184,7 +3559,7 @@ extension ConnectCases {
     }
 
     public struct ListCasesForContactRequest: AWSEncodableShape {
-        /// A unique identifier of a contact in Amazon Connect.
+        /// A unique identifier of a contact in Connect Customer.
         public let contactArn: String
         /// The unique identifier of the Cases domain.
         public let domainId: String
@@ -3483,7 +3858,7 @@ extension ConnectCases {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
@@ -3771,7 +4146,7 @@ extension ConnectCases {
         public let performedBy: UserUnion?
         /// Unique identifier of a related item.
         public let relatedItemId: String
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// Type of a related item.
         public let type: RelatedItemType
@@ -3905,7 +4280,7 @@ extension ConnectCases {
         public let caseId: String
         /// List of case field values.
         public let fields: [FieldValue]
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier of a template.
         public let templateId: String
@@ -3960,6 +4335,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
             try self.filters?.forEach {
@@ -4003,7 +4379,7 @@ extension ConnectCases {
         public let performedBy: UserUnion?
         /// Unique identifier of a related item.
         public let relatedItemId: String
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// Type of a related item.
         public let type: RelatedItemType
@@ -4151,7 +4527,7 @@ extension ConnectCases {
     public struct Sort: AWSEncodableShape {
         /// Unique identifier of a field.
         public let fieldId: String
-        /// A structured set of sort terms
+        /// Whether results should be sorted in ascending or descending order.
         public let sortOrder: Order
 
         @inlinable
@@ -4203,7 +4579,7 @@ extension ConnectCases {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN)
         public let arn: String
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
         @inlinable
@@ -4386,6 +4762,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
             try self.fields.forEach {
@@ -4593,6 +4970,7 @@ extension ConnectCases {
         public func validate(name: String) throws {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^[A-Za-z0-9\\-._/:#=+-]*$")
             try self.content.validate(name: "\(name).content")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
             try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
@@ -4621,7 +4999,7 @@ extension ConnectCases {
         public let relatedItemArn: String
         /// The unique identifier of the updated related item.
         public let relatedItemId: String
-        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        /// A map of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// Type of the updated related item.
         public let type: RelatedItemType
@@ -4659,7 +5037,7 @@ extension ConnectCases {
         public let layoutConfiguration: LayoutConfiguration?
         /// The name of the template. It must be unique per domain.
         public let name: String?
-        /// A list of fields that must contain a value for a case to be successfully created with this template.
+        /// A list of fields that must contain a value for a case to be successfully created with this template. To require a Customer Profile when creating cases, include customer_id in this list. If customer_id is omitted, the Customer Profile field is optional and can be added, changed, or removed after case creation.
         public let requiredFields: [RequiredField]?
         /// A list of case rules (also known as case field conditions) on a template.
         public let rules: [TemplateRule]?
@@ -4882,7 +5260,7 @@ public struct ConnectCasesErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The service quota has been exceeded. For a list of service quotas, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
+    /// The service quota has been exceeded. For a list of service quotas, see Connect Customer Service Quotas in the Connect Customer Administrator Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The rate has been exceeded for this API. Please try again after a few minutes.
     public static var throttlingException: Self { .init(.throttlingException) }
