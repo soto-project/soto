@@ -76,11 +76,17 @@ extension S3Tests {
     func testMultipartDownloadFailure() async throws {
         let name = TestEnvironment.generateResourceName()
         try await testBucket(name) { name in
-            await XCTAsyncExpectError(S3ErrorType.notFound) {
+            let error = await XCTAsyncExpectError(S3ErrorType.self) {
                 let request = S3.GetObjectRequest(bucket: name, key: name)
                 _ = try await self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) {
                     print("Progress \($0 * 100)%")
                 }
+            }
+            switch error?.error {
+            case .notFound:
+                break
+            default:
+                XCTFail()
             }
         }
         try? await NonBlockingFileIO(threadPool: .singleton).remove(path: name)
@@ -225,9 +231,15 @@ extension S3Tests {
         let name = TestEnvironment.generateResourceName()
         let buffer = self.randomBytes
 
-        await XCTAsyncExpectError(S3ErrorType.noSuchBucket) {
+        let error = await XCTAsyncExpectError(S3ErrorType.self) {
             let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
             _ = try await self.s3.multipartUpload(request, bufferSequence: buffer.asyncSequence(chunkSize: 1000))
+        }
+        switch error?.error {
+        case .noSuchBucket:
+            break
+        default:
+            XCTFail()
         }
     }
 

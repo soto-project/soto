@@ -131,9 +131,14 @@ class LambdaTests: XCTestCase {
                 print("Sleeping 20 secs, waiting for IAM Role to be ready")
                 try await Task.sleep(nanoseconds: 20_000_000_000)
                 arn = response.role.arn
-            } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
-                let response = try await self.iam.getRole(roleName: self.functionExecutionRoleName)
-                arn = response.role.arn
+            } catch let error as IAMErrorType {
+                switch error.error {
+                case .entityAlreadyExistsException:
+                    let response = try await self.iam.getRole(roleName: self.functionExecutionRoleName)
+                    arn = response.role.arn
+                default:
+                    throw error
+                }
             }
             try await self.createLambdaFunction(roleArn: arn)
         }
@@ -191,8 +196,14 @@ class LambdaTests: XCTestCase {
     }
 
     func testError() async throws {
-        await XCTAsyncExpectError(LambdaErrorType.resourceNotFoundException) {
+        let error = await XCTAsyncExpectError(LambdaErrorType.self) {
             _ = try await self.lambda.invoke(.init(functionName: "non-existent-function"))
+        }
+        switch error?.error {
+        case .resourceNotFoundException:
+            break
+        default:
+            XCTFail()
         }
     }
 }

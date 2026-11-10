@@ -50,8 +50,13 @@ class TimestreamWriteTests: XCTestCase {
     func createTable(named name: String, databaseName: String) async throws {
         do {
             _ = try await self.ts.createTable(.init(databaseName: databaseName, tableName: name))
-        } catch let error as TimestreamWriteErrorType where error == .conflictException {
-            return
+        } catch let error as TimestreamWriteErrorType {
+            switch error.error {
+            case .conflictException:
+                return
+            default:
+                throw error
+            }
         }
     }
 
@@ -61,7 +66,14 @@ class TimestreamWriteTests: XCTestCase {
             do {
                 let request = TimestreamWrite.CreateDatabaseRequest(databaseName: name)
                 _ = try await self.ts.createDatabase(request)
-            } catch let error as TimestreamWriteErrorType where error == .conflictException {}
+            } catch let error as TimestreamWriteErrorType {
+                switch error.error {
+                case .conflictException:
+                    break
+                default:
+                    throw error
+                }
+            }
             return name
         } test: {
             try await test($0)

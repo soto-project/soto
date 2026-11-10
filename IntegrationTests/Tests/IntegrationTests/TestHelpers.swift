@@ -159,6 +159,25 @@ func XCTAsyncExpectError<E: Error & Equatable>(
     }
 }
 
+/// Test for specific error being thrown when running some code
+func XCTAsyncExpectError<E: Error>(
+    _ expectedError: E.Type,
+    _ expression: () async throws -> Void,
+    _ message: @autoclosure @escaping () -> String = "",
+    file: StaticString = #filePath,
+    line: UInt = #line
+) async -> E? {
+    do {
+        _ = try await expression()
+        XCTFail("\(file):\(line) \(message()) Expected to throw an error but it didn't")
+    } catch let error as E {
+        return error
+    } catch {
+        XCTFail("\(file):\(line) \(message()) Expected error \(expectedError) but got \(error)")
+    }
+    return nil
+}
+
 /// An AsyncSequence that reports every element that is returned by its iterator
 struct ReportAsyncSequence<Base: AsyncSequence>: AsyncSequence {
     typealias Element = Base.Element

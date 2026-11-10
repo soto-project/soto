@@ -89,18 +89,6 @@ class EC2Tests: XCTestCase {
     }
 }
 
-extension AWSResponseError {
-    public static func == (lhs: AWSResponseError, rhs: AWSResponseError) -> Bool {
-        lhs.errorCode == rhs.errorCode
-    }
-}
-
-#if hasFeature(RetroactiveAttribute)
-extension AWSResponseError: @retroactive Equatable {}
-#else
-extension AWSResponseError: Equatable {}
-#endif
-
 extension AWSClient {
     static func withAWSClient<Value>(
         credentialProvider: CredentialProviderFactory = .default,

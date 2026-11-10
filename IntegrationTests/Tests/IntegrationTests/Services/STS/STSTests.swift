@@ -109,8 +109,14 @@ class STSTests: XCTestCase {
             let s3 = S3(client: client, region: .euwest1)
             _ = try await s3.listBuckets(.init())
             let sns = SNS(client: client)
-            await XCTAsyncExpectError(SNSErrorType.authorizationErrorException) {
+            let error = await XCTAsyncExpectError(SNSErrorType.self) {
                 _ = try await sns.listTopics(.init())
+            }
+            switch error?.error {
+            case .authorizationErrorException:
+                break
+            default:
+                XCTFail()
             }
         }
         try await client.shutdown()
@@ -118,7 +124,7 @@ class STSTests: XCTestCase {
 
     func testError() async throws {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        await XCTAsyncExpectError(STSErrorType.invalidIdentityTokenException) {
+        let error = await XCTAsyncExpectError(STSErrorType.self) {
             let request = STS.AssumeRoleWithWebIdentityRequest(
                 roleArn: "arn:aws:iam::000000000000:role/Admin",
                 roleSessionName: "now",
@@ -126,5 +132,6 @@ class STSTests: XCTestCase {
             )
             _ = try await self.sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
         }
+        XCTAssertEqual(error?.error, .invalidIdentityTokenException)
     }
 }
