@@ -2049,7 +2049,7 @@ extension IAM {
     }
 
     public struct DeleteServiceLinkedRoleResponse: AWSDecodableShape {
-        /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role///.
+        /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
         public let deletionTaskId: String
 
         @inlinable
@@ -3859,7 +3859,7 @@ extension IAM {
     }
 
     public struct GetServiceLinkedRoleDeletionStatusRequest: AWSEncodableShape {
-        /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role///.
+        /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
         public let deletionTaskId: String
 
         @inlinable
@@ -6327,7 +6327,7 @@ extension IAM {
         public let requireLowercaseCharacters: Bool?
         /// Specifies whether IAM user passwords must contain at least one numeric character (0 to 9).
         public let requireNumbers: Bool?
-        /// Specifies whether IAM user passwords must contain at least one of the following symbols: ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
+        /// Specifies whether IAM user passwords must contain at least one of the following symbols: ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | '
         public let requireSymbols: Bool?
         /// Specifies whether IAM user passwords must contain at least one uppercase character (A to Z).
         public let requireUppercaseCharacters: Bool?
@@ -8553,7 +8553,7 @@ extension IAM {
         public let requireLowercaseCharacters: Bool?
         /// Specifies whether IAM user passwords must contain at least one numeric character (0 to 9). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one numeric character.
         public let requireNumbers: Bool?
-        /// Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ # $ % ^ & * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one symbol character.
+        /// Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one symbol character.
         public let requireSymbols: Bool?
         /// Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
         public let requireUppercaseCharacters: Bool?

@@ -2740,6 +2740,76 @@ public struct QConnect: AWSService {
         return try await self.queryAssistant(input, logger: logger)
     }
 
+    /// Registers a replica Region KMS key for an Amazon Q in Connect assistant. To use this operation, you must have kms:GenerateDataKey permission on the replica key.
+    @Sendable
+    @inlinable
+    public func registerAssistantReplicaKey(_ input: RegisterAssistantReplicaKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterAssistantReplicaKeyResponse {
+        try await self.client.execute(
+            operation: "RegisterAssistantReplicaKey", 
+            path: "/assistants/{assistantId}/replicaKey", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a replica Region KMS key for an Amazon Q in Connect assistant. To use this operation, you must have kms:GenerateDataKey permission on the replica key.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+    ///   - replicaKmsKey: The replica Region KMS key to register for the assistant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerAssistantReplicaKey(
+        assistantId: String,
+        clientToken: String? = RegisterAssistantReplicaKeyRequest.idempotencyToken(),
+        replicaKmsKey: ReplicaKmsKey,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterAssistantReplicaKeyResponse {
+        let input = RegisterAssistantReplicaKeyRequest(
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            replicaKmsKey: replicaKmsKey
+        )
+        return try await self.registerAssistantReplicaKey(input, logger: logger)
+    }
+
+    /// Registers a replica Region KMS key for an Amazon Q in Connect knowledge base. To use this operation, you must have kms:GenerateDataKey permission on the replica key. You must also have kms:CreateGrant permission on the primary key.
+    @Sendable
+    @inlinable
+    public func registerKnowledgeBaseReplicaKey(_ input: RegisterKnowledgeBaseReplicaKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterKnowledgeBaseReplicaKeyResponse {
+        try await self.client.execute(
+            operation: "RegisterKnowledgeBaseReplicaKey", 
+            path: "/knowledgeBases/{knowledgeBaseId}/replicaKey", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a replica Region KMS key for an Amazon Q in Connect knowledge base. To use this operation, you must have kms:GenerateDataKey permission on the replica key. You must also have kms:CreateGrant permission on the primary key.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+    ///   - knowledgeBaseId: The identifier of the knowledge base.
+    ///   - replicaKmsKey: The replica Region KMS key to register for the knowledge base.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerKnowledgeBaseReplicaKey(
+        clientToken: String? = RegisterKnowledgeBaseReplicaKeyRequest.idempotencyToken(),
+        knowledgeBaseId: String,
+        replicaKmsKey: ReplicaKmsKey,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterKnowledgeBaseReplicaKeyResponse {
+        let input = RegisterKnowledgeBaseReplicaKeyRequest(
+            clientToken: clientToken, 
+            knowledgeBaseId: knowledgeBaseId, 
+            replicaKmsKey: replicaKmsKey
+        )
+        return try await self.registerKnowledgeBaseReplicaKey(input, logger: logger)
+    }
+
     /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     @Sendable
     @inlinable
@@ -3749,7 +3819,7 @@ public struct QConnect: AWSService {
 extension QConnect {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: QConnect, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

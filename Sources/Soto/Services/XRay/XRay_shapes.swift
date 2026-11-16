@@ -274,6 +274,29 @@ extension XRay {
         public init() {}
     }
 
+    public struct CloudWatchLogsConfiguration: AWSEncodableShape {
+        /// The ARN of an AWS Key Management Service (AWS KMS) key that you create and manage, in the same account and Region, used to encrypt the aws/spans log group. Key IDs and alias ARNs are not supported.
+        ///
+        /// X-Ray applies the key only when it creates aws/spans. If the account already has an aws/spans log group, X-Ray fails the request with an InvalidRequestException and does not change the log group. To enable Transaction Search with the existing log group as it is, call UpdateTraceSegmentDestination again without SpansLogGroupKmsKeyId. To set or change the key of the existing log group, use the CloudWatch Logs AssociateKmsKey operation.
+        ///
+        /// You need kms:DescribeKey permission on the key, and the key policy must allow CloudWatch Logs to use the key. For more information, see Encrypt log data in CloudWatch Logs using AWS Key Management Service.
+        public let spansLogGroupKmsKeyId: String?
+
+        @inlinable
+        public init(spansLogGroupKmsKeyId: String? = nil) {
+            self.spansLogGroupKmsKeyId = spansLogGroupKmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.spansLogGroupKmsKeyId, name: "spansLogGroupKmsKeyId", parent: name, max: 256)
+            try self.validate(self.spansLogGroupKmsKeyId, name: "spansLogGroupKmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spansLogGroupKmsKeyId = "SpansLogGroupKmsKeyId"
+        }
+    }
+
     public struct CreateGroupRequest: AWSEncodableShape {
         /// The filter expression defining criteria by which to group traces.
         public let filterExpression: String?
@@ -3466,15 +3489,23 @@ extension XRay {
     }
 
     public struct UpdateTraceSegmentDestinationRequest: AWSEncodableShape {
+        /// Specifies settings for the CloudWatch Logs log groups that X-Ray creates for Transaction Search. Specify this only when Destination is CloudWatchLogs.
+        public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
         /// The configured destination of trace segments.
         public let destination: TraceSegmentDestination?
 
         @inlinable
-        public init(destination: TraceSegmentDestination? = nil) {
+        public init(cloudWatchLogsConfiguration: CloudWatchLogsConfiguration? = nil, destination: TraceSegmentDestination? = nil) {
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.destination = destination
         }
 
+        public func validate(name: String) throws {
+            try self.cloudWatchLogsConfiguration?.validate(name: "\(name).cloudWatchLogsConfiguration")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
             case destination = "Destination"
         }
     }

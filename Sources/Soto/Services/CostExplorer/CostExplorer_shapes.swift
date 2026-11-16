@@ -152,6 +152,7 @@ extension CostExplorer {
         case payerAccount = "PAYER_ACCOUNT"
         case paymentOption = "PAYMENT_OPTION"
         case platform = "PLATFORM"
+        case productAttribute = "PRODUCT_ATTRIBUTE"
         case purchaseType = "PURCHASE_TYPE"
         case recordType = "RECORD_TYPE"
         case region = "REGION"
@@ -216,6 +217,7 @@ extension CostExplorer {
     public enum GroupDefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case costCategory = "COST_CATEGORY"
         case dimension = "DIMENSION"
+        case productAttribute = "PRODUCT_ATTRIBUTE"
         case tag = "TAG"
         public var description: String { return self.rawValue }
     }
@@ -1572,7 +1574,7 @@ extension CostExplorer {
     }
 
     public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
-        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported.  LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.  ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in AnomalySubscriptions.
+        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported.  LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.  ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in AnomalySubscriptions. Use PRODUCT_ATTRIBUTE only as the Dimension in GetDimensionValues. To filter or group by product attributes, use the ProductAttributes field of Expression or the PRODUCT_ATTRIBUTE group type.
         public let key: Dimension?
         /// The match options that you can use to filter your results.  MatchOptions is only applicable for actions related to cost category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
@@ -1899,16 +1901,19 @@ extension CostExplorer {
         public let not: Expression?
         /// Return results that match either Dimension object.
         public let or: [Expression]?
+        /// The filter that's based on ProductAttributeValues. Use it to filter the costs of supported services, such as Amazon Bedrock, by product attributes. The following operations support this filter: GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories. For the supported services and keys, see  ProductAttributeValues .
+        public let productAttributes: ProductAttributeValues?
         /// The specific Tag to use for Expression.
         public let tags: TagValues?
 
         @inlinable
-        public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
+        public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, productAttributes: ProductAttributeValues? = nil, tags: TagValues? = nil) {
             self.and = and
             self.costCategories = costCategories
             self.dimensions = dimensions
             self.not = not
             self.or = or
+            self.productAttributes = productAttributes
             self.tags = tags
         }
 
@@ -1922,6 +1927,7 @@ extension CostExplorer {
             try self.or?.forEach {
                 try $0.validate(name: "\(name).or[]")
             }
+            try self.productAttributes?.validate(name: "\(name).productAttributes")
             try self.tags?.validate(name: "\(name).tags")
         }
 
@@ -1931,6 +1937,7 @@ extension CostExplorer {
             case dimensions = "Dimensions"
             case not = "Not"
             case or = "Or"
+            case productAttributes = "ProductAttributes"
             case tags = "Tags"
         }
     }
@@ -2352,11 +2359,11 @@ extension CostExplorer {
     public struct GetCostAndUsageRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
         public let billingViewArn: String?
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories, Tags, and ProductAttributes are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE. You can filter by product attributes with or without grouping by them. If you filter or group by product attributes, the results include only the costs of supported services, and a SERVICE filter is optional. For more information, see ProductAttributeValues. If you include a SERVICE filter, it must apply to the whole request: combine it with other filters by using And, and include it in every branch of an Or. A SERVICE filter inside Not doesn't meet this requirement, and the request fails with a ValidationException.
         public let filter: Expression?
         /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
         public let granularity: Granularity
-        /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings.
+        /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, product attributes, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings. To group by the PRODUCT_ATTRIBUTE type, set Key to a product attribute key, such as model. For the keys of each supported service, see ProductAttributeValues. The results include only the costs of supported services, and if you have no such costs, the response contains no groups. In the response, each group key has the format key$value, for example, model$Claude Sonnet 5. Costs that have no value for the key are in the group key$, for example, model$. Remove the key$ prefix before you use a value in a ProductAttributes filter. Keys are case-sensitive: if you group by a key that doesn't exist, such as Model, all of your costs of supported services are in the group Model$.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours and GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
         public let metrics: [String]
@@ -2433,11 +2440,11 @@ extension CostExplorer {
     public struct GetCostAndUsageWithResourcesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
         public let billingViewArn: String?
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories, Tags, and ProductAttributes are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE. If you filter or group by product attributes, the SERVICE filter rules are the same as for GetCostAndUsage.
         public let filter: Expression
         /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
         public let granularity: Granularity
-        /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
+        /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY, and PRODUCT_ATTRIBUTE.  PRODUCT_ATTRIBUTE groups work the same way as in GetCostAndUsage. A PRODUCT_ATTRIBUTE group or a ProductAttributes filter doesn't meet the requirement to group by or filter by a ResourceId.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
         public let metrics: [String]?
@@ -2741,10 +2748,12 @@ extension CostExplorer {
     public struct GetDimensionValuesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
         public let billingViewArn: String?
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PRODUCT_ATTRIBUTE - The product attributes of supported services, such as the model provider or the model for Amazon Bedrock.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
         public let context: Context?
-        /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
+        /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.   PRODUCT_ATTRIBUTE returns the product attribute keys that are available for your costs of supported services, or the values of the key that you specify in DimensionKey. PRODUCT_ATTRIBUTE is supported only in the COST_AND_USAGE context.
         public let dimension: Dimension
+        /// The product attribute key to return values for, such as model. If you omit DimensionKey or set it to an empty string, the response lists the product attribute keys that are available for your costs of supported services instead. For the supported services, see ProductAttributeValues. If you specify a key, the response lists the values of that key. If some of your costs have no value for the key, the response includes an empty-string value. Keys are case-sensitive, and a key that doesn't exist returns no values other than an empty string. You can specify DimensionKey only when Dimension is PRODUCT_ATTRIBUTE. If you also specify SortBy, DimensionKey is required. As a result, you can't list product attribute keys when you use SortBy.
+        public let dimensionKey: String?
         public let filter: Expression?
         /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
         public let maxResults: Int?
@@ -2758,10 +2767,11 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(billingViewArn: String? = nil, context: Context? = nil, dimension: Dimension, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, context: Context? = nil, dimension: Dimension, dimensionKey: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
             self.billingViewArn = billingViewArn
             self.context = context
             self.dimension = dimension
+            self.dimensionKey = dimensionKey
             self.filter = filter
             self.maxResults = maxResults
             self.nextPageToken = nextPageToken
@@ -2774,6 +2784,8 @@ extension CostExplorer {
             try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
             try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
             try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, max: 1024)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, pattern: "^[\\S\\s]*$")
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
@@ -2790,6 +2802,7 @@ extension CostExplorer {
             case billingViewArn = "BillingViewArn"
             case context = "Context"
             case dimension = "Dimension"
+            case dimensionKey = "DimensionKey"
             case filter = "Filter"
             case maxResults = "MaxResults"
             case nextPageToken = "NextPageToken"
@@ -3853,7 +3866,7 @@ extension CostExplorer {
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
-        ///  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing and billing:billingview.
+        ///  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing, billing:billingview, and billing:creditsharing.
         public let supportedResourceTypes: [String]?
 
         @inlinable
@@ -4129,6 +4142,39 @@ extension CostExplorer {
             case networkOutBytesPerSecond = "NetworkOutBytesPerSecond"
             case networkPacketsInPerSecond = "NetworkPacketsInPerSecond"
             case networkPacketsOutPerSecond = "NetworkPacketsOutPerSecond"
+        }
+    }
+
+    public struct ProductAttributeValues: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the product attribute, such as model. The keys that are available depend on the service. For the keys of each supported service, see  ProductAttributeValues . Keys are case-sensitive. A key that doesn't exist doesn't return an error: EQUALS matches no costs, and ABSENT matches all costs of supported services.
+        public let key: String
+        /// The match options that you can use to filter your results. Valid values:    EQUALS - Matches the values that you specify.    ABSENT - Matches costs that have no value for the key. Omit Values.    CASE_SENSITIVE - Use only with EQUALS. Values are always matched case-sensitively.   Default values are EQUALS and CASE_SENSITIVE.
+        public let matchOptions: [MatchOption]?
+        /// The specific values of the product attribute, such as Claude Sonnet 5 for the model key. Values are matched exactly, including case. To list the values of a key, use GetDimensionValues with Dimension set to PRODUCT_ATTRIBUTE and DimensionKey set to the key. To match costs that have no value for the key, set MatchOptions to ABSENT and omit Values. Otherwise, Values is required.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: String, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([a-zA-Z][a-zA-Z0-9]*)?$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 6000)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case matchOptions = "MatchOptions"
+            case values = "Values"
         }
     }
 

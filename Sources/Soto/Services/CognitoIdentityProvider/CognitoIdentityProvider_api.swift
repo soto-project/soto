@@ -670,7 +670,7 @@ public struct CognitoIdentityProvider: AWSService {
     /// Parameters:
     ///   - analyticsMetadata: Information that supports analytics outcomes with Amazon Pinpoint, including the
     ///   - authFlow: The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows.  USER_AUTH  The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the  Essentials tier or higher.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  ADMIN_USER_PASSWORD_AUTH  Server-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models.
-    ///   - authParameters: The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    ADMIN_USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when preceding custom authentication with SRP authentication)    SRP_A: (An SRP_A value) (when preceding custom authentication with SRP authentication)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+    ///   - authParameters: The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    TARGET_ACR_VALUES. An optional, space-separated list of the authentication context class reference (ACR) level URIs that you want the user to reach. List the levels in priority order, from highest to lowest. Amazon Cognito attempts the highest-priority level that the user can satisfy, and falls back through the list. Amazon Cognito ignores any value that it doesn't recognize. If none of the requested values are valid, Amazon Cognito returns an error. Requesting step-up authentication with this parameter requires the Essentials or Plus feature plan. On a lower feature plan, AdminInitiateAuth returns a FeatureUnavailableInTierException. USERNAME is required. When you provide an ACCESS_TOKEN, you must also provide TARGET_ACR_VALUES. Amazon Cognito returns an error if you provide an ACCESS_TOKEN without TARGET_ACR_VALUES. The USERNAME that you provide must match the user that the ACCESS_TOKEN was issued for. For more information about step-up authentication and how Amazon Cognito handles multi-factor authentication requirements, see Step-up authentication with ACR and AMR in the Amazon Cognito Developer Guide.    MAX_AGE. An optional integer that sets the maximum number of seconds allowed since the user last authenticated. If the user's most recent authentication is older than this value, Amazon Cognito discards the authentication-methods credit from any access token that you provide and processes the request as a fresh authentication toward the target level. The access token itself remains valid.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    ADMIN_USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when preceding custom authentication with SRP authentication)    SRP_A: (An SRP_A value) (when preceding custom authentication with SRP authentication)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
     ///   - clientId: The ID of the app client where the user wants to sign in.
     ///   - clientMetadata: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see
     ///   - contextData: Contextual data about your user session like the device fingerprint, IP address, or location. Amazon Cognito threat
@@ -851,6 +851,41 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.adminListUserAuthEvents(input, logger: logger)
     }
 
+    /// Lists the active sessions for a specified user as an administrator. The response includes both token sessions and SSO sessions. Only active sessions are returned; revoked and expired sessions aren't included. Amazon Cognito returns all of a user's sessions in a single page of up to 125 sessions. The results are eventually consistent, and new sessions are typically included within a few seconds.
+    @Sendable
+    @inlinable
+    public func adminListUserSessions(_ input: AdminListUserSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminListUserSessionsResponse {
+        try await self.client.execute(
+            operation: "AdminListUserSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the active sessions for a specified user as an administrator. The response includes both token sessions and SSO sessions. Only active sessions are returned; revoked and expired sessions aren't included. Amazon Cognito returns all of a user's sessions in a single page of up to 125 sessions. The results are eventually consistent, and new sessions are typically included within a few seconds.
+    ///
+    /// Parameters:
+    ///   - nextToken: A pagination token that Amazon Cognito returned in a previous response. Use this value to retrieve the next page of results if a NextToken was included in a prior response.
+    ///   - username: The username of the user whose sessions you want to list.
+    ///   - userPoolId: The ID of the user pool that contains the user.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func adminListUserSessions(
+        nextToken: String? = nil,
+        username: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AdminListUserSessionsResponse {
+        let input = AdminListUserSessionsRequest(
+            nextToken: nextToken, 
+            username: username, 
+            userPoolId: userPoolId
+        )
+        return try await self.adminListUserSessions(input, logger: logger)
+    }
+
     /// Given a username and a group name, removes them from the group. User pool groups are identifiers that you can reference from the contents of ID and access tokens, and set preferred IAM roles for identity-pool authentication. For more information, see Adding groups to a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
@@ -969,6 +1004,44 @@ public struct CognitoIdentityProvider: AWSService {
             userPoolId: userPoolId
         )
         return try await self.adminRespondToAuthChallenge(input, logger: logger)
+    }
+
+    /// Revokes a specific user session as an administrator. Amazon Cognito revokes all refresh and access tokens that are associated with the session and deletes the session record. You can revoke either a token session or an SSO session, and you can optionally cascade the revocation to linked sessions.
+    @Sendable
+    @inlinable
+    public func adminRevokeUserSession(_ input: AdminRevokeUserSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminRevokeUserSessionResponse {
+        try await self.client.execute(
+            operation: "AdminRevokeUserSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes a specific user session as an administrator. Amazon Cognito revokes all refresh and access tokens that are associated with the session and deletes the session record. You can revoke either a token session or an SSO session, and you can optionally cascade the revocation to linked sessions.
+    ///
+    /// Parameters:
+    ///   - revokeAssociatedSessions: Specifies whether to also revoke the sessions that are linked to the targeted session. NONE, the default, revokes only the targeted session. LINKED also revokes the directly linked session or sessions, interpreted relative to the type of the targeted session: revoking a token session also revokes the parent SSO session it came through, and revoking an SSO session also revokes the token sessions that came through it. The set of linked sessions is eventually consistent, so associated sessions are typically revoked within a few seconds.
+    ///   - sessionId: The ID of the session to revoke. This is a 28-character string of lowercase letters and digits, prefixed with tkn for a token session or sso for an SSO session.
+    ///   - username: The username of the user who owns the session. The username must match the user associated with the SessionId, to confirm they are the intended target user.
+    ///   - userPoolId: The ID of the user pool that contains the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func adminRevokeUserSession(
+        revokeAssociatedSessions: RevokeAssociatedSessionsType? = nil,
+        sessionId: String,
+        username: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AdminRevokeUserSessionResponse {
+        let input = AdminRevokeUserSessionRequest(
+            revokeAssociatedSessions: revokeAssociatedSessions, 
+            sessionId: sessionId, 
+            username: username, 
+            userPoolId: userPoolId
+        )
+        return try await self.adminRevokeUserSession(input, logger: logger)
     }
 
     /// Sets the user's multi-factor authentication (MFA) preference, including which MFA options are activated, and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
@@ -1531,6 +1604,7 @@ public struct CognitoIdentityProvider: AWSService {
     /// Adds a configuration and trust relationship between a third-party identity provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through managed login and OIDC relying-party libraries. For more information, see Third-party IdP sign-in.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
+    ///   - acrMapping: A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). The map is keyed by level, from Level1 through Level4, and each value is the ACR value that the IdP uses for the corresponding level. Amazon Cognito uses this mapping to translate a requested user pool ACR level to the value that the IdP expects, and to map an ACR value that the IdP returns back to a user pool level. When the IdP returns an ACR value that isn't mapped, Amazon Cognito resolves it to the lowest level. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't restricted to the Essentials or Plus feature plan.
     ///   - attributeMapping: A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
     ///   - idpIdentifiers: An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of email-address matching with SAML providers.
     ///   - providerDetails: The scopes, URLs, and identifiers for your external identity provider. The following
@@ -1540,6 +1614,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createIdentityProvider(
+        acrMapping: [String: String]? = nil,
         attributeMapping: [String: String]? = nil,
         idpIdentifiers: [String]? = nil,
         providerDetails: [String: String],
@@ -1549,6 +1624,7 @@ public struct CognitoIdentityProvider: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateIdentityProviderResponse {
         let input = CreateIdentityProviderRequest(
+            acrMapping: acrMapping, 
             attributeMapping: attributeMapping, 
             idpIdentifiers: idpIdentifiers, 
             providerDetails: providerDetails, 
@@ -1737,9 +1813,11 @@ public struct CognitoIdentityProvider: AWSService {
     ///
     /// Parameters:
     ///   - accountRecoverySetting: The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. Email MFA is also disqualifying for account recovery with email. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email. As a best practice, configure both verified_email and verified_phone_number, with one having a higher priority than the other.
+    ///   - acrConfiguration: The custom names for the authentication context class reference (ACR) levels in your user pool. Amazon Cognito defines four fixed ACR levels that represent increasing authentication assurance. The combination of authentication factors that satisfies each level is fixed and you can't change it. With this configuration, you customize only the URI name that Amazon Cognito reports for each level in the acr token claim. You can override a subset of the levels. By default, the levels are named urn:cognito:loa:1 through urn:cognito:loa:4, and Amazon Cognito applies the default name to any level that you don't specify. Each name must be unique across all four levels, including any default names that apply to levels you don't override. A name can contain any character that is valid in a URL or a URN. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the  Essentials tier or higher.
     ///   - adminCreateUserConfig: The configuration for administrative creation of users. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
     ///   - aliasAttributes: Attributes supported as an alias for this user pool. For more information about alias attributes, see Customizing sign-in attributes.
     ///   - autoVerifiedAttributes: The attributes that you want your user pool to automatically verify. For more information, see Verifying contact information at sign-up.
+    ///   - dcrConfiguration: The dynamic client registration configuration for the user pool. With dynamic client registration, applications can register their own app clients at runtime through the registration endpoint of your user pool domain. To activate this setting, your user pool must be in the  Essentials tier or higher.
     ///   - deletionProtection: When active, DeletionProtection prevents accidental deletion of your user
     ///   - deviceConfiguration: The device-remembering configuration for a user pool. Device remembering or device tracking is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see Working with user devices in your user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature. For more information, see Working with devices.
     ///   - emailConfiguration: The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
@@ -1766,9 +1844,11 @@ public struct CognitoIdentityProvider: AWSService {
     @inlinable
     public func createUserPool(
         accountRecoverySetting: AccountRecoverySettingType? = nil,
+        acrConfiguration: [String: AcrLevelConfigType]? = nil,
         adminCreateUserConfig: AdminCreateUserConfigType? = nil,
         aliasAttributes: [AliasAttributeType]? = nil,
         autoVerifiedAttributes: [VerifiedAttributeType]? = nil,
+        dcrConfiguration: DcrConfigurationType? = nil,
         deletionProtection: DeletionProtectionType? = nil,
         deviceConfiguration: DeviceConfigurationType? = nil,
         emailConfiguration: EmailConfigurationType? = nil,
@@ -1795,9 +1875,11 @@ public struct CognitoIdentityProvider: AWSService {
     ) async throws -> CreateUserPoolResponse {
         let input = CreateUserPoolRequest(
             accountRecoverySetting: accountRecoverySetting, 
+            acrConfiguration: acrConfiguration, 
             adminCreateUserConfig: adminCreateUserConfig, 
             aliasAttributes: aliasAttributes, 
             autoVerifiedAttributes: autoVerifiedAttributes, 
+            dcrConfiguration: dcrConfiguration, 
             deletionProtection: deletionProtection, 
             deviceConfiguration: deviceConfiguration, 
             emailConfiguration: emailConfiguration, 
@@ -2613,7 +2695,7 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.describeTerms(input, logger: logger)
     }
 
-    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents. To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:DescribeTerms, the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents. To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
     public func describeTermsByClient(_ input: DescribeTermsByClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTermsByClientResponse {
@@ -2626,7 +2708,7 @@ public struct CognitoIdentityProvider: AWSService {
             logger: logger
         )
     }
-    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents. To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:DescribeTerms, the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents. To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
     ///   - clientId: The ID of the app client that the terms documents are associated with.
@@ -2875,7 +2957,7 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.getCSVHeader(input, logger: logger)
     }
 
-    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see Scopes, M2M, and resource servers.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see Scopes, M2M, and resource servers.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
     @Sendable
     @inlinable
     public func getClientToken(_ input: GetClientTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClientTokenResponse {
@@ -2888,7 +2970,7 @@ public struct CognitoIdentityProvider: AWSService {
             logger: logger
         )
     }
-    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see Scopes, M2M, and resource servers.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see Scopes, M2M, and resource servers.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
     ///
     /// Parameters:
     ///   - clientId: The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH authentication flow.
@@ -3262,6 +3344,38 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.getUserAuthFactors(input, logger: logger)
     }
 
+    /// Retrieves the session configuration for a user pool app client. If you have never called SetUserPoolClientSessionConfiguration for the app client, this operation returns the default SSO session maximum validity of 60 minutes.
+    @Sendable
+    @inlinable
+    public func getUserPoolClientSessionConfiguration(_ input: GetUserPoolClientSessionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserPoolClientSessionConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetUserPoolClientSessionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the session configuration for a user pool app client. If you have never called SetUserPoolClientSessionConfiguration for the app client, this operation returns the default SSO session maximum validity of 60 minutes.
+    ///
+    /// Parameters:
+    ///   - clientId: The ID of the app client where you want to retrieve the session configuration.
+    ///   - userPoolId: The ID of the user pool that contains the app client.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getUserPoolClientSessionConfiguration(
+        clientId: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetUserPoolClientSessionConfigurationResponse {
+        let input = GetUserPoolClientSessionConfigurationRequest(
+            clientId: clientId, 
+            userPoolId: userPoolId
+        )
+        return try await self.getUserPoolClientSessionConfiguration(input, logger: logger)
+    }
+
     /// Given a user pool ID, returns configuration for sign-in with WebAuthn authenticators and for multi-factor authentication (MFA). This operation describes the following:   The WebAuthn relying party (RP) ID and user-verification settings.   The required, optional, or disabled state of MFA for all user pool users.   The message templates for email and SMS MFA.   The enabled or disabled state of time-based one-time password (TOTP) MFA.    Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
@@ -3289,6 +3403,35 @@ public struct CognitoIdentityProvider: AWSService {
             userPoolId: userPoolId
         )
         return try await self.getUserPoolMfaConfig(input, logger: logger)
+    }
+
+    /// Retrieves the session tracking configuration for a user pool, including whether session tracking is enabled and the pool-wide maximum number of active token sessions for each user. If you have never called SetUserPoolSessionConfiguration for the user pool, this operation returns the default values: UserSessionTracking as DISABLED and a MaxPerUser value of 20.
+    @Sendable
+    @inlinable
+    public func getUserPoolSessionConfiguration(_ input: GetUserPoolSessionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserPoolSessionConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetUserPoolSessionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the session tracking configuration for a user pool, including whether session tracking is enabled and the pool-wide maximum number of active token sessions for each user. If you have never called SetUserPoolSessionConfiguration for the user pool, this operation returns the default values: UserSessionTracking as DISABLED and a MaxPerUser value of 20.
+    ///
+    /// Parameters:
+    ///   - userPoolId: The ID of the user pool where you want to retrieve the session configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getUserPoolSessionConfiguration(
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetUserPoolSessionConfigurationResponse {
+        let input = GetUserPoolSessionConfigurationRequest(
+            userPoolId: userPoolId
+        )
+        return try await self.getUserPoolSessionConfiguration(input, logger: logger)
     }
 
     /// Invalidates the identity, access, and refresh tokens that Amazon Cognito issued to a user. Call this operation when your user signs out of your app. This results in the following behavior.    Amazon Cognito no longer accepts token-authorized user operations that you authorize with a signed-out user's access tokens. For more information, see Using the Amazon Cognito user pools API and user pool endpoints. Amazon Cognito returns an Access Token has been revoked error when your app attempts to authorize a user pools API request with a revoked access token that contains the scope aws.cognito.signin.user.admin.   Amazon Cognito no longer accepts a signed-out user's ID token in a GetId  request to an identity pool with ServerSideTokenCheck enabled for its user pool IdP configuration in CognitoIdentityProvider.   Amazon Cognito no longer accepts a signed-out user's refresh tokens in refresh requests.   Other requests might be valid until your user's token expires. This operation doesn't clear the managed login session cookie. To clear the session for a user who signed in with managed login or the classic hosted UI, direct their browser session to the logout endpoint. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
@@ -3338,7 +3481,7 @@ public struct CognitoIdentityProvider: AWSService {
     /// Parameters:
     ///   - analyticsMetadata: Information that supports analytics outcomes with Amazon Pinpoint, including the
     ///   - authFlow: The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows.  USER_AUTH  The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the  Essentials tier or higher.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  USER_PASSWORD_AUTH  Client-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models.    ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
-    ///   - authParameters: The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when doing SRP authentication before custom challenges)    SRP_A: (An SRP_A value) (when doing SRP authentication before custom challenges)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+    ///   - authParameters: The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    TARGET_ACR_VALUES. An optional, space-separated list of the authentication context class reference (ACR) level URIs that you want the user to reach. List the levels in priority order, from highest to lowest. Amazon Cognito attempts the highest-priority level that the user can satisfy, and falls back through the list. Amazon Cognito ignores any value that it doesn't recognize. If none of the requested values are valid, Amazon Cognito returns an error. Requesting step-up authentication with this parameter requires the Essentials or Plus feature plan. On a lower feature plan, InitiateAuth returns a FeatureUnavailableInTierException. USERNAME is required. When you provide an ACCESS_TOKEN, you must also provide TARGET_ACR_VALUES. Amazon Cognito returns an error if you provide an ACCESS_TOKEN without TARGET_ACR_VALUES. The USERNAME that you provide must match the user that the ACCESS_TOKEN was issued for. For more information about step-up authentication and how Amazon Cognito handles multi-factor authentication requirements, see Step-up authentication with ACR and AMR in the Amazon Cognito Developer Guide.    MAX_AGE. An optional integer that sets the maximum number of seconds allowed since the user last authenticated. If the user's most recent authentication is older than this value, Amazon Cognito discards the authentication-methods credit from any access token that you provide and processes the request as a fresh authentication toward the target level. The access token itself remains valid.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when doing SRP authentication before custom challenges)    SRP_A: (An SRP_A value) (when doing SRP authentication before custom challenges)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
     ///   - clientId: The ID of the app client that your user wants to sign in to.
     ///   - clientMetadata: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see
     ///   - session: The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow. When you pass the session ID to InitiateAuth, Amazon Cognito assumes the SMS or email message one-time verification password from ConfirmSignUp as the primary authentication factor. You're not required to submit this code a second time. This option is only valid for users who have confirmed their sign-up and are signing in for the first time within the authentication flow session duration of the session ID.
@@ -3657,18 +3800,21 @@ public struct CognitoIdentityProvider: AWSService {
     /// Given a user pool ID, lists app clients. App clients are sets of rules for the access that you want a user pool to grant to one application. For more information, see App clients.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
+    ///   - clientType: Returns only app clients of this type. For dynamic client registration (DCR) and other app clients, the following values are valid.  REGULAR  An app client not created through dynamic client registration.  DCR  An app client created through dynamic client registration.   If you omit ClientType, the response includes app clients of all types. When you set this filter, a page of results can contain fewer app clients than MaxResults, or none, while the response still includes a NextToken. Continue to request pages until the response has no NextToken. The app clients in the response don't include their type. To get the type of an app client, call DescribeUserPoolClient.
     ///   - maxResults: The maximum number of app clients that you want Amazon Cognito to return in the response.
     ///   - nextToken: This API operation returns a limited number of results. The pagination token is
     ///   - userPoolId: The ID of the user pool where you want to list user pool clients.
     ///   - logger: Logger use during operation
     @inlinable
     public func listUserPoolClients(
+        clientType: ClientTypeType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListUserPoolClientsResponse {
         let input = ListUserPoolClientsRequest(
+            clientType: clientType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             userPoolId: userPoolId
@@ -3738,6 +3884,38 @@ public struct CognitoIdentityProvider: AWSService {
             nextToken: nextToken
         )
         return try await self.listUserPools(input, logger: logger)
+    }
+
+    /// Lists the active sessions for the currently signed-in user. Amazon Cognito authorizes this operation with the user's access token and returns all of the user's active sessions across every app client in the user pool, including both token sessions and SSO sessions. The IsCurrentSession field identifies the session that the calling access token belongs to. The results are eventually consistent, and new sessions are typically included within a few seconds.
+    @Sendable
+    @inlinable
+    public func listUserSessions(_ input: ListUserSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserSessionsResponse {
+        try await self.client.execute(
+            operation: "ListUserSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the active sessions for the currently signed-in user. Amazon Cognito authorizes this operation with the user's access token and returns all of the user's active sessions across every app client in the user pool, including both token sessions and SSO sessions. The IsCurrentSession field identifies the session that the calling access token belongs to. The results are eventually consistent, and new sessions are typically included within a few seconds.
+    ///
+    /// Parameters:
+    ///   - accessToken: A valid access token that Amazon Cognito issued to the user whose sessions you want to list. Amazon Cognito derives the user pool and username from this token.
+    ///   - nextToken: A pagination token that Amazon Cognito returned in a previous response. Use this value to retrieve the next page of results if a NextToken was included in a prior response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listUserSessions(
+        accessToken: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListUserSessionsResponse {
+        let input = ListUserSessionsRequest(
+            accessToken: accessToken, 
+            nextToken: nextToken
+        )
+        return try await self.listUserSessions(input, logger: logger)
     }
 
     /// Given a user pool ID, returns a list of users and their basic details in a user pool. This operation is eventually consistent. You might experience a delay before results are up-to-date. To validate the existence or configuration of an individual user, use AdminGetUser.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
@@ -3963,21 +4141,59 @@ public struct CognitoIdentityProvider: AWSService {
     /// Parameters:
     ///   - clientId: The ID of the app client where the token that you want to revoke was issued.
     ///   - clientSecret: The client secret of the requested app client, if the client has a secret.
+    ///   - revokeAssociatedSessions: Specifies whether to also revoke the SSO session that is linked to the token session being revoked. NONE, the default, revokes only the token session that is associated with the refresh token. LINKED also revokes the parent SSO session that the token session came through; the other token sessions that came through that SSO session aren't revoked. LINKED has no effect when session tracking is disabled or when the token session has no parent SSO session.
     ///   - token: The refresh token that you want to revoke.
     ///   - logger: Logger use during operation
     @inlinable
     public func revokeToken(
         clientId: String,
         clientSecret: String? = nil,
+        revokeAssociatedSessions: RevokeAssociatedSessionsType? = nil,
         token: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RevokeTokenResponse {
         let input = RevokeTokenRequest(
             clientId: clientId, 
             clientSecret: clientSecret, 
+            revokeAssociatedSessions: revokeAssociatedSessions, 
             token: token
         )
         return try await self.revokeToken(input, logger: logger)
+    }
+
+    /// Revokes a specific session for the currently signed-in user. Amazon Cognito authorizes this operation with the user's access token, revokes all refresh and access tokens that are associated with the session, and deletes the session record. You can't revoke the session that the calling access token belongs to.
+    @Sendable
+    @inlinable
+    public func revokeUserSession(_ input: RevokeUserSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeUserSessionResponse {
+        try await self.client.execute(
+            operation: "RevokeUserSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes a specific session for the currently signed-in user. Amazon Cognito authorizes this operation with the user's access token, revokes all refresh and access tokens that are associated with the session, and deletes the session record. You can't revoke the session that the calling access token belongs to.
+    ///
+    /// Parameters:
+    ///   - accessToken: A valid access token that Amazon Cognito issued to the user. Amazon Cognito uses this token to authorize the request and to identify the user.
+    ///   - revokeAssociatedSessions: Specifies whether to also revoke the sessions that are linked to the targeted session. NONE, the default, revokes only the targeted session. LINKED also revokes the directly linked session or sessions, interpreted relative to the type of the targeted session: revoking a token session also revokes the parent SSO session it came through, and revoking an SSO session also revokes the token sessions that came through it. The set of linked sessions is eventually consistent, so associated sessions are typically revoked within a few seconds.
+    ///   - sessionId: The ID of the session to revoke. This is a 28-character string of lowercase letters and digits, prefixed with tkn for a token session or sso for an SSO session. This value can't identify the caller's own current session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokeUserSession(
+        accessToken: String,
+        revokeAssociatedSessions: RevokeAssociatedSessionsType? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RevokeUserSessionResponse {
+        let input = RevokeUserSessionRequest(
+            accessToken: accessToken, 
+            revokeAssociatedSessions: revokeAssociatedSessions, 
+            sessionId: sessionId
+        )
+        return try await self.revokeUserSession(input, logger: logger)
     }
 
     /// Sets up or modifies the logging configuration of a user pool. User pools can export user notification logs and, when threat protection is active, user-activity logs. For more information, see Exporting user pool logs.
@@ -4132,6 +4348,41 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.setUserMFAPreference(input, logger: logger)
     }
 
+    /// Sets the session configuration for a user pool app client. The configurable client-level setting is the maximum validity period for silent reuse of an SSO session. This operation performs a full replacement of the client-level session configuration; every request parameter is required, and session tracking must be enabled for the user pool. The user pool must be in the Essentials or Plus tier. Otherwise, this operation returns a FeatureUnavailableInTierException.
+    @Sendable
+    @inlinable
+    public func setUserPoolClientSessionConfiguration(_ input: SetUserPoolClientSessionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetUserPoolClientSessionConfigurationResponse {
+        try await self.client.execute(
+            operation: "SetUserPoolClientSessionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the session configuration for a user pool app client. The configurable client-level setting is the maximum validity period for silent reuse of an SSO session. This operation performs a full replacement of the client-level session configuration; every request parameter is required, and session tracking must be enabled for the user pool. The user pool must be in the Essentials or Plus tier. Otherwise, this operation returns a FeatureUnavailableInTierException.
+    ///
+    /// Parameters:
+    ///   - clientId: The ID of the app client that you want to configure.
+    ///   - ssoSession: The SSO session settings for the app client.
+    ///   - userPoolId: The ID of the user pool that contains the app client.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func setUserPoolClientSessionConfiguration(
+        clientId: String,
+        ssoSession: ClientSSOSessionConfigType,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SetUserPoolClientSessionConfigurationResponse {
+        let input = SetUserPoolClientSessionConfigurationRequest(
+            clientId: clientId, 
+            ssoSession: ssoSession, 
+            userPoolId: userPoolId
+        )
+        return try await self.setUserPoolClientSessionConfiguration(input, logger: logger)
+    }
+
     /// Sets user pool multi-factor authentication (MFA) and passkey configuration. For more information about user pool MFA, see Adding MFA. For more information about WebAuthn passkeys see Authentication flows.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
     @Sendable
     @inlinable
@@ -4174,6 +4425,41 @@ public struct CognitoIdentityProvider: AWSService {
             webAuthnConfiguration: webAuthnConfiguration
         )
         return try await self.setUserPoolMfaConfig(input, logger: logger)
+    }
+
+    /// Enables or disables session tracking for a user pool, and sets the pool-wide maximum number of active token sessions that each user can have. This operation performs a full replacement of the pool-level session configuration; every request parameter is required. The user pool must be in the Essentials or Plus tier. Otherwise, this operation returns a FeatureUnavailableInTierException.
+    @Sendable
+    @inlinable
+    public func setUserPoolSessionConfiguration(_ input: SetUserPoolSessionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetUserPoolSessionConfigurationResponse {
+        try await self.client.execute(
+            operation: "SetUserPoolSessionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables or disables session tracking for a user pool, and sets the pool-wide maximum number of active token sessions that each user can have. This operation performs a full replacement of the pool-level session configuration; every request parameter is required. The user pool must be in the Essentials or Plus tier. Otherwise, this operation returns a FeatureUnavailableInTierException.
+    ///
+    /// Parameters:
+    ///   - tokenSession: The pool-wide token session settings to apply.
+    ///   - userPoolId: The ID of the user pool where you want to configure session tracking.
+    ///   - userSessionTracking: Specifies whether Amazon Cognito tracks sessions for users in the user pool. Set this value to ENABLED to turn on server-side session tracking, or DISABLED to turn it off. When you set this value to DISABLED while the user pool remains active, existing client-level session configurations are retained but dormant, and are reactivated when you enable tracking again.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func setUserPoolSessionConfiguration(
+        tokenSession: UserPoolTokenSessionConfigType,
+        userPoolId: String,
+        userSessionTracking: UserSessionTrackingType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SetUserPoolSessionConfigurationResponse {
+        let input = SetUserPoolSessionConfigurationRequest(
+            tokenSession: tokenSession, 
+            userPoolId: userPoolId, 
+            userSessionTracking: userSessionTracking
+        )
+        return try await self.setUserPoolSessionConfiguration(input, logger: logger)
     }
 
     ///  This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token or email MFA. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
@@ -4551,6 +4837,7 @@ public struct CognitoIdentityProvider: AWSService {
     /// Modifies the configuration and trust relationship between a third-party identity provider (IdP) and a user pool. Amazon Cognito accepts sign-in with third-party identity providers through managed login and OIDC relying-party libraries. For more information, see Third-party IdP sign-in.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
+    ///   - acrMapping: A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). This mapping has the same behavior as it does when you create an identity provider. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't restricted to the Essentials or Plus feature plan.
     ///   - attributeMapping: A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
     ///   - idpIdentifiers: An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of email-address matching with SAML providers.
     ///   - providerDetails: The scopes, URLs, and identifiers for your external identity provider. The following
@@ -4559,6 +4846,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateIdentityProvider(
+        acrMapping: [String: String]? = nil,
         attributeMapping: [String: String]? = nil,
         idpIdentifiers: [String]? = nil,
         providerDetails: [String: String]? = nil,
@@ -4567,6 +4855,7 @@ public struct CognitoIdentityProvider: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateIdentityProviderResponse {
         let input = UpdateIdentityProviderRequest(
+            acrMapping: acrMapping, 
             attributeMapping: attributeMapping, 
             idpIdentifiers: idpIdentifiers, 
             providerDetails: providerDetails, 
@@ -4783,8 +5072,10 @@ public struct CognitoIdentityProvider: AWSService {
     ///
     /// Parameters:
     ///   - accountRecoverySetting: The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
+    ///   - acrConfiguration: The custom names for the authentication context class reference (ACR) levels in your user pool. This configuration has the same behavior as it does when you create a user pool: you customize only the URI name that Amazon Cognito reports for each of the four fixed ACR levels, and any level that you don't specify keeps its default name. Each name must be unique across all four levels, including default names. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the  Essentials tier or higher.
     ///   - adminCreateUserConfig: The configuration for administrative creation of users. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
     ///   - autoVerifiedAttributes: The attributes that you want your user pool to automatically verify. Possible values: email, phone_number. For more information see Verifying contact information at sign-up.
+    ///   - dcrConfiguration: The dynamic client registration configuration for the user pool. With dynamic client registration, applications can register their own app clients at runtime through the registration endpoint of your user pool domain. To activate this setting, your user pool must be in the  Essentials tier or higher. If you omit this parameter, Amazon Cognito keeps the existing configuration. If you include it, Amazon Cognito replaces the existing configuration with the one that you provide. Members that you omit revert to their default values, and an omitted EnableStatus turns dynamic client registration on. To change the feature plan of the user pool to Lite, you must also set EnableStatus to Disabled.
     ///   - deletionProtection: When active, DeletionProtection prevents accidental deletion of your user
     ///   - deviceConfiguration: The device-remembering configuration for a user pool. Device remembering or device tracking is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see Working with user devices in your user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature. For more information, see Working with devices.
     ///   - emailConfiguration: The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for email invitation and verification messages from your user pool.
@@ -4809,8 +5100,10 @@ public struct CognitoIdentityProvider: AWSService {
     @inlinable
     public func updateUserPool(
         accountRecoverySetting: AccountRecoverySettingType? = nil,
+        acrConfiguration: [String: AcrLevelConfigType]? = nil,
         adminCreateUserConfig: AdminCreateUserConfigType? = nil,
         autoVerifiedAttributes: [VerifiedAttributeType]? = nil,
+        dcrConfiguration: DcrConfigurationType? = nil,
         deletionProtection: DeletionProtectionType? = nil,
         deviceConfiguration: DeviceConfigurationType? = nil,
         emailConfiguration: EmailConfigurationType? = nil,
@@ -4835,8 +5128,10 @@ public struct CognitoIdentityProvider: AWSService {
     ) async throws -> UpdateUserPoolResponse {
         let input = UpdateUserPoolRequest(
             accountRecoverySetting: accountRecoverySetting, 
+            acrConfiguration: acrConfiguration, 
             adminCreateUserConfig: adminCreateUserConfig, 
             autoVerifiedAttributes: autoVerifiedAttributes, 
+            dcrConfiguration: dcrConfiguration, 
             deletionProtection: deletionProtection, 
             deviceConfiguration: deviceConfiguration, 
             emailConfiguration: emailConfiguration, 
@@ -5113,7 +5408,7 @@ public struct CognitoIdentityProvider: AWSService {
 extension CognitoIdentityProvider {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: CognitoIdentityProvider, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -5335,16 +5630,19 @@ extension CognitoIdentityProvider {
     /// Return PaginatorSequence for operation ``listUserPoolClients(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - clientType: Returns only app clients of this type. For dynamic client registration (DCR) and other app clients, the following values are valid.  REGULAR  An app client not created through dynamic client registration.  DCR  An app client created through dynamic client registration.   If you omit ClientType, the response includes app clients of all types. When you set this filter, a page of results can contain fewer app clients than MaxResults, or none, while the response still includes a NextToken. Continue to request pages until the response has no NextToken. The app clients in the response don't include their type. To get the type of an app client, call DescribeUserPoolClient.
     ///   - maxResults: The maximum number of app clients that you want Amazon Cognito to return in the response.
     ///   - userPoolId: The ID of the user pool where you want to list user pool clients.
     ///   - logger: Logger used for logging
     @inlinable
     public func listUserPoolClientsPaginator(
+        clientType: ClientTypeType? = nil,
         maxResults: Int? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListUserPoolClientsRequest, ListUserPoolClientsResponse> {
         let input = ListUserPoolClientsRequest(
+            clientType: clientType, 
             maxResults: maxResults, 
             userPoolId: userPoolId
         )
@@ -5530,6 +5828,7 @@ extension CognitoIdentityProvider.ListUserPoolClientsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CognitoIdentityProvider.ListUserPoolClientsRequest {
         return .init(
+            clientType: self.clientType,
             maxResults: self.maxResults,
             nextToken: token,
             userPoolId: self.userPoolId

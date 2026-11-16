@@ -113,6 +113,26 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
+    public enum EksAccessEntryDesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case inheritFromCluster = "INHERIT_FROM_CLUSTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EksAccessEntryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EksSeccompProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case localhost = "Localhost"
+        case runtimeDefault = "RuntimeDefault"
+        case unconfined = "Unconfined"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirelensConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fluentbit = "fluentbit"
         case fluentd = "fluentd"
@@ -1338,7 +1358,7 @@ extension Batch {
         public let context: String?
         /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
         public let ecsSettings: EcsSettings?
-        /// The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
+        /// The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster. Additional Amazon EKS permissions are required for Batch to manage an access entry on the cluster; see Amazon EKS access entry authentication in the Batch User Guide.
         public let eksConfiguration: EksConfiguration?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
         public let serviceRole: String?
@@ -2585,6 +2605,24 @@ extension Batch {
         }
     }
 
+    public struct EksAccessEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The desired access entry state for the compute environment. Valid values:  ENABLED  Batch manages an access entry on the cluster for the compute environment.  DISABLED  Batch deletes the Batch-managed access entry for the cluster. This value is rejected if the cluster's authenticationMode is API, because such a cluster doesn't support the aws-auth ConfigMap.  INHERIT_FROM_CLUSTER  Batch defers to the cluster's current access entry status. On a cluster whose authentication mode is API, Batch creates and manages an access entry. On a cluster whose authentication mode is API_AND_CONFIG_MAP or CONFIG_MAP, Batch neither adds nor removes an access entry.
+        public let desiredState: EksAccessEntryDesiredState?
+        /// The observed state of the access entry on the cluster. ACTIVE means that an access entry for the compute environment exists on the cluster and takes precedence over the aws-auth ConfigMap. INACTIVE means that no Batch-managed access entry is present. This is a read-only field returned by DescribeComputeEnvironments.
+        public let status: EksAccessEntryStatus?
+
+        @inlinable
+        public init(desiredState: EksAccessEntryDesiredState? = nil, status: EksAccessEntryStatus? = nil) {
+            self.desiredState = desiredState
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "desiredState"
+            case status = "status"
+        }
+    }
+
     public struct EksAttemptContainerDetail: AWSDecodableShape {
         /// The ID for the container.
         public let containerID: String?
@@ -2658,20 +2696,38 @@ extension Batch {
     }
 
     public struct EksConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Batch-managed Amazon EKS access entry for the compute environment. Set desiredState to declare whether Batch manages an access entry on the cluster. In a DescribeComputeEnvironments response, desiredState is the value that Batch recorded for the compute environment and status is the observed state of the access entry on the cluster. To change the access entry on an existing compute environment, use  EksConfigurationUpdate.accessEntry . Whether the entry is provisioned on the cluster depends on the cluster's authenticationMode and the desiredState recorded for each Batch compute environment targeting the cluster. For more information, see Amazon EKS access entry authentication in the Batch User Guide. If you don't specify this field, Batch doesn't record a desiredState for the compute environment and DescribeComputeEnvironments doesn't return one. For the purpose of provisioning the access entry, Batch behaves as it does for INHERIT_FROM_CLUSTER.
+        public let accessEntry: EksAccessEntry?
         /// The Amazon Resource Name (ARN) of the Amazon EKS cluster. An example is arn:aws:eks:us-east-1:123456789012:cluster/ClusterForBatch .
         public let eksClusterArn: String?
         /// The namespace of the Amazon EKS cluster. Batch manages pods in this namespace. The value can't left empty or null. It must be fewer than 64 characters long, can't be set to default, can't start with "kube-," and must match this regular expression: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$. For more information, see Namespaces in the Kubernetes documentation.
         public let kubernetesNamespace: String?
 
         @inlinable
-        public init(eksClusterArn: String? = nil, kubernetesNamespace: String? = nil) {
+        public init(accessEntry: EksAccessEntry? = nil, eksClusterArn: String? = nil, kubernetesNamespace: String? = nil) {
+            self.accessEntry = accessEntry
             self.eksClusterArn = eksClusterArn
             self.kubernetesNamespace = kubernetesNamespace
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessEntry = "accessEntry"
             case eksClusterArn = "eksClusterArn"
             case kubernetesNamespace = "kubernetesNamespace"
+        }
+    }
+
+    public struct EksConfigurationUpdate: AWSEncodableShape {
+        /// The updated access entry configuration for the compute environment. Set desiredState to declare whether Batch will manage an access entry on the cluster. For the accepted values, see  EksAccessEntry .
+        public let accessEntry: EksAccessEntry?
+
+        @inlinable
+        public init(accessEntry: EksAccessEntry? = nil) {
+            self.accessEntry = accessEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEntry = "accessEntry"
         }
     }
 
@@ -2710,6 +2766,7 @@ extension Batch {
 
         public func validate(name: String) throws {
             try self.resources?.validate(name: "\(name).resources")
+            try self.securityContext?.validate(name: "\(name).securityContext")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2797,6 +2854,37 @@ extension Batch {
         }
     }
 
+    public struct EksContainerLinuxCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The Linux capabilities to add to the default capability set for the container. This parameter contains up to 64 values. Specify capability names without the CAP_ prefix.
+        public let add: [String]?
+        /// The Linux capabilities to remove from the default capability set for the container. This parameter contains up to 64 values. Specify capability names without the CAP_ prefix.
+        public let drop: [String]?
+
+        @inlinable
+        public init(add: [String]? = nil, drop: [String]? = nil) {
+            self.add = add
+            self.drop = drop
+        }
+
+        public func validate(name: String) throws {
+            try self.add?.forEach {
+                try validate($0, name: "add[]", parent: name, max: 128)
+                try validate($0, name: "add[]", parent: name, min: 1)
+            }
+            try self.validate(self.add, name: "add", parent: name, max: 64)
+            try self.drop?.forEach {
+                try validate($0, name: "drop[]", parent: name, max: 128)
+                try validate($0, name: "drop[]", parent: name, min: 1)
+            }
+            try self.validate(self.drop, name: "drop", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case add = "add"
+            case drop = "drop"
+        }
+    }
+
     public struct EksContainerOverride: AWSEncodableShape {
         /// The arguments to the entrypoint to send to the container that overrides the default arguments from the Docker image or the job definition. For more information, see Dockerfile reference: CMD and Define a command an arguments for a pod in the Kubernetes documentation.
         public let args: [String]?
@@ -2867,34 +2955,47 @@ extension Batch {
     public struct EksContainerSecurityContext: AWSEncodableShape & AWSDecodableShape {
         /// Whether or not a container or a Kubernetes pod is allowed to gain more privileges than its parent process. The default value is false.
         public let allowPrivilegeEscalation: Bool?
+        /// Adds or removes Linux capabilities from the container's default capability set. With Linux capabilities, you can grant specific privileges without granting full root permissions.
+        public let capabilities: EksContainerLinuxCapabilities?
         /// When this parameter is true, the container is given elevated permissions on the host container instance. The level of permissions are similar to the root user permissions. The default value is false. This parameter maps to privileged policy in the Privileged pod security policies in the Kubernetes documentation.
         public let privileged: Bool?
         /// When this parameter is true, the container is given read-only access to its root file system. The default value is false. This parameter maps to ReadOnlyRootFilesystem policy in the Volumes and file systems pod security policies in the Kubernetes documentation.
         public let readOnlyRootFilesystem: Bool?
-        /// When this parameter is specified, the container is run as the specified group ID (gid). If this parameter isn't specified, the default is the group that's specified in the image metadata. This parameter maps to RunAsGroup and MustRunAs policy in the Users and groups pod security policies in the Kubernetes documentation.
+        /// When this parameter is specified, the container is run as the specified group ID (gid). If this parameter isn't specified, the default is the group that's specified in the image metadata. The supported value range is 0 through 2147483647. This parameter maps to RunAsGroup and MustRunAs policy in the Users and groups pod security policies in the Kubernetes documentation.
         public let runAsGroup: Int64?
         /// When this parameter is specified, the container is run as a user with a uid other than 0. If this parameter isn't specified, so such rule is enforced. This parameter maps to RunAsUser and MustRunAsNonRoot policy in the Users and groups pod security policies in the Kubernetes documentation.
         public let runAsNonRoot: Bool?
-        /// When this parameter is specified, the container is run as the specified user ID (uid). If this parameter isn't specified, the default is the user that's specified in the image metadata. This parameter maps to RunAsUser and MustRanAs policy in the Users and groups pod security policies in the Kubernetes documentation.
+        /// When this parameter is specified, the container is run as the specified user ID (uid). If this parameter isn't specified, the default is the user that's specified in the image metadata. The supported value range is 0 through 2147483647. This parameter maps to RunAsUser and MustRunAs policy in the Users and groups pod security policies in the Kubernetes documentation.
         public let runAsUser: Int64?
+        /// The seccomp profile for the container. A container-level seccomp profile overrides the profile in the pod security context, which defines security settings that apply to all containers in the pod unless a container overrides them. If this parameter isn't specified, the container uses the pod security context's seccomp profile when one is specified.
+        public let seccompProfile: EksSeccompProfile?
 
         @inlinable
-        public init(allowPrivilegeEscalation: Bool? = nil, privileged: Bool? = nil, readOnlyRootFilesystem: Bool? = nil, runAsGroup: Int64? = nil, runAsNonRoot: Bool? = nil, runAsUser: Int64? = nil) {
+        public init(allowPrivilegeEscalation: Bool? = nil, capabilities: EksContainerLinuxCapabilities? = nil, privileged: Bool? = nil, readOnlyRootFilesystem: Bool? = nil, runAsGroup: Int64? = nil, runAsNonRoot: Bool? = nil, runAsUser: Int64? = nil, seccompProfile: EksSeccompProfile? = nil) {
             self.allowPrivilegeEscalation = allowPrivilegeEscalation
+            self.capabilities = capabilities
             self.privileged = privileged
             self.readOnlyRootFilesystem = readOnlyRootFilesystem
             self.runAsGroup = runAsGroup
             self.runAsNonRoot = runAsNonRoot
             self.runAsUser = runAsUser
+            self.seccompProfile = seccompProfile
+        }
+
+        public func validate(name: String) throws {
+            try self.capabilities?.validate(name: "\(name).capabilities")
+            try self.seccompProfile?.validate(name: "\(name).seccompProfile")
         }
 
         private enum CodingKeys: String, CodingKey {
             case allowPrivilegeEscalation = "allowPrivilegeEscalation"
+            case capabilities = "capabilities"
             case privileged = "privileged"
             case readOnlyRootFilesystem = "readOnlyRootFilesystem"
             case runAsGroup = "runAsGroup"
             case runAsNonRoot = "runAsNonRoot"
             case runAsUser = "runAsUser"
+            case seccompProfile = "seccompProfile"
         }
     }
 
@@ -3014,6 +3115,8 @@ extension Batch {
         public let initContainers: [EksContainer]?
         /// Metadata about the Kubernetes pod. For more information, see Understanding Kubernetes Objects in the Kubernetes documentation.
         public let metadata: EksMetadata?
+        /// The security context to apply to the pod. The settings apply to all containers in the pod unless an individual container specifies an overriding value.
+        public let securityContext: EksPodSecurityContext?
         /// The name of the service account that's used to run the pod. For more information, see Kubernetes service accounts and Configure a Kubernetes service account to assume an IAM role in the Amazon EKS User Guide and Configure service accounts for pods in the Kubernetes documentation.
         public let serviceAccountName: String?
         /// Indicates if the processes in a container are shared, or visible, to other containers in the same pod. For more information, see Share Process Namespace between Containers in a Pod.
@@ -3022,13 +3125,14 @@ extension Batch {
         public let volumes: [EksVolume]?
 
         @inlinable
-        public init(containers: [EksContainer]? = nil, dnsPolicy: String? = nil, hostNetwork: Bool? = nil, imagePullSecrets: [ImagePullSecret]? = nil, initContainers: [EksContainer]? = nil, metadata: EksMetadata? = nil, serviceAccountName: String? = nil, shareProcessNamespace: Bool? = nil, volumes: [EksVolume]? = nil) {
+        public init(containers: [EksContainer]? = nil, dnsPolicy: String? = nil, hostNetwork: Bool? = nil, imagePullSecrets: [ImagePullSecret]? = nil, initContainers: [EksContainer]? = nil, metadata: EksMetadata? = nil, securityContext: EksPodSecurityContext? = nil, serviceAccountName: String? = nil, shareProcessNamespace: Bool? = nil, volumes: [EksVolume]? = nil) {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
             self.imagePullSecrets = imagePullSecrets
             self.initContainers = initContainers
             self.metadata = metadata
+            self.securityContext = securityContext
             self.serviceAccountName = serviceAccountName
             self.shareProcessNamespace = shareProcessNamespace
             self.volumes = volumes
@@ -3041,6 +3145,7 @@ extension Batch {
             try self.initContainers?.forEach {
                 try $0.validate(name: "\(name).initContainers[]")
             }
+            try self.securityContext?.validate(name: "\(name).securityContext")
             try self.volumes?.forEach {
                 try $0.validate(name: "\(name).volumes[]")
             }
@@ -3053,6 +3158,7 @@ extension Batch {
             case imagePullSecrets = "imagePullSecrets"
             case initContainers = "initContainers"
             case metadata = "metadata"
+            case securityContext = "securityContext"
             case serviceAccountName = "serviceAccountName"
             case shareProcessNamespace = "shareProcessNamespace"
             case volumes = "volumes"
@@ -3076,6 +3182,8 @@ extension Batch {
         public let nodeName: String?
         /// The name of the pod for this job.
         public let podName: String?
+        /// The security context applied to the pod. The settings apply to all containers in the pod unless an individual container specifies an overriding value.
+        public let securityContext: EksPodSecurityContext?
         /// The name of the service account that's used to run the pod. For more information, see Kubernetes service accounts and Configure a Kubernetes service account to assume an IAM role in the Amazon EKS User Guide and Configure service accounts for pods in the Kubernetes documentation.
         public let serviceAccountName: String?
         /// Indicates if the processes in a container are shared, or visible, to other containers in the same pod. For more information, see Share Process Namespace between Containers in a Pod.
@@ -3084,7 +3192,7 @@ extension Batch {
         public let volumes: [EksVolume]?
 
         @inlinable
-        public init(containers: [EksContainerDetail]? = nil, dnsPolicy: String? = nil, hostNetwork: Bool? = nil, imagePullSecrets: [ImagePullSecret]? = nil, initContainers: [EksContainerDetail]? = nil, metadata: EksMetadata? = nil, nodeName: String? = nil, podName: String? = nil, serviceAccountName: String? = nil, shareProcessNamespace: Bool? = nil, volumes: [EksVolume]? = nil) {
+        public init(containers: [EksContainerDetail]? = nil, dnsPolicy: String? = nil, hostNetwork: Bool? = nil, imagePullSecrets: [ImagePullSecret]? = nil, initContainers: [EksContainerDetail]? = nil, metadata: EksMetadata? = nil, nodeName: String? = nil, podName: String? = nil, securityContext: EksPodSecurityContext? = nil, serviceAccountName: String? = nil, shareProcessNamespace: Bool? = nil, volumes: [EksVolume]? = nil) {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
@@ -3093,6 +3201,7 @@ extension Batch {
             self.metadata = metadata
             self.nodeName = nodeName
             self.podName = podName
+            self.securityContext = securityContext
             self.serviceAccountName = serviceAccountName
             self.shareProcessNamespace = shareProcessNamespace
             self.volumes = volumes
@@ -3107,6 +3216,7 @@ extension Batch {
             case metadata = "metadata"
             case nodeName = "nodeName"
             case podName = "podName"
+            case securityContext = "securityContext"
             case serviceAccountName = "serviceAccountName"
             case shareProcessNamespace = "shareProcessNamespace"
             case volumes = "volumes"
@@ -3141,6 +3251,40 @@ extension Batch {
             case containers = "containers"
             case initContainers = "initContainers"
             case metadata = "metadata"
+        }
+    }
+
+    public struct EksPodSecurityContext: AWSEncodableShape & AWSDecodableShape {
+        /// A special supplemental group that is applied to all containers in the pod. Some volume types allow Kubernetes to change the ownership and permissions of the volume contents to this group when the volume is mounted. The supported value range is 0 through 2147483647.
+        public let fsGroup: Int64?
+        /// The primary group ID that runs containers in the pod when a container does not specify its own group ID. The supported value range is 0 through 2147483647.
+        public let runAsGroup: Int64?
+        /// Specifies whether Kubernetes validates that containers in the pod don't run as the root user unless a container specifies an overriding value.
+        public let runAsNonRoot: Bool?
+        /// The user ID that runs containers in the pod when a container does not specify its own user ID. The supported value range is 0 through 2147483647.
+        public let runAsUser: Int64?
+        /// The default seccomp profile for containers in the pod. A container-level seccomp profile overrides this value.
+        public let seccompProfile: EksSeccompProfile?
+
+        @inlinable
+        public init(fsGroup: Int64? = nil, runAsGroup: Int64? = nil, runAsNonRoot: Bool? = nil, runAsUser: Int64? = nil, seccompProfile: EksSeccompProfile? = nil) {
+            self.fsGroup = fsGroup
+            self.runAsGroup = runAsGroup
+            self.runAsNonRoot = runAsNonRoot
+            self.runAsUser = runAsUser
+            self.seccompProfile = seccompProfile
+        }
+
+        public func validate(name: String) throws {
+            try self.seccompProfile?.validate(name: "\(name).seccompProfile")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fsGroup = "fsGroup"
+            case runAsGroup = "runAsGroup"
+            case runAsNonRoot = "runAsNonRoot"
+            case runAsUser = "runAsUser"
+            case seccompProfile = "seccompProfile"
         }
     }
 
@@ -3191,6 +3335,29 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case podProperties = "podProperties"
+        }
+    }
+
+    public struct EksSeccompProfile: AWSEncodableShape & AWSDecodableShape {
+        /// The path of the profile on the node, relative to the configured seccomp profile location. You must specify this parameter when type is Localhost. Don't set this parameter for any other type. You are responsible for ensuring that the profile exists on every eligible worker node. For information about providing files to Amazon EKS nodes, see Use a launch template with Batch on Amazon EKS in the Batch User Guide.
+        public let localhostProfile: String?
+        /// The seccomp profile type can be one of the following values:  RuntimeDefault  The RuntimeDefault value uses the container runtime's default seccomp profile.  Unconfined  The Unconfined value doesn't filter the container with seccomp.  Localhost  The Localhost value uses a custom profile at the path specified by localhostProfile.
+        public let type: EksSeccompProfileType?
+
+        @inlinable
+        public init(localhostProfile: String? = nil, type: EksSeccompProfileType? = nil) {
+            self.localhostProfile = localhostProfile
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.localhostProfile, name: "localhostProfile", parent: name, max: 4095)
+            try self.validate(self.localhostProfile, name: "localhostProfile", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localhostProfile = "localhostProfile"
+            case type = "type"
         }
     }
 
@@ -3683,7 +3850,7 @@ extension Batch {
         public let jobDefinitionArn: String?
         /// The name of the job definition.
         public let jobDefinitionName: String?
-        /// An object with properties that are specific to multi-node parallel jobs. When nodeProperties is used in the job definition, it can't be used in addition to containerProperties, ecsProperties, or eksProperties.  If the job runs on Fargate resources, don't specify nodeProperties. Use containerProperties instead.
+        /// An object with properties that are specific to multi-node parallel jobs. When nodeProperties is used in the job definition, it can't be used in addition to containerProperties, ecsProperties, or eksProperties.  If the job runs on Fargate resources, don't specify nodeProperties. We recommend ecsProperties, which supports both single-container and multi-container jobs. containerProperties is also supported for single-container jobs.
         public let nodeProperties: NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see Job definition parameters in the Batch User Guide.
         public let parameters: [String: String]?
@@ -5096,7 +5263,7 @@ extension Batch {
     public struct RegisterJobDefinitionRequest: AWSEncodableShape {
         /// Contains a list of consumable resources required by the job.
         public let consumableResourceProperties: ConsumableResourceProperties?
-        /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions.  If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
+        /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions.  If the job runs on Fargate resources, then you must not specify nodeProperties. We recommend ecsProperties, which supports both single-container and multi-container jobs. containerProperties is also supported for single-container jobs. For more information, see Multi-container jobs in the Batch User Guide.
         public let containerProperties: ContainerProperties?
         /// An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
         public let ecsProperties: EcsProperties?
@@ -5104,7 +5271,7 @@ extension Batch {
         public let eksProperties: EksProperties?
         /// The name of the job definition to register. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let jobDefinitionName: String?
-        /// An object with properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see Multi-node Parallel Jobs in the Batch User Guide.  If the job runs on Fargate resources, then you must not specify nodeProperties; use containerProperties instead.   If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
+        /// An object with properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see Multi-node Parallel Jobs in the Batch User Guide.  If the job runs on Fargate resources, then you must not specify nodeProperties. We recommend ecsProperties, which supports both single-container and multi-container jobs. containerProperties is also supported for single-container jobs.   If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
         public let nodeProperties: NodeProperties?
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
@@ -6098,7 +6265,7 @@ extension Batch {
         public let readonlyRootFilesystem: Bool?
         /// The private repository authentication credentials to use.
         public let repositoryCredentials: RepositoryCredentials?
-        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        /// The type and amount of a resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public let resourceRequirements: [ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
         public let secrets: [Secret]?
@@ -6419,6 +6586,8 @@ extension Batch {
         public let context: String?
         /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
         public let ecsSettings: EcsSettings?
+        /// Updates the Amazon EKS configuration for the compute environment. Only specify this parameter if the compute environment's containerOrchestrationType is EKS. Currently, the accessEntry setting is the only Amazon EKS configuration that you can change after the compute environment is created. For more information, see Amazon EKS access entry authentication in the Batch User Guide.
+        public let eksConfiguration: EksConfigurationUpdate?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see Updating compute environments in the Batch User Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
         public let serviceRole: String?
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -6429,11 +6598,12 @@ extension Batch {
         public let updatePolicy: UpdatePolicy?
 
         @inlinable
-        public init(computeEnvironment: String? = nil, computeResources: ComputeResourceUpdate? = nil, context: String? = nil, ecsSettings: EcsSettings? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
+        public init(computeEnvironment: String? = nil, computeResources: ComputeResourceUpdate? = nil, context: String? = nil, ecsSettings: EcsSettings? = nil, eksConfiguration: EksConfigurationUpdate? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
             self.computeEnvironment = computeEnvironment
             self.computeResources = computeResources
             self.context = context
             self.ecsSettings = ecsSettings
+            self.eksConfiguration = eksConfiguration
             self.serviceRole = serviceRole
             self.state = state
             self.unmanagedvCpus = unmanagedvCpus
@@ -6450,6 +6620,7 @@ extension Batch {
             case computeResources = "computeResources"
             case context = "context"
             case ecsSettings = "ecsSettings"
+            case eksConfiguration = "eksConfiguration"
             case serviceRole = "serviceRole"
             case state = "state"
             case unmanagedvCpus = "unmanagedvCpus"

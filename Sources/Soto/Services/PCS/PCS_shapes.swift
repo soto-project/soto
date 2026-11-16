@@ -73,6 +73,12 @@ extension PCS {
         public var description: String { return self.rawValue }
     }
 
+    public enum LaunchTemplateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case managed = "MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
@@ -370,7 +376,7 @@ extension PCS {
     }
 
     public struct ComputeNodeGroup: AWSDecodableShape {
-        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not present, PCS uses the AMI ID specified in the custom launch template.
         public let amiId: String?
         /// The unique Amazon Resource Name (ARN) of the compute node group.
         public let arn: String
@@ -378,7 +384,8 @@ extension PCS {
         public let clusterId: String
         /// The date and time the resource was created.
         public let createdAt: Date
-        public let customLaunchTemplate: CustomLaunchTemplate
+        /// The custom Amazon EC2 launch template associated with the compute node group. This value is present when launchTemplateMode is CUSTOM and isn't present when launchTemplateMode is MANAGED.
+        public let customLaunchTemplate: CustomLaunchTemplate?
         /// The list of errors that occurred during compute node group provisioning.
         public let errorInfo: [ErrorInfo]?
         /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
@@ -387,6 +394,8 @@ extension PCS {
         public let id: String
         /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         public let instanceConfigs: [InstanceConfig]
+        /// Indicates whether the compute node group uses a custom launch template or a launch template that PCS manages. The default value is CUSTOM. Valid values:    CUSTOM – The compute node group uses the launch template in customLaunchTemplate.    MANAGED – PCS creates and manages the launch template.
+        public let launchTemplateMode: LaunchTemplateMode?
         /// The date and time the resource was modified.
         public let modifiedAt: Date
         /// The name that identifies the compute node group.
@@ -396,15 +405,19 @@ extension PCS {
         /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         public let scalingConfiguration: ScalingConfiguration
+        /// The IDs of the EC2 security groups configured directly on the compute node group. PCS uses these security groups instead of the security groups in the custom launch template. This value isn't present if security groups aren't configured directly on the compute node group. In that case, PCS uses the security groups in the custom launch template.
+        public let securityGroupIds: [String]?
         public let slurmConfiguration: ComputeNodeGroupSlurmConfiguration?
         public let spotOptions: SpotOptions?
+        /// The name of the EC2 key pair configured directly on the compute node group. PCS uses this key pair instead of the key pair in the custom launch template. This value isn't present if a key pair isn't configured directly on the compute node group. In that case, PCS uses the key pair in the custom launch template, if one is specified.
+        public let sshKeyName: String?
         /// The provisioning status of the compute node group.  The provisioning status doesn't indicate the overall health of the compute node group.   The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see Frequently asked questions about Slurm versions in PCS in the PCS User Guide.
         public let status: ComputeNodeGroupStatus
         /// The list of subnet IDs where instances are provisioned by the compute node group. The subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]
 
         @inlinable
-        public init(amiId: String? = nil, arn: String, clusterId: String, createdAt: Date, customLaunchTemplate: CustomLaunchTemplate, errorInfo: [ErrorInfo]? = nil, iamInstanceProfileArn: String, id: String, instanceConfigs: [InstanceConfig], modifiedAt: Date, name: String, nodeLifecycleActions: NodeLifecycleActions? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfiguration, slurmConfiguration: ComputeNodeGroupSlurmConfiguration? = nil, spotOptions: SpotOptions? = nil, status: ComputeNodeGroupStatus, subnetIds: [String]) {
+        public init(amiId: String? = nil, arn: String, clusterId: String, createdAt: Date, customLaunchTemplate: CustomLaunchTemplate? = nil, errorInfo: [ErrorInfo]? = nil, iamInstanceProfileArn: String, id: String, instanceConfigs: [InstanceConfig], launchTemplateMode: LaunchTemplateMode? = nil, modifiedAt: Date, name: String, nodeLifecycleActions: NodeLifecycleActions? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfiguration, securityGroupIds: [String]? = nil, slurmConfiguration: ComputeNodeGroupSlurmConfiguration? = nil, spotOptions: SpotOptions? = nil, sshKeyName: String? = nil, status: ComputeNodeGroupStatus, subnetIds: [String]) {
             self.amiId = amiId
             self.arn = arn
             self.clusterId = clusterId
@@ -414,13 +427,16 @@ extension PCS {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.id = id
             self.instanceConfigs = instanceConfigs
+            self.launchTemplateMode = launchTemplateMode
             self.modifiedAt = modifiedAt
             self.name = name
             self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
+            self.securityGroupIds = securityGroupIds
             self.slurmConfiguration = slurmConfiguration
             self.spotOptions = spotOptions
+            self.sshKeyName = sshKeyName
             self.status = status
             self.subnetIds = subnetIds
         }
@@ -435,13 +451,16 @@ extension PCS {
             case iamInstanceProfileArn = "iamInstanceProfileArn"
             case id = "id"
             case instanceConfigs = "instanceConfigs"
+            case launchTemplateMode = "launchTemplateMode"
             case modifiedAt = "modifiedAt"
             case name = "name"
             case nodeLifecycleActions = "nodeLifecycleActions"
             case purchaseOption = "purchaseOption"
             case scalingConfiguration = "scalingConfiguration"
+            case securityGroupIds = "securityGroupIds"
             case slurmConfiguration = "slurmConfiguration"
             case spotOptions = "spotOptions"
+            case sshKeyName = "sshKeyName"
             case status = "status"
             case subnetIds = "subnetIds"
         }
@@ -565,7 +584,7 @@ extension PCS {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// A name to identify the cluster. Example: MyCluster
         public let clusterName: String
@@ -633,35 +652,42 @@ extension PCS {
     }
 
     public struct CreateComputeNodeGroupRequest: AWSEncodableShape {
-        ///  The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.
+        ///  The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). This value overrides the AMI ID in the custom launch template. If you don't provide this value, PCS uses the AMI ID specified in the custom launch template. You must provide this value if launchTemplateMode is MANAGED.
         public let amiId: String?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster to create a compute node group in.
         public let clusterIdentifier: String
         /// A name to identify the cluster. Example: MyCluster
         public let computeNodeGroupName: String
-        public let customLaunchTemplate: CustomLaunchTemplate
+        /// The custom Amazon EC2 launch template to associate with the compute node group. Specify the launch template id and version when launchTemplateMode is CUSTOM. Don't specify this value when launchTemplateMode is MANAGED.
+        public let customLaunchTemplate: CustomLaunchTemplate?
         /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
         public let iamInstanceProfileArn: String
         /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         public let instanceConfigs: [InstanceConfig]
+        /// Specifies whether the compute node group uses a custom launch template or a launch template that PCS manages. The default value is CUSTOM. If the value is CUSTOM, provide customLaunchTemplate. If the value is MANAGED, omit customLaunchTemplate and provide amiId and securityGroupIds.
+        public let launchTemplateMode: LaunchTemplateMode?
         /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
         public let nodeLifecycleActions: NodeLifecycleActionsRequest?
         /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         public let scalingConfiguration: ScalingConfigurationRequest
+        /// The IDs of the EC2 security groups to configure directly on the compute node group. The security groups must be in the same VPC as the cluster. PCS uses these security groups instead of the security groups in the custom launch template. You can't specify this value if the custom launch template defines network interfaces. If you don't provide this value, PCS uses the security groups in the custom launch template. You must provide this value if launchTemplateMode is MANAGED. For more information, see Configuring instance settings for compute node groups in PCS in the PCS User Guide.
+        public let securityGroupIds: [String]?
         /// Additional options related to the Slurm scheduler.
         public let slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest?
         public let spotOptions: SpotOptions?
+        /// The name of the EC2 key pair to configure directly on the compute node group. The key pair must exist in your account and Amazon Web Services Region. PCS uses this key pair instead of the key pair in the custom launch template. If you don't provide this value, PCS uses the key pair in the custom launch template, if one is specified. You must have permission for ec2:DescribeKeyPairs. If you delete the key pair later, future instance launches can fail. For more information, see Configuring instance settings for compute node groups in PCS in the PCS User Guide.
+        public let sshKeyName: String?
         /// The list of subnet IDs where the compute node group launches instances. Subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]
         /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
         public let tags: [String: String]?
 
         @inlinable
-        public init(amiId: String? = nil, clientToken: String? = CreateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupName: String, customLaunchTemplate: CustomLaunchTemplate, iamInstanceProfileArn: String, instanceConfigs: [InstanceConfig], nodeLifecycleActions: NodeLifecycleActionsRequest? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest, slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String], tags: [String: String]? = nil) {
+        public init(amiId: String? = nil, clientToken: String? = CreateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupName: String, customLaunchTemplate: CustomLaunchTemplate? = nil, iamInstanceProfileArn: String, instanceConfigs: [InstanceConfig], launchTemplateMode: LaunchTemplateMode? = nil, nodeLifecycleActions: NodeLifecycleActionsRequest? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest, securityGroupIds: [String]? = nil, slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, sshKeyName: String? = nil, subnetIds: [String], tags: [String: String]? = nil) {
             self.amiId = amiId
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -669,11 +695,14 @@ extension PCS {
             self.customLaunchTemplate = customLaunchTemplate
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.instanceConfigs = instanceConfigs
+            self.launchTemplateMode = launchTemplateMode
             self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
+            self.securityGroupIds = securityGroupIds
             self.slurmConfiguration = slurmConfiguration
             self.spotOptions = spotOptions
+            self.sshKeyName = sshKeyName
             self.subnetIds = subnetIds
             self.tags = tags
         }
@@ -688,6 +717,11 @@ extension PCS {
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
             try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$")
             try self.nodeLifecycleActions?.validate(name: "\(name).nodeLifecycleActions")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-\\w{8,17}$")
+            }
+            try self.validate(self.sshKeyName, name: "sshKeyName", parent: name, max: 255)
+            try self.validate(self.sshKeyName, name: "sshKeyName", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -705,11 +739,14 @@ extension PCS {
             case customLaunchTemplate = "customLaunchTemplate"
             case iamInstanceProfileArn = "iamInstanceProfileArn"
             case instanceConfigs = "instanceConfigs"
+            case launchTemplateMode = "launchTemplateMode"
             case nodeLifecycleActions = "nodeLifecycleActions"
             case purchaseOption = "purchaseOption"
             case scalingConfiguration = "scalingConfiguration"
+            case securityGroupIds = "securityGroupIds"
             case slurmConfiguration = "slurmConfiguration"
             case spotOptions = "spotOptions"
+            case sshKeyName = "sshKeyName"
             case subnetIds = "subnetIds"
             case tags = "tags"
         }
@@ -729,7 +766,7 @@ extension PCS {
     }
 
     public struct CreateQueueRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster for which to create a queue.
         public let clusterIdentifier: String
@@ -792,9 +829,9 @@ extension PCS {
     }
 
     public struct CustomLaunchTemplate: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the EC2 launch template to use to provision instances.  Example: lt-xxxx
+        /// The ID of the EC2 launch template to use to provision instances. Specify this value together with version.  Example: lt-xxxx
         public let id: String
-        /// The version of the EC2 launch template to use to provision instances.
+        /// The version of the EC2 launch template to use to provision instances. Specify this value together with id.
         public let version: String
 
         @inlinable
@@ -810,7 +847,7 @@ extension PCS {
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster to delete.
         public let clusterIdentifier: String
@@ -838,7 +875,7 @@ extension PCS {
     }
 
     public struct DeleteComputeNodeGroupRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the compute node group.
         public let clusterIdentifier: String
@@ -871,7 +908,7 @@ extension PCS {
     }
 
     public struct DeleteQueueRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the queue.
         public let clusterIdentifier: String
@@ -1588,17 +1625,20 @@ extension PCS {
         public let nodeID: String
         /// The node lifecycle actions configured for the node group, including scripts to run when a compute node finishes bootstrapping or becomes ready to accept jobs.
         public let nodeLifecycleActions: NodeLifecycleActions?
+        /// The scheduler version that the cluster is running. A compute node uses this value to run the matching scheduler version.
+        public let schedulerVersion: String?
         /// For the Slurm scheduler, this is the shared Munge key the scheduler uses to authenticate compute node group instances.
         public let sharedSecret: String
 
         @inlinable
-        public init(clusterName: String? = nil, computeNodeGroupId: String? = nil, computeNodeGroupName: String? = nil, endpoints: [Endpoint], nodeID: String, nodeLifecycleActions: NodeLifecycleActions? = nil, sharedSecret: String) {
+        public init(clusterName: String? = nil, computeNodeGroupId: String? = nil, computeNodeGroupName: String? = nil, endpoints: [Endpoint], nodeID: String, nodeLifecycleActions: NodeLifecycleActions? = nil, schedulerVersion: String? = nil, sharedSecret: String) {
             self.clusterName = clusterName
             self.computeNodeGroupId = computeNodeGroupId
             self.computeNodeGroupName = computeNodeGroupName
             self.endpoints = endpoints
             self.nodeID = nodeID
             self.nodeLifecycleActions = nodeLifecycleActions
+            self.schedulerVersion = schedulerVersion
             self.sharedSecret = sharedSecret
         }
 
@@ -1609,6 +1649,7 @@ extension PCS {
             case endpoints = "endpoints"
             case nodeID = "nodeID"
             case nodeLifecycleActions = "nodeLifecycleActions"
+            case schedulerVersion = "schedulerVersion"
             case sharedSecret = "sharedSecret"
         }
     }
@@ -1970,7 +2011,7 @@ extension PCS {
     }
 
     public struct UpdateClusterRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster to update.
         public let clusterIdentifier: String
@@ -2049,53 +2090,67 @@ extension PCS {
     }
 
     public struct UpdateComputeNodeGroupRequest: AWSEncodableShape {
-        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. This value overrides the AMI ID in the custom launch template. Specify an empty string ("") to remove the AMI ID from the compute node group and use the AMI ID specified in the custom launch template. Omit this value to leave the current setting unchanged.
         public let amiId: String?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the compute node group.
         public let clusterIdentifier: String
         /// The name or ID of the compute node group.
         public let computeNodeGroupIdentifier: String
+        /// The custom Amazon EC2 launch template to associate with the compute node group. To set or change the custom launch template, specify id and version. If you provide this value and omit launchTemplateMode, the compute node group must already use CUSTOM mode. To switch from MANAGED to CUSTOM, specify launchTemplateMode as CUSTOM and provide this value. If the compute node group already uses CUSTOM, omit this value while also omitting launchTemplateMode, or while specifying CUSTOM, to keep the existing custom launch template. For more information, see Migrating a compute node group from a custom launch template in the PCS User Guide.
         public let customLaunchTemplate: CustomLaunchTemplate?
         /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
         public let iamInstanceProfileArn: String?
+        /// Specifies whether the compute node group uses a custom launch template or a launch template that PCS manages. Omit this value to keep the current mode. Valid values:    CUSTOM – Use a custom launch template. To switch from MANAGED, also provide customLaunchTemplate. If the compute node group already uses CUSTOM and you omit customLaunchTemplate, the existing launch template is unchanged.    MANAGED – Use a launch template created and managed by PCS. Omit customLaunchTemplate. Switching to this mode removes the custom launch template association but doesn't delete the launch template.   When switching to MANAGED, the compute node group must have amiId and securityGroupIds configured. You can set these values in the same request.
+        public let launchTemplateMode: LaunchTemplateMode?
         /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
         public let nodeLifecycleActions: UpdateNodeLifecycleActionsRequest?
         /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         public let scalingConfiguration: ScalingConfigurationRequest?
+        /// The IDs of the EC2 security groups to configure directly on the compute node group. The security groups must be in the same VPC as the cluster. PCS uses these security groups instead of the security groups in the custom launch template. You can't specify this value if the custom launch template defines network interfaces. Specify an empty list ([]) to remove the security groups from the compute node group and use the security groups in the custom launch template. Omit this value to leave the current setting unchanged.
+        public let securityGroupIds: [String]?
         /// Additional options related to the Slurm scheduler.
         public let slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest?
         public let spotOptions: SpotOptions?
+        /// The name of the EC2 key pair to configure directly on the compute node group. The key pair must exist in your account and Amazon Web Services Region. PCS uses this key pair instead of the key pair in the custom launch template. Specify an empty string ("") to remove the key pair from the compute node group and use the key pair in the custom launch template. Omit this value to leave the current setting unchanged. You must have permission for ec2:DescribeKeyPairs to specify a key pair. If you delete the key pair later, future instance launches can fail.
+        public let sshKeyName: String?
         /// The list of subnet IDs where the compute node group provisions instances. The subnets must be in the same VPC as the cluster.
         public let subnetIds: [String]?
 
         @inlinable
-        public init(amiId: String? = nil, clientToken: String? = UpdateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupIdentifier: String, customLaunchTemplate: CustomLaunchTemplate? = nil, iamInstanceProfileArn: String? = nil, nodeLifecycleActions: UpdateNodeLifecycleActionsRequest? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest? = nil, slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String]? = nil) {
+        public init(amiId: String? = nil, clientToken: String? = UpdateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupIdentifier: String, customLaunchTemplate: CustomLaunchTemplate? = nil, iamInstanceProfileArn: String? = nil, launchTemplateMode: LaunchTemplateMode? = nil, nodeLifecycleActions: UpdateNodeLifecycleActionsRequest? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest? = nil, securityGroupIds: [String]? = nil, slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, sshKeyName: String? = nil, subnetIds: [String]? = nil) {
             self.amiId = amiId
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
             self.customLaunchTemplate = customLaunchTemplate
             self.iamInstanceProfileArn = iamInstanceProfileArn
+            self.launchTemplateMode = launchTemplateMode
             self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
+            self.securityGroupIds = securityGroupIds
             self.slurmConfiguration = slurmConfiguration
             self.spotOptions = spotOptions
+            self.sshKeyName = sshKeyName
             self.subnetIds = subnetIds
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.amiId, name: "amiId", parent: name, pattern: "^ami-[a-z0-9]+$")
+            try self.validate(self.amiId, name: "amiId", parent: name, pattern: "^(ami-[a-z0-9]+)?$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
             try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$")
             try self.nodeLifecycleActions?.validate(name: "\(name).nodeLifecycleActions")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-\\w{8,17}$")
+            }
+            try self.validate(self.sshKeyName, name: "sshKeyName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2105,11 +2160,14 @@ extension PCS {
             case computeNodeGroupIdentifier = "computeNodeGroupIdentifier"
             case customLaunchTemplate = "customLaunchTemplate"
             case iamInstanceProfileArn = "iamInstanceProfileArn"
+            case launchTemplateMode = "launchTemplateMode"
             case nodeLifecycleActions = "nodeLifecycleActions"
             case purchaseOption = "purchaseOption"
             case scalingConfiguration = "scalingConfiguration"
+            case securityGroupIds = "securityGroupIds"
             case slurmConfiguration = "slurmConfiguration"
             case spotOptions = "spotOptions"
+            case sshKeyName = "sshKeyName"
             case subnetIds = "subnetIds"
         }
     }
@@ -2172,7 +2230,7 @@ extension PCS {
     }
 
     public struct UpdateQueueRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate one for you.
         public let clientToken: String?
         /// The name or ID of the cluster of the queue.
         public let clusterIdentifier: String

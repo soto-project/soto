@@ -241,6 +241,41 @@ public struct OpenSearch: AWSService {
         return try await self.addDirectQueryDataSource(input, logger: logger)
     }
 
+    /// Starts replicating a domain to a peer domain in another AWS Region. A domain can have one peer. The domain you call becomes the primary and the peer becomes the secondary, which receives a copy of the primary's indexes and serves read requests. Replication is established asynchronously. Use the DescribeDomainReplication operation to check whether the relationship has reached the ACTIVE state.
+    @Sendable
+    @inlinable
+    public func addReplicationPeer(_ input: AddReplicationPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddReplicationPeerResponse {
+        try await self.client.execute(
+            operation: "AddReplicationPeer", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/replication/addPeer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts replicating a domain to a peer domain in another AWS Region. A domain can have one peer. The domain you call becomes the primary and the peer becomes the secondary, which receives a copy of the primary's indexes and serves read requests. Replication is established asynchronously. Use the DescribeDomainReplication operation to check whether the relationship has reached the ACTIVE state.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - dryRun: When true, validates the request and reports whether replication could be established, without changing either domain.
+    ///   - peerDomainArn: The Amazon Resource Name (ARN) of the domain to replicate to. The peer must be in a different Region from the domain you are calling, and in the same AWS account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func addReplicationPeer(
+        domainName: String,
+        dryRun: Bool? = nil,
+        peerDomainArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AddReplicationPeerResponse {
+        let input = AddReplicationPeerRequest(
+            domainName: domainName, 
+            dryRun: dryRun, 
+            peerDomainArn: peerDomainArn
+        )
+        return try await self.addReplicationPeer(input, logger: logger)
+    }
+
     /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application.  Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
     @Sendable
     @inlinable
@@ -481,6 +516,41 @@ public struct OpenSearch: AWSService {
             domainName: domainName
         )
         return try await self.cancelServiceSoftwareUpdate(input, logger: logger)
+    }
+
+    /// Compares the metadata of two domains and reports where they differ. Use this operation to check that a secondary domain is configured consistently with its primary before you rely on it, because replication copies index data but does not copy domain metadata such as index templates, ingest pipelines, or security roles. You choose which categories to compare. The response reports, for each category, how many items match, how many exist on only one domain, and which fields diverge.
+    @Sendable
+    @inlinable
+    public func compareDomainConfiguration(_ input: CompareDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompareDomainConfigurationResponse {
+        try await self.client.execute(
+            operation: "CompareDomainConfiguration", 
+            path: "/2021-01-01/opensearch/compareDomainConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Compares the metadata of two domains and reports where they differ. Use this operation to check that a secondary domain is configured consistently with its primary before you rely on it, because replication copies index data but does not copy domain metadata such as index templates, ingest pipelines, or security roles. You choose which categories to compare. The response reports, for each category, how many items match, how many exist on only one domain, and which fields diverge.
+    ///
+    /// Parameters:
+    ///   - categories: The metadata categories to compare. At least one is required, and only the categories you name are read and returned.    aliases     alerting_monitors     cluster_settings     component_templates     ingest_pipelines     ism_policies — index state management policies    security_action_groups     security_internal_users     security_role_mappings     security_roles     templates — index templates   The set of categories grows over time, so this list is not fixed. A category the service does not recognise is rejected with the supported categories named in the error message.
+    ///   - sourceDomainArn: The Amazon Resource Name (ARN) of the domain to compare from.
+    ///   - targetDomainArn: The Amazon Resource Name (ARN) of the domain to compare against.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func compareDomainConfiguration(
+        categories: [String],
+        sourceDomainArn: String,
+        targetDomainArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CompareDomainConfigurationResponse {
+        let input = CompareDomainConfigurationRequest(
+            categories: categories, 
+            sourceDomainArn: sourceDomainArn, 
+            targetDomainArn: targetDomainArn
+        )
+        return try await self.compareDomainConfiguration(input, logger: logger)
     }
 
     /// Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
@@ -1306,6 +1376,35 @@ public struct OpenSearch: AWSService {
         return try await self.describeDomainNodes(input, logger: logger)
     }
 
+    /// Describes the replication arrangement that a domain participates in, including the domain's role and the state of its relationship with each peer. A domain that is not replicating is returned with an empty Peers list and no Role. Returns ResourceNotFoundException if the domain does not exist.
+    @Sendable
+    @inlinable
+    public func describeDomainReplication(_ input: DescribeDomainReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainReplicationResponse {
+        try await self.client.execute(
+            operation: "DescribeDomainReplication", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/replication", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the replication arrangement that a domain participates in, including the domain's role and the state of its relationship with each peer. A domain that is not replicating is returned with an empty Peers list and no Role. Returns ResourceNotFoundException if the domain does not exist.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDomainReplication(
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDomainReplicationResponse {
+        let input = DescribeDomainReplicationRequest(
+            domainName: domainName
+        )
+        return try await self.describeDomainReplication(input, logger: logger)
+    }
+
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     @Sendable
     @inlinable
@@ -1738,6 +1837,41 @@ public struct OpenSearch: AWSService {
             packageList: packageList
         )
         return try await self.dissociatePackages(input, logger: logger)
+    }
+
+    /// Promotes a secondary domain to primary without coordinating with the current primary. Use this operation when the primary is unreachable and you cannot wait for it to recover. Writes that had not yet replicated when the primary became unreachable are lost. You must set AllowDataLoss to acknowledge this. To promote a domain without losing writes, use the SwitchoverReplication operation instead. Call this operation in the Region of the domain you want to promote.
+    @Sendable
+    @inlinable
+    public func failoverReplication(_ input: FailoverReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverReplicationResponse {
+        try await self.client.execute(
+            operation: "FailoverReplication", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/replication/failover", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Promotes a secondary domain to primary without coordinating with the current primary. Use this operation when the primary is unreachable and you cannot wait for it to recover. Writes that had not yet replicated when the primary became unreachable are lost. You must set AllowDataLoss to acknowledge this. To promote a domain without losing writes, use the SwitchoverReplication operation instead. Call this operation in the Region of the domain you want to promote.
+    ///
+    /// Parameters:
+    ///   - allowDataLoss: Acknowledges that writes which had not yet replicated are lost. You must set this to true; the request is rejected otherwise.
+    ///   - domainName: 
+    ///   - peerDomainArn: The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func failoverReplication(
+        allowDataLoss: Bool,
+        domainName: String,
+        peerDomainArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> FailoverReplicationResponse {
+        let input = FailoverReplicationRequest(
+            allowDataLoss: allowDataLoss, 
+            domainName: domainName, 
+            peerDomainArn: peerDomainArn
+        )
+        return try await self.failoverReplication(input, logger: logger)
     }
 
     /// Retrieves the configuration and status of an existing OpenSearch application.
@@ -2858,6 +2992,38 @@ public struct OpenSearch: AWSService {
         return try await self.rejectInboundConnection(input, logger: logger)
     }
 
+    /// Stops replicating a domain to its peer. Replication ends for both domains, and each domain keeps the data it holds at that point. Neither domain is deleted.
+    @Sendable
+    @inlinable
+    public func removeReplicationPeer(_ input: RemoveReplicationPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveReplicationPeerResponse {
+        try await self.client.execute(
+            operation: "RemoveReplicationPeer", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/replication/removePeer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops replicating a domain to its peer. Replication ends for both domains, and each domain keeps the data it holds at that point. Neither domain is deleted.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - peerDomainArn: The Amazon Resource Name (ARN) of the peer to stop replicating with. Both domains are named so that the request identifies exactly one replication relationship.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func removeReplicationPeer(
+        domainName: String,
+        peerDomainArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RemoveReplicationPeerResponse {
+        let input = RemoveReplicationPeerRequest(
+            domainName: domainName, 
+            peerDomainArn: peerDomainArn
+        )
+        return try await self.removeReplicationPeer(input, logger: logger)
+    }
+
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see  Tagging Amazon OpenSearch Service resources.
     @Sendable
     @inlinable
@@ -3062,6 +3228,38 @@ public struct OpenSearch: AWSService {
         return try await self.startServiceSoftwareUpdate(input, logger: logger)
     }
 
+    /// Promotes a secondary domain to primary, coordinating with the current primary so that no writes are lost. Use this operation for planned role changes, such as testing your recovery procedure or moving write traffic to another Region. Call this operation in the Region of the domain you want to promote. If the current primary is unreachable, use the FailoverReplication operation instead.
+    @Sendable
+    @inlinable
+    public func switchoverReplication(_ input: SwitchoverReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SwitchoverReplicationResponse {
+        try await self.client.execute(
+            operation: "SwitchoverReplication", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/replication/switchover", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Promotes a secondary domain to primary, coordinating with the current primary so that no writes are lost. Use this operation for planned role changes, such as testing your recovery procedure or moving write traffic to another Region. Call this operation in the Region of the domain you want to promote. If the current primary is unreachable, use the FailoverReplication operation instead.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - peerDomainArn: The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func switchoverReplication(
+        domainName: String,
+        peerDomainArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SwitchoverReplicationResponse {
+        let input = SwitchoverReplicationRequest(
+            domainName: domainName, 
+            peerDomainArn: peerDomainArn
+        )
+        return try await self.switchoverReplication(input, logger: logger)
+    }
+
     /// Updates the configuration and settings of an existing OpenSearch application.
     @Sendable
     @inlinable
@@ -3098,6 +3296,44 @@ public struct OpenSearch: AWSService {
             id: id
         )
         return try await self.updateApplication(input, logger: logger)
+    }
+
+    /// Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of TrafficSplitOptions, CutoverOptions, or RetentionOptions in each request.
+    @Sendable
+    @inlinable
+    public func updateClone(_ input: UpdateCloneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloneResponse {
+        try await self.client.execute(
+            operation: "UpdateClone", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/clone", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of TrafficSplitOptions, CutoverOptions, or RetentionOptions in each request.
+    ///
+    /// Parameters:
+    ///   - cutoverOptions: Cuts the domain over to the cloned cluster or back to the primary cluster.
+    ///   - domainName: The name of the domain that has a cloned blue/green upgrade in progress.
+    ///   - retentionOptions: Changes the retention period, or ends it after cutover completes.
+    ///   - trafficSplitOptions: Shifts a percentage of search traffic from the primary cluster to the cloned cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateClone(
+        cutoverOptions: CutoverRequestOptions? = nil,
+        domainName: String,
+        retentionOptions: RetentionOptions? = nil,
+        trafficSplitOptions: TrafficSplitRequestOptions? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCloneResponse {
+        let input = UpdateCloneRequest(
+            cutoverOptions: cutoverOptions, 
+            domainName: domainName, 
+            retentionOptions: retentionOptions, 
+            trafficSplitOptions: trafficSplitOptions
+        )
+        return try await self.updateClone(input, logger: logger)
     }
 
     /// Updates a direct-query data source. For more information, see Working with Amazon OpenSearch Service data source integrations with Amazon S3.
@@ -3198,6 +3434,7 @@ public struct OpenSearch: AWSService {
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     ///
     /// Parameters:
+    ///   - acceptedWarnings: A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the ValidationFailures list returned by DescribeDomainChangeProgress and DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see Validating a domain update.
     ///   - accessPolicies: Identity and Access Management (IAM) access policy as a JSON-formatted string.
     ///   - advancedOptions: Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.   For more information, see Advanced cluster parameters.
     ///   - advancedSecurityOptions: Options for fine-grained access control.
@@ -3226,6 +3463,7 @@ public struct OpenSearch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomainConfig(
+        acceptedWarnings: [String]? = nil,
         accessPolicies: String? = nil,
         advancedOptions: [String: String]? = nil,
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
@@ -3254,6 +3492,7 @@ public struct OpenSearch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainConfigResponse {
         let input = UpdateDomainConfigRequest(
+            acceptedWarnings: acceptedWarnings, 
             accessPolicies: accessPolicies, 
             advancedOptions: advancedOptions, 
             advancedSecurityOptions: advancedSecurityOptions, 
@@ -3487,6 +3726,7 @@ public struct OpenSearch: AWSService {
     ///
     /// Parameters:
     ///   - advancedOptions: Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins.
+    ///   - deploymentStrategyOptions: Overrides the deployment strategy for this upgrade. To run a cloned blue/green upgrade, set DeploymentStrategy to ClonedBlueGreen.
     ///   - domainName: Name of the OpenSearch Service domain that you want to upgrade.
     ///   - performCheckOnly: When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
     ///   - targetVersion: OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y.
@@ -3494,6 +3734,7 @@ public struct OpenSearch: AWSService {
     @inlinable
     public func upgradeDomain(
         advancedOptions: [String: String]? = nil,
+        deploymentStrategyOptions: DeploymentStrategyOverrideOptions? = nil,
         domainName: String,
         performCheckOnly: Bool? = nil,
         targetVersion: String,
@@ -3501,6 +3742,7 @@ public struct OpenSearch: AWSService {
     ) async throws -> UpgradeDomainResponse {
         let input = UpgradeDomainRequest(
             advancedOptions: advancedOptions, 
+            deploymentStrategyOptions: deploymentStrategyOptions, 
             domainName: domainName, 
             performCheckOnly: performCheckOnly, 
             targetVersion: targetVersion
@@ -3512,7 +3754,7 @@ public struct OpenSearch: AWSService {
 extension OpenSearch {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: OpenSearch, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

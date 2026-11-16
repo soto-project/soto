@@ -275,6 +275,38 @@ public struct Lightsail: AWSService {
         return try await self.attachStaticIp(input, logger: logger)
     }
 
+    /// Checks whether a Lightsail subdomain is available to create. Optionally, reserves the subdomain for your account for 15 minutes. If you don't reserve the subdomain, another account can create it before you do.
+    @Sendable
+    @inlinable
+    public func checkSubdomainAvailability(_ input: CheckSubdomainAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckSubdomainAvailabilityResult {
+        try await self.client.execute(
+            operation: "CheckSubdomainAvailability", 
+            path: "/ls/api/2016-11-28/CheckSubdomainAvailability", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Checks whether a Lightsail subdomain is available to create. Optionally, reserves the subdomain for your account for 15 minutes. If you don't reserve the subdomain, another account can create it before you do.
+    ///
+    /// Parameters:
+    ///   - reserve: Specifies whether to reserve the subdomain for your account if it's available. A reservation holds the subdomain for 15 minutes so that other accounts can't create it. Checking the subdomain again doesn't extend the reservation. For a nested subdomain, such as blog.mysite, the top-level subdomain (mysite) is reserved. You can have up to 5 active reservations at a time.
+    ///   - subdomainName: The subdomain to check (for example, mysite or blog.mysite). A subdomain can contain one or two labels separated by a period (.). Each label must start and end with a lowercase letter or a number, and can contain only lowercase letters, numbers, and hyphens (-). The name can be up to 39 characters long, including periods. Labels that start with xn-- aren't supported, and some names are reserved. Specify only the subdomain. A web address, such as mysite.amazonlightsail.com, isn't accepted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func checkSubdomainAvailability(
+        reserve: Bool? = nil,
+        subdomainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CheckSubdomainAvailabilityResult {
+        let input = CheckSubdomainAvailabilityRequest(
+            reserve: reserve, 
+            subdomainName: subdomainName
+        )
+        return try await self.checkSubdomainAvailability(input, logger: logger)
+    }
+
     /// Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Amazon Lightsail Developer Guide.
     @Sendable
     @inlinable
@@ -785,10 +817,13 @@ public struct Lightsail: AWSService {
     ///   - defaultRootObject: The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
     ///   - distributionName: The name for the distribution.
     ///   - enablePrivateOriginAccess: Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
+    ///   - enableWaf: Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests.  WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle.
     ///   - ipAddressType: The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     ///   - origin: An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
+    ///   - subdomainName: The Lightsail subdomain to create and associate with the distribution (for example, mysite, for the web address mysite.amazonlightsail.com). After the distribution is deployed, Lightsail creates the subdomain and associates it with the distribution. If Lightsail can't create or associate the subdomain, it still creates the distribution, but the CreateDistribution operation fails and the state of the distribution's subdomain is Error. To check the status, use the subdomain parameter of the distribution.
     ///   - tags: The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
     ///   - viewerMinimumTlsProtocolVersion: The minimum TLS protocol version for the SSL/TLS certificate.
+    ///   - wafRules: An array of objects that describe the WAF rule groups to enable for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:    medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.    large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDistribution(
@@ -801,10 +836,13 @@ public struct Lightsail: AWSService {
         defaultRootObject: String? = nil,
         distributionName: String,
         enablePrivateOriginAccess: Bool? = nil,
+        enableWaf: Bool? = nil,
         ipAddressType: IpAddressType? = nil,
         origin: InputOrigin,
+        subdomainName: String? = nil,
         tags: [Tag]? = nil,
         viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil,
+        wafRules: [WafRule]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDistributionResult {
         let input = CreateDistributionRequest(
@@ -817,10 +855,13 @@ public struct Lightsail: AWSService {
             defaultRootObject: defaultRootObject, 
             distributionName: distributionName, 
             enablePrivateOriginAccess: enablePrivateOriginAccess, 
+            enableWaf: enableWaf, 
             ipAddressType: ipAddressType, 
             origin: origin, 
+            subdomainName: subdomainName, 
             tags: tags, 
-            viewerMinimumTlsProtocolVersion: viewerMinimumTlsProtocolVersion
+            viewerMinimumTlsProtocolVersion: viewerMinimumTlsProtocolVersion, 
+            wafRules: wafRules
         )
         return try await self.createDistribution(input, logger: logger)
     }
@@ -1342,6 +1383,38 @@ public struct Lightsail: AWSService {
             tags: tags
         )
         return try await self.createRelationalDatabaseSnapshot(input, logger: logger)
+    }
+
+    /// Creates a Lightsail subdomain, such as mysite, with the web address mysite.amazonlightsail.com. After the subdomain is created, use the UpdateSubdomainAssociation action to associate it with a Lightsail resource. When you create a nested subdomain, such as blog.mysite, and you don't already have the top-level subdomain (mysite), Lightsail adds the top-level subdomain to your account in the IMPLICIT state. You can have up to 30 subdomains in your account. Nested subdomains, subdomains in the CREATE_FAILED state, and deleted subdomains that other accounts can't create yet count toward this quota. Subdomains in the IMPLICIT state don't count toward this quota.
+    @Sendable
+    @inlinable
+    public func createSubdomain(_ input: CreateSubdomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubdomainResult {
+        try await self.client.execute(
+            operation: "CreateSubdomain", 
+            path: "/ls/api/2016-11-28/CreateSubdomain", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Lightsail subdomain, such as mysite, with the web address mysite.amazonlightsail.com. After the subdomain is created, use the UpdateSubdomainAssociation action to associate it with a Lightsail resource. When you create a nested subdomain, such as blog.mysite, and you don't already have the top-level subdomain (mysite), Lightsail adds the top-level subdomain to your account in the IMPLICIT state. You can have up to 30 subdomains in your account. Nested subdomains, subdomains in the CREATE_FAILED state, and deleted subdomains that other accounts can't create yet count toward this quota. Subdomains in the IMPLICIT state don't count toward this quota.
+    ///
+    /// Parameters:
+    ///   - subdomainName: The subdomain to create (for example, mysite or blog.mysite). A subdomain can contain one or two labels separated by a period (.). Each label must start and end with a lowercase letter or a number, and can contain only lowercase letters, numbers, and hyphens (-). The name can be up to 39 characters long, including periods. Labels that start with xn-- aren't supported, and some names are reserved. Specify only the subdomain. A web address, such as mysite.amazonlightsail.com, isn't accepted. To create a nested subdomain, you must own the top-level subdomain or be able to create it.
+    ///   - tags: The tag keys and optional values to add to the subdomain during create. Use the TagResource action to tag a resource after it's created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSubdomain(
+        subdomainName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSubdomainResult {
+        let input = CreateSubdomainRequest(
+            subdomainName: subdomainName, 
+            tags: tags
+        )
+        return try await self.createSubdomain(input, logger: logger)
     }
 
     /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail.
@@ -1987,6 +2060,35 @@ public struct Lightsail: AWSService {
             relationalDatabaseSnapshotName: relationalDatabaseSnapshotName
         )
         return try await self.deleteRelationalDatabaseSnapshot(input, logger: logger)
+    }
+
+    /// Deletes a Lightsail subdomain. The subdomain must be in the UNATTACHED or CREATE_FAILED state. To delete a subdomain that's associated with a resource, first disassociate it by using the UpdateSubdomainAssociation action. When you delete a top-level subdomain that has nested subdomains, the nested subdomains continue to work, and the top-level subdomain changes to the IMPLICIT state.  After you delete a subdomain that was associated with a resource, the subdomain isn't available to other accounts for at least 30 days.
+    @Sendable
+    @inlinable
+    public func deleteSubdomain(_ input: DeleteSubdomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubdomainResult {
+        try await self.client.execute(
+            operation: "DeleteSubdomain", 
+            path: "/ls/api/2016-11-28/DeleteSubdomain", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Lightsail subdomain. The subdomain must be in the UNATTACHED or CREATE_FAILED state. To delete a subdomain that's associated with a resource, first disassociate it by using the UpdateSubdomainAssociation action. When you delete a top-level subdomain that has nested subdomains, the nested subdomains continue to work, and the top-level subdomain changes to the IMPLICIT state.  After you delete a subdomain that was associated with a resource, the subdomain isn't available to other accounts for at least 30 days.
+    ///
+    /// Parameters:
+    ///   - subdomainName: The subdomain to delete (for example, mysite or blog.mysite), not its web address.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSubdomain(
+        subdomainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSubdomainResult {
+        let input = DeleteSubdomainRequest(
+            subdomainName: subdomainName
+        )
+        return try await self.deleteSubdomain(input, logger: logger)
     }
 
     /// Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is detached, your distribution stops accepting traffic for all of the domains that are associated with the certificate.
@@ -3080,7 +3182,7 @@ public struct Lightsail: AWSService {
     /// Parameters:
     ///   - distributionName: The name of the distribution for which to get metric data. Use the GetDistributions action to get a list of distribution names that you can specify.
     ///   - endTime: The end of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
-    ///   - metricName: The metric for which you want to return information. Valid distribution metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     Requests - The total number of viewer requests received by your Lightsail distribution, for all HTTP methods, and for both HTTP and HTTPS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesDownloaded - The number of bytes downloaded by viewers for GET, HEAD, and OPTIONS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesUploaded  - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     TotalErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 4xx or 5xx.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     4xxErrorRate - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     5xxErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.
+    ///   - metricName: The metric for which you want to return information. Valid distribution metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     Requests - The total number of viewer requests received by your Lightsail distribution, for all HTTP methods, and for both HTTP and HTTPS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesDownloaded - The number of bytes downloaded by viewers for GET, HEAD, and OPTIONS requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     BytesUploaded  - The number of bytes uploaded to your origin by your Lightsail distribution, using POST and PUT requests.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     TotalErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 4xx or 5xx.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     4xxErrorRate - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     5xxErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable.  Statistics: The most useful statistic is Average.  Unit: The published unit is Percent.     WafAllowedRequests - The number of viewer requests that Web Application Firewall (WAF) allowed. This metric is available only when WAF is enabled for the distribution.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.     WafBlockedRequests - The number of viewer requests that WAF blocked. This metric is available only when WAF is enabled for the distribution.  Statistics: The most useful statistic is Sum.  Unit: The published unit is None.
     ///   - period: The granularity, in seconds, for the metric data points that will be returned.
     ///   - startTime: The start of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
     ///   - statistics: The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
@@ -3109,7 +3211,7 @@ public struct Lightsail: AWSService {
         return try await self.getDistributionMetricData(input, logger: logger)
     }
 
-    /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.
+    /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.  The defaultRootObject and customErrorResponses values are returned only when you specify distributionName to retrieve a single distribution. When you call GetDistributions without a distribution name to list all distributions, these two fields aren't included in the response.
     @Sendable
     @inlinable
     public func getDistributions(_ input: GetDistributionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionsResult {
@@ -3122,7 +3224,7 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.
+    /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.  The defaultRootObject and customErrorResponses values are returned only when you specify distributionName to retrieve a single distribution. When you call GetDistributions without a distribution name to list all distributions, these two fields aren't included in the response.
     ///
     /// Parameters:
     ///   - distributionName: The name of the distribution for which to return information. When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made.
@@ -3244,14 +3346,17 @@ public struct Lightsail: AWSService {
     /// Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
     ///
     /// Parameters:
+    ///   - includeHealthStatus: Specifies whether to include the instance health status checks in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of the instance. When omitted or set to false, the response doesn't include them.
     ///   - instanceName: The name of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInstance(
+        includeHealthStatus: Bool? = nil,
         instanceName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetInstanceResult {
         let input = GetInstanceRequest(
+            includeHealthStatus: includeHealthStatus, 
             instanceName: instanceName
         )
         return try await self.getInstance(input, logger: logger)
@@ -3307,7 +3412,7 @@ public struct Lightsail: AWSService {
     /// Parameters:
     ///   - endTime: The end time of the time period.
     ///   - instanceName: The name of the instance for which you want to get metrics data.
-    ///   - metricName: The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
+    ///   - metricName: The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     DiskReadOps - The number of read operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     DiskWriteOps - The number of write operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     DiskReadBytes - The number of bytes read from the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     DiskWriteBytes - The number of bytes written to the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     DiskTotalReadTime - The total number of seconds spent by all read operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     DiskTotalWriteTime - The total number of seconds spent by all write operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Average.  Unit: The published unit is Seconds.     DiskQueueLength - The number of read and write requests that are waiting to access the system disk of the instance. This metric doesn't include activity on additional disks that you attach to the instance.  Statistics: The most useful statistic is Average.  Unit: The published unit is Count.   For more information about system disk performance metrics, see View system disk performance metrics for your Lightsail instance.
     ///   - period: The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
     ///   - startTime: The start time of the time period.
     ///   - statistics: The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
@@ -3468,14 +3573,17 @@ public struct Lightsail: AWSService {
     /// Returns information about all Amazon Lightsail virtual private servers, or instances.
     ///
     /// Parameters:
+    ///   - includeHealthStatus: Specifies whether to include the instance health status checks of each instance in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of each instance. When omitted or set to false, the response doesn't include them.
     ///   - pageToken: The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInstances(
+        includeHealthStatus: Bool? = nil,
         pageToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetInstancesResult {
         let input = GetInstancesRequest(
+            includeHealthStatus: includeHealthStatus, 
             pageToken: pageToken
         )
         return try await self.getInstances(input, logger: logger)
@@ -4339,6 +4447,38 @@ public struct Lightsail: AWSService {
         return try await self.getStaticIps(input, logger: logger)
     }
 
+    /// Returns information about one or more of your Lightsail subdomains. When you don't specify a subdomain, the response lists your top-level subdomains, and each top-level subdomain includes its nested subdomains. The results are paginated. To get the next page of results, use the pageToken parameter.
+    @Sendable
+    @inlinable
+    public func getSubdomains(_ input: GetSubdomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSubdomainsResult {
+        try await self.client.execute(
+            operation: "GetSubdomains", 
+            path: "/ls/api/2016-11-28/GetSubdomains", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about one or more of your Lightsail subdomains. When you don't specify a subdomain, the response lists your top-level subdomains, and each top-level subdomain includes its nested subdomains. The results are paginated. To get the next page of results, use the pageToken parameter.
+    ///
+    /// Parameters:
+    ///   - pageToken: The token to advance to the next page of results from your request. To get a page token, perform an initial GetSubdomains request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+    ///   - subdomainName: The subdomain for which to return information (for example, mysite or blog.mysite), not its web address. When omitted, the response includes all of your subdomains. You can't specify this parameter together with the pageToken parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSubdomains(
+        pageToken: String? = nil,
+        subdomainName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSubdomainsResult {
+        let input = GetSubdomainsRequest(
+            pageToken: pageToken, 
+            subdomainName: subdomainName
+        )
+        return try await self.getSubdomains(input, logger: logger)
+    }
+
     /// Imports a public SSH key from a specific key pair.
     @Sendable
     @inlinable
@@ -4476,7 +4616,7 @@ public struct Lightsail: AWSService {
     ///   - contactProtocols: The contact protocols to use for the alarm, such as Email, SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifications are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the Amazon Web Services Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an Amazon Web Services Region.
     ///   - datapointsToAlarm: The number of data points that must be not within the specified threshold to trigger the alarm. If you are setting an "M out of N" alarm, this value (datapointsToAlarm) is the M.
     ///   - evaluationPeriods: The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods) is the N. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).
-    ///   - metricName: The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:    Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System.    Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.    Relational databases: CPUUtilization, DatabaseConnections, DiskQueueDepth, FreeStorageSpace, NetworkReceiveThroughput, and NetworkTransmitThroughput.   For more information about these metrics, see Metrics available in Lightsail.
+    ///   - metricName: The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:    Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, StatusCheckFailed_System, DiskReadOps, DiskWriteOps, DiskReadBytes, DiskWriteBytes, DiskTotalReadTime, DiskTotalWriteTime, and DiskQueueLength.    Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.    Relational databases: CPUUtilization, DatabaseConnections, DiskQueueDepth, FreeStorageSpace, NetworkReceiveThroughput, and NetworkTransmitThroughput.   For more information about these metrics, see Metrics available in Lightsail.
     ///   - monitoredResourceName: The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms.
     ///   - notificationEnabled: Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this parameter.
     ///   - notificationTriggers: The alarm states that trigger a notification. An alarm has the following possible states:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.   When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state.   If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification.   If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't specify this parameter.
@@ -4885,14 +5025,17 @@ public struct Lightsail: AWSService {
     /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Amazon Lightsail Developer Guide.  The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Amazon Lightsail Developer Guide.
     ///
     /// Parameters:
+    ///   - attributeUpdates: An object that describes the attributes to update on the instance before it starts.
     ///   - instanceName: The name of the instance (a virtual private server) to start.
     ///   - logger: Logger use during operation
     @inlinable
     public func startInstance(
+        attributeUpdates: InstanceAttributeUpdates? = nil,
         instanceName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartInstanceResult {
         let input = StartInstanceRequest(
+            attributeUpdates: attributeUpdates, 
             instanceName: instanceName
         )
         return try await self.startInstance(input, logger: logger)
@@ -5292,10 +5435,12 @@ public struct Lightsail: AWSService {
     ///   - defaultRootObject: The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
     ///   - distributionName: The name of the distribution to update. Use the GetDistributions action to get a list of distribution names that you can specify.
     ///   - enablePrivateOriginAccess: Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
+    ///   - enableWaf: Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests.  WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle. Setting this parameter to false disables WAF for the distribution and removes its WAF rule groups. You must enable the WAF rule groups again if you enable WAF again.
     ///   - isEnabled: Indicates whether to enable the distribution.
     ///   - origin: An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
     ///   - useDefaultCertificate: Indicates whether the default SSL/TLS certificate is attached to the distribution. The default value is true. When true, the distribution uses the default domain name such as d111111abcdef8.cloudfront.net. Set this value to false to attach a new certificate to the distribution.
     ///   - viewerMinimumTlsProtocolVersion: Use this parameter to update the minimum TLS protocol version for the SSL/TLS certificate that's attached to the distribution.
+    ///   - wafRules: An array of objects that describe the WAF rule groups to enable for the distribution. The array that you specify replaces the existing WAF rule groups of the distribution. To keep a WAF rule group enabled, include it in the array. To disable all WAF rule groups, specify an empty array. You can specify this parameter only when WAF is enabled for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:    medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.    large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDistribution(
@@ -5307,10 +5452,12 @@ public struct Lightsail: AWSService {
         defaultRootObject: String? = nil,
         distributionName: String,
         enablePrivateOriginAccess: Bool? = nil,
+        enableWaf: Bool? = nil,
         isEnabled: Bool? = nil,
         origin: InputOrigin? = nil,
         useDefaultCertificate: Bool? = nil,
         viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil,
+        wafRules: [WafRule]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDistributionResult {
         let input = UpdateDistributionRequest(
@@ -5322,10 +5469,12 @@ public struct Lightsail: AWSService {
             defaultRootObject: defaultRootObject, 
             distributionName: distributionName, 
             enablePrivateOriginAccess: enablePrivateOriginAccess, 
+            enableWaf: enableWaf, 
             isEnabled: isEnabled, 
             origin: origin, 
             useDefaultCertificate: useDefaultCertificate, 
-            viewerMinimumTlsProtocolVersion: viewerMinimumTlsProtocolVersion
+            viewerMinimumTlsProtocolVersion: viewerMinimumTlsProtocolVersion, 
+            wafRules: wafRules
         )
         return try await self.updateDistribution(input, logger: logger)
     }
@@ -5560,12 +5709,47 @@ public struct Lightsail: AWSService {
         )
         return try await self.updateRelationalDatabaseParameters(input, logger: logger)
     }
+
+    /// Associates a Lightsail subdomain with a resource, disassociates it from a resource, or moves it from one resource to another resource. Currently, you can associate a subdomain only with a Lightsail content delivery network (CDN) distribution. A resource can be associated with only one subdomain at a time. When you associate a subdomain with a distribution, Lightsail attaches the subdomain's certificate to the distribution. You can't associate a subdomain with a distribution that uses a custom domain, which is a distribution that has a Lightsail certificate attached. You can transfer each subdomain to another resource only once in a 24-hour period. The update is asynchronous. The response returns the subdomain in the ATTACHING, DETACHING, or TRANSFERRING state, and an operation. To check when the update is complete, use the GetSubdomains action.
+    @Sendable
+    @inlinable
+    public func updateSubdomainAssociation(_ input: UpdateSubdomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubdomainAssociationResult {
+        try await self.client.execute(
+            operation: "UpdateSubdomainAssociation", 
+            path: "/ls/api/2016-11-28/UpdateSubdomainAssociation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a Lightsail subdomain with a resource, disassociates it from a resource, or moves it from one resource to another resource. Currently, you can associate a subdomain only with a Lightsail content delivery network (CDN) distribution. A resource can be associated with only one subdomain at a time. When you associate a subdomain with a distribution, Lightsail attaches the subdomain's certificate to the distribution. You can't associate a subdomain with a distribution that uses a custom domain, which is a distribution that has a Lightsail certificate attached. You can transfer each subdomain to another resource only once in a 24-hour period. The update is asynchronous. The response returns the subdomain in the ATTACHING, DETACHING, or TRANSFERRING state, and an operation. To check when the update is complete, use the GetSubdomains action.
+    ///
+    /// Parameters:
+    ///   - action: The association change to make. The following actions are possible:    ASSOCIATE – Associates the subdomain with the resource that you specify in the targetResourceArn parameter. The subdomain must be in the UNATTACHED state.    DISASSOCIATE – Disassociates the subdomain from its current resource. The subdomain must be in the ATTACHED state.    TRANSFER – Moves the subdomain from its current resource to the resource that you specify in the targetResourceArn parameter. The subdomain must be in the ATTACHED state. You can transfer each subdomain only once in a 24-hour period.
+    ///   - subdomainName: The subdomain to update (for example, mysite or blog.mysite), not its web address.
+    ///   - targetResourceArn: The Amazon Resource Name (ARN) of the resource to associate the subdomain with. The resource must be in your account. This parameter is required when the action is ASSOCIATE or TRANSFER. It's ignored when the action is DISASSOCIATE.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSubdomainAssociation(
+        action: SubdomainAssociationAction,
+        subdomainName: String,
+        targetResourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSubdomainAssociationResult {
+        let input = UpdateSubdomainAssociationRequest(
+            action: action, 
+            subdomainName: subdomainName, 
+            targetResourceArn: targetResourceArn
+        )
+        return try await self.updateSubdomainAssociation(input, logger: logger)
+    }
 }
 
 extension Lightsail {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Lightsail, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

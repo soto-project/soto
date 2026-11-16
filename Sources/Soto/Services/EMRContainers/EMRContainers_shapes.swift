@@ -117,7 +117,7 @@ extension EMRContainers {
     public struct AuthorizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Encryption-related configuration input for the security configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// Lake Formation related configuration inputs for the security configuration.
+        ///  Lake Formation related configuration inputs for the security configuration.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
 
         @inlinable
@@ -647,7 +647,8 @@ extension EMRContainers {
         public let containerProvider: ContainerProvider
         /// The specified name of the virtual cluster.
         public let name: String
-        /// The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. When omitted, no limits are applied.
+        /// The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. If you omit this field, the service applies a default limit of
+        /// 	         1,000 concurrent job runs and does not limit queue depth.
         public let schedulerConfiguration: SchedulerConfiguration?
         /// The ID of the security configuration.
         public let securityConfigurationId: String?
@@ -2256,7 +2257,7 @@ extension EMRContainers {
     }
 
     public struct SchedulerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit.
+        /// The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies a default limit of 1,000 concurrent job runs to the virtual cluster.
         public let maxConcurrentJobRuns: Int?
         /// The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException. If you omit this field, the service applies no queue-depth limit.
         public let maxInQueueJobRuns: Int?
@@ -2268,10 +2269,10 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxConcurrentJobRuns, name: "maxConcurrentJobRuns", parent: name, max: 10000)
+            try self.validate(self.maxConcurrentJobRuns, name: "maxConcurrentJobRuns", parent: name, max: 1000)
             try self.validate(self.maxConcurrentJobRuns, name: "maxConcurrentJobRuns", parent: name, min: 1)
-            try self.validate(self.maxInQueueJobRuns, name: "maxInQueueJobRuns", parent: name, max: 10000)
-            try self.validate(self.maxInQueueJobRuns, name: "maxInQueueJobRuns", parent: name, min: 100)
+            try self.validate(self.maxInQueueJobRuns, name: "maxInQueueJobRuns", parent: name, max: 1000)
+            try self.validate(self.maxInQueueJobRuns, name: "maxInQueueJobRuns", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2588,9 +2589,9 @@ extension EMRContainers {
     public struct TLSCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The TLS certificate type. Acceptable values: PEM or Custom.
         public let certificateProviderType: CertificateProviderType?
-        /// Secrets Manager ARN that contains the private TLS certificate contents, used for communication between the user job and the system job.
+        ///  Secrets Manager ARN that contains the private TLS certificate contents, used for communication between the user job and the system job.
         public let privateCertificateSecretArn: String?
-        /// Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
+        ///  Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
         public let publicCertificateSecretArn: String?
 
         @inlinable
@@ -2725,7 +2726,9 @@ extension EMRContainers {
         public let clientToken: String
         /// The ID of the virtual cluster to update.
         public let id: String
-        /// The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit a field, the corresponding limit is removed.
+        /// The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit maxInQueueJobRuns, the service removes
+        /// 	         the queue-depth limit. If you omit maxConcurrentJobRuns, the service applies
+        /// 	         the default limit of 1,000 concurrent job runs.
         public let schedulerConfiguration: SchedulerConfiguration?
 
         @inlinable

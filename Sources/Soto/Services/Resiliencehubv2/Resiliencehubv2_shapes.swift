@@ -133,6 +133,37 @@ extension Resiliencehubv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DevOpsAgentConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DevOpsAgentConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case connecting = "CONNECTING"
+        case disconnected = "DISCONNECTED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DevOpsAgentInvestigationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DevOpsAgentVerdict: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
+        case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EksLabelSelectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `in` = "IN"
         case doesNotExist = "DOES_NOT_EXIST"
@@ -1449,6 +1480,8 @@ extension Resiliencehubv2 {
         public let clientToken: String?
         public let dependencyDiscovery: DependencyDiscoveryInput?
         public let description: String?
+        /// The optional DevOps Agent integration configuration to apply to the new service. If you omit this field, the new service has no DevOps Agent integration.
+        public let devOpsAgentConfiguration: DevOpsAgentConfiguration?
         public let kmsKeyId: String?
         public let name: String
         /// The permission model for the service.
@@ -1460,11 +1493,12 @@ extension Resiliencehubv2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(associatedSystems: [AssociatedSystem]? = nil, clientToken: String? = CreateServiceRequest.idempotencyToken(), dependencyDiscovery: DependencyDiscoveryInput? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, permissionModel: PermissionModel, policyArn: String? = nil, regions: [String], reportConfiguration: ServiceReportConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(associatedSystems: [AssociatedSystem]? = nil, clientToken: String? = CreateServiceRequest.idempotencyToken(), dependencyDiscovery: DependencyDiscoveryInput? = nil, description: String? = nil, devOpsAgentConfiguration: DevOpsAgentConfiguration? = nil, kmsKeyId: String? = nil, name: String, permissionModel: PermissionModel, policyArn: String? = nil, regions: [String], reportConfiguration: ServiceReportConfiguration? = nil, tags: [String: String]? = nil) {
             self.associatedSystems = associatedSystems
             self.clientToken = clientToken
             self.dependencyDiscovery = dependencyDiscovery
             self.description = description
+            self.devOpsAgentConfiguration = devOpsAgentConfiguration
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.permissionModel = permissionModel
@@ -1483,6 +1517,7 @@ extension Resiliencehubv2 {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.description, name: "description", parent: name, max: 615)
+            try self.devOpsAgentConfiguration?.validate(name: "\(name).devOpsAgentConfiguration")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 60)
@@ -1514,6 +1549,7 @@ extension Resiliencehubv2 {
             case clientToken = "clientToken"
             case dependencyDiscovery = "dependencyDiscovery"
             case description = "description"
+            case devOpsAgentConfiguration = "devOpsAgentConfiguration"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
             case permissionModel = "permissionModel"
@@ -2233,6 +2269,94 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct DevOpsAgentConfiguration: AWSEncodableShape {
+        /// The ARN of the DevOps Agent Agent Space to link to this service.
+        public let agentSpaceArn: String?
+
+        @inlinable
+        public init(agentSpaceArn: String? = nil) {
+            self.agentSpaceArn = agentSpaceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentSpaceArn, name: "agentSpaceArn", parent: name, max: 2048)
+            try self.validate(self.agentSpaceArn, name: "agentSpaceArn", parent: name, min: 1)
+            try self.validate(self.agentSpaceArn, name: "agentSpaceArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:aidevops:[a-z0-9-]+:[0-9]{12}:agentspace/[a-zA-Z0-9-]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentSpaceArn = "agentSpaceArn"
+        }
+    }
+
+    public struct DevOpsAgentConfigurationView: AWSDecodableShape {
+        /// The ARN of the linked DevOps Agent Agent Space.
+        public let agentSpaceArn: String?
+        /// The identifier of the linked DevOps Agent Agent Space.
+        public let agentSpaceId: String?
+        /// The timestamp when the service successfully connected to the DevOps Agent Agent Space.
+        public let connectedAt: Date?
+        /// The URL of the DevOps Agent Operator App for the linked Agent Space. This URL is present when the connection status is CONNECTED.
+        public let operatorAppUrl: String?
+        /// The AWS Region of the linked DevOps Agent Agent Space.
+        public let region: String?
+        /// The connection status of the DevOps Agent integration for this service. Valid values:   CONNECTING - The service is being connected to the Agent Space.   CONNECTED - The service is connected to the Agent Space.   DISCONNECTED - The service is not connected to an Agent Space.   FAILED - The connection attempt failed. See statusReason for details.
+        public let status: DevOpsAgentConnectionStatus?
+        /// A human-readable explanation of the current connection status. This field explains the status when the connection fails.
+        public let statusReason: String?
+
+        @inlinable
+        public init(agentSpaceArn: String? = nil, agentSpaceId: String? = nil, connectedAt: Date? = nil, operatorAppUrl: String? = nil, region: String? = nil, status: DevOpsAgentConnectionStatus? = nil, statusReason: String? = nil) {
+            self.agentSpaceArn = agentSpaceArn
+            self.agentSpaceId = agentSpaceId
+            self.connectedAt = connectedAt
+            self.operatorAppUrl = operatorAppUrl
+            self.region = region
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentSpaceArn = "agentSpaceArn"
+            case agentSpaceId = "agentSpaceId"
+            case connectedAt = "connectedAt"
+            case operatorAppUrl = "operatorAppUrl"
+            case region = "region"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct DevOpsAgentInvestigation: AWSDecodableShape {
+        /// The confidence level of the verdict. Valid values:   HIGH - The verdict is highly reliable.   MEDIUM - The verdict has moderate reliability.   LOW - The verdict has low reliability.
+        public let confidence: DevOpsAgentConfidence?
+        /// A deep link to the interactive DevOps Agent investigation session.
+        public let deepLink: String?
+        /// The lifecycle status of the investigation. Valid values:   PENDING - The investigation has been created but has not started.   IN_PROGRESS - The investigation is running.   COMPLETED - The investigation finished successfully.   FAILED - The investigation failed to complete.   TIMED_OUT - The investigation did not complete within the allotted time.   CANCELED - The investigation was canceled.
+        public let status: DevOpsAgentInvestigationStatus?
+        /// The DevOps Agent analysis summary for the investigation.
+        public let summary: String?
+        /// The investigation verdict. Valid values:   PASS - The resilience test run passed.   FAIL - The resilience test run failed.   INCONCLUSIVE - The investigation could not determine a clear outcome.
+        public let verdict: DevOpsAgentVerdict?
+
+        @inlinable
+        public init(confidence: DevOpsAgentConfidence? = nil, deepLink: String? = nil, status: DevOpsAgentInvestigationStatus? = nil, summary: String? = nil, verdict: DevOpsAgentVerdict? = nil) {
+            self.confidence = confidence
+            self.deepLink = deepLink
+            self.status = status
+            self.summary = summary
+            self.verdict = verdict
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "confidence"
+            case deepLink = "deepLink"
+            case status = "status"
+            case summary = "summary"
+            case verdict = "verdict"
+        }
+    }
+
     public struct DisasterRecoverySource: AWSDecodableShape {
         public let policyName: String?
         /// Indicates whether the value comes from the service's own account or a cross-account policy.
@@ -2484,6 +2608,8 @@ extension Resiliencehubv2 {
         public let findingId: String?
         /// Infrastructure and code recommendations to address the finding.
         public let infrastructureAndCodeRecommendations: [InfrastructureAndCodeRecommendation]?
+        /// A deep link to an interactive DevOps Agent investigation seeded with this finding. This value is null until DevOps Agent creates an investigation.
+        public let investigationDeepLink: String?
         /// The name of the finding.
         public let name: String?
         /// Observability recommendations to address the finding.
@@ -2504,12 +2630,13 @@ extension Resiliencehubv2 {
         public let updatedAt: Date?
 
         @inlinable
-        public init(comment: String? = nil, description: String? = nil, failureCategory: FailureCategory? = nil, findingId: String? = nil, infrastructureAndCodeRecommendations: [InfrastructureAndCodeRecommendation]? = nil, name: String? = nil, observabilityRecommendations: [ObservabilityRecommendation]? = nil, policyComponent: PolicyComponent? = nil, reasoning: String? = nil, serviceFunctions: [String]? = nil, severity: FindingSeverity? = nil, status: FindingStatus? = nil, testingRecommendations: [TestingRecommendation]? = nil, updatedAt: Date? = nil) {
+        public init(comment: String? = nil, description: String? = nil, failureCategory: FailureCategory? = nil, findingId: String? = nil, infrastructureAndCodeRecommendations: [InfrastructureAndCodeRecommendation]? = nil, investigationDeepLink: String? = nil, name: String? = nil, observabilityRecommendations: [ObservabilityRecommendation]? = nil, policyComponent: PolicyComponent? = nil, reasoning: String? = nil, serviceFunctions: [String]? = nil, severity: FindingSeverity? = nil, status: FindingStatus? = nil, testingRecommendations: [TestingRecommendation]? = nil, updatedAt: Date? = nil) {
             self.comment = comment
             self.description = description
             self.failureCategory = failureCategory
             self.findingId = findingId
             self.infrastructureAndCodeRecommendations = infrastructureAndCodeRecommendations
+            self.investigationDeepLink = investigationDeepLink
             self.name = name
             self.observabilityRecommendations = observabilityRecommendations
             self.policyComponent = policyComponent
@@ -2527,6 +2654,7 @@ extension Resiliencehubv2 {
             case failureCategory = "failureCategory"
             case findingId = "findingId"
             case infrastructureAndCodeRecommendations = "infrastructureAndCodeRecommendations"
+            case investigationDeepLink = "investigationDeepLink"
             case name = "name"
             case observabilityRecommendations = "observabilityRecommendations"
             case policyComponent = "policyComponent"
@@ -2545,6 +2673,8 @@ extension Resiliencehubv2 {
         public let failureCategory: FailureCategory?
         /// The unique identifier of the finding.
         public let findingId: String?
+        /// A deep link to an interactive DevOps Agent investigation seeded with this finding. This value is null until DevOps Agent creates an investigation.
+        public let investigationDeepLink: String?
         /// The name of the finding.
         public let name: String?
         /// The policy component associated with the finding.
@@ -2558,10 +2688,11 @@ extension Resiliencehubv2 {
         public let updatedAt: Date?
 
         @inlinable
-        public init(description: String? = nil, failureCategory: FailureCategory? = nil, findingId: String? = nil, name: String? = nil, policyComponent: PolicyComponent? = nil, serviceArn: String? = nil, severity: FindingSeverity? = nil, status: FindingStatus? = nil, updatedAt: Date? = nil) {
+        public init(description: String? = nil, failureCategory: FailureCategory? = nil, findingId: String? = nil, investigationDeepLink: String? = nil, name: String? = nil, policyComponent: PolicyComponent? = nil, serviceArn: String? = nil, severity: FindingSeverity? = nil, status: FindingStatus? = nil, updatedAt: Date? = nil) {
             self.description = description
             self.failureCategory = failureCategory
             self.findingId = findingId
+            self.investigationDeepLink = investigationDeepLink
             self.name = name
             self.policyComponent = policyComponent
             self.serviceArn = serviceArn
@@ -2574,6 +2705,7 @@ extension Resiliencehubv2 {
             case description = "description"
             case failureCategory = "failureCategory"
             case findingId = "findingId"
+            case investigationDeepLink = "investigationDeepLink"
             case name = "name"
             case policyComponent = "policyComponent"
             case serviceArn = "serviceArn"
@@ -5182,27 +5314,43 @@ extension Resiliencehubv2 {
     }
 
     public struct Resource: AWSDecodableShape {
+        /// The Availability Zone ID of the Availability Zone that hosts the resource, such as use1-az1. The Availability Zone ID is consistent across Amazon Web Services (AWS) accounts, unlike the Availability Zone name.
+        public let availabilityZoneId: String?
+        /// The name of the Availability Zone that hosts the resource, such as us-west-2a.
+        public let availabilityZoneName: String?
         /// The AWS account ID that owns the resource.
         public let awsAccountId: String?
         /// The AWS Region where the resource is located.
         public let awsRegion: String?
+        /// The identifier of the single parent resource that contains this resource, used to represent containment relationships in the resource topology. A resource has at most one containment parent.
+        public let containmentParentId: String?
         /// The identifier of the resource.
         public let identifier: String
+        /// The identifier of the logical resource group that this resource belongs to. Resources that share this identifier are managed as a single unit.
+        public let logicalResourceGroupId: String?
         /// The type of the resource.
         public let resourceType: String?
 
         @inlinable
-        public init(awsAccountId: String? = nil, awsRegion: String? = nil, identifier: String, resourceType: String? = nil) {
+        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, awsAccountId: String? = nil, awsRegion: String? = nil, containmentParentId: String? = nil, identifier: String, logicalResourceGroupId: String? = nil, resourceType: String? = nil) {
+            self.availabilityZoneId = availabilityZoneId
+            self.availabilityZoneName = availabilityZoneName
             self.awsAccountId = awsAccountId
             self.awsRegion = awsRegion
+            self.containmentParentId = containmentParentId
             self.identifier = identifier
+            self.logicalResourceGroupId = logicalResourceGroupId
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneId = "availabilityZoneId"
+            case availabilityZoneName = "availabilityZoneName"
             case awsAccountId = "awsAccountId"
             case awsRegion = "awsRegion"
+            case containmentParentId = "containmentParentId"
             case identifier = "identifier"
+            case logicalResourceGroupId = "logicalResourceGroupId"
             case resourceType = "resourceType"
         }
     }
@@ -5336,6 +5484,8 @@ extension Resiliencehubv2 {
         /// The dependency discovery configuration for the service.
         public let dependencyDiscovery: DependencyDiscoveryConfig?
         public let description: String?
+        /// The current DevOps Agent integration state for the service.
+        public let devOpsAgentConfiguration: DevOpsAgentConfigurationView?
         /// The effective policy values for the service.
         public let effectivePolicyValues: EffectivePolicyValues?
         /// The estimated cost of running an assessment on the service.
@@ -5366,7 +5516,7 @@ extension Resiliencehubv2 {
         public let updatedAt: Date?
 
         @inlinable
-        public init(accountId: String? = nil, achievability: Achievability? = nil, assessmentStatus: AssessmentStatus? = nil, associatedSystems: [AssociatedSystem]? = nil, createdAt: Date? = nil, dependencyDiscovery: DependencyDiscoveryConfig? = nil, description: String? = nil, effectivePolicyValues: EffectivePolicyValues? = nil, estimatedAssessmentCost: AssessmentCost? = nil, kmsKeyId: String? = nil, name: String, openFindingsCount: Int? = nil, organizationId: String? = nil, ouId: String? = nil, permissionModel: PermissionModel? = nil, policyArn: String? = nil, regions: [String]? = nil, reportConfiguration: ServiceReportConfiguration? = nil, rerunAssessment: Bool? = nil, resolvedFindingsCount: Int? = nil, resourceDiscovery: ResourceDiscoveryStatus? = nil, serviceArn: String, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(accountId: String? = nil, achievability: Achievability? = nil, assessmentStatus: AssessmentStatus? = nil, associatedSystems: [AssociatedSystem]? = nil, createdAt: Date? = nil, dependencyDiscovery: DependencyDiscoveryConfig? = nil, description: String? = nil, devOpsAgentConfiguration: DevOpsAgentConfigurationView? = nil, effectivePolicyValues: EffectivePolicyValues? = nil, estimatedAssessmentCost: AssessmentCost? = nil, kmsKeyId: String? = nil, name: String, openFindingsCount: Int? = nil, organizationId: String? = nil, ouId: String? = nil, permissionModel: PermissionModel? = nil, policyArn: String? = nil, regions: [String]? = nil, reportConfiguration: ServiceReportConfiguration? = nil, rerunAssessment: Bool? = nil, resolvedFindingsCount: Int? = nil, resourceDiscovery: ResourceDiscoveryStatus? = nil, serviceArn: String, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.achievability = achievability
             self.assessmentStatus = assessmentStatus
@@ -5374,6 +5524,7 @@ extension Resiliencehubv2 {
             self.createdAt = createdAt
             self.dependencyDiscovery = dependencyDiscovery
             self.description = description
+            self.devOpsAgentConfiguration = devOpsAgentConfiguration
             self.effectivePolicyValues = effectivePolicyValues
             self.estimatedAssessmentCost = estimatedAssessmentCost
             self.kmsKeyId = kmsKeyId
@@ -5401,6 +5552,7 @@ extension Resiliencehubv2 {
             case createdAt = "createdAt"
             case dependencyDiscovery = "dependencyDiscovery"
             case description = "description"
+            case devOpsAgentConfiguration = "devOpsAgentConfiguration"
             case effectivePolicyValues = "effectivePolicyValues"
             case estimatedAssessmentCost = "estimatedAssessmentCost"
             case kmsKeyId = "kmsKeyId"
@@ -5845,6 +5997,10 @@ extension Resiliencehubv2 {
         public let createdAt: Date?
         /// The dependency discovery configuration.
         public let dependencyDiscovery: DependencyDiscoveryConfig?
+        /// The ARN of the DevOps Agent Agent Space linked to the service, when the service is linked to one.
+        public let devOpsAgentSpaceArn: String?
+        /// The DevOps Agent connection status for the service. Valid values:   CONNECTING - The service is being connected to the Agent Space.   CONNECTED - The service is connected to the Agent Space.   DISCONNECTED - The service is not connected to an Agent Space.   FAILED - The connection attempt failed.
+        public let devOpsAgentStatus: DevOpsAgentConnectionStatus?
         public let name: String
         /// The number of open findings.
         public let openFindingsCount: Int?
@@ -5862,13 +6018,15 @@ extension Resiliencehubv2 {
         public let updatedAt: Date?
 
         @inlinable
-        public init(accountId: String? = nil, achievability: Achievability? = nil, assessmentStatus: AssessmentStatus? = nil, associatedSystems: [AssociatedSystem]? = nil, createdAt: Date? = nil, dependencyDiscovery: DependencyDiscoveryConfig? = nil, name: String, openFindingsCount: Int? = nil, organizationId: String? = nil, ouId: String? = nil, policyArn: String? = nil, regions: [String]? = nil, resolvedFindingsCount: Int? = nil, serviceArn: String, updatedAt: Date? = nil) {
+        public init(accountId: String? = nil, achievability: Achievability? = nil, assessmentStatus: AssessmentStatus? = nil, associatedSystems: [AssociatedSystem]? = nil, createdAt: Date? = nil, dependencyDiscovery: DependencyDiscoveryConfig? = nil, devOpsAgentSpaceArn: String? = nil, devOpsAgentStatus: DevOpsAgentConnectionStatus? = nil, name: String, openFindingsCount: Int? = nil, organizationId: String? = nil, ouId: String? = nil, policyArn: String? = nil, regions: [String]? = nil, resolvedFindingsCount: Int? = nil, serviceArn: String, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.achievability = achievability
             self.assessmentStatus = assessmentStatus
             self.associatedSystems = associatedSystems
             self.createdAt = createdAt
             self.dependencyDiscovery = dependencyDiscovery
+            self.devOpsAgentSpaceArn = devOpsAgentSpaceArn
+            self.devOpsAgentStatus = devOpsAgentStatus
             self.name = name
             self.openFindingsCount = openFindingsCount
             self.organizationId = organizationId
@@ -5887,6 +6045,8 @@ extension Resiliencehubv2 {
             case associatedSystems = "associatedSystems"
             case createdAt = "createdAt"
             case dependencyDiscovery = "dependencyDiscovery"
+            case devOpsAgentSpaceArn = "devOpsAgentSpaceArn"
+            case devOpsAgentStatus = "devOpsAgentStatus"
             case name = "name"
             case openFindingsCount = "openFindingsCount"
             case organizationId = "organizationId"
@@ -6706,6 +6866,8 @@ extension Resiliencehubv2 {
     public struct TestRun: AWSDecodableShape {
         /// Indicates whether the test run targets resources in a single AWS account or across multiple accounts.
         public let accountTargeting: AccountTargeting?
+        /// The DevOps Agent investigation result for the test run, present when the integration is enabled for the service.
+        public let devOpsAgentInvestigation: DevOpsAgentInvestigation?
         /// The timestamp when the test run ended.
         public let endedAt: Date?
         /// A human-readable reason for test run failure. Only present when the status is FAILED or ERROR.
@@ -6750,8 +6912,9 @@ extension Resiliencehubv2 {
         public let testTemplateArn: String
 
         @inlinable
-        public init(accountTargeting: AccountTargeting? = nil, endedAt: Date? = nil, errorMessage: String? = nil, eventCount: Int? = nil, experiments: [ExperimentDetails]? = nil, loggingConfiguration: LoggingConfiguration? = nil, parameters: [String: [String]]? = nil, permissionModel: PermissionModel? = nil, policy: TestRunPolicySnapshot? = nil, regions: [String]? = nil, regionSwitchExecutionId: String? = nil, regionSwitchPlanArn: String? = nil, reportConfiguration: TestRunReportConfiguration? = nil, reportOutput: ReportGenerationResult? = nil, roleName: String? = nil, serviceArn: String? = nil, startedAt: Date, status: TestRunStatus, stopConditions: [StopCondition]? = nil, testId: String, testRunId: String, testTemplateArn: String) {
+        public init(accountTargeting: AccountTargeting? = nil, devOpsAgentInvestigation: DevOpsAgentInvestigation? = nil, endedAt: Date? = nil, errorMessage: String? = nil, eventCount: Int? = nil, experiments: [ExperimentDetails]? = nil, loggingConfiguration: LoggingConfiguration? = nil, parameters: [String: [String]]? = nil, permissionModel: PermissionModel? = nil, policy: TestRunPolicySnapshot? = nil, regions: [String]? = nil, regionSwitchExecutionId: String? = nil, regionSwitchPlanArn: String? = nil, reportConfiguration: TestRunReportConfiguration? = nil, reportOutput: ReportGenerationResult? = nil, roleName: String? = nil, serviceArn: String? = nil, startedAt: Date, status: TestRunStatus, stopConditions: [StopCondition]? = nil, testId: String, testRunId: String, testTemplateArn: String) {
             self.accountTargeting = accountTargeting
+            self.devOpsAgentInvestigation = devOpsAgentInvestigation
             self.endedAt = endedAt
             self.errorMessage = errorMessage
             self.eventCount = eventCount
@@ -6777,6 +6940,7 @@ extension Resiliencehubv2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountTargeting = "accountTargeting"
+            case devOpsAgentInvestigation = "devOpsAgentInvestigation"
             case endedAt = "endedAt"
             case errorMessage = "errorMessage"
             case eventCount = "eventCount"
@@ -7532,6 +7696,8 @@ extension Resiliencehubv2 {
         public let associatedSystems: [AssociatedSystem]?
         public let dependencyDiscovery: DependencyDiscoveryInput?
         public let description: String?
+        /// The optional DevOps Agent integration configuration to set, replace, or disconnect for the service. If you omit this field, the existing DevOps Agent linkage stays unchanged.
+        public let devOpsAgentConfiguration: DevOpsAgentConfiguration?
         /// The updated permission model for the service.
         public let permissionModel: PermissionModel?
         public let policyArn: String?
@@ -7541,10 +7707,11 @@ extension Resiliencehubv2 {
         public let serviceArn: String
 
         @inlinable
-        public init(associatedSystems: [AssociatedSystem]? = nil, dependencyDiscovery: DependencyDiscoveryInput? = nil, description: String? = nil, permissionModel: PermissionModel? = nil, policyArn: String? = nil, regions: [String]? = nil, reportConfiguration: ServiceReportConfiguration? = nil, serviceArn: String) {
+        public init(associatedSystems: [AssociatedSystem]? = nil, dependencyDiscovery: DependencyDiscoveryInput? = nil, description: String? = nil, devOpsAgentConfiguration: DevOpsAgentConfiguration? = nil, permissionModel: PermissionModel? = nil, policyArn: String? = nil, regions: [String]? = nil, reportConfiguration: ServiceReportConfiguration? = nil, serviceArn: String) {
             self.associatedSystems = associatedSystems
             self.dependencyDiscovery = dependencyDiscovery
             self.description = description
+            self.devOpsAgentConfiguration = devOpsAgentConfiguration
             self.permissionModel = permissionModel
             self.policyArn = policyArn
             self.regions = regions
@@ -7558,6 +7725,7 @@ extension Resiliencehubv2 {
             }
             try self.validate(self.associatedSystems, name: "associatedSystems", parent: name, max: 20)
             try self.validate(self.description, name: "description", parent: name, max: 615)
+            try self.devOpsAgentConfiguration?.validate(name: "\(name).devOpsAgentConfiguration")
             try self.permissionModel?.validate(name: "\(name).permissionModel")
             try self.validate(self.policyArn, name: "policyArn", parent: name, min: 31)
             try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
@@ -7576,6 +7744,7 @@ extension Resiliencehubv2 {
             case associatedSystems = "associatedSystems"
             case dependencyDiscovery = "dependencyDiscovery"
             case description = "description"
+            case devOpsAgentConfiguration = "devOpsAgentConfiguration"
             case permissionModel = "permissionModel"
             case policyArn = "policyArn"
             case regions = "regions"

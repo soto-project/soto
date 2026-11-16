@@ -441,6 +441,7 @@ extension Mgn {
         case ciscoAci = "CISCO_ACI"
         case fortigateFirewall = "FORTIGATE_FIREWALL"
         case logicalModel = "LOGICAL_MODEL"
+        case migrationPlanningArtifacts = "MIGRATION_PLANNING_ARTIFACTS"
         case modelizeIt = "MODELIZE_IT"
         case nsx = "NSX"
         case paloAltoFirewall = "PALO_ALTO_FIREWALL"
@@ -1195,6 +1196,8 @@ extension Mgn {
     public struct CreateNetworkMigrationDefinitionRequest: AWSEncodableShape {
         /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
         public let cidrMappings: [CidrMapping]?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
         /// A description of the network migration definition.
         public let description: String?
         /// The name of the network migration definition.
@@ -1215,8 +1218,9 @@ extension Mgn {
         public let vpcProvisioningStrategy: VpcProvisioningStrategy?
 
         @inlinable
-        public init(cidrMappings: [CidrMapping]? = nil, description: String? = nil, name: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork, targetS3Configuration: TargetS3Configuration, vpcProvisioningStrategy: VpcProvisioningStrategy? = nil) {
+        public init(cidrMappings: [CidrMapping]? = nil, clientToken: String? = CreateNetworkMigrationDefinitionRequest.idempotencyToken(), description: String? = nil, name: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork, targetS3Configuration: TargetS3Configuration, vpcProvisioningStrategy: VpcProvisioningStrategy? = nil) {
             self.cidrMappings = cidrMappings
+            self.clientToken = clientToken
             self.description = description
             self.name = name
             self.scopeTags = scopeTags
@@ -1233,6 +1237,7 @@ extension Mgn {
                 try $0.validate(name: "\(name).cidrMappings[]")
             }
             try self.validate(self.cidrMappings, name: "cidrMappings", parent: name, max: 50)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.description, name: "description", parent: name, max: 600)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -1261,6 +1266,7 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case cidrMappings = "cidrMappings"
+            case clientToken = "clientToken"
             case description = "description"
             case name = "name"
             case scopeTags = "scopeTags"

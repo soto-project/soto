@@ -49,6 +49,12 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClonedBlueGreenScheduledActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automaticCutoverToPrimary = "AutomaticCutoverToPrimaryCluster"
+        case deletePrimaryCluster = "DeletePrimaryCluster"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applyingChanges = "ApplyingChanges"
         case cancelled = "Cancelled"
@@ -58,6 +64,19 @@ extension ElasticsearchService {
         case pendingUserInput = "PendingUserInput"
         case validating = "Validating"
         case validationFailed = "ValidationFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CutoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CutoverTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clonedCluster = "ClonedCluster"
+        case primaryCluster = "PrimaryCluster"
         public var description: String { return self.rawValue }
     }
 
@@ -73,6 +92,11 @@ extension ElasticsearchService {
     public enum DeploymentStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "Default"
         case capacityOptimized = "CapacityOptimized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStrategyOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clonedBlueGreen = "ClonedBlueGreen"
         public var description: String { return self.rawValue }
     }
 
@@ -286,6 +310,12 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum RetentionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deletePrimaryCluster = "DeletePrimaryCluster"
+        case rollbackToPrimaryCluster = "RollbackToPrimaryCluster"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RollbackOnDisable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultRollback = "DEFAULT_ROLLBACK"
         case noRollback = "NO_ROLLBACK"
@@ -315,6 +345,18 @@ extension ElasticsearchService {
 
     public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hours = "HOURS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficSplitStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case shiftReadTrafficPercent = "ShiftReadTrafficPercent"
         public var description: String { return self.rawValue }
     }
 
@@ -356,6 +398,47 @@ extension ElasticsearchService {
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionOptions: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Ends the retention period now. Valid only after cutover completes.
+        case retentionAction(RetentionAction)
+        /// The number of hours to keep the cluster that you cut over from. The retention period starts when cutover completes. The minimum is 1 hour. In an UpdateClone response after cutover completes, this value is the number of hours remaining in the retention period, rounded up.
+        case retentionInHours(Int)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .retentionAction:
+                let value = try container.decode(RetentionAction.self, forKey: .retentionAction)
+                self = .retentionAction(value)
+            case .retentionInHours:
+                let value = try container.decode(Int.self, forKey: .retentionInHours)
+                self = .retentionInHours(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .retentionAction(let value):
+                try container.encode(value, forKey: .retentionAction)
+            case .retentionInHours(let value):
+                try container.encode(value, forKey: .retentionInHours)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionAction = "RetentionAction"
+            case retentionInHours = "RetentionInHours"
+        }
     }
 
     // MARK: Shapes
@@ -1078,6 +1161,8 @@ extension ElasticsearchService {
         public let changeId: String?
         /// The specific stages that the domain is going through to perform the configuration change.
         public let changeProgressStages: [ChangeProgressStage]?
+        /// Details about a cloned blue/green upgrade, when the change is one.
+        public let clonedBlueGreenUpgradeDetails: ClonedBlueGreenUpgradeDetails?
         /// The list of properties involved in the domain configuration change that are completed.
         public let completedProperties: [String]?
         /// The current status of the configuration change.
@@ -1096,9 +1181,10 @@ extension ElasticsearchService {
         public let totalNumberOfStages: Int?
 
         @inlinable
-        public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
+        public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, clonedBlueGreenUpgradeDetails: ClonedBlueGreenUpgradeDetails? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
+            self.clonedBlueGreenUpgradeDetails = clonedBlueGreenUpgradeDetails
             self.completedProperties = completedProperties
             self.configChangeStatus = configChangeStatus
             self.initiatedBy = initiatedBy
@@ -1112,6 +1198,7 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case changeId = "ChangeId"
             case changeProgressStages = "ChangeProgressStages"
+            case clonedBlueGreenUpgradeDetails = "ClonedBlueGreenUpgradeDetails"
             case completedProperties = "CompletedProperties"
             case configChangeStatus = "ConfigChangeStatus"
             case initiatedBy = "InitiatedBy"
@@ -1120,6 +1207,60 @@ extension ElasticsearchService {
             case startTime = "StartTime"
             case status = "Status"
             case totalNumberOfStages = "TotalNumberOfStages"
+        }
+    }
+
+    public struct ClonedBlueGreenOptions: AWSEncodableShape & AWSDecodableShape {
+        /// How long to keep the cluster that you cut over from after cutover completes. When you start the upgrade, only RetentionInHours is accepted.
+        public let retentionOptions: RetentionOptions?
+
+        @inlinable
+        public init(retentionOptions: RetentionOptions? = nil) {
+            self.retentionOptions = retentionOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionOptions = "RetentionOptions"
+        }
+    }
+
+    public struct ClonedBlueGreenScheduledAction: AWSDecodableShape {
+        /// The action that the service takes.
+        public let action: ClonedBlueGreenScheduledActionType?
+        /// The time at which the service takes the action.
+        public let scheduledTime: Date?
+
+        @inlinable
+        public init(action: ClonedBlueGreenScheduledActionType? = nil, scheduledTime: Date? = nil) {
+            self.action = action
+            self.scheduledTime = scheduledTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case scheduledTime = "ScheduledTime"
+        }
+    }
+
+    public struct ClonedBlueGreenUpgradeDetails: AWSDecodableShape {
+        /// The retention period, in hours, for the cluster that you cut over from.
+        public let retentionInHours: Int?
+        /// The action that the service takes automatically if you don't act before the scheduled time.
+        public let scheduledAction: ClonedBlueGreenScheduledAction?
+        /// The current split of search traffic between the primary and cloned clusters.
+        public let trafficSplit: TrafficPercents?
+
+        @inlinable
+        public init(retentionInHours: Int? = nil, scheduledAction: ClonedBlueGreenScheduledAction? = nil, trafficSplit: TrafficPercents? = nil) {
+            self.retentionInHours = retentionInHours
+            self.scheduledAction = scheduledAction
+            self.trafficSplit = trafficSplit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionInHours = "RetentionInHours"
+            case scheduledAction = "ScheduledAction"
+            case trafficSplit = "TrafficSplit"
         }
     }
 
@@ -1478,6 +1619,38 @@ extension ElasticsearchService {
         }
     }
 
+    public struct CutoverOptions: AWSDecodableShape {
+        /// The status of the cutover.
+        public let status: CutoverStatus
+        /// The cluster that the domain is cutting over to.
+        public let target: CutoverTarget
+
+        @inlinable
+        public init(status: CutoverStatus, target: CutoverTarget) {
+            self.status = status
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case target = "Target"
+        }
+    }
+
+    public struct CutoverRequestOptions: AWSEncodableShape {
+        /// The cluster to cut over to. ClonedCluster makes the cloned cluster serve the domain. PrimaryCluster keeps the primary cluster and ends the upgrade.
+        public let target: CutoverTarget
+
+        @inlinable
+        public init(target: CutoverTarget) {
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+        }
+    }
+
     public struct DeleteElasticsearchDomainRequest: AWSEncodableShape {
         /// The name of the Elasticsearch domain that you want to permanently delete.
         public let domainName: String
@@ -1679,6 +1852,24 @@ extension ElasticsearchService {
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
+        }
+    }
+
+    public struct DeploymentStrategyOverrideOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Options that apply when DeploymentStrategy is ClonedBlueGreen.
+        public let clonedBlueGreenOptions: ClonedBlueGreenOptions?
+        /// The deployment strategy to use for this operation. The only valid value is ClonedBlueGreen, which creates a cloned cluster on the target version next to the primary cluster so that you can validate it and shift traffic to it before you cut over.
+        public let deploymentStrategy: DeploymentStrategyOverride
+
+        @inlinable
+        public init(clonedBlueGreenOptions: ClonedBlueGreenOptions? = nil, deploymentStrategy: DeploymentStrategyOverride) {
+            self.clonedBlueGreenOptions = clonedBlueGreenOptions
+            self.deploymentStrategy = deploymentStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clonedBlueGreenOptions = "ClonedBlueGreenOptions"
+            case deploymentStrategy = "DeploymentStrategy"
         }
     }
 
@@ -4426,6 +4617,140 @@ extension ElasticsearchService {
         }
     }
 
+    public struct TrafficPercents: AWSDecodableShape {
+        /// The percentage of search traffic sent to the cloned cluster.
+        public let cloneReadTrafficPercent: Int
+        /// The percentage of search traffic sent to the primary cluster.
+        public let primaryReadTrafficPercent: Int
+
+        @inlinable
+        public init(cloneReadTrafficPercent: Int, primaryReadTrafficPercent: Int) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.primaryReadTrafficPercent = primaryReadTrafficPercent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneReadTrafficPercent = "CloneReadTrafficPercent"
+            case primaryReadTrafficPercent = "PrimaryReadTrafficPercent"
+        }
+    }
+
+    public struct TrafficSplitOptions: AWSDecodableShape {
+        /// The traffic split currently in effect.
+        public let current: TrafficPercents
+        /// The status of the traffic shift.
+        public let status: TrafficSplitStatus
+        /// The requested traffic split.
+        public let target: TrafficPercents
+
+        @inlinable
+        public init(current: TrafficPercents, status: TrafficSplitStatus, target: TrafficPercents) {
+            self.current = current
+            self.status = status
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case current = "Current"
+            case status = "Status"
+            case target = "Target"
+        }
+    }
+
+    public struct TrafficSplitRequestOptions: AWSEncodableShape {
+        /// The percentage of search traffic, from 0 to 100, to send to the cloned cluster. The rest goes to the primary cluster.
+        public let cloneReadTrafficPercent: Int
+        /// The traffic shifting strategy. The only valid value is ShiftReadTrafficPercent.
+        public let strategy: TrafficStrategy
+
+        @inlinable
+        public init(cloneReadTrafficPercent: Int = 0, strategy: TrafficStrategy) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.strategy = strategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloneReadTrafficPercent, name: "cloneReadTrafficPercent", parent: name, max: 100)
+            try self.validate(self.cloneReadTrafficPercent, name: "cloneReadTrafficPercent", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneReadTrafficPercent = "CloneReadTrafficPercent"
+            case strategy = "Strategy"
+        }
+    }
+
+    public struct UpdateCloneRequest: AWSEncodableShape {
+        /// Cuts the domain over to the cloned cluster or back to the primary cluster.
+        public let cutoverOptions: CutoverRequestOptions?
+        /// The name of the domain that has a cloned blue/green upgrade in progress.
+        public let domainName: String
+        /// Changes the retention period, or ends it after cutover completes.
+        public let retentionOptions: RetentionOptions?
+        /// Shifts a percentage of search traffic from the primary cluster to the cloned cluster.
+        public let trafficSplitOptions: TrafficSplitRequestOptions?
+
+        @inlinable
+        public init(cutoverOptions: CutoverRequestOptions? = nil, domainName: String, retentionOptions: RetentionOptions? = nil, trafficSplitOptions: TrafficSplitRequestOptions? = nil) {
+            self.cutoverOptions = cutoverOptions
+            self.domainName = domainName
+            self.retentionOptions = retentionOptions
+            self.trafficSplitOptions = trafficSplitOptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cutoverOptions, forKey: .cutoverOptions)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.retentionOptions, forKey: .retentionOptions)
+            try container.encodeIfPresent(self.trafficSplitOptions, forKey: .trafficSplitOptions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.trafficSplitOptions?.validate(name: "\(name).trafficSplitOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cutoverOptions = "CutoverOptions"
+            case retentionOptions = "RetentionOptions"
+            case trafficSplitOptions = "TrafficSplitOptions"
+        }
+    }
+
+    public struct UpdateCloneResponse: AWSDecodableShape {
+        /// The unique identifier of the configuration change. Use it with DescribeDomainChangeProgress to track the change.
+        public let changeId: String
+        /// The requested cutover target and the status of the cutover.
+        public let cutoverOptions: CutoverOptions?
+        /// The name of the domain.
+        public let domainName: String
+        /// The retention settings for the upgrade.
+        public let retentionOptions: RetentionOptions?
+        /// The current and requested traffic split, and the status of the traffic shift.
+        public let trafficSplitOptions: TrafficSplitOptions?
+
+        @inlinable
+        public init(changeId: String, cutoverOptions: CutoverOptions? = nil, domainName: String, retentionOptions: RetentionOptions? = nil, trafficSplitOptions: TrafficSplitOptions? = nil) {
+            self.changeId = changeId
+            self.cutoverOptions = cutoverOptions
+            self.domainName = domainName
+            self.retentionOptions = retentionOptions
+            self.trafficSplitOptions = trafficSplitOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeId = "ChangeId"
+            case cutoverOptions = "CutoverOptions"
+            case domainName = "DomainName"
+            case retentionOptions = "RetentionOptions"
+            case trafficSplitOptions = "TrafficSplitOptions"
+        }
+    }
+
     public struct UpdateElasticsearchDomainConfigRequest: AWSEncodableShape {
         /// IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
@@ -4648,6 +4973,8 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeElasticsearchDomainRequest: AWSEncodableShape {
+        /// Overrides the deployment strategy for this upgrade. To run a cloned blue/green upgrade, set DeploymentStrategy to ClonedBlueGreen.
+        public let deploymentStrategyOptions: DeploymentStrategyOverrideOptions?
         public let domainName: String
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
         public let performCheckOnly: Bool?
@@ -4655,7 +4982,8 @@ extension ElasticsearchService {
         public let targetVersion: String
 
         @inlinable
-        public init(domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
+        public init(deploymentStrategyOptions: DeploymentStrategyOverrideOptions? = nil, domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
             self.targetVersion = targetVersion
@@ -4669,6 +4997,7 @@ extension ElasticsearchService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainName = "DomainName"
             case performCheckOnly = "PerformCheckOnly"
             case targetVersion = "TargetVersion"
@@ -4677,6 +5006,8 @@ extension ElasticsearchService {
 
     public struct UpgradeElasticsearchDomainResponse: AWSDecodableShape {
         public let changeProgressDetails: ChangeProgressDetails?
+        /// The deployment strategy override used for the upgrade.
+        public let deploymentStrategyOptions: DeploymentStrategyOverrideOptions?
         public let domainName: String?
         ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
         public let performCheckOnly: Bool?
@@ -4684,8 +5015,9 @@ extension ElasticsearchService {
         public let targetVersion: String?
 
         @inlinable
-        public init(changeProgressDetails: ChangeProgressDetails? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil) {
+        public init(changeProgressDetails: ChangeProgressDetails? = nil, deploymentStrategyOptions: DeploymentStrategyOverrideOptions? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil) {
             self.changeProgressDetails = changeProgressDetails
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
             self.targetVersion = targetVersion
@@ -4693,6 +5025,7 @@ extension ElasticsearchService {
 
         private enum CodingKeys: String, CodingKey {
             case changeProgressDetails = "ChangeProgressDetails"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainName = "DomainName"
             case performCheckOnly = "PerformCheckOnly"
             case targetVersion = "TargetVersion"

@@ -213,8 +213,7 @@ extension Scheduler {
         public let clientToken: String?
         /// The description you specify for the schedule.
         public let description: String?
-        /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify.
-        /// EventBridge Scheduler ignores EndDate for one-time schedules.
+        /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
         public let endDate: Date?
         /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
         public let flexibleTimeWindow: FlexibleTimeWindow
@@ -224,15 +223,11 @@ extension Scheduler {
         public let kmsKeyArn: String?
         /// The name of the schedule that you are creating.
         public let name: String
-        ///  The expression that defines when the schedule runs. The following formats are supported.
-        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
-        ///   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).
-        ///   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
+        ///  The expression that defines when the schedule runs. The following formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
         public let scheduleExpression: String
         /// The timezone in which the scheduling expression is evaluated.
         public let scheduleExpressionTimezone: String?
-        /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify.
-        /// EventBridge Scheduler ignores StartDate for one-time schedules.
+        /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
         public let startDate: Date?
         /// Specifies whether the schedule is enabled or disabled.
         public let state: ScheduleState?
@@ -285,7 +280,7 @@ extension Scheduler {
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:kms:[a-z0-9\\-]+:\\d{12}:(key|alias)\\/[0-9a-zA-Z-_]*$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-z-]*:kms:[a-z0-9\\-]+:\\d{12}:(key|alias)\\/[0-9a-zA-Z-_]*$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
@@ -431,7 +426,7 @@ extension Scheduler {
         public let enableExecuteCommand: Bool?
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
-        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon ECS Developer Guide.
+        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate with Amazon ECS is supported. For more information, see Amazon Web Services Fargate on Amazon ECS in the Amazon ECS Developer Guide.
         public let launchType: LaunchType?
         /// This structure specifies the network configuration for an ECS task.
         public let networkConfiguration: NetworkConfiguration?
@@ -445,7 +440,7 @@ extension Scheduler {
         public let propagateTags: PropagateTags?
         /// The reference ID to use for the task.
         public let referenceId: String?
-        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information, see  RunTask in the Amazon ECS API Reference.
+        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information, see  RunTask  in the Amazon ECS API Reference.
         public let tags: [[String: String]]?
         /// The number of tasks to create based on TaskDefinition. The default is 1.
         public let taskCount: Int?
@@ -537,6 +532,56 @@ extension Scheduler {
         private enum CodingKeys: String, CodingKey {
             case detailType = "DetailType"
             case source = "Source"
+        }
+    }
+
+    public struct EventBridgePutEventsV2Parameters: AWSEncodableShape & AWSDecodableShape {
+        /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
+        public let detailType: String
+        /// The source of the event. The source can't start with the aws. prefix.
+        public let source: String
+
+        @inlinable
+        public init(detailType: String, source: String) {
+            self.detailType = detailType
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detailType, name: "detailType", parent: name, max: 128)
+            try self.validate(self.detailType, name: "detailType", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 256)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, pattern: "^(?=[/\\.\\-_A-Za-z0-9]+)((?!aws\\.).*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailType = "DetailType"
+            case source = "Source"
+        }
+    }
+
+    public struct EventBridgePutRawEventsParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Optional metadata key-value pairs you define. Keys must be 1-128 characters and must not contain "/".
+        public let metadata: [String: String]?
+
+        @inlinable
+        public init(metadata: [String: String]? = nil) {
+            self.metadata = metadata
+        }
+
+        public func validate(name: String) throws {
+            try self.metadata?.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 128)
+                try validate($0.key, name: "metadata.key", parent: name, min: 1)
+                try validate($0.key, name: "metadata.key", parent: name, pattern: "^[^/]+$")
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
         }
     }
 
@@ -657,8 +702,7 @@ extension Scheduler {
         public let creationDate: Date?
         /// The description of the schedule.
         public let description: String?
-        /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify.
-        /// EventBridge Scheduler ignores EndDate for one-time schedules.
+        /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
         public let endDate: Date?
         /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
         public let flexibleTimeWindow: FlexibleTimeWindow?
@@ -670,15 +714,11 @@ extension Scheduler {
         public let lastModificationDate: Date?
         /// The name of the schedule.
         public let name: String?
-        ///  The expression that defines when the schedule runs. The following formats are supported.
-        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
-        ///   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).
-        ///   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
+        ///  The expression that defines when the schedule runs. The following formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
         public let scheduleExpression: String?
         /// The timezone in which the scheduling expression is evaluated.
         public let scheduleExpressionTimezone: String?
-        /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify.
-        /// EventBridge Scheduler ignores StartDate for one-time schedules.
+        /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
         public let startDate: Date?
         /// Specifies whether the schedule is enabled or disabled.
         public let state: ScheduleState?
@@ -879,7 +919,7 @@ extension Scheduler {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:scheduler:[a-z0-9\\-]+:\\d{12}:schedule-group\\/[0-9a-zA-Z-_.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:scheduler:[a-z0-9\\-]+:\\d{12}:schedule-group\\/[0-9a-zA-Z-_.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1167,7 +1207,7 @@ extension Scheduler {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:scheduler:[a-z0-9\\-]+:\\d{12}:schedule-group\\/[0-9a-zA-Z-_.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:scheduler:[a-z0-9\\-]+:\\d{12}:schedule-group\\/[0-9a-zA-Z-_.]+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1188,29 +1228,35 @@ extension Scheduler {
         public let arn: String
         /// An object that contains information about an Amazon SQS queue that EventBridge Scheduler uses as a dead-letter queue for your schedule. If specified, EventBridge Scheduler delivers failed events that could not be successfully delivered to a target to the queue.
         public let deadLetterConfig: DeadLetterConfig?
-        /// The templated target type for the Amazon ECS  RunTask API operation.
+        /// The templated target type for the Amazon ECS  RunTask  API operation.
         public let ecsParameters: EcsParameters?
-        /// The templated target type for the EventBridge  PutEvents API operation.
+        /// The templated target type for the EventBridge  PutEvents  API operation.
         public let eventBridgeParameters: EventBridgeParameters?
-        /// The text, or well-formed JSON, passed to the target. If you are configuring a templated Lambda, AWS Step Functions, or Amazon EventBridge target, the input must be a well-formed JSON. For all other target types, a JSON is not required. If you do not specify anything for this field, EventBridge Scheduler delivers a default notification to the target.
+        /// The templated target type for the EventBridge event bus v2  PutEvents  API operation.
+        public let eventBridgePutEventsV2Parameters: EventBridgePutEventsV2Parameters?
+        /// The templated target type for the EventBridge event bus v2  PutRawEvents  API operation.
+        public let eventBridgePutRawEventsParameters: EventBridgePutRawEventsParameters?
+        /// The text, or well-formed JSON, passed to the target. If you are configuring a templated Lambda, Amazon Web Services Step Functions, or Amazon EventBridge target, the input must be a well-formed JSON. For all other target types, a JSON is not required. If you do not specify anything for this field, EventBridge Scheduler delivers a default notification to the target. The maximum size of the Input field is 256 KB.
         public let input: String?
-        /// The templated target type for the Amazon Kinesis  PutRecord API operation.
+        /// The templated target type for the Amazon Kinesis  PutRecord  API operation.
         public let kinesisParameters: KinesisParameters?
         /// A RetryPolicy object that includes information about the retry policy settings, including the maximum age of an event, and the maximum number of times EventBridge Scheduler will try to deliver the event to a target.
         public let retryPolicy: RetryPolicy?
         /// The Amazon Resource Name (ARN) of the IAM role that EventBridge Scheduler will use for this target when the schedule is invoked.
         public let roleArn: String
-        /// The templated target type for the Amazon SageMaker  StartPipelineExecution API operation.
+        /// The templated target type for the Amazon SageMaker  StartPipelineExecution  API operation.
         public let sageMakerPipelineParameters: SageMakerPipelineParameters?
-        /// The templated target type for the Amazon SQS  SendMessage API operation. Contains the message group ID to use when the target is a FIFO queue. If you specify an Amazon SQS FIFO queue as a target, the queue must have content-based deduplication enabled. For more information, see Using the Amazon SQS message deduplication ID in the Amazon SQS Developer Guide.
+        /// The templated target type for the Amazon SQS  SendMessage  API operation. Contains the message group ID to use when the target is a FIFO queue. If you specify an Amazon SQS FIFO queue as a target, the queue must have content-based deduplication enabled. For more information, see Using the Amazon SQS message deduplication ID in the Amazon SQS Developer Guide.
         public let sqsParameters: SqsParameters?
 
         @inlinable
-        public init(arn: String, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, eventBridgeParameters: EventBridgeParameters? = nil, input: String? = nil, kinesisParameters: KinesisParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String, sageMakerPipelineParameters: SageMakerPipelineParameters? = nil, sqsParameters: SqsParameters? = nil) {
+        public init(arn: String, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, eventBridgeParameters: EventBridgeParameters? = nil, eventBridgePutEventsV2Parameters: EventBridgePutEventsV2Parameters? = nil, eventBridgePutRawEventsParameters: EventBridgePutRawEventsParameters? = nil, input: String? = nil, kinesisParameters: KinesisParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String, sageMakerPipelineParameters: SageMakerPipelineParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.deadLetterConfig = deadLetterConfig
             self.ecsParameters = ecsParameters
             self.eventBridgeParameters = eventBridgeParameters
+            self.eventBridgePutEventsV2Parameters = eventBridgePutEventsV2Parameters
+            self.eventBridgePutRawEventsParameters = eventBridgePutRawEventsParameters
             self.input = input
             self.kinesisParameters = kinesisParameters
             self.retryPolicy = retryPolicy
@@ -1225,12 +1271,14 @@ extension Scheduler {
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.ecsParameters?.validate(name: "\(name).ecsParameters")
             try self.eventBridgeParameters?.validate(name: "\(name).eventBridgeParameters")
+            try self.eventBridgePutEventsV2Parameters?.validate(name: "\(name).eventBridgePutEventsV2Parameters")
+            try self.eventBridgePutRawEventsParameters?.validate(name: "\(name).eventBridgePutRawEventsParameters")
             try self.validate(self.input, name: "input", parent: name, min: 1)
             try self.kinesisParameters?.validate(name: "\(name).kinesisParameters")
             try self.retryPolicy?.validate(name: "\(name).retryPolicy")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role\\/[\\w+=,.@\\/-]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z-]*:iam::\\d{12}:role\\/[\\w+=,.@\\/-]+$")
             try self.sageMakerPipelineParameters?.validate(name: "\(name).sageMakerPipelineParameters")
             try self.sqsParameters?.validate(name: "\(name).sqsParameters")
         }
@@ -1240,6 +1288,8 @@ extension Scheduler {
             case deadLetterConfig = "DeadLetterConfig"
             case ecsParameters = "EcsParameters"
             case eventBridgeParameters = "EventBridgeParameters"
+            case eventBridgePutEventsV2Parameters = "EventBridgePutEventsV2Parameters"
+            case eventBridgePutRawEventsParameters = "EventBridgePutRawEventsParameters"
             case input = "Input"
             case kinesisParameters = "KinesisParameters"
             case retryPolicy = "RetryPolicy"
@@ -1285,7 +1335,7 @@ extension Scheduler {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:scheduler:[a-z0-9\\-]+:\\d{12}:schedule-group\\/[0-9a-zA-Z-_.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:scheduler:[a-z0-9\\-]+:\\d{12}:schedule-group\\/[0-9a-zA-Z-_.]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1307,8 +1357,7 @@ extension Scheduler {
         public let clientToken: String?
         /// The description you specify for the schedule.
         public let description: String?
-        /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify.
-        /// EventBridge Scheduler ignores EndDate for one-time schedules.
+        /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
         public let endDate: Date?
         /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
         public let flexibleTimeWindow: FlexibleTimeWindow
@@ -1318,15 +1367,11 @@ extension Scheduler {
         public let kmsKeyArn: String?
         /// The name of the schedule that you are updating.
         public let name: String
-        ///  The expression that defines when the schedule runs. The following formats are supported.
-        ///     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.
-        ///   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).
-        ///   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
+        ///  The expression that defines when the schedule runs. The following formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
         public let scheduleExpression: String
         /// The timezone in which the scheduling expression is evaluated.
         public let scheduleExpressionTimezone: String?
-        /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify.
-        /// EventBridge Scheduler ignores StartDate for one-time schedules.
+        /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
         public let startDate: Date?
         /// Specifies whether the schedule is enabled or disabled.
         public let state: ScheduleState?
@@ -1379,7 +1424,7 @@ extension Scheduler {
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:kms:[a-z0-9\\-]+:\\d{12}:(key|alias)\\/[0-9a-zA-Z-_]*$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-z-]*:kms:[a-z0-9\\-]+:\\d{12}:(key|alias)\\/[0-9a-zA-Z-_]*$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
@@ -1462,7 +1507,7 @@ public struct SchedulerErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

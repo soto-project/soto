@@ -80,6 +80,12 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashBandwidthReportingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case average = "AVERAGE"
+        case max = "MAX"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashCompactness: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case standard = "STANDARD"
@@ -362,6 +368,10 @@ extension MediaPackageV2 {
         case multiviewConfigurationRequired = "MULTIVIEW_CONFIGURATION_REQUIRED"
         case multiviewDuplicateLayout = "MULTIVIEW_DUPLICATE_LAYOUT"
         case multiviewDuplicateSource = "MULTIVIEW_DUPLICATE_SOURCE"
+        case multiviewFilterConfigurationNotAllowed = "MULTIVIEW_FILTER_CONFIGURATION_NOT_ALLOWED"
+        case multiviewFilterLayoutNotAvailable = "MULTIVIEW_FILTER_LAYOUT_NOT_AVAILABLE"
+        case multiviewFilterSourceCountMismatch = "MULTIVIEW_FILTER_SOURCE_COUNT_MISMATCH"
+        case multiviewFilterSourceNotAvailable = "MULTIVIEW_FILTER_SOURCE_NOT_AVAILABLE"
         case multiviewInputSwitchNotAllowed = "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED"
         case multiviewInputTypeWithFilterConfiguration = "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION"
         case multiviewInputTypeWithHarvestJob = "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB"
@@ -377,10 +387,12 @@ extension MediaPackageV2 {
         case multiviewOutputHeaderNotAllowed = "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED"
         case multiviewResetNotAllowed = "MULTIVIEW_RESET_NOT_ALLOWED"
         case multiviewScteRequiresAvailsPeriodTrigger = "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER"
+        case multiviewSourceChannelLimitExceeded = "MULTIVIEW_SOURCE_CHANNEL_LIMIT_EXCEEDED"
         case multiviewSourceInvalidInputType = "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE"
         case multiviewSourceNonEpochLocked = "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED"
         case multiviewSourceNotFound = "MULTIVIEW_SOURCE_NOT_FOUND"
         case multiviewStartoverWindowNotAllowed = "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED"
+        case multiviewTsUseAudioRenditionGroupDisabled = "MULTIVIEW_TS_USE_AUDIO_RENDITION_GROUP_DISABLED"
         case nonEpochLockedWithForceEndpointErrorConfiguration = "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
         case noneModeWithTimingSource = "NONE_MODE_WITH_TIMING_SOURCE"
         case numManifestsHigh = "NUM_MANIFESTS_HIGH"
@@ -857,6 +869,8 @@ extension MediaPackageV2 {
         public let audioTimelinePattern: DashAudioTimelinePattern?
         /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
         public let availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration?
+        /// Specifies how MediaPackage calculates the bandwidth attribute of regular (non-iFrame) video Representation elements in the DASH manifest. Audio, subtitle, image, and iFrame-only (trick-play) representations are unchanged. The allowed values are:    AVERAGE – MediaPackage reports the average bitrate of the source video track. This is the default.    MAX – MediaPackage reports the peak bitrate of the video stream.   For information about bandwidth reporting, see DASH bandwidth reporting in the Elemental MediaPackage v2 User Guide.
+        public let bandwidthReportingMode: DashBandwidthReportingMode?
         /// The base URLs to use for retrieving segments.
         public let baseUrls: [DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see DASH manifest compactness in the Elemental MediaPackage v2 User Guide.
@@ -894,9 +908,10 @@ extension MediaPackageV2 {
         public let utcTiming: DashUtcTiming?
 
         @inlinable
-        public init(audioTimelinePattern: DashAudioTimelinePattern? = nil, availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration? = nil, baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, uriPathType: UriPathType? = nil, utcTiming: DashUtcTiming? = nil) {
+        public init(audioTimelinePattern: DashAudioTimelinePattern? = nil, availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration? = nil, bandwidthReportingMode: DashBandwidthReportingMode? = nil, baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, uriPathType: UriPathType? = nil, utcTiming: DashUtcTiming? = nil) {
             self.audioTimelinePattern = audioTimelinePattern
             self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
+            self.bandwidthReportingMode = bandwidthReportingMode
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -920,6 +935,7 @@ extension MediaPackageV2 {
         public func validate(name: String) throws {
             try self.validate(self.baseUrls, name: "baseUrls", parent: name, max: 20)
             try self.dvbSettings?.validate(name: "\(name).dvbSettings")
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
             try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
             try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
             try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -930,6 +946,7 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case audioTimelinePattern = "AudioTimelinePattern"
             case availabilityStartTimeConfiguration = "AvailabilityStartTimeConfiguration"
+            case bandwidthReportingMode = "BandwidthReportingMode"
             case baseUrls = "BaseUrls"
             case compactness = "Compactness"
             case drmSignaling = "DrmSignaling"
@@ -1137,6 +1154,7 @@ extension MediaPackageV2 {
             try self.validate(self.childManifestName, name: "childManifestName", parent: name, max: 256)
             try self.validate(self.childManifestName, name: "childManifestName", parent: name, min: 1)
             try self.validate(self.childManifestName, name: "childManifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
             try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
             try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
             try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1189,6 +1207,7 @@ extension MediaPackageV2 {
             try self.validate(self.childManifestName, name: "childManifestName", parent: name, max: 256)
             try self.validate(self.childManifestName, name: "childManifestName", parent: name, min: 1)
             try self.validate(self.childManifestName, name: "childManifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
             try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
             try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
             try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1225,6 +1244,7 @@ extension MediaPackageV2 {
         }
 
         public func validate(name: String) throws {
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
             try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
             try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
             try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1888,19 +1908,26 @@ extension MediaPackageV2 {
         public let end: Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
         public let manifestFilter: String?
+        /// Optionally pin this manifest to a single multiview combination, so that players request it without an aws.multiview query parameter. When you pin a combination, note that you cannot use the aws.multiview query parameter for this manifest's endpoint URL, even when that parameter requests the same combination. This setting is valid only on an origin endpoint whose channel has an InputType of MULTIVIEW.
+        public let multiview: MultiviewFilterConfiguration?
         /// Optionally specify the start time for all of your manifest egress requests. When you include start time, note that you cannot use start time query parameters for this manifest's endpoint URL.
         public let start: Date?
         /// Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.
         public let timeDelaySeconds: Int?
 
         @inlinable
-        public init(clipStartTime: Date? = nil, drmSettings: String? = nil, end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
+        public init(clipStartTime: Date? = nil, drmSettings: String? = nil, end: Date? = nil, manifestFilter: String? = nil, multiview: MultiviewFilterConfiguration? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
             self.clipStartTime = clipStartTime
             self.drmSettings = drmSettings
             self.end = end
             self.manifestFilter = manifestFilter
+            self.multiview = multiview
             self.start = start
             self.timeDelaySeconds = timeDelaySeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.multiview?.validate(name: "\(name).multiview")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1908,6 +1935,7 @@ extension MediaPackageV2 {
             case drmSettings = "DrmSettings"
             case end = "End"
             case manifestFilter = "ManifestFilter"
+            case multiview = "Multiview"
             case start = "Start"
             case timeDelaySeconds = "TimeDelaySeconds"
         }
@@ -2155,6 +2183,8 @@ extension MediaPackageV2 {
         public let audioTimelinePattern: DashAudioTimelinePattern?
         /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
         public let availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration?
+        /// Specifies how MediaPackage calculates the bandwidth attribute of regular (non-iFrame) video Representation elements in the DASH manifest. Audio, subtitle, image, and iFrame-only (trick-play) representations are unchanged. The allowed values are:    AVERAGE – MediaPackage reports the average bitrate of the source video track. This is the default.    MAX – MediaPackage reports the peak bitrate of the video stream.   For information about bandwidth reporting, see DASH bandwidth reporting in the Elemental MediaPackage v2 User Guide.
+        public let bandwidthReportingMode: DashBandwidthReportingMode?
         /// The base URL to use for retrieving segments.
         public let baseUrls: [DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
@@ -2194,9 +2224,10 @@ extension MediaPackageV2 {
         public let utcTiming: DashUtcTiming?
 
         @inlinable
-        public init(audioTimelinePattern: DashAudioTimelinePattern? = nil, availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration? = nil, baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, uriPathType: UriPathType? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
+        public init(audioTimelinePattern: DashAudioTimelinePattern? = nil, availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration? = nil, bandwidthReportingMode: DashBandwidthReportingMode? = nil, baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, uriPathType: UriPathType? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
             self.audioTimelinePattern = audioTimelinePattern
             self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
+            self.bandwidthReportingMode = bandwidthReportingMode
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -2221,6 +2252,7 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case audioTimelinePattern = "AudioTimelinePattern"
             case availabilityStartTimeConfiguration = "AvailabilityStartTimeConfiguration"
+            case bandwidthReportingMode = "BandwidthReportingMode"
             case baseUrls = "BaseUrls"
             case compactness = "Compactness"
             case drmSignaling = "DrmSignaling"
@@ -3248,13 +3280,41 @@ extension MediaPackageV2 {
                 try validate($0, name: "availableSources[]", parent: name, min: 1)
                 try validate($0, name: "availableSources[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
-            try self.validate(self.availableSources, name: "availableSources", parent: name, max: 10)
+            try self.validate(self.availableSources, name: "availableSources", parent: name, max: 50)
             try self.validate(self.availableSources, name: "availableSources", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case availableLayouts = "AvailableLayouts"
             case availableSources = "AvailableSources"
+        }
+    }
+
+    public struct MultiviewFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The layout that MediaPackage uses to composite the tiles into a single output. This layout must be one of the AvailableLayouts of the channel that this origin endpoint is on.
+        public let layout: MultiviewLayoutType
+        /// The source channels to composite, in tile order. Each channel must be one of the AvailableSources of the channel that this origin endpoint is on, and the number of channels must equal the number of tiles in Layout.
+        public let sources: [String]
+
+        @inlinable
+        public init(layout: MultiviewLayoutType, sources: [String]) {
+            self.layout = layout
+            self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try self.sources.forEach {
+                try validate($0, name: "sources[]", parent: name, max: 256)
+                try validate($0, name: "sources[]", parent: name, min: 1)
+                try validate($0, name: "sources[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            }
+            try self.validate(self.sources, name: "sources", parent: name, max: 50)
+            try self.validate(self.sources, name: "sources", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layout = "Layout"
+            case sources = "Sources"
         }
     }
 

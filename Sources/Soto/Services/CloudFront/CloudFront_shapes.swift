@@ -236,6 +236,7 @@ extension CloudFront {
 
     public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case always = "always"
+        case alwaysAmzAuth = "always-amz-auth"
         case never = "never"
         case noOverride = "no-override"
         public var description: String { return self.rawValue }
@@ -380,6 +381,12 @@ extension CloudFront {
         case allowAll = "allow-all"
         case httpsOnly = "https-only"
         case redirectToHttps = "redirect-to-https"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "dualstack"
+        case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
@@ -9142,7 +9149,7 @@ extension CloudFront {
         public let name: String
         /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
-        /// Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see origin access control advanced settings in the Amazon CloudFront Developer Guide. This field can have one of the following values:    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if one exists.    never – CloudFront doesn't sign any origin requests. This value turns off origin access control for all origins in all distributions that use this origin access control.    no-override – If the viewer request doesn't contain the Authorization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARNING: To pass along the Authorization header from the viewer request, you must add the Authorization header to a cache policy for all cache behaviors that use origins associated with this origin access control.
+        /// Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see origin access control advanced settings in the Amazon CloudFront Developer Guide. This field can have one of the following values:    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if one exists.    never – CloudFront doesn't sign any origin requests. This value turns off origin access control for all origins in all distributions that use this origin access control.    no-override – If the viewer request doesn't contain the Authorization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARNING: To pass along the Authorization header from the viewer request, you must add the Authorization header to a cache policy for all cache behaviors that use origins associated with this origin access control.     always-amz-auth – CloudFront signs all origin requests with Amazon authentication headers. If the viewer request contains the Authorization header, then CloudFront also forwards that header to the origin. This value is only valid with Lambda-Web origins. WARNING: To forward the Authorization header from the viewer request, you must add the Authorization header to a cache policy for all cache behaviors that use origins associated with this origin access control.
         public let signingBehavior: OriginAccessControlSigningBehaviors
         /// The signing protocol of the origin access control, which determines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a.
         public let signingProtocol: OriginAccessControlSigningProtocols
@@ -9211,7 +9218,7 @@ extension CloudFront {
         public let name: String
         /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
-        /// A value that specifies which requests CloudFront signs (adds authentication information to). This field can have one of the following values:    never – CloudFront doesn't sign any origin requests.    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if necessary.    no-override – If the viewer request doesn't contain the Authorization header, CloudFront signs the origin request. If the viewer request contains the Authorization header, CloudFront doesn't sign the origin request, but instead passes along the Authorization header that it received in the viewer request.
+        /// A value that specifies which requests CloudFront signs (adds authentication information to). This field can have one of the following values:    never – CloudFront doesn't sign any origin requests.    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if necessary.    no-override – If the viewer request doesn't contain the Authorization header, CloudFront signs the origin request. If the viewer request contains the Authorization header, CloudFront doesn't sign the origin request, but instead passes along the Authorization header that it received in the viewer request.    always-amz-auth – CloudFront signs all origin requests with Amazon authentication headers, and forwards the viewer's Authorization header to the origin if one is present. This value is only valid with Lambda-Web origins.
         public let signingBehavior: OriginAccessControlSigningBehaviors
         /// The signing protocol of the origin access control. The signing protocol determines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a.
         public let signingProtocol: OriginAccessControlSigningProtocols
@@ -12913,6 +12920,8 @@ extension CloudFront {
         public let httpPort: Int
         /// The HTTPS port of the CloudFront VPC origin endpoint configuration. The default value is 443.
         public let httpsPort: Int
+        /// The IP address type of the CloudFront VPC origin endpoint configuration. Valid values are ipv4 and dualstack. IPv6-only is not supported for VPC origins.
+        public let ipAddressType: VpcIpAddressType?
         /// The name of the CloudFront VPC origin endpoint configuration.
         public let name: String
         /// The origin protocol policy for the CloudFront VPC origin endpoint configuration.
@@ -12920,10 +12929,11 @@ extension CloudFront {
         public let originSslProtocols: OriginSslProtocols?
 
         @inlinable
-        public init(arn: String, httpPort: Int, httpsPort: Int, name: String, originProtocolPolicy: OriginProtocolPolicy, originSslProtocols: OriginSslProtocols? = nil) {
+        public init(arn: String, httpPort: Int, httpsPort: Int, ipAddressType: VpcIpAddressType? = nil, name: String, originProtocolPolicy: OriginProtocolPolicy, originSslProtocols: OriginSslProtocols? = nil) {
             self.arn = arn
             self.httpPort = httpPort
             self.httpsPort = httpsPort
+            self.ipAddressType = ipAddressType
             self.name = name
             self.originProtocolPolicy = originProtocolPolicy
             self.originSslProtocols = originSslProtocols
@@ -12933,6 +12943,7 @@ extension CloudFront {
             case arn = "Arn"
             case httpPort = "HTTPPort"
             case httpsPort = "HTTPSPort"
+            case ipAddressType = "IpAddressType"
             case name = "Name"
             case originProtocolPolicy = "OriginProtocolPolicy"
             case originSslProtocols = "OriginSslProtocols"
@@ -12985,6 +12996,8 @@ extension CloudFront {
         public let createdTime: Date
         /// The VPC origin summary ID.
         public let id: String
+        /// The IP address type of the CloudFront VPC origin. Valid values are ipv4 and dualstack. IPv6-only is not supported for VPC origins.
+        public let ipAddressType: VpcIpAddressType?
         /// The VPC origin summary last modified time.
         public let lastModifiedTime: Date
         /// The VPC origin summary name.
@@ -12995,11 +13008,12 @@ extension CloudFront {
         public let status: String
 
         @inlinable
-        public init(accountId: String? = nil, arn: String, createdTime: Date, id: String, lastModifiedTime: Date, name: String, originEndpointArn: String, status: String) {
+        public init(accountId: String? = nil, arn: String, createdTime: Date, id: String, ipAddressType: VpcIpAddressType? = nil, lastModifiedTime: Date, name: String, originEndpointArn: String, status: String) {
             self.accountId = accountId
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
+            self.ipAddressType = ipAddressType
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.originEndpointArn = originEndpointArn
@@ -13011,6 +13025,7 @@ extension CloudFront {
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case id = "Id"
+            case ipAddressType = "IpAddressType"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case originEndpointArn = "OriginEndpointArn"

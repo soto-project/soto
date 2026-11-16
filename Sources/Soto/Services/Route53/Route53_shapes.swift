@@ -1491,6 +1491,45 @@ extension Route53 {
         }
     }
 
+    public struct CreateResourceRecordSetProtectionsRequest: AWSEncodableShape {
+        public struct _ProtectionsEncoding: ArrayCoderProperties { public static let member = "ResourceRecordSetProtectionConfig" }
+
+        /// The ID of the hosted zone that contains the resource record sets that you want to protect.
+        public let hostedZoneId: String
+        /// The protections to create. Each entry specifies a resource record set name and type, and an optional comment. The list must contain at least one entry and can contain up to 100 entries. Each name and type can appear only once in the list.
+        @CustomCoding<ArrayCoder<_ProtectionsEncoding, ResourceRecordSetProtectionConfig>>
+        public var protections: [ResourceRecordSetProtectionConfig]
+
+        @inlinable
+        public init(hostedZoneId: String, protections: [ResourceRecordSetProtectionConfig]) {
+            self.hostedZoneId = hostedZoneId
+            self.protections = protections
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            try container.encode(self.protections, forKey: .protections)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.protections.forEach {
+                try $0.validate(name: "\(name).protections[]")
+            }
+            try self.validate(self.protections, name: "protections", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protections = "Protections"
+        }
+    }
+
+    public struct CreateResourceRecordSetProtectionsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreateReusableDelegationSetRequest: AWSEncodableShape {
         /// A unique string that identifies the request, and that allows you to retry failed
         /// 				CreateReusableDelegationSet requests without the risk of executing the
@@ -2029,6 +2068,45 @@ extension Route53 {
     }
 
     public struct DeleteQueryLoggingConfigResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteResourceRecordSetProtectionsRequest: AWSEncodableShape {
+        public struct _ProtectionsEncoding: ArrayCoderProperties { public static let member = "ResourceRecordSetProtectionKey" }
+
+        /// The ID of the hosted zone that contains the protections that you want to delete.
+        public let hostedZoneId: String
+        /// The name and type of each protection to delete. The list must contain at least one entry and can contain up to 100 entries. Each name and type can appear only once in the list.
+        @CustomCoding<ArrayCoder<_ProtectionsEncoding, ResourceRecordSetProtectionKey>>
+        public var protections: [ResourceRecordSetProtectionKey]
+
+        @inlinable
+        public init(hostedZoneId: String, protections: [ResourceRecordSetProtectionKey]) {
+            self.hostedZoneId = hostedZoneId
+            self.protections = protections
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            try container.encode(self.protections, forKey: .protections)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.protections.forEach {
+                try $0.validate(name: "\(name).protections[]")
+            }
+            try self.validate(self.protections, name: "protections", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protections = "Protections"
+        }
+    }
+
+    public struct DeleteResourceRecordSetProtectionsResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3644,6 +3722,27 @@ extension Route53 {
         }
     }
 
+    public struct InvalidResourceRecordSetProtectionBatch: AWSErrorShape {
+        public struct _ErrorsEncoding: ArrayCoderProperties { public static let member = "ProtectionError" }
+
+        /// The entries that failed, with the reason that each one failed.
+        @CustomCoding<ArrayCoder<_ErrorsEncoding, ProtectionError>>
+        public var errors: [ProtectionError]
+        /// A message that explains why Route 53 couldn't process the CreateResourceRecordSetProtections or DeleteResourceRecordSetProtections request.
+        public let message: String?
+
+        @inlinable
+        public init(errors: [ProtectionError], message: String? = nil) {
+            self.errors = errors
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case message = "Message"
+        }
+    }
+
     public struct KeySigningKey: AWSDecodableShape {
         /// The date when the key-signing key (KSK) was created.
         public let createdDate: Date?
@@ -4442,6 +4541,67 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case queryLoggingConfigs = "QueryLoggingConfigs"
+        }
+    }
+
+    public struct ListResourceRecordSetProtectionsRequest: AWSEncodableShape {
+        /// The ID of the hosted zone that contains the protections that you want to list.
+        public let hostedZoneId: String
+        /// The maximum number of protections that you want Route 53 to return in this response. If you don't specify a value, or if you specify a value greater than 300, Route 53 returns up to 300 protections.
+        public let maxResults: Int?
+        /// If the response to a previous ListResourceRecordSetProtections request included a NextToken element, specify that value here to get the next page of results.
+        public let nextToken: String?
+        /// The first resource record set name that you want Route 53 to list protections for. If you don't specify a value, the list starts with the first protection in the hosted zone. If you specify NextToken, Route 53 ignores StartRecordName.
+        public let startRecordName: String?
+        /// The first resource record set type, within the name specified by StartRecordName, that you want Route 53 to list protections for. If you specify StartRecordType, you must also specify StartRecordName. If you specify NextToken, Route 53 ignores StartRecordType.
+        public let startRecordType: RRType?
+
+        @inlinable
+        public init(hostedZoneId: String, maxResults: Int? = nil, nextToken: String? = nil, startRecordName: String? = nil, startRecordType: RRType? = nil) {
+            self.hostedZoneId = hostedZoneId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startRecordName = startRecordName
+            self.startRecordType = startRecordType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+            request.encodeQuery(self.maxResults, key: "maxresults")
+            request.encodeQuery(self.nextToken, key: "nexttoken")
+            request.encodeQuery(self.startRecordName, key: "name")
+            request.encodeQuery(self.startRecordType, key: "type")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.startRecordName, name: "startRecordName", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResourceRecordSetProtectionsResponse: AWSDecodableShape {
+        public struct _ResourceRecordSetProtectionsEncoding: ArrayCoderProperties { public static let member = "ResourceRecordSetProtection" }
+
+        /// If there are more protections to list, a token that you can specify in the NextToken parameter of another request to get the next page of results. If there are no more protections to list, the response doesn't include NextToken.
+        public let nextToken: String?
+        /// The protections in the hosted zone. The list is empty if the hosted zone has no protections.
+        @CustomCoding<ArrayCoder<_ResourceRecordSetProtectionsEncoding, ResourceRecordSetProtection>>
+        public var resourceRecordSetProtections: [ResourceRecordSetProtection]
+
+        @inlinable
+        public init(nextToken: String? = nil, resourceRecordSetProtections: [ResourceRecordSetProtection]) {
+            self.nextToken = nextToken
+            self.resourceRecordSetProtections = resourceRecordSetProtections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceRecordSetProtections = "ResourceRecordSetProtections"
         }
     }
 
@@ -5307,6 +5467,53 @@ extension Route53 {
         }
     }
 
+    public struct ProtectionAlreadyExists: AWSErrorShape {
+        public struct _ErrorsEncoding: ArrayCoderProperties { public static let member = "ProtectionError" }
+
+        /// The entries that already have a protection.
+        @CustomCoding<ArrayCoder<_ErrorsEncoding, ProtectionError>>
+        public var errors: [ProtectionError]
+        /// A message that explains that a protection already exists for every name and type in the CreateResourceRecordSetProtections request.
+        public let message: String?
+
+        @inlinable
+        public init(errors: [ProtectionError], message: String? = nil) {
+            self.errors = errors
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case message = "Message"
+        }
+    }
+
+    public struct ProtectionError: AWSDecodableShape {
+        /// The reason that the entry failed. Valid values include the following:    InvalidInput means that the entry isn't valid. For example, the name isn't a valid DNS name, the name isn't in the hosted zone, the record type can't be protected, or the same name and type appear more than once in the request.    ProtectionAlreadyExists means that a protection already exists for the name and type.    ProtectionNotFound means that no protection exists for the name and type.
+        public let code: String
+        /// A message that explains why Route 53 couldn't process the entry.
+        public let message: String
+        /// The name in the failing entry.
+        public let recordName: String
+        /// The record type in the failing entry.
+        public let recordType: RRType
+
+        @inlinable
+        public init(code: String, message: String, recordName: String, recordType: RRType) {
+            self.code = code
+            self.message = message
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case recordName = "RecordName"
+            case recordType = "RecordType"
+        }
+    }
+
     public struct QueryLoggingConfig: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon Route 53
         /// 			is publishing logs to.
@@ -5668,6 +5875,77 @@ extension Route53 {
             case ttl = "TTL"
             case type = "Type"
             case weight = "Weight"
+        }
+    }
+
+    public struct ResourceRecordSetProtection: AWSDecodableShape {
+        /// The comment that was specified when the protection was created, if any.
+        public let comment: String?
+        /// The name of the protected resource record sets.
+        public let recordName: String
+        /// The DNS record type of the protected resource record sets.
+        public let recordType: RRType
+
+        @inlinable
+        public init(comment: String? = nil, recordName: String, recordType: RRType) {
+            self.comment = comment
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case recordName = "RecordName"
+            case recordType = "RecordType"
+        }
+    }
+
+    public struct ResourceRecordSetProtectionConfig: AWSEncodableShape {
+        /// An optional comment about the protection, for example, the reason that the resource record sets are protected. The comment can be up to 256 characters long. If you don't specify a comment, the protection doesn't have a comment. When Route 53 rejects a ChangeResourceRecordSets request because of this protection, the error message includes the comment, so don't include sensitive information.
+        public let comment: String?
+        /// The name of the resource record sets to protect, for example, www.example.com. The name must be the name of the hosted zone or a subdomain of it.
+        public let recordName: String
+        /// The DNS record type of the resource record sets to protect. You can't protect records of type DNAME or of the DNSSEC record types that Route 53 manages.
+        public let recordType: RRType
+
+        @inlinable
+        public init(comment: String? = nil, recordName: String, recordType: RRType) {
+            self.comment = comment
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.comment, name: "comment", parent: name, max: 256)
+            try self.validate(self.recordName, name: "recordName", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case recordName = "RecordName"
+            case recordType = "RecordType"
+        }
+    }
+
+    public struct ResourceRecordSetProtectionKey: AWSEncodableShape {
+        /// The name of the protected resource record sets.
+        public let recordName: String
+        /// The DNS record type of the protected resource record sets.
+        public let recordType: RRType
+
+        @inlinable
+        public init(recordName: String, recordType: RRType) {
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recordName, name: "recordName", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordName = "RecordName"
+            case recordType = "RecordType"
         }
     }
 
@@ -6540,6 +6818,7 @@ public struct Route53ErrorType: AWSErrorType {
         case invalidKeySigningKeyName = "InvalidKeySigningKeyName"
         case invalidKeySigningKeyStatus = "InvalidKeySigningKeyStatus"
         case invalidPaginationToken = "InvalidPaginationToken"
+        case invalidResourceRecordSetProtectionBatch = "InvalidResourceRecordSetProtectionBatch"
         case invalidSigningStatus = "InvalidSigningStatus"
         case invalidTrafficPolicyDocument = "InvalidTrafficPolicyDocument"
         case invalidVPCId = "InvalidVPCId"
@@ -6563,6 +6842,7 @@ public struct Route53ErrorType: AWSErrorType {
         case noSuchTrafficPolicyInstance = "NoSuchTrafficPolicyInstance"
         case notAuthorizedException = "NotAuthorizedException"
         case priorRequestNotComplete = "PriorRequestNotComplete"
+        case protectionAlreadyExists = "ProtectionAlreadyExists"
         case publicZoneVPCAssociation = "PublicZoneVPCAssociation"
         case queryLoggingConfigAlreadyExists = "QueryLoggingConfigAlreadyExists"
         case throttlingException = "ThrottlingException"
@@ -6684,7 +6964,10 @@ public struct Route53ErrorType: AWSErrorType {
     /// Parameter name is not valid.
     public static var invalidArgument: Self { .init(.invalidArgument) }
     /// This exception contains a list of messages that might contain one or more error
-    /// 			messages. Each error message indicates one error in the change batch.
+    /// 			messages. Each error message indicates one error in the change batch. Route 53 also returns this error when the change batch creates, updates, or deletes a
+    /// 			resource record set whose name and type have a resource record set protection. To make
+    /// 			the change, first delete the protection by using
+    /// 				DeleteResourceRecordSetProtections.
     public static var invalidChangeBatch: Self { .init(.invalidChangeBatch) }
     /// The specified domain name is not valid.
     public static var invalidDomainName: Self { .init(.invalidDomainName) }
@@ -6701,6 +6984,8 @@ public struct Route53ErrorType: AWSErrorType {
     /// The value that you specified to get the second or subsequent page of results is
     /// 			invalid.
     public static var invalidPaginationToken: Self { .init(.invalidPaginationToken) }
+    /// One or more entries in the request couldn't be processed, so Route 53 didn't create or delete any of the protections in the request. The Errors element lists the failing entries and the reason that each one failed.
+    public static var invalidResourceRecordSetProtectionBatch: Self { .init(.invalidResourceRecordSetProtectionBatch) }
     /// Your hosted zone status isn't valid for this operation. In the hosted zone, change the
     /// 			status to enable DNSSEC or disable DNSSEC.
     public static var invalidSigningStatus: Self { .init(.invalidSigningStatus) }
@@ -6763,6 +7048,8 @@ public struct Route53ErrorType: AWSErrorType {
     /// 			for the same request, we recommend that you wait, in intervals of increasing duration,
     /// 			before you try the request again.
     public static var priorRequestNotComplete: Self { .init(.priorRequestNotComplete) }
+    /// A protection already exists for every name and type in the request, so Route 53 didn't create any protections. The Errors element lists each entry.
+    public static var protectionAlreadyExists: Self { .init(.protectionAlreadyExists) }
     /// You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't
     /// 			support associating a VPC with a public hosted zone.
     public static var publicZoneVPCAssociation: Self { .init(.publicZoneVPCAssociation) }
@@ -6825,7 +7112,9 @@ public struct Route53ErrorType: AWSErrorType {
 
 extension Route53ErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
-        "InvalidChangeBatch": Route53.InvalidChangeBatch.self
+        "InvalidChangeBatch": Route53.InvalidChangeBatch.self,
+        "InvalidResourceRecordSetProtectionBatch": Route53.InvalidResourceRecordSetProtectionBatch.self,
+        "ProtectionAlreadyExists": Route53.ProtectionAlreadyExists.self
     ]
 }
 

@@ -1669,6 +1669,44 @@ public struct ElasticsearchService: AWSService {
         return try await self.startElasticsearchServiceSoftwareUpdate(input, logger: logger)
     }
 
+    /// Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of TrafficSplitOptions, CutoverOptions, or RetentionOptions in each request.
+    @Sendable
+    @inlinable
+    public func updateClone(_ input: UpdateCloneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloneResponse {
+        try await self.client.execute(
+            operation: "UpdateClone", 
+            path: "/2015-01-01/es/domain/{DomainName}/clone", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of TrafficSplitOptions, CutoverOptions, or RetentionOptions in each request.
+    ///
+    /// Parameters:
+    ///   - cutoverOptions: Cuts the domain over to the cloned cluster or back to the primary cluster.
+    ///   - domainName: The name of the domain that has a cloned blue/green upgrade in progress.
+    ///   - retentionOptions: Changes the retention period, or ends it after cutover completes.
+    ///   - trafficSplitOptions: Shifts a percentage of search traffic from the primary cluster to the cloned cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateClone(
+        cutoverOptions: CutoverRequestOptions? = nil,
+        domainName: String,
+        retentionOptions: RetentionOptions? = nil,
+        trafficSplitOptions: TrafficSplitRequestOptions? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCloneResponse {
+        let input = UpdateCloneRequest(
+            cutoverOptions: cutoverOptions, 
+            domainName: domainName, 
+            retentionOptions: retentionOptions, 
+            trafficSplitOptions: trafficSplitOptions
+        )
+        return try await self.updateClone(input, logger: logger)
+    }
+
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     @Sendable
     @inlinable
@@ -1838,18 +1876,21 @@ public struct ElasticsearchService: AWSService {
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     ///
     /// Parameters:
+    ///   - deploymentStrategyOptions: Overrides the deployment strategy for this upgrade. To run a cloned blue/green upgrade, set DeploymentStrategy to ClonedBlueGreen.
     ///   - domainName: 
     ///   - performCheckOnly:  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
     ///   - targetVersion: The version of Elasticsearch that you intend to upgrade the domain to.
     ///   - logger: Logger use during operation
     @inlinable
     public func upgradeElasticsearchDomain(
+        deploymentStrategyOptions: DeploymentStrategyOverrideOptions? = nil,
         domainName: String,
         performCheckOnly: Bool? = nil,
         targetVersion: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpgradeElasticsearchDomainResponse {
         let input = UpgradeElasticsearchDomainRequest(
+            deploymentStrategyOptions: deploymentStrategyOptions, 
             domainName: domainName, 
             performCheckOnly: performCheckOnly, 
             targetVersion: targetVersion
@@ -1861,7 +1902,7 @@ public struct ElasticsearchService: AWSService {
 extension ElasticsearchService {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ElasticsearchService, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

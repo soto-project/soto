@@ -98,6 +98,7 @@ public struct ConnectContactLens: AWSService {
     /// Parameters:
     ///   - contactId: The identifier of the contact.
     ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - listFilter: A filter that limits the category segments returned by the operation. When provided, use CategoriesAttributeFilter to return only the category segments whose rules have tags that match the filter. This enforces tag-based access control on the categories that the caller can view.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -105,6 +106,7 @@ public struct ConnectContactLens: AWSService {
     public func listRealtimeContactAnalysisSegments(
         contactId: String? = nil,
         instanceId: String? = nil,
+        listFilter: RealTimeContactAnalysisSegmentsFilter? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -112,6 +114,7 @@ public struct ConnectContactLens: AWSService {
         let input = ListRealtimeContactAnalysisSegmentsRequest(
             contactId: contactId, 
             instanceId: instanceId, 
+            listFilter: listFilter, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -122,7 +125,7 @@ public struct ConnectContactLens: AWSService {
 extension ConnectContactLens {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ConnectContactLens, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -155,18 +158,21 @@ extension ConnectContactLens {
     /// - Parameters:
     ///   - contactId: The identifier of the contact.
     ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - listFilter: A filter that limits the category segments returned by the operation. When provided, use CategoriesAttributeFilter to return only the category segments whose rules have tags that match the filter. This enforces tag-based access control on the categories that the caller can view.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listRealtimeContactAnalysisSegmentsPaginator(
         contactId: String? = nil,
         instanceId: String? = nil,
+        listFilter: RealTimeContactAnalysisSegmentsFilter? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListRealtimeContactAnalysisSegmentsRequest, ListRealtimeContactAnalysisSegmentsResponse> {
         let input = ListRealtimeContactAnalysisSegmentsRequest(
             contactId: contactId, 
             instanceId: instanceId, 
+            listFilter: listFilter, 
             maxResults: maxResults
         )
         return self.listRealtimeContactAnalysisSegmentsPaginator(input, logger: logger)
@@ -179,6 +185,7 @@ extension ConnectContactLens.ListRealtimeContactAnalysisSegmentsRequest: AWSPagi
         return .init(
             contactId: self.contactId,
             instanceId: self.instanceId,
+            listFilter: self.listFilter,
             maxResults: self.maxResults,
             nextToken: token
         )

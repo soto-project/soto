@@ -39,6 +39,7 @@ extension LicenseManager {
         case createToken = "CreateToken"
         case extendConsumptionLicense = "ExtendConsumptionLicense"
         case listPurchasedLicenses = "ListPurchasedLicenses"
+        case listReceivedLicenses = "ListReceivedLicenses"
         public var description: String { return self.rawValue }
     }
 
@@ -125,6 +126,12 @@ extension LicenseManager {
         case pendingWorkflow = "PENDING_WORKFLOW"
         case rejected = "REJECTED"
         case workflowCompleted = "WORKFLOW_COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case buyerGrant = "BuyerGrant"
+        case delegateGrant = "DelegateGrant"
         public var description: String { return self.rawValue }
     }
 
@@ -582,22 +589,28 @@ extension LicenseManager {
         public let clientToken: String
         /// Grant name.
         public let grantName: String
+        /// The type of grant to create. For more information about each type, see the preceding description of this operation. Valid values:    BuyerGrant - The default grant type if you don't specify a value. Conveys the entitlement to use the license.    DelegateGrant - Gives the grantee read-only visibility into the licenses and grants that you have distributed to buyers, with no entitlement to use them.
+        public let grantType: GrantType?
         /// Home Region of the grant.
         public let homeRegion: String
         /// Amazon Resource Name (ARN) of the license.
         public let licenseArn: String
+        /// The options for the grant: the status to set after creation, and how activating the grant affects other active grants for the same product.
+        public let options: Options?
         /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):   An Amazon Web Services account, which includes only the account specified.     An organizational unit (OU), which includes all accounts in the OU.     An organization, which will include all accounts across your organization.
         public let principals: [String]
         /// Tags to add to the grant. For more information about tagging support in License Manager, see the TagResource operation.
         public let tags: [Tag]?
 
         @inlinable
-        public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, homeRegion: String, licenseArn: String, principals: [String], tags: [Tag]? = nil) {
+        public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, grantType: GrantType? = nil, homeRegion: String, licenseArn: String, options: Options? = nil, principals: [String], tags: [Tag]? = nil) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
             self.grantName = grantName
+            self.grantType = grantType
             self.homeRegion = homeRegion
             self.licenseArn = licenseArn
+            self.options = options
             self.principals = principals
             self.tags = tags
         }
@@ -621,8 +634,10 @@ extension LicenseManager {
             case allowedOperations = "AllowedOperations"
             case clientToken = "ClientToken"
             case grantName = "GrantName"
+            case grantType = "GrantType"
             case homeRegion = "HomeRegion"
             case licenseArn = "LicenseArn"
+            case options = "Options"
             case principals = "Principals"
             case tags = "Tags"
         }
@@ -2113,6 +2128,8 @@ extension LicenseManager {
         public let grantName: String
         /// Grant status.
         public let grantStatus: GrantStatus
+        /// The type of the grant. Valid values:    BuyerGrant - Grants the entitlement to use the license.    DelegateGrant - Gives the grantee read-only visibility into the licenses and grants distributed to buyers, with no entitlement to use them.
+        public let grantType: GrantType?
         /// Home Region of the grant.
         public let homeRegion: String
         /// License ARN.
@@ -2127,12 +2144,13 @@ extension LicenseManager {
         public let version: String
 
         @inlinable
-        public init(grantArn: String, grantedOperations: [AllowedOperation], granteePrincipalArn: String, grantName: String, grantStatus: GrantStatus, homeRegion: String, licenseArn: String, options: Options? = nil, parentArn: String, statusReason: String? = nil, version: String) {
+        public init(grantArn: String, grantedOperations: [AllowedOperation], granteePrincipalArn: String, grantName: String, grantStatus: GrantStatus, grantType: GrantType? = nil, homeRegion: String, licenseArn: String, options: Options? = nil, parentArn: String, statusReason: String? = nil, version: String) {
             self.grantArn = grantArn
             self.grantedOperations = grantedOperations
             self.granteePrincipalArn = granteePrincipalArn
             self.grantName = grantName
             self.grantStatus = grantStatus
+            self.grantType = grantType
             self.homeRegion = homeRegion
             self.licenseArn = licenseArn
             self.options = options
@@ -2147,6 +2165,7 @@ extension LicenseManager {
             case granteePrincipalArn = "GranteePrincipalArn"
             case grantName = "GrantName"
             case grantStatus = "GrantStatus"
+            case grantType = "GrantType"
             case homeRegion = "HomeRegion"
             case licenseArn = "LicenseArn"
             case options = "Options"
@@ -3829,16 +3848,20 @@ extension LicenseManager {
     }
 
     public struct Options: AWSEncodableShape & AWSDecodableShape {
-        /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter.   As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.   As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.   As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.    DISTRIBUTED_GRANTS_ONLY  Use this value to activate a grant without replacing any member account’s active grants for the same product.  ALL_GRANTS_PERMITTED_BY_ISSUER  Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
+        /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must activate the grant. For the CreateGrantVersion operation, specify ACTIVE for the Status parameter. For the CreateGrant operation, specify ACTIVE for the DesiredStatus option.   As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.   As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.   As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.    DISTRIBUTED_GRANTS_ONLY  Use this value to activate a grant without replacing any member account’s active grants for the same product.  ALL_GRANTS_PERMITTED_BY_ISSUER  Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
         public let activationOverrideBehavior: ActivationOverrideBehavior?
+        /// The status of the grant after License Manager creates it. The only supported value is ACTIVE. Specify ACTIVE to create and activate the grant in one request. You can specify this option only for the CreateGrant operation, and only when the grant principal is an organization or an organizational unit (OU). To change the status of an existing grant, use the Status parameter of the CreateGrantVersion operation.
+        public let desiredStatus: GrantStatus?
 
         @inlinable
-        public init(activationOverrideBehavior: ActivationOverrideBehavior? = nil) {
+        public init(activationOverrideBehavior: ActivationOverrideBehavior? = nil, desiredStatus: GrantStatus? = nil) {
             self.activationOverrideBehavior = activationOverrideBehavior
+            self.desiredStatus = desiredStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case activationOverrideBehavior = "ActivationOverrideBehavior"
+            case desiredStatus = "DesiredStatus"
         }
     }
 
@@ -3953,20 +3976,24 @@ extension LicenseManager {
     public struct ReceivedMetadata: AWSDecodableShape {
         /// Allowed operations.
         public let allowedOperations: [AllowedOperation]?
+        /// The type of the grant through which the license was received. Valid values:    BuyerGrant - Grants you the entitlement to use the license.    DelegateGrant - Gives you read-only visibility into the licenses and grants distributed to buyers, with no entitlement to use them.
+        public let grantType: GrantType?
         /// Received status.
         public let receivedStatus: ReceivedStatus?
         /// Received status reason.
         public let receivedStatusReason: String?
 
         @inlinable
-        public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil, receivedStatusReason: String? = nil) {
+        public init(allowedOperations: [AllowedOperation]? = nil, grantType: GrantType? = nil, receivedStatus: ReceivedStatus? = nil, receivedStatusReason: String? = nil) {
             self.allowedOperations = allowedOperations
+            self.grantType = grantType
             self.receivedStatus = receivedStatus
             self.receivedStatusReason = receivedStatusReason
         }
 
         private enum CodingKeys: String, CodingKey {
             case allowedOperations = "AllowedOperations"
+            case grantType = "GrantType"
             case receivedStatus = "ReceivedStatus"
             case receivedStatusReason = "ReceivedStatusReason"
         }

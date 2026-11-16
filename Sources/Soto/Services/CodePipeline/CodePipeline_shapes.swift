@@ -466,7 +466,7 @@ extension CodePipeline {
         public let actionTypeId: ActionTypeId
         /// The shell commands to run with your compute action in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild.  Using compute time for this action will incur separate charges in CodeBuild.
         public let commands: [String]?
-        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see Action Structure Requirements in CodePipeline. For the list of configuration properties for the CloudFormation action type in CodePipeline, see Configuration Properties Reference in the CloudFormation User Guide. For template snippets with examples, see Using Parameter Override Functions with CodePipeline Pipelines in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows:   JSON:   "Configuration" : { Key : Value },
+        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see Action Structure Requirements in CodePipeline . For the list of configuration properties for the CloudFormation action type in CodePipeline, see Configuration Properties Reference in the  CloudFormation User Guide. For template snippets with examples, see Using Parameter Override Functions with CodePipeline Pipelines in the  CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows:   JSON:   "Configuration" : { Key : Value },
         public let configuration: [String: String]?
         /// The environment variables for the action.
         public let environmentVariables: [EnvironmentVariable]?
@@ -997,9 +997,9 @@ extension CodePipeline {
     public struct ActionTypeId: AWSEncodableShape & AWSDecodableShape {
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.    Source   Build   Test   Deploy   Invoke   Approval   Compute
         public let category: ActionCategory
-        /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see Valid Action Types and Providers in CodePipeline.
+        /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see Valid Action Types and Providers in CodePipeline .
         public let owner: ActionOwner
-        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of CodeDeploy, which would be specified as CodeDeploy. For more information, see Valid Action Types and Providers in CodePipeline.
+        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of CodeDeploy, which would be specified as CodeDeploy. For more information, see Valid Action Types and Providers in CodePipeline .
         public let provider: String
         /// A string that describes the action version.
         public let version: String
@@ -3313,7 +3313,7 @@ extension CodePipeline {
         public let executionMode: ExecutionMode?
         /// The name of the pipeline.
         public let name: String
-        /// CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.   V1 type pipelines have a JSON structure that contains standard pipeline, stage, and action-level parameters.   V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.    Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs.  For information about pricing for CodePipeline, see Pricing. For information about which type of pipeline to choose, see What type of pipeline is right for me?.
+        ///  CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.   V1 type pipelines have a JSON structure that contains standard pipeline, stage, and action-level parameters.   V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.    Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs.  For information about pricing for CodePipeline, see Pricing. For information about which type of pipeline to choose, see What type of pipeline is right for me?.
         public let pipelineType: PipelineType?
         /// The Amazon Resource Name (ARN) for CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
         public let roleArn: String
@@ -3510,7 +3510,7 @@ extension CodePipeline {
         public let created: Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
-        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format.   Pipelines that are inactive for longer than 30 days will have polling disabled for the pipeline. For more information, see pollingDisabledAt in the pipeline structure reference. For the steps to migrate your pipeline from polling to event-based change detection, see Migrate polling pipelines to use event-based change detection.  You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see Migrate polling pipelines to use event-based change detection in the CodePipeline User Guide.
+        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format.   Pipelines that are inactive for longer than 30 days will have polling disabled for the pipeline. For more information, see pollingDisabledAt in the pipeline structure reference. For the steps to migrate your pipeline from polling to event-based change detection, see Migrate polling pipelines to use event-based change detection.  You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see Migrate polling pipelines to use event-based change detection in the  CodePipeline User Guide.
         public let pollingDisabledAt: Date?
         /// The date and time the pipeline was last updated, in timestamp format.
         public let updated: Date?
@@ -3552,7 +3552,7 @@ extension CodePipeline {
         public let executionMode: ExecutionMode?
         /// The name of the pipeline.
         public let name: String?
-        /// CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.   V1 type pipelines have a JSON structure that contains standard pipeline, stage, and action-level parameters.   V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.    Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs.  For information about pricing for CodePipeline, see Pricing. For information about which type of pipeline to choose, see What type of pipeline is right for me?.
+        ///  CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.   V1 type pipelines have a JSON structure that contains standard pipeline, stage, and action-level parameters.   V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.    Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs.  For information about pricing for CodePipeline, see Pricing. For information about which type of pipeline to choose, see What type of pipeline is right for me?.
         public let pipelineType: PipelineType?
         /// The date and time of the last update to the pipeline, in timestamp format.
         public let updated: Date?
@@ -4451,7 +4451,7 @@ extension CodePipeline {
         public let resolvedConfiguration: [String: String]?
         /// The ARN of the IAM service role that performs the declared rule. This is assumed through the roleArn for the pipeline.
         public let roleArn: String?
-        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see Stage conditions. For more information about rules, see the CodePipeline rule reference.
+        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see Stage conditions. For more information about rules, see the  CodePipeline rule reference.
         public let ruleTypeId: RuleTypeId?
 
         @inlinable
@@ -4595,7 +4595,7 @@ extension CodePipeline {
         public let category: RuleCategory
         /// The creator of the rule being called. The valid value for the Owner field in the rule category is AWS.
         public let owner: RuleOwner?
-        /// The rule provider, such as the DeploymentWindow rule. For a list of rule provider names, see the rules listed in the CodePipeline rule reference.
+        /// The rule provider, such as the DeploymentWindow rule. For a list of rule provider names, see the rules listed in the  CodePipeline rule reference.
         public let provider: String
         /// A string that describes the rule version.
         public let version: String?

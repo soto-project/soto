@@ -35,6 +35,7 @@ extension AppIntegrations {
 
     public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiKey = "API_KEY"
+        case connectJwt = "CONNECT_JWT"
         public var description: String { return self.rawValue }
     }
 
@@ -124,6 +125,8 @@ extension AppIntegrations {
         public let id: String?
         /// Indicates whether the application is a service.
         public let isService: Bool?
+        /// The Amazon Web Services Region where the application was last modified.
+        public let lastModifiedRegion: String?
         /// The time when the application was last modified.
         public let lastModifiedTime: Date?
         /// The name of the application.
@@ -132,12 +135,13 @@ extension AppIntegrations {
         public let namespace: String?
 
         @inlinable
-        public init(applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+        public init(applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
             self.applicationType = applicationType
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.isService = nil
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -145,12 +149,13 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members isService have been deprecated")
         @inlinable
-        public init(applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, id: String? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+        public init(applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, id: String? = nil, isService: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
             self.applicationType = applicationType
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
             self.isService = isService
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -162,6 +167,7 @@ extension AppIntegrations {
             case createdTime = "CreatedTime"
             case id = "Id"
             case isService = "IsService"
+            case lastModifiedRegion = "LastModifiedRegion"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case namespace = "Namespace"
@@ -169,24 +175,31 @@ extension AppIntegrations {
     }
 
     public struct AuthConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication used when calling the external application.
+        /// The value that Connect Customer uses as the audience (aud) claim of the JSON Web Token (JWT) that it issues. You can specify this parameter only when AuthType is CONNECT_JWT. If you don't specify it, the audience is the AccessUrl of the application. The value can't contain connect.amazonaws.com.
+        public let audienceOverride: String?
+        /// The type of authentication that Connect Customer uses to call the external application endpoint. You must specify an authentication type for A2A_SERVER applications. Valid values:    API_KEY: Connect Customer sends an API key that is stored in the Secrets Manager secret that you specify in CredentialProviderIdentifier.    CONNECT_JWT: Connect Customer issues a short-lived, signed JSON Web Token (JWT). This authentication type doesn't require a stored credential.
         public let authType: AuthType?
-        /// The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer.
+        /// The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer. You must specify this ARN when AuthType is API_KEY. Don't specify it when AuthType is CONNECT_JWT.
         public let credentialProviderIdentifier: String?
 
         @inlinable
-        public init(authType: AuthType? = nil, credentialProviderIdentifier: String? = nil) {
+        public init(audienceOverride: String? = nil, authType: AuthType? = nil, credentialProviderIdentifier: String? = nil) {
+            self.audienceOverride = audienceOverride
             self.authType = authType
             self.credentialProviderIdentifier = credentialProviderIdentifier
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.audienceOverride, name: "audienceOverride", parent: name, max: 255)
+            try self.validate(self.audienceOverride, name: "audienceOverride", parent: name, min: 1)
+            try self.validate(self.audienceOverride, name: "audienceOverride", parent: name, pattern: "\\S")
             try self.validate(self.credentialProviderIdentifier, name: "credentialProviderIdentifier", parent: name, max: 2048)
             try self.validate(self.credentialProviderIdentifier, name: "credentialProviderIdentifier", parent: name, min: 1)
             try self.validate(self.credentialProviderIdentifier, name: "credentialProviderIdentifier", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audienceOverride = "AudienceOverride"
             case authType = "AuthType"
             case credentialProviderIdentifier = "CredentialProviderIdentifier"
         }
@@ -311,7 +324,6 @@ extension AppIntegrations {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
@@ -413,7 +425,7 @@ extension AppIntegrations {
             try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, pattern: "\\S")
             try self.validate(self.destinationURI, name: "destinationURI", parent: name, max: 1000)
             try self.validate(self.destinationURI, name: "destinationURI", parent: name, min: 1)
-            try self.validate(self.destinationURI, name: "destinationURI", parent: name, pattern: "^(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+$)|(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+[\\w/!@#+=.-]+[\\w/!@#+=.,-]+$)$")
+            try self.validate(self.destinationURI, name: "destinationURI", parent: name, pattern: "^((\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+)|(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+[\\w/!@#+=.-]+[\\w/!@#+=.,-]+))$")
             try self.executionConfiguration?.validate(name: "\(name).executionConfiguration")
             try self.objectConfiguration?.forEach {
                 try validate($0.key, name: "objectConfiguration.key", parent: name, max: 255)
@@ -504,11 +516,10 @@ extension AppIntegrations {
             try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
             try self.validate(self.sourceURI, name: "sourceURI", parent: name, max: 1000)
             try self.validate(self.sourceURI, name: "sourceURI", parent: name, min: 1)
-            try self.validate(self.sourceURI, name: "sourceURI", parent: name, pattern: "^(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+$)|(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+[\\w/!@#+=.-]+[\\w/!@#+=.,-]+$)$")
+            try self.validate(self.sourceURI, name: "sourceURI", parent: name, pattern: "^((\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+)|(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+[\\w/!@#+=.-]+[\\w/!@#+=.,-]+))$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
@@ -622,7 +633,6 @@ extension AppIntegrations {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
@@ -1022,6 +1032,8 @@ extension AppIntegrations {
         public let initializationTimeout: Int?
         /// Indicates whether the application is a service.
         public let isService: Bool?
+        /// The Amazon Web Services Region where the application was last modified.
+        public let lastModifiedRegion: String?
         /// The last modified time of the Application.
         public let lastModifiedTime: Date?
         /// The name of the application.
@@ -1038,7 +1050,7 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, authConfig: AuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, authConfig: AuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
@@ -1050,6 +1062,7 @@ extension AppIntegrations {
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
             self.isService = nil
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -1061,7 +1074,7 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, authConfig: AuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, authConfig: AuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
@@ -1073,6 +1086,7 @@ extension AppIntegrations {
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
             self.isService = isService
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -1094,6 +1108,7 @@ extension AppIntegrations {
             case iframeConfig = "IframeConfig"
             case initializationTimeout = "InitializationTimeout"
             case isService = "IsService"
+            case lastModifiedRegion = "LastModifiedRegion"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case namespace = "Namespace"
@@ -1790,7 +1805,6 @@ extension AppIntegrations {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
@@ -1832,7 +1846,6 @@ extension AppIntegrations {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -2135,7 +2148,7 @@ public struct AppIntegrationsErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
+    /// The request conflicts with the current state of the resource. Verify the resource's current state and retry the request.
     public static var conflictException: Self { .init(.conflictException) }
     /// A resource with the specified name already exists.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }

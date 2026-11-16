@@ -80,6 +80,38 @@ public struct Billing: AWSService {
 
     // MARK: API Calls
 
+    /// Private Pricing contracts let eligible payer accounts manage private pricing agreements with Amazon Web Services. This operation associates a private pricing contract with the caller's Amazon Web Services account. The caller must be a payer (management) account listed on the contract. This operation is idempotent, so retrying a request that already succeeded is safe.
+    @Sendable
+    @inlinable
+    public func associateContract(_ input: AssociateContractRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateContractResponse {
+        try await self.client.execute(
+            operation: "AssociateContract", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Private Pricing contracts let eligible payer accounts manage private pricing agreements with Amazon Web Services. This operation associates a private pricing contract with the caller's Amazon Web Services account. The caller must be a payer (management) account listed on the contract. This operation is idempotent, so retrying a request that already succeeded is safe.
+    ///
+    /// Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract to associate with your account.
+    ///   - contractDocumentId: The contract ID from the contract document. It can be found in the top right corner of your contract's pages. This value confirms that you have access to the contract you are associating.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateContract(
+        contractArn: String,
+        contractDocumentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateContractResponse {
+        let input = AssociateContractRequest(
+            contractArn: contractArn, 
+            contractDocumentId: contractDocumentId
+        )
+        return try await self.associateContract(input, logger: logger)
+    }
+
     ///  Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
     @Sendable
     @inlinable
@@ -110,6 +142,41 @@ public struct Billing: AWSService {
             sourceViews: sourceViews
         )
         return try await self.associateSourceViews(input, logger: logger)
+    }
+
+    /// Cancels a contractual investment attestation. This operation is idempotent, so retrying is safe. You can cancel an attestation only while it is still pending (its isCancellable value is true).
+    @Sendable
+    @inlinable
+    public func cancelContractualInvestmentAttestation(_ input: CancelContractualInvestmentAttestationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelContractualInvestmentAttestationResponse {
+        try await self.client.execute(
+            operation: "CancelContractualInvestmentAttestation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a contractual investment attestation. This operation is idempotent, so retrying is safe. You can cancel an attestation only while it is still pending (its isCancellable value is true).
+    ///
+    /// Parameters:
+    ///   - attestationId: The identifier of the investment attestation to cancel.
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract that contains the attested investment.
+    ///   - reason: The reason for the cancellation. This value can be 1 to 80 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelContractualInvestmentAttestation(
+        attestationId: String,
+        contractArn: String,
+        reason: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelContractualInvestmentAttestationResponse {
+        let input = CancelContractualInvestmentAttestationRequest(
+            attestationId: attestationId, 
+            contractArn: contractArn, 
+            reason: reason
+        )
+        return try await self.cancelContractualInvestmentAttestation(input, logger: logger)
     }
 
     ///  Creates a billing view with the specified billing view attributes.
@@ -156,6 +223,59 @@ public struct Billing: AWSService {
         return try await self.createBillingView(input, logger: logger)
     }
 
+    /// Creates an attestation that claims an investment award for a completed milestone or outcome within a private pricing contract. Supply a clientToken to make the request idempotent so a safe retry does not create a duplicate attestation. This operation starts an asynchronous review and returns an attestationId while the attestation is pending.
+    @Sendable
+    @inlinable
+    public func createContractualInvestmentAttestation(_ input: CreateContractualInvestmentAttestationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContractualInvestmentAttestationResponse {
+        try await self.client.execute(
+            operation: "CreateContractualInvestmentAttestation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an attestation that claims an investment award for a completed milestone or outcome within a private pricing contract. Supply a clientToken to make the request idempotent so a safe retry does not create a duplicate attestation. This operation starts an asynchronous review and returns an attestationId while the attestation is pending.
+    ///
+    /// Parameters:
+    ///   - additionalRecipients: The email addresses to copy as viewers on the executive approval request.
+    ///   - approverDetails: The details of the executive who authorized the attestation, under the terms of the private pricing contract. The executive receives a click-to-accept email to confirm the attestation.
+    ///   - attestationDetails: The details of the attestation, including the value being claimed and how the resulting investment is distributed across investment accounts.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry completes without performing any further actions.
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract that contains the investment being attested.
+    ///   - contractDocumentId: The contract ID from the contract document, located in the top-right corner of the private pricing contract pages. This value confirms that you have access to the contract.
+    ///   - investmentDisbursedAt: The date on which the investment is disbursed to the investment accounts. The disbursement date is subject to review timelines.
+    ///   - investmentId: The identifier of the investment (outcome) being attested.
+    ///   - investmentSummaryId: The identifier of the investment summary being attested. This is the parent to the investmentId.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createContractualInvestmentAttestation(
+        additionalRecipients: [AdditionalRecipient]? = nil,
+        approverDetails: ApproverDetails,
+        attestationDetails: AttestationDetails,
+        clientToken: String? = CreateContractualInvestmentAttestationRequest.idempotencyToken(),
+        contractArn: String,
+        contractDocumentId: String,
+        investmentDisbursedAt: Date? = nil,
+        investmentId: String,
+        investmentSummaryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateContractualInvestmentAttestationResponse {
+        let input = CreateContractualInvestmentAttestationRequest(
+            additionalRecipients: additionalRecipients, 
+            approverDetails: approverDetails, 
+            attestationDetails: attestationDetails, 
+            clientToken: clientToken, 
+            contractArn: contractArn, 
+            contractDocumentId: contractDocumentId, 
+            investmentDisbursedAt: investmentDisbursedAt, 
+            investmentId: investmentId, 
+            investmentSummaryId: investmentSummaryId
+        )
+        return try await self.createContractualInvestmentAttestation(input, logger: logger)
+    }
+
     /// Deletes the specified billing view.
     @Sendable
     @inlinable
@@ -186,6 +306,35 @@ public struct Billing: AWSService {
             force: force
         )
         return try await self.deleteBillingView(input, logger: logger)
+    }
+
+    /// Removes the association between a private pricing contract and your Amazon Web Services account. The account must have been associated with the contract previously. This operation is idempotent, so retrying is safe.
+    @Sendable
+    @inlinable
+    public func disassociateContract(_ input: DisassociateContractRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateContractResponse {
+        try await self.client.execute(
+            operation: "DisassociateContract", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between a private pricing contract and your Amazon Web Services account. The account must have been associated with the contract previously. This operation is idempotent, so retrying is safe.
+    ///
+    /// Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract to disassociate from your account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateContract(
+        contractArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateContractResponse {
+        let input = DisassociateContractRequest(
+            contractArn: contractArn
+        )
+        return try await self.disassociateContract(input, logger: logger)
     }
 
     ///  Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
@@ -285,6 +434,35 @@ public struct Billing: AWSService {
             arn: arn
         )
         return try await self.getBillingView(input, logger: logger)
+    }
+
+    /// Returns information about a specific private pricing contract, including its term (duration), eligible payer accounts, investment accounts, and legal entities. This operation is read-only.
+    @Sendable
+    @inlinable
+    public func getContractInformation(_ input: GetContractInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContractInformationResponse {
+        try await self.client.execute(
+            operation: "GetContractInformation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a specific private pricing contract, including its term (duration), eligible payer accounts, investment accounts, and legal entities. This operation is read-only.
+    ///
+    /// Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getContractInformation(
+        contractArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetContractInformationResponse {
+        let input = GetContractInformationRequest(
+            contractArn: contractArn
+        )
+        return try await self.getContractInformation(input, logger: logger)
     }
 
     /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit.
@@ -626,6 +804,149 @@ public struct Billing: AWSService {
         return try await self.listBusinessSupportSubscriptionHistory(input, logger: logger)
     }
 
+    /// Lists the private pricing contracts that your Amazon Web Services account is an eligible payer account of. This operation is read-only and paginated.
+    @Sendable
+    @inlinable
+    public func listContracts(_ input: ListContractsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContractsResponse {
+        try await self.client.execute(
+            operation: "ListContracts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the private pricing contracts that your Amazon Web Services account is an eligible payer account of. This operation is read-only and paginated.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of contracts to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - nextToken: The pagination token that indicates the next set of results to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listContracts(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListContractsResponse {
+        let input = ListContractsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listContracts(input, logger: logger)
+    }
+
+    /// Lists the investment attestations submitted under a specific private pricing contract. Use this operation to track attestation status, including the terminal statuses DISBURSED, REJECTED, and CANCELLED. This operation is read-only and paginated.
+    @Sendable
+    @inlinable
+    public func listContractualInvestmentAttestations(_ input: ListContractualInvestmentAttestationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContractualInvestmentAttestationsResponse {
+        try await self.client.execute(
+            operation: "ListContractualInvestmentAttestations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the investment attestations submitted under a specific private pricing contract. Use this operation to track attestation status, including the terminal statuses DISBURSED, REJECTED, and CANCELLED. This operation is read-only and paginated.
+    ///
+    /// Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract whose attestations you want to list.
+    ///   - investmentSummaryId: The identifier of a specific investment summary to filter the attestations by. If omitted, attestations for all investment summaries in the contract are returned.
+    ///   - maxResults: The maximum number of attestations to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - nextToken: The pagination token that indicates the next set of results to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listContractualInvestmentAttestations(
+        contractArn: String,
+        investmentSummaryId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListContractualInvestmentAttestationsResponse {
+        let input = ListContractualInvestmentAttestationsRequest(
+            contractArn: contractArn, 
+            investmentSummaryId: investmentSummaryId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listContractualInvestmentAttestations(input, logger: logger)
+    }
+
+    /// Lists the investment summaries within a specific private pricing contract. This operation is read-only and paginated.
+    @Sendable
+    @inlinable
+    public func listContractualInvestmentSummaries(_ input: ListContractualInvestmentSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContractualInvestmentSummariesResponse {
+        try await self.client.execute(
+            operation: "ListContractualInvestmentSummaries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the investment summaries within a specific private pricing contract. This operation is read-only and paginated.
+    ///
+    /// Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract whose investment summaries you want to list.
+    ///   - maxResults: The maximum number of investment summaries to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - nextToken: The pagination token that indicates the next set of results to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listContractualInvestmentSummaries(
+        contractArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListContractualInvestmentSummariesResponse {
+        let input = ListContractualInvestmentSummariesRequest(
+            contractArn: contractArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listContractualInvestmentSummaries(input, logger: logger)
+    }
+
+    /// Lists the investments within a specific investment summary. This operation is read-only and paginated.
+    @Sendable
+    @inlinable
+    public func listContractualInvestments(_ input: ListContractualInvestmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContractualInvestmentsResponse {
+        try await self.client.execute(
+            operation: "ListContractualInvestments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the investments within a specific investment summary. This operation is read-only and paginated.
+    ///
+    /// Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract that contains the investment summary.
+    ///   - investmentSummaryId: The identifier of the investment summary whose investments you want to list.
+    ///   - maxResults: The maximum number of investments to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - nextToken: The pagination token that indicates the next set of results to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listContractualInvestments(
+        contractArn: String,
+        investmentSummaryId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListContractualInvestmentsResponse {
+        let input = ListContractualInvestmentsRequest(
+            contractArn: contractArn, 
+            investmentSummaryId: investmentSummaryId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listContractualInvestments(input, logger: logger)
+    }
+
     /// Returns Support-eligible spend broken down at linked account level.
     @Sendable
     @inlinable
@@ -895,7 +1216,7 @@ public struct Billing: AWSService {
 extension Billing {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Billing, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1129,6 +1450,157 @@ extension Billing {
         return self.listBusinessSupportSubscriptionHistoryPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listContracts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractsPaginator(
+        _ input: ListContractsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContractsRequest, ListContractsResponse> {
+        return .init(
+            input: input,
+            command: self.listContracts,
+            inputKey: \ListContractsRequest.nextToken,
+            outputKey: \ListContractsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listContracts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of contracts to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListContractsRequest, ListContractsResponse> {
+        let input = ListContractsRequest(
+            maxResults: maxResults
+        )
+        return self.listContractsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listContractualInvestmentAttestations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractualInvestmentAttestationsPaginator(
+        _ input: ListContractualInvestmentAttestationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContractualInvestmentAttestationsRequest, ListContractualInvestmentAttestationsResponse> {
+        return .init(
+            input: input,
+            command: self.listContractualInvestmentAttestations,
+            inputKey: \ListContractualInvestmentAttestationsRequest.nextToken,
+            outputKey: \ListContractualInvestmentAttestationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listContractualInvestmentAttestations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract whose attestations you want to list.
+    ///   - investmentSummaryId: The identifier of a specific investment summary to filter the attestations by. If omitted, attestations for all investment summaries in the contract are returned.
+    ///   - maxResults: The maximum number of attestations to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractualInvestmentAttestationsPaginator(
+        contractArn: String,
+        investmentSummaryId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListContractualInvestmentAttestationsRequest, ListContractualInvestmentAttestationsResponse> {
+        let input = ListContractualInvestmentAttestationsRequest(
+            contractArn: contractArn, 
+            investmentSummaryId: investmentSummaryId, 
+            maxResults: maxResults
+        )
+        return self.listContractualInvestmentAttestationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listContractualInvestmentSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractualInvestmentSummariesPaginator(
+        _ input: ListContractualInvestmentSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContractualInvestmentSummariesRequest, ListContractualInvestmentSummariesResponse> {
+        return .init(
+            input: input,
+            command: self.listContractualInvestmentSummaries,
+            inputKey: \ListContractualInvestmentSummariesRequest.nextToken,
+            outputKey: \ListContractualInvestmentSummariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listContractualInvestmentSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract whose investment summaries you want to list.
+    ///   - maxResults: The maximum number of investment summaries to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractualInvestmentSummariesPaginator(
+        contractArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListContractualInvestmentSummariesRequest, ListContractualInvestmentSummariesResponse> {
+        let input = ListContractualInvestmentSummariesRequest(
+            contractArn: contractArn, 
+            maxResults: maxResults
+        )
+        return self.listContractualInvestmentSummariesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listContractualInvestments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractualInvestmentsPaginator(
+        _ input: ListContractualInvestmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContractualInvestmentsRequest, ListContractualInvestmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listContractualInvestments,
+            inputKey: \ListContractualInvestmentsRequest.nextToken,
+            outputKey: \ListContractualInvestmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listContractualInvestments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - contractArn: The Amazon Resource Name (ARN) of the contract that contains the investment summary.
+    ///   - investmentSummaryId: The identifier of the investment summary whose investments you want to list.
+    ///   - maxResults: The maximum number of investments to return in a single call. Minimum value of 1, maximum value of 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContractualInvestmentsPaginator(
+        contractArn: String,
+        investmentSummaryId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListContractualInvestmentsRequest, ListContractualInvestmentsResponse> {
+        let input = ListContractualInvestmentsRequest(
+            contractArn: contractArn, 
+            investmentSummaryId: investmentSummaryId, 
+            maxResults: maxResults
+        )
+        return self.listContractualInvestmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEnterpriseSupportLinkedAccountCharges(_:logger:)``.
     ///
     /// - Parameters:
@@ -1271,6 +1743,51 @@ extension Billing.ListBusinessSupportSubscriptionHistoryRequest: AWSPaginateToke
             maxResults: self.maxResults,
             nextToken: token,
             startDate: self.startDate
+        )
+    }
+}
+
+extension Billing.ListContractsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListContractsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Billing.ListContractualInvestmentAttestationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListContractualInvestmentAttestationsRequest {
+        return .init(
+            contractArn: self.contractArn,
+            investmentSummaryId: self.investmentSummaryId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Billing.ListContractualInvestmentSummariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListContractualInvestmentSummariesRequest {
+        return .init(
+            contractArn: self.contractArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Billing.ListContractualInvestmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListContractualInvestmentsRequest {
+        return .init(
+            contractArn: self.contractArn,
+            investmentSummaryId: self.investmentSummaryId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

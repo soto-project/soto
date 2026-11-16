@@ -446,7 +446,8 @@ extension WorkspacesInstances {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x20-\\x7E]+$")
             try self.validate(self.iops, name: "iops", parent: name, min: 0)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 128)
-            try self.validate(self.sizeInGB, name: "sizeInGB", parent: name, min: 0)
+            try self.validate(self.sizeInGB, name: "sizeInGB", parent: name, max: 16384)
+            try self.validate(self.sizeInGB, name: "sizeInGB", parent: name, min: 1)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^snap-[0-9a-zA-Z]{1,63}$")
             try self.tagSpecifications?.forEach {
                 try $0.validate(name: "\(name).tagSpecifications[]")
@@ -1548,6 +1549,81 @@ extension WorkspacesInstances {
         }
     }
 
+    public struct ModifyVolumeRequest: AWSEncodableShape {
+        /// Unique token to ensure idempotent volume modification, preventing duplicate volume modifications.
+        public let clientToken: String?
+        /// Specifies the target IOPS rate of the volume. This parameter is valid only for gp3, io1, and io2 volumes. If you don't specify IOPS and keep the same volume type, the current IOPS rate is retained.
+        public let iops: Int?
+        /// Specifies the target size of the volume, in GiB. The target size must be greater than or equal to the current size of the volume. If you don't specify a size, the current size is retained.
+        public let sizeInGB: Int?
+        /// Specifies the target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes. If you don't specify throughput and the volume remains gp3, the current throughput is retained.
+        public let throughput: Int?
+        /// Specifies the identifier of the volume to modify.
+        public let volumeId: String
+        /// Specifies the target Amazon Elastic Block Store (Amazon EBS) volume type. If you don't specify a volume type, the current volume type is retained.
+        public let volumeType: VolumeTypeEnum?
+
+        @inlinable
+        public init(clientToken: String? = ModifyVolumeRequest.idempotencyToken(), iops: Int? = nil, sizeInGB: Int? = nil, throughput: Int? = nil, volumeId: String, volumeType: VolumeTypeEnum? = nil) {
+            self.clientToken = clientToken
+            self.iops = iops
+            self.sizeInGB = sizeInGB
+            self.throughput = throughput
+            self.volumeId = volumeId
+            self.volumeType = volumeType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x20-\\x7E]+$")
+            try self.validate(self.iops, name: "iops", parent: name, min: 0)
+            try self.validate(self.sizeInGB, name: "sizeInGB", parent: name, max: 16384)
+            try self.validate(self.sizeInGB, name: "sizeInGB", parent: name, min: 1)
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 0)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^vol-[0-9a-zA-Z]{1,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case iops = "Iops"
+            case sizeInGB = "SizeInGB"
+            case throughput = "Throughput"
+            case volumeId = "VolumeId"
+            case volumeType = "VolumeType"
+        }
+    }
+
+    public struct ModifyVolumeResponse: AWSDecodableShape {
+        /// Specifies the target IOPS rate of the volume.
+        public let targetIops: Int?
+        /// Specifies the target size of the volume, in GiB.
+        public let targetSize: Int?
+        /// Specifies the target throughput of the volume, in MiB/s.
+        public let targetThroughput: Int?
+        /// Specifies the target Amazon EBS volume type.
+        public let targetVolumeType: VolumeTypeEnum?
+        /// Specifies the identifier of the modified volume.
+        public let volumeId: String?
+
+        @inlinable
+        public init(targetIops: Int? = nil, targetSize: Int? = nil, targetThroughput: Int? = nil, targetVolumeType: VolumeTypeEnum? = nil, volumeId: String? = nil) {
+            self.targetIops = targetIops
+            self.targetSize = targetSize
+            self.targetThroughput = targetThroughput
+            self.targetVolumeType = targetVolumeType
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetIops = "TargetIops"
+            case targetSize = "TargetSize"
+            case targetThroughput = "TargetThroughput"
+            case targetVolumeType = "TargetVolumeType"
+            case volumeId = "VolumeId"
+        }
+    }
+
     public struct Placement: AWSEncodableShape {
         /// Specifies host affinity for dedicated instances.
         public let affinity: String?
@@ -1978,6 +2054,28 @@ extension WorkspacesInstances {
         }
     }
 
+    public struct VolumeModificationRateExceededException: AWSErrorShape {
+        /// Specifies the reason that the modification request was rejected.
+        public let message: String
+        /// Specifies the identifier of the volume for which the modification request was rejected.
+        public let resourceId: String
+        /// Specifies the type of the resource for which the modification request was rejected.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct WorkspaceInstance: AWSDecodableShape {
         /// Details of the associated EC2 managed instance.
         public let ec2ManagedInstance: EC2ManagedInstance?
@@ -2031,6 +2129,7 @@ public struct WorkspacesInstancesErrorType: AWSErrorType {
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
+        case volumeModificationRateExceededException = "VolumeModificationRateExceededException"
     }
 
     private let error: Code
@@ -2065,6 +2164,8 @@ public struct WorkspacesInstancesErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Indicates invalid input parameters in the request.
     public static var validationException: Self { .init(.validationException) }
+    /// The volume has a previous modification that is still in progress, or has reached the limit of four modifications in a rolling 24-hour period. Wait for the current modification to finish, or wait until the time indicated in the error message, and then retry the request.
+    public static var volumeModificationRateExceededException: Self { .init(.volumeModificationRateExceededException) }
 }
 
 extension WorkspacesInstancesErrorType: AWSServiceErrorType {
@@ -2074,7 +2175,8 @@ extension WorkspacesInstancesErrorType: AWSServiceErrorType {
         "ResourceNotFoundException": WorkspacesInstances.ResourceNotFoundException.self,
         "ServiceQuotaExceededException": WorkspacesInstances.ServiceQuotaExceededException.self,
         "ThrottlingException": WorkspacesInstances.ThrottlingException.self,
-        "ValidationException": WorkspacesInstances.ValidationException.self
+        "ValidationException": WorkspacesInstances.ValidationException.self,
+        "VolumeModificationRateExceededException": WorkspacesInstances.VolumeModificationRateExceededException.self
     ]
 }
 

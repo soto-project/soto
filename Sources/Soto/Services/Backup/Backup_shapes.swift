@@ -90,6 +90,8 @@ extension Backup {
         case copyJobStarted = "COPY_JOB_STARTED"
         case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
         case eksBackupObjectFailed = "EKS_BACKUP_OBJECT_FAILED"
+        case eksRestoreModificationFailed = "EKS_RESTORE_MODIFICATION_FAILED"
+        case eksRestoreModificationSuccess = "EKS_RESTORE_MODIFICATION_SUCCESS"
         case eksRestoreObjectFailed = "EKS_RESTORE_OBJECT_FAILED"
         case eksRestoreObjectSkipped = "EKS_RESTORE_OBJECT_SKIPPED"
         case recoveryPointIndexCompleted = "RECOVERY_POINT_INDEX_COMPLETED"

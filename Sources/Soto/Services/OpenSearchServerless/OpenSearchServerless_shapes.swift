@@ -90,6 +90,84 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum IngestionAlertCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destinationAccessDenied = "DESTINATION_ACCESS_DENIED"
+        case destinationResourceNotFound = "DESTINATION_RESOURCE_NOT_FOUND"
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case sourceAccessDenied = "SOURCE_ACCESS_DENIED"
+        case sourceResourceNotFound = "SOURCE_RESOURCE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destinationAccessDenied = "DESTINATION_ACCESS_DENIED"
+        case destinationResourceNotFound = "DESTINATION_RESOURCE_NOT_FOUND"
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case sourceAccessDenied = "SOURCE_ACCESS_DENIED"
+        case sourceResourceNotFound = "SOURCE_RESOURCE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Ingestion job is provisioned and ingesting
+        case active = "ACTIVE"
+        /// Ingestion job was cancelled
+        case cancelled = "CANCELLED"
+        /// Ingestion job is being cancelled
+        case cancelling = "CANCELLING"
+        /// Ingestion job cancellation failed
+        case cancelFailed = "CANCEL_FAILED"
+        /// Bulk ingestion finished; job is complete
+        case completed = "COMPLETED"
+        /// Ingestion job creation failed
+        case createFailed = "CREATE_FAILED"
+        /// Ingestion job is being created
+        case creating = "CREATING"
+        /// Ingestion job failed terminally (no retry)
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Ingestion runtime failure (terminal)
+        case failed = "FAILED"
+        /// Bulk ingestion finished
+        case ingestionComplete = "INGESTION_COMPLETE"
+        /// Documents are being read, chunked and indexed
+        case ingestionInProgress = "INGESTION_IN_PROGRESS"
+        /// Bulk source scan in progress
+        case scanning = "SCANNING"
+        /// Ingestion is initializing
+        case starting = "STARTING"
+        /// Ingestion halted (recoverable)
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionStreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Ingestion stream is provisioned and ingesting
+        case active = "ACTIVE"
+        /// Ingestion stream creation failed
+        case createFailed = "CREATE_FAILED"
+        /// Ingestion stream is being created
+        case creating = "CREATING"
+        /// Ingestion stream was deleted
+        case deleted = "DELETED"
+        /// Ingestion stream deletion failed
+        case deleteFailed = "DELETE_FAILED"
+        /// Ingestion stream is being deleted
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InitialScan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Skip the one-time delta scan and process SQS notifications only
+        case disabled = "DISABLED"
+        /// Perform a one-time delta scan of existing S3 objects before processing SQS notifications
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LifecyclePolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// retention policy type
         case retention = "retention"
@@ -333,7 +411,7 @@ extension OpenSearchServerless {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 64)
                 try validate($0, name: "names[]", parent: name, min: 3)
-                try validate($0, name: "names[]", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+                try validate($0, name: "names[]", parent: name, pattern: "^[a-z][a-z0-9_-]+$")
             }
             try self.validate(self.names, name: "names", parent: name, max: 100)
             try self.validate(self.names, name: "names", parent: name, min: 1)
@@ -482,6 +560,65 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case vpcEndpointDetails = "vpcEndpointDetails"
             case vpcEndpointErrorDetails = "vpcEndpointErrorDetails"
+        }
+    }
+
+    public struct CancelIngestionJobRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the collection that the ingestion job belongs to.
+        public let collectionId: String
+        /// The unique identifier of the ingestion job to cancel.
+        public let ingestionJobId: String
+
+        @inlinable
+        public init(clientToken: String? = CancelIngestionJobRequest.idempotencyToken(), collectionId: String, ingestionJobId: String) {
+            self.clientToken = clientToken
+            self.collectionId = collectionId
+            self.ingestionJobId = ingestionJobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, max: 64)
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, min: 20)
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case collectionId = "collectionId"
+            case ingestionJobId = "ingestionJobId"
+        }
+    }
+
+    public struct CancelIngestionJobResponse: AWSDecodableShape {
+        /// The unique identifier of the collection that the ingestion job belongs to.
+        public let collectionId: String?
+        /// The unique identifier of the cancelled ingestion job.
+        public let ingestionJobId: String?
+        /// The name of the cancelled ingestion job.
+        public let ingestionJobName: String?
+        /// The current status of the ingestion job.
+        public let status: IngestionJobStatus?
+
+        @inlinable
+        public init(collectionId: String? = nil, ingestionJobId: String? = nil, ingestionJobName: String? = nil, status: IngestionJobStatus? = nil) {
+            self.collectionId = collectionId
+            self.ingestionJobId = ingestionJobId
+            self.ingestionJobName = ingestionJobName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "collectionId"
+            case ingestionJobId = "ingestionJobId"
+            case ingestionJobName = "ingestionJobName"
+            case status = "status"
         }
     }
 
@@ -655,7 +792,7 @@ extension OpenSearchServerless {
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, pattern: "^[a-z][a-z0-9-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1122,7 +1259,7 @@ extension OpenSearchServerless {
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, pattern: "^[a-z][a-z0-9-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9_-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1215,6 +1352,161 @@ extension OpenSearchServerless {
 
     public struct CreateIndexResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CreateIngestionJobRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the collection to ingest data into.
+        public let collectionId: String
+        /// The name of the index where documents that fail to be ingested are recorded.
+        public let failureIndexName: String?
+        /// The name of the index to ingest documents into.
+        public let indexName: String
+        /// The name of the ingestion job. The name must be unique within the collection.
+        public let ingestionJobName: String
+        /// The Amazon S3 source to ingest data from.
+        public let source: IngestionJobSource
+        /// An arbitrary set of tags (key–value pairs) to associate with the ingestion job.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateIngestionJobRequest.idempotencyToken(), collectionId: String, failureIndexName: String? = nil, indexName: String, ingestionJobName: String, source: IngestionJobSource, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.collectionId = collectionId
+            self.failureIndexName = failureIndexName
+            self.indexName = indexName
+            self.ingestionJobName = ingestionJobName
+            self.source = source
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            try self.validate(self.failureIndexName, name: "failureIndexName", parent: name, max: 255)
+            try self.validate(self.failureIndexName, name: "failureIndexName", parent: name, min: 1)
+            try self.validate(self.failureIndexName, name: "failureIndexName", parent: name, pattern: "^[a-z0-9.][a-z0-9._-]*$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-z0-9.][a-z0-9._-]*$")
+            try self.validate(self.ingestionJobName, name: "ingestionJobName", parent: name, max: 32)
+            try self.validate(self.ingestionJobName, name: "ingestionJobName", parent: name, min: 3)
+            try self.validate(self.ingestionJobName, name: "ingestionJobName", parent: name, pattern: "^[a-z][a-z0-9-]*$")
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case collectionId = "collectionId"
+            case failureIndexName = "failureIndexName"
+            case indexName = "indexName"
+            case ingestionJobName = "ingestionJobName"
+            case source = "source"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateIngestionJobResponse: AWSDecodableShape {
+        /// Details about the created ingestion job.
+        public let ingestionJobDetail: IngestionJobDetail?
+
+        @inlinable
+        public init(ingestionJobDetail: IngestionJobDetail? = nil) {
+            self.ingestionJobDetail = ingestionJobDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionJobDetail = "ingestionJobDetail"
+        }
+    }
+
+    public struct CreateIngestionStreamRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the collection to ingest data into.
+        public let collectionId: String
+        /// The name of the index where documents that fail to be ingested are recorded.
+        public let failureIndexName: String?
+        /// The name of the index to ingest documents into.
+        public let indexName: String
+        /// The name of the ingestion stream. The name must be unique within the collection.
+        public let ingestionStreamName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that OpenSearch Serverless assumes to read data from the source. The role must be in the same account as the collection.
+        public let roleArn: String
+        /// The Amazon S3 source to ingest data from, including the Amazon SQS queue that receives S3 event notifications.
+        public let source: IngestionStreamSource
+        /// An arbitrary set of tags (key–value pairs) to associate with the ingestion stream.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateIngestionStreamRequest.idempotencyToken(), collectionId: String, failureIndexName: String? = nil, indexName: String, ingestionStreamName: String, roleArn: String, source: IngestionStreamSource, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.collectionId = collectionId
+            self.failureIndexName = failureIndexName
+            self.indexName = indexName
+            self.ingestionStreamName = ingestionStreamName
+            self.roleArn = roleArn
+            self.source = source
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            try self.validate(self.failureIndexName, name: "failureIndexName", parent: name, max: 255)
+            try self.validate(self.failureIndexName, name: "failureIndexName", parent: name, min: 1)
+            try self.validate(self.failureIndexName, name: "failureIndexName", parent: name, pattern: "^[a-z0-9.][a-z0-9._-]*$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-z0-9.][a-z0-9._-]*$")
+            try self.validate(self.ingestionStreamName, name: "ingestionStreamName", parent: name, max: 32)
+            try self.validate(self.ingestionStreamName, name: "ingestionStreamName", parent: name, min: 3)
+            try self.validate(self.ingestionStreamName, name: "ingestionStreamName", parent: name, pattern: "^[a-z][a-z0-9-]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):iam::\\d{12}:role/.+$")
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case collectionId = "collectionId"
+            case failureIndexName = "failureIndexName"
+            case indexName = "indexName"
+            case ingestionStreamName = "ingestionStreamName"
+            case roleArn = "roleArn"
+            case source = "source"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateIngestionStreamResponse: AWSDecodableShape {
+        /// Details about the created ingestion stream.
+        public let ingestionStreamDetail: IngestionStreamDetail?
+
+        @inlinable
+        public init(ingestionStreamDetail: IngestionStreamDetail? = nil) {
+            self.ingestionStreamDetail = ingestionStreamDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionStreamDetail = "ingestionStreamDetail"
+        }
     }
 
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
@@ -1660,6 +1952,65 @@ extension OpenSearchServerless {
         public init() {}
     }
 
+    public struct DeleteIngestionStreamRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the collection that the ingestion stream belongs to.
+        public let collectionId: String
+        /// The unique identifier of the ingestion stream to delete.
+        public let ingestionStreamId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteIngestionStreamRequest.idempotencyToken(), collectionId: String, ingestionStreamId: String) {
+            self.clientToken = clientToken
+            self.collectionId = collectionId
+            self.ingestionStreamId = ingestionStreamId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            try self.validate(self.ingestionStreamId, name: "ingestionStreamId", parent: name, max: 64)
+            try self.validate(self.ingestionStreamId, name: "ingestionStreamId", parent: name, min: 20)
+            try self.validate(self.ingestionStreamId, name: "ingestionStreamId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case collectionId = "collectionId"
+            case ingestionStreamId = "ingestionStreamId"
+        }
+    }
+
+    public struct DeleteIngestionStreamResponse: AWSDecodableShape {
+        /// The unique identifier of the collection that the ingestion stream belonged to.
+        public let collectionId: String?
+        /// The unique identifier of the deleted ingestion stream.
+        public let ingestionStreamId: String?
+        /// The name of the deleted ingestion stream.
+        public let ingestionStreamName: String?
+        /// The current status of the ingestion stream.
+        public let status: IngestionStreamStatus?
+
+        @inlinable
+        public init(collectionId: String? = nil, ingestionStreamId: String? = nil, ingestionStreamName: String? = nil, status: IngestionStreamStatus? = nil) {
+            self.collectionId = collectionId
+            self.ingestionStreamId = ingestionStreamId
+            self.ingestionStreamName = ingestionStreamName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "collectionId"
+            case ingestionStreamId = "ingestionStreamId"
+            case ingestionStreamName = "ingestionStreamName"
+            case status = "status"
+        }
+    }
+
     public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -2009,6 +2360,88 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct GetIngestionJobRequest: AWSEncodableShape {
+        /// The unique identifier of the collection that the ingestion job belongs to.
+        public let collectionId: String
+        /// The unique identifier of the ingestion job to retrieve.
+        public let ingestionJobId: String
+
+        @inlinable
+        public init(collectionId: String, ingestionJobId: String) {
+            self.collectionId = collectionId
+            self.ingestionJobId = ingestionJobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, max: 64)
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, min: 20)
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "collectionId"
+            case ingestionJobId = "ingestionJobId"
+        }
+    }
+
+    public struct GetIngestionJobResponse: AWSDecodableShape {
+        /// Details about the requested ingestion job.
+        public let ingestionJobDetail: IngestionJobDetail?
+
+        @inlinable
+        public init(ingestionJobDetail: IngestionJobDetail? = nil) {
+            self.ingestionJobDetail = ingestionJobDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionJobDetail = "ingestionJobDetail"
+        }
+    }
+
+    public struct GetIngestionStreamRequest: AWSEncodableShape {
+        /// The unique identifier of the collection that the ingestion stream belongs to.
+        public let collectionId: String
+        /// The unique identifier of the ingestion stream to retrieve.
+        public let ingestionStreamId: String
+
+        @inlinable
+        public init(collectionId: String, ingestionStreamId: String) {
+            self.collectionId = collectionId
+            self.ingestionStreamId = ingestionStreamId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            try self.validate(self.ingestionStreamId, name: "ingestionStreamId", parent: name, max: 64)
+            try self.validate(self.ingestionStreamId, name: "ingestionStreamId", parent: name, min: 20)
+            try self.validate(self.ingestionStreamId, name: "ingestionStreamId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "collectionId"
+            case ingestionStreamId = "ingestionStreamId"
+        }
+    }
+
+    public struct GetIngestionStreamResponse: AWSDecodableShape {
+        /// Details about the requested ingestion stream.
+        public let ingestionStreamDetail: IngestionStreamDetail?
+
+        @inlinable
+        public init(ingestionStreamDetail: IngestionStreamDetail? = nil) {
+            self.ingestionStreamDetail = ingestionStreamDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionStreamDetail = "ingestionStreamDetail"
+        }
+    }
+
     public struct GetPoliciesStatsRequest: AWSEncodableShape {
         public init() {}
     }
@@ -2172,6 +2605,371 @@ extension OpenSearchServerless {
             case groupAttribute = "groupAttribute"
             case instanceArn = "instanceArn"
             case userAttribute = "userAttribute"
+        }
+    }
+
+    public struct IngestionAlert: AWSDecodableShape {
+        /// The code that identifies the alert.
+        public let code: IngestionAlertCode?
+        /// A description of the alert.
+        public let message: String?
+
+        @inlinable
+        public init(code: IngestionAlertCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct IngestionFailureReason: AWSDecodableShape {
+        /// The code that identifies the reason for the failure.
+        public let code: IngestionFailureCode?
+        /// A description of the reason for the failure.
+        public let message: String?
+
+        @inlinable
+        public init(code: IngestionFailureCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct IngestionJobDetail: AWSDecodableShape {
+        /// Active alerts about operational issues that currently affect the ingestion job. Alerts are cleared when the issue is resolved.
+        public let activeAlerts: [IngestionAlert]?
+        /// The Amazon Resource Name (ARN) of the ingestion job.
+        public let arn: String?
+        /// The unique identifier of the collection that the ingestion job belongs to.
+        public let collectionId: String?
+        /// The date and time when the ingestion job was created.
+        public let createdAt: Date?
+        /// The name of the index where documents that fail to be ingested are recorded.
+        public let failureIndexName: String?
+        /// The reasons that the ingestion job reached a terminal failure state, if applicable.
+        public let failureReasons: [IngestionFailureReason]?
+        /// The name of the index that documents are ingested into.
+        public let indexName: String?
+        /// The unique identifier of the ingestion job.
+        public let ingestionJobId: String?
+        /// The name of the ingestion job.
+        public let ingestionJobName: String?
+        /// The revision number of the ingestion job.
+        public let revision: Int64?
+        /// The Amazon S3 source that the ingestion job ingests data from.
+        public let source: IngestionJobSource?
+        /// The current processing state of the ingestion job. For example, SCANNING, INGESTION_IN_PROGRESS, or INGESTION_COMPLETE.
+        public let state: IngestionState?
+        /// Processing statistics for the ingestion job, such as the number of Amazon S3 objects discovered, ingested, and failed.
+        public let statistics: IngestionStatistics?
+        /// The current lifecycle status of the ingestion job. For example, CREATING, ACTIVE, COMPLETED, or CANCELLED.
+        public let status: IngestionJobStatus?
+        /// The date and time when the ingestion job was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(activeAlerts: [IngestionAlert]? = nil, arn: String? = nil, collectionId: String? = nil, createdAt: Date? = nil, failureIndexName: String? = nil, failureReasons: [IngestionFailureReason]? = nil, indexName: String? = nil, ingestionJobId: String? = nil, ingestionJobName: String? = nil, revision: Int64? = nil, source: IngestionJobSource? = nil, state: IngestionState? = nil, statistics: IngestionStatistics? = nil, status: IngestionJobStatus? = nil, updatedAt: Date? = nil) {
+            self.activeAlerts = activeAlerts
+            self.arn = arn
+            self.collectionId = collectionId
+            self.createdAt = createdAt
+            self.failureIndexName = failureIndexName
+            self.failureReasons = failureReasons
+            self.indexName = indexName
+            self.ingestionJobId = ingestionJobId
+            self.ingestionJobName = ingestionJobName
+            self.revision = revision
+            self.source = source
+            self.state = state
+            self.statistics = statistics
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeAlerts = "activeAlerts"
+            case arn = "arn"
+            case collectionId = "collectionId"
+            case createdAt = "createdAt"
+            case failureIndexName = "failureIndexName"
+            case failureReasons = "failureReasons"
+            case indexName = "indexName"
+            case ingestionJobId = "ingestionJobId"
+            case ingestionJobName = "ingestionJobName"
+            case revision = "revision"
+            case source = "source"
+            case state = "state"
+            case statistics = "statistics"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct IngestionJobS3Source: AWSEncodableShape & AWSDecodableShape {
+        /// The name or Amazon Resource Name (ARN) of the Amazon S3 bucket to ingest data from.
+        public let bucket: String?
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket.
+        public let bucketOwnerAccountId: String?
+        /// A key prefix that limits ingestion to objects in the Amazon S3 bucket whose keys begin with the prefix.
+        public let keyPrefix: String?
+
+        @inlinable
+        public init(bucket: String? = nil, bucketOwnerAccountId: String? = nil, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.keyPrefix = keyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 2048)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^(arn:[a-z0-9\\-]+:s3:::[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]|[a-z0-9][a-z0-9.-]{1,61}[a-z0-9])$")
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case bucketOwnerAccountId = "bucketOwnerAccountId"
+            case keyPrefix = "keyPrefix"
+        }
+    }
+
+    public struct IngestionJobSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 source configuration for the ingestion job.
+        public let s3: IngestionJobS3Source
+
+        @inlinable
+        public init(s3: IngestionJobS3Source) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct IngestionJobSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ingestion job.
+        public let arn: String?
+        /// The date and time when the ingestion job was created.
+        public let createdAt: Date?
+        /// The name of the index that documents are ingested into.
+        public let indexName: String?
+        /// The unique identifier of the ingestion job.
+        public let ingestionJobId: String?
+        /// The name of the ingestion job.
+        public let ingestionJobName: String?
+        /// The current lifecycle status of the ingestion job.
+        public let status: IngestionJobStatus?
+        /// The date and time when the ingestion job was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, indexName: String? = nil, ingestionJobId: String? = nil, ingestionJobName: String? = nil, status: IngestionJobStatus? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.indexName = indexName
+            self.ingestionJobId = ingestionJobId
+            self.ingestionJobName = ingestionJobName
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case indexName = "indexName"
+            case ingestionJobId = "ingestionJobId"
+            case ingestionJobName = "ingestionJobName"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct IngestionStatistics: AWSDecodableShape {
+        /// Processing statistics for the Amazon S3 source.
+        public let s3: S3Statistics?
+
+        @inlinable
+        public init(s3: S3Statistics? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct IngestionStreamDetail: AWSDecodableShape {
+        /// Active alerts about operational issues that currently affect the ingestion stream. Alerts are cleared when the issue is resolved.
+        public let activeAlerts: [IngestionAlert]?
+        /// The Amazon Resource Name (ARN) of the ingestion stream.
+        public let arn: String?
+        /// The unique identifier of the collection that the ingestion stream belongs to.
+        public let collectionId: String?
+        /// The date and time when the ingestion stream was created.
+        public let createdAt: Date?
+        /// The name of the index where documents that fail to be ingested are recorded.
+        public let failureIndexName: String?
+        /// The reasons that the ingestion stream reached a terminal failure state, if applicable.
+        public let failureReasons: [IngestionFailureReason]?
+        /// The name of the index that documents are ingested into.
+        public let indexName: String?
+        /// The unique identifier of the ingestion stream.
+        public let ingestionStreamId: String?
+        /// The name of the ingestion stream.
+        public let ingestionStreamName: String?
+        /// The revision number of the ingestion stream.
+        public let revision: Int64?
+        /// The Amazon Resource Name (ARN) of the IAM role that OpenSearch Serverless assumes to read data from the source.
+        public let roleArn: String?
+        /// The Amazon S3 source that the ingestion stream ingests data from.
+        public let source: IngestionStreamSource?
+        /// The current processing state of the ingestion stream. For example, STARTING or INGESTION_IN_PROGRESS.
+        public let state: IngestionState?
+        /// Processing statistics for the ingestion stream, such as the number of Amazon S3 objects discovered, ingested, and failed.
+        public let statistics: IngestionStatistics?
+        /// The current lifecycle status of the ingestion stream. For example, CREATING, ACTIVE, or DELETING.
+        public let status: IngestionStreamStatus?
+        /// The date and time when the ingestion stream was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(activeAlerts: [IngestionAlert]? = nil, arn: String? = nil, collectionId: String? = nil, createdAt: Date? = nil, failureIndexName: String? = nil, failureReasons: [IngestionFailureReason]? = nil, indexName: String? = nil, ingestionStreamId: String? = nil, ingestionStreamName: String? = nil, revision: Int64? = nil, roleArn: String? = nil, source: IngestionStreamSource? = nil, state: IngestionState? = nil, statistics: IngestionStatistics? = nil, status: IngestionStreamStatus? = nil, updatedAt: Date? = nil) {
+            self.activeAlerts = activeAlerts
+            self.arn = arn
+            self.collectionId = collectionId
+            self.createdAt = createdAt
+            self.failureIndexName = failureIndexName
+            self.failureReasons = failureReasons
+            self.indexName = indexName
+            self.ingestionStreamId = ingestionStreamId
+            self.ingestionStreamName = ingestionStreamName
+            self.revision = revision
+            self.roleArn = roleArn
+            self.source = source
+            self.state = state
+            self.statistics = statistics
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeAlerts = "activeAlerts"
+            case arn = "arn"
+            case collectionId = "collectionId"
+            case createdAt = "createdAt"
+            case failureIndexName = "failureIndexName"
+            case failureReasons = "failureReasons"
+            case indexName = "indexName"
+            case ingestionStreamId = "ingestionStreamId"
+            case ingestionStreamName = "ingestionStreamName"
+            case revision = "revision"
+            case roleArn = "roleArn"
+            case source = "source"
+            case state = "state"
+            case statistics = "statistics"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct IngestionStreamS3Source: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for each Amazon S3 bucket that the ingestion stream ingests data from.
+        public let buckets: [StreamBucketConfig]?
+        /// The Amazon Resource Name (ARN) of the Amazon SQS queue that receives Amazon S3 event notifications for the source buckets.
+        public let sqsArn: String
+
+        @inlinable
+        public init(buckets: [StreamBucketConfig]? = nil, sqsArn: String) {
+            self.buckets = buckets
+            self.sqsArn = sqsArn
+        }
+
+        public func validate(name: String) throws {
+            try self.buckets?.forEach {
+                try $0.validate(name: "\(name).buckets[]")
+            }
+            try self.validate(self.buckets, name: "buckets", parent: name, max: 5)
+            try self.validate(self.sqsArn, name: "sqsArn", parent: name, max: 2048)
+            try self.validate(self.sqsArn, name: "sqsArn", parent: name, min: 1)
+            try self.validate(self.sqsArn, name: "sqsArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-c|aws-iso-d|aws-iso-e):sqs:[a-z0-9-]+:\\d{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buckets = "buckets"
+            case sqsArn = "sqsArn"
+        }
+    }
+
+    public struct IngestionStreamSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 source configuration for the ingestion stream.
+        public let s3: IngestionStreamS3Source
+
+        @inlinable
+        public init(s3: IngestionStreamS3Source) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct IngestionStreamSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ingestion stream.
+        public let arn: String?
+        /// The date and time when the ingestion stream was created.
+        public let createdAt: Date?
+        /// The name of the index that documents are ingested into.
+        public let indexName: String?
+        /// The unique identifier of the ingestion stream.
+        public let ingestionStreamId: String?
+        /// The name of the ingestion stream.
+        public let ingestionStreamName: String?
+        /// The current lifecycle status of the ingestion stream.
+        public let status: IngestionStreamStatus?
+        /// The date and time when the ingestion stream was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, indexName: String? = nil, ingestionStreamId: String? = nil, ingestionStreamName: String? = nil, status: IngestionStreamStatus? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.indexName = indexName
+            self.ingestionStreamId = ingestionStreamId
+            self.ingestionStreamName = ingestionStreamName
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case indexName = "indexName"
+            case ingestionStreamId = "ingestionStreamId"
+            case ingestionStreamName = "ingestionStreamName"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2457,6 +3255,98 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct ListIngestionJobsRequest: AWSEncodableShape {
+        /// The unique identifier of the collection to list ingestion jobs for.
+        public let collectionId: String
+        /// The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use nextToken to get the next page of results. A response can contain fewer results than maxResults, or no results, and still include a nextToken. To retrieve all results, continue to make the call with the returned nextToken until no nextToken is returned.
+        public let maxResults: Int?
+        /// If your initial ListIngestionJobs operation returns a nextToken, you can include the returned nextToken in subsequent ListIngestionJobs operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collectionId = collectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "collectionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIngestionJobsResponse: AWSDecodableShape {
+        /// Summary information about each ingestion job.
+        public let ingestionJobSummaries: [IngestionJobSummary]?
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ingestionJobSummaries: [IngestionJobSummary]? = nil, nextToken: String? = nil) {
+            self.ingestionJobSummaries = ingestionJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionJobSummaries = "ingestionJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIngestionStreamsRequest: AWSEncodableShape {
+        /// The unique identifier of the collection to list ingestion streams for.
+        public let collectionId: String
+        /// The maximum number of results to return. Valid values are 1–100. If you don't specify a value, the default is 100. You can use nextToken to get the next page of results. A response can contain fewer results than maxResults, or no results, and still include a nextToken. To retrieve all results, continue to make the call with the returned nextToken until no nextToken is returned.
+        public let maxResults: Int?
+        /// If your initial ListIngestionStreams operation returns a nextToken, you can include the returned nextToken in subsequent ListIngestionStreams operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collectionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collectionId = collectionId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionId, name: "collectionId", parent: name, max: 40)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, min: 3)
+            try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "collectionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIngestionStreamsResponse: AWSDecodableShape {
+        /// Summary information about each ingestion stream.
+        public let ingestionStreamSummaries: [IngestionStreamSummary]?
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ingestionStreamSummaries: [IngestionStreamSummary]? = nil, nextToken: String? = nil) {
+            self.ingestionStreamSummaries = ingestionStreamSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionStreamSummaries = "ingestionStreamSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListLifecyclePoliciesRequest: AWSEncodableShape {
         /// An optional parameter that specifies the maximum number of results to return. You can use use nextToken to get the next page of results. The default is 10.
         public let maxResults: Int?
@@ -2655,6 +3545,28 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case vpcEndpointSummaries = "vpcEndpointSummaries"
+        }
+    }
+
+    public struct S3Statistics: AWSDecodableShape {
+        /// The number of Amazon S3 objects discovered for ingestion.
+        public let objectsDiscovered: Int64?
+        /// The number of Amazon S3 objects that failed to be ingested.
+        public let objectsFailed: Int64?
+        /// The number of Amazon S3 objects successfully ingested.
+        public let objectsIngested: Int64?
+
+        @inlinable
+        public init(objectsDiscovered: Int64? = nil, objectsFailed: Int64? = nil, objectsIngested: Int64? = nil) {
+            self.objectsDiscovered = objectsDiscovered
+            self.objectsFailed = objectsFailed
+            self.objectsIngested = objectsIngested
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectsDiscovered = "objectsDiscovered"
+            case objectsFailed = "objectsFailed"
+            case objectsIngested = "objectsIngested"
         }
     }
 
@@ -2917,6 +3829,38 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct StreamBucketConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name or Amazon Resource Name (ARN) of the Amazon S3 bucket to ingest data from.
+        public let bucket: String
+        /// The AWS account ID that owns the S3 bucket. Optional. If omitted, the
+        /// control plane derives it from the account segment of sqsArn.
+        public let bucketOwnerAccountId: String?
+        /// Specifies whether to perform a one-time scan of the objects that already exist in the bucket before the stream begins processing Amazon S3 event notifications. If DISABLED, only new objects are ingested.
+        public let initialScan: InitialScan?
+
+        @inlinable
+        public init(bucket: String, bucketOwnerAccountId: String? = nil, initialScan: InitialScan? = nil) {
+            self.bucket = bucket
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.initialScan = initialScan
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 2048)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^(arn:[a-z0-9\\-]+:s3:::[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]|[a-z0-9][a-z0-9.-]{1,61}[a-z0-9])$")
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case bucketOwnerAccountId = "bucketOwnerAccountId"
+            case initialScan = "initialScan"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key to use in the tag.
         public let key: String
@@ -3109,6 +4053,8 @@ extension OpenSearchServerless {
         public let description: String?
         /// The unique identifier of the collection.
         public let id: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (Amazon Web Services KMS) key used to encrypt the collection.
+        public let kmsKeyArn: String?
         /// The date and time when the collection was last modified.
         public let lastModifiedDate: Int64?
         /// The name of the collection.
@@ -3121,12 +4067,13 @@ extension OpenSearchServerless {
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, createdDate: Int64? = nil, deletionProtection: DeletionProtection? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(arn: String? = nil, createdDate: Int64? = nil, deletionProtection: DeletionProtection? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletionProtection = deletionProtection
             self.description = description
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
             self.name = name
             self.status = status
@@ -3140,6 +4087,7 @@ extension OpenSearchServerless {
             case deletionProtection = "deletionProtection"
             case description = "description"
             case id = "id"
+            case kmsKeyArn = "kmsKeyArn"
             case lastModifiedDate = "lastModifiedDate"
             case name = "name"
             case status = "status"
@@ -3191,7 +4139,7 @@ extension OpenSearchServerless {
     }
 
     public struct UpdateCollectionGroupRequest: AWSEncodableShape {
-        /// Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        /// The updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs). Updates to capacity limits are not incremental. Any field not specified resets to its default value.
         public let capacityLimits: CollectionGroupCapacityLimits?
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -3246,16 +4194,18 @@ extension OpenSearchServerless {
         public let deletionProtection: DeletionProtection?
         /// A description of the collection.
         public let description: String?
+        public let encryptionConfig: EncryptionConfig?
         /// The unique identifier of the collection.
         public let id: String
         /// Configuration options for vector search capabilities in the collection.
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(clientToken: String? = UpdateCollectionRequest.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, id: String, vectorOptions: VectorOptions? = nil) {
+        public init(clientToken: String? = UpdateCollectionRequest.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, encryptionConfig: EncryptionConfig? = nil, id: String, vectorOptions: VectorOptions? = nil) {
             self.clientToken = clientToken
             self.deletionProtection = deletionProtection
             self.description = description
+            self.encryptionConfig = encryptionConfig
             self.id = id
             self.vectorOptions = vectorOptions
         }
@@ -3272,6 +4222,7 @@ extension OpenSearchServerless {
             case clientToken = "clientToken"
             case deletionProtection = "deletionProtection"
             case description = "description"
+            case encryptionConfig = "encryptionConfig"
             case id = "id"
             case vectorOptions = "vectorOptions"
         }

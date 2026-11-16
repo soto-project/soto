@@ -114,6 +114,8 @@ extension RolesAnywhere {
     public struct CreateProfileRequest: AWSEncodableShape {
         /// Used to determine if a custom role session name will be accepted in a temporary credential request.
         public let acceptRoleSessionName: Bool?
+        /// An alias for the profile. When you set an alias, the response includes the alias ARN of the profile in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+        public let aliasName: String?
         ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
         public let durationSeconds: Int?
         /// Specifies whether the profile is enabled.
@@ -132,8 +134,9 @@ extension RolesAnywhere {
         public let tags: [Tag]?
 
         @inlinable
-        public init(acceptRoleSessionName: Bool? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String, requireInstanceProperties: Bool? = nil, roleArns: [String], sessionPolicy: String? = nil, tags: [Tag]? = nil) {
+        public init(acceptRoleSessionName: Bool? = nil, aliasName: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String, requireInstanceProperties: Bool? = nil, roleArns: [String], sessionPolicy: String? = nil, tags: [Tag]? = nil) {
             self.acceptRoleSessionName = acceptRoleSessionName
+            self.aliasName = aliasName
             self.durationSeconds = durationSeconds
             self.enabled = enabled
             self.managedPolicyArns = managedPolicyArns
@@ -145,6 +148,8 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^(?!.*//)([A-Za-z]([A-Za-z0-9_/-]*[A-Za-z0-9_-])?)?$")
             try self.validate(self.managedPolicyArns, name: "managedPolicyArns", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -163,6 +168,7 @@ extension RolesAnywhere {
 
         private enum CodingKeys: String, CodingKey {
             case acceptRoleSessionName = "acceptRoleSessionName"
+            case aliasName = "aliasName"
             case durationSeconds = "durationSeconds"
             case enabled = "enabled"
             case managedPolicyArns = "managedPolicyArns"
@@ -175,6 +181,10 @@ extension RolesAnywhere {
     }
 
     public struct CreateTrustAnchorRequest: AWSEncodableShape {
+        /// An alias for the trust anchor. When you set an alias, the response includes the alias ARN of the trust anchor in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+        public let aliasName: String?
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public let crlDpRevocationEnabled: Bool?
         /// Specifies whether the trust anchor is enabled.
         public let enabled: Bool?
         /// The name of the trust anchor.
@@ -187,7 +197,9 @@ extension RolesAnywhere {
         public let tags: [Tag]?
 
         @inlinable
-        public init(enabled: Bool? = nil, name: String, notificationSettings: [NotificationSetting]? = nil, source: Source, tags: [Tag]? = nil) {
+        public init(aliasName: String? = nil, crlDpRevocationEnabled: Bool? = nil, enabled: Bool? = nil, name: String, notificationSettings: [NotificationSetting]? = nil, source: Source, tags: [Tag]? = nil) {
+            self.aliasName = aliasName
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.enabled = enabled
             self.name = name
             self.notificationSettings = notificationSettings
@@ -196,6 +208,8 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^(?!.*//)([A-Za-z]([A-Za-z0-9_/-]*[A-Za-z0-9_-])?)?$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9-_]*$")
@@ -207,6 +221,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
+            case crlDpRevocationEnabled = "crlDpRevocationEnabled"
             case enabled = "enabled"
             case name = "name"
             case notificationSettings = "notificationSettings"
@@ -250,6 +266,10 @@ extension RolesAnywhere {
     }
 
     public struct CrlDetail: AWSDecodableShape {
+        /// The alias ARN of the certificate revocation list (CRL), in the form arn:partition:rolesanywhere:region:account:alias/crl/alias-name . Present only if the CRL has an alias. You can use the alias ARN in place of the resource ID or ARN in the request parameters whose descriptions say that they accept an alias ARN. Don't use the alias ARN in Identity and Access Management (IAM) policies. A policy statement that names an alias ARN doesn't apply to the resource that holds the alias. Write policies with the ARN that contains the resource ID instead.
+        public let aliasArn: String?
+        /// The alias of the certificate revocation list (CRL). Present only if the CRL has an alias.
+        public let aliasName: String?
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was created.
         public let createdAt: Date?
         /// The ARN of the certificate revocation list (CRL).
@@ -262,30 +282,38 @@ extension RolesAnywhere {
         public let enabled: Bool?
         /// The name of the certificate revocation list (CRL).
         public let name: String?
+        /// The alias that the resource had before the update request. IAM Roles Anywhere returns this value only in the response to an update request that changed or removed an existing alias. It isn't returned when the alias was unchanged, when the resource had no alias before the request, or by other operations.
+        public let previousAliasName: String?
         /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for.
         public let trustAnchorArn: String?
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, crlArn: String? = nil, crlData: AWSBase64Data? = nil, crlId: String? = nil, enabled: Bool? = nil, name: String? = nil, trustAnchorArn: String? = nil, updatedAt: Date? = nil) {
+        public init(aliasArn: String? = nil, aliasName: String? = nil, createdAt: Date? = nil, crlArn: String? = nil, crlData: AWSBase64Data? = nil, crlId: String? = nil, enabled: Bool? = nil, name: String? = nil, previousAliasName: String? = nil, trustAnchorArn: String? = nil, updatedAt: Date? = nil) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
             self.createdAt = createdAt
             self.crlArn = crlArn
             self.crlData = crlData
             self.crlId = crlId
             self.enabled = enabled
             self.name = name
+            self.previousAliasName = previousAliasName
             self.trustAnchorArn = trustAnchorArn
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasArn = "aliasArn"
+            case aliasName = "aliasName"
             case createdAt = "createdAt"
             case crlArn = "crlArn"
             case crlData = "crlData"
             case crlId = "crlId"
             case enabled = "enabled"
             case name = "name"
+            case previousAliasName = "previousAliasName"
             case trustAnchorArn = "trustAnchorArn"
             case updatedAt = "updatedAt"
         }
@@ -308,7 +336,7 @@ extension RolesAnywhere {
     public struct DeleteAttributeMappingRequest: AWSEncodableShape {
         /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
         public let certificateField: CertificateField
-        /// The unique identifier of the profile.
+        /// The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
         public let profileId: String
         /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject.
         public let specifiers: [String]?
@@ -329,9 +357,9 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.profileId, name: "profileId", parent: name, max: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, min: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 1011)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(profile|alias/profile)/.*)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -352,6 +380,8 @@ extension RolesAnywhere {
     }
 
     public struct ImportCrlRequest: AWSEncodableShape {
+        /// An alias for the certificate revocation list (CRL). When you set an alias, the response includes the alias ARN of the CRL in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+        public let aliasName: String?
         /// The x509 v3 specified certificate revocation list (CRL).
         public let crlData: AWSBase64Data
         /// Specifies whether the certificate revocation list (CRL) is enabled.
@@ -360,11 +390,12 @@ extension RolesAnywhere {
         public let name: String
         /// A list of tags to attach to the certificate revocation list (CRL).
         public let tags: [Tag]?
-        /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for.
+        /// The ARN of the trust anchor that the certificate revocation list (CRL) provides revocation for. Specify the trust anchor ARN that contains the trust anchor ID. This parameter doesn't support alias ARNs. If you specify an alias ARN, the request fails with ResourceNotFoundException.
         public let trustAnchorArn: String
 
         @inlinable
-        public init(crlData: AWSBase64Data, enabled: Bool? = nil, name: String, tags: [Tag]? = nil, trustAnchorArn: String) {
+        public init(aliasName: String? = nil, crlData: AWSBase64Data, enabled: Bool? = nil, name: String, tags: [Tag]? = nil, trustAnchorArn: String) {
+            self.aliasName = aliasName
             self.crlData = crlData
             self.enabled = enabled
             self.name = name
@@ -373,6 +404,8 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^(?!.*//)([A-Za-z]([A-Za-z0-9_/-]*[A-Za-z0-9_-])?)?$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9-_]*$")
@@ -382,10 +415,11 @@ extension RolesAnywhere {
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.trustAnchorArn, name: "trustAnchorArn", parent: name, max: 1011)
             try self.validate(self.trustAnchorArn, name: "trustAnchorArn", parent: name, min: 1)
-            try self.validate(self.trustAnchorArn, name: "trustAnchorArn", parent: name, pattern: "^arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*)$")
+            try self.validate(self.trustAnchorArn, name: "trustAnchorArn", parent: name, pattern: "^arn:aws(-[^:]+)?:rolesanywhere(:.*){2}(:trust-anchor.*|:alias/trust-anchor/.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
             case crlData = "crlData"
             case enabled = "enabled"
             case name = "name"
@@ -638,6 +672,10 @@ extension RolesAnywhere {
     public struct ProfileDetail: AWSDecodableShape {
         /// Used to determine if a custom role session name will be accepted in a temporary credential request.
         public let acceptRoleSessionName: Bool?
+        /// The alias ARN of the profile, in the form arn:partition:rolesanywhere:region:account:alias/profile/alias-name . Present only if the profile has an alias. You can use the alias ARN in place of the resource ID or ARN in the request parameters whose descriptions say that they accept an alias ARN. Don't use the alias ARN in Identity and Access Management (IAM) policies. A policy statement that names an alias ARN doesn't apply to the resource that holds the alias. Write policies with the ARN that contains the resource ID instead.
+        public let aliasArn: String?
+        /// The alias of the profile. Present only if the profile has an alias.
+        public let aliasName: String?
         /// A mapping applied to the authenticating end-entity certificate.
         public let attributeMappings: [AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
@@ -652,6 +690,8 @@ extension RolesAnywhere {
         public let managedPolicyArns: [String]?
         /// The name of the profile.
         public let name: String?
+        /// The alias that the resource had before the update request. IAM Roles Anywhere returns this value only in the response to an update request that changed or removed an existing alias. It isn't returned when the alias was unchanged, when the resource had no alias before the request, or by other operations.
+        public let previousAliasName: String?
         /// The ARN of the profile.
         public let profileArn: String?
         /// The unique identifier of the profile.
@@ -666,8 +706,10 @@ extension RolesAnywhere {
         public let updatedAt: Date?
 
         @inlinable
-        public init(acceptRoleSessionName: Bool? = nil, attributeMappings: [AttributeMapping]? = nil, createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
+        public init(acceptRoleSessionName: Bool? = nil, aliasArn: String? = nil, aliasName: String? = nil, attributeMappings: [AttributeMapping]? = nil, createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, previousAliasName: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
             self.acceptRoleSessionName = acceptRoleSessionName
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
             self.attributeMappings = attributeMappings
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -675,6 +717,7 @@ extension RolesAnywhere {
             self.enabled = enabled
             self.managedPolicyArns = managedPolicyArns
             self.name = name
+            self.previousAliasName = previousAliasName
             self.profileArn = profileArn
             self.profileId = profileId
             self.requireInstanceProperties = requireInstanceProperties
@@ -685,6 +728,8 @@ extension RolesAnywhere {
 
         private enum CodingKeys: String, CodingKey {
             case acceptRoleSessionName = "acceptRoleSessionName"
+            case aliasArn = "aliasArn"
+            case aliasName = "aliasName"
             case attributeMappings = "attributeMappings"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
@@ -692,6 +737,7 @@ extension RolesAnywhere {
             case enabled = "enabled"
             case managedPolicyArns = "managedPolicyArns"
             case name = "name"
+            case previousAliasName = "previousAliasName"
             case profileArn = "profileArn"
             case profileId = "profileId"
             case requireInstanceProperties = "requireInstanceProperties"
@@ -720,7 +766,7 @@ extension RolesAnywhere {
         public let certificateField: CertificateField
         /// A list of mapping entries for every supported specifier or sub-field.
         public let mappingRules: [MappingRule]
-        /// The unique identifier of the profile.
+        /// The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
         public let profileId: String
 
         @inlinable
@@ -739,9 +785,9 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.profileId, name: "profileId", parent: name, max: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, min: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 1011)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(profile|alias/profile)/.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -841,7 +887,7 @@ extension RolesAnywhere {
     }
 
     public struct ScalarCrlRequest: AWSEncodableShape {
-        /// The unique identifier of the certificate revocation list (CRL).
+        /// The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
         public let crlId: String
 
         @inlinable
@@ -856,16 +902,16 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.crlId, name: "crlId", parent: name, max: 36)
-            try self.validate(self.crlId, name: "crlId", parent: name, min: 36)
-            try self.validate(self.crlId, name: "crlId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.crlId, name: "crlId", parent: name, max: 1011)
+            try self.validate(self.crlId, name: "crlId", parent: name, min: 1)
+            try self.validate(self.crlId, name: "crlId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(crl|alias/crl)/.*)$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ScalarProfileRequest: AWSEncodableShape {
-        /// The unique identifier of the profile.
+        /// The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
         public let profileId: String
 
         @inlinable
@@ -880,9 +926,9 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.profileId, name: "profileId", parent: name, max: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, min: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 1011)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(profile|alias/profile)/.*)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -913,7 +959,7 @@ extension RolesAnywhere {
     }
 
     public struct ScalarTrustAnchorRequest: AWSEncodableShape {
-        /// The unique identifier of the trust anchor.
+        /// The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
         public let trustAnchorId: String
 
         @inlinable
@@ -928,12 +974,30 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, max: 36)
-            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, min: 36)
-            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, max: 1011)
+            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, min: 1)
+            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(trust-anchor|alias/trust-anchor)/.*)$")
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        /// The exception message.
+        public let message: String
+        /// The recommended number of seconds after which the client should retry the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case retryAfterSeconds = "retryAfterSeconds"
+        }
     }
 
     public struct Source: AWSEncodableShape & AWSDecodableShape {
@@ -1110,14 +1174,22 @@ extension RolesAnywhere {
     }
 
     public struct TrustAnchorDetail: AWSDecodableShape {
+        /// The alias ARN of the trust anchor, in the form arn:partition:rolesanywhere:region:account:alias/trust-anchor/alias-name . Present only if the trust anchor has an alias. You can use the alias ARN in place of the resource ID or ARN in the request parameters whose descriptions say that they accept an alias ARN. Don't use the alias ARN in Identity and Access Management (IAM) policies. A policy statement that names an alias ARN doesn't apply to the resource that holds the alias. Write policies with the ARN that contains the resource ID instead.
+        public let aliasArn: String?
+        /// The alias of the trust anchor. Present only if the trust anchor has an alias.
+        public let aliasName: String?
         /// The ISO-8601 timestamp when the trust anchor was created.
         public let createdAt: Date?
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public let crlDpRevocationEnabled: Bool?
         /// Indicates whether the trust anchor is enabled.
         public let enabled: Bool?
         /// The name of the trust anchor.
         public let name: String?
         /// A list of notification settings to be associated to the trust anchor.
         public let notificationSettings: [NotificationSettingDetail]?
+        /// The alias that the resource had before the update request. IAM Roles Anywhere returns this value only in the response to an update request that changed or removed an existing alias. It isn't returned when the alias was unchanged, when the resource had no alias before the request, or by other operations.
+        public let previousAliasName: String?
         /// The trust anchor type and its related certificate data.
         public let source: Source?
         /// The ARN of the trust anchor.
@@ -1128,11 +1200,15 @@ extension RolesAnywhere {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, enabled: Bool? = nil, name: String? = nil, notificationSettings: [NotificationSettingDetail]? = nil, source: Source? = nil, trustAnchorArn: String? = nil, trustAnchorId: String? = nil, updatedAt: Date? = nil) {
+        public init(aliasArn: String? = nil, aliasName: String? = nil, createdAt: Date? = nil, crlDpRevocationEnabled: Bool? = nil, enabled: Bool? = nil, name: String? = nil, notificationSettings: [NotificationSettingDetail]? = nil, previousAliasName: String? = nil, source: Source? = nil, trustAnchorArn: String? = nil, trustAnchorId: String? = nil, updatedAt: Date? = nil) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
             self.createdAt = createdAt
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.enabled = enabled
             self.name = name
             self.notificationSettings = notificationSettings
+            self.previousAliasName = previousAliasName
             self.source = source
             self.trustAnchorArn = trustAnchorArn
             self.trustAnchorId = trustAnchorId
@@ -1140,10 +1216,14 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasArn = "aliasArn"
+            case aliasName = "aliasName"
             case createdAt = "createdAt"
+            case crlDpRevocationEnabled = "crlDpRevocationEnabled"
             case enabled = "enabled"
             case name = "name"
             case notificationSettings = "notificationSettings"
+            case previousAliasName = "previousAliasName"
             case source = "source"
             case trustAnchorArn = "trustAnchorArn"
             case trustAnchorId = "trustAnchorId"
@@ -1199,15 +1279,18 @@ extension RolesAnywhere {
     }
 
     public struct UpdateCrlRequest: AWSEncodableShape {
+        /// The alias for the certificate revocation list (CRL). You can use this parameter in the following ways:   To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.   To remove the alias, specify an empty string.   To keep the current alias, omit this parameter.   An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+        public let aliasName: String?
         /// The x509 v3 specified certificate revocation list (CRL).
         public let crlData: AWSBase64Data?
-        /// The unique identifier of the certificate revocation list (CRL).
+        /// The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
         public let crlId: String
         /// The name of the Crl.
         public let name: String?
 
         @inlinable
-        public init(crlData: AWSBase64Data? = nil, crlId: String, name: String? = nil) {
+        public init(aliasName: String? = nil, crlData: AWSBase64Data? = nil, crlId: String, name: String? = nil) {
+            self.aliasName = aliasName
             self.crlData = crlData
             self.crlId = crlId
             self.name = name
@@ -1216,21 +1299,25 @@ extension RolesAnywhere {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.aliasName, forKey: .aliasName)
             try container.encodeIfPresent(self.crlData, forKey: .crlData)
             request.encodePath(self.crlId, key: "crlId")
             try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.crlId, name: "crlId", parent: name, max: 36)
-            try self.validate(self.crlId, name: "crlId", parent: name, min: 36)
-            try self.validate(self.crlId, name: "crlId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^(?!.*//)([A-Za-z]([A-Za-z0-9_/-]*[A-Za-z0-9_-])?)?$")
+            try self.validate(self.crlId, name: "crlId", parent: name, max: 1011)
+            try self.validate(self.crlId, name: "crlId", parent: name, min: 1)
+            try self.validate(self.crlId, name: "crlId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(crl|alias/crl)/.*)$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
             case crlData = "crlData"
             case name = "name"
         }
@@ -1239,13 +1326,15 @@ extension RolesAnywhere {
     public struct UpdateProfileRequest: AWSEncodableShape {
         /// Used to determine if a custom role session name will be accepted in a temporary credential request.
         public let acceptRoleSessionName: Bool?
+        /// The alias for the profile. You can use this parameter in the following ways:   To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.   To remove the alias, specify an empty string.   To keep the current alias, omit this parameter.   An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+        public let aliasName: String?
         ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
         public let durationSeconds: Int?
         /// A list of managed policy ARNs that apply to the vended session credentials.
         public let managedPolicyArns: [String]?
         /// The name of the profile.
         public let name: String?
-        /// The unique identifier of the profile.
+        /// The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
         public let profileId: String
         /// A list of IAM roles that this profile can assume in a temporary credential request.
         public let roleArns: [String]?
@@ -1253,8 +1342,9 @@ extension RolesAnywhere {
         public let sessionPolicy: String?
 
         @inlinable
-        public init(acceptRoleSessionName: Bool? = nil, durationSeconds: Int? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileId: String, roleArns: [String]? = nil, sessionPolicy: String? = nil) {
+        public init(acceptRoleSessionName: Bool? = nil, aliasName: String? = nil, durationSeconds: Int? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileId: String, roleArns: [String]? = nil, sessionPolicy: String? = nil) {
             self.acceptRoleSessionName = acceptRoleSessionName
+            self.aliasName = aliasName
             self.durationSeconds = durationSeconds
             self.managedPolicyArns = managedPolicyArns
             self.name = name
@@ -1267,6 +1357,7 @@ extension RolesAnywhere {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.acceptRoleSessionName, forKey: .acceptRoleSessionName)
+            try container.encodeIfPresent(self.aliasName, forKey: .aliasName)
             try container.encodeIfPresent(self.durationSeconds, forKey: .durationSeconds)
             try container.encodeIfPresent(self.managedPolicyArns, forKey: .managedPolicyArns)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -1276,13 +1367,15 @@ extension RolesAnywhere {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^(?!.*//)([A-Za-z]([A-Za-z0-9_/-]*[A-Za-z0-9_-])?)?$")
             try self.validate(self.managedPolicyArns, name: "managedPolicyArns", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9-_]*$")
-            try self.validate(self.profileId, name: "profileId", parent: name, max: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, min: 36)
-            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 1011)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(profile|alias/profile)/.*)$")
             try self.roleArns?.forEach {
                 try validate($0, name: "roleArns[]", parent: name, max: 1011)
                 try validate($0, name: "roleArns[]", parent: name, min: 1)
@@ -1293,6 +1386,7 @@ extension RolesAnywhere {
 
         private enum CodingKeys: String, CodingKey {
             case acceptRoleSessionName = "acceptRoleSessionName"
+            case aliasName = "aliasName"
             case durationSeconds = "durationSeconds"
             case managedPolicyArns = "managedPolicyArns"
             case name = "name"
@@ -1302,15 +1396,21 @@ extension RolesAnywhere {
     }
 
     public struct UpdateTrustAnchorRequest: AWSEncodableShape {
+        /// The alias for the trust anchor. You can use this parameter in the following ways:   To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.   To remove the alias, specify an empty string.   To keep the current alias, omit this parameter.   An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+        public let aliasName: String?
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public let crlDpRevocationEnabled: Bool?
         /// The name of the trust anchor.
         public let name: String?
         /// The trust anchor type and its related certificate data.
         public let source: Source?
-        /// The unique identifier of the trust anchor.
+        /// The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
         public let trustAnchorId: String
 
         @inlinable
-        public init(name: String? = nil, source: Source? = nil, trustAnchorId: String) {
+        public init(aliasName: String? = nil, crlDpRevocationEnabled: Bool? = nil, name: String? = nil, source: Source? = nil, trustAnchorId: String) {
+            self.aliasName = aliasName
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.name = name
             self.source = source
             self.trustAnchorId = trustAnchorId
@@ -1319,21 +1419,27 @@ extension RolesAnywhere {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.aliasName, forKey: .aliasName)
+            try container.encodeIfPresent(self.crlDpRevocationEnabled, forKey: .crlDpRevocationEnabled)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.source, forKey: .source)
             request.encodePath(self.trustAnchorId, key: "trustAnchorId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^(?!.*//)([A-Za-z]([A-Za-z0-9_/-]*[A-Za-z0-9_-])?)?$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9-_]*$")
-            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, max: 36)
-            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, min: 36)
-            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, max: 1011)
+            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, min: 1)
+            try self.validate(self.trustAnchorId, name: "trustAnchorId", parent: name, pattern: "^([a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}|arn:aws(-[^:]+)?:rolesanywhere(:.*){2}:(trust-anchor|alias/trust-anchor)/.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
+            case crlDpRevocationEnabled = "crlDpRevocationEnabled"
             case name = "name"
             case source = "source"
         }
@@ -1347,6 +1453,7 @@ public struct RolesAnywhereErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case tooManyTagsException = "TooManyTagsException"
         case validationException = "ValidationException"
     }
@@ -1373,10 +1480,18 @@ public struct RolesAnywhereErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request has failed due to a temporary failure of the service.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Too many tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Validation exception error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension RolesAnywhereErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ServiceUnavailableException": RolesAnywhere.ServiceUnavailableException.self
+    ]
 }
 
 extension RolesAnywhereErrorType: Equatable {

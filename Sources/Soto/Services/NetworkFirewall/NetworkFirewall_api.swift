@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS NetworkFirewall service.
 ///
-/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.8. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
+/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 8.0.3. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
 public struct NetworkFirewall: AWSService {
     // MARK: Member variables
 
@@ -198,7 +198,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.associateFirewallPolicy(input, logger: logger)
     }
 
-    /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans.  This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint.
+    /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans.  This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint.  For a proxy mode firewall, use this operation to add Availability Zones to the firewall. For each subnet, specify a NAT gateway in NatGatewayCreateMappings in the same Availability Zone. You can't add an Availability Zone that the firewall already uses. The firewall keeps working in its other Availability Zones while Network Firewall sets up the new one. If Network Firewall can't set up the new Availability Zone, it removes the Availability Zone from the firewall. It also deletes the NAT gateway that it created there. The Availability Zone's Attachment status shows the reason. You can then add the Availability Zone again.
     @Sendable
     @inlinable
     public func associateSubnets(_ input: AssociateSubnetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSubnetsResponse {
@@ -211,11 +211,12 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans.  This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint.
+    /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans.  This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint.  For a proxy mode firewall, use this operation to add Availability Zones to the firewall. For each subnet, specify a NAT gateway in NatGatewayCreateMappings in the same Availability Zone. You can't add an Availability Zone that the firewall already uses. The firewall keeps working in its other Availability Zones while Network Firewall sets up the new one. If Network Firewall can't set up the new Availability Zone, it removes the Availability Zone from the firewall. It also deletes the NAT gateway that it created there. The Availability Zone's Attachment status shows the reason. You can then add the Availability Zone again.
     ///
     /// Parameters:
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - natGatewayCreateMappings: The NAT gateways that Network Firewall creates for the Availability Zones that you add to a proxy mode firewall. For a proxy mode firewall, you must specify one mapping for each Availability Zone in SubnetMappings, and no other Availability Zones. Each NAT gateway subnet must be in the firewall's VPC and can't be one of the firewall endpoint subnets. You can't specify this for a firewall that isn't a proxy mode firewall.
     ///   - subnetMappings: The IDs of the subnets that you want to associate with the firewall.
     ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     ///   - logger: Logger use during operation
@@ -223,6 +224,7 @@ public struct NetworkFirewall: AWSService {
     public func associateSubnets(
         firewallArn: String? = nil,
         firewallName: String? = nil,
+        natGatewayCreateMappings: [NatGatewayCreateMapping]? = nil,
         subnetMappings: [SubnetMapping],
         updateToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -230,48 +232,11 @@ public struct NetworkFirewall: AWSService {
         let input = AssociateSubnetsRequest(
             firewallArn: firewallArn, 
             firewallName: firewallName, 
+            natGatewayCreateMappings: natGatewayCreateMappings, 
             subnetMappings: subnetMappings, 
             updateToken: updateToken
         )
         return try await self.associateSubnets(input, logger: logger)
-    }
-
-    /// Attaches ProxyRuleGroup resources to a ProxyConfiguration  A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
-    @Sendable
-    @inlinable
-    public func attachRuleGroupsToProxyConfiguration(_ input: AttachRuleGroupsToProxyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachRuleGroupsToProxyConfigurationResponse {
-        try await self.client.execute(
-            operation: "AttachRuleGroupsToProxyConfiguration", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Attaches ProxyRuleGroup resources to a ProxyConfiguration  A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
-    ///
-    /// Parameters:
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - ruleGroups: The proxy rule group(s) to attach to the proxy configuration
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func attachRuleGroupsToProxyConfiguration(
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        ruleGroups: [ProxyRuleGroupAttachment],
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> AttachRuleGroupsToProxyConfigurationResponse {
-        let input = AttachRuleGroupsToProxyConfigurationRequest(
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName, 
-            ruleGroups: ruleGroups, 
-            updateToken: updateToken
-        )
-        return try await self.attachRuleGroupsToProxyConfiguration(input, logger: logger)
     }
 
     /// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
@@ -315,7 +280,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.createContainerAssociation(input, logger: logger)
     }
 
-    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport. To create a proxy mode firewall, specify VpcEndpoint and NatGatewayCreateMappings instead of VpcId and SubnetMappings. A proxy mode firewall is an explicit forward proxy. Your clients send HTTP and HTTPS proxy requests to the firewall's proxy DNS name, which DescribeFirewall returns in each Availability Zone's Attachment. The firewall evaluates proxy traffic with the stateful rules in its firewall policy, and sends allowed traffic out through the NAT gateway in the same Availability Zone. Your clients don't need route table changes. In each Availability Zone, the firewall has one endpoint and one NAT gateway, which Network Firewall creates for you.
     @Sendable
     @inlinable
     public func createFirewall(_ input: CreateFirewallRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallResponse {
@@ -328,7 +293,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport. To create a proxy mode firewall, specify VpcEndpoint and NatGatewayCreateMappings instead of VpcId and SubnetMappings. A proxy mode firewall is an explicit forward proxy. Your clients send HTTP and HTTPS proxy requests to the firewall's proxy DNS name, which DescribeFirewall returns in each Availability Zone's Attachment. The firewall evaluates proxy traffic with the stateful rules in its firewall policy, and sends allowed traffic out through the NAT gateway in the same Availability Zone. Your clients don't need route table changes. In each Availability Zone, the firewall has one endpoint and one NAT gateway, which Network Firewall creates for you.
     ///
     /// Parameters:
     ///   - availabilityZoneChangeProtection: Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection. Default value: FALSE
@@ -340,14 +305,14 @@ public struct NetworkFirewall: AWSService {
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     ///   - firewallPolicyArn: The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall.
     ///   - firewallPolicyChangeProtection: A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    ///   - natGatewayMappings: The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE. Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway.
-    ///   - noSourcePreservation: Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE, the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source.  When you set this to TRUE, you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings.  You can't change this setting after you create the firewall.  Default value: FALSE
-    ///   - proxySettings: The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    ///   - natGatewayCreateMappings: The NAT gateways that Network Firewall creates for a proxy mode firewall, one for each Availability Zone. When you specify this, you create a proxy mode firewall. Destinations see the IP address of the NAT gateway in the client's Availability Zone as the source of the traffic. Specify one mapping for each Availability Zone in VpcEndpoint, and no other Availability Zones. Each NAT gateway subnet must be in the VpcEndpoint VPC and can't be one of the firewall endpoint subnets. You need permission to call the Amazon EC2 CreateNatGateway action. If Network Firewall can't set up an Availability Zone, for example because Amazon EC2 rejects the NAT gateway, it removes the Availability Zone from the firewall. It also deletes the NAT gateway that it created there. The Availability Zone's Attachment status is FAILED, and its status message explains why. You can add the Availability Zone again with AssociateSubnets. If no Availability Zone can be set up, the firewall status is FAILED.
+    ///   - proxySettings: The proxy settings for a proxy mode firewall: the ports and protocols on which the firewall's proxy listens for traffic, and optionally your own domain name and certificate. If you don't specify listeners, the firewall listens for HTTP on port 3128 and HTTPS on port 8443. To change the listeners later, use UpdateProxySettings.
     ///   - subnetChangeProtection: A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     ///   - subnetMappings: The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
     ///   - tags: The key:value pairs to associate with the resource.
     ///   - transitGatewayId: Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager.  After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall.  For information about creating firewalls, see CreateFirewall. For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide.
-    ///   - vpcEndpoint: The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE. Network Firewall creates the firewall endpoint in the subnets that you specify here.  For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings.
+    ///   - transparentFilteringNatScope: How a proxy mode firewall handles traffic that isn't sent to its proxy listener. If you don't specify a value, the firewall uses NAT_ALL. You can choose from the following values:    NAT_ALL - After inspection, the firewall sends this traffic out through its NAT gateway, which translates the source address.    NAT_NONE - After inspection, the firewall returns this traffic to the firewall endpoint without address translation.   You can specify this only for a proxy mode firewall, and you can't change it after you create the firewall.
+    ///   - vpcEndpoint: The VPC and subnets for the endpoints of a proxy mode firewall. Network Firewall creates a firewall endpoint in each subnet that you specify. It also creates the firewall's NAT gateways in this VPC, in the subnets that you specify in NatGatewayCreateMappings. To create a proxy mode firewall, you must specify VpcEndpoint and NatGatewayCreateMappings, and you must not specify the top-level VpcId and SubnetMappings. Specify one subnet for each Availability Zone where you want to use the firewall.
     ///   - vpcId: The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
     ///   - logger: Logger use during operation
     @inlinable
@@ -361,13 +326,13 @@ public struct NetworkFirewall: AWSService {
         firewallName: String,
         firewallPolicyArn: String,
         firewallPolicyChangeProtection: Bool? = nil,
-        natGatewayMappings: [NatGatewayMapping]? = nil,
-        noSourcePreservation: Bool? = nil,
+        natGatewayCreateMappings: [NatGatewayCreateMapping]? = nil,
         proxySettings: ProxySettings? = nil,
         subnetChangeProtection: Bool? = nil,
         subnetMappings: [SubnetMapping]? = nil,
         tags: [Tag]? = nil,
         transitGatewayId: String? = nil,
+        transparentFilteringNatScope: TransparentFilteringNatScope? = nil,
         vpcEndpoint: VpcEndpoint? = nil,
         vpcId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -382,13 +347,13 @@ public struct NetworkFirewall: AWSService {
             firewallName: firewallName, 
             firewallPolicyArn: firewallPolicyArn, 
             firewallPolicyChangeProtection: firewallPolicyChangeProtection, 
-            natGatewayMappings: natGatewayMappings, 
-            noSourcePreservation: noSourcePreservation, 
+            natGatewayCreateMappings: natGatewayCreateMappings, 
             proxySettings: proxySettings, 
             subnetChangeProtection: subnetChangeProtection, 
             subnetMappings: subnetMappings, 
             tags: tags, 
             transitGatewayId: transitGatewayId, 
+            transparentFilteringNatScope: transparentFilteringNatScope, 
             vpcEndpoint: vpcEndpoint, 
             vpcId: vpcId
         )
@@ -439,12 +404,12 @@ public struct NetworkFirewall: AWSService {
         return try await self.createFirewallPolicy(input, logger: logger)
     }
 
-    /// Creates an Network Firewall Proxy  Attaches a Proxy configuration to a NAT Gateway.  To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about proxies, use ListProxies and DescribeProxy.
+    /// Creates a Next Generation policy according to the specifications. A Next Generation policy defines the behavior of a firewall in a collection of firewall engine and IPS engine rule groups and other settings. You can use one firewall policy for multiple firewalls. For more information, see Next Generation policies in the Network Firewall Developer Guide.
     @Sendable
     @inlinable
-    public func createProxy(_ input: CreateProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProxyResponse {
+    public func createFirewallPolicyV2(_ input: CreateFirewallPolicyV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallPolicyV2Response {
         try await self.client.execute(
-            operation: "CreateProxy", 
+            operation: "CreateFirewallPolicyV2", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -452,155 +417,35 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Creates an Network Firewall Proxy  Attaches a Proxy configuration to a NAT Gateway.  To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about proxies, use ListProxies and DescribeProxy.
+    /// Creates a Next Generation policy according to the specifications. A Next Generation policy defines the behavior of a firewall in a collection of firewall engine and IPS engine rule groups and other settings. You can use one firewall policy for multiple firewalls. For more information, see Next Generation policies in the Network Firewall Developer Guide.
     ///
     /// Parameters:
-    ///   - listenerProperties: Listener properties for HTTP and HTTPS traffic.
-    ///   - natGatewayId: A unique identifier for the NAT gateway to use with proxy resources.
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyName: The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-    ///   - tags: The key:value pairs to associate with the resource.
-    ///   - tlsInterceptProperties: TLS decryption on traffic to filter on attributes in the HTTP header.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createProxy(
-        listenerProperties: [ListenerPropertyRequest]? = nil,
-        natGatewayId: String,
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        proxyName: String,
-        tags: [Tag]? = nil,
-        tlsInterceptProperties: TlsInterceptPropertiesRequest,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateProxyResponse {
-        let input = CreateProxyRequest(
-            listenerProperties: listenerProperties, 
-            natGatewayId: natGatewayId, 
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName, 
-            proxyName: proxyName, 
-            tags: tags, 
-            tlsInterceptProperties: tlsInterceptProperties
-        )
-        return try await self.createProxy(input, logger: logger)
-    }
-
-    /// Creates an Network Firewall ProxyConfiguration  A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.  To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
-    @Sendable
-    @inlinable
-    public func createProxyConfiguration(_ input: CreateProxyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProxyConfigurationResponse {
-        try await self.client.execute(
-            operation: "CreateProxyConfiguration", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Creates an Network Firewall ProxyConfiguration  A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.  To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration.
-    ///
-    /// Parameters:
-    ///   - defaultRulePhaseActions: Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    ///   - description: A description of the proxy configuration.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-    ///   - ruleGroupArns: The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
-    ///   - ruleGroupNames: The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
+    ///   - description: A description of the firewall policy.
+    ///   - dryRun: Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
+    ///   - encryptionConfiguration: A complex type that contains settings for encryption of your firewall policy resources.
+    ///   - firewallPolicyV2: The rule groups and other settings that define the Next Generation policy.
+    ///   - firewallPolicyV2Name: The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
     ///   - tags: The key:value pairs to associate with the resource.
     ///   - logger: Logger use during operation
     @inlinable
-    public func createProxyConfiguration(
-        defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest,
+    public func createFirewallPolicyV2(
         description: String? = nil,
-        proxyConfigurationName: String,
-        ruleGroupArns: [String]? = nil,
-        ruleGroupNames: [String]? = nil,
+        dryRun: Bool? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        firewallPolicyV2: FirewallPolicyV2,
+        firewallPolicyV2Name: String,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateProxyConfigurationResponse {
-        let input = CreateProxyConfigurationRequest(
-            defaultRulePhaseActions: defaultRulePhaseActions, 
+    ) async throws -> CreateFirewallPolicyV2Response {
+        let input = CreateFirewallPolicyV2Request(
             description: description, 
-            proxyConfigurationName: proxyConfigurationName, 
-            ruleGroupArns: ruleGroupArns, 
-            ruleGroupNames: ruleGroupNames, 
+            dryRun: dryRun, 
+            encryptionConfiguration: encryptionConfiguration, 
+            firewallPolicyV2: firewallPolicyV2, 
+            firewallPolicyV2Name: firewallPolicyV2Name, 
             tags: tags
         )
-        return try await self.createProxyConfiguration(input, logger: logger)
-    }
-
-    /// Creates an Network Firewall ProxyRuleGroup  Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of rules across multiple proxy configurations.  To manage a proxy rule group's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about proxy rule groups, use ListProxyRuleGroups and DescribeProxyRuleGroup. To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
-    @Sendable
-    @inlinable
-    public func createProxyRuleGroup(_ input: CreateProxyRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProxyRuleGroupResponse {
-        try await self.client.execute(
-            operation: "CreateProxyRuleGroup", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Creates an Network Firewall ProxyRuleGroup  Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of rules across multiple proxy configurations.  To manage a proxy rule group's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about proxy rule groups, use ListProxyRuleGroups and DescribeProxyRuleGroup. To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
-    ///
-    /// Parameters:
-    ///   - description: A description of the proxy rule group.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-    ///   - rules: Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-    ///   - tags: The key:value pairs to associate with the resource.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createProxyRuleGroup(
-        description: String? = nil,
-        proxyRuleGroupName: String,
-        rules: ProxyRulesByRequestPhase? = nil,
-        tags: [Tag]? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateProxyRuleGroupResponse {
-        let input = CreateProxyRuleGroupRequest(
-            description: description, 
-            proxyRuleGroupName: proxyRuleGroupName, 
-            rules: rules, 
-            tags: tags
-        )
-        return try await self.createProxyRuleGroup(input, logger: logger)
-    }
-
-    /// Creates Network Firewall ProxyRule resources.  Attaches new proxy rule(s) to an existing proxy rule group.  To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
-    @Sendable
-    @inlinable
-    public func createProxyRules(_ input: CreateProxyRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProxyRulesResponse {
-        try await self.client.execute(
-            operation: "CreateProxyRules", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Creates Network Firewall ProxyRule resources.  Attaches new proxy rule(s) to an existing proxy rule group.  To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule.
-    ///
-    /// Parameters:
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - rules: Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createProxyRules(
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        rules: CreateProxyRulesByRequestPhase,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateProxyRulesResponse {
-        let input = CreateProxyRulesRequest(
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName, 
-            rules: rules
-        )
-        return try await self.createProxyRules(input, logger: logger)
+        return try await self.createFirewallPolicyV2(input, logger: logger)
     }
 
     /// Creates the specified stateless or stateful rule group, which includes the rules for network traffic inspection, a capacity setting, and tags.  You provide your rule group specification in your request using either RuleGroup or Rules.
@@ -624,13 +469,15 @@ public struct NetworkFirewall: AWSService {
     ///   - description: A description of the rule group.
     ///   - dryRun: Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
     ///   - encryptionConfiguration: A complex type that contains settings for encryption of your rule group resources.
+    ///   - firewallRuleGroup: An object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+    ///   - ipsRuleGroup: An object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
     ///   - ruleGroup: An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it.
     ///   - rules: A string containing stateful rule group rules specifications in Suricata flat format, with one rule
     ///   - sourceMetadata: A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
     ///   - summaryConfiguration: An object that contains a RuleOptions array of strings.  You use RuleOptions to determine which of the following RuleSummary values are returned in response to DescribeRuleGroupSummary.    Metadata - returns    Msg     SID
     ///   - tags: The key:value pairs to associate with the resource.
-    ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+    ///   - type: Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRuleGroup(
@@ -639,6 +486,8 @@ public struct NetworkFirewall: AWSService {
         description: String? = nil,
         dryRun: Bool? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
+        firewallRuleGroup: FirewallRuleGroup? = nil,
+        ipsRuleGroup: IpsRuleGroup? = nil,
         ruleGroup: RuleGroup? = nil,
         ruleGroupName: String,
         rules: String? = nil,
@@ -654,6 +503,8 @@ public struct NetworkFirewall: AWSService {
             description: description, 
             dryRun: dryRun, 
             encryptionConfiguration: encryptionConfiguration, 
+            firewallRuleGroup: firewallRuleGroup, 
+            ipsRuleGroup: ipsRuleGroup, 
             ruleGroup: ruleGroup, 
             ruleGroupName: ruleGroupName, 
             rules: rules, 
@@ -781,7 +632,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.deleteContainerAssociation(input, logger: logger)
     }
 
-    /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.
+    /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.  Deleting a proxy mode firewall detaches its NAT gateways. To also delete the NAT gateways that Network Firewall created for the firewall, specify DeleteAssociatedNatGateways.
     @Sendable
     @inlinable
     public func deleteFirewall(_ input: DeleteFirewallRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallResponse {
@@ -794,19 +645,22 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.
+    /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.  Deleting a proxy mode firewall detaches its NAT gateways. To also delete the NAT gateways that Network Firewall created for the firewall, specify DeleteAssociatedNatGateways.
     ///
     /// Parameters:
+    ///   - deleteAssociatedNatGateways: Specifies whether to delete the NAT gateways that Network Firewall created for a proxy mode firewall when you delete the firewall. You can choose from the following values:    FALSE - Network Firewall detaches the NAT gateways from the firewall and keeps them. This is the default.    TRUE - Network Firewall also deletes the NAT gateways. The firewall status stays DELETING until they're deleted. You need permission to call the Amazon EC2 DeleteNatGateway action.   You can't specify TRUE for a firewall that isn't a proxy mode firewall.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFirewall(
+        deleteAssociatedNatGateways: Bool? = nil,
         firewallArn: String? = nil,
         firewallName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteFirewallResponse {
         let input = DeleteFirewallRequest(
+            deleteAssociatedNatGateways: deleteAssociatedNatGateways, 
             firewallArn: firewallArn, 
             firewallName: firewallName
         )
@@ -845,6 +699,38 @@ public struct NetworkFirewall: AWSService {
         return try await self.deleteFirewallPolicy(input, logger: logger)
     }
 
+    /// Deletes the specified FirewallPolicyV2.
+    @Sendable
+    @inlinable
+    public func deleteFirewallPolicyV2(_ input: DeleteFirewallPolicyV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallPolicyV2Response {
+        try await self.client.execute(
+            operation: "DeleteFirewallPolicyV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified FirewallPolicyV2.
+    ///
+    /// Parameters:
+    ///   - firewallPolicyV2Arn: The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallPolicyV2Name: The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteFirewallPolicyV2(
+        firewallPolicyV2Arn: String? = nil,
+        firewallPolicyV2Name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteFirewallPolicyV2Response {
+        let input = DeleteFirewallPolicyV2Request(
+            firewallPolicyV2Arn: firewallPolicyV2Arn, 
+            firewallPolicyV2Name: firewallPolicyV2Name
+        )
+        return try await self.deleteFirewallPolicyV2(input, logger: logger)
+    }
+
     /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment.  After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints.  After you initiate the delete operation, use DescribeFirewall to monitor the deletion status.
     @Sendable
     @inlinable
@@ -874,7 +760,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.deleteNetworkFirewallTransitGatewayAttachment(input, logger: logger)
     }
 
-    /// Deletes the specified Proxy.  Detaches a Proxy configuration from a NAT Gateway.
+    /// Deletes the specified proxy.  Detaches a Proxy configuration from a NAT Gateway.
     @Sendable
     @inlinable
     public func deleteProxy(_ input: DeleteProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProxyResponse {
@@ -887,7 +773,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified Proxy.  Detaches a Proxy configuration from a NAT Gateway.
+    /// Deletes the specified proxy.  Detaches a Proxy configuration from a NAT Gateway.
     ///
     /// Parameters:
     ///   - natGatewayId: The NAT Gateway the proxy is attached to.
@@ -907,105 +793,6 @@ public struct NetworkFirewall: AWSService {
             proxyName: proxyName
         )
         return try await self.deleteProxy(input, logger: logger)
-    }
-
-    /// Deletes the specified ProxyConfiguration.
-    @Sendable
-    @inlinable
-    public func deleteProxyConfiguration(_ input: DeleteProxyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProxyConfigurationResponse {
-        try await self.client.execute(
-            operation: "DeleteProxyConfiguration", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Deletes the specified ProxyConfiguration.
-    ///
-    /// Parameters:
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteProxyConfiguration(
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteProxyConfigurationResponse {
-        let input = DeleteProxyConfigurationRequest(
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName
-        )
-        return try await self.deleteProxyConfiguration(input, logger: logger)
-    }
-
-    /// Deletes the specified ProxyRuleGroup.
-    @Sendable
-    @inlinable
-    public func deleteProxyRuleGroup(_ input: DeleteProxyRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProxyRuleGroupResponse {
-        try await self.client.execute(
-            operation: "DeleteProxyRuleGroup", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Deletes the specified ProxyRuleGroup.
-    ///
-    /// Parameters:
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteProxyRuleGroup(
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteProxyRuleGroupResponse {
-        let input = DeleteProxyRuleGroupRequest(
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName
-        )
-        return try await self.deleteProxyRuleGroup(input, logger: logger)
-    }
-
-    /// Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
-    @Sendable
-    @inlinable
-    public func deleteProxyRules(_ input: DeleteProxyRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProxyRulesResponse {
-        try await self.client.execute(
-            operation: "DeleteProxyRules", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Deletes the specified ProxyRule(s). currently attached to a ProxyRuleGroup
-    ///
-    /// Parameters:
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - rules: The proxy rule(s) to remove from the existing proxy rule group.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteProxyRules(
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        rules: [String],
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteProxyRulesResponse {
-        let input = DeleteProxyRulesRequest(
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName, 
-            rules: rules
-        )
-        return try await self.deleteProxyRules(input, logger: logger)
     }
 
     /// Deletes a resource policy that you created in a PutResourcePolicy request.
@@ -1055,7 +842,7 @@ public struct NetworkFirewall: AWSService {
     /// Parameters:
     ///   - ruleGroupArn: The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+    ///   - type: Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteRuleGroup(
@@ -1258,6 +1045,41 @@ public struct NetworkFirewall: AWSService {
         return try await self.describeFirewallPolicy(input, logger: logger)
     }
 
+    /// Returns the data objects for the specified Next Generation policy.
+    @Sendable
+    @inlinable
+    public func describeFirewallPolicyV2(_ input: DescribeFirewallPolicyV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFirewallPolicyV2Response {
+        try await self.client.execute(
+            operation: "DescribeFirewallPolicyV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the data objects for the specified Next Generation policy.
+    ///
+    /// Parameters:
+    ///   - firewallPolicyV2Arn: The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallPolicyV2Name: The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - ruleOutputFormat: The format in which to return the rules of any firewall engine rule groups that are embedded in the policy. Specify FIREWALL_RULES for structured FirewallRule objects or RULES_STRING for a Suricata-compatible firewall-mode rule string. If you don't specify a format, Network Firewall returns each embedded rule group in the format you provided it in. Referenced rule groups aren't affected.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeFirewallPolicyV2(
+        firewallPolicyV2Arn: String? = nil,
+        firewallPolicyV2Name: String? = nil,
+        ruleOutputFormat: RuleOutputFormat? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeFirewallPolicyV2Response {
+        let input = DescribeFirewallPolicyV2Request(
+            firewallPolicyV2Arn: firewallPolicyV2Arn, 
+            firewallPolicyV2Name: firewallPolicyV2Name, 
+            ruleOutputFormat: ruleOutputFormat
+        )
+        return try await self.describeFirewallPolicyV2(input, logger: logger)
+    }
+
     /// Returns key information about a specific flow operation.
     @Sendable
     @inlinable
@@ -1274,7 +1096,8 @@ public struct NetworkFirewall: AWSService {
     /// Returns key information about a specific flow operation.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - vpcEndpointAssociationArn: The Amazon Resource Name (ARN) of a VPC endpoint association.
@@ -1283,6 +1106,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func describeFlowOperation(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationId: String,
         vpcEndpointAssociationArn: String? = nil,
@@ -1291,6 +1115,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> DescribeFlowOperationResponse {
         let input = DescribeFlowOperationRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             vpcEndpointAssociationArn: vpcEndpointAssociationArn, 
@@ -1363,105 +1188,6 @@ public struct NetworkFirewall: AWSService {
         return try await self.describeProxy(input, logger: logger)
     }
 
-    /// Returns the data objects for the specified proxy configuration.
-    @Sendable
-    @inlinable
-    public func describeProxyConfiguration(_ input: DescribeProxyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProxyConfigurationResponse {
-        try await self.client.execute(
-            operation: "DescribeProxyConfiguration", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Returns the data objects for the specified proxy configuration.
-    ///
-    /// Parameters:
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeProxyConfiguration(
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeProxyConfigurationResponse {
-        let input = DescribeProxyConfigurationRequest(
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName
-        )
-        return try await self.describeProxyConfiguration(input, logger: logger)
-    }
-
-    /// Returns the data objects for the specified proxy configuration for the specified proxy rule group.
-    @Sendable
-    @inlinable
-    public func describeProxyRule(_ input: DescribeProxyRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProxyRuleResponse {
-        try await self.client.execute(
-            operation: "DescribeProxyRule", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Returns the data objects for the specified proxy configuration for the specified proxy rule group.
-    ///
-    /// Parameters:
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleName: The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeProxyRule(
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        proxyRuleName: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeProxyRuleResponse {
-        let input = DescribeProxyRuleRequest(
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName, 
-            proxyRuleName: proxyRuleName
-        )
-        return try await self.describeProxyRule(input, logger: logger)
-    }
-
-    /// Returns the data objects for the specified proxy rule group.
-    @Sendable
-    @inlinable
-    public func describeProxyRuleGroup(_ input: DescribeProxyRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProxyRuleGroupResponse {
-        try await self.client.execute(
-            operation: "DescribeProxyRuleGroup", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Returns the data objects for the specified proxy rule group.
-    ///
-    /// Parameters:
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeProxyRuleGroup(
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeProxyRuleGroupResponse {
-        let input = DescribeProxyRuleGroupRequest(
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName
-        )
-        return try await self.describeProxyRuleGroup(input, logger: logger)
-    }
-
     /// Retrieves a resource policy that you created in a PutResourcePolicy request.
     @Sendable
     @inlinable
@@ -1510,13 +1236,15 @@ public struct NetworkFirewall: AWSService {
     ///   - analyzeRuleGroup: Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis.
     ///   - ruleGroupArn: The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+    ///   - ruleOutputFormat: For a firewall engine rule group, the format in which to return the rules. Specify one of the following values:    FIREWALL_RULES - Returns the rules as structured FirewallRule objects.    RULES_STRING - Returns the rules as a Suricata-compatible firewall-mode rule string.   If you don't specify a format, Network Firewall returns the rules in the format you provided them in. This setting applies only to FIREWALL and IPS rule groups; IPS engine rule groups support only RULES_STRING.
+    ///   - type: Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeRuleGroup(
         analyzeRuleGroup: Bool? = nil,
         ruleGroupArn: String? = nil,
         ruleGroupName: String? = nil,
+        ruleOutputFormat: RuleOutputFormat? = nil,
         type: RuleGroupType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeRuleGroupResponse {
@@ -1524,6 +1252,7 @@ public struct NetworkFirewall: AWSService {
             analyzeRuleGroup: analyzeRuleGroup, 
             ruleGroupArn: ruleGroupArn, 
             ruleGroupName: ruleGroupName, 
+            ruleOutputFormat: ruleOutputFormat, 
             type: type
         )
         return try await self.describeRuleGroup(input, logger: logger)
@@ -1547,7 +1276,7 @@ public struct NetworkFirewall: AWSService {
     /// Parameters:
     ///   - ruleGroupArn: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+    ///   - type: Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeRuleGroupMetadata(
@@ -1660,47 +1389,6 @@ public struct NetworkFirewall: AWSService {
         return try await self.describeVpcEndpointAssociation(input, logger: logger)
     }
 
-    /// Detaches ProxyRuleGroup resources from a ProxyConfiguration  A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
-    @Sendable
-    @inlinable
-    public func detachRuleGroupsFromProxyConfiguration(_ input: DetachRuleGroupsFromProxyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachRuleGroupsFromProxyConfigurationResponse {
-        try await self.client.execute(
-            operation: "DetachRuleGroupsFromProxyConfiguration", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Detaches ProxyRuleGroup resources from a ProxyConfiguration  A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
-    ///
-    /// Parameters:
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - ruleGroupArns: The proxy rule group arns to detach from the proxy configuration
-    ///   - ruleGroupNames: The proxy rule group names to detach from the proxy configuration
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func detachRuleGroupsFromProxyConfiguration(
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        ruleGroupArns: [String]? = nil,
-        ruleGroupNames: [String]? = nil,
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DetachRuleGroupsFromProxyConfigurationResponse {
-        let input = DetachRuleGroupsFromProxyConfigurationRequest(
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName, 
-            ruleGroupArns: ruleGroupArns, 
-            ruleGroupNames: ruleGroupNames, 
-            updateToken: updateToken
-        )
-        return try await self.detachRuleGroupsFromProxyConfiguration(input, logger: logger)
-    }
-
     /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately.  If AvailabilityZoneChangeProtection is enabled, you must first disable it using UpdateAvailabilityZoneChangeProtection.  To verify the status of your Availability Zone changes, use DescribeFirewall.
     @Sendable
     @inlinable
@@ -1739,7 +1427,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.disassociateAvailabilityZones(input, logger: logger)
     }
 
-    /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
+    /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.  For a proxy mode firewall, this also removes the firewall's proxy DNS record in the Availability Zone and detaches the Availability Zone's NAT gateway from the firewall. Network Firewall keeps the NAT gateway. You can't remove the firewall's last Availability Zone. To do that, delete the firewall. If a VPC endpoint association exists in the Availability Zone, delete it first.
     @Sendable
     @inlinable
     public func disassociateSubnets(_ input: DisassociateSubnetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSubnetsResponse {
@@ -1752,7 +1440,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
+    /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.  For a proxy mode firewall, this also removes the firewall's proxy DNS record in the Availability Zone and detaches the Availability Zone's NAT gateway from the firewall. Network Firewall keeps the NAT gateway. You can't remove the firewall's last Availability Zone. To do that, delete the firewall. If a VPC endpoint association exists in the Availability Zone, delete it first.
     ///
     /// Parameters:
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
@@ -1920,6 +1608,38 @@ public struct NetworkFirewall: AWSService {
         return try await self.listFirewallPolicies(input, logger: logger)
     }
 
+    /// Retrieves the metadata for the Next Generation policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
+    @Sendable
+    @inlinable
+    public func listFirewallPoliciesV2(_ input: ListFirewallPoliciesV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallPoliciesV2Response {
+        try await self.client.execute(
+            operation: "ListFirewallPoliciesV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the metadata for the Next Generation policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFirewallPoliciesV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFirewallPoliciesV2Response {
+        let input = ListFirewallPoliciesV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFirewallPoliciesV2(input, logger: logger)
+    }
+
     /// Retrieves the metadata for the firewalls that you have defined. If you provide VPC identifiers in your request, this returns only the firewalls for those VPCs. Depending on your setting for max results and the number of firewalls, a single call might not return the full list.
     @Sendable
     @inlinable
@@ -1973,7 +1693,8 @@ public struct NetworkFirewall: AWSService {
     /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -1984,6 +1705,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func listFlowOperationResults(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationId: String,
         maxResults: Int? = nil,
@@ -1994,6 +1716,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> ListFlowOperationResultsResponse {
         let input = ListFlowOperationResultsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             maxResults: maxResults, 
@@ -2022,7 +1745,8 @@ public struct NetworkFirewall: AWSService {
     /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -2033,6 +1757,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func listFlowOperations(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationType: FlowOperationType? = nil,
         maxResults: Int? = nil,
@@ -2043,6 +1768,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> ListFlowOperationsResponse {
         let input = ListFlowOperationsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationType: flowOperationType, 
             maxResults: maxResults, 
@@ -2051,102 +1777,6 @@ public struct NetworkFirewall: AWSService {
             vpcEndpointId: vpcEndpointId
         )
         return try await self.listFlowOperations(input, logger: logger)
-    }
-
-    /// Retrieves the metadata for the proxies that you have defined. Depending on your setting for max results and the number of proxies, a single call might not return the full list.
-    @Sendable
-    @inlinable
-    public func listProxies(_ input: ListProxiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProxiesResponse {
-        try await self.client.execute(
-            operation: "ListProxies", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Retrieves the metadata for the proxies that you have defined. Depending on your setting for max results and the number of proxies, a single call might not return the full list.
-    ///
-    /// Parameters:
-    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listProxies(
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListProxiesResponse {
-        let input = ListProxiesRequest(
-            maxResults: maxResults, 
-            nextToken: nextToken
-        )
-        return try await self.listProxies(input, logger: logger)
-    }
-
-    /// Retrieves the metadata for the proxy configuration that you have defined. Depending on your setting for max results and the number of proxy configurations, a single call might not return the full list.
-    @Sendable
-    @inlinable
-    public func listProxyConfigurations(_ input: ListProxyConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProxyConfigurationsResponse {
-        try await self.client.execute(
-            operation: "ListProxyConfigurations", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Retrieves the metadata for the proxy configuration that you have defined. Depending on your setting for max results and the number of proxy configurations, a single call might not return the full list.
-    ///
-    /// Parameters:
-    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listProxyConfigurations(
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListProxyConfigurationsResponse {
-        let input = ListProxyConfigurationsRequest(
-            maxResults: maxResults, 
-            nextToken: nextToken
-        )
-        return try await self.listProxyConfigurations(input, logger: logger)
-    }
-
-    /// Retrieves the metadata for the proxy rule groups that you have defined. Depending on your setting for max results and the number of proxy rule groups, a single call might not return the full list.
-    @Sendable
-    @inlinable
-    public func listProxyRuleGroups(_ input: ListProxyRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProxyRuleGroupsResponse {
-        try await self.client.execute(
-            operation: "ListProxyRuleGroups", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Retrieves the metadata for the proxy rule groups that you have defined. Depending on your setting for max results and the number of proxy rule groups, a single call might not return the full list.
-    ///
-    /// Parameters:
-    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listProxyRuleGroups(
-        maxResults: Int? = nil,
-        nextToken: String? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListProxyRuleGroupsResponse {
-        let input = ListProxyRuleGroupsRequest(
-            maxResults: maxResults, 
-            nextToken: nextToken
-        )
-        return try await self.listProxyRuleGroups(input, logger: logger)
     }
 
     /// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list.
@@ -2409,7 +2039,8 @@ public struct NetworkFirewall: AWSService {
     /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.   To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges.  Instead, we recommend you define more specific criteria with FlowFilters, like narrow IP ranges, ports, or protocols.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
@@ -2419,6 +2050,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func startFlowCapture(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowFilters: [FlowFilter],
         minimumFlowAgeInSeconds: Int? = nil,
@@ -2428,6 +2060,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> StartFlowCaptureResponse {
         let input = StartFlowCaptureRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowFilters: flowFilters, 
             minimumFlowAgeInSeconds: minimumFlowAgeInSeconds, 
@@ -2453,7 +2086,8 @@ public struct NetworkFirewall: AWSService {
     /// Begins the flushing of traffic from the firewall, according to the filters you define.  When the operation starts, impacted flows are temporarily marked as timed out before the Suricata engine prunes,  or flushes, the flows from the firewall table.  While the flush completes, impacted flows are processed as midstream traffic. This may result in a  temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy  before you perform a flush operation.
     ///
     /// Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
     ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
@@ -2463,6 +2097,7 @@ public struct NetworkFirewall: AWSService {
     @inlinable
     public func startFlowFlush(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowFilters: [FlowFilter],
         minimumFlowAgeInSeconds: Int? = nil,
@@ -2472,6 +2107,7 @@ public struct NetworkFirewall: AWSService {
     ) async throws -> StartFlowFlushResponse {
         let input = StartFlowFlushRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowFilters: flowFilters, 
             minimumFlowAgeInSeconds: minimumFlowAgeInSeconds, 
@@ -2867,6 +2503,53 @@ public struct NetworkFirewall: AWSService {
         return try await self.updateFirewallPolicyChangeProtection(input, logger: logger)
     }
 
+    /// Updates the properties of the specified Next Generation policy.
+    @Sendable
+    @inlinable
+    public func updateFirewallPolicyV2(_ input: UpdateFirewallPolicyV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallPolicyV2Response {
+        try await self.client.execute(
+            operation: "UpdateFirewallPolicyV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of the specified Next Generation policy.
+    ///
+    /// Parameters:
+    ///   - description: A description of the firewall policy.
+    ///   - dryRun: Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
+    ///   - encryptionConfiguration: A complex type that contains settings for encryption of your firewall policy resources.
+    ///   - firewallPolicyV2: The updated rule groups and other settings that define the Next Generation policy.
+    ///   - firewallPolicyV2Arn: The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallPolicyV2Name: The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateFirewallPolicyV2(
+        description: String? = nil,
+        dryRun: Bool? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        firewallPolicyV2: FirewallPolicyV2,
+        firewallPolicyV2Arn: String? = nil,
+        firewallPolicyV2Name: String? = nil,
+        updateToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateFirewallPolicyV2Response {
+        let input = UpdateFirewallPolicyV2Request(
+            description: description, 
+            dryRun: dryRun, 
+            encryptionConfiguration: encryptionConfiguration, 
+            firewallPolicyV2: firewallPolicyV2, 
+            firewallPolicyV2Arn: firewallPolicyV2Arn, 
+            firewallPolicyV2Name: firewallPolicyV2Name, 
+            updateToken: updateToken
+        )
+        return try await self.updateFirewallPolicyV2(input, logger: logger)
+    }
+
     /// Sets the logging configuration for the specified firewall.  To change the logging configuration, retrieve the LoggingConfiguration by calling DescribeLoggingConfiguration, then change it and provide the modified object to this update call. You must change the logging configuration one LogDestinationConfig at a time inside the retrieved LoggingConfiguration object.  You can perform only one of the following actions in any call to UpdateLoggingConfiguration:    Create a new log destination object by adding a single LogDestinationConfig array element to LogDestinationConfigs.   Delete a log destination object by removing a single LogDestinationConfig array element from LogDestinationConfigs.   Change the LogDestination setting in a single LogDestinationConfig array element.   You can't change the LogDestinationType or LogType in a LogDestinationConfig. To change these settings, delete the existing LogDestinationConfig object and create a new one, using two separate calls to this update operation.
     @Sendable
     @inlinable
@@ -2905,221 +2588,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.updateLoggingConfiguration(input, logger: logger)
     }
 
-    /// Updates the properties of the specified proxy.
-    @Sendable
-    @inlinable
-    public func updateProxy(_ input: UpdateProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxyResponse {
-        try await self.client.execute(
-            operation: "UpdateProxy", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Updates the properties of the specified proxy.
-    ///
-    /// Parameters:
-    ///   - listenerPropertiesToAdd: Listener properties for HTTP and HTTPS traffic to add.
-    ///   - listenerPropertiesToRemove: Listener properties for HTTP and HTTPS traffic to remove.
-    ///   - natGatewayId: The NAT Gateway the proxy is attached to.
-    ///   - proxyArn: The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyName: The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - tlsInterceptProperties: TLS decryption on traffic to filter on attributes in the HTTP header.
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateProxy(
-        listenerPropertiesToAdd: [ListenerPropertyRequest]? = nil,
-        listenerPropertiesToRemove: [ListenerPropertyRequest]? = nil,
-        natGatewayId: String,
-        proxyArn: String? = nil,
-        proxyName: String? = nil,
-        tlsInterceptProperties: TlsInterceptPropertiesRequest? = nil,
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateProxyResponse {
-        let input = UpdateProxyRequest(
-            listenerPropertiesToAdd: listenerPropertiesToAdd, 
-            listenerPropertiesToRemove: listenerPropertiesToRemove, 
-            natGatewayId: natGatewayId, 
-            proxyArn: proxyArn, 
-            proxyName: proxyName, 
-            tlsInterceptProperties: tlsInterceptProperties, 
-            updateToken: updateToken
-        )
-        return try await self.updateProxy(input, logger: logger)
-    }
-
-    /// Updates the properties of the specified proxy configuration.
-    @Sendable
-    @inlinable
-    public func updateProxyConfiguration(_ input: UpdateProxyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxyConfigurationResponse {
-        try await self.client.execute(
-            operation: "UpdateProxyConfiguration", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Updates the properties of the specified proxy configuration.
-    ///
-    /// Parameters:
-    ///   - defaultRulePhaseActions: Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateProxyConfiguration(
-        defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest,
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateProxyConfigurationResponse {
-        let input = UpdateProxyConfigurationRequest(
-            defaultRulePhaseActions: defaultRulePhaseActions, 
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName, 
-            updateToken: updateToken
-        )
-        return try await self.updateProxyConfiguration(input, logger: logger)
-    }
-
-    /// Updates the properties of the specified proxy rule.
-    @Sendable
-    @inlinable
-    public func updateProxyRule(_ input: UpdateProxyRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxyRuleResponse {
-        try await self.client.execute(
-            operation: "UpdateProxyRule", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Updates the properties of the specified proxy rule.
-    ///
-    /// Parameters:
-    ///   - action: Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action.
-    ///   - addConditions: Proxy rule conditions to add. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-    ///   - description: A description of the proxy rule.
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleName: The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-    ///   - removeConditions: Proxy rule conditions to remove. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateProxyRule(
-        action: ProxyRulePhaseAction? = nil,
-        addConditions: [ProxyRuleCondition]? = nil,
-        description: String? = nil,
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        proxyRuleName: String,
-        removeConditions: [ProxyRuleCondition]? = nil,
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateProxyRuleResponse {
-        let input = UpdateProxyRuleRequest(
-            action: action, 
-            addConditions: addConditions, 
-            description: description, 
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName, 
-            proxyRuleName: proxyRuleName, 
-            removeConditions: removeConditions, 
-            updateToken: updateToken
-        )
-        return try await self.updateProxyRule(input, logger: logger)
-    }
-
-    /// Updates proxy rule group priorities within a proxy configuration.
-    @Sendable
-    @inlinable
-    public func updateProxyRuleGroupPriorities(_ input: UpdateProxyRuleGroupPrioritiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxyRuleGroupPrioritiesResponse {
-        try await self.client.execute(
-            operation: "UpdateProxyRuleGroupPriorities", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Updates proxy rule group priorities within a proxy configuration.
-    ///
-    /// Parameters:
-    ///   - proxyConfigurationArn: The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyConfigurationName: The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - ruleGroups: proxy rule group resources to update to new positions.
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateProxyRuleGroupPriorities(
-        proxyConfigurationArn: String? = nil,
-        proxyConfigurationName: String? = nil,
-        ruleGroups: [ProxyRuleGroupPriority],
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateProxyRuleGroupPrioritiesResponse {
-        let input = UpdateProxyRuleGroupPrioritiesRequest(
-            proxyConfigurationArn: proxyConfigurationArn, 
-            proxyConfigurationName: proxyConfigurationName, 
-            ruleGroups: ruleGroups, 
-            updateToken: updateToken
-        )
-        return try await self.updateProxyRuleGroupPriorities(input, logger: logger)
-    }
-
-    /// Updates proxy rule priorities within a proxy rule group.
-    @Sendable
-    @inlinable
-    public func updateProxyRulePriorities(_ input: UpdateProxyRulePrioritiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxyRulePrioritiesResponse {
-        try await self.client.execute(
-            operation: "UpdateProxyRulePriorities", 
-            path: "/", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
-    }
-    /// Updates proxy rule priorities within a proxy rule group.
-    ///
-    /// Parameters:
-    ///   - proxyRuleGroupArn: The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-    ///   - proxyRuleGroupName: The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - ruleGroupRequestPhase: Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-    ///   - rules: proxy rule resources to update to new positions.
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func updateProxyRulePriorities(
-        proxyRuleGroupArn: String? = nil,
-        proxyRuleGroupName: String? = nil,
-        ruleGroupRequestPhase: RuleGroupRequestPhase,
-        rules: [ProxyRulePriority],
-        updateToken: String,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> UpdateProxyRulePrioritiesResponse {
-        let input = UpdateProxyRulePrioritiesRequest(
-            proxyRuleGroupArn: proxyRuleGroupArn, 
-            proxyRuleGroupName: proxyRuleGroupName, 
-            ruleGroupRequestPhase: ruleGroupRequestPhase, 
-            rules: rules, 
-            updateToken: updateToken
-        )
-        return try await self.updateProxyRulePriorities(input, logger: logger)
-    }
-
-    /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with NoSourcePreservation set to TRUE. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
+    /// Modifies the proxy settings of a proxy mode firewall. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic. The new listeners take effect without recreating the firewall. The ProxySettings that you provide replace the firewall's current proxy settings. If you created the firewall with your own CertificateArn and DomainName, you must specify the same values in every request. You can't change or remove them.
     @Sendable
     @inlinable
     public func updateProxySettings(_ input: UpdateProxySettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxySettingsResponse {
@@ -3132,12 +2601,12 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with NoSourcePreservation set to TRUE. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
+    /// Modifies the proxy settings of a proxy mode firewall. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic. The new listeners take effect without recreating the firewall. The ProxySettings that you provide replace the firewall's current proxy settings. If you created the firewall with your own CertificateArn and DomainName, you must specify the same values in every request. You can't change or remove them.
     ///
     /// Parameters:
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
-    ///   - proxySettings: The proxy listener configuration to set on the firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    ///   - proxySettings: The proxy settings to set on the firewall. These replace the current proxy settings. Specify at least one listener, and at most one HTTP listener and one HTTPS listener, on different ports. If the firewall uses your own CertificateArn and DomainName, specify the same values that you used to create the firewall.
     ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3177,13 +2646,15 @@ public struct NetworkFirewall: AWSService {
     ///   - description: A description of the rule group.
     ///   - dryRun: Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
     ///   - encryptionConfiguration: A complex type that contains settings for encryption of your rule group resources.
+    ///   - firewallRuleGroup: An object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+    ///   - ipsRuleGroup: An object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
     ///   - ruleGroup: An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
     ///   - ruleGroupArn: The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
     ///   - ruleGroupName: The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     ///   - rules: A string containing stateful rule group rules specifications in Suricata flat format, with one rule
     ///   - sourceMetadata: A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
     ///   - summaryConfiguration: Updates the selected summary configuration for a rule group. Changes affect subsequent responses from DescribeRuleGroupSummary.
-    ///   - type: Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+    ///   - type: Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
     ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3192,6 +2663,8 @@ public struct NetworkFirewall: AWSService {
         description: String? = nil,
         dryRun: Bool? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
+        firewallRuleGroup: FirewallRuleGroup? = nil,
+        ipsRuleGroup: IpsRuleGroup? = nil,
         ruleGroup: RuleGroup? = nil,
         ruleGroupArn: String? = nil,
         ruleGroupName: String? = nil,
@@ -3207,6 +2680,8 @@ public struct NetworkFirewall: AWSService {
             description: description, 
             dryRun: dryRun, 
             encryptionConfiguration: encryptionConfiguration, 
+            firewallRuleGroup: firewallRuleGroup, 
+            ipsRuleGroup: ipsRuleGroup, 
             ruleGroup: ruleGroup, 
             ruleGroupArn: ruleGroupArn, 
             ruleGroupName: ruleGroupName, 
@@ -3303,7 +2778,7 @@ public struct NetworkFirewall: AWSService {
 extension NetworkFirewall {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: NetworkFirewall, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -3464,6 +2939,40 @@ extension NetworkFirewall {
         return self.listFirewallPoliciesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listFirewallPoliciesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFirewallPoliciesV2Paginator(
+        _ input: ListFirewallPoliciesV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFirewallPoliciesV2Request, ListFirewallPoliciesV2Response> {
+        return .init(
+            input: input,
+            command: self.listFirewallPoliciesV2,
+            inputKey: \ListFirewallPoliciesV2Request.nextToken,
+            outputKey: \ListFirewallPoliciesV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFirewallPoliciesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFirewallPoliciesV2Paginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFirewallPoliciesV2Request, ListFirewallPoliciesV2Response> {
+        let input = ListFirewallPoliciesV2Request(
+            maxResults: maxResults
+        )
+        return self.listFirewallPoliciesV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFirewalls(_:logger:)``.
     ///
     /// - Parameters:
@@ -3522,7 +3031,8 @@ extension NetworkFirewall {
     /// Return PaginatorSequence for operation ``listFlowOperationResults(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -3532,6 +3042,7 @@ extension NetworkFirewall {
     @inlinable
     public func listFlowOperationResultsPaginator(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationId: String,
         maxResults: Int? = nil,
@@ -3541,6 +3052,7 @@ extension NetworkFirewall {
     ) -> AWSClient.PaginatorSequence<ListFlowOperationResultsRequest, ListFlowOperationResultsResponse> {
         let input = ListFlowOperationResultsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationId: flowOperationId, 
             maxResults: maxResults, 
@@ -3571,7 +3083,8 @@ extension NetworkFirewall {
     /// Return PaginatorSequence for operation ``listFlowOperations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZone: The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - availabilityZoneId: The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
     ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
     ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -3581,6 +3094,7 @@ extension NetworkFirewall {
     @inlinable
     public func listFlowOperationsPaginator(
         availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         firewallArn: String,
         flowOperationType: FlowOperationType? = nil,
         maxResults: Int? = nil,
@@ -3590,6 +3104,7 @@ extension NetworkFirewall {
     ) -> AWSClient.PaginatorSequence<ListFlowOperationsRequest, ListFlowOperationsResponse> {
         let input = ListFlowOperationsRequest(
             availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             firewallArn: firewallArn, 
             flowOperationType: flowOperationType, 
             maxResults: maxResults, 
@@ -3597,108 +3112,6 @@ extension NetworkFirewall {
             vpcEndpointId: vpcEndpointId
         )
         return self.listFlowOperationsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listProxies(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProxiesPaginator(
-        _ input: ListProxiesRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListProxiesRequest, ListProxiesResponse> {
-        return .init(
-            input: input,
-            command: self.listProxies,
-            inputKey: \ListProxiesRequest.nextToken,
-            outputKey: \ListProxiesResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listProxies(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProxiesPaginator(
-        maxResults: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListProxiesRequest, ListProxiesResponse> {
-        let input = ListProxiesRequest(
-            maxResults: maxResults
-        )
-        return self.listProxiesPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listProxyConfigurations(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProxyConfigurationsPaginator(
-        _ input: ListProxyConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListProxyConfigurationsRequest, ListProxyConfigurationsResponse> {
-        return .init(
-            input: input,
-            command: self.listProxyConfigurations,
-            inputKey: \ListProxyConfigurationsRequest.nextToken,
-            outputKey: \ListProxyConfigurationsResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listProxyConfigurations(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProxyConfigurationsPaginator(
-        maxResults: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListProxyConfigurationsRequest, ListProxyConfigurationsResponse> {
-        let input = ListProxyConfigurationsRequest(
-            maxResults: maxResults
-        )
-        return self.listProxyConfigurationsPaginator(input, logger: logger)
-    }
-
-    /// Return PaginatorSequence for operation ``listProxyRuleGroups(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - input: Input for operation
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProxyRuleGroupsPaginator(
-        _ input: ListProxyRuleGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled
-    ) -> AWSClient.PaginatorSequence<ListProxyRuleGroupsRequest, ListProxyRuleGroupsResponse> {
-        return .init(
-            input: input,
-            command: self.listProxyRuleGroups,
-            inputKey: \ListProxyRuleGroupsRequest.nextToken,
-            outputKey: \ListProxyRuleGroupsResponse.nextToken,
-            logger: logger
-        )
-    }
-    /// Return PaginatorSequence for operation ``listProxyRuleGroups(_:logger:)``.
-    ///
-    /// - Parameters:
-    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-    ///   - logger: Logger used for logging
-    @inlinable
-    public func listProxyRuleGroupsPaginator(
-        maxResults: Int? = nil,
-        logger: Logger = AWSClient.loggingDisabled        
-    ) -> AWSClient.PaginatorSequence<ListProxyRuleGroupsRequest, ListProxyRuleGroupsResponse> {
-        let input = ListProxyRuleGroupsRequest(
-            maxResults: maxResults
-        )
-        return self.listProxyRuleGroupsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listRuleGroups(_:logger:)``.
@@ -3901,6 +3314,16 @@ extension NetworkFirewall.ListFirewallPoliciesRequest: AWSPaginateToken {
     }
 }
 
+extension NetworkFirewall.ListFirewallPoliciesV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFirewallPoliciesV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension NetworkFirewall.ListFirewallsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFirewallsRequest {
@@ -3917,6 +3340,7 @@ extension NetworkFirewall.ListFlowOperationResultsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFlowOperationResultsRequest {
         return .init(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             firewallArn: self.firewallArn,
             flowOperationId: self.flowOperationId,
             maxResults: self.maxResults,
@@ -3932,42 +3356,13 @@ extension NetworkFirewall.ListFlowOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFlowOperationsRequest {
         return .init(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             firewallArn: self.firewallArn,
             flowOperationType: self.flowOperationType,
             maxResults: self.maxResults,
             nextToken: token,
             vpcEndpointAssociationArn: self.vpcEndpointAssociationArn,
             vpcEndpointId: self.vpcEndpointId
-        )
-    }
-}
-
-extension NetworkFirewall.ListProxiesRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListProxiesRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
-extension NetworkFirewall.ListProxyConfigurationsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListProxyConfigurationsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
-        )
-    }
-}
-
-extension NetworkFirewall.ListProxyRuleGroupsRequest: AWSPaginateToken {
-    @inlinable
-    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListProxyRuleGroupsRequest {
-        return .init(
-            maxResults: self.maxResults,
-            nextToken: token
         )
     }
 }
@@ -4015,5 +3410,50 @@ extension NetworkFirewall.ListVpcEndpointAssociationsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension NetworkFirewall {
+    /// Waiter for operation ``describeFirewallPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFirewallPolicyActive(
+        _ input: DescribeFirewallPolicyRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeFirewallPolicyRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("firewallPolicyResponse.firewallPolicyStatus", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("firewallPolicyResponse.firewallPolicyStatus", expected: "ERROR")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeFirewallPolicy
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeFirewallPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - firewallPolicyArn: The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallPolicyName: The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilFirewallPolicyActive(
+        firewallPolicyArn: String? = nil,
+        firewallPolicyName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeFirewallPolicyRequest(
+            firewallPolicyArn: firewallPolicyArn, 
+            firewallPolicyName: firewallPolicyName
+        )
+        try await self.waitUntilFirewallPolicyActive(input, logger: logger)
     }
 }

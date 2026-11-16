@@ -235,6 +235,7 @@ extension LexModelsV2 {
     }
 
     public enum AssistedNluMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dialogManager = "DialogManager"
         case fallback = "Fallback"
         case primary = "Primary"
         public var description: String { return self.rawValue }
@@ -4104,7 +4105,7 @@ extension LexModelsV2 {
         public let parentIntentSignature: String?
         /// Qinconnect intent configuration details for the create intent request.
         public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
-        /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+        /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex V2 can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza".  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
         public let sampleUtterances: [SampleUtterance]?
@@ -8576,11 +8577,11 @@ extension LexModelsV2 {
         /// The next step to take in the conversation if the confirmation step fails.
         public let failureNextStep: DialogState?
         public let failureResponse: ResponseSpecification?
-        /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.
-        public let promptSpecification: PromptSpecification
+        /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.  Required unless the bot locale's assistedNluMode is DialogManager, in which case Amazon Lex generates the confirmation prompt.
+        public let promptSpecification: PromptSpecification?
 
         @inlinable
-        public init(active: Bool? = nil, codeHook: DialogCodeHookInvocationSetting? = nil, confirmationConditional: ConditionalSpecification? = nil, confirmationNextStep: DialogState? = nil, confirmationResponse: ResponseSpecification? = nil, declinationConditional: ConditionalSpecification? = nil, declinationNextStep: DialogState? = nil, declinationResponse: ResponseSpecification? = nil, elicitationCodeHook: ElicitationCodeHookInvocationSetting? = nil, failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, promptSpecification: PromptSpecification) {
+        public init(active: Bool? = nil, codeHook: DialogCodeHookInvocationSetting? = nil, confirmationConditional: ConditionalSpecification? = nil, confirmationNextStep: DialogState? = nil, confirmationResponse: ResponseSpecification? = nil, declinationConditional: ConditionalSpecification? = nil, declinationNextStep: DialogState? = nil, declinationResponse: ResponseSpecification? = nil, elicitationCodeHook: ElicitationCodeHookInvocationSetting? = nil, failureConditional: ConditionalSpecification? = nil, failureNextStep: DialogState? = nil, failureResponse: ResponseSpecification? = nil, promptSpecification: PromptSpecification? = nil) {
             self.active = active
             self.codeHook = codeHook
             self.confirmationConditional = confirmationConditional
@@ -8608,7 +8609,7 @@ extension LexModelsV2 {
             try self.failureConditional?.validate(name: "\(name).failureConditional")
             try self.failureNextStep?.validate(name: "\(name).failureNextStep")
             try self.failureResponse?.validate(name: "\(name).failureResponse")
-            try self.promptSpecification.validate(name: "\(name).promptSpecification")
+            try self.promptSpecification?.validate(name: "\(name).promptSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11499,7 +11500,7 @@ extension LexModelsV2 {
     }
 
     public struct NluImprovementSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, or Fallback to use it only when standard NLU confidence is low.
+        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, Fallback to use it only when standard NLU confidence is low, or DialogManager to use a large language model to manage the conversation, including intent recognition, slot elicitation, and confirmation.
         public let assistedNluMode: AssistedNluMode?
         /// Determines whether the Assisted NLU feature is enabled for the bot. When set to true, Amazon Lex uses advanced models to improve intent recognition and slot resolution, with the default being false.
         public let enabled: Bool
@@ -12673,7 +12674,7 @@ extension LexModelsV2 {
     }
 
     public struct SlotResolutionSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
+        /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex V2 defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
         public let slotResolutionStrategy: SlotResolutionStrategy
 
         @inlinable
@@ -15245,7 +15246,7 @@ extension LexModelsV2 {
         public let parentIntentSignature: String?
         /// Qinconnect intent configuration details for the update intent request.
         public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
-        /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+        /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex V2 can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// New utterances used to invoke the intent.
         public let sampleUtterances: [SampleUtterance]?
@@ -16300,15 +16301,15 @@ extension LexModelsV2 {
     public struct WaitAndContinueSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used. If the active field isn't specified, the default is true.
         public let active: Bool?
-        /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.
-        public let continueResponse: ResponseSpecification
+        /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation. Required unless the bot locale's assistedNluMode is DialogManager.
+        public let continueResponse: ResponseSpecification?
         /// A response that Amazon Lex sends periodically to the user to indicate that the bot is still waiting for input from the user.
         public let stillWaitingResponse: StillWaitingResponseSpecification?
-        /// The response that Amazon Lex sends to indicate that the bot is waiting for the conversation to continue.
-        public let waitingResponse: ResponseSpecification
+        /// The response that Amazon Lex sends to indicate that the bot is waiting for the conversation to continue. Required unless the bot locale's assistedNluMode is DialogManager.
+        public let waitingResponse: ResponseSpecification?
 
         @inlinable
-        public init(active: Bool? = nil, continueResponse: ResponseSpecification, stillWaitingResponse: StillWaitingResponseSpecification? = nil, waitingResponse: ResponseSpecification) {
+        public init(active: Bool? = nil, continueResponse: ResponseSpecification? = nil, stillWaitingResponse: StillWaitingResponseSpecification? = nil, waitingResponse: ResponseSpecification? = nil) {
             self.active = active
             self.continueResponse = continueResponse
             self.stillWaitingResponse = stillWaitingResponse
@@ -16316,9 +16317,9 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.continueResponse.validate(name: "\(name).continueResponse")
+            try self.continueResponse?.validate(name: "\(name).continueResponse")
             try self.stillWaitingResponse?.validate(name: "\(name).stillWaitingResponse")
-            try self.waitingResponse.validate(name: "\(name).waitingResponse")
+            try self.waitingResponse?.validate(name: "\(name).waitingResponse")
         }
 
         private enum CodingKeys: String, CodingKey {

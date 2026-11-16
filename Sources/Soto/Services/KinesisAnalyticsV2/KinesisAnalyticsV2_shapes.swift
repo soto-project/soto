@@ -132,11 +132,57 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SnapshotFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canonical = "CANONICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotInitiator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case system = "SYSTEM"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotInitiatorOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createSnapshot = "CreateSnapshot"
+        case importSnapshot = "ImportSnapshot"
+        case systemCreateSnapshot = "SystemCreateSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationSnapshotsLegacy = "APPLICATION_SNAPSHOTS_LEGACY"
+        case enhancedSnapshots = "ENHANCED_SNAPSHOTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createSnapshot = "CreateSnapshot"
+        case deleteSnapshot = "DeleteSnapshot"
+        case exportSnapshot = "ExportSnapshot"
+        case importSnapshot = "ImportSnapshot"
+        case systemCreateSnapshot = "SystemCreateSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
@@ -911,6 +957,22 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct ApplicationOperationDescription: AWSDecodableShape {
+        public let applicationName: String?
+        public let applicationOperationId: String?
+
+        @inlinable
+        public init(applicationName: String? = nil, applicationOperationId: String? = nil) {
+            self.applicationName = applicationName
+            self.applicationOperationId = applicationOperationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case applicationOperationId = "ApplicationOperationId"
+        }
+    }
+
     public struct ApplicationOperationInfo: AWSDecodableShape {
         /// The timestamp that indicates when the operation finished.
         public let endTime: Date?
@@ -971,16 +1033,21 @@ extension KinesisAnalyticsV2 {
     public struct ApplicationRestoreConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how the application should be restored.
         public let applicationRestoreType: ApplicationRestoreType
+        /// The identifier of an existing enhanced snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType and SnapshotMode is ENHANCED_SNAPSHOTS.
+        public let snapshotArn: String?
         /// The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the  ApplicationRestoreType.
         public let snapshotName: String?
 
         @inlinable
-        public init(applicationRestoreType: ApplicationRestoreType, snapshotName: String? = nil) {
+        public init(applicationRestoreType: ApplicationRestoreType, snapshotArn: String? = nil, snapshotName: String? = nil) {
             self.applicationRestoreType = applicationRestoreType
+            self.snapshotArn = snapshotArn
             self.snapshotName = snapshotName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2048)
+            try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, min: 1)
             try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 256)
             try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
             try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -988,48 +1055,61 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationRestoreType = "ApplicationRestoreType"
+            case snapshotArn = "SnapshotArn"
             case snapshotName = "SnapshotName"
         }
     }
 
     public struct ApplicationSnapshotConfiguration: AWSEncodableShape {
+        /// Specifies the snapshot mode for a Managed Service for Apache Flink application. To use enhanced snapshots, specify ENHANCED_SNAPSHOTS. If you don't specify this parameter, the application uses APPLICATION_SNAPSHOTS_LEGACY. For more information, see Enhanced Snapshots. To use ENHANCED_SNAPSHOTS, the application must use Apache Flink version 1.20 or later.
+        public let snapshotMode: SnapshotMode?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let snapshotsEnabled: Bool
 
         @inlinable
-        public init(snapshotsEnabled: Bool) {
+        public init(snapshotMode: SnapshotMode? = nil, snapshotsEnabled: Bool) {
+            self.snapshotMode = snapshotMode
             self.snapshotsEnabled = snapshotsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
+            case snapshotMode = "SnapshotMode"
             case snapshotsEnabled = "SnapshotsEnabled"
         }
     }
 
     public struct ApplicationSnapshotConfigurationDescription: AWSDecodableShape {
+        /// Describes the snapshot mode of a Managed Service for Apache Flink application.
+        public let snapshotMode: SnapshotMode?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let snapshotsEnabled: Bool
 
         @inlinable
-        public init(snapshotsEnabled: Bool) {
+        public init(snapshotMode: SnapshotMode? = nil, snapshotsEnabled: Bool) {
+            self.snapshotMode = snapshotMode
             self.snapshotsEnabled = snapshotsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
+            case snapshotMode = "SnapshotMode"
             case snapshotsEnabled = "SnapshotsEnabled"
         }
     }
 
     public struct ApplicationSnapshotConfigurationUpdate: AWSEncodableShape {
+        /// Describes updates to the snapshot mode of a Managed Service for Apache Flink application. You can update the snapshot mode from APPLICATION_SNAPSHOTS_LEGACY to ENHANCED_SNAPSHOTS. You can't use UpdateApplication to change the snapshot mode back to APPLICATION_SNAPSHOTS_LEGACY. To return to APPLICATION_SNAPSHOTS_LEGACY, use RollbackApplication. After you update an application that uses ENHANCED_SNAPSHOTS, you can't roll it back to APPLICATION_SNAPSHOTS_LEGACY. To use ENHANCED_SNAPSHOTS, the application must use Apache Flink version 1.20 or later.
+        public let snapshotModeUpdate: SnapshotMode?
         /// Describes updates to whether snapshots are enabled for an application.
         public let snapshotsEnabledUpdate: Bool
 
         @inlinable
-        public init(snapshotsEnabledUpdate: Bool) {
+        public init(snapshotModeUpdate: SnapshotMode? = nil, snapshotsEnabledUpdate: Bool) {
+            self.snapshotModeUpdate = snapshotModeUpdate
             self.snapshotsEnabledUpdate = snapshotsEnabledUpdate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case snapshotModeUpdate = "SnapshotModeUpdate"
             case snapshotsEnabledUpdate = "SnapshotsEnabledUpdate"
         }
     }
@@ -1610,6 +1690,73 @@ extension KinesisAnalyticsV2 {
         public init() {}
     }
 
+    public struct CreateSnapshotRequest: AWSEncodableShape {
+        public let applicationName: String
+        /// A summary description of the snapshot.
+        public let snapshotDescription: String?
+        /// The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the FAILED status, until you delete that snapshot. Names that begin with SYSTEMSNAPSHOT are reserved.
+        public let snapshotName: String
+        /// A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see Using Tagging.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(applicationName: String, snapshotDescription: String? = nil, snapshotName: String, tags: [Tag]? = nil) {
+            self.applicationName = applicationName
+            self.snapshotDescription = snapshotDescription
+            self.snapshotName = snapshotName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, max: 1024)
+            try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]*$")
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case snapshotDescription = "SnapshotDescription"
+            case snapshotName = "SnapshotName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSnapshotResponse: AWSDecodableShape {
+        /// The ARN of the enhanced snapshot.
+        public let snapshotArn: String
+        /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the operation.
+        public let snapshotOperationId: String
+        /// The status of the snapshot operation.
+        public let snapshotOperationStatus: SnapshotOperationStatus
+        /// The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is CREATING.
+        public let snapshotStatus: SnapshotStatus
+
+        @inlinable
+        public init(snapshotArn: String, snapshotOperationId: String, snapshotOperationStatus: SnapshotOperationStatus, snapshotStatus: SnapshotStatus) {
+            self.snapshotArn = snapshotArn
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.snapshotStatus = snapshotStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotArn = "SnapshotArn"
+            case snapshotOperationId = "SnapshotOperationId"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
+            case snapshotStatus = "SnapshotStatus"
+        }
+    }
+
     public struct CustomArtifactConfiguration: AWSEncodableShape {
         ///  UDF stands for user-defined functions. This type of artifact must be in an S3 bucket. A DEPENDENCY_JAR can be in either Maven or an S3 bucket.
         public let artifactType: ArtifactType
@@ -2001,6 +2148,56 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct DeleteSnapshotRequest: AWSEncodableShape {
+        /// The creation timestamp of the enhanced snapshot to delete. Use the DescribeSnapshot operation to get this value.
+        public let snapshotCreationTimestamp: Date
+        /// The name of the enhanced snapshot to delete.
+        public let snapshotName: String
+
+        @inlinable
+        public init(snapshotCreationTimestamp: Date, snapshotName: String) {
+            self.snapshotCreationTimestamp = snapshotCreationTimestamp
+            self.snapshotName = snapshotName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
+            case snapshotName = "SnapshotName"
+        }
+    }
+
+    public struct DeleteSnapshotResponse: AWSDecodableShape {
+        /// The ARN of the enhanced snapshot.
+        public let snapshotArn: String
+        /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the operation.
+        public let snapshotOperationId: String
+        /// The status of the snapshot operation.
+        public let snapshotOperationStatus: SnapshotOperationStatus
+        /// The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is DELETING. If a snapshot operation, such as an export, uses the snapshot, the status stays DELETING until that operation finishes and Managed Service for Apache Flink deletes the snapshot.
+        public let snapshotStatus: SnapshotStatus
+
+        @inlinable
+        public init(snapshotArn: String, snapshotOperationId: String, snapshotOperationStatus: SnapshotOperationStatus, snapshotStatus: SnapshotStatus) {
+            self.snapshotArn = snapshotArn
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.snapshotStatus = snapshotStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotArn = "SnapshotArn"
+            case snapshotOperationId = "SnapshotOperationId"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
+            case snapshotStatus = "SnapshotStatus"
+        }
+    }
+
     public struct DeployAsApplicationConfiguration: AWSEncodableShape {
         /// The description of an Amazon S3 object that contains the Amazon Data Analytics application, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         public let s3ContentLocation: S3ContentBaseLocation
@@ -2206,6 +2403,80 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct DescribeSnapshotOperationRequest: AWSEncodableShape {
+        /// The name of the enhanced snapshot.
+        public let snapshotName: String
+        /// The ID of the snapshot operation. You can retrieve this value using ListSnapshotOperations.
+        public let snapshotOperationId: String
+
+        @inlinable
+        public init(snapshotName: String, snapshotOperationId: String) {
+            self.snapshotName = snapshotName
+            self.snapshotOperationId = snapshotOperationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.snapshotOperationId, name: "snapshotOperationId", parent: name, max: 64)
+            try self.validate(self.snapshotOperationId, name: "snapshotOperationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotName = "SnapshotName"
+            case snapshotOperationId = "SnapshotOperationId"
+        }
+    }
+
+    public struct DescribeSnapshotOperationResponse: AWSDecodableShape {
+        /// An object containing information about the snapshot operation.
+        public let snapshotOperationInfoDetails: SnapshotOperationInfoDetails
+
+        @inlinable
+        public init(snapshotOperationInfoDetails: SnapshotOperationInfoDetails) {
+            self.snapshotOperationInfoDetails = snapshotOperationInfoDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotOperationInfoDetails = "SnapshotOperationInfoDetails"
+        }
+    }
+
+    public struct DescribeSnapshotRequest: AWSEncodableShape {
+        /// The name of the enhanced snapshot. You can retrieve this value using ListSnapshots.
+        public let snapshotName: String
+
+        @inlinable
+        public init(snapshotName: String) {
+            self.snapshotName = snapshotName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotName = "SnapshotName"
+        }
+    }
+
+    public struct DescribeSnapshotResponse: AWSDecodableShape {
+        /// An object containing information about the enhanced snapshot.
+        public let snapshotInfoDetails: SnapshotInfoDetails
+
+        @inlinable
+        public init(snapshotInfoDetails: SnapshotInfoDetails) {
+            self.snapshotInfoDetails = snapshotInfoDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotInfoDetails = "SnapshotInfoDetails"
+        }
+    }
+
     public struct DestinationSchema: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType
@@ -2287,6 +2558,24 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct EncryptionConfigurationDescription: AWSDecodableShape {
+        /// The KMS key used for encryption.
+        public let keyId: String?
+        /// Specifies the type of key used for encryption.
+        public let keyType: KeyType
+
+        @inlinable
+        public init(keyId: String? = nil, keyType: KeyType) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case keyType = "KeyType"
+        }
+    }
+
     public struct EnvironmentProperties: AWSEncodableShape {
         /// Describes the execution property groups.
         public let propertyGroups: [PropertyGroup]
@@ -2353,6 +2642,83 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case errorString = "ErrorString"
+        }
+    }
+
+    public struct ExportDestinationConfiguration: AWSEncodableShape {
+        /// The encryption configuration of the exported snapshot data. If you don't specify this parameter, Managed Service for Apache Flink uses a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+        public let destinationEncryptionConfiguration: SnapshotEncryptionConfiguration?
+        /// The Amazon S3 bucket and key prefix to export the snapshot data to. Managed Service for Apache Flink writes the data under a unique prefix that it appends to the key prefix that you specify. After the export completes, use DescribeSnapshotOperation to get the full prefix. The bucket must be owned by your account and must be in the same Region as the request.
+        public let destinationS3PrefixLocation: S3PrefixLocation
+        /// The type of the destination location. The only supported value is S3.
+        public let destinationType: StorageLocationType
+        /// The ARN of the IAM role that Managed Service for Apache Flink assumes to write the snapshot data to the destination location. For information about the permissions that this role requires, see Import and export.
+        public let exportRoleArn: String
+
+        @inlinable
+        public init(destinationEncryptionConfiguration: SnapshotEncryptionConfiguration? = nil, destinationS3PrefixLocation: S3PrefixLocation, destinationType: StorageLocationType, exportRoleArn: String) {
+            self.destinationEncryptionConfiguration = destinationEncryptionConfiguration
+            self.destinationS3PrefixLocation = destinationS3PrefixLocation
+            self.destinationType = destinationType
+            self.exportRoleArn = exportRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationEncryptionConfiguration?.validate(name: "\(name).destinationEncryptionConfiguration")
+            try self.destinationS3PrefixLocation.validate(name: "\(name).destinationS3PrefixLocation")
+            try self.validate(self.exportRoleArn, name: "exportRoleArn", parent: name, max: 2048)
+            try self.validate(self.exportRoleArn, name: "exportRoleArn", parent: name, min: 1)
+            try self.validate(self.exportRoleArn, name: "exportRoleArn", parent: name, pattern: "^arn:")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEncryptionConfiguration = "DestinationEncryptionConfiguration"
+            case destinationS3PrefixLocation = "DestinationS3PrefixLocation"
+            case destinationType = "DestinationType"
+            case exportRoleArn = "ExportRoleArn"
+        }
+    }
+
+    public struct ExportSnapshotRequest: AWSEncodableShape {
+        /// Describes the location, IAM role, and encryption configuration of the export destination.
+        public let exportDestinationConfiguration: ExportDestinationConfiguration
+        /// The name of the enhanced snapshot to export.
+        public let snapshotName: String
+
+        @inlinable
+        public init(exportDestinationConfiguration: ExportDestinationConfiguration, snapshotName: String) {
+            self.exportDestinationConfiguration = exportDestinationConfiguration
+            self.snapshotName = snapshotName
+        }
+
+        public func validate(name: String) throws {
+            try self.exportDestinationConfiguration.validate(name: "\(name).exportDestinationConfiguration")
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportDestinationConfiguration = "ExportDestinationConfiguration"
+            case snapshotName = "SnapshotName"
+        }
+    }
+
+    public struct ExportSnapshotResponse: AWSDecodableShape {
+        /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the export.
+        public let snapshotOperationId: String
+        /// The status of the snapshot operation.
+        public let snapshotOperationStatus: SnapshotOperationStatus
+
+        @inlinable
+        public init(snapshotOperationId: String, snapshotOperationStatus: SnapshotOperationStatus) {
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotOperationId = "SnapshotOperationId"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
         }
     }
 
@@ -2501,6 +2867,115 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case databaseARNUpdate = "DatabaseARNUpdate"
+        }
+    }
+
+    public struct ImportSnapshotRequest: AWSEncodableShape {
+        /// The encryption configuration of the imported snapshot. If you don't specify this parameter, the snapshot is encrypted using a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+        public let destinationEncryptionConfiguration: SnapshotEncryptionConfiguration?
+        /// Describes the location, IAM role, and encryption configuration of the savepoint data to import.
+        public let importSourceConfiguration: ImportSourceConfiguration
+        /// A summary description of the snapshot.
+        public let snapshotDescription: String?
+        /// The format of the snapshot being imported.
+        public let snapshotFormat: SnapshotFormat?
+        /// The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the FAILED status, until you delete that snapshot. Names that begin with SYSTEMSNAPSHOT are reserved.
+        public let snapshotName: String
+        /// A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see Using Tagging.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(destinationEncryptionConfiguration: SnapshotEncryptionConfiguration? = nil, importSourceConfiguration: ImportSourceConfiguration, snapshotDescription: String? = nil, snapshotFormat: SnapshotFormat? = nil, snapshotName: String, tags: [Tag]? = nil) {
+            self.destinationEncryptionConfiguration = destinationEncryptionConfiguration
+            self.importSourceConfiguration = importSourceConfiguration
+            self.snapshotDescription = snapshotDescription
+            self.snapshotFormat = snapshotFormat
+            self.snapshotName = snapshotName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationEncryptionConfiguration?.validate(name: "\(name).destinationEncryptionConfiguration")
+            try self.importSourceConfiguration.validate(name: "\(name).importSourceConfiguration")
+            try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, max: 1024)
+            try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]*$")
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEncryptionConfiguration = "DestinationEncryptionConfiguration"
+            case importSourceConfiguration = "ImportSourceConfiguration"
+            case snapshotDescription = "SnapshotDescription"
+            case snapshotFormat = "SnapshotFormat"
+            case snapshotName = "SnapshotName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportSnapshotResponse: AWSDecodableShape {
+        /// The ARN of the enhanced snapshot.
+        public let snapshotArn: String
+        /// The ID of the snapshot operation. You can use this value with DescribeSnapshotOperation to track the progress of the import.
+        public let snapshotOperationId: String
+        /// The status of the snapshot operation.
+        public let snapshotOperationStatus: SnapshotOperationStatus
+        /// The status of the snapshot. When Managed Service for Apache Flink accepts the request, the status is CREATING.
+        public let snapshotStatus: SnapshotStatus
+
+        @inlinable
+        public init(snapshotArn: String, snapshotOperationId: String, snapshotOperationStatus: SnapshotOperationStatus, snapshotStatus: SnapshotStatus) {
+            self.snapshotArn = snapshotArn
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.snapshotStatus = snapshotStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotArn = "SnapshotArn"
+            case snapshotOperationId = "SnapshotOperationId"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
+            case snapshotStatus = "SnapshotStatus"
+        }
+    }
+
+    public struct ImportSourceConfiguration: AWSEncodableShape {
+        /// The ARN of the IAM role that Managed Service for Apache Flink assumes to read the savepoint data from the source location. For information about the permissions that this role requires, see Import and export.
+        public let importRoleArn: String
+        /// The encryption configuration of the savepoint data at the source location. If you don't specify this parameter, Managed Service for Apache Flink uses a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+        public let sourceEncryptionConfiguration: SnapshotEncryptionConfiguration?
+        /// The Amazon S3 bucket and key prefix that contain the savepoint data to import. The bucket must be owned by your account and must be in the same Region as the request.
+        public let sourceS3PrefixLocation: S3PrefixLocation
+        /// The type of the source location. The only supported value is S3.
+        public let sourceType: StorageLocationType
+
+        @inlinable
+        public init(importRoleArn: String, sourceEncryptionConfiguration: SnapshotEncryptionConfiguration? = nil, sourceS3PrefixLocation: S3PrefixLocation, sourceType: StorageLocationType) {
+            self.importRoleArn = importRoleArn
+            self.sourceEncryptionConfiguration = sourceEncryptionConfiguration
+            self.sourceS3PrefixLocation = sourceS3PrefixLocation
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importRoleArn, name: "importRoleArn", parent: name, max: 2048)
+            try self.validate(self.importRoleArn, name: "importRoleArn", parent: name, min: 1)
+            try self.validate(self.importRoleArn, name: "importRoleArn", parent: name, pattern: "^arn:")
+            try self.sourceEncryptionConfiguration?.validate(name: "\(name).sourceEncryptionConfiguration")
+            try self.sourceS3PrefixLocation.validate(name: "\(name).sourceS3PrefixLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importRoleArn = "ImportRoleArn"
+            case sourceEncryptionConfiguration = "SourceEncryptionConfiguration"
+            case sourceS3PrefixLocation = "SourceS3PrefixLocation"
+            case sourceType = "SourceType"
         }
     }
 
@@ -3345,6 +3820,121 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationSummaries = "ApplicationSummaries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSnapshotOperationsRequest: AWSEncodableShape {
+        /// The maximum number of snapshot operations to list.
+        public let limit: Int?
+        public let nextToken: String?
+        /// The name of the enhanced snapshot.
+        public let snapshotName: String
+        /// Use this parameter to list only the operations of the specified type.
+        public let snapshotOperation: SnapshotOperation?
+        /// Use this parameter to list only the operations with the specified status.
+        public let snapshotOperationStatus: SnapshotOperationStatus?
+
+        @inlinable
+        public init(limit: Int? = nil, nextToken: String? = nil, snapshotName: String, snapshotOperation: SnapshotOperation? = nil, snapshotOperationStatus: SnapshotOperationStatus? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.snapshotName = snapshotName
+            self.snapshotOperation = snapshotOperation
+            self.snapshotOperationStatus = snapshotOperationStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, max: 100)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, min: 1)
+            try self.validate(self.snapshotName, name: "snapshotName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case snapshotName = "SnapshotName"
+            case snapshotOperation = "SnapshotOperation"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
+        }
+    }
+
+    public struct ListSnapshotOperationsResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// A list of SnapshotOperationInfo objects.
+        public let snapshotOperationInfoList: [SnapshotOperationInfo]
+
+        @inlinable
+        public init(nextToken: String? = nil, snapshotOperationInfoList: [SnapshotOperationInfo]) {
+            self.nextToken = nextToken
+            self.snapshotOperationInfoList = snapshotOperationInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case snapshotOperationInfoList = "SnapshotOperationInfoList"
+        }
+    }
+
+    public struct ListSnapshotsRequest: AWSEncodableShape {
+        /// The maximum number of snapshots to list.
+        public let limit: Int?
+        public let nextToken: String?
+        /// Use this parameter to list only the snapshots with the specified initiator.
+        public let snapshotInitiator: SnapshotInitiator?
+        /// Use this parameter to list only the snapshots that were created by the specified operation.
+        public let snapshotInitiatorOperation: SnapshotInitiatorOperation?
+        /// Use this parameter to list only the snapshots with the specified status.
+        public let snapshotStatus: SnapshotStatus?
+        public let sourceApplicationName: String?
+
+        @inlinable
+        public init(limit: Int? = nil, nextToken: String? = nil, snapshotInitiator: SnapshotInitiator? = nil, snapshotInitiatorOperation: SnapshotInitiatorOperation? = nil, snapshotStatus: SnapshotStatus? = nil, sourceApplicationName: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.snapshotInitiator = snapshotInitiator
+            self.snapshotInitiatorOperation = snapshotInitiatorOperation
+            self.snapshotStatus = snapshotStatus
+            self.sourceApplicationName = sourceApplicationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, max: 128)
+            try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, min: 1)
+            try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case snapshotInitiator = "SnapshotInitiator"
+            case snapshotInitiatorOperation = "SnapshotInitiatorOperation"
+            case snapshotStatus = "SnapshotStatus"
+            case sourceApplicationName = "SourceApplicationName"
+        }
+    }
+
+    public struct ListSnapshotsResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// A list of SnapshotInfo objects.
+        public let snapshotInfoList: [SnapshotInfo]
+
+        @inlinable
+        public init(nextToken: String? = nil, snapshotInfoList: [SnapshotInfo]) {
+            self.nextToken = nextToken
+            self.snapshotInfoList = snapshotInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case snapshotInfoList = "SnapshotInfoList"
         }
     }
 
@@ -4202,6 +4792,32 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct S3PrefixLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Amazon S3 bucket.
+        public let bucketARN: String
+        /// The key prefix in the Amazon S3 bucket.
+        public let keyPrefix: String
+
+        @inlinable
+        public init(bucketARN: String, keyPrefix: String) {
+            self.bucketARN = bucketARN
+            self.keyPrefix = keyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:")
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, max: 200)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case keyPrefix = "KeyPrefix"
+        }
+    }
+
     public struct S3ReferenceDataSource: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String?
@@ -4307,6 +4923,327 @@ extension KinesisAnalyticsV2 {
             case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
             case snapshotName = "SnapshotName"
             case snapshotStatus = "SnapshotStatus"
+        }
+    }
+
+    public struct SnapshotEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The KMS key used for encryption. KeyId is used only when KeyType is CUSTOMER_MANAGED_KEY.
+        public let keyId: String?
+        /// Specifies the type of key used for encryption.
+        public let keyType: KeyType
+
+        @inlinable
+        public init(keyId: String? = nil, keyType: KeyType) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case keyType = "KeyType"
+        }
+    }
+
+    public struct SnapshotErrorInfo: AWSDecodableShape {
+        /// The error code that identifies the cause of the failure.
+        public let errorCode: String?
+        /// An error message that is returned when an operation fails.
+        public let errorString: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, errorString: String? = nil) {
+            self.errorCode = errorCode
+            self.errorString = errorString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorString = "ErrorString"
+        }
+    }
+
+    public struct SnapshotInfo: AWSDecodableShape {
+        /// The ARN of the enhanced snapshot.
+        public let snapshotArn: String
+        /// The timestamp that indicates when the snapshot was created.
+        public let snapshotCreationTimestamp: Date
+        /// The format of the snapshot.
+        public let snapshotFormat: SnapshotFormat
+        /// Indicates who initiated the snapshot. USER indicates a snapshot that you created or imported. SYSTEM indicates a snapshot that Managed Service for Apache Flink created.
+        public let snapshotInitiator: SnapshotInitiator
+        /// The operation that created the snapshot.
+        public let snapshotInitiatorOperation: SnapshotInitiatorOperation
+        /// The name of the enhanced snapshot.
+        public let snapshotName: String
+        /// The status of the enhanced snapshot.
+        public let snapshotStatus: SnapshotStatus
+        public let sourceApplicationName: String?
+
+        @inlinable
+        public init(snapshotArn: String, snapshotCreationTimestamp: Date, snapshotFormat: SnapshotFormat, snapshotInitiator: SnapshotInitiator, snapshotInitiatorOperation: SnapshotInitiatorOperation, snapshotName: String, snapshotStatus: SnapshotStatus, sourceApplicationName: String? = nil) {
+            self.snapshotArn = snapshotArn
+            self.snapshotCreationTimestamp = snapshotCreationTimestamp
+            self.snapshotFormat = snapshotFormat
+            self.snapshotInitiator = snapshotInitiator
+            self.snapshotInitiatorOperation = snapshotInitiatorOperation
+            self.snapshotName = snapshotName
+            self.snapshotStatus = snapshotStatus
+            self.sourceApplicationName = sourceApplicationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotArn = "SnapshotArn"
+            case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
+            case snapshotFormat = "SnapshotFormat"
+            case snapshotInitiator = "SnapshotInitiator"
+            case snapshotInitiatorOperation = "SnapshotInitiatorOperation"
+            case snapshotName = "SnapshotName"
+            case snapshotStatus = "SnapshotStatus"
+            case sourceApplicationName = "SourceApplicationName"
+        }
+    }
+
+    public struct SnapshotInfoDetails: AWSDecodableShape {
+        /// The Flink runtime of the application that the snapshot was created from. This field is not present for imported snapshots.
+        public let runtimeEnvironment: RuntimeEnvironment?
+        /// The ARN of the enhanced snapshot.
+        public let snapshotArn: String
+        /// The timestamp that indicates when the snapshot was created.
+        public let snapshotCreationTimestamp: Date
+        /// The summary description of the snapshot.
+        public let snapshotDescription: String?
+        /// Describes the encryption settings of data at rest for the snapshot.
+        public let snapshotEncryptionConfigurationDescription: SnapshotEncryptionConfiguration?
+        /// The format of the snapshot.
+        public let snapshotFormat: SnapshotFormat
+        /// Indicates who initiated the snapshot. USER indicates a snapshot that you created or imported. SYSTEM indicates a snapshot that Managed Service for Apache Flink created.
+        public let snapshotInitiator: SnapshotInitiator
+        /// The operation that created the snapshot.
+        public let snapshotInitiatorOperation: SnapshotInitiatorOperation
+        /// The name of the enhanced snapshot.
+        public let snapshotName: String
+        /// The size of the snapshot, in bytes. The value is 0 until the snapshot status is READY.
+        public let snapshotSizeInBytes: Int64?
+        /// Describes the source of the snapshot.
+        public let snapshotSourceDescription: SnapshotSourceDescription
+        /// The status of the enhanced snapshot.
+        public let snapshotStatus: SnapshotStatus
+
+        @inlinable
+        public init(runtimeEnvironment: RuntimeEnvironment? = nil, snapshotArn: String, snapshotCreationTimestamp: Date, snapshotDescription: String? = nil, snapshotEncryptionConfigurationDescription: SnapshotEncryptionConfiguration? = nil, snapshotFormat: SnapshotFormat, snapshotInitiator: SnapshotInitiator, snapshotInitiatorOperation: SnapshotInitiatorOperation, snapshotName: String, snapshotSizeInBytes: Int64? = nil, snapshotSourceDescription: SnapshotSourceDescription, snapshotStatus: SnapshotStatus) {
+            self.runtimeEnvironment = runtimeEnvironment
+            self.snapshotArn = snapshotArn
+            self.snapshotCreationTimestamp = snapshotCreationTimestamp
+            self.snapshotDescription = snapshotDescription
+            self.snapshotEncryptionConfigurationDescription = snapshotEncryptionConfigurationDescription
+            self.snapshotFormat = snapshotFormat
+            self.snapshotInitiator = snapshotInitiator
+            self.snapshotInitiatorOperation = snapshotInitiatorOperation
+            self.snapshotName = snapshotName
+            self.snapshotSizeInBytes = snapshotSizeInBytes
+            self.snapshotSourceDescription = snapshotSourceDescription
+            self.snapshotStatus = snapshotStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeEnvironment = "RuntimeEnvironment"
+            case snapshotArn = "SnapshotArn"
+            case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
+            case snapshotDescription = "SnapshotDescription"
+            case snapshotEncryptionConfigurationDescription = "SnapshotEncryptionConfigurationDescription"
+            case snapshotFormat = "SnapshotFormat"
+            case snapshotInitiator = "SnapshotInitiator"
+            case snapshotInitiatorOperation = "SnapshotInitiatorOperation"
+            case snapshotName = "SnapshotName"
+            case snapshotSizeInBytes = "SnapshotSizeInBytes"
+            case snapshotSourceDescription = "SnapshotSourceDescription"
+            case snapshotStatus = "SnapshotStatus"
+        }
+    }
+
+    public struct SnapshotOperationFailureDetails: AWSDecodableShape {
+        /// A description of the error that caused the snapshot operation to fail.
+        public let errorInfo: SnapshotErrorInfo?
+
+        @inlinable
+        public init(errorInfo: SnapshotErrorInfo? = nil) {
+            self.errorInfo = errorInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorInfo = "ErrorInfo"
+        }
+    }
+
+    public struct SnapshotOperationInfo: AWSDecodableShape {
+        /// The timestamp that indicates when the operation finished. This field is present only after the operation completes.
+        public let endTime: Date?
+        /// The type of operation that was performed on the snapshot.
+        public let snapshotOperation: SnapshotOperation
+        /// The ID of the snapshot operation.
+        public let snapshotOperationId: String
+        /// The status of the snapshot operation.
+        public let snapshotOperationStatus: SnapshotOperationStatus
+        /// The timestamp that indicates when the operation was created.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date? = nil, snapshotOperation: SnapshotOperation, snapshotOperationId: String, snapshotOperationStatus: SnapshotOperationStatus, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.snapshotOperation = snapshotOperation
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case snapshotOperation = "SnapshotOperation"
+            case snapshotOperationId = "SnapshotOperationId"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct SnapshotOperationInfoDetails: AWSDecodableShape {
+        /// Describes the application operation that initiated the snapshot operation. This field is present only for SystemCreateSnapshot operations.
+        public let applicationOperationDescription: ApplicationOperationDescription?
+        /// Describes the encryption configuration of the destination data. This field is present only for ImportSnapshot and ExportSnapshot operations.
+        public let destinationEncryptionConfigurationDescription: EncryptionConfigurationDescription?
+        /// The timestamp that indicates when the operation finished. This field is present only after the operation completes.
+        public let endTime: Date?
+        /// The ARN of the enhanced snapshot.
+        public let snapshotArn: String
+        /// Describes the location that the snapshot data was written to. This field is present only for ExportSnapshot operations, after the operation completes.
+        public let snapshotDestinationLocationDescription: SnapshotOperationLocationDescription?
+        /// The type of operation that was performed on the snapshot.
+        public let snapshotOperation: SnapshotOperation
+        /// Provides a description of the operation failure. This field is present only if SnapshotOperationStatus is FAILED.
+        public let snapshotOperationFailureDetails: SnapshotOperationFailureDetails?
+        /// The ID of the snapshot operation.
+        public let snapshotOperationId: String
+        /// The status of the snapshot operation.
+        public let snapshotOperationStatus: SnapshotOperationStatus
+        /// Describes the location that the snapshot data was read from. This field is present only for ImportSnapshot operations.
+        public let snapshotSourceLocationDescription: SnapshotOperationLocationDescription?
+        /// Describes the encryption configuration of the source data. This field is present only for ImportSnapshot operation.
+        public let sourceEncryptionConfigurationDescription: EncryptionConfigurationDescription?
+        /// The timestamp that indicates when the operation was created.
+        public let startTime: Date?
+
+        @inlinable
+        public init(applicationOperationDescription: ApplicationOperationDescription? = nil, destinationEncryptionConfigurationDescription: EncryptionConfigurationDescription? = nil, endTime: Date? = nil, snapshotArn: String, snapshotDestinationLocationDescription: SnapshotOperationLocationDescription? = nil, snapshotOperation: SnapshotOperation, snapshotOperationFailureDetails: SnapshotOperationFailureDetails? = nil, snapshotOperationId: String, snapshotOperationStatus: SnapshotOperationStatus, snapshotSourceLocationDescription: SnapshotOperationLocationDescription? = nil, sourceEncryptionConfigurationDescription: EncryptionConfigurationDescription? = nil, startTime: Date? = nil) {
+            self.applicationOperationDescription = applicationOperationDescription
+            self.destinationEncryptionConfigurationDescription = destinationEncryptionConfigurationDescription
+            self.endTime = endTime
+            self.snapshotArn = snapshotArn
+            self.snapshotDestinationLocationDescription = snapshotDestinationLocationDescription
+            self.snapshotOperation = snapshotOperation
+            self.snapshotOperationFailureDetails = snapshotOperationFailureDetails
+            self.snapshotOperationId = snapshotOperationId
+            self.snapshotOperationStatus = snapshotOperationStatus
+            self.snapshotSourceLocationDescription = snapshotSourceLocationDescription
+            self.sourceEncryptionConfigurationDescription = sourceEncryptionConfigurationDescription
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationOperationDescription = "ApplicationOperationDescription"
+            case destinationEncryptionConfigurationDescription = "DestinationEncryptionConfigurationDescription"
+            case endTime = "EndTime"
+            case snapshotArn = "SnapshotArn"
+            case snapshotDestinationLocationDescription = "SnapshotDestinationLocationDescription"
+            case snapshotOperation = "SnapshotOperation"
+            case snapshotOperationFailureDetails = "SnapshotOperationFailureDetails"
+            case snapshotOperationId = "SnapshotOperationId"
+            case snapshotOperationStatus = "SnapshotOperationStatus"
+            case snapshotSourceLocationDescription = "SnapshotSourceLocationDescription"
+            case sourceEncryptionConfigurationDescription = "SourceEncryptionConfigurationDescription"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct SnapshotOperationLocationDescription: AWSDecodableShape {
+        /// The type of the location. The only supported value is S3.
+        public let locationType: StorageLocationType
+        /// Describes the Amazon S3 bucket and key prefix of the location.
+        public let s3PrefixLocation: SnapshotOperationS3PrefixLocation
+
+        @inlinable
+        public init(locationType: StorageLocationType, s3PrefixLocation: SnapshotOperationS3PrefixLocation) {
+            self.locationType = locationType
+            self.s3PrefixLocation = s3PrefixLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationType = "LocationType"
+            case s3PrefixLocation = "S3PrefixLocation"
+        }
+    }
+
+    public struct SnapshotOperationS3PrefixLocation: AWSDecodableShape {
+        /// The ARN of the Amazon S3 bucket.
+        public let bucketARN: String
+        /// The full key prefix that the exported snapshot data was written to. This value includes the unique prefix that Managed Service for Apache Flink appends to KeyPrefix. This field is present only after an ExportSnapshot operation completes successfully.
+        public let exportedPrefix: String?
+        /// The key prefix in the Amazon S3 bucket that you specified in the request.
+        public let keyPrefix: String
+
+        @inlinable
+        public init(bucketARN: String, exportedPrefix: String? = nil, keyPrefix: String) {
+            self.bucketARN = bucketARN
+            self.exportedPrefix = exportedPrefix
+            self.keyPrefix = keyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case exportedPrefix = "ExportedPrefix"
+            case keyPrefix = "KeyPrefix"
+        }
+    }
+
+    public struct SnapshotSourceDescription: AWSDecodableShape {
+        /// The Amazon S3 location that the snapshot was imported from. This field is present only if SnapshotInitiatorOperation is ImportSnapshot.
+        public let s3PrefixLocation: S3PrefixLocation?
+        /// Describes the application that the snapshot was created from. This field is not present for imported snapshots.
+        public let sourceApplicationDescription: SourceApplicationDescription?
+
+        @inlinable
+        public init(s3PrefixLocation: S3PrefixLocation? = nil, sourceApplicationDescription: SourceApplicationDescription? = nil) {
+            self.s3PrefixLocation = s3PrefixLocation
+            self.sourceApplicationDescription = sourceApplicationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3PrefixLocation = "S3PrefixLocation"
+            case sourceApplicationDescription = "SourceApplicationDescription"
+        }
+    }
+
+    public struct SourceApplicationDescription: AWSDecodableShape {
+        /// The timestamp that indicates when the source application was created.
+        public let applicationCreationTimestamp: Date
+        public let applicationName: String
+        /// The version ID of the source application when the snapshot was created.
+        public let applicationVersionId: Int64
+
+        @inlinable
+        public init(applicationCreationTimestamp: Date, applicationName: String, applicationVersionId: Int64) {
+            self.applicationCreationTimestamp = applicationCreationTimestamp
+            self.applicationName = applicationName
+            self.applicationVersionId = applicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationCreationTimestamp = "ApplicationCreationTimestamp"
+            case applicationName = "ApplicationName"
+            case applicationVersionId = "ApplicationVersionId"
         }
     }
 
@@ -5030,7 +5967,7 @@ public struct KinesisAnalyticsV2ErrorType: AWSErrorType {
 
     /// The user-provided application code (query) is not valid. This can be a simple syntax error.
     public static var codeValidationException: Self { .init(.codeValidationException) }
-    /// Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The user-provided application configuration is not valid.
     public static var invalidApplicationConfigurationException: Self { .init(.invalidApplicationConfigurationException) }
@@ -5040,9 +5977,9 @@ public struct KinesisAnalyticsV2ErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The number of allowed resources has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The application is not available for this operation.
+    /// The application or snapshot is not available for this operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// Specified application can't be found.
+    /// The specified application, snapshot, or snapshot operation can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Discovery failed to get a record from the streaming source because of the Kinesis Streams ProvisionedThroughputExceededException. For more information, see GetRecords in the Amazon Kinesis Streams API Reference.
     public static var resourceProvisionedThroughputExceededException: Self { .init(.resourceProvisionedThroughputExceededException) }

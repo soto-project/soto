@@ -47,6 +47,8 @@ extension Route53Profiles {
     public struct AssociateProfileRequest: AWSEncodableShape {
         ///  A name for the association.
         public let name: String
+        ///  The priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value.   When the VPC already has a Profile association, you must specify a priority that no other Profile association for the VPC uses. If you omit the priority for the first association with a VPC, the association gets priority 100.
+        public let priority: Int?
         ///  ID of the Profile.
         public let profileId: String
         ///  The ID of the VPC.
@@ -55,8 +57,9 @@ extension Route53Profiles {
         public let tags: [Tag]?
 
         @inlinable
-        public init(name: String, profileId: String, resourceId: String, tags: [Tag]? = nil) {
+        public init(name: String, priority: Int? = nil, profileId: String, resourceId: String, tags: [Tag]? = nil) {
             self.name = name
+            self.priority = priority
             self.profileId = profileId
             self.resourceId = resourceId
             self.tags = tags
@@ -65,6 +68,8 @@ extension Route53Profiles {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
+            try self.validate(self.priority, name: "priority", parent: name, max: 9900)
+            try self.validate(self.priority, name: "priority", parent: name, min: 100)
             try self.validate(self.profileId, name: "profileId", parent: name, max: 64)
             try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
@@ -77,6 +82,7 @@ extension Route53Profiles {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case priority = "Priority"
             case profileId = "ProfileId"
             case resourceId = "ResourceId"
             case tags = "Tags"
@@ -84,7 +90,7 @@ extension Route53Profiles {
     }
 
     public struct AssociateProfileResponse: AWSDecodableShape {
-        ///  The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.
+        ///  The association that you just created. The association has an ID that you can use to identify it in other requests, such as update and delete.
         public let profileAssociation: ProfileAssociation?
 
         @inlinable
@@ -102,10 +108,9 @@ extension Route53Profiles {
         public let name: String
         ///  ID of the Profile.
         public let profileId: String
-        ///  Amazon resource number, ARN, of the DNS resource.
+        ///  Amazon resource number, ARN, of the resource to associate. Either a private hosted zone, DNS Firewall rule group, Resolver rule, or an interface VPC endpoint.
         public let resourceArn: String
-        ///  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.
-        ///  The allowed values for priority are between 100 and 9900.
+        ///  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.  The allowed values for priority are between 100 and 9900.
         public let resourceProperties: String?
 
         @inlinable
@@ -148,7 +153,7 @@ extension Route53Profiles {
     }
 
     public struct CreateProfileRequest: AWSEncodableShape {
-        ///  ClientToken is an idempotency token that ensures a call to CreateProfile completes only once. You choose the value to pass.  For example, an issue might prevent you from getting a response from CreateProfile.  In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value.
+        ///  ClientToken is an idempotency token that ensures a call to CreateProfile completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from CreateProfile. In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value.
         public let clientToken: String
         ///  A name for the Profile.
         public let name: String
@@ -378,7 +383,7 @@ extension Route53Profiles {
     }
 
     public struct GetProfileResourceAssociationRequest: AWSEncodableShape {
-        ///   The ID of the profile resource association that you want to get information about.
+        ///  The ID of the profile resource association that you want to get information about.
         public let profileResourceAssociationId: String
 
         @inlinable
@@ -463,12 +468,11 @@ extension Route53Profiles {
     }
 
     public struct ListProfileAssociationsRequest: AWSEncodableShape {
-        ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+        ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
         public let maxResults: Int?
-        ///  For the first call to this list request, omit this value.
-        ///  When you request a list of objects, at most the number of objects specified by MaxResults is returned.  If more objects are available for retrieval, a NextToken value is returned in the response.  To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        ///  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
-        /// ID of the Profile.
+        ///  ID of the Profile.
         public let profileId: String?
         ///  ID of the VPC.
         public let resourceId: String?
@@ -503,7 +507,7 @@ extension Route53Profiles {
     }
 
     public struct ListProfileAssociationsResponse: AWSDecodableShape {
-        ///  If more than MaxResults profile associations match the specified criteria, you can submit another  ListProfileAssociations request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
+        ///  If more than MaxResults profile associations match the specified criteria, you can submit another ListProfileAssociations request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
         ///  A complex type that containts settings information about the profile's VPC associations.
         public let profileAssociations: [ProfileAssociation]?
@@ -521,20 +525,23 @@ extension Route53Profiles {
     }
 
     public struct ListProfileResourceAssociationsRequest: AWSEncodableShape {
-        ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+        ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
         public let maxResults: Int?
-        ///  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned.  If more objects are available for retrieval, a NextToken value is returned in the response.  To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        ///  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
-        /// The ID of the Profile.
+        ///  The ID of the Profile.
         public let profileId: String
+        ///  The Amazon Resource Name (ARN) of a resource. If you specify this parameter, only the association with that resource is returned.
+        public let resourceArn: String?
         ///  ID of a resource if you want information on only one type.
         public let resourceType: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String, resourceType: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String, resourceArn: String? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.profileId = profileId
+            self.resourceArn = resourceArn
             self.resourceType = resourceType
         }
 
@@ -544,6 +551,7 @@ extension Route53Profiles {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodePath(self.profileId, key: "ProfileId")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
             request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
@@ -552,13 +560,15 @@ extension Route53Profiles {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.profileId, name: "profileId", parent: name, max: 64)
             try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListProfileResourceAssociationsResponse: AWSDecodableShape {
-        ///  If more than MaxResults resource associations match the specified criteria, you can submit another  ListProfileResourceAssociations request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
+        ///  If more than MaxResults resource associations match the specified criteria, you can submit another ListProfileResourceAssociations request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
         ///  Information about the profile resource association that you specified in a GetProfileResourceAssociation request.
         public let profileResourceAssociations: [ProfileResourceAssociation]?
@@ -576,9 +586,9 @@ extension Route53Profiles {
     }
 
     public struct ListProfilesRequest: AWSEncodableShape {
-        ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+        ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
         public let maxResults: Int?
-        ///  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned.  If more objects are available for retrieval, a NextToken value is returned in the response.  To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        ///  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
 
         @inlinable
@@ -603,7 +613,7 @@ extension Route53Profiles {
     }
 
     public struct ListProfilesResponse: AWSDecodableShape {
-        ///  If more than MaxResults resource associations match the specified criteria, you can submit another  ListProfiles request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
+        ///  If more than MaxResults resource associations match the specified criteria, you can submit another ListProfiles request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
         ///  Summary information about the Profiles.
         public let profileSummaries: [ProfileSummary]?
@@ -664,11 +674,11 @@ extension Route53Profiles {
         public let clientToken: String?
         ///  The date and time that the Profile was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: Date?
-        /// ID of the Profile.
+        ///  ID of the Profile.
         public let id: String?
         ///  The date and time that the Profile was modified, in Unix time format and Coordinated Universal Time (UTC).
         public let modificationTime: Date?
-        /// Name of the Profile.
+        ///  Name of the Profile.
         public let name: String?
         ///  Amazon Web Services account ID of the Profile owner.
         public let ownerId: String?
@@ -718,7 +728,9 @@ extension Route53Profiles {
         public let name: String?
         ///  Amazon Web Services account ID of the Profile association owner.
         public let ownerId: String?
-        /// ID of the Profile.
+        ///  The priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. Associations created without a priority have priority 100.
+        public let priority: Int?
+        ///  ID of the Profile.
         public let profileId: String?
         ///  The Amazon Resource Name (ARN) of the VPC.
         public let resourceId: String?
@@ -728,12 +740,13 @@ extension Route53Profiles {
         public let statusMessage: String?
 
         @inlinable
-        public init(creationTime: Date? = nil, id: String? = nil, modificationTime: Date? = nil, name: String? = nil, ownerId: String? = nil, profileId: String? = nil, resourceId: String? = nil, status: ProfileStatus? = nil, statusMessage: String? = nil) {
+        public init(creationTime: Date? = nil, id: String? = nil, modificationTime: Date? = nil, name: String? = nil, ownerId: String? = nil, priority: Int? = nil, profileId: String? = nil, resourceId: String? = nil, status: ProfileStatus? = nil, statusMessage: String? = nil) {
             self.creationTime = creationTime
             self.id = id
             self.modificationTime = modificationTime
             self.name = name
             self.ownerId = ownerId
+            self.priority = priority
             self.profileId = profileId
             self.resourceId = resourceId
             self.status = status
@@ -746,6 +759,7 @@ extension Route53Profiles {
             case modificationTime = "ModificationTime"
             case name = "Name"
             case ownerId = "OwnerId"
+            case priority = "Priority"
             case profileId = "ProfileId"
             case resourceId = "ResourceId"
             case status = "Status"
@@ -770,7 +784,7 @@ extension Route53Profiles {
         public let resourceArn: String?
         ///  If the DNS resource is a DNS Firewall rule group, this indicates the priority.
         public let resourceProperties: String?
-        ///  Resource type, such as a private hosted zone, or DNS Firewall rule group.
+        ///  Resource type, such as a private hosted zone, interface VPC endpoint, Resolver query log configuration, or DNS Firewall rule group.
         public let resourceType: String?
         ///  Status of the Profile resource association.
         public let status: ProfileStatus?
@@ -870,7 +884,7 @@ extension Route53Profiles {
     public struct Tag: AWSEncodableShape {
         ///  Key associated with the Tag.
         public let key: String
-        /// Value for the Tag.
+        ///  Value for the Tag.
         public let value: String
 
         @inlinable
@@ -966,10 +980,62 @@ extension Route53Profiles {
         public init() {}
     }
 
-    public struct UpdateProfileResourceAssociationRequest: AWSEncodableShape {
-        /// Name of the resource association.
+    public struct UpdateProfileAssociationRequest: AWSEncodableShape {
+        ///  The name of the Profile association.
         public let name: String?
-        /// ID of the resource association.
+        ///  The new priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value.  The priority must be unique among the Profile associations for the VPC.
+        public let priority: Int?
+        ///  The ID of the Profile association to update.
+        public let profileAssociationId: String
+
+        @inlinable
+        public init(name: String? = nil, priority: Int? = nil, profileAssociationId: String) {
+            self.name = name
+            self.priority = priority
+            self.profileAssociationId = profileAssociationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.priority, forKey: .priority)
+            request.encodePath(self.profileAssociationId, key: "ProfileAssociationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
+            try self.validate(self.priority, name: "priority", parent: name, max: 9900)
+            try self.validate(self.priority, name: "priority", parent: name, min: 100)
+            try self.validate(self.profileAssociationId, name: "profileAssociationId", parent: name, max: 64)
+            try self.validate(self.profileAssociationId, name: "profileAssociationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case priority = "Priority"
+        }
+    }
+
+    public struct UpdateProfileAssociationResponse: AWSDecodableShape {
+        ///  Information about the UpdateProfileAssociation request, including a status message.
+        public let profileAssociation: ProfileAssociation
+
+        @inlinable
+        public init(profileAssociation: ProfileAssociation) {
+            self.profileAssociation = profileAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileAssociation = "ProfileAssociation"
+        }
+    }
+
+    public struct UpdateProfileResourceAssociationRequest: AWSEncodableShape {
+        ///  Name of the resource association.
+        public let name: String?
+        ///  ID of the resource association.
         public let profileResourceAssociationId: String
         ///  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.  The allowed values for priority are between 100 and 9900.
         public let resourceProperties: String?
@@ -1054,11 +1120,11 @@ public struct Route53ProfilesErrorType: AWSErrorType {
 
     ///  The current account doesn't have the IAM permissions required to perform the specified operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request you submitted conflicts with an existing request.
+    ///  The request you submitted conflicts with an existing request.
     public static var conflictException: Self { .init(.conflictException) }
-    /// An internal server error occured. Retry your request.
+    ///  An internal server error occured. Retry your request.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
-    /// The NextToken you provided isn;t valid.
+    ///  The NextToken you provided isn;t valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     ///  One or more parameters in this request are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
@@ -1066,7 +1132,7 @@ public struct Route53ProfilesErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     ///  The resource you are trying to associate, has already been associated.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
-    /// The resource you are associating is not found.
+    ///  The resource you are associating is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  The request was throttled. Try again in a few minutes.
     public static var throttlingException: Self { .init(.throttlingException) }

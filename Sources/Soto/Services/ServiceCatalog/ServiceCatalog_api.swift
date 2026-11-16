@@ -3612,7 +3612,7 @@ public struct ServiceCatalog: AWSService {
 extension ServiceCatalog {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ServiceCatalog, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -4074,6 +4074,49 @@ extension ServiceCatalog {
         return self.listPrincipalsForPortfolioPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listProvisionedProductPlans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProvisionedProductPlansPaginator(
+        _ input: ListProvisionedProductPlansInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput> {
+        return .init(
+            input: input,
+            command: self.listProvisionedProductPlans,
+            inputKey: \ListProvisionedProductPlansInput.pageToken,
+            outputKey: \ListProvisionedProductPlansOutput.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProvisionedProductPlans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acceptLanguage: The language code.    jp - Japanese    zh - Chinese
+    ///   - accessLevelFilter: The access level to use to obtain results. The default is User.
+    ///   - pageSize: The maximum number of items to return with this call.
+    ///   - provisionProductId: The product identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProvisionedProductPlansPaginator(
+        acceptLanguage: String? = nil,
+        accessLevelFilter: AccessLevelFilter? = nil,
+        pageSize: Int? = nil,
+        provisionProductId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput> {
+        let input = ListProvisionedProductPlansInput(
+            acceptLanguage: acceptLanguage, 
+            accessLevelFilter: accessLevelFilter, 
+            pageSize: pageSize, 
+            provisionProductId: provisionProductId
+        )
+        return self.listProvisionedProductPlansPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listProvisioningArtifactsForServiceAction(_:logger:)``.
     ///
     /// - Parameters:
@@ -4112,6 +4155,49 @@ extension ServiceCatalog {
             serviceActionId: serviceActionId
         )
         return self.listProvisioningArtifactsForServiceActionPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecordHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecordHistoryPaginator(
+        _ input: ListRecordHistoryInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecordHistoryInput, ListRecordHistoryOutput> {
+        return .init(
+            input: input,
+            command: self.listRecordHistory,
+            inputKey: \ListRecordHistoryInput.pageToken,
+            outputKey: \ListRecordHistoryOutput.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecordHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acceptLanguage: The language code.    jp - Japanese    zh - Chinese
+    ///   - accessLevelFilter: The access level to use to obtain results. The default is User.
+    ///   - pageSize: The maximum number of items to return with this call.
+    ///   - searchFilter: The search filter to scope the results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecordHistoryPaginator(
+        acceptLanguage: String? = nil,
+        accessLevelFilter: AccessLevelFilter? = nil,
+        pageSize: Int? = nil,
+        searchFilter: ListRecordHistorySearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecordHistoryInput, ListRecordHistoryOutput> {
+        let input = ListRecordHistoryInput(
+            acceptLanguage: acceptLanguage, 
+            accessLevelFilter: accessLevelFilter, 
+            pageSize: pageSize, 
+            searchFilter: searchFilter
+        )
+        return self.listRecordHistoryPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listResourcesForTagOption(_:logger:)``.
@@ -4234,6 +4320,46 @@ extension ServiceCatalog {
         return self.listServiceActionsForProvisioningArtifactPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listStackInstancesForProvisionedProduct(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStackInstancesForProvisionedProductPaginator(
+        _ input: ListStackInstancesForProvisionedProductInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput> {
+        return .init(
+            input: input,
+            command: self.listStackInstancesForProvisionedProduct,
+            inputKey: \ListStackInstancesForProvisionedProductInput.pageToken,
+            outputKey: \ListStackInstancesForProvisionedProductOutput.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listStackInstancesForProvisionedProduct(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acceptLanguage: The language code.    jp - Japanese    zh - Chinese
+    ///   - pageSize: The maximum number of items to return with this call.
+    ///   - provisionedProductId: The identifier of the provisioned product.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStackInstancesForProvisionedProductPaginator(
+        acceptLanguage: String? = nil,
+        pageSize: Int? = nil,
+        provisionedProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput> {
+        let input = ListStackInstancesForProvisionedProductInput(
+            acceptLanguage: acceptLanguage, 
+            pageSize: pageSize, 
+            provisionedProductId: provisionedProductId
+        )
+        return self.listStackInstancesForProvisionedProductPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTagOptions(_:logger:)``.
     ///
     /// - Parameters:
@@ -4269,6 +4395,46 @@ extension ServiceCatalog {
             pageSize: pageSize
         )
         return self.listTagOptionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``scanProvisionedProducts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func scanProvisionedProductsPaginator(
+        _ input: ScanProvisionedProductsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ScanProvisionedProductsInput, ScanProvisionedProductsOutput> {
+        return .init(
+            input: input,
+            command: self.scanProvisionedProducts,
+            inputKey: \ScanProvisionedProductsInput.pageToken,
+            outputKey: \ScanProvisionedProductsOutput.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``scanProvisionedProducts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acceptLanguage: The language code.    jp - Japanese    zh - Chinese
+    ///   - accessLevelFilter: The access level to use to obtain results. The default is User.
+    ///   - pageSize: The maximum number of items to return with this call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func scanProvisionedProductsPaginator(
+        acceptLanguage: String? = nil,
+        accessLevelFilter: AccessLevelFilter? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ScanProvisionedProductsInput, ScanProvisionedProductsOutput> {
+        let input = ScanProvisionedProductsInput(
+            acceptLanguage: acceptLanguage, 
+            accessLevelFilter: accessLevelFilter, 
+            pageSize: pageSize
+        )
+        return self.scanProvisionedProductsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``searchProducts(_:logger:)``.
@@ -4555,6 +4721,19 @@ extension ServiceCatalog.ListPrincipalsForPortfolioInput: AWSPaginateToken {
     }
 }
 
+extension ServiceCatalog.ListProvisionedProductPlansInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListProvisionedProductPlansInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            accessLevelFilter: self.accessLevelFilter,
+            pageSize: self.pageSize,
+            pageToken: token,
+            provisionProductId: self.provisionProductId
+        )
+    }
+}
+
 extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListProvisioningArtifactsForServiceActionInput {
@@ -4563,6 +4742,19 @@ extension ServiceCatalog.ListProvisioningArtifactsForServiceActionInput: AWSPagi
             pageSize: self.pageSize,
             pageToken: token,
             serviceActionId: self.serviceActionId
+        )
+    }
+}
+
+extension ServiceCatalog.ListRecordHistoryInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListRecordHistoryInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            accessLevelFilter: self.accessLevelFilter,
+            pageSize: self.pageSize,
+            pageToken: token,
+            searchFilter: self.searchFilter
         )
     }
 }
@@ -4603,11 +4795,35 @@ extension ServiceCatalog.ListServiceActionsInput: AWSPaginateToken {
     }
 }
 
+extension ServiceCatalog.ListStackInstancesForProvisionedProductInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListStackInstancesForProvisionedProductInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            pageSize: self.pageSize,
+            pageToken: token,
+            provisionedProductId: self.provisionedProductId
+        )
+    }
+}
+
 extension ServiceCatalog.ListTagOptionsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ServiceCatalog.ListTagOptionsInput {
         return .init(
             filters: self.filters,
+            pageSize: self.pageSize,
+            pageToken: token
+        )
+    }
+}
+
+extension ServiceCatalog.ScanProvisionedProductsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.ScanProvisionedProductsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage,
+            accessLevelFilter: self.accessLevelFilter,
             pageSize: self.pageSize,
             pageToken: token
         )

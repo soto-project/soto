@@ -71,6 +71,12 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectedAccountChain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case base = "BASE"
+        case solana = "SOLANA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CountryCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `as` = "AS"
         case `do` = "DO"
@@ -472,6 +478,7 @@ extension WAFV2 {
         case bodyParsingFallbackBehavior = "BODY_PARSING_FALLBACK_BEHAVIOR"
         case byteMatchStatement = "BYTE_MATCH_STATEMENT"
         case challengeConfig = "CHALLENGE_CONFIG"
+        case challengeJavascriptSdkInjectionConfig = "CHALLENGE_JAVASCRIPT_SDK_INJECTION_CONFIG"
         case changePropagationStatus = "CHANGE_PROPAGATION_STATUS"
         case cookieMatchPattern = "COOKIE_MATCH_PATTERN"
         case customKeys = "CUSTOM_KEYS"
@@ -1061,15 +1068,23 @@ extension WAFV2 {
     }
 
     public struct AssociationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the CloudFront distributions that insert the WAF challenge JavaScript SDK into the HTML responses that they return. When you enable this setting for a distribution, you do not add the SDK to your web pages yourself.  You can configure this setting only for CloudFront distributions, using the CLOUDFRONT map key. WAF rejects any other resource type, and the setting is not available for regional resources. To configure it, use the CloudFront scope.  Your web ACL must also contain at least one of the following qualifying managed rule groups. WAF Bot Control qualifies only at the TARGETED inspection level, not at COMMON:    The WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, with the inspection level set to TARGETED.    The WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet.    The WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet.    If you remove the last qualifying managed rule group from the web ACL, or lower the WAF Bot Control inspection level from TARGETED to COMMON, you must remove this setting in the same update. Otherwise, WAF rejects the update.  Example JSON:  { "CLOUDFRONT": {} }  If you omit this setting, CloudFront does not insert the SDK. When you omit it from a web ACL that previously used it, cached HTML that already contains the SDK is still served until it expires, or until you invalidate the cache for that distribution. For more information, see Automatic SDK integration for CloudFront distributions in the WAF Developer Guide.
+        public let challengeJavascriptSdkInjection: [AssociatedResourceType: ChallengeJavascriptSdkInjectionConfig]?
         /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types.   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" }  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public let requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]?
 
         @inlinable
-        public init(requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]? = nil) {
+        public init(challengeJavascriptSdkInjection: [AssociatedResourceType: ChallengeJavascriptSdkInjectionConfig]? = nil, requestBody: [AssociatedResourceType: RequestBodyAssociatedResourceTypeConfig]? = nil) {
+            self.challengeJavascriptSdkInjection = challengeJavascriptSdkInjection
             self.requestBody = requestBody
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.challengeJavascriptSdkInjection, name: "challengeJavascriptSdkInjection", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case challengeJavascriptSdkInjection = "ChallengeJavascriptSdkInjection"
             case requestBody = "RequestBody"
         }
     }
@@ -1266,6 +1281,10 @@ extension WAFV2 {
         }
     }
 
+    public struct ChallengeJavascriptSdkInjectionConfig: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ChallengeResponse: AWSDecodableShape {
         /// The reason for failure, populated when the evaluation of the token fails.
         public let failureReason: FailureReason?
@@ -1391,6 +1410,85 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case actionCondition = "ActionCondition"
             case labelNameCondition = "LabelNameCondition"
+        }
+    }
+
+    public struct ConnectedAccountChainConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The blockchain network for receiving payments through the connected account. Test networks are not supported for connected accounts. Valid values:    BASE - Base mainnet.    SOLANA - Solana mainnet.
+        public let chain: ConnectedAccountChain
+        /// The price configuration for this network. Currently supports a single price entry in USDC.
+        public let prices: [ConnectedAccountPrice]
+
+        @inlinable
+        public init(chain: ConnectedAccountChain, prices: [ConnectedAccountPrice]) {
+            self.chain = chain
+            self.prices = prices
+        }
+
+        public func validate(name: String) throws {
+            try self.prices.forEach {
+                try $0.validate(name: "\(name).prices[]")
+            }
+            try self.validate(self.prices, name: "prices", parent: name, max: 1)
+            try self.validate(self.prices, name: "prices", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chain = "Chain"
+            case prices = "Prices"
+        }
+    }
+
+    public struct ConnectedAccountConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connected account that payments settle to. You obtain this ARN from Payment preferences > Connected accounts in the Amazon Web Services Billing and Cost Management console. For more information, see Managing connected accounts. The connected account must be active and enabled for crypto settlement; otherwise the request is rejected. To use a connected account, you must have the payments:GetConnectedAccount permission on this ARN.
+        public let connectedAccountArn: String
+        /// The per-network configurations for the connected account. You can specify 1 to 2 networks. Each entry specifies a blockchain network and the price for each request.
+        public let paymentNetworks: [ConnectedAccountChainConfig]
+
+        @inlinable
+        public init(connectedAccountArn: String, paymentNetworks: [ConnectedAccountChainConfig]) {
+            self.connectedAccountArn = connectedAccountArn
+            self.paymentNetworks = paymentNetworks
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectedAccountArn, name: "connectedAccountArn", parent: name, max: 140)
+            try self.validate(self.connectedAccountArn, name: "connectedAccountArn", parent: name, min: 56)
+            try self.validate(self.connectedAccountArn, name: "connectedAccountArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:payments::[0-9]{12}:connectedaccount/[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}-[A-Za-z0-9]{6}$")
+            try self.paymentNetworks.forEach {
+                try $0.validate(name: "\(name).paymentNetworks[]")
+            }
+            try self.validate(self.paymentNetworks, name: "paymentNetworks", parent: name, max: 2)
+            try self.validate(self.paymentNetworks, name: "paymentNetworks", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedAccountArn = "ConnectedAccountArn"
+            case paymentNetworks = "PaymentNetworks"
+        }
+    }
+
+    public struct ConnectedAccountPrice: AWSEncodableShape & AWSDecodableShape {
+        /// The price per request as a decimal string in the specified currency. Valid values range from 0.01 to 999999.99 USDC, with up to two decimal places. Sub-cent amounts are not supported.
+        public let amount: String
+        /// The cryptocurrency for payment. Currently only USDC is supported.
+        public let currency: CryptoCurrency
+
+        @inlinable
+        public init(amount: String, currency: CryptoCurrency) {
+            self.amount = amount
+            self.currency = currency
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.amount, name: "amount", parent: name, max: 9)
+            try self.validate(self.amount, name: "amount", parent: name, min: 1)
+            try self.validate(self.amount, name: "amount", parent: name, pattern: "^([1-9][0-9]{0,5}(\\.[0-9]{1,2})?|0\\.(0[1-9]|[1-9][0-9]?))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case currency = "Currency"
         }
     }
 
@@ -1735,7 +1833,7 @@ extension WAFV2 {
     public struct CreateWebACLRequest: AWSEncodableShape {
         /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
         public let applicationConfig: ApplicationConfig?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public let captchaConfig: CaptchaConfig?
@@ -1789,6 +1887,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.applicationConfig?.validate(name: "\(name).applicationConfig")
+            try self.associationConfig?.validate(name: "\(name).associationConfig")
             try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.challengeConfig?.validate(name: "\(name).challengeConfig")
             try self.customResponseBodies?.forEach {
@@ -5335,22 +5434,31 @@ extension WAFV2 {
     }
 
     public struct MonetizationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The connected account configurations for settling AI bot payments through a connected account with a supported third-party payment provider (Stripe), as an alternative to the self-managed wallets in CryptoConfig. You can provide CryptoConfig, ConnectedAccountConfigs, or both; however, a given blockchain network (chain) can be used by only one of them. Currently supports exactly one connected account.
+        public let connectedAccountConfigs: [ConnectedAccountConfig]?
         /// The cryptocurrency payment configuration, including the blockchain networks and wallet addresses where you receive payments.
         public let cryptoConfig: CryptoConfig?
-        /// Specifies whether the configuration uses real or test currency. Set to REAL to settle payments in USDC on production blockchain networks (Base, Solana). Set to TEST to settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value. If not specified, defaults to REAL.
+        /// Specifies whether the configuration uses real or test currency. If not specified, defaults to REAL. Connected account configurations support production settlement only; TEST is not supported when ConnectedAccountConfigs is present. Valid values:    REAL - Settle payments in USDC on production blockchain networks (Base, Solana).    TEST - Settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value.
         public let currencyMode: CurrencyMode?
 
         @inlinable
-        public init(cryptoConfig: CryptoConfig? = nil, currencyMode: CurrencyMode? = nil) {
+        public init(connectedAccountConfigs: [ConnectedAccountConfig]? = nil, cryptoConfig: CryptoConfig? = nil, currencyMode: CurrencyMode? = nil) {
+            self.connectedAccountConfigs = connectedAccountConfigs
             self.cryptoConfig = cryptoConfig
             self.currencyMode = currencyMode
         }
 
         public func validate(name: String) throws {
+            try self.connectedAccountConfigs?.forEach {
+                try $0.validate(name: "\(name).connectedAccountConfigs[]")
+            }
+            try self.validate(self.connectedAccountConfigs, name: "connectedAccountConfigs", parent: name, max: 1)
+            try self.validate(self.connectedAccountConfigs, name: "connectedAccountConfigs", parent: name, min: 1)
             try self.cryptoConfig?.validate(name: "\(name).cryptoConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectedAccountConfigs = "ConnectedAccountConfigs"
             case cryptoConfig = "CryptoConfig"
             case currencyMode = "CurrencyMode"
         }
@@ -7706,7 +7814,7 @@ extension WAFV2 {
     public struct UpdateWebACLRequest: AWSEncodableShape {
         /// Configures the ability for the WAF console to store and retrieve application attributes.  Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:   If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.   If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
         public let applicationConfig: ApplicationConfig?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public let associationConfig: AssociationConfig?
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public let captchaConfig: CaptchaConfig?
@@ -7763,6 +7871,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.applicationConfig?.validate(name: "\(name).applicationConfig")
+            try self.associationConfig?.validate(name: "\(name).associationConfig")
             try self.captchaConfig?.validate(name: "\(name).captchaConfig")
             try self.challengeConfig?.validate(name: "\(name).challengeConfig")
             try self.customResponseBodies?.forEach {
@@ -7989,7 +8098,7 @@ extension WAFV2 {
         public let applicationConfig: ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public let arn: String
-        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources.   Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can  customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). You can also use this to have your CloudFront distributions insert the WAF challenge JavaScript SDK into the HTML responses that they return. For more information, see the ChallengeJavascriptSdkInjection setting.
         public let associationConfig: AssociationConfig?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL.  WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule.  Simple rules that cost little to run use fewer WCUs than more complex rules
         /// 				that use more processing power.
@@ -8014,7 +8123,7 @@ extension WAFV2 {
         public let labelNamespace: String?
         /// Indicates whether this web ACL was created by Firewall Manager and is being managed by Firewall Manager. If true, then only Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL.  See also the properties RetrofittedByFirewallManager, PreProcessFirewallManagerRuleGroups, and PostProcessFirewallManagerRuleGroups.
         public let managedByFirewallManager: Bool?
-        /// The monetization configuration for the web ACL. Required when any rule in the web ACL uses the Monetize action. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization.
+        /// The monetization configuration for the web ACL. Required when any rule in the web ACL uses the Monetize action. Specifies the payment settlement options and currency mode for AI bot monetization.
         public let monetizationConfig: MonetizationConfig?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String

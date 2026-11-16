@@ -176,9 +176,16 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum KafkaEventSourceMappingConsumptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case queue = "Queue"
+        case stream = "Stream"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KafkaSchemaRegistryAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basicAuth = "BASIC_AUTH"
         case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
+        case oauthbearerAuth = "OAUTHBEARER_AUTH"
         case serverRootCaCertificate = "SERVER_ROOT_CA_CERTIFICATE"
         public var description: String { return self.rawValue }
     }
@@ -314,6 +321,7 @@ extension Lambda {
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "custom"
         case dotnet10 = "dotnet10"
         case dotnet6 = "dotnet6"
         case dotnet8 = "dotnet8"
@@ -397,6 +405,13 @@ extension Lambda {
     public enum SourceAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basicAuth = "BASIC_AUTH"
         case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
+        case iamAuth = "IAM_AUTH"
+        case iamOauthbearerAuth = "IAM_OAUTHBEARER_AUTH"
+        case oauthbearerAudience = "OAUTHBEARER_AUDIENCE"
+        case oauthbearerAuth = "OAUTHBEARER_AUTH"
+        case oauthbearerIdentityPool = "OAUTHBEARER_IDENTITY_POOL"
+        case oauthbearerLogicalCluster = "OAUTHBEARER_LOGICAL_CLUSTER"
+        case oauthbearerScope = "OAUTHBEARER_SCOPE"
         case saslScram256Auth = "SASL_SCRAM_256_AUTH"
         case saslScram512Auth = "SASL_SCRAM_512_AUTH"
         case serverRootCaCertificate = "SERVER_ROOT_CA_CERTIFICATE"
@@ -620,9 +635,9 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.action, name: "action", parent: name, max: 22)
             try self.validate(self.action, name: "action", parent: name, pattern: "^lambda:GetLayerVersion$")
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^o-[a-z0-9]{10,32}$")
             try self.validate(self.principal, name: "principal", parent: name, max: 10000)
@@ -1266,11 +1281,14 @@ extension Lambda {
         public let functionName: String
         /// The tenant identifier for the chained invocation.
         public let tenantId: String?
+        /// The X-Ray trace header to use when starting the chained invocation. This parameter is optional. If you omit this value, the child invocation inherits the parent durable execution's trace header. Specify this value on the START update for the chained invocation operation. For more information about the header format, see Tracing header in the X-Ray Developer Guide.
+        public let xAmznTraceId: String?
 
         @inlinable
-        public init(functionName: String, tenantId: String? = nil) {
+        public init(functionName: String, tenantId: String? = nil, xAmznTraceId: String? = nil) {
             self.functionName = functionName
             self.tenantId = tenantId
+            self.xAmznTraceId = xAmznTraceId
         }
 
         public func validate(name: String) throws {
@@ -1280,11 +1298,13 @@ extension Lambda {
             try self.validate(self.tenantId, name: "tenantId", parent: name, max: 256)
             try self.validate(self.tenantId, name: "tenantId", parent: name, min: 1)
             try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[a-zA-Z0-9\\._:\\/=+\\-@ ]+$")
+            try self.validate(self.xAmznTraceId, name: "xAmznTraceId", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
             case functionName = "FunctionName"
             case tenantId = "TenantId"
+            case xAmznTraceId = "XAmznTraceId"
         }
     }
 
@@ -1949,11 +1969,11 @@ extension Lambda {
         public let kmsKeyArn: String?
         /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see Event source mapping logging.
         public let loggingConfig: EventSourceMappingLoggingConfig?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka event source mappings with ConsumptionMode set to Queue, the value -1 (infinite retries) is not supported and the default is 0 (no retries). Lambda releases failed records back to the broker, which redelivers them up to the share group's group.share.delivery.count.limit.
         public let maximumRetryAttempts: Int?
         /// The metrics configuration for your event source. For more information, see Event source mapping metrics.
         public let metricsConfig: EventSourceMappingMetricsConfig?
@@ -1971,9 +1991,9 @@ extension Lambda {
         public let selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
         public let startingPosition: EventSourcePosition?
-        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
         public let startingPositionTimestamp: Date?
         /// A list of tags to apply to the event source mapping.
         public let tags: [String: String]?
@@ -2148,6 +2168,8 @@ extension Lambda {
         public let role: String
         /// The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let runtime: Runtime?
+        /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+        public let runtimeConfig: FunctionRuntimeConfig?
         /// The function's SnapStart setting.
         public let snapStart: SnapStart?
         /// A list of tags to apply to the function.
@@ -2162,7 +2184,7 @@ extension Lambda {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(architectures: [Architecture]? = nil, capacityProviderConfig: CapacityProviderConfig? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, durableConfig: DurableConfig? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, loggingConfig: LoggingConfig? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, publishTo: FunctionVersionLatestPublished? = nil, role: String, runtime: Runtime? = nil, snapStart: SnapStart? = nil, tags: [String: String]? = nil, tenancyConfig: TenancyConfig? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(architectures: [Architecture]? = nil, capacityProviderConfig: CapacityProviderConfig? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, durableConfig: DurableConfig? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, loggingConfig: LoggingConfig? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, publishTo: FunctionVersionLatestPublished? = nil, role: String, runtime: Runtime? = nil, runtimeConfig: FunctionRuntimeConfig? = nil, snapStart: SnapStart? = nil, tags: [String: String]? = nil, tenancyConfig: TenancyConfig? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.architectures = architectures
             self.capacityProviderConfig = capacityProviderConfig
             self.code = code
@@ -2185,6 +2207,7 @@ extension Lambda {
             self.publishTo = publishTo
             self.role = role
             self.runtime = runtime
+            self.runtimeConfig = runtimeConfig
             self.snapStart = snapStart
             self.tags = tags
             self.tenancyConfig = tenancyConfig
@@ -2227,6 +2250,7 @@ extension Lambda {
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
             try self.validate(self.role, name: "role", parent: name, max: 10000)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.runtimeConfig?.validate(name: "\(name).runtimeConfig")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2262,6 +2286,7 @@ extension Lambda {
             case publishTo = "PublishTo"
             case role = "Role"
             case runtime = "Runtime"
+            case runtimeConfig = "RuntimeConfig"
             case snapStart = "SnapStart"
             case tags = "Tags"
             case tenancyConfig = "TenancyConfig"
@@ -2669,9 +2694,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2728,8 +2753,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?|runtime/[a-zA-Z0-9-_./]+)$")
             try self.validate(self.revisionId, name: "revisionId", parent: name, max: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, min: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3823,6 +3848,8 @@ extension Lambda {
         public let role: String?
         /// The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let runtime: Runtime?
+        /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+        public let runtimeConfig: FunctionRuntimeConfig?
         /// The ARN of the runtime and any errors that occured.
         public let runtimeVersionConfig: RuntimeVersionConfig?
         /// The ARN of the signing job.
@@ -3849,7 +3876,7 @@ extension Lambda {
         public let vpcConfig: VpcConfigResponse?
 
         @inlinable
-        public init(architectures: [Architecture]? = nil, capacityProviderConfig: CapacityProviderConfig? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, configSha256: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, durableConfig: DurableConfig? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, loggingConfig: LoggingConfig? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, runtimeVersionConfig: RuntimeVersionConfig? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, snapStart: SnapStartResponse? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, tenancyConfig: TenancyConfig? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(architectures: [Architecture]? = nil, capacityProviderConfig: CapacityProviderConfig? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, configSha256: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, durableConfig: DurableConfig? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, loggingConfig: LoggingConfig? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, runtimeConfig: FunctionRuntimeConfig? = nil, runtimeVersionConfig: RuntimeVersionConfig? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, snapStart: SnapStartResponse? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, tenancyConfig: TenancyConfig? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.architectures = architectures
             self.capacityProviderConfig = capacityProviderConfig
             self.codeSha256 = codeSha256
@@ -3878,6 +3905,7 @@ extension Lambda {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.runtimeConfig = runtimeConfig
             self.runtimeVersionConfig = runtimeVersionConfig
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
@@ -3921,6 +3949,7 @@ extension Lambda {
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
+            case runtimeConfig = "RuntimeConfig"
             case runtimeVersionConfig = "RuntimeVersionConfig"
             case signingJobArn = "SigningJobArn"
             case signingProfileVersionArn = "SigningProfileVersionArn"
@@ -3963,6 +3992,32 @@ extension Lambda {
             case lastModified = "LastModified"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct FunctionRuntimeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the customer-managed runtime alias that your function uses. A runtime alias is a name that points to a runtime version.
+        public let runtimeAlias: String
+        /// The Amazon Resource Name (ARN) of the customer-managed runtime that your function uses.
+        public let runtimeArn: String
+
+        @inlinable
+        public init(runtimeAlias: String, runtimeArn: String) {
+            self.runtimeAlias = runtimeAlias
+            self.runtimeArn = runtimeArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeAlias, name: "runtimeAlias", parent: name, max: 128)
+            try self.validate(self.runtimeAlias, name: "runtimeAlias", parent: name, min: 1)
+            try self.validate(self.runtimeArn, name: "runtimeArn", parent: name, max: 2048)
+            try self.validate(self.runtimeArn, name: "runtimeArn", parent: name, min: 48)
+            try self.validate(self.runtimeArn, name: "runtimeArn", parent: name, pattern: "^arn:[a-z-]+:lambda:[a-z0-9-]+:\\d{12}:runtime/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeAlias = "RuntimeAlias"
+            case runtimeArn = "RuntimeArn"
         }
     }
 
@@ -4289,15 +4344,15 @@ extension Lambda {
         public let durableExecutionName: String
         /// The date and time when the durable execution ended, in Unix timestamp format. This field is only present if the execution has completed (status is SUCCEEDED, FAILED, TIMED_OUT, or STOPPED).
         public let endTimestamp: Date?
-        /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
+        /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 1 MB.
         public let error: ErrorObject?
         /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
         public let executionDataIncluded: Bool?
         /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
         public let functionArn: String
-        /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
+        /// The JSON input payload that you provided when you started the durable execution. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
         public let inputPayload: String?
-        /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. The result is limited to 256 KB.
+        /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
         public let result: String?
         /// The date and time when the durable execution started, in Unix timestamp format.
         public let startTimestamp: Date
@@ -4831,9 +4886,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4877,9 +4932,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5061,8 +5116,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?|runtime/[a-zA-Z0-9-_./]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5719,7 +5774,7 @@ extension Lambda {
     }
 
     public struct KafkaSchemaRegistryAccessConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The type of authentication Lambda uses to access your schema registry.
+        ///  The type of authentication Lambda uses to access your schema registry.     BASIC_AUTH – The Secrets Manager ARN of your secret key used for basic authentication with your Confluent schema registry.    CLIENT_CERTIFICATE_TLS_AUTH – The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication with your Confluent schema registry.    SERVER_ROOT_CA_CERTIFICATE – The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption with your Confluent schema registry.    OAUTHBEARER_AUTH – The Secrets Manager ARN of your secret key containing the OAuth 2.0 credentials that Lambda uses to acquire an access token for your Confluent schema registry. For the contents of the secret, see Configuring the OAuth secret.
         public let type: KafkaSchemaRegistryAuthType?
         ///  The URI of the secret (Secrets Manager secret ARN) to authenticate with your schema registry.
         public let uri: String?
@@ -6146,7 +6201,7 @@ extension Lambda {
         public let marker: String?
         /// Maximum number of executions to return (1-1000). Default is 100.
         public let maxItems: Int?
-        /// The function version or alias. If not specified, lists executions for the $LATEST version.
+        /// The function version to filter executions by. If you don't specify a qualifier, this operation returns executions across all versions of the Lambda function.
         public let qualifier: String?
         /// Set to true to return results in chronological order (oldest first). Default is false.
         public let reverseOrder: Bool?
@@ -6575,9 +6630,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6974,7 +7029,7 @@ extension Lambda {
         public let chainedInvokeOptions: ChainedInvokeOptions?
         /// Options for context operations.
         public let contextOptions: ContextOptions?
-        /// The error information for failed operations.
+        /// The error information for failed operations. The combined size of all error fields is limited to 1 MB.
         public let error: ErrorObject?
         /// The unique identifier for this operation.
         public let id: String
@@ -6982,7 +7037,7 @@ extension Lambda {
         public let name: String?
         /// The unique identifier of the parent operation, if this operation is running within a child context.
         public let parentId: String?
-        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT, STEP, WAIT, and CALLBACK operations.
+        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), and 1 MB for asynchronous EXECUTION (Event invocationType), CHAINED_INVOKE, CONTEXT, STEP, WAIT, and CALLBACK operations.
         public let payload: String?
         /// Options for step operations.
         public let stepOptions: StepOptions?
@@ -7252,9 +7307,9 @@ extension Lambda {
             try self.validate(self.compatibleRuntimes, name: "compatibleRuntimes", parent: name, max: 15)
             try self.content.validate(name: "\(name).content")
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
             try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, max: 512)
             try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, pattern: "^.*$")
         }
@@ -7688,8 +7743,8 @@ extension Lambda {
             try self.validate(self.policy, name: "policy", parent: name, max: 20480)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\s\\S]+$")
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?|runtime/[a-zA-Z0-9-_./]+)$")
             try self.validate(self.revisionId, name: "revisionId", parent: name, max: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, min: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -7755,7 +7810,7 @@ extension Lambda {
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
             try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, max: 2048)
             try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, min: 26)
-            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}::runtime:.+$")
+            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, pattern: "^((arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}::runtime:.+)|(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/[A-Za-z0-9_.-]{1,128}/version/[A-Za-z0-9_.-]{1,128}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7832,9 +7887,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
+            try self.validate(self.layerName, name: "layerName", parent: name, max: 2048)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]{1,140}|[a-zA-Z0-9-_]{1,140})$")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([a-zA-Z0-9-_]+)$")
@@ -8009,6 +8064,23 @@ extension Lambda {
         }
     }
 
+    public struct RuntimeAliasDeletedException: AWSErrorShape {
+        public let message: String?
+        /// Indicates the exception type for a deleted runtime alias.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
+        }
+    }
+
     public struct RuntimeVersionConfig: AWSDecodableShape {
         /// Error response when Lambda is unable to retrieve the runtime version for a function.
         public let error: RuntimeVersionError?
@@ -8024,6 +8096,23 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case error = "Error"
             case runtimeVersionArn = "RuntimeVersionArn"
+        }
+    }
+
+    public struct RuntimeVersionDeletedException: AWSErrorShape {
+        public let message: String?
+        /// Indicates the exception type for a deleted runtime version.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
         }
     }
 
@@ -8158,12 +8247,15 @@ extension Lambda {
     public struct SelfManagedKafkaEventSourceConfig: AWSEncodableShape & AWSDecodableShape {
         ///  The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see Customizable consumer group ID.
         public let consumerGroupId: String?
+        /// The mode that Lambda uses to consume records from your self-managed Apache Kafka topic. Valid values are the following:    Stream (default) – Lambda consumes records using a Kafka consumer group and preserves the order of records within each partition.    Queue – Lambda consumes records using a Kafka share group. Multiple consumers can process records from the same partition concurrently, so Lambda doesn't preserve per-partition order. To use Queue mode, your cluster must run Apache Kafka version 4.2 or later with share groups enabled.   If you omit this parameter, Lambda uses Stream. You cannot change ConsumptionMode after you create the event source mapping. To use a different consumption mode, create a new event source mapping. When ConsumptionMode is Queue, the StartingPosition, StartingPositionTimestamp, and MaximumBatchingWindowInSeconds parameters are not supported.
+        public let consumptionMode: KafkaEventSourceMappingConsumptionMode?
         /// Specific configuration settings for a Kafka schema registry.
         public let schemaRegistryConfig: KafkaSchemaRegistryConfig?
 
         @inlinable
-        public init(consumerGroupId: String? = nil, schemaRegistryConfig: KafkaSchemaRegistryConfig? = nil) {
+        public init(consumerGroupId: String? = nil, consumptionMode: KafkaEventSourceMappingConsumptionMode? = nil, schemaRegistryConfig: KafkaSchemaRegistryConfig? = nil) {
             self.consumerGroupId = consumerGroupId
+            self.consumptionMode = consumptionMode
             self.schemaRegistryConfig = schemaRegistryConfig
         }
 
@@ -8176,6 +8268,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case consumerGroupId = "ConsumerGroupId"
+            case consumptionMode = "ConsumptionMode"
             case schemaRegistryConfig = "SchemaRegistryConfig"
         }
     }
@@ -8183,7 +8276,7 @@ extension Lambda {
     public struct SendDurableExecutionCallbackFailureRequest: AWSEncodableShape {
         /// The unique identifier for the callback operation.
         public let callbackId: String
-        /// Error details describing why the callback operation failed.
+        /// Error details describing why the callback operation failed. The combined size of all error fields is limited to 1 MB.
         public let error: ErrorObject?
 
         @inlinable
@@ -8243,7 +8336,7 @@ extension Lambda {
     public struct SendDurableExecutionCallbackSuccessRequest: AWSEncodableShape {
         /// The unique identifier for the callback operation.
         public let callbackId: String
-        /// The result data from the successful callback operation. Maximum size is 256 KB.
+        /// The result data from the successful callback operation. Maximum size is 1 MB.
         public let result: AWSHTTPBody?
 
         @inlinable
@@ -8263,7 +8356,7 @@ extension Lambda {
             try self.validate(self.callbackId, name: "callbackId", parent: name, max: 1024)
             try self.validate(self.callbackId, name: "callbackId", parent: name, min: 1)
             try self.validate(self.callbackId, name: "callbackId", parent: name, pattern: "^[A-Za-z0-9+/]+={0,2}$")
-            try self.validate(self.result, name: "result", parent: name, max: 262144)
+            try self.validate(self.result, name: "result", parent: name, max: 1048576)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8423,7 +8516,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.     OAUTHBEARER_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the OAuth 2.0 credentials that Lambda uses for SASL/OAUTHBEARER authentication with your Apache Kafka brokers. For the contents of the secret, see Configuring the OAuth secret.    OAUTHBEARER_SCOPE – (Self-managed Apache Kafka) The OAuth 2.0 scope that Lambda requests when it acquires an access token. The URI field holds the scope value, not a secret ARN. This type requires OAUTHBEARER_AUTH.    OAUTHBEARER_AUDIENCE – (Self-managed Apache Kafka) The OAuth 2.0 audience that Lambda requests when it acquires an access token. The URI field holds the audience value, not a secret ARN. This type requires either OAUTHBEARER_AUTH or IAM_OAUTHBEARER_AUTH.    OAUTHBEARER_LOGICAL_CLUSTER – (Self-managed Apache Kafka) The logical cluster identifier that Lambda sends to a Confluent Cloud broker. The URI field holds the identifier, not a secret ARN. This type requires OAUTHBEARER_AUTH.    OAUTHBEARER_IDENTITY_POOL – (Self-managed Apache Kafka) The identity pool identifier that Lambda sends to a Confluent Cloud broker. The URI field holds the identifier, not a secret ARN. This type requires OAUTHBEARER_AUTH.    IAM_AUTH – (Self-managed Apache Kafka) Authenticate with Identity and Access Management (IAM). Your function's execution role signs each connection, so there is no secret to provide. Omit the URI field for this type.    IAM_OAUTHBEARER_AUTH – (Self-managed Apache Kafka) Authenticate with an Amazon Web Services web identity token over SASL/OAUTHBEARER. Lambda requests the token for your function's execution role, so there is no secret to provide. Omit the URI field for this type. This type requires OAUTHBEARER_AUDIENCE and does not support the other OAUTHBEARER types.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -8533,7 +8626,7 @@ extension Lambda {
     public struct StopDurableExecutionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the durable execution.
         public let durableExecutionArn: String
-        /// Optional error details explaining why the execution is being stopped.
+        /// Optional error details explaining why the execution is being stopped. The combined size of all error fields is limited to 1 MB.
         public let error: ErrorObject?
 
         @inlinable
@@ -8991,11 +9084,11 @@ extension Lambda {
         ///  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
         public let kmsKeyArn: String?
         public let loggingConfig: EventSourceMappingLoggingConfig?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka event source mappings with ConsumptionMode set to Queue, the value -1 (infinite retries) is not supported and the default is 0 (no retries). Lambda releases failed records back to the broker, which redelivers them up to the share group's group.share.delivery.count.limit.
         public let maximumRetryAttempts: Int?
         /// The metrics configuration for your event source. For more information, see Event source mapping metrics.
         public let metricsConfig: EventSourceMappingMetricsConfig?
@@ -9259,6 +9352,8 @@ extension Lambda {
         public let role: String?
         /// The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let runtime: Runtime?
+        /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+        public let runtimeConfig: FunctionRuntimeConfig?
         /// The function's SnapStart setting.
         public let snapStart: SnapStart?
         /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see Lambda execution environment.
@@ -9269,7 +9364,7 @@ extension Lambda {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(capacityProviderConfig: CapacityProviderConfig? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, durableConfig: DurableConfig? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, loggingConfig: LoggingConfig? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, snapStart: SnapStart? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(capacityProviderConfig: CapacityProviderConfig? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, durableConfig: DurableConfig? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, loggingConfig: LoggingConfig? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, runtimeConfig: FunctionRuntimeConfig? = nil, snapStart: SnapStart? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.capacityProviderConfig = capacityProviderConfig
             self.deadLetterConfig = deadLetterConfig
             self.description = description
@@ -9287,6 +9382,7 @@ extension Lambda {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.runtimeConfig = runtimeConfig
             self.snapStart = snapStart
             self.timeout = timeout
             self.tracingConfig = tracingConfig
@@ -9313,6 +9409,7 @@ extension Lambda {
             try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
             try container.encodeIfPresent(self.role, forKey: .role)
             try container.encodeIfPresent(self.runtime, forKey: .runtime)
+            try container.encodeIfPresent(self.runtimeConfig, forKey: .runtimeConfig)
             try container.encodeIfPresent(self.snapStart, forKey: .snapStart)
             try container.encodeIfPresent(self.timeout, forKey: .timeout)
             try container.encodeIfPresent(self.tracingConfig, forKey: .tracingConfig)
@@ -9348,6 +9445,7 @@ extension Lambda {
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
             try self.validate(self.role, name: "role", parent: name, max: 10000)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.runtimeConfig?.validate(name: "\(name).runtimeConfig")
             try self.validate(self.timeout, name: "timeout", parent: name, max: 5400)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
@@ -9370,6 +9468,7 @@ extension Lambda {
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
+            case runtimeConfig = "RuntimeConfig"
             case snapStart = "SnapStart"
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
@@ -9703,6 +9802,8 @@ public struct LambdaErrorType: AWSErrorType {
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceNotReadyException = "ResourceNotReadyException"
+        case runtimeAliasDeletedException = "RuntimeAliasDeletedException"
+        case runtimeVersionDeletedException = "RuntimeVersionDeletedException"
         case s3FilesMountConnectivityException = "S3FilesMountConnectivityException"
         case s3FilesMountFailureException = "S3FilesMountFailureException"
         case s3FilesMountTimeoutException = "S3FilesMountTimeoutException"
@@ -9822,6 +9923,10 @@ public struct LambdaErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
+    /// The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+    public static var runtimeAliasDeletedException: Self { .init(.runtimeAliasDeletedException) }
+    /// The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
+    public static var runtimeVersionDeletedException: Self { .init(.runtimeVersionDeletedException) }
     /// The Lambda function couldn't make a network connection to the configured S3 Files access point.
     public static var s3FilesMountConnectivityException: Self { .init(.s3FilesMountConnectivityException) }
     /// The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
@@ -9895,6 +10000,8 @@ extension LambdaErrorType: AWSServiceErrorType {
         "ResourceInUseException": Lambda.ResourceInUseException.self,
         "ResourceNotFoundException": Lambda.ResourceNotFoundException.self,
         "ResourceNotReadyException": Lambda.ResourceNotReadyException.self,
+        "RuntimeAliasDeletedException": Lambda.RuntimeAliasDeletedException.self,
+        "RuntimeVersionDeletedException": Lambda.RuntimeVersionDeletedException.self,
         "S3FilesMountConnectivityException": Lambda.S3FilesMountConnectivityException.self,
         "S3FilesMountFailureException": Lambda.S3FilesMountFailureException.self,
         "S3FilesMountTimeoutException": Lambda.S3FilesMountTimeoutException.self,

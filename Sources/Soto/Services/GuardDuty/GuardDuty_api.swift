@@ -1735,7 +1735,7 @@ public struct GuardDuty: AWSService {
         return try await self.getIPSet(input, logger: logger)
     }
 
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. GuardDuty returns the results, including the summary and the scope of the investigation, only when the investigation status is COMPLETED. By default, GuardDuty returns the summary as text in Summary. To return a typed summary in SummaryData instead, set SummaryFormat to STRUCTURED. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
     @Sendable
     @inlinable
     public func getInvestigation(_ input: GetInvestigationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvestigationResponse {
@@ -1748,21 +1748,24 @@ public struct GuardDuty: AWSService {
             logger: logger
         )
     }
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. GuardDuty returns the results, including the summary and the scope of the investigation, only when the investigation status is COMPLETED. By default, GuardDuty returns the summary as text in Summary. To return a typed summary in SummaryData instead, set SummaryFormat to STRUCTURED. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
     ///
     /// Parameters:
     ///   - detectorId: The unique ID of the GuardDuty detector associated with the investigation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
     ///   - investigationId: The unique identifier of the investigation to retrieve.
+    ///   - summaryFormat: The format in which to return the investigation summary. Possible values:    STRING – (Default) Returns the summary as text in Summary.    STRUCTURED – Returns a typed summary in SummaryData.   GuardDuty returns a summary only when the investigation status is COMPLETED.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInvestigation(
         detectorId: String,
         investigationId: String,
+        summaryFormat: SummaryFormat? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetInvestigationResponse {
         let input = GetInvestigationRequest(
             detectorId: detectorId, 
-            investigationId: investigationId
+            investigationId: investigationId, 
+            summaryFormat: summaryFormat
         )
         return try await self.getInvestigation(input, logger: logger)
     }
@@ -2490,7 +2493,48 @@ public struct GuardDuty: AWSService {
         return try await self.listIPSets(input, logger: logger)
     }
 
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns the records for a specific GuardDuty investigation. Each record is one step in the reasoning that GuardDuty followed to reach the results of the investigation. An administrator account can list the records of any investigation within the organization. Member accounts can only list the records of investigations that belong to them.
+    @Sendable
+    @inlinable
+    public func listInvestigationRecords(_ input: ListInvestigationRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvestigationRecordsResponse {
+        try await self.client.execute(
+            operation: "ListInvestigationRecords", 
+            path: "/detector/{DetectorId}/investigation/records", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns the records for a specific GuardDuty investigation. Each record is one step in the reasoning that GuardDuty followed to reach the results of the investigation. An administrator account can list the records of any investigation within the organization. Member accounts can only list the records of investigations that belong to them.
+    ///
+    /// Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector associated with the investigation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+    ///   - investigationId: The unique identifier of the investigation whose records you want to list.
+    ///   - maxResults: The maximum number of records to return in a single response. Valid values are 1 to 50. The default value is 20. A response can contain fewer records than this value, or no records, and still include a NextToken.
+    ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. Use the same InvestigationId and RecordTypes values that you used in the previous request. If you specify this parameter for an investigation whose status isn't COMPLETED, the operation returns a BadRequestException. A NextToken expires 24 hours after it's returned.
+    ///   - recordTypes: The types of records to return. Possible values are UPDATE, FETCH, OBSERVATION, ANALYSIS, and METADATA. If you don't specify this parameter, GuardDuty returns records of all types.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvestigationRecords(
+        detectorId: String,
+        investigationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recordTypes: [RecordType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvestigationRecordsResponse {
+        let input = ListInvestigationRecordsRequest(
+            detectorId: detectorId, 
+            investigationId: investigationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recordTypes: recordTypes
+        )
+        return try await self.listInvestigationRecords(input, logger: logger)
+    }
+
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. You can filter the investigations by status, risk level, confidence, finding ID, and investigation type, and sort them by start time, end time, status, risk level, or confidence. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
     @Sendable
     @inlinable
     public func listInvestigations(_ input: ListInvestigationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvestigationsResponse {
@@ -2503,10 +2547,11 @@ public struct GuardDuty: AWSService {
             logger: logger
         )
     }
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. You can filter the investigations by status, risk level, confidence, finding ID, and investigation type, and sort them by start time, end time, status, risk level, or confidence. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
     ///
     /// Parameters:
     ///   - detectorId: The unique ID of the GuardDuty detector whose investigations you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+    ///   - filterCriteria: The criteria used to filter investigations. GuardDuty returns only the investigations that match all of the specified criteria.
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     ///   - sortCriteria: Represents the criteria used for sorting investigations.
@@ -2514,6 +2559,7 @@ public struct GuardDuty: AWSService {
     @inlinable
     public func listInvestigations(
         detectorId: String,
+        filterCriteria: InvestigationFilterCriteria? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         sortCriteria: InvestigationSortCriteria? = nil,
@@ -2521,6 +2567,7 @@ public struct GuardDuty: AWSService {
     ) async throws -> ListInvestigationsResponse {
         let input = ListInvestigationsRequest(
             detectorId: detectorId, 
+            filterCriteria: filterCriteria, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             sortCriteria: sortCriteria
@@ -3641,7 +3688,7 @@ public struct GuardDuty: AWSService {
 extension GuardDuty {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: GuardDuty, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -4085,6 +4132,49 @@ extension GuardDuty {
         return self.listIPSetsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listInvestigationRecords(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvestigationRecordsPaginator(
+        _ input: ListInvestigationRecordsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvestigationRecordsRequest, ListInvestigationRecordsResponse> {
+        return .init(
+            input: input,
+            command: self.listInvestigationRecords,
+            inputKey: \ListInvestigationRecordsRequest.nextToken,
+            outputKey: \ListInvestigationRecordsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvestigationRecords(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - detectorId: The unique ID of the GuardDuty detector associated with the investigation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+    ///   - investigationId: The unique identifier of the investigation whose records you want to list.
+    ///   - maxResults: The maximum number of records to return in a single response. Valid values are 1 to 50. The default value is 20. A response can contain fewer records than this value, or no records, and still include a NextToken.
+    ///   - recordTypes: The types of records to return. Possible values are UPDATE, FETCH, OBSERVATION, ANALYSIS, and METADATA. If you don't specify this parameter, GuardDuty returns records of all types.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvestigationRecordsPaginator(
+        detectorId: String,
+        investigationId: String? = nil,
+        maxResults: Int? = nil,
+        recordTypes: [RecordType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvestigationRecordsRequest, ListInvestigationRecordsResponse> {
+        let input = ListInvestigationRecordsRequest(
+            detectorId: detectorId, 
+            investigationId: investigationId, 
+            maxResults: maxResults, 
+            recordTypes: recordTypes
+        )
+        return self.listInvestigationRecordsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listInvestigations(_:logger:)``.
     ///
     /// - Parameters:
@@ -4107,18 +4197,21 @@ extension GuardDuty {
     ///
     /// - Parameters:
     ///   - detectorId: The unique ID of the GuardDuty detector whose investigations you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+    ///   - filterCriteria: The criteria used to filter investigations. GuardDuty returns only the investigations that match all of the specified criteria.
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
     ///   - sortCriteria: Represents the criteria used for sorting investigations.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInvestigationsPaginator(
         detectorId: String,
+        filterCriteria: InvestigationFilterCriteria? = nil,
         maxResults: Int? = nil,
         sortCriteria: InvestigationSortCriteria? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListInvestigationsRequest, ListInvestigationsResponse> {
         let input = ListInvestigationsRequest(
             detectorId: detectorId, 
+            filterCriteria: filterCriteria, 
             maxResults: maxResults, 
             sortCriteria: sortCriteria
         )
@@ -4552,11 +4645,25 @@ extension GuardDuty.ListIPSetsRequest: AWSPaginateToken {
     }
 }
 
+extension GuardDuty.ListInvestigationRecordsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListInvestigationRecordsRequest {
+        return .init(
+            detectorId: self.detectorId,
+            investigationId: self.investigationId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recordTypes: self.recordTypes
+        )
+    }
+}
+
 extension GuardDuty.ListInvestigationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> GuardDuty.ListInvestigationsRequest {
         return .init(
             detectorId: self.detectorId,
+            filterCriteria: self.filterCriteria,
             maxResults: self.maxResults,
             nextToken: token,
             sortCriteria: self.sortCriteria

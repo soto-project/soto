@@ -79,6 +79,20 @@ extension MarketplaceMetering {
         }
     }
 
+    public struct Metadata: AWSDecodableShape {
+        /// The unique identifier of the Amazon Web Services Marketplace agreement the customer accepted. Use it to call Amazon Web Services Marketplace Agreement APIs.
+        public let agreementId: String?
+
+        @inlinable
+        public init(agreementId: String? = nil) {
+            self.agreementId = agreementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "AgreementId"
+        }
+    }
+
     public struct MeterUsageRequest: AWSEncodableShape {
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotencyConflictException error.
         public let clientToken: String?
@@ -88,15 +102,30 @@ extension MarketplaceMetering {
         public let productCode: String
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: Date
-        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags).
+        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the usage quantity of the MeterUsage request (UsageQuantity or UsageQuantityAsDecimal), and each UsageAllocation must have a unique set of tags (include no tags). Allocations must use the same type of quantity as the request: AllocatedUsageQuantity with UsageQuantity, or AllocatedUsageQuantityAsDecimal with UsageQuantityAsDecimal.
         public let usageAllocations: [UsageAllocation]?
         /// It will be one of the fcp dimension name provided during the publishing of the product.
         public let usageDimension: String
-        /// Consumption value for the hour. Defaults to 0 if not specified.
+        /// The consumption value for the hour, as a whole number. Defaults to 0 if neither UsageQuantity nor UsageQuantityAsDecimal is specified. Use UsageQuantityAsDecimal instead. You can't specify both UsageQuantity and UsageQuantityAsDecimal.
         public let usageQuantity: Int?
+        /// The consumption value for the hour, as a decimal string. Use this instead of UsageQuantity to report fractional usage. A non-negative decimal number, for example 17.42. You can't specify both UsageQuantity and UsageQuantityAsDecimal. If you provide UsageAllocations, each allocation must use AllocatedUsageQuantityAsDecimal. Quantities are compared by value when checking for duplicate or retried requests, so 17, 17.0, and 17.00 are the same quantity, whether you send it in UsageQuantity or UsageQuantityAsDecimal.
+        public let usageQuantityAsDecimal: String?
 
         @inlinable
-        public init(clientToken: String? = MeterUsageRequest.idempotencyToken(), dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantity: Int? = nil) {
+        public init(clientToken: String? = MeterUsageRequest.idempotencyToken(), dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantityAsDecimal: String? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.productCode = productCode
+            self.timestamp = timestamp
+            self.usageAllocations = usageAllocations
+            self.usageDimension = usageDimension
+            self.usageQuantity = nil
+            self.usageQuantityAsDecimal = usageQuantityAsDecimal
+        }
+
+        @available(*, deprecated, message: "Members usageQuantity have been deprecated")
+        @inlinable
+        public init(clientToken: String? = MeterUsageRequest.idempotencyToken(), dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantity: Int? = nil, usageQuantityAsDecimal: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.productCode = productCode
@@ -104,6 +133,7 @@ extension MarketplaceMetering {
             self.usageAllocations = usageAllocations
             self.usageDimension = usageDimension
             self.usageQuantity = usageQuantity
+            self.usageQuantityAsDecimal = usageQuantityAsDecimal
         }
 
         public func validate(name: String) throws {
@@ -121,6 +151,9 @@ extension MarketplaceMetering {
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2147483647)
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, min: 0)
+            try self.validate(self.usageQuantityAsDecimal, name: "usageQuantityAsDecimal", parent: name, max: 17)
+            try self.validate(self.usageQuantityAsDecimal, name: "usageQuantityAsDecimal", parent: name, min: 1)
+            try self.validate(self.usageQuantityAsDecimal, name: "usageQuantityAsDecimal", parent: name, pattern: "^(0|[1-9][0-9]{0,9})(\\.[0-9]{1,6})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -131,6 +164,7 @@ extension MarketplaceMetering {
             case usageAllocations = "UsageAllocations"
             case usageDimension = "UsageDimension"
             case usageQuantity = "UsageQuantity"
+            case usageQuantityAsDecimal = "UsageQuantityAsDecimal"
         }
     }
 
@@ -221,14 +255,17 @@ extension MarketplaceMetering {
         public let customerIdentifier: String?
         /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord.  Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
         public let licenseArn: String?
+        /// The metadata associated with the resolved customer, including the AgreementId of the Amazon Web Services Marketplace agreement the customer accepted.
+        public let metadata: Metadata?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
         public let productCode: String?
 
         @inlinable
-        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, licenseArn: String? = nil, productCode: String? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, licenseArn: String? = nil, metadata: Metadata? = nil, productCode: String? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.licenseArn = licenseArn
+            self.metadata = metadata
             self.productCode = productCode
         }
 
@@ -236,6 +273,7 @@ extension MarketplaceMetering {
             case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
             case licenseArn = "LicenseArn"
+            case metadata = "Metadata"
             case productCode = "ProductCode"
         }
     }
@@ -268,20 +306,34 @@ extension MarketplaceMetering {
     }
 
     public struct UsageAllocation: AWSEncodableShape & AWSDecodableShape {
-        /// The total quantity allocated to this bucket of usage.
-        public let allocatedUsageQuantity: Int
+        /// The total quantity allocated to this bucket of usage, as a whole number. Use AllocatedUsageQuantityAsDecimal instead. Each allocation must specify exactly one of AllocatedUsageQuantity or AllocatedUsageQuantityAsDecimal.
+        public let allocatedUsageQuantity: Int?
+        /// The total quantity allocated to this bucket of usage, as a decimal string. Use this when the usage quantity of the request or usage record is specified as a decimal (UsageQuantityAsDecimal or QuantityAsDecimal). A non-negative decimal number, for example 17.42. Each allocation must specify exactly one of AllocatedUsageQuantity or AllocatedUsageQuantityAsDecimal.
+        public let allocatedUsageQuantityAsDecimal: String?
         /// The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out.
         public let tags: [Tag]?
 
         @inlinable
-        public init(allocatedUsageQuantity: Int, tags: [Tag]? = nil) {
+        public init(allocatedUsageQuantityAsDecimal: String? = nil, tags: [Tag]? = nil) {
+            self.allocatedUsageQuantity = nil
+            self.allocatedUsageQuantityAsDecimal = allocatedUsageQuantityAsDecimal
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members allocatedUsageQuantity have been deprecated")
+        @inlinable
+        public init(allocatedUsageQuantity: Int? = nil, allocatedUsageQuantityAsDecimal: String? = nil, tags: [Tag]? = nil) {
             self.allocatedUsageQuantity = allocatedUsageQuantity
+            self.allocatedUsageQuantityAsDecimal = allocatedUsageQuantityAsDecimal
             self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2147483647)
             try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, min: 0)
+            try self.validate(self.allocatedUsageQuantityAsDecimal, name: "allocatedUsageQuantityAsDecimal", parent: name, max: 17)
+            try self.validate(self.allocatedUsageQuantityAsDecimal, name: "allocatedUsageQuantityAsDecimal", parent: name, min: 1)
+            try self.validate(self.allocatedUsageQuantityAsDecimal, name: "allocatedUsageQuantityAsDecimal", parent: name, pattern: "^(0|[1-9][0-9]{0,9})(\\.[0-9]{1,6})?$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -291,6 +343,7 @@ extension MarketplaceMetering {
 
         private enum CodingKeys: String, CodingKey {
             case allocatedUsageQuantity = "AllocatedUsageQuantity"
+            case allocatedUsageQuantityAsDecimal = "AllocatedUsageQuantityAsDecimal"
             case tags = "Tags"
         }
     }
@@ -304,20 +357,36 @@ extension MarketplaceMetering {
         public let dimension: String
         /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace.  To access your CustomerAWSAccountId and LicenseArn mapping, visit Agreements Feeds.
         public let licenseArn: String?
-        /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
+        /// The quantity of usage consumed by the customer for the given dimension and time, as a whole number. Defaults to 0 if neither Quantity nor QuantityAsDecimal is specified. Use QuantityAsDecimal instead. You can't specify both Quantity and QuantityAsDecimal in a usage record.
         public let quantity: Int?
+        /// The quantity of usage consumed by the customer for the given dimension and time, as a decimal string. Use this instead of Quantity to report fractional usage. A non-negative decimal number, for example 17.42. You can't specify both Quantity and QuantityAsDecimal in a usage record. If you provide UsageAllocations, each allocation must use AllocatedUsageQuantityAsDecimal. If any usage record fails these checks, the entire BatchMeterUsage request fails and no records are processed. Quantities are compared by value when checking for duplicate records, so 17, 17.0, and 17.00 are the same quantity, whether you send it in Quantity or QuantityAsDecimal.
+        public let quantityAsDecimal: String?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to 24 hours in the past. Make sure the timestamp value is not before the start of the software usage. At the end of each billing cycle, you have a 6-hour grace period to submit usage records for the previous billing month before 06:00 UTC on the first day of the next month.
         public let timestamp: Date
-        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
+        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the quantity of the UsageRecord (Quantity or QuantityAsDecimal). Allocations must use the same type of quantity as the usage record: AllocatedUsageQuantity with Quantity, or AllocatedUsageQuantityAsDecimal with QuantityAsDecimal.
         public let usageAllocations: [UsageAllocation]?
 
         @inlinable
-        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String, licenseArn: String? = nil, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String, licenseArn: String? = nil, quantityAsDecimal: String? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
+            self.customerAWSAccountId = customerAWSAccountId
+            self.customerIdentifier = customerIdentifier
+            self.dimension = dimension
+            self.licenseArn = licenseArn
+            self.quantity = nil
+            self.quantityAsDecimal = quantityAsDecimal
+            self.timestamp = timestamp
+            self.usageAllocations = usageAllocations
+        }
+
+        @available(*, deprecated, message: "Members quantity have been deprecated")
+        @inlinable
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String, licenseArn: String? = nil, quantity: Int? = nil, quantityAsDecimal: String? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.licenseArn = licenseArn
             self.quantity = quantity
+            self.quantityAsDecimal = quantityAsDecimal
             self.timestamp = timestamp
             self.usageAllocations = usageAllocations
         }
@@ -334,6 +403,9 @@ extension MarketplaceMetering {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.quantity, name: "quantity", parent: name, max: 2147483647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
+            try self.validate(self.quantityAsDecimal, name: "quantityAsDecimal", parent: name, max: 17)
+            try self.validate(self.quantityAsDecimal, name: "quantityAsDecimal", parent: name, min: 1)
+            try self.validate(self.quantityAsDecimal, name: "quantityAsDecimal", parent: name, pattern: "^(0|[1-9][0-9]{0,9})(\\.[0-9]{1,6})?$")
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
             }
@@ -347,6 +419,7 @@ extension MarketplaceMetering {
             case dimension = "Dimension"
             case licenseArn = "LicenseArn"
             case quantity = "Quantity"
+            case quantityAsDecimal = "QuantityAsDecimal"
             case timestamp = "Timestamp"
             case usageAllocations = "UsageAllocations"
         }
@@ -423,7 +496,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var customerNotEntitledException: Self { .init(.customerNotEntitledException) }
     /// The API is disabled in the Region.
     public static var disabledApiException: Self { .init(.disabledApiException) }
-    /// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity.
+    /// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity. Quantities are compared by value, so a whole-number and a decimal quantity with the same value (for example, 17 and 17.00) are not different.
     public static var duplicateRequestException: Self { .init(.duplicateRequestException) }
     /// The submitted registration token has expired. This can happen if the buyer's browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer's browser.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
@@ -447,7 +520,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var invalidTagException: Self { .init(.invalidTagException) }
     /// Registration token is invalid.
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
-    /// Sum of allocated usage quantities is not equal to the usage quantity.
+    /// Sum of allocated usage quantities is not equal to the usage quantity, or the allocations don't use the same type of quantity (whole number or decimal) as the usage quantity.
     public static var invalidUsageAllocationsException: Self { .init(.invalidUsageAllocationsException) }
     /// The usage dimension does not match one of the UsageDimensions associated with products.
     public static var invalidUsageDimensionException: Self { .init(.invalidUsageDimensionException) }

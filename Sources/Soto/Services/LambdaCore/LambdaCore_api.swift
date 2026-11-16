@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS LambdaCore service.
 ///
-/// AWS Lambda Core is a set of APIs for managing shared infrastructure resources used by AWS Lambda. The Lambda Core API provides operations for creating and managing network connectors that enable Lambda MicroVMs to access resources in your Amazon Virtual Private Cloud (Amazon VPC). Network connectors provision elastic network interfaces (ENIs) in your VPC subnets, providing a managed network path from Lambda compute environments to private resources such as Amazon RDS databases, Amazon ElastiCache clusters, and internal APIs. You create a network connector once and attach it to one or more Lambda MicroVMs at run time.
+/// Lambda  Overview  Lambda Core is a set of APIs for managing shared infrastructure resources used by Lambda. The Lambda Core API provides operations for:   Creating and managing network connectors that enable Lambda MicroVMs and Lambda Web Functions to access resources in your Amazon Virtual Private Cloud (Amazon VPC).   Creating customer-managed runtimes which can be used with Lambda Event Functions.   Network connectors provision elastic network interfaces (ENIs) in your VPC subnets, providing a managed network path from Lambda compute environments to private resources such as Amazon RDS databases, Amazon ElastiCache clusters, and internal APIs. You create a network connector once and attach it to one or more Lambda MicroVMs or Lambda Web Functions at run time. A customer-managed runtime is a Lambda runtime that you create and manage as a standalone resource. Lambda Event Functions can use your customer-managed runtime instead of using one of the built-in Lambda-managed runtimes. Customer-managed runtimes enable you to create customized runtimes for your workloads, and give you control over runtime updates and the deprecation lifecycle. The Lambda Core API Reference provides information about each of the API methods, including details about the parameters in each API request and response. You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see Tools for Amazon Web Services. For a list of Region-specific endpoints that Lambda supports, see Lambda endpoints and quotas in the Amazon Web Services General Reference.  When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see Signature Version 4 signing process in the Amazon Web Services General Reference.
 public struct LambdaCore: AWSService {
     // MARK: Member variables
 
@@ -129,7 +129,7 @@ public struct LambdaCore: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to Lambda MicroVMs at run time using the egressNetworkConnectors parameter on RunMicroVm. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to supported Lambda compute resources — such as MicroVMs and WebFunctions — at run time. For how to attach a connector, see the documentation for the specific compute type. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
     @Sendable
     @inlinable
     public func createNetworkConnector(_ input: CreateNetworkConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkConnectorResponse {
@@ -142,7 +142,7 @@ public struct LambdaCore: AWSService {
             logger: logger
         )
     }
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to Lambda MicroVMs at run time using the egressNetworkConnectors parameter on RunMicroVm. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to supported Lambda compute resources — such as MicroVMs and WebFunctions — at run time. For how to attach a connector, see the documentation for the specific compute type. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the API returns the existing connector without creating a duplicate.
@@ -170,7 +170,130 @@ public struct LambdaCore: AWSService {
         return try await self.createNetworkConnector(input, logger: logger)
     }
 
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda MicroVMs are using it, as they will lose VPC egress connectivity immediately.
+    /// Creates a customer-managed runtime, a resource providing a centrally managed execution environment for your Lambda functions. The runtime resource is the parent of the runtime version and runtime alias child resources.
+    @Sendable
+    @inlinable
+    public func createRuntime(_ input: CreateRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuntimeResponse {
+        try await self.client.execute(
+            operation: "CreateRuntime", 
+            path: "/2026-10-01/runtimes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a customer-managed runtime, a resource providing a centrally managed execution environment for your Lambda functions. The runtime resource is the parent of the runtime version and runtime alias child resources.
+    ///
+    /// Parameters:
+    ///   - description: A description of the runtime.
+    ///   - licenseInfo: The license information for the runtime.
+    ///   - name: The name of the runtime to create.
+    ///   - releaseLifecycle: The runtime lifecycle for the runtime (optional). Use this to schedule runtime deprecation.
+    ///   - tags: A map of tag keys and values to associate with the runtime.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRuntime(
+        description: String? = nil,
+        licenseInfo: String? = nil,
+        name: String,
+        releaseLifecycle: RuntimeReleaseLifecycle? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRuntimeResponse {
+        let input = CreateRuntimeRequest(
+            description: description, 
+            licenseInfo: licenseInfo, 
+            name: name, 
+            releaseLifecycle: releaseLifecycle, 
+            tags: tags
+        )
+        return try await self.createRuntime(input, logger: logger)
+    }
+
+    /// Creates a new customer-managed runtime alias. The alias is a named pointer to a runtime version. Functions consume the customer-managed runtime through the runtime alias.
+    @Sendable
+    @inlinable
+    public func createRuntimeAlias(_ input: CreateRuntimeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuntimeAliasResponse {
+        try await self.client.execute(
+            operation: "CreateRuntimeAlias", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/aliases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new customer-managed runtime alias. The alias is a named pointer to a runtime version. Functions consume the customer-managed runtime through the runtime alias.
+    ///
+    /// Parameters:
+    ///   - description: A description of the runtime alias.
+    ///   - name: The name to assign to the new runtime alias.
+    ///   - releaseLifecycle: The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+    ///   - runtimeName: The name or ARN of the runtime to create an alias for.
+    ///   - runtimeVersion: The name of the runtime version the alias points to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRuntimeAlias(
+        description: String? = nil,
+        name: String,
+        releaseLifecycle: RuntimeReleaseLifecycle? = nil,
+        runtimeName: String,
+        runtimeVersion: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRuntimeAliasResponse {
+        let input = CreateRuntimeAliasRequest(
+            description: description, 
+            name: name, 
+            releaseLifecycle: releaseLifecycle, 
+            runtimeName: runtimeName, 
+            runtimeVersion: runtimeVersion
+        )
+        return try await self.createRuntimeAlias(input, logger: logger)
+    }
+
+    /// Creates a new runtime version. A runtime version defines the function execution environment by referencing a container image. Runtime versions are immutable. To update the runtime, create a new runtime version and migrate functions by updating the runtime aliases to point to the new runtime version.
+    @Sendable
+    @inlinable
+    public func createRuntimeVersion(_ input: CreateRuntimeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuntimeVersionResponse {
+        try await self.client.execute(
+            operation: "CreateRuntimeVersion", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new runtime version. A runtime version defines the function execution environment by referencing a container image. Runtime versions are immutable. To update the runtime, create a new runtime version and migrate functions by updating the runtime aliases to point to the new runtime version.
+    ///
+    /// Parameters:
+    ///   - dryRun: When set to true, the request is validated without creating a new runtime version. Use this to check that the request would succeed. No runtime version is created and no changes are made.
+    ///   - imageUri: The URI of the container image used to define the function execution environment for this runtime version.
+    ///   - name: The name to assign to the new runtime version.
+    ///   - releaseNotes: The release notes to associate with the runtime version.
+    ///   - runtimeName: The name or ARN of the runtime to create a version for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRuntimeVersion(
+        dryRun: Bool? = nil,
+        imageUri: String,
+        name: String,
+        releaseNotes: String? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRuntimeVersionResponse {
+        let input = CreateRuntimeVersionRequest(
+            dryRun: dryRun, 
+            imageUri: imageUri, 
+            name: name, 
+            releaseNotes: releaseNotes, 
+            runtimeName: runtimeName
+        )
+        return try await self.createRuntimeVersion(input, logger: logger)
+    }
+
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resources are using it, as they will lose VPC egress connectivity immediately. Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own — delete the connector to remove it.
     @Sendable
     @inlinable
     public func deleteNetworkConnector(_ input: DeleteNetworkConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkConnectorResponse {
@@ -183,10 +306,10 @@ public struct LambdaCore: AWSService {
             logger: logger
         )
     }
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda MicroVMs are using it, as they will lose VPC egress connectivity immediately.
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resources are using it, as they will lose VPC egress connectivity immediately. Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own — delete the connector to remove it.
     ///
     /// Parameters:
-    ///   - identifier: 
+    ///   - identifier: The identifier of the network connector to delete. Provide an unqualified ARN (or an ID or name) to delete the entire connector and all of its versions, or a version-qualified ARN — one that includes the immutable version suffix — to delete a specific historical version. You can't delete the latest version with a version-qualified identifier; delete the connector instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteNetworkConnector(
@@ -197,6 +320,108 @@ public struct LambdaCore: AWSService {
             identifier: identifier
         )
         return try await self.deleteNetworkConnector(input, logger: logger)
+    }
+
+    /// Schedules a customer-managed runtime to be deleted. Runtimes scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Runtime versions and aliases must be deleted or scheduled for deletion before deleting the runtime. Function invokes fail for functions using runtime versions or aliases that are deleted or pending deletion.
+    @Sendable
+    @inlinable
+    public func deleteRuntime(_ input: DeleteRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuntimeResponse {
+        try await self.client.execute(
+            operation: "DeleteRuntime", 
+            path: "/2026-10-01/runtimes/{RuntimeName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Schedules a customer-managed runtime to be deleted. Runtimes scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Runtime versions and aliases must be deleted or scheduled for deletion before deleting the runtime. Function invokes fail for functions using runtime versions or aliases that are deleted or pending deletion.
+    ///
+    /// Parameters:
+    ///   - recoveryWindowInDays: Optional. The waiting period, in days (7-30), before the runtime is permanently deleted.
+    ///   - runtimeName: The name or ARN of the runtime to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRuntime(
+        recoveryWindowInDays: Int? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRuntimeResponse {
+        let input = DeleteRuntimeRequest(
+            recoveryWindowInDays: recoveryWindowInDays, 
+            runtimeName: runtimeName
+        )
+        return try await self.deleteRuntime(input, logger: logger)
+    }
+
+    /// Schedules a runtime alias to be deleted. Runtime aliases scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Function invokes fail for functions using runtime aliases that are deleted or pending deletion.
+    @Sendable
+    @inlinable
+    public func deleteRuntimeAlias(_ input: DeleteRuntimeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuntimeAliasResponse {
+        try await self.client.execute(
+            operation: "DeleteRuntimeAlias", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/aliases/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Schedules a runtime alias to be deleted. Runtime aliases scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Function invokes fail for functions using runtime aliases that are deleted or pending deletion.
+    ///
+    /// Parameters:
+    ///   - name: The name of the runtime alias to delete.
+    ///   - recoveryWindowInDays: Optional. The waiting period, in days (7-30), before the runtime alias is permanently deleted.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRuntimeAlias(
+        name: String,
+        recoveryWindowInDays: Int? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRuntimeAliasResponse {
+        let input = DeleteRuntimeAliasRequest(
+            name: name, 
+            recoveryWindowInDays: recoveryWindowInDays, 
+            runtimeName: runtimeName
+        )
+        return try await self.deleteRuntimeAlias(input, logger: logger)
+    }
+
+    /// Schedules a runtime version to be deleted. Runtime versions scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Function invokes fail for functions using a runtime version that is deleted or pending deletion.
+    @Sendable
+    @inlinable
+    public func deleteRuntimeVersion(_ input: DeleteRuntimeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuntimeVersionResponse {
+        try await self.client.execute(
+            operation: "DeleteRuntimeVersion", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/versions/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Schedules a runtime version to be deleted. Runtime versions scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Function invokes fail for functions using a runtime version that is deleted or pending deletion.
+    ///
+    /// Parameters:
+    ///   - name: The name of the runtime version to delete.
+    ///   - recoveryWindowInDays: Optional. The waiting period, in days (7-30), before the runtime version is permanently deleted.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRuntimeVersion(
+        name: String,
+        recoveryWindowInDays: Int? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRuntimeVersionResponse {
+        let input = DeleteRuntimeVersionRequest(
+            name: name, 
+            recoveryWindowInDays: recoveryWindowInDays, 
+            runtimeName: runtimeName
+        )
+        return try await self.deleteRuntimeVersion(input, logger: logger)
     }
 
     /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and — if the connector has been updated — the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent update succeeded or failed.
@@ -215,7 +440,7 @@ public struct LambdaCore: AWSService {
     /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and — if the connector has been updated — the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent update succeeded or failed.
     ///
     /// Parameters:
-    ///   - identifier: 
+    ///   - identifier: The identifier of the network connector to retrieve. You can specify the connector ID, name, or ARN. Provide an unqualified ARN (or an ID or name) to retrieve the connector's latest version, or a version-qualified ARN — one that includes the immutable version suffix — to retrieve a specific historical version.
     ///   - logger: Logger use during operation
     @inlinable
     public func getNetworkConnector(
@@ -226,6 +451,137 @@ public struct LambdaCore: AWSService {
             identifier: identifier
         )
         return try await self.getNetworkConnector(input, logger: logger)
+    }
+
+    /// Retrieves the configuration and metadata of a runtime.
+    @Sendable
+    @inlinable
+    public func getRuntime(_ input: GetRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuntimeResponse {
+        try await self.client.execute(
+            operation: "GetRuntime", 
+            path: "/2026-10-01/runtimes/{RuntimeName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the configuration and metadata of a runtime.
+    ///
+    /// Parameters:
+    ///   - runtimeName: The name or ARN of the runtime to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRuntime(
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRuntimeResponse {
+        let input = GetRuntimeRequest(
+            runtimeName: runtimeName
+        )
+        return try await self.getRuntime(input, logger: logger)
+    }
+
+    /// Retrieves the configuration, state, and metadata of a runtime alias.
+    @Sendable
+    @inlinable
+    public func getRuntimeAlias(_ input: GetRuntimeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuntimeAliasResponse {
+        try await self.client.execute(
+            operation: "GetRuntimeAlias", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/aliases/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the configuration, state, and metadata of a runtime alias.
+    ///
+    /// Parameters:
+    ///   - name: The name of the runtime alias to retrieve.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRuntimeAlias(
+        name: String,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRuntimeAliasResponse {
+        let input = GetRuntimeAliasRequest(
+            name: name, 
+            runtimeName: runtimeName
+        )
+        return try await self.getRuntimeAlias(input, logger: logger)
+    }
+
+    /// Retrieves the configuration, state, and metadata of a runtime version.
+    @Sendable
+    @inlinable
+    public func getRuntimeVersion(_ input: GetRuntimeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuntimeVersionResponse {
+        try await self.client.execute(
+            operation: "GetRuntimeVersion", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/versions/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the configuration, state, and metadata of a runtime version.
+    ///
+    /// Parameters:
+    ///   - name: The name of the runtime version to retrieve.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRuntimeVersion(
+        name: String,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRuntimeVersionResponse {
+        let input = GetRuntimeVersionRequest(
+            name: name, 
+            runtimeName: runtimeName
+        )
+        return try await self.getRuntimeVersion(input, logger: logger)
+    }
+
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use GetNetworkConnector; to inspect a specific version, call GetNetworkConnector with a version-qualified identifier.
+    @Sendable
+    @inlinable
+    public func listNetworkConnectorVersions(_ input: ListNetworkConnectorVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkConnectorVersionsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkConnectorVersions", 
+            path: "/2026-04-04/network-connectors/{Identifier}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use GetNetworkConnector; to inspect a specific version, call GetNetworkConnector with a version-qualified identifier.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the network connector whose versions you want to list. You can specify the connector ID, name, or full ARN. Specify an unqualified identifier — this operation lists all versions of the connector, not a specific version.
+    ///   - marker: The pagination token from a previous ListNetworkConnectorVersions response. Use this value to retrieve the next page of results.
+    ///   - maxItems: The maximum number of versions to return per page. Valid range: 1 to 100.
+    ///   - state: Optional filter to return only versions in the specified state (for example, ACTIVE or FAILED).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkConnectorVersions(
+        identifier: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        state: NetworkConnectorState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkConnectorVersionsResponse {
+        let input = ListNetworkConnectorVersionsRequest(
+            identifier: identifier, 
+            marker: marker, 
+            maxItems: maxItems, 
+            state: state
+        )
+        return try await self.listNetworkConnectorVersions(input, logger: logger)
     }
 
     /// Returns a paginated list of network connectors in your account for the current Region. You can optionally filter results by connector state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configuration details for a specific connector, use GetNetworkConnector.
@@ -263,7 +619,154 @@ public struct LambdaCore: AWSService {
         return try await self.listNetworkConnectors(input, logger: logger)
     }
 
-    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken.
+    /// Returns a paginated list of aliases for the specified runtime.
+    @Sendable
+    @inlinable
+    public func listRuntimeAliases(_ input: ListRuntimeAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuntimeAliasesResponse {
+        try await self.client.execute(
+            operation: "ListRuntimeAliases", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/aliases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of aliases for the specified runtime.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of runtime aliases to return per page. Valid range: 1 to 100.
+    ///   - nextToken: The pagination token from a previous response. Use it to retrieve the next page of results.
+    ///   - runtimeName: The name or ARN of the runtime whose aliases to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRuntimeAliases(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRuntimeAliasesResponse {
+        let input = ListRuntimeAliasesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            runtimeName: runtimeName
+        )
+        return try await self.listRuntimeAliases(input, logger: logger)
+    }
+
+    /// Returns a paginated list of versions for the specified runtime.
+    @Sendable
+    @inlinable
+    public func listRuntimeVersions(_ input: ListRuntimeVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuntimeVersionsResponse {
+        try await self.client.execute(
+            operation: "ListRuntimeVersions", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of versions for the specified runtime.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of runtime versions to return per page. Valid range: 1 to 100.
+    ///   - nextToken: The pagination token from a previous response. Use it to retrieve the next page of results.
+    ///   - runtimeName: The name or ARN of the runtime whose versions to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRuntimeVersions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRuntimeVersionsResponse {
+        let input = ListRuntimeVersionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            runtimeName: runtimeName
+        )
+        return try await self.listRuntimeVersions(input, logger: logger)
+    }
+
+    /// Returns a paginated list of runtimes in your account for the current Region.
+    @Sendable
+    @inlinable
+    public func listRuntimes(_ input: ListRuntimesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuntimesResponse {
+        try await self.client.execute(
+            operation: "ListRuntimes", 
+            path: "/2026-10-01/runtimes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of runtimes in your account for the current Region.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of runtimes to return per page. Valid range: 1 to 100.
+    ///   - nextToken: The pagination token from a previous response. Use it to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRuntimes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRuntimesResponse {
+        let input = ListRuntimesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRuntimes(input, logger: logger)
+    }
+
+    /// Cancels a pending scheduled deletion, returning the resource to the ACTIVE state. Scope is
+    /// determined by the RuntimeName path parameter plus an optional, mutually exclusive RuntimeVersion
+    /// or RuntimeAlias query parameter: with neither, the runtime itself is restored; with RuntimeVersion,
+    /// the named runtime version; with RuntimeAlias, the named runtime alias. Restoring a resource that is
+    /// already ACTIVE is a no-op success. Restore only works while the target is PENDING_DELETION; once the
+    /// scheduled deletion has begun executing (DELETING) or has completed, the call fails.
+    @Sendable
+    @inlinable
+    public func restoreRuntime(_ input: RestoreRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreRuntimeResponse {
+        try await self.client.execute(
+            operation: "RestoreRuntime", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/restore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a pending scheduled deletion, returning the resource to the ACTIVE state. Scope is
+    /// determined by the RuntimeName path parameter plus an optional, mutually exclusive RuntimeVersion
+    /// or RuntimeAlias query parameter: with neither, the runtime itself is restored; with RuntimeVersion,
+    /// the named runtime version; with RuntimeAlias, the named runtime alias. Restoring a resource that is
+    /// already ACTIVE is a no-op success. Restore only works while the target is PENDING_DELETION; once the
+    /// scheduled deletion has begun executing (DELETING) or has completed, the call fails.
+    ///
+    /// Parameters:
+    ///   - runtimeAlias: Optional. Restores the named RuntimeAlias under RuntimeName. Mutually exclusive with RuntimeVersion; supplying both is rejected with InvalidParameterValueException.
+    ///   - runtimeName: The name or ARN of the runtime to restore. When RuntimeVersion or RuntimeAlias is specified, the runtime that owns the runtime version or runtime alias to restore.
+    ///   - runtimeVersion: Optional. Restores the named RuntimeVersion under RuntimeName. Mutually exclusive with RuntimeAlias; supplying both is rejected with InvalidParameterValueException.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restoreRuntime(
+        runtimeAlias: String? = nil,
+        runtimeName: String,
+        runtimeVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestoreRuntimeResponse {
+        let input = RestoreRuntimeRequest(
+            runtimeAlias: runtimeAlias, 
+            runtimeName: runtimeName, 
+            runtimeVersion: runtimeVersion
+        )
+        return try await self.restoreRuntime(input, logger: logger)
+    }
+
+    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken. Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with NetworkConnectorLimitExceededException until you delete older versions.
     @Sendable
     @inlinable
     public func updateNetworkConnector(_ input: UpdateNetworkConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkConnectorResponse {
@@ -276,12 +779,12 @@ public struct LambdaCore: AWSService {
             logger: logger
         )
     }
-    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken.
+    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken. Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with NetworkConnectorLimitExceededException until you delete older versions.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the update request.
     ///   - configuration: The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs — this replaces the existing configuration.
-    ///   - identifier: 
+    ///   - identifier: The identifier of the network connector to update. You can specify the connector ID, name, or full ARN.
     ///   - operatorRole: The updated ARN of the IAM role that Lambda assumes to manage ENIs. Use this to change the operator role without recreating the connector.
     ///   - logger: Logger use during operation
     @inlinable
@@ -300,12 +803,126 @@ public struct LambdaCore: AWSService {
         )
         return try await self.updateNetworkConnector(input, logger: logger)
     }
+
+    /// Updates the properties of an existing customer-managed runtime, such as its description, license information, or lifecycle information.
+    @Sendable
+    @inlinable
+    public func updateRuntime(_ input: UpdateRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuntimeResponse {
+        try await self.client.execute(
+            operation: "UpdateRuntime", 
+            path: "/2026-10-01/runtimes/{RuntimeName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing customer-managed runtime, such as its description, license information, or lifecycle information.
+    ///
+    /// Parameters:
+    ///   - description: The updated description of the runtime.
+    ///   - licenseInfo: The updated license information for the runtime.
+    ///   - releaseLifecycle: The runtime lifecycle for the runtime. Optional. Used to schedule runtime deprecation. Omitting or providing an empty object removes the existing lifecycle.
+    ///   - runtimeName: The name or ARN of the runtime to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRuntime(
+        description: String? = nil,
+        licenseInfo: String? = nil,
+        releaseLifecycle: RuntimeReleaseLifecycle? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRuntimeResponse {
+        let input = UpdateRuntimeRequest(
+            description: description, 
+            licenseInfo: licenseInfo, 
+            releaseLifecycle: releaseLifecycle, 
+            runtimeName: runtimeName
+        )
+        return try await self.updateRuntime(input, logger: logger)
+    }
+
+    /// Updates an existing runtime alias to point to a different runtime version or to change its description or lifecycle information.
+    @Sendable
+    @inlinable
+    public func updateRuntimeAlias(_ input: UpdateRuntimeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuntimeAliasResponse {
+        try await self.client.execute(
+            operation: "UpdateRuntimeAlias", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/aliases/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing runtime alias to point to a different runtime version or to change its description or lifecycle information.
+    ///
+    /// Parameters:
+    ///   - description: A description of the runtime alias.
+    ///   - name: The name of the runtime alias to update.
+    ///   - releaseLifecycle: The lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required. Omitting or providing an empty object removes the existing lifecycle override.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - runtimeVersion: The name of the runtime version the alias should point to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRuntimeAlias(
+        description: String? = nil,
+        name: String,
+        releaseLifecycle: RuntimeReleaseLifecycle? = nil,
+        runtimeName: String,
+        runtimeVersion: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRuntimeAliasResponse {
+        let input = UpdateRuntimeAliasRequest(
+            description: description, 
+            name: name, 
+            releaseLifecycle: releaseLifecycle, 
+            runtimeName: runtimeName, 
+            runtimeVersion: runtimeVersion
+        )
+        return try await self.updateRuntimeAlias(input, logger: logger)
+    }
+
+    /// Updates the runtime version release notes. The runtime version must be in the ACTIVE state. The runtime version image is immutable. To change the runtime contents, create a new runtime version.
+    @Sendable
+    @inlinable
+    public func updateRuntimeVersion(_ input: UpdateRuntimeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuntimeVersionResponse {
+        try await self.client.execute(
+            operation: "UpdateRuntimeVersion", 
+            path: "/2026-10-01/runtimes/{RuntimeName}/versions/{Name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the runtime version release notes. The runtime version must be in the ACTIVE state. The runtime version image is immutable. To change the runtime contents, create a new runtime version.
+    ///
+    /// Parameters:
+    ///   - name: The name of the runtime version to update.
+    ///   - releaseNotes: The release notes to associate with the runtime version.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRuntimeVersion(
+        name: String,
+        releaseNotes: String,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRuntimeVersionResponse {
+        let input = UpdateRuntimeVersionRequest(
+            name: name, 
+            releaseNotes: releaseNotes, 
+            runtimeName: runtimeName
+        )
+        return try await self.updateRuntimeVersion(input, logger: logger)
+    }
 }
 
 extension LambdaCore {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: LambdaCore, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -315,6 +932,46 @@ extension LambdaCore {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LambdaCore {
+    /// Return PaginatorSequence for operation ``listNetworkConnectorVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkConnectorVersionsPaginator(
+        _ input: ListNetworkConnectorVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkConnectorVersionsRequest, ListNetworkConnectorVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkConnectorVersions,
+            inputKey: \ListNetworkConnectorVersionsRequest.marker,
+            outputKey: \ListNetworkConnectorVersionsResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkConnectorVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - identifier: The identifier of the network connector whose versions you want to list. You can specify the connector ID, name, or full ARN. Specify an unqualified identifier — this operation lists all versions of the connector, not a specific version.
+    ///   - maxItems: The maximum number of versions to return per page. Valid range: 1 to 100.
+    ///   - state: Optional filter to return only versions in the specified state (for example, ACTIVE or FAILED).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkConnectorVersionsPaginator(
+        identifier: String,
+        maxItems: Int? = nil,
+        state: NetworkConnectorState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkConnectorVersionsRequest, ListNetworkConnectorVersionsResponse> {
+        let input = ListNetworkConnectorVersionsRequest(
+            identifier: identifier, 
+            maxItems: maxItems, 
+            state: state
+        )
+        return self.listNetworkConnectorVersionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listNetworkConnectors(_:logger:)``.
     ///
     /// - Parameters:
@@ -351,6 +1008,126 @@ extension LambdaCore {
         )
         return self.listNetworkConnectorsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listRuntimeAliases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuntimeAliasesPaginator(
+        _ input: ListRuntimeAliasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRuntimeAliasesRequest, ListRuntimeAliasesResponse> {
+        return .init(
+            input: input,
+            command: self.listRuntimeAliases,
+            inputKey: \ListRuntimeAliasesRequest.nextToken,
+            outputKey: \ListRuntimeAliasesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRuntimeAliases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of runtime aliases to return per page. Valid range: 1 to 100.
+    ///   - runtimeName: The name or ARN of the runtime whose aliases to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuntimeAliasesPaginator(
+        maxResults: Int? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRuntimeAliasesRequest, ListRuntimeAliasesResponse> {
+        let input = ListRuntimeAliasesRequest(
+            maxResults: maxResults, 
+            runtimeName: runtimeName
+        )
+        return self.listRuntimeAliasesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRuntimeVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuntimeVersionsPaginator(
+        _ input: ListRuntimeVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRuntimeVersionsRequest, ListRuntimeVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listRuntimeVersions,
+            inputKey: \ListRuntimeVersionsRequest.nextToken,
+            outputKey: \ListRuntimeVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRuntimeVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of runtime versions to return per page. Valid range: 1 to 100.
+    ///   - runtimeName: The name or ARN of the runtime whose versions to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuntimeVersionsPaginator(
+        maxResults: Int? = nil,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRuntimeVersionsRequest, ListRuntimeVersionsResponse> {
+        let input = ListRuntimeVersionsRequest(
+            maxResults: maxResults, 
+            runtimeName: runtimeName
+        )
+        return self.listRuntimeVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRuntimes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuntimesPaginator(
+        _ input: ListRuntimesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRuntimesRequest, ListRuntimesResponse> {
+        return .init(
+            input: input,
+            command: self.listRuntimes,
+            inputKey: \ListRuntimesRequest.nextToken,
+            outputKey: \ListRuntimesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRuntimes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of runtimes to return per page. Valid range: 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuntimesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRuntimesRequest, ListRuntimesResponse> {
+        let input = ListRuntimesRequest(
+            maxResults: maxResults
+        )
+        return self.listRuntimesPaginator(input, logger: logger)
+    }
+}
+
+extension LambdaCore.ListNetworkConnectorVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LambdaCore.ListNetworkConnectorVersionsRequest {
+        return .init(
+            identifier: self.identifier,
+            marker: token,
+            maxItems: self.maxItems,
+            state: self.state
+        )
+    }
 }
 
 extension LambdaCore.ListNetworkConnectorsRequest: AWSPaginateToken {
@@ -361,5 +1138,119 @@ extension LambdaCore.ListNetworkConnectorsRequest: AWSPaginateToken {
             maxItems: self.maxItems,
             state: self.state
         )
+    }
+}
+
+extension LambdaCore.ListRuntimeAliasesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LambdaCore.ListRuntimeAliasesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            runtimeName: self.runtimeName
+        )
+    }
+}
+
+extension LambdaCore.ListRuntimeVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LambdaCore.ListRuntimeVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            runtimeName: self.runtimeName
+        )
+    }
+}
+
+extension LambdaCore.ListRuntimesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LambdaCore.ListRuntimesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension LambdaCore {
+    /// Waiter for operation ``getRuntimeAlias(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilRuntimeAliasActive(
+        _ input: GetRuntimeAliasRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRuntimeAliasRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ACTIVE")),
+            ],
+            command: self.getRuntimeAlias
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRuntimeAlias(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - name: The name of the runtime alias to retrieve.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilRuntimeAliasActive(
+        name: String,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRuntimeAliasRequest(
+            name: name, 
+            runtimeName: runtimeName
+        )
+        try await self.waitUntilRuntimeAliasActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRuntimeVersion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilRuntimeVersionActive(
+        _ input: GetRuntimeVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRuntimeVersionRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("state", expected: "FAILED")),
+            ],
+            command: self.getRuntimeVersion
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRuntimeVersion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - name: The name of the runtime version to retrieve.
+    ///   - runtimeName: The name or ARN of the runtime.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilRuntimeVersionActive(
+        name: String,
+        runtimeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRuntimeVersionRequest(
+            name: name, 
+            runtimeName: runtimeName
+        )
+        try await self.waitUntilRuntimeVersionActive(input, logger: logger)
     }
 }

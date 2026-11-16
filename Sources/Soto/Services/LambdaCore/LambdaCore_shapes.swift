@@ -25,9 +25,25 @@ import Foundation
 extension LambdaCore {
     // MARK: Enums
 
+    public enum CompatibilityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The feature is not supported by the runtime
+        case notSupported = "NotSupported"
+        /// The feature is supported by the runtime
+        case supported = "Supported"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComputeResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// MicroVm compute resource type
         case microVm = "MicroVm"
+        /// WebFunction compute resource type
+        case webFunction = "WebFunction"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// (Functions) / Standard Lambda Runtime API integration
+        case runtimeApi = "RuntimeAPI"
         public var description: String { return self.rawValue }
     }
 
@@ -45,6 +61,7 @@ extension LambdaCore {
         case internalError = "InternalError"
         case invalidSecurityGroup = "InvalidSecurityGroup"
         case invalidSubnet = "InvalidSubnet"
+        case securityGroupsPerInterfaceLimitExceeded = "SecurityGroupsPerInterfaceLimitExceeded"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
@@ -72,6 +89,7 @@ extension LambdaCore {
         case internalError = "InternalError"
         case invalidSecurityGroup = "InvalidSecurityGroup"
         case invalidSubnet = "InvalidSubnet"
+        case securityGroupsPerInterfaceLimitExceeded = "SecurityGroupsPerInterfaceLimitExceeded"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
@@ -90,6 +108,64 @@ extension LambdaCore {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuntimeAliasState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The runtime alias is active and available for use.
+        case active = "ACTIVE"
+        /// The runtime alias is being created and is not yet available for use.
+        case creating = "CREATING"
+        /// The runtime alias is being deleted.
+        case deleting = "DELETING"
+        /// The runtime alias is scheduled for deletion. It can be restored to ACTIVE state until the date and time specified in PendingDeletionAt. Function invokes fail for functions using the alias, and functions cannot be assigned to the alias.
+        case pendingDeletion = "PENDING_DELETION"
+        /// The runtime alias is being updated to point to a new runtime version.
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuntimeArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// 64-bit ARM architecture.
+        case arm64 = "arm64"
+        /// 64-bit x86 architecture.
+        case x8664 = "x86_64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuntimeReleaseState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The runtime is deprecated.
+        case deprecated = "DEPRECATED"
+        /// The runtime is generally available.
+        case ga = "GA"
+        /// The runtime is in preview and not generally available.
+        case preview = "PREVIEW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuntimeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The runtime is active and available for use.
+        case active = "ACTIVE"
+        /// The runtime is being deleted and can no longer be restored.
+        case deleting = "DELETING"
+        /// The runtime deletion failed to complete because the runtime's versions were not removed in time. The runtime is no longer scheduled for deletion.
+        case failed = "FAILED"
+        /// The runtime is scheduled for deletion. It can be restored to ACTIVE state until the date and time specified in PendingDeletionAt.
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuntimeVersionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The runtime version is active and available for use.
+        case active = "ACTIVE"
+        /// The runtime version is being created.
+        case creating = "CREATING"
+        /// The runtime version is being deleted
+        case deleting = "DELETING"
+        /// The runtime version creation failed.
+        case failed = "FAILED"
+        /// The runtime version is scheduled for deletion. It can be restored to ACTIVE state until the date and time specified in PendingDeletionAt. Function invokes fail for functions using the runtime version, and functions cannot be assigned to the runtime version.
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThrottleReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case callerRateLimitExceeded = "CallerRateLimitExceeded"
         case concurrentInvocationLimitExceeded = "ConcurrentInvocationLimitExceeded"
@@ -101,6 +177,28 @@ extension LambdaCore {
     }
 
     // MARK: Shapes
+
+    public struct Compatibility: AWSDecodableShape {
+        /// Supported architectures for the runtime version.
+        public let architectures: [RuntimeArchitecture]?
+        /// Supported integration models for the runtime version.
+        public let integrationModels: [IntegrationModel]?
+        /// Whether the runtime version is compatible with managed instances.
+        public let managedInstances: CompatibilityPolicy?
+
+        @inlinable
+        public init(architectures: [RuntimeArchitecture]? = nil, integrationModels: [IntegrationModel]? = nil, managedInstances: CompatibilityPolicy? = nil) {
+            self.architectures = architectures
+            self.integrationModels = integrationModels
+            self.managedInstances = managedInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architectures = "Architectures"
+            case integrationModels = "IntegrationModels"
+            case managedInstances = "ManagedInstances"
+        }
+    }
 
     public struct CreateNetworkConnectorRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the API returns the existing connector without creating a duplicate.
@@ -129,7 +227,7 @@ extension LambdaCore {
             try self.configuration.validate(name: "\(name).configuration")
             try self.validate(self.name, name: "name", parent: name, max: 140)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:network-connector:[a-zA-Z0-9-_]+(:[1-9]|[1-9][0-9]+)?)|[a-zA-Z0-9_-]{1,64}$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:network-connector:[a-zA-Z0-9-_]+(:[1-9][0-9]*)?)|[a-zA-Z0-9_-]{1,64}$")
             try self.validate(self.operatorRole, name: "operatorRole", parent: name, max: 10000)
             try self.validate(self.operatorRole, name: "operatorRole", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.tags?.forEach {
@@ -155,6 +253,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The name of the network connector.
         public let name: String
@@ -162,15 +261,21 @@ extension LambdaCore {
         public let operatorRole: String?
         /// The current state of the network connector.
         public let state: NetworkConnectorState?
+        /// The version number assigned to the connector. A newly created connector starts at version 1.
+        public let version: Int64?
+        /// The qualified ARN of the connector version created by this request, including the immutable version suffix.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
+            self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -180,10 +285,284 @@ extension LambdaCore {
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
+            case version = "Version"
+            case versionArn = "VersionArn"
+        }
+    }
+
+    public struct CreateRuntimeAliasRequest: AWSEncodableShape {
+        /// A description of the runtime alias.
+        public let description: String?
+        /// The name to assign to the new runtime alias.
+        public let name: String
+        /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name or ARN of the runtime to create an alias for.
+        public let runtimeName: String
+        /// The name of the runtime version the alias points to.
+        public let runtimeVersion: String
+
+        @inlinable
+        public init(description: String? = nil, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeName: String, runtimeVersion: String) {
+            self.description = description
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeName = runtimeName
+            self.runtimeVersion = runtimeVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.releaseLifecycle, forKey: .releaseLifecycle)
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+            try container.encode(self.runtimeVersion, forKey: .runtimeVersion)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.releaseLifecycle?.validate(name: "\(name).releaseLifecycle")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 128)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case runtimeVersion = "RuntimeVersion"
+        }
+    }
+
+    public struct CreateRuntimeAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime alias.
+        public let arn: String
+        /// The date and time when the runtime alias was created.
+        public let created: String
+        /// A description of the runtime alias.
+        public let description: String?
+        /// The date and time when the runtime alias was last modified.
+        public let lastModified: String
+        /// The name of the runtime alias.
+        public let name: String
+        /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name of the runtime version the alias points to.
+        public let runtimeVersion: String
+        /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+        public let runtimeVersionArn: String
+        /// The current state of the runtime alias.
+        public let state: RuntimeAliasState
+
+        @inlinable
+        public init(arn: String, created: String, description: String? = nil, lastModified: String, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeVersion: String, runtimeVersionArn: String, state: RuntimeAliasState) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeVersion = runtimeVersion
+            self.runtimeVersionArn = runtimeVersionArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case runtimeVersion = "RuntimeVersion"
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case state = "State"
+        }
+    }
+
+    public struct CreateRuntimeRequest: AWSEncodableShape {
+        /// A description of the runtime.
+        public let description: String?
+        /// The license information for the runtime.
+        public let licenseInfo: String?
+        /// The name of the runtime to create.
+        public let name: String
+        /// The runtime lifecycle for the runtime (optional). Use this to schedule runtime deprecation.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// A map of tag keys and values to associate with the runtime.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, licenseInfo: String? = nil, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.licenseInfo = licenseInfo
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+            try self.releaseLifecycle?.validate(name: "\(name).releaseLifecycle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case licenseInfo = "LicenseInfo"
+            case name = "Name"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRuntimeResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime.
+        public let arn: String
+        /// The date and time when the runtime was created.
+        public let created: String
+        /// The description of the runtime.
+        public let description: String?
+        /// The date and time when the runtime was last modified.
+        public let lastModified: String
+        /// The license information for the runtime.
+        public let licenseInfo: String?
+        /// The name of the runtime.
+        public let name: String
+        /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+
+        @inlinable
+        public init(arn: String, created: String, description: String? = nil, lastModified: String, licenseInfo: String? = nil, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.licenseInfo = licenseInfo
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case licenseInfo = "LicenseInfo"
+            case name = "Name"
+            case releaseLifecycle = "ReleaseLifecycle"
+        }
+    }
+
+    public struct CreateRuntimeVersionRequest: AWSEncodableShape {
+        /// When set to true, the request is validated without creating a new runtime version. Use this to check that the request would succeed. No runtime version is created and no changes are made.
+        public let dryRun: Bool?
+        /// The URI of the container image used to define the function execution environment for this runtime version.
+        public let imageUri: String
+        /// The name to assign to the new runtime version.
+        public let name: String
+        /// The release notes to associate with the runtime version.
+        public let releaseNotes: String?
+        /// The name or ARN of the runtime to create a version for.
+        public let runtimeName: String
+
+        @inlinable
+        public init(dryRun: Bool? = nil, imageUri: String, name: String, releaseNotes: String? = nil, runtimeName: String) {
+            self.dryRun = dryRun
+            self.imageUri = imageUri
+            self.name = name
+            self.releaseNotes = releaseNotes
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+            try container.encode(self.imageUri, forKey: .imageUri)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.releaseNotes, forKey: .releaseNotes)
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case imageUri = "ImageUri"
+            case name = "Name"
+            case releaseNotes = "ReleaseNotes"
+        }
+    }
+
+    public struct CreateRuntimeVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime version.
+        public let arn: String
+        /// The compatibility matrix of the runtime version.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime version was created.
+        public let created: String
+        /// The date and time when the runtime version was last modified.
+        public let lastModified: String
+        /// The name of the runtime version.
+        public let name: String
+        /// The platforms (architecture and OS combinations) available for the runtime version.
+        public let platforms: [Platform]?
+        /// The release notes associated with the runtime version.
+        public let releaseNotes: String?
+        /// The resolved image URI of the runtime version.
+        public let resolvedUri: String
+        /// The current state of the runtime version.
+        public let state: RuntimeVersionState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, lastModified: String, name: String, platforms: [Platform]? = nil, releaseNotes: String? = nil, resolvedUri: String, state: RuntimeVersionState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.platforms = platforms
+            self.releaseNotes = releaseNotes
+            self.resolvedUri = resolvedUri
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case platforms = "Platforms"
+            case releaseNotes = "ReleaseNotes"
+            case resolvedUri = "ResolvedUri"
+            case state = "State"
         }
     }
 
     public struct DeleteNetworkConnectorRequest: AWSEncodableShape {
+        /// The identifier of the network connector to delete. Provide an unqualified ARN (or an ID or name) to delete the entire connector and all of its versions, or a version-qualified ARN — one that includes the immutable version suffix — to delete a specific historical version. You can't delete the latest version with a version-qualified identifier; delete the connector instead.
         public let identifier: String
 
         @inlinable
@@ -210,6 +589,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The name of the network connector.
         public let name: String
@@ -217,15 +597,21 @@ extension LambdaCore {
         public let operatorRole: String?
         /// The current state of the network connector. The State field is typically DELETING after this call.
         public let state: NetworkConnectorState?
+        /// The version number of the connector version affected by this request.
+        public let version: Int64?
+        /// The qualified ARN of the connector version affected by this request, including the immutable version suffix.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
+            self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -235,10 +621,123 @@ extension LambdaCore {
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
+            case version = "Version"
+            case versionArn = "VersionArn"
         }
     }
 
+    public struct DeleteRuntimeAliasRequest: AWSEncodableShape {
+        /// The name of the runtime alias to delete.
+        public let name: String
+        /// Optional. The waiting period, in days (7-30), before the runtime alias is permanently deleted.
+        public let recoveryWindowInDays: Int?
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+
+        @inlinable
+        public init(name: String, recoveryWindowInDays: Int? = nil, runtimeName: String) {
+            self.name = name
+            self.recoveryWindowInDays = recoveryWindowInDays
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodeHeader(self.recoveryWindowInDays, key: "x-amzn-runtime-recovery-window-in-days")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRuntimeAliasResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRuntimeRequest: AWSEncodableShape {
+        /// Optional. The waiting period, in days (7-30), before the runtime is permanently deleted.
+        public let recoveryWindowInDays: Int?
+        /// The name or ARN of the runtime to delete.
+        public let runtimeName: String
+
+        @inlinable
+        public init(recoveryWindowInDays: Int? = nil, runtimeName: String) {
+            self.recoveryWindowInDays = recoveryWindowInDays
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.recoveryWindowInDays, key: "x-amzn-runtime-recovery-window-in-days")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRuntimeResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRuntimeVersionRequest: AWSEncodableShape {
+        /// The name of the runtime version to delete.
+        public let name: String
+        /// Optional. The waiting period, in days (7-30), before the runtime version is permanently deleted.
+        public let recoveryWindowInDays: Int?
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+
+        @inlinable
+        public init(name: String, recoveryWindowInDays: Int? = nil, runtimeName: String) {
+            self.name = name
+            self.recoveryWindowInDays = recoveryWindowInDays
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodeHeader(self.recoveryWindowInDays, key: "x-amzn-runtime-recovery-window-in-days")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRuntimeVersionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct GetNetworkConnectorRequest: AWSEncodableShape {
+        /// The identifier of the network connector to retrieve. You can specify the connector ID, name, or ARN. Provide an unqualified ARN (or an ID or name) to retrieve the connector's latest version, or a version-qualified ARN — one that includes the immutable version suffix — to retrieve a specific historical version.
         public let identifier: String
 
         @inlinable
@@ -265,6 +764,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The date and time when the connector configuration was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -275,6 +775,10 @@ extension LambdaCore {
         public let lastUpdateStatusReason: String?
         /// A machine-readable code indicating the reason for the last update status. Use this for programmatic error handling.
         public let lastUpdateStatusReasonCode: NetworkConnectorLastUpdateStatusReasonCode?
+        /// The version number of the connector's latest active version. Each configuration update creates a new immutable version; this attribute exposes the most recent one. This field is returned only on a standard (unqualified) request.
+        public let latestVersion: Int64?
+        /// The qualified ARN of the connector's latest active version, including the immutable version suffix. This field is returned only on a standard (unqualified) request; when you supply a version-qualified identifier it is not returned, and VersionArn is returned instead.
+        public let latestVersionArn: String?
         /// The name of the network connector.
         public let name: String
         /// The ARN of the IAM role that Lambda uses to manage the underlying ENI resources for this connector.
@@ -285,11 +789,13 @@ extension LambdaCore {
         public let stateReason: String?
         /// A machine-readable code indicating the reason for the current state. Use this for programmatic error handling.
         public let stateReasonCode: NetworkConnectorStateReasonCode?
-        /// The version number of the connector configuration, incremented on each update.
+        /// The version number of the network connector. On a standard (unqualified) request, this is the connector's current version; each configuration update increments it. When you supply a version-qualified identifier, this is the specific version you requested.
         public let version: Int64?
+        /// The qualified ARN of the specific connector version returned by this request, including the immutable version suffix. This is populated only when you supply a version-qualified identifier. On a standard (unqualified) request, this field is not populated; the connector's latest active version is returned instead through the LatestVersionArn and LatestVersion fields described below.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: NetworkConnectorLastUpdateStatusReasonCode? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, stateReason: String? = nil, stateReasonCode: NetworkConnectorStateReasonCode? = nil, version: Int64? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: NetworkConnectorLastUpdateStatusReasonCode? = nil, latestVersion: Int64? = nil, latestVersionArn: String? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, stateReason: String? = nil, stateReasonCode: NetworkConnectorStateReasonCode? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
@@ -297,12 +803,15 @@ extension LambdaCore {
             self.lastUpdateStatus = lastUpdateStatus
             self.lastUpdateStatusReason = lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
             self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -313,16 +822,260 @@ extension LambdaCore {
             case lastUpdateStatus = "LastUpdateStatus"
             case lastUpdateStatusReason = "LastUpdateStatusReason"
             case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
             case name = "Name"
             case operatorRole = "OperatorRole"
             case state = "State"
             case stateReason = "StateReason"
             case stateReasonCode = "StateReasonCode"
             case version = "Version"
+            case versionArn = "VersionArn"
+        }
+    }
+
+    public struct GetRuntimeAliasRequest: AWSEncodableShape {
+        /// The name of the runtime alias to retrieve.
+        public let name: String
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+
+        @inlinable
+        public init(name: String, runtimeName: String) {
+            self.name = name
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRuntimeAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime alias.
+        public let arn: String
+        /// The compatibility matrix of the runtime version the alias points to.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime alias was created.
+        public let created: String
+        /// A description of the runtime alias.
+        public let description: String?
+        /// The date and time when the runtime alias was last modified.
+        public let lastModified: String
+        /// The name of the runtime alias.
+        public let name: String
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime alias will be permanently deleted.
+        public let pendingDeletionAt: String?
+        /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name of the runtime version the alias points to.
+        public let runtimeVersion: String
+        /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+        public let runtimeVersionArn: String
+        /// The current state of the runtime alias.
+        public let state: RuntimeAliasState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, description: String? = nil, lastModified: String, name: String, pendingDeletionAt: String? = nil, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeVersion: String, runtimeVersionArn: String, state: RuntimeAliasState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeVersion = runtimeVersion
+            self.runtimeVersionArn = runtimeVersionArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case pendingDeletionAt = "PendingDeletionAt"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case runtimeVersion = "RuntimeVersion"
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case state = "State"
+        }
+    }
+
+    public struct GetRuntimeRequest: AWSEncodableShape {
+        /// The name or ARN of the runtime to retrieve.
+        public let runtimeName: String
+
+        @inlinable
+        public init(runtimeName: String) {
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRuntimeResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime.
+        public let arn: String
+        /// The date and time when the runtime was created.
+        public let created: String
+        /// The description of the runtime.
+        public let description: String?
+        /// The unique identifier of the runtime.
+        public let id: String?
+        /// The date and time when the runtime was last modified.
+        public let lastModified: String
+        /// The license information for the runtime.
+        public let licenseInfo: String?
+        /// The name of the runtime.
+        public let name: String
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime will be permanently deleted.
+        public let pendingDeletionAt: String?
+        /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The current state of the runtime.
+        public let state: RuntimeState?
+
+        @inlinable
+        public init(arn: String, created: String, description: String? = nil, id: String? = nil, lastModified: String, licenseInfo: String? = nil, name: String, pendingDeletionAt: String? = nil, releaseLifecycle: RuntimeReleaseLifecycle? = nil, state: RuntimeState? = nil) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.id = id
+            self.lastModified = lastModified
+            self.licenseInfo = licenseInfo
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseLifecycle = releaseLifecycle
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case created = "Created"
+            case description = "Description"
+            case id = "Id"
+            case lastModified = "LastModified"
+            case licenseInfo = "LicenseInfo"
+            case name = "Name"
+            case pendingDeletionAt = "PendingDeletionAt"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case state = "State"
+        }
+    }
+
+    public struct GetRuntimeVersionRequest: AWSEncodableShape {
+        /// The name of the runtime version to retrieve.
+        public let name: String
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+
+        @inlinable
+        public init(name: String, runtimeName: String) {
+            self.name = name
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRuntimeVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime version.
+        public let arn: String
+        /// The compatibility matrix of the runtime version.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime version was created.
+        public let created: String
+        /// The date and time when the runtime version was last modified.
+        public let lastModified: String
+        /// The name of the runtime version.
+        public let name: String
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime version will be permanently deleted.
+        public let pendingDeletionAt: String?
+        /// The platforms (architecture and OS combinations) available for the runtime version.
+        public let platforms: [Platform]?
+        /// The release notes associated with the runtime version.
+        public let releaseNotes: String?
+        /// The resolved image URI of the runtime version.
+        public let resolvedUri: String
+        /// The current state of the runtime version.
+        public let state: RuntimeVersionState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, lastModified: String, name: String, pendingDeletionAt: String? = nil, platforms: [Platform]? = nil, releaseNotes: String? = nil, resolvedUri: String, state: RuntimeVersionState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.platforms = platforms
+            self.releaseNotes = releaseNotes
+            self.resolvedUri = resolvedUri
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case pendingDeletionAt = "PendingDeletionAt"
+            case platforms = "Platforms"
+            case releaseNotes = "ReleaseNotes"
+            case resolvedUri = "ResolvedUri"
+            case state = "State"
         }
     }
 
     public struct InvalidParameterValueException: AWSErrorShape {
+        /// The error message that describes the exception.
         public let message: String?
         /// The exception type.
         public let type: String?
@@ -336,6 +1089,61 @@ extension LambdaCore {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case type = "Type"
+        }
+    }
+
+    public struct ListNetworkConnectorVersionsRequest: AWSEncodableShape {
+        /// The identifier of the network connector whose versions you want to list. You can specify the connector ID, name, or full ARN. Specify an unqualified identifier — this operation lists all versions of the connector, not a specific version.
+        public let identifier: String
+        /// The pagination token from a previous ListNetworkConnectorVersions response. Use this value to retrieve the next page of results.
+        public let marker: String?
+        /// The maximum number of versions to return per page. Valid range: 1 to 100.
+        public let maxItems: Int?
+        /// Optional filter to return only versions in the specified state (for example, ACTIVE or FAILED).
+        public let state: NetworkConnectorState?
+
+        @inlinable
+        public init(identifier: String, marker: String? = nil, maxItems: Int? = nil, state: NetworkConnectorState? = nil) {
+            self.identifier = identifier
+            self.marker = marker
+            self.maxItems = maxItems
+            self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.state, key: "State")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 140)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListNetworkConnectorVersionsResponse: AWSDecodableShape {
+        /// A list of connector version summaries for the current page of results.
+        public let networkConnectorVersions: [NetworkConnectorVersionSummary]
+        /// The pagination token to include in a subsequent request to retrieve the next page. This value is null when there are no more results.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(networkConnectorVersions: [NetworkConnectorVersionSummary], nextMarker: String? = nil) {
+            self.networkConnectorVersions = networkConnectorVersions
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkConnectorVersions = "NetworkConnectorVersions"
+            case nextMarker = "NextMarker"
         }
     }
 
@@ -388,8 +1196,148 @@ extension LambdaCore {
         }
     }
 
+    public struct ListRuntimeAliasesRequest: AWSEncodableShape {
+        /// The maximum number of runtime aliases to return per page. Valid range: 1 to 100.
+        public let maxResults: Int?
+        /// The pagination token from a previous response. Use it to retrieve the next page of results.
+        public let nextToken: String?
+        /// The name or ARN of the runtime whose aliases to list.
+        public let runtimeName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, runtimeName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRuntimeAliasesResponse: AWSDecodableShape {
+        /// The list of runtime aliases for the current page of results.
+        public let items: [RuntimeAliasInfo]
+        /// The pagination token to include in a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [RuntimeAliasInfo], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRuntimeVersionsRequest: AWSEncodableShape {
+        /// The maximum number of runtime versions to return per page. Valid range: 1 to 100.
+        public let maxResults: Int?
+        /// The pagination token from a previous response. Use it to retrieve the next page of results.
+        public let nextToken: String?
+        /// The name or ARN of the runtime whose versions to list.
+        public let runtimeName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, runtimeName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRuntimeVersionsResponse: AWSDecodableShape {
+        /// The list of runtime versions for the current page of results.
+        public let items: [RuntimeVersionInfo]
+        /// The pagination token to include in a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [RuntimeVersionInfo], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRuntimesRequest: AWSEncodableShape {
+        /// The maximum number of runtimes to return per page. Valid range: 1 to 100.
+        public let maxResults: Int?
+        /// The pagination token from a previous response. Use it to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRuntimesResponse: AWSDecodableShape {
+        /// The list of runtimes for the current page of results.
+        public let items: [RuntimeInfo]
+        /// The pagination token to include in a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [RuntimeInfo], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct NetworkConnectorLimitExceededException: AWSErrorShape {
-        /// A human-readable description of the error.
+        /// The account has reached the maximum number of network connectors allowed.
         public let message: String?
         /// The exception type.
         public let type: String?
@@ -409,10 +1357,15 @@ extension LambdaCore {
     public struct NetworkConnectorSummary: AWSDecodableShape {
         /// The ARN of the network connector.
         public let arn: String
+        /// The unique identifier of the network connector.
         public let id: String
         /// The date and time when the connector was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModified: Date?
+        /// The version number of the connector's latest version. Each configuration update creates a new immutable version; this attribute exposes the most recent one.
+        public let latestVersion: Int64?
+        /// The qualified ARN of the connector's latest version, including the immutable version suffix.
+        public let latestVersionArn: String?
         /// The name of the network connector.
         public let name: String
         /// The current state of the network connector.
@@ -421,10 +1374,12 @@ extension LambdaCore {
         public let type: NetworkConnectorType
 
         @inlinable
-        public init(arn: String, id: String, lastModified: Date? = nil, name: String, state: NetworkConnectorState? = nil, type: NetworkConnectorType) {
+        public init(arn: String, id: String, lastModified: Date? = nil, latestVersion: Int64? = nil, latestVersionArn: String? = nil, name: String, state: NetworkConnectorState? = nil, type: NetworkConnectorType) {
             self.arn = arn
             self.id = id
             self.lastModified = lastModified
+            self.latestVersion = latestVersion
+            self.latestVersionArn = latestVersionArn
             self.name = name
             self.state = state
             self.type = type
@@ -434,18 +1389,67 @@ extension LambdaCore {
             case arn = "Arn"
             case id = "Id"
             case lastModified = "LastModified"
+            case latestVersion = "LatestVersion"
+            case latestVersionArn = "LatestVersionArn"
             case name = "Name"
             case state = "State"
             case type = "Type"
         }
     }
 
+    public struct NetworkConnectorVersionSummary: AWSDecodableShape {
+        /// The unqualified ARN of the network connector that this version belongs to.
+        public let arn: String
+        /// The unique identifier of the network connector.
+        public let id: String
+        /// The date and time when this connector version was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The name of the network connector.
+        public let name: String
+        /// The current state of this connector version.
+        public let state: NetworkConnectorState
+        /// A human-readable explanation of the current state, populated when the state is FAILED.
+        public let stateReason: String?
+        /// A machine-readable code indicating the reason for the current state. Use this for programmatic error handling.
+        public let stateReasonCode: NetworkConnectorStateReasonCode?
+        /// The version number of this connector version.
+        public let version: Int64
+        /// The qualified ARN of this connector version, including the immutable version suffix.
+        public let versionArn: String
+
+        @inlinable
+        public init(arn: String, id: String, lastModified: Date? = nil, name: String, state: NetworkConnectorState, stateReason: String? = nil, stateReasonCode: NetworkConnectorStateReasonCode? = nil, version: Int64, versionArn: String) {
+            self.arn = arn
+            self.id = id
+            self.lastModified = lastModified
+            self.name = name
+            self.state = state
+            self.stateReason = stateReason
+            self.stateReasonCode = stateReasonCode
+            self.version = version
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case state = "State"
+            case stateReason = "StateReason"
+            case stateReasonCode = "StateReasonCode"
+            case version = "Version"
+            case versionArn = "VersionArn"
+        }
+    }
+
     public struct NetworkConnectorVpcEgressConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The types of Lambda compute resources that can use this connector. Currently, only MicroVm is supported.
+        /// The types of Lambda compute resources that can use this connector. Valid values are MicroVm and WebFunction. Specify exactly one value.
         public let associatedComputeResourceTypes: [ComputeResourceType]?
         /// The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6.
         public let networkProtocol: NetworkProtocol?
-        /// The IDs of the VPC security groups to attach to the ENIs. Specify 0 to 5 security groups. All security groups must be in the same VPC as the subnets.
+        /// The IDs of the VPC security groups to attach to the ENIs. All security groups must be in the same VPC as the subnets.
         public let securityGroupIds: [String]?
         /// The IDs of the VPC subnets where Lambda provisions elastic network interfaces (ENIs). Specify 1 to 16 subnets. All subnets must be in the same VPC.
         public let subnetIds: [String]?
@@ -465,7 +1469,7 @@ extension LambdaCore {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*$")
             }
-            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 16)
             try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 1024)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-z]*$")
@@ -482,7 +1486,30 @@ extension LambdaCore {
         }
     }
 
+    public struct Platform: AWSDecodableShape {
+        /// The CPU architecture of the platform, for example x86_64 or arm64.
+        public let architecture: String
+        /// The content digest of the platform-specific image.
+        public let digest: String
+        /// The operating system of the platform.
+        public let os: String
+
+        @inlinable
+        public init(architecture: String, digest: String, os: String) {
+            self.architecture = architecture
+            self.digest = digest
+            self.os = os
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "Architecture"
+            case digest = "Digest"
+            case os = "Os"
+        }
+    }
+
     public struct ResourceConflictException: AWSErrorShape {
+        /// The error message that describes the exception.
         public let message: String?
         /// The exception type.
         public let type: String?
@@ -500,6 +1527,7 @@ extension LambdaCore {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
+        /// The error message that describes the exception.
         public let message: String?
         /// The exception type.
         public let type: String?
@@ -516,7 +1544,282 @@ extension LambdaCore {
         }
     }
 
+    public struct RestoreRuntimeRequest: AWSEncodableShape {
+        /// Optional. Restores the named RuntimeAlias under RuntimeName. Mutually exclusive with RuntimeVersion; supplying both is rejected with InvalidParameterValueException.
+        public let runtimeAlias: String?
+        /// The name or ARN of the runtime to restore. When RuntimeVersion or RuntimeAlias is specified, the runtime that owns the runtime version or runtime alias to restore.
+        public let runtimeName: String
+        /// Optional. Restores the named RuntimeVersion under RuntimeName. Mutually exclusive with RuntimeAlias; supplying both is rejected with InvalidParameterValueException.
+        public let runtimeVersion: String?
+
+        @inlinable
+        public init(runtimeAlias: String? = nil, runtimeName: String, runtimeVersion: String? = nil) {
+            self.runtimeAlias = runtimeAlias
+            self.runtimeName = runtimeName
+            self.runtimeVersion = runtimeVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.runtimeAlias, key: "RuntimeAlias")
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+            request.encodeQuery(self.runtimeVersion, key: "RuntimeVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtimeAlias, name: "runtimeAlias", parent: name, max: 128)
+            try self.validate(self.runtimeAlias, name: "runtimeAlias", parent: name, min: 1)
+            try self.validate(self.runtimeAlias, name: "runtimeAlias", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 128)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RestoreRuntimeResponse: AWSDecodableShape {
+        /// The fully qualified ARN of the resource that was restored (runtime, version, or alias).
+        public let arn: String
+        /// The date and time when the restored resource was last modified.
+        public let lastModified: String
+        /// Echoed back only when the request supplied a RuntimeAlias qualifier.
+        public let runtimeAlias: String?
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+        /// Echoed back only when the request supplied a RuntimeVersion qualifier.
+        public let runtimeVersion: String?
+        /// The state of the restored resource, ACTIVE on success.
+        public let state: RuntimeState
+
+        @inlinable
+        public init(arn: String, lastModified: String, runtimeAlias: String? = nil, runtimeName: String, runtimeVersion: String? = nil, state: RuntimeState) {
+            self.arn = arn
+            self.lastModified = lastModified
+            self.runtimeAlias = runtimeAlias
+            self.runtimeName = runtimeName
+            self.runtimeVersion = runtimeVersion
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case lastModified = "LastModified"
+            case runtimeAlias = "RuntimeAlias"
+            case runtimeName = "RuntimeName"
+            case runtimeVersion = "RuntimeVersion"
+            case state = "State"
+        }
+    }
+
+    public struct RuntimeAliasInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime alias.
+        public let arn: String
+        /// The compatibility matrix of the runtime version the alias points to.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime alias was created.
+        public let created: String
+        /// A description of the runtime alias.
+        public let description: String?
+        /// The date and time when the runtime alias was last modified.
+        public let lastModified: String
+        /// The name of the runtime alias.
+        public let name: String
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime alias will be permanently deleted.
+        public let pendingDeletionAt: String?
+        /// The lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name of the runtime version the alias points to.
+        public let runtimeVersion: String
+        /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+        public let runtimeVersionArn: String
+        /// The current state of the runtime alias.
+        public let state: RuntimeAliasState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, description: String? = nil, lastModified: String, name: String, pendingDeletionAt: String? = nil, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeVersion: String, runtimeVersionArn: String, state: RuntimeAliasState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeVersion = runtimeVersion
+            self.runtimeVersionArn = runtimeVersionArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case pendingDeletionAt = "PendingDeletionAt"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case runtimeVersion = "RuntimeVersion"
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case state = "State"
+        }
+    }
+
+    public struct RuntimeInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime.
+        public let arn: String
+        /// The date and time when the runtime was created.
+        public let created: String
+        /// The description of the runtime.
+        public let description: String?
+        /// The date and time when the runtime was last modified.
+        public let lastModified: String
+        /// The license information for the runtime.
+        public let licenseInfo: String?
+        /// The name of the runtime.
+        public let name: String
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime will be permanently deleted.
+        public let pendingDeletionAt: String?
+        /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The current state of the runtime.
+        public let state: RuntimeState?
+
+        @inlinable
+        public init(arn: String, created: String, description: String? = nil, lastModified: String, licenseInfo: String? = nil, name: String, pendingDeletionAt: String? = nil, releaseLifecycle: RuntimeReleaseLifecycle? = nil, state: RuntimeState? = nil) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.licenseInfo = licenseInfo
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseLifecycle = releaseLifecycle
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case licenseInfo = "LicenseInfo"
+            case name = "Name"
+            case pendingDeletionAt = "PendingDeletionAt"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case state = "State"
+        }
+    }
+
+    public struct RuntimeReleaseLifecycle: AWSEncodableShape & AWSDecodableShape {
+        /// The date (UTC) on which the runtime or alias becomes deprecated.
+        public let deprecationDate: String?
+        /// The date (UTC) on which creating new functions that use this runtime or alias is blocked.
+        public let functionCreateBlockDate: String?
+        /// The date (UTC) on which updating existing functions that use this runtime or alias is blocked.
+        public let functionUpdateBlockDate: String?
+        /// Optional, with no default applied. DEPRECATED requires a DeprecationDate on or before today (UTC); PREVIEW and GA require a later one, or none. Reads report DEPRECATED once DeprecationDate is reached.
+        public let releaseState: RuntimeReleaseState?
+
+        @inlinable
+        public init(deprecationDate: String? = nil, functionCreateBlockDate: String? = nil, functionUpdateBlockDate: String? = nil, releaseState: RuntimeReleaseState? = nil) {
+            self.deprecationDate = deprecationDate
+            self.functionCreateBlockDate = functionCreateBlockDate
+            self.functionUpdateBlockDate = functionUpdateBlockDate
+            self.releaseState = releaseState
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deprecationDate, name: "deprecationDate", parent: name, max: 10)
+            try self.validate(self.deprecationDate, name: "deprecationDate", parent: name, min: 10)
+            try self.validate(self.deprecationDate, name: "deprecationDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.functionCreateBlockDate, name: "functionCreateBlockDate", parent: name, max: 10)
+            try self.validate(self.functionCreateBlockDate, name: "functionCreateBlockDate", parent: name, min: 10)
+            try self.validate(self.functionCreateBlockDate, name: "functionCreateBlockDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.functionUpdateBlockDate, name: "functionUpdateBlockDate", parent: name, max: 10)
+            try self.validate(self.functionUpdateBlockDate, name: "functionUpdateBlockDate", parent: name, min: 10)
+            try self.validate(self.functionUpdateBlockDate, name: "functionUpdateBlockDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deprecationDate = "DeprecationDate"
+            case functionCreateBlockDate = "FunctionCreateBlockDate"
+            case functionUpdateBlockDate = "FunctionUpdateBlockDate"
+            case releaseState = "ReleaseState"
+        }
+    }
+
+    public struct RuntimeVersionInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime version.
+        public let arn: String
+        /// The compatibility matrix of the runtime version.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime version was created.
+        public let created: String
+        /// The date and time when the runtime version was last modified.
+        public let lastModified: String
+        /// The name of the runtime version.
+        public let name: String
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime version will be permanently deleted.
+        public let pendingDeletionAt: String?
+        /// The release notes associated with the runtime version.
+        public let releaseNotes: String?
+        /// The resolved image URI of the runtime version.
+        public let resolvedUri: String
+        /// The current state of the runtime version.
+        public let state: RuntimeVersionState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, lastModified: String, name: String, pendingDeletionAt: String? = nil, releaseNotes: String? = nil, resolvedUri: String, state: RuntimeVersionState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseNotes = releaseNotes
+            self.resolvedUri = resolvedUri
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case pendingDeletionAt = "PendingDeletionAt"
+            case releaseNotes = "ReleaseNotes"
+            case resolvedUri = "ResolvedUri"
+            case state = "State"
+        }
+    }
+
     public struct ServiceException: AWSErrorShape {
+        /// The error message that describes the exception.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// The error message that describes the exception.
         public let message: String?
         /// The exception type.
         public let type: String?
@@ -534,6 +1837,7 @@ extension LambdaCore {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
+        /// The error message that describes the exception.
         public let message: String?
         /// The reason for the throttling.
         public let reason: ThrottleReason?
@@ -571,6 +1875,7 @@ extension LambdaCore {
         public let clientToken: String?
         /// The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs — this replaces the existing configuration.
         public let configuration: NetworkConnectorConfiguration?
+        /// The identifier of the network connector to update. You can specify the connector ID, name, or full ARN.
         public let identifier: String
         /// The updated ARN of the IAM role that Lambda assumes to manage ENIs. Use this to change the operator role without recreating the connector.
         public let operatorRole: String?
@@ -614,6 +1919,7 @@ extension LambdaCore {
         public let arn: String
         /// The network configuration of the connector, including VPC subnets and security groups.
         public let configuration: NetworkConnectorConfiguration?
+        /// The unique identifier of the network connector.
         public let id: String
         /// The timestamp of this update.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -628,9 +1934,13 @@ extension LambdaCore {
         public let operatorRole: String?
         /// The current state of the network connector.
         public let state: NetworkConnectorState?
+        /// The version number of the connector version resulting from this update. A configuration change creates a new, incremented version; a no-op update returns the current version number.
+        public let version: Int64?
+        /// The qualified ARN of the connector version resulting from this update, including the immutable version suffix.
+        public let versionArn: String?
 
         @inlinable
-        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil) {
+        public init(arn: String, configuration: NetworkConnectorConfiguration? = nil, id: String, lastModified: Date? = nil, lastUpdateStatus: NetworkConnectorLastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, name: String, operatorRole: String? = nil, state: NetworkConnectorState? = nil, version: Int64? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.id = id
@@ -640,6 +1950,8 @@ extension LambdaCore {
             self.name = name
             self.operatorRole = operatorRole
             self.state = state
+            self.version = version
+            self.versionArn = versionArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -651,6 +1963,279 @@ extension LambdaCore {
             case lastUpdateStatusReason = "LastUpdateStatusReason"
             case name = "Name"
             case operatorRole = "OperatorRole"
+            case state = "State"
+            case version = "Version"
+            case versionArn = "VersionArn"
+        }
+    }
+
+    public struct UpdateRuntimeAliasRequest: AWSEncodableShape {
+        /// A description of the runtime alias.
+        public let description: String?
+        /// The name of the runtime alias to update.
+        public let name: String
+        /// The lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required. Omitting or providing an empty object removes the existing lifecycle override.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+        /// The name of the runtime version the alias should point to.
+        public let runtimeVersion: String
+
+        @inlinable
+        public init(description: String? = nil, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeName: String, runtimeVersion: String) {
+            self.description = description
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeName = runtimeName
+            self.runtimeVersion = runtimeVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.releaseLifecycle, forKey: .releaseLifecycle)
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+            try container.encode(self.runtimeVersion, forKey: .runtimeVersion)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.releaseLifecycle?.validate(name: "\(name).releaseLifecycle")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 128)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
+            try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case runtimeVersion = "RuntimeVersion"
+        }
+    }
+
+    public struct UpdateRuntimeAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime alias.
+        public let arn: String
+        /// The compatibility matrix of the runtime version the alias points to.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime alias was created.
+        public let created: String
+        /// A description of the runtime alias.
+        public let description: String?
+        /// The date and time when the runtime alias was last modified.
+        public let lastModified: String
+        /// The name of the runtime alias.
+        public let name: String
+        /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name of the runtime.
+        public let runtimeName: String
+        /// The name of the runtime version the alias points to.
+        public let runtimeVersion: String
+        /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+        public let runtimeVersionArn: String
+        /// The current state of the runtime alias.
+        public let state: RuntimeAliasState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, description: String? = nil, lastModified: String, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeName: String, runtimeVersion: String, runtimeVersionArn: String, state: RuntimeAliasState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeName = runtimeName
+            self.runtimeVersion = runtimeVersion
+            self.runtimeVersionArn = runtimeVersionArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case releaseLifecycle = "ReleaseLifecycle"
+            case runtimeName = "RuntimeName"
+            case runtimeVersion = "RuntimeVersion"
+            case runtimeVersionArn = "RuntimeVersionArn"
+            case state = "State"
+        }
+    }
+
+    public struct UpdateRuntimeRequest: AWSEncodableShape {
+        /// The updated description of the runtime.
+        public let description: String?
+        /// The updated license information for the runtime.
+        public let licenseInfo: String?
+        /// The runtime lifecycle for the runtime. Optional. Used to schedule runtime deprecation. Omitting or providing an empty object removes the existing lifecycle.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+        /// The name or ARN of the runtime to update.
+        public let runtimeName: String
+
+        @inlinable
+        public init(description: String? = nil, licenseInfo: String? = nil, releaseLifecycle: RuntimeReleaseLifecycle? = nil, runtimeName: String) {
+            self.description = description
+            self.licenseInfo = licenseInfo
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.licenseInfo, forKey: .licenseInfo)
+            try container.encodeIfPresent(self.releaseLifecycle, forKey: .releaseLifecycle)
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, max: 1024)
+            try self.releaseLifecycle?.validate(name: "\(name).releaseLifecycle")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case licenseInfo = "LicenseInfo"
+            case releaseLifecycle = "ReleaseLifecycle"
+        }
+    }
+
+    public struct UpdateRuntimeResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime.
+        public let arn: String
+        /// The date and time when the runtime was created.
+        public let created: String
+        /// The description of the runtime.
+        public let description: String?
+        /// The date and time when the runtime was last modified.
+        public let lastModified: String
+        /// The license information for the runtime.
+        public let licenseInfo: String?
+        /// The name of the runtime.
+        public let name: String
+        /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+        public let releaseLifecycle: RuntimeReleaseLifecycle?
+
+        @inlinable
+        public init(arn: String, created: String, description: String? = nil, lastModified: String, licenseInfo: String? = nil, name: String, releaseLifecycle: RuntimeReleaseLifecycle? = nil) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.licenseInfo = licenseInfo
+            self.name = name
+            self.releaseLifecycle = releaseLifecycle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case created = "Created"
+            case description = "Description"
+            case lastModified = "LastModified"
+            case licenseInfo = "LicenseInfo"
+            case name = "Name"
+            case releaseLifecycle = "ReleaseLifecycle"
+        }
+    }
+
+    public struct UpdateRuntimeVersionRequest: AWSEncodableShape {
+        /// The name of the runtime version to update.
+        public let name: String
+        /// The release notes to associate with the runtime version.
+        public let releaseNotes: String
+        /// The name or ARN of the runtime.
+        public let runtimeName: String
+
+        @inlinable
+        public init(name: String, releaseNotes: String, runtimeName: String) {
+            self.name = name
+            self.releaseNotes = releaseNotes
+            self.runtimeName = runtimeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.releaseNotes, forKey: .releaseNotes)
+            request.encodePath(self.runtimeName, key: "RuntimeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]([A-Za-z0-9_.-]{0,126}[A-Za-z0-9_])?$")
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, max: 2048)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, min: 2)
+            try self.validate(self.runtimeName, name: "runtimeName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:runtime/)?[a-z0-9]([a-z0-9_.-]{0,126})?[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case releaseNotes = "ReleaseNotes"
+        }
+    }
+
+    public struct UpdateRuntimeVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the runtime version.
+        public let arn: String
+        /// The compatibility matrix of the runtime version.
+        public let compatibility: Compatibility?
+        /// The date and time when the runtime version was created.
+        public let created: String
+        /// The date and time when the runtime version was last modified.
+        public let lastModified: String
+        /// The name of the runtime version.
+        public let name: String
+        /// The platforms (architecture and OS combinations) available for the runtime version.
+        public let platforms: [Platform]?
+        /// The release notes associated with the runtime version.
+        public let releaseNotes: String?
+        /// The resolved image URI of the runtime version.
+        public let resolvedUri: String
+        /// The current state of the runtime version.
+        public let state: RuntimeVersionState
+
+        @inlinable
+        public init(arn: String, compatibility: Compatibility? = nil, created: String, lastModified: String, name: String, platforms: [Platform]? = nil, releaseNotes: String? = nil, resolvedUri: String, state: RuntimeVersionState) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.platforms = platforms
+            self.releaseNotes = releaseNotes
+            self.resolvedUri = resolvedUri
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case compatibility = "Compatibility"
+            case created = "Created"
+            case lastModified = "LastModified"
+            case name = "Name"
+            case platforms = "Platforms"
+            case releaseNotes = "ReleaseNotes"
+            case resolvedUri = "ResolvedUri"
             case state = "State"
         }
     }
@@ -684,6 +2269,7 @@ public struct LambdaCoreErrorType: AWSErrorType {
         case resourceConflictException = "ResourceConflictException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceException = "ServiceException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
@@ -707,14 +2293,16 @@ public struct LambdaCoreErrorType: AWSErrorType {
 
     /// One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// The account has reached the maximum number of network connectors allowed. Delete unused connectors or request a limit increase through Service Quotas.
+    /// The request would exceed a network connector limit. For CreateNetworkConnector, the account has reached the maximum number of network connectors allowed. For UpdateNetworkConnector, the connector has reached the maximum number of versions allowed.
     public static var networkConnectorLimitExceededException: Self { .init(.networkConnectorLimitExceededException) }
-    /// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
+    /// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
-    /// The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+    /// The specified resource does not exist. Verify the identifier and Region.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// An internal service error occurred. Retry the request with exponential backoff.
     public static var serviceException: Self { .init(.serviceException) }
+    /// The request would exceed a service quota for your account. Request a quota increase or reduce the number of resources in use, then retry the request.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
@@ -726,6 +2314,7 @@ extension LambdaCoreErrorType: AWSServiceErrorType {
         "ResourceConflictException": LambdaCore.ResourceConflictException.self,
         "ResourceNotFoundException": LambdaCore.ResourceNotFoundException.self,
         "ServiceException": LambdaCore.ServiceException.self,
+        "ServiceQuotaExceededException": LambdaCore.ServiceQuotaExceededException.self,
         "TooManyRequestsException": LambdaCore.TooManyRequestsException.self
     ]
 }

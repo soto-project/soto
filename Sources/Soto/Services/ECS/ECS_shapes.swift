@@ -41,6 +41,8 @@ extension ECS {
         case inferentia = "inferentia"
         case k520 = "k520"
         case k80 = "k80"
+        case l4 = "l4"
+        case l40s = "l40s"
         case m60 = "m60"
         case radeonProV520 = "radeon-pro-v520"
         case t4 = "t4"
@@ -58,7 +60,9 @@ extension ECS {
     }
 
     public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The resource is private and reachable only from within the VPC.
         case `private` = "PRIVATE"
+        /// The resource is publicly accessible from the internet.
         case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
@@ -83,6 +87,12 @@ extension ECS {
     public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttestationPolicyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// An attestation policy is configured for the task.
+        case configured = "CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
@@ -420,6 +430,101 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum GatewayAlbDesyncMitigationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The load balancers allow through most requests but drop those that pose a significant security risk.
+        case defensive = "defensive"
+        /// The load balancers forward requests that are considered ambiguous but allow them to be monitored.
+        case monitor = "monitor"
+        /// The load balancers allow through only requests that comply with HTTP/1.1.
+        case strictest = "strictest"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayAlbProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The listener uses HTTP.
+        case http = "HTTP"
+        /// The listener uses HTTPS.
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayClusterAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The association is active.
+        case active = "ACTIVE"
+        /// The association is being removed and remains in this state until all gateway routes for the cluster are removed.
+        case disassociating = "DISASSOCIATING"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayConnectorHealthCheckProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The gateway performs health checks over HTTP.
+        case http = "HTTP"
+        /// The gateway performs health checks over HTTPS.
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayElbIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The load balancers use both IPv4 and IPv6 addresses.
+        case dualstack = "dualstack"
+        /// The load balancers use IPv6 addresses and private IPv4 addresses, without public IPv4 addresses.
+        case dualstackWithoutPublicIpv4 = "dualstack-without-public-ipv4"
+        /// The load balancers use IPv4 addresses only.
+        case ipv4 = "ipv4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayElbScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The load balancers are internal.
+        case `internal` = "internal"
+        /// The load balancers are internet-facing.
+        case internetFacing = "internet-facing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayRouteStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The gateway route is active and routing traffic.
+        case active = "ACTIVE"
+        /// The gateway route couldn't be created.
+        case createFailed = "CREATE_FAILED"
+        /// The gateway route is being created.
+        case createInProgress = "CREATE_IN_PROGRESS"
+        /// The gateway route couldn't be deleted.
+        case deleteFailed = "DELETE_FAILED"
+        /// The gateway route is being deleted.
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        /// The gateway route couldn't be updated.
+        case updateFailed = "UPDATE_FAILED"
+        /// The gateway route is being updated.
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The gateway is active and available for use.
+        case active = "ACTIVE"
+        /// The gateway is deleted.
+        case deleted = "DELETED"
+        /// The update to the gateway completed successfully.
+        case updateComplete = "UPDATE_COMPLETE"
+        /// The update to the gateway failed. See statusReason for details.
+        case updateFailed = "UPDATE_FAILED"
+        /// An update to the gateway is in progress.
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GpuSharingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// One container has exclusive use of the GPU. Amazon ECS assigns GPUs this way to containers that specify value instead of sharingStrategy for the GPU resource type.
+        case dedicated = "DEDICATED"
+        /// No containers are assigned to the GPU, and all of its memory is available.
+        case idle = "IDLE"
+        /// One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS). While the GPU is in this mode, Amazon ECS assigns it only to containers that use the nvidiaMps sharing strategy.
+        case nvidiaMps = "NVIDIA_MPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
@@ -453,6 +558,16 @@ extension ECS {
         case host = "host"
         case none = "none"
         case task = "task"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IsolationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The task runs in its own Nitro Sandbox, which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.
+        case confidentialSandbox = "CONFIDENTIAL_SANDBOX"
+        /// The task runs in its own Nitro Sandbox, which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.
+        case isolatedSandbox = "ISOLATED_SANDBOX"
+        /// The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        case shared = "SHARED"
         public var description: String { return self.rawValue }
     }
 
@@ -574,6 +689,14 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum PropagateGatewayTags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Tags on the gateway are propagated to the infrastructure that the gateway manages.
+        case gateway = "GATEWAY"
+        /// Tags aren't propagated to managed infrastructure.
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PropagateMITags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityProvider = "CAPACITY_PROVIDER"
         case none = "NONE"
@@ -625,6 +748,12 @@ extension ECS {
     public enum ServiceConnectAccessLoggingFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceConnectContainerLogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case debug = "debug"
+        case info = "info"
         public var description: String { return self.rawValue }
     }
 
@@ -879,6 +1008,46 @@ extension ECS {
             case productionListenerRule = "productionListenerRule"
             case roleArn = "roleArn"
             case testListenerRule = "testListenerRule"
+        }
+    }
+
+    public struct AssociateGatewayWithClusterRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the cluster to associate the gateway with.
+        public let cluster: String
+        /// The name or Amazon Resource Name (ARN) of the gateway to associate.
+        public let gateway: String
+
+        @inlinable
+        public init(cluster: String, gateway: String) {
+            self.cluster = cluster
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case gateway = "gateway"
+        }
+    }
+
+    public struct AssociateGatewayWithClusterResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The status of the association. A new association is ACTIVE.
+        public let status: GatewayClusterAssociationStatus?
+
+        @inlinable
+        public init(clusterArn: String? = nil, gatewayArn: String? = nil, status: GatewayClusterAssociationStatus? = nil) {
+            self.clusterArn = clusterArn
+            self.gatewayArn = gatewayArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case gatewayArn = "gatewayArn"
+            case status = "status"
         }
     }
 
@@ -1342,6 +1511,8 @@ extension ECS {
         public let exitCode: Int?
         /// The IDs of each GPU assigned to the container.
         public let gpuIds: [String]?
+        /// The GPU sharing strategy that the task definition specifies for the container. This field is present only for containers whose resource requirements include sharingStrategy.
+        public let gpuSharingStrategy: SharingStrategy?
         /// The health status of the container. If health checks aren't configured for this container in its task definition, then it reports the health status as UNKNOWN.
         public let healthStatus: HealthStatus?
         /// The image used for the container.
@@ -1372,11 +1543,12 @@ extension ECS {
         public let taskArn: String?
 
         @inlinable
-        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, image: String? = nil, imageDigest: String? = nil, lastStatus: String? = nil, managedAgents: [ManagedAgent]? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, neuronDeviceIds: [String]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
+        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, gpuSharingStrategy: SharingStrategy? = nil, healthStatus: HealthStatus? = nil, image: String? = nil, imageDigest: String? = nil, lastStatus: String? = nil, managedAgents: [ManagedAgent]? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, neuronDeviceIds: [String]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
             self.containerArn = containerArn
             self.cpu = cpu
             self.exitCode = exitCode
             self.gpuIds = gpuIds
+            self.gpuSharingStrategy = gpuSharingStrategy
             self.healthStatus = healthStatus
             self.image = image
             self.imageDigest = imageDigest
@@ -1398,6 +1570,7 @@ extension ECS {
             case cpu = "cpu"
             case exitCode = "exitCode"
             case gpuIds = "gpuIds"
+            case gpuSharingStrategy = "gpuSharingStrategy"
             case healthStatus = "healthStatus"
             case image = "image"
             case imageDigest = "imageDigest"
@@ -1648,6 +1821,8 @@ extension ECS {
         public let containerInstanceArn: String?
         /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
         public let ec2InstanceId: String?
+        /// The state of each GPU on the container instance, including its sharing mode and available memory. This field is present only for container instances that support GPU sharing.
+        public let gpuDevices: [GpuDevice]?
         /// An object representing the health status of the container instance.
         public let healthStatus: ContainerInstanceHealthStatus?
         /// The number of tasks on the container instance that are in the PENDING status.
@@ -1672,7 +1847,7 @@ extension ECS {
         public let versionInfo: VersionInfo?
 
         @inlinable
-        public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, capacityProviderName: String? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, healthStatus: ContainerInstanceHealthStatus? = nil, pendingTasksCount: Int? = nil, registeredAt: Date? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
+        public init(agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, capacityProviderName: String? = nil, containerInstanceArn: String? = nil, ec2InstanceId: String? = nil, gpuDevices: [GpuDevice]? = nil, healthStatus: ContainerInstanceHealthStatus? = nil, pendingTasksCount: Int? = nil, registeredAt: Date? = nil, registeredResources: [Resource]? = nil, remainingResources: [Resource]? = nil, runningTasksCount: Int? = nil, status: String? = nil, statusReason: String? = nil, tags: [Tag]? = nil, version: Int64? = nil, versionInfo: VersionInfo? = nil) {
             self.agentConnected = agentConnected
             self.agentUpdateStatus = agentUpdateStatus
             self.attachments = attachments
@@ -1680,6 +1855,7 @@ extension ECS {
             self.capacityProviderName = capacityProviderName
             self.containerInstanceArn = containerInstanceArn
             self.ec2InstanceId = ec2InstanceId
+            self.gpuDevices = gpuDevices
             self.healthStatus = healthStatus
             self.pendingTasksCount = pendingTasksCount
             self.registeredAt = registeredAt
@@ -1701,6 +1877,7 @@ extension ECS {
             case capacityProviderName = "capacityProviderName"
             case containerInstanceArn = "containerInstanceArn"
             case ec2InstanceId = "ec2InstanceId"
+            case gpuDevices = "gpuDevices"
             case healthStatus = "healthStatus"
             case pendingTasksCount = "pendingTasksCount"
             case registeredAt = "registeredAt"
@@ -2079,7 +2256,7 @@ extension ECS {
         public let cluster: String?
         /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
         public let cpu: String?
-        /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+        /// The CPU architecture that the task runs on. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
         public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
         public let executionRoleArn: String?
@@ -2161,6 +2338,73 @@ extension ECS {
         }
     }
 
+    public struct CreateGatewayRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// The type-specific configuration for the gateway. Exactly one configuration variant must be set, and it determines the gateway type. For example, hostSharedAlb configures a gateway that uses Application Load Balancers with host-based routing.
+        public let configuration: GatewayConfiguration
+        /// Specifies whether to enable deletion protection for the gateway. When enabled, the gateway can't be deleted, and the gateway propagates this setting to the load balancers it manages. The default is true.
+        public let deletionProtection: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the gateway assumes to create and manage infrastructure on your behalf.
+        public let infrastructureRoleArn: String
+        /// The name for the gateway. The name must be unique within your account and can be up to 255 characters.
+        public let name: String
+        /// Specifies whether to propagate the tags from the gateway to the infrastructure that the gateway manages. The default is GATEWAY.
+        public let propagateTags: PropagateGatewayTags?
+        /// The metadata that you apply to the gateway to help you categorize and organize it. Each tag consists of a key and an optional value. Depending on propagateTags, these tags can be applied to the infrastructure the gateway manages.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateGatewayRequest.idempotencyToken(), configuration: GatewayConfiguration, deletionProtection: Bool? = nil, infrastructureRoleArn: String, name: String, propagateTags: PropagateGatewayTags? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.deletionProtection = deletionProtection
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.name = name
+            self.propagateTags = propagateTags
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case deletionProtection = "deletionProtection"
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case name = "name"
+            case propagateTags = "propagateTags"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The name of the gateway.
+        public let name: String?
+        /// The status of the gateway. A newly created gateway is always ACTIVE.
+        public let status: GatewayStatus?
+
+        @inlinable
+        public init(gatewayArn: String? = nil, name: String? = nil, status: GatewayStatus? = nil) {
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct CreateManagedInstancesProviderConfiguration: AWSEncodableShape {
         /// The auto repair configuration for the Amazon ECS Managed Instances capacity provider. Use this to enable or disable automatic replacement of container instances that are detected as unhealthy.
         public let autoRepairConfiguration: AutoRepairConfiguration?
@@ -2214,6 +2458,8 @@ extension ECS {
         public let enableECSManagedTags: Bool?
         /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
         public let enableExecuteCommand: Bool?
+        /// The gateway connectors that attach the service to a gateway ingress path. You can specify at most one gateway connector.
+        public let gatewayConnectors: [GatewayConnector]?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
         public let healthCheckGracePeriodSeconds: Int?
         /// The infrastructure that you run your service on. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide.  If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter.  The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see Fargate capacity providers in the Amazon ECS Developer Guide.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
@@ -2252,7 +2498,7 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, gatewayConnectors: [GatewayConnector]? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clientToken = clientToken
@@ -2262,6 +2508,7 @@ extension ECS {
             self.desiredCount = desiredCount
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
+            self.gatewayConnectors = gatewayConnectors
             self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
             self.launchType = launchType
             self.loadBalancers = loadBalancers
@@ -2287,6 +2534,10 @@ extension ECS {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
             try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+            try self.gatewayConnectors?.forEach {
+                try $0.validate(name: "\(name).gatewayConnectors[]")
+            }
+            try self.validate(self.gatewayConnectors, name: "gatewayConnectors", parent: name, max: 1)
             try self.monitoring?.validate(name: "\(name).monitoring")
             try self.serviceConnectConfiguration?.validate(name: "\(name).serviceConnectConfiguration")
             try self.tags?.forEach {
@@ -2308,6 +2559,7 @@ extension ECS {
             case desiredCount = "desiredCount"
             case enableECSManagedTags = "enableECSManagedTags"
             case enableExecuteCommand = "enableExecuteCommand"
+            case gatewayConnectors = "gatewayConnectors"
             case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
             case launchType = "launchType"
             case loadBalancers = "loadBalancers"
@@ -3173,17 +3425,21 @@ extension ECS {
     public struct DaemonVolume: AWSEncodableShape & AWSDecodableShape {
         /// The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
         public let host: HostVolumeProperties?
+        /// The log driver volume configuration. With a log driver volume, the containers in a daemon task can read the log files that a log driver writes for the other tasks on the container instance. To read the log files, mount the volume into a container in the daemon task with mountPoints. Use host to bind mount a path on the container instance. Use logDriverVolumeConfiguration to read the log output of other tasks. You can't specify both for the same volume.
+        public let logDriverVolumeConfiguration: LogDriverVolumeConfiguration?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public let name: String?
 
         @inlinable
-        public init(host: HostVolumeProperties? = nil, name: String? = nil) {
+        public init(host: HostVolumeProperties? = nil, logDriverVolumeConfiguration: LogDriverVolumeConfiguration? = nil, name: String? = nil) {
             self.host = host
+            self.logDriverVolumeConfiguration = logDriverVolumeConfiguration
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case host = "host"
+            case logDriverVolumeConfiguration = "logDriverVolumeConfiguration"
             case name = "name"
         }
     }
@@ -3409,6 +3665,42 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case service = "service"
+        }
+    }
+
+    public struct DeleteGatewayRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the gateway to delete.
+        public let gateway: String
+
+        @inlinable
+        public init(gateway: String) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "gateway"
+        }
+    }
+
+    public struct DeleteGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted gateway.
+        public let gatewayArn: String?
+        /// The name of the deleted gateway.
+        public let name: String?
+        /// The status of the gateway. After a successful delete, the status is DELETED.
+        public let status: GatewayStatus?
+
+        @inlinable
+        public init(gatewayArn: String? = nil, name: String? = nil, status: GatewayStatus? = nil) {
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -4213,6 +4505,152 @@ extension ECS {
         }
     }
 
+    public struct DescribeGatewayAlbConfiguration: AWSDecodableShape {
+        /// The access log configuration for the load balancers that the gateway manages.
+        public let accessLogs: GatewayElbAccessLogConfiguration?
+        /// The current number of Application Load Balancers that the gateway has allocated.
+        public let currentAlbCount: Int?
+        /// The desync mitigation mode for the load balancers that the gateway manages.
+        public let httpDesync: GatewayAlbDesyncMitigationMode?
+        /// The maximum number of Application Load Balancers that the gateway manages.
+        public let maxAlbCount: Int?
+        /// The network configuration for the load balancers that the gateway manages.
+        public let networkConfiguration: GatewayElbNetworkConfiguration?
+        /// The port that the load balancer listener uses is 443. The gateway supports only HTTPS at port 443.
+        public let port: Int?
+        /// The protocol for the load balancer listener is HTTPS. No other protocol is supported.
+        public let `protocol`: GatewayAlbProtocol?
+        /// Specifies whether the load balancers the gateway manages are internet-facing or internal.
+        public let scheme: GatewayElbScheme?
+        /// The rules that route test traffic for progressive deployments.
+        public let testTrafficRules: GatewayAlbTestTrafficRules?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL associated with the load balancers that the gateway manages.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(accessLogs: GatewayElbAccessLogConfiguration? = nil, currentAlbCount: Int? = nil, httpDesync: GatewayAlbDesyncMitigationMode? = nil, maxAlbCount: Int? = nil, networkConfiguration: GatewayElbNetworkConfiguration? = nil, port: Int? = nil, protocol: GatewayAlbProtocol? = nil, scheme: GatewayElbScheme? = nil, testTrafficRules: GatewayAlbTestTrafficRules? = nil, webACLArn: String? = nil) {
+            self.accessLogs = accessLogs
+            self.currentAlbCount = currentAlbCount
+            self.httpDesync = httpDesync
+            self.maxAlbCount = maxAlbCount
+            self.networkConfiguration = networkConfiguration
+            self.port = port
+            self.`protocol` = `protocol`
+            self.scheme = scheme
+            self.testTrafficRules = testTrafficRules
+            self.webACLArn = webACLArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLogs = "accessLogs"
+            case currentAlbCount = "currentAlbCount"
+            case httpDesync = "httpDesync"
+            case maxAlbCount = "maxAlbCount"
+            case networkConfiguration = "networkConfiguration"
+            case port = "port"
+            case `protocol` = "protocol"
+            case scheme = "scheme"
+            case testTrafficRules = "testTrafficRules"
+            case webACLArn = "webACLArn"
+        }
+    }
+
+    public struct DescribeGatewayRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the gateway to describe.
+        public let gateway: String
+
+        @inlinable
+        public init(gateway: String) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "gateway"
+        }
+    }
+
+    public struct DescribeGatewayResourcesRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the gateway.
+        public let gateway: String
+        /// The maximum number of results that the operation returns in a single page. The maximum value is 20 and the default is 10.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gateway: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.gateway = gateway
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "gateway"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeGatewayResourcesResponse: AWSDecodableShape {
+        /// The infrastructure resources that the gateway manages, grouped by gateway type.
+        public let gatewayResources: GatewayResources?
+        /// The nextToken value to include in a future request to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gatewayResources: GatewayResources? = nil, nextToken: String? = nil) {
+            self.gatewayResources = gatewayResources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayResources = "gatewayResources"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeGatewayResponse: AWSDecodableShape {
+        /// The details of the gateway.
+        public let gateway: Gateway?
+
+        @inlinable
+        public init(gateway: Gateway? = nil) {
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateway = "gateway"
+        }
+    }
+
+    public struct DescribeGatewayRouteRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway route to describe.
+        public let gatewayRouteArn: String
+
+        @inlinable
+        public init(gatewayRouteArn: String) {
+            self.gatewayRouteArn = gatewayRouteArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRouteArn = "gatewayRouteArn"
+        }
+    }
+
+    public struct DescribeGatewayRouteResponse: AWSDecodableShape {
+        /// The details of the gateway route.
+        public let gatewayRoute: GatewayRoute?
+
+        @inlinable
+        public init(gatewayRoute: GatewayRoute? = nil) {
+            self.gatewayRoute = gatewayRoute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoute = "gatewayRoute"
+        }
+    }
+
     public struct DescribeServiceDeploymentsRequest: AWSEncodableShape {
         /// The ARN of the service deployment. You can specify a maximum of 20 ARNs.
         public let serviceDeploymentArns: [String]
@@ -4459,6 +4897,46 @@ extension ECS {
         }
     }
 
+    public struct DisassociateGatewayFromClusterRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the cluster to disassociate the gateway from.
+        public let cluster: String
+        /// The name or Amazon Resource Name (ARN) of the gateway to disassociate.
+        public let gateway: String
+
+        @inlinable
+        public init(cluster: String, gateway: String) {
+            self.cluster = cluster
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case gateway = "gateway"
+        }
+    }
+
+    public struct DisassociateGatewayFromClusterResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The status of the association. After a successful request, the status is DISASSOCIATING until all routes are removed, after which the association is deleted.
+        public let status: GatewayClusterAssociationStatus?
+
+        @inlinable
+        public init(clusterArn: String? = nil, gatewayArn: String? = nil, status: GatewayClusterAssociationStatus? = nil) {
+            self.clusterArn = clusterArn
+            self.gatewayArn = gatewayArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case gatewayArn = "gatewayArn"
+            case status = "status"
+        }
+    }
+
     public struct DiscoverPollEndpointRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that the container instance belongs to.
         public let cluster: String?
@@ -4611,6 +5089,8 @@ extension ECS {
     public struct ECSManagedResources: AWSDecodableShape {
         /// The auto-scaling configuration and policies for the Express service.
         public let autoScaling: ManagedAutoScaling?
+        /// The gateway-managed connections for the service revision, including the gateway routes and infrastructure that a gateway created for the service's connector.
+        public let gatewayConnections: [GatewayConnection]?
         /// The ingress paths and endpoints for the Express service.
         public let ingressPaths: [ManagedIngressPath]?
         /// The log groups managed by the Express service.
@@ -4621,8 +5101,9 @@ extension ECS {
         public let serviceSecurityGroups: [ManagedSecurityGroup]?
 
         @inlinable
-        public init(autoScaling: ManagedAutoScaling? = nil, ingressPaths: [ManagedIngressPath]? = nil, logGroups: [ManagedLogGroup]? = nil, metricAlarms: [ManagedMetricAlarm]? = nil, serviceSecurityGroups: [ManagedSecurityGroup]? = nil) {
+        public init(autoScaling: ManagedAutoScaling? = nil, gatewayConnections: [GatewayConnection]? = nil, ingressPaths: [ManagedIngressPath]? = nil, logGroups: [ManagedLogGroup]? = nil, metricAlarms: [ManagedMetricAlarm]? = nil, serviceSecurityGroups: [ManagedSecurityGroup]? = nil) {
             self.autoScaling = autoScaling
+            self.gatewayConnections = gatewayConnections
             self.ingressPaths = ingressPaths
             self.logGroups = logGroups
             self.metricAlarms = metricAlarms
@@ -4631,6 +5112,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case autoScaling = "autoScaling"
+            case gatewayConnections = "gatewayConnections"
             case ingressPaths = "ingressPaths"
             case logGroups = "logGroups"
             case metricAlarms = "metricAlarms"
@@ -4683,6 +5165,32 @@ extension ECS {
             case rootDirectory = "rootDirectory"
             case transitEncryption = "transitEncryption"
             case transitEncryptionPort = "transitEncryptionPort"
+        }
+    }
+
+    public struct ElbGatewayResources: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the gateway routes that use this load balancer for ingress.
+        public let gatewayRouteArns: [String]?
+        /// The Amazon Resource Name (ARN) of the listener on the load balancer.
+        public let listenerArn: String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The ID of the security group attached to the load balancer.
+        public let securityGroup: String?
+
+        @inlinable
+        public init(gatewayRouteArns: [String]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, securityGroup: String? = nil) {
+            self.gatewayRouteArns = gatewayRouteArns
+            self.listenerArn = listenerArn
+            self.loadBalancerArn = loadBalancerArn
+            self.securityGroup = securityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRouteArns = "gatewayRouteArns"
+            case listenerArn = "listenerArn"
+            case loadBalancerArn = "loadBalancerArn"
+            case securityGroup = "securityGroup"
         }
     }
 
@@ -4933,7 +5441,7 @@ extension ECS {
     public struct ExpressGatewayServiceConfiguration: AWSDecodableShape {
         /// The CPU allocation for tasks in this service revision.
         public let cpu: String?
-        /// The CPU architecture that the tasks in this service revision run on. This is the architecture from the task definition that the service revision uses, so it reflects the default or the previously configured architecture when the request that created the revision didn't specify one. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   This value isn't returned when the task definition for the service revision doesn't specify a runtime platform. Because the architecture comes from each service revision's own task definition, revisions of the same service can report different architectures.
+        /// The CPU architecture that the task runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Different service revisions can report different architectures. This value isn't returned when the service uses a customer-provided task definition that doesn't specify a CPU architecture.
         public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Unix timestamp for when this service revision was created.
         public let createdAt: Date?
@@ -5108,6 +5616,568 @@ extension ECS {
         }
     }
 
+    public struct Gateway: AWSDecodableShape {
+        /// Specifies whether the gateway is publicly accessible (PUBLIC) or private (PRIVATE). The gateway derives this value from its scheme when you create the gateway, and the value is immutable.
+        public let accessType: AccessType?
+        /// The type-specific configuration for the gateway.
+        public let configuration: DescribeGatewayConfiguration?
+        /// The Unix timestamp for the time when the gateway was created.
+        public let createdAt: Date?
+        /// Specifies whether deletion protection is enabled for the gateway.
+        public let deletionProtection: Bool?
+        /// The per-resource failure details for asynchronous gateway processes, such as an UpdateGateway operation that couldn't update every load balancer.
+        public let failures: [GatewayResourceFailure]?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that the gateway uses to manage infrastructure on your behalf.
+        public let infrastructureRoleArn: String?
+        /// The name of the gateway.
+        public let name: String?
+        /// Specifies whether the gateway propagates its tags to the infrastructure it manages.
+        public let propagateTags: PropagateGatewayTags?
+        /// The status of the gateway.
+        public let status: GatewayStatus?
+        /// A human-readable explanation of the current status. This value is populated when the gateway is in a failure state, such as UPDATE_FAILED.
+        public let statusReason: String?
+        /// The metadata applied to the gateway. Each tag consists of a key and an optional value.
+        public let tags: [Tag]?
+        /// The Unix timestamp for the time when the gateway was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(accessType: AccessType? = nil, configuration: DescribeGatewayConfiguration? = nil, createdAt: Date? = nil, deletionProtection: Bool? = nil, failures: [GatewayResourceFailure]? = nil, gatewayArn: String? = nil, infrastructureRoleArn: String? = nil, name: String? = nil, propagateTags: PropagateGatewayTags? = nil, status: GatewayStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
+            self.accessType = accessType
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.deletionProtection = deletionProtection
+            self.failures = failures
+            self.gatewayArn = gatewayArn
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.name = name
+            self.propagateTags = propagateTags
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessType = "accessType"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case deletionProtection = "deletionProtection"
+            case failures = "failures"
+            case gatewayArn = "gatewayArn"
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case name = "name"
+            case propagateTags = "propagateTags"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GatewayAlbTestTrafficRules: AWSEncodableShape & AWSDecodableShape {
+        /// The header-based rule that identifies test traffic.
+        public let header: GatewayTestTrafficHeader?
+
+        @inlinable
+        public init(header: GatewayTestTrafficHeader? = nil) {
+            self.header = header
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case header = "header"
+        }
+    }
+
+    public struct GatewayClusterAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The status of the association.
+        public let status: GatewayClusterAssociationStatus?
+
+        @inlinable
+        public init(clusterArn: String? = nil, gatewayArn: String? = nil, status: GatewayClusterAssociationStatus? = nil) {
+            self.clusterArn = clusterArn
+            self.gatewayArn = gatewayArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case gatewayArn = "gatewayArn"
+            case status = "status"
+        }
+    }
+
+    public struct GatewayConnection: AWSDecodableShape {
+        /// The access type of the gateway ingress path. Valid values:    PUBLIC - The ingress path is publicly accessible.    PRIVATE - The ingress path is only accessible privately.
+        public let accessType: AccessType?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The Amazon Resource Name (ARN) of the gateway route for the connection.
+        public let gatewayRouteArn: String?
+        /// The name of the service port that receives gateway-managed ingress traffic.
+        public let portName: String?
+        /// The gateway-managed infrastructure resources for the connection.
+        public let resources: GatewayConnectionResources?
+        /// The URL that the gateway uses to route ingress traffic to the service.
+        public let serviceUrl: String?
+        /// The status of the gateway route for the connection.
+        public let status: GatewayRouteStatus?
+
+        @inlinable
+        public init(accessType: AccessType? = nil, gatewayArn: String? = nil, gatewayRouteArn: String? = nil, portName: String? = nil, resources: GatewayConnectionResources? = nil, serviceUrl: String? = nil, status: GatewayRouteStatus? = nil) {
+            self.accessType = accessType
+            self.gatewayArn = gatewayArn
+            self.gatewayRouteArn = gatewayRouteArn
+            self.portName = portName
+            self.resources = resources
+            self.serviceUrl = serviceUrl
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessType = "accessType"
+            case gatewayArn = "gatewayArn"
+            case gatewayRouteArn = "gatewayRouteArn"
+            case portName = "portName"
+            case resources = "resources"
+            case serviceUrl = "serviceUrl"
+            case status = "status"
+        }
+    }
+
+    public struct GatewayConnectionAlbResources: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager certificate that is attached to the load balancer listener.
+        public let acmCertificateArn: String?
+        /// The Amazon Resource Name (ARN) of the alternate target group that the gateway uses during progressive deployments.
+        public let alternateTargetGroupArn: String?
+        /// The Amazon Resource Name (ARN) of the listener on the load balancer.
+        public let listenerArn: String?
+        /// The Amazon Resource Name (ARN) of the listener rule that routes production traffic to the service.
+        public let listenerRuleArn: String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The Amazon Resource Names (ARNs) of the security groups that the gateway attaches to the load balancer.
+        public let loadBalancerSecurityGroupArns: [String]?
+        /// The Amazon Resource Name (ARN) of the target group that receives production traffic.
+        public let targetGroupArn: String?
+        /// The Amazon Resource Name (ARN) of the listener rule that routes test traffic to the service during progressive deployments.
+        public let testListenerRuleArn: String?
+
+        @inlinable
+        public init(acmCertificateArn: String? = nil, alternateTargetGroupArn: String? = nil, listenerArn: String? = nil, listenerRuleArn: String? = nil, loadBalancerArn: String? = nil, loadBalancerSecurityGroupArns: [String]? = nil, targetGroupArn: String? = nil, testListenerRuleArn: String? = nil) {
+            self.acmCertificateArn = acmCertificateArn
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.listenerArn = listenerArn
+            self.listenerRuleArn = listenerRuleArn
+            self.loadBalancerArn = loadBalancerArn
+            self.loadBalancerSecurityGroupArns = loadBalancerSecurityGroupArns
+            self.targetGroupArn = targetGroupArn
+            self.testListenerRuleArn = testListenerRuleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
+            case alternateTargetGroupArn = "alternateTargetGroupArn"
+            case listenerArn = "listenerArn"
+            case listenerRuleArn = "listenerRuleArn"
+            case loadBalancerArn = "loadBalancerArn"
+            case loadBalancerSecurityGroupArns = "loadBalancerSecurityGroupArns"
+            case targetGroupArn = "targetGroupArn"
+            case testListenerRuleArn = "testListenerRuleArn"
+        }
+    }
+
+    public struct GatewayConnector: AWSEncodableShape & AWSDecodableShape {
+        /// The filters that control which gateway ingress paths the connector applies to.
+        public let filters: GatewayConnectorFilters?
+        /// The health check that the gateway uses to determine whether the targets for this connector are healthy.
+        public let healthCheck: GatewayConnectorHealthCheck?
+        /// The name of the service port that the gateway routes ingress traffic to.
+        public let portName: String
+
+        @inlinable
+        public init(filters: GatewayConnectorFilters? = nil, healthCheck: GatewayConnectorHealthCheck? = nil, portName: String) {
+            self.filters = filters
+            self.healthCheck = healthCheck
+            self.portName = portName
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case healthCheck = "healthCheck"
+            case portName = "portName"
+        }
+    }
+
+    public struct GatewayConnectorFilters: AWSEncodableShape & AWSDecodableShape {
+        /// The access types of the gateway ingress paths that the connector applies to. The access type can be one of the following values:    PUBLIC - The ingress path is publicly accessible.    PRIVATE - The ingress path is only accessible privately.
+        public let accessTypes: [AccessType]?
+
+        @inlinable
+        public init(accessTypes: [AccessType]? = nil) {
+            self.accessTypes = accessTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessTypes, name: "accessTypes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTypes = "accessTypes"
+        }
+    }
+
+    public struct GatewayConnectorHealthCheck: AWSEncodableShape & AWSDecodableShape {
+        /// The approximate amount of time, in seconds, between health checks of an individual target.
+        public let healthCheckIntervalSeconds: Int?
+        /// The destination path for health check requests.
+        public let healthCheckPath: String?
+        /// The port that the gateway uses to perform health checks on the targets.
+        public let healthCheckPort: Int?
+        /// The protocol that the gateway uses to perform health checks. Valid values:    HTTP - Health checks are performed over HTTP.    HTTPS - Health checks are performed over HTTPS.
+        public let healthCheckProtocol: GatewayConnectorHealthCheckProtocol?
+        /// The amount of time, in seconds, during which no response from a target means a failed health check.
+        public let healthCheckTimeoutSeconds: Int?
+        /// The number of consecutive successful health checks that a target must pass before the gateway considers it healthy.
+        public let healthyThresholdCount: Int?
+        /// The HTTP or gRPC codes that indicate a successful health check response from a target.
+        public let matcher: GatewayConnectorHealthCheckMatcher?
+        /// The number of consecutive failed health checks that a target must fail before the gateway considers it unhealthy.
+        public let unhealthyThresholdCount: Int?
+
+        @inlinable
+        public init(healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: GatewayConnectorHealthCheckProtocol? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: GatewayConnectorHealthCheckMatcher? = nil, unhealthyThresholdCount: Int? = nil) {
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckProtocol = healthCheckProtocol
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.healthyThresholdCount = healthyThresholdCount
+            self.matcher = matcher
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckIntervalSeconds = "healthCheckIntervalSeconds"
+            case healthCheckPath = "healthCheckPath"
+            case healthCheckPort = "healthCheckPort"
+            case healthCheckProtocol = "healthCheckProtocol"
+            case healthCheckTimeoutSeconds = "healthCheckTimeoutSeconds"
+            case healthyThresholdCount = "healthyThresholdCount"
+            case matcher = "matcher"
+            case unhealthyThresholdCount = "unhealthyThresholdCount"
+        }
+    }
+
+    public struct GatewayConnectorHealthCheckMatcher: AWSEncodableShape & AWSDecodableShape {
+        /// The gRPC codes that indicate a successful response from a target.
+        public let grpcCode: String?
+        /// The HTTP codes that indicate a successful response from a target.
+        public let httpCode: String?
+
+        @inlinable
+        public init(grpcCode: String? = nil, httpCode: String? = nil) {
+            self.grpcCode = grpcCode
+            self.httpCode = httpCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grpcCode = "grpcCode"
+            case httpCode = "httpCode"
+        }
+    }
+
+    public struct GatewayElbAccessLogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The destination where access logs are delivered.
+        public let destination: GatewayElbAccessLogDestination?
+
+        @inlinable
+        public init(destination: GatewayElbAccessLogDestination? = nil) {
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+        }
+    }
+
+    public struct GatewayElbAccessLogS3Destination: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket where access logs are delivered.
+        public let bucket: String
+        /// The object key prefix for the access logs in the Amazon S3 bucket.
+        public let prefix: String?
+
+        @inlinable
+        public init(bucket: String, prefix: String? = nil) {
+            self.bucket = bucket
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct GatewayElbNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of a security group that you provide to control inbound traffic to the load balancers that the gateway manages. When you specify a security group, the gateway doesn't create inbound rules on the security group it manages.
+        public let inboundSecurityGroup: String?
+        /// The IP address type for the load balancers that the gateway manages. The default is dualstack.
+        public let ipAddressType: GatewayElbIpAddressType?
+        /// The subnets for the load balancers that the gateway manages. The default is the subnets in the default VPC.
+        public let subnets: [String]?
+
+        @inlinable
+        public init(inboundSecurityGroup: String? = nil, ipAddressType: GatewayElbIpAddressType? = nil, subnets: [String]? = nil) {
+            self.inboundSecurityGroup = inboundSecurityGroup
+            self.ipAddressType = ipAddressType
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboundSecurityGroup = "inboundSecurityGroup"
+            case ipAddressType = "ipAddressType"
+            case subnets = "subnets"
+        }
+    }
+
+    public struct GatewayOperationError: AWSDecodableShape {
+        /// The error code returned by the failed operation, passed through from the downstream service, such as AccessDenied.
+        public let code: String?
+        /// The detailed error message.
+        public let message: String?
+        /// The IAM-style action identifier of the operation that failed, such as elasticloadbalancing:ModifyLoadBalancerAttributes.
+        public let operation: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, operation: String? = nil) {
+            self.code = code
+            self.message = message
+            self.operation = operation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case operation = "operation"
+        }
+    }
+
+    public struct GatewayResourceFailure: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that failed to update, such as a load balancer ARN.
+        public let arn: String?
+        /// The errors that were encountered while operating on the resource.
+        public let errors: [GatewayOperationError]?
+
+        @inlinable
+        public init(arn: String? = nil, errors: [GatewayOperationError]? = nil) {
+            self.arn = arn
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case errors = "errors"
+        }
+    }
+
+    public struct GatewayResources: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The infrastructure resources that the gateway manages.
+        public let resources: GatewayInfrastructureResources?
+
+        @inlinable
+        public init(gatewayArn: String? = nil, resources: GatewayInfrastructureResources? = nil) {
+            self.gatewayArn = gatewayArn
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+            case resources = "resources"
+        }
+    }
+
+    public struct GatewayRoute: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway route.
+        public let gatewayRouteArn: String?
+        /// The service-specific infrastructure that the gateway manages for the route, keyed by gateway type.
+        public let resources: GatewayRouteResources?
+        /// The Amazon Resource Name (ARN) of the service associated with the route.
+        public let serviceArn: String?
+        /// The task definition container port name that the route targets on the service.
+        public let serviceContainerPortName: String?
+        /// The URL for accessing the service, including the https:// scheme.
+        public let serviceUrl: String?
+        /// The status of the gateway route.
+        public let status: GatewayRouteStatus?
+
+        @inlinable
+        public init(gatewayRouteArn: String? = nil, resources: GatewayRouteResources? = nil, serviceArn: String? = nil, serviceContainerPortName: String? = nil, serviceUrl: String? = nil, status: GatewayRouteStatus? = nil) {
+            self.gatewayRouteArn = gatewayRouteArn
+            self.resources = resources
+            self.serviceArn = serviceArn
+            self.serviceContainerPortName = serviceContainerPortName
+            self.serviceUrl = serviceUrl
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRouteArn = "gatewayRouteArn"
+            case resources = "resources"
+            case serviceArn = "serviceArn"
+            case serviceContainerPortName = "serviceContainerPortName"
+            case serviceUrl = "serviceUrl"
+            case status = "status"
+        }
+    }
+
+    public struct GatewayRouteAlbResources: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager certificate.
+        public let acmCertificateArn: String?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+        /// The Amazon Resource Name (ARN) of the listener rule for production traffic.
+        public let listenerRuleArn: String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The security groups attached to the load balancer.
+        public let loadBalancerSecurityGroups: [GatewayRouteLoadBalancerSecurityGroup]?
+        /// The Amazon Resource Name (ARN) of the service security group in which the gateway manages the ingress rule for this route.
+        public let serviceSecurityGroupArn: String?
+        /// The Amazon Resource Names (ARNs) of the listener rules for test traffic. There is one rule except when a test header configuration is being changed to another.
+        public let testListenerRuleArns: [String]?
+
+        @inlinable
+        public init(acmCertificateArn: String? = nil, listenerArn: String? = nil, listenerRuleArn: String? = nil, loadBalancerArn: String? = nil, loadBalancerSecurityGroups: [GatewayRouteLoadBalancerSecurityGroup]? = nil, serviceSecurityGroupArn: String? = nil, testListenerRuleArns: [String]? = nil) {
+            self.acmCertificateArn = acmCertificateArn
+            self.listenerArn = listenerArn
+            self.listenerRuleArn = listenerRuleArn
+            self.loadBalancerArn = loadBalancerArn
+            self.loadBalancerSecurityGroups = loadBalancerSecurityGroups
+            self.serviceSecurityGroupArn = serviceSecurityGroupArn
+            self.testListenerRuleArns = testListenerRuleArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
+            case listenerArn = "listenerArn"
+            case listenerRuleArn = "listenerRuleArn"
+            case loadBalancerArn = "loadBalancerArn"
+            case loadBalancerSecurityGroups = "loadBalancerSecurityGroups"
+            case serviceSecurityGroupArn = "serviceSecurityGroupArn"
+            case testListenerRuleArns = "testListenerRuleArns"
+        }
+    }
+
+    public struct GatewayRouteLoadBalancerSecurityGroup: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the security group.
+        public let arn: String?
+        /// The Amazon Resource Names (ARNs) of the security group rules.
+        public let ruleArns: [String]?
+
+        @inlinable
+        public init(arn: String? = nil, ruleArns: [String]? = nil) {
+            self.arn = arn
+            self.ruleArns = ruleArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case ruleArns = "ruleArns"
+        }
+    }
+
+    public struct GatewayRouteSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The Amazon Resource Name (ARN) of the gateway route.
+        public let gatewayRouteArn: String?
+        /// The Amazon Resource Name (ARN) of the service.
+        public let serviceArn: String?
+        /// The task definition container port name that the route targets on the service.
+        public let serviceContainerPortName: String?
+        /// The status of the gateway route.
+        public let status: GatewayRouteStatus?
+
+        @inlinable
+        public init(clusterArn: String? = nil, gatewayArn: String? = nil, gatewayRouteArn: String? = nil, serviceArn: String? = nil, serviceContainerPortName: String? = nil, status: GatewayRouteStatus? = nil) {
+            self.clusterArn = clusterArn
+            self.gatewayArn = gatewayArn
+            self.gatewayRouteArn = gatewayRouteArn
+            self.serviceArn = serviceArn
+            self.serviceContainerPortName = serviceContainerPortName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case gatewayArn = "gatewayArn"
+            case gatewayRouteArn = "gatewayRouteArn"
+            case serviceArn = "serviceArn"
+            case serviceContainerPortName = "serviceContainerPortName"
+            case status = "status"
+        }
+    }
+
+    public struct GatewaySummary: AWSDecodableShape {
+        /// The Unix timestamp for the time when the gateway was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The name of the gateway.
+        public let name: String?
+        /// The status of the gateway.
+        public let status: GatewayStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, gatewayArn: String? = nil, name: String? = nil, status: GatewayStatus? = nil) {
+            self.createdAt = createdAt
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case gatewayArn = "gatewayArn"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct GatewayTestTrafficHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the header to match for test traffic routing.
+        public let name: String
+        /// The header values to match for test traffic routing.
+        public let values: [String]
+
+        @inlinable
+        public init(name: String, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
     public struct GetTaskProtectionRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
         public let cluster: String
@@ -5141,6 +6211,36 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case failures = "failures"
             case protectedTasks = "protectedTasks"
+        }
+    }
+
+    public struct GpuDevice: AWSDecodableShape {
+        /// The number of containers that Amazon ECS assigned to the GPU. This value is 0 when the sharing mode is IDLE and 1 when the sharing mode is DEDICATED. Amazon ECS counts the containers that it assigned to the GPU, not the processes that are running on it.
+        public let containerCount: Int?
+        /// The ID of the GPU. This ID matches the GPU IDs in the gpuIds of the containers that Amazon ECS assigned to the GPU.
+        public let gpuId: String?
+        /// The amount of GPU memory, in MiB, that's available to allocate to new containers that use the nvidiaMps sharing strategy. Amazon ECS calculates this value from the memory that it allocated to containers on the GPU, not from the memory that the containers use.
+        public let remainingMemoryInMiB: Int?
+        /// How the GPU is shared between containers. Valid values:    IDLE - No containers are assigned to the GPU, and all of its memory is available.    NVIDIA_MPS - One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS).    DEDICATED - One container has exclusive use of the GPU.
+        public let sharingMode: GpuSharingMode?
+        /// The total amount of GPU memory, in MiB, that the Amazon ECS container agent reported for the GPU. This is the memory that's available to containers, and it can be less than the nominal memory of the GPU.
+        public let totalMemoryInMiB: Int?
+
+        @inlinable
+        public init(containerCount: Int? = nil, gpuId: String? = nil, remainingMemoryInMiB: Int? = nil, sharingMode: GpuSharingMode? = nil, totalMemoryInMiB: Int? = nil) {
+            self.containerCount = containerCount
+            self.gpuId = gpuId
+            self.remainingMemoryInMiB = remainingMemoryInMiB
+            self.sharingMode = sharingMode
+            self.totalMemoryInMiB = totalMemoryInMiB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerCount = "containerCount"
+            case gpuId = "gpuId"
+            case remainingMemoryInMiB = "remainingMemoryInMiB"
+            case sharingMode = "sharingMode"
+            case totalMemoryInMiB = "totalMemoryInMiB"
         }
     }
 
@@ -5189,6 +6289,52 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case hostname = "hostname"
             case ipAddress = "ipAddress"
+        }
+    }
+
+    public struct HostSharedAlbConfiguration: AWSEncodableShape {
+        /// The access log configuration for the load balancers that the gateway manages.
+        public let accessLogs: GatewayElbAccessLogConfiguration?
+        /// The desync mitigation mode for the load balancers that the gateway manages, which determines how the load balancers handle requests that might pose a security risk. The default is defensive.
+        public let httpDesync: GatewayAlbDesyncMitigationMode?
+        /// The maximum number of Application Load Balancers that the gateway manages. The default is 10.
+        public let maxAlbCount: Int?
+        /// The network configuration for the load balancers that the gateway manages.
+        public let networkConfiguration: GatewayElbNetworkConfiguration?
+        /// The port that the load balancer listener uses is 443. The gateway supports only HTTPS at port 443.
+        public let port: Int?
+        /// The protocol for the load balancer listener is HTTPS. No other protocol is supported.
+        public let `protocol`: GatewayAlbProtocol?
+        /// Specifies whether the load balancers the gateway manages are internet-facing or internal. The default is internet-facing.
+        public let scheme: GatewayElbScheme?
+        /// The rules that route test traffic for progressive deployments. During a progressive deployment, requests whose headers match these rules are routed to the new service revision so that it can be validated before production traffic shifts to it.
+        public let testTrafficRules: GatewayAlbTestTrafficRules?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate with the load balancers that the gateway manages.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(accessLogs: GatewayElbAccessLogConfiguration? = nil, httpDesync: GatewayAlbDesyncMitigationMode? = nil, maxAlbCount: Int? = nil, networkConfiguration: GatewayElbNetworkConfiguration? = nil, port: Int? = nil, protocol: GatewayAlbProtocol? = nil, scheme: GatewayElbScheme? = nil, testTrafficRules: GatewayAlbTestTrafficRules? = nil, webACLArn: String? = nil) {
+            self.accessLogs = accessLogs
+            self.httpDesync = httpDesync
+            self.maxAlbCount = maxAlbCount
+            self.networkConfiguration = networkConfiguration
+            self.port = port
+            self.`protocol` = `protocol`
+            self.scheme = scheme
+            self.testTrafficRules = testTrafficRules
+            self.webACLArn = webACLArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLogs = "accessLogs"
+            case httpDesync = "httpDesync"
+            case maxAlbCount = "maxAlbCount"
+            case networkConfiguration = "networkConfiguration"
+            case port = "port"
+            case `protocol` = "protocol"
+            case scheme = "scheme"
+            case testTrafficRules = "testTrafficRules"
+            case webACLArn = "webACLArn"
         }
     }
 
@@ -5323,11 +6469,13 @@ extension ECS {
         public let monitoring: ManagedInstancesMonitoringOptions?
         /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
         public let networkConfiguration: ManagedInstancesNetworkConfiguration
+        /// Specifies whether instances that this capacity provider launches have Nitro Sandbox enabled. Enable this setting to run tasks that use the ISOLATED_SANDBOX or CONFIDENTIAL_SANDBOX isolation mode. When you enable this setting, the capacity provider must include at least one instance type that supports Nitro Sandbox. You can't enable this setting together with local storage (the useLocalStorage setting in localStorageConfiguration). The default value is false. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.
+        public let nitroEnclavesEnabled: Bool?
         /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume properties for the instances.
         public let storageConfiguration: ManagedInstancesStorageConfiguration?
 
         @inlinable
-        public init(capacityOptionType: CapacityOptionType? = nil, capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String, fipsEnabled: Bool? = nil, instanceMetadataTagsPropagation: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, localStorageConfiguration: ManagedInstancesLocalStorageConfiguration? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+        public init(capacityOptionType: CapacityOptionType? = nil, capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String, fipsEnabled: Bool? = nil, instanceMetadataTagsPropagation: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, localStorageConfiguration: ManagedInstancesLocalStorageConfiguration? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, nitroEnclavesEnabled: Bool? = nil, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
             self.capacityOptionType = capacityOptionType
             self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
@@ -5337,6 +6485,7 @@ extension ECS {
             self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
+            self.nitroEnclavesEnabled = nitroEnclavesEnabled
             self.storageConfiguration = storageConfiguration
         }
 
@@ -5355,6 +6504,7 @@ extension ECS {
             case localStorageConfiguration = "localStorageConfiguration"
             case monitoring = "monitoring"
             case networkConfiguration = "networkConfiguration"
+            case nitroEnclavesEnabled = "nitroEnclavesEnabled"
             case storageConfiguration = "storageConfiguration"
         }
     }
@@ -5955,6 +7105,166 @@ extension ECS {
         }
     }
 
+    public struct ListGatewayClusterAssociationsRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+        public let cluster: String?
+        /// The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+        public let gateway: String?
+        /// The maximum number of results that the operation returns in a single page. The default is 100.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated request.
+        public let nextToken: String?
+        /// The association status to filter the results by.
+        public let status: [GatewayClusterAssociationStatus]?
+
+        @inlinable
+        public init(cluster: String? = nil, gateway: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: [GatewayClusterAssociationStatus]? = nil) {
+            self.cluster = cluster
+            self.gateway = gateway
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.status, name: "status", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case gateway = "gateway"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
+        }
+    }
+
+    public struct ListGatewayClusterAssociationsResponse: AWSDecodableShape {
+        /// The gateway-cluster associations that match the request.
+        public let gatewayClusterAssociations: [GatewayClusterAssociationSummary]?
+        /// The nextToken value to include in a future request to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gatewayClusterAssociations: [GatewayClusterAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.gatewayClusterAssociations = gatewayClusterAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayClusterAssociations = "gatewayClusterAssociations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListGatewayRoutesRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+        public let cluster: String?
+        /// The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+        public let gateway: String?
+        /// The maximum number of results that the operation returns in a single page. The default is 100.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated request.
+        public let nextToken: String?
+        /// The name or Amazon Resource Name (ARN) of a service to filter the results by. Because services can span clusters, a service name isn't necessarily unique and can match multiple services.
+        public let service: String?
+        /// The name of a task definition container port to filter the results by.
+        public let serviceContainerPortName: String?
+        /// The gateway route status to filter the results by.
+        public let status: [GatewayRouteStatus]?
+
+        @inlinable
+        public init(cluster: String? = nil, gateway: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, service: String? = nil, serviceContainerPortName: String? = nil, status: [GatewayRouteStatus]? = nil) {
+            self.cluster = cluster
+            self.gateway = gateway
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.service = service
+            self.serviceContainerPortName = serviceContainerPortName
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.status, name: "status", parent: name, max: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case gateway = "gateway"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case service = "service"
+            case serviceContainerPortName = "serviceContainerPortName"
+            case status = "status"
+        }
+    }
+
+    public struct ListGatewayRoutesResponse: AWSDecodableShape {
+        /// The gateway routes that match the request.
+        public let gatewayRoutes: [GatewayRouteSummary]?
+        /// The nextToken value to include in a future request to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gatewayRoutes: [GatewayRouteSummary]? = nil, nextToken: String? = nil) {
+            self.gatewayRoutes = gatewayRoutes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayRoutes = "gatewayRoutes"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListGatewaysRequest: AWSEncodableShape {
+        /// The maximum number of gateway results that ListGateways returns in a single page. The default is 100.
+        public let maxResults: Int?
+        /// The gateway names to filter the results by. You can specify up to 10 names.
+        public let names: [String]?
+        /// The nextToken value returned from a previous paginated ListGateways request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results.
+        public let nextToken: String?
+        /// The gateway statuses to filter the results by.
+        public let status: [GatewayStatus]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, status: [GatewayStatus]? = nil) {
+            self.maxResults = maxResults
+            self.names = names
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.status, name: "status", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case names = "names"
+            case nextToken = "nextToken"
+            case status = "status"
+        }
+    }
+
+    public struct ListGatewaysResponse: AWSDecodableShape {
+        /// The list of gateways that match the request.
+        public let gateways: [GatewaySummary]?
+        /// The nextToken value to include in a future ListGateways request. When the results of a ListGateways request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gateways: [GatewaySummary]? = nil, nextToken: String? = nil) {
+            self.gateways = gateways
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gateways = "gateways"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListServiceDeploymentsRequest: AWSEncodableShape {
         /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, default is used.
         public let cluster: String?
@@ -6318,7 +7628,7 @@ extension ECS {
     }
 
     public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see Send Amazon ECS logs to CloudWatch in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner.  If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
+        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file. For more information about using the awslogs log driver, see Send Amazon ECS logs to CloudWatch in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner.  If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
         public let logDriver: LogDriver
         /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following:  awslogs-create-group  Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false.  Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group.   awslogs-region  Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option.  awslogs-group  Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to.  awslogs-stream-prefix  Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console.  awslogs-datetime-format  Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see awslogs-datetime-format. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options.  Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance.   awslogs-multiline-pattern  Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see awslogs-multiline-pattern. This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options.  Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance.    The following options apply to all supported log drivers.  mode  Required: No Valid values: non-blocking | blocking  This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure.  If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see Preventing log loss with non-blocking mode in the awslogs container log driver. You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the non-blocking mode. For more information about the account setting, see Default log driver mode in the Amazon Elastic Container Service Developer Guide.  On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:   Set the mode option in your container definition's logConfiguration as blocking.   Set the defaultLogDriverMode account setting to blocking.     max-buffer-size  Required: No Default value: 10m  When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost.    To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream.  When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see Under the hood: FireLens for Amazon ECS Tasks. When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public let options: [String: String]?
@@ -6336,6 +7646,20 @@ extension ECS {
             case logDriver = "logDriver"
             case options = "options"
             case secretOptions = "secretOptions"
+        }
+    }
+
+    public struct LogDriverVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The log driver whose log files the volume contains. The only supported value is json-file.
+        public let driver: LogDriver
+
+        @inlinable
+        public init(driver: LogDriver) {
+            self.driver = driver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case driver = "driver"
         }
     }
 
@@ -7116,6 +8440,24 @@ extension ECS {
         }
     }
 
+    public struct NvidiaMpsAllocation: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum percentage of the GPU's compute capacity that the container can use. Amazon ECS sets the CUDA_MPS_ACTIVE_THREAD_PERCENTAGE environment variable in the container to this value. This value is a limit, not a reservation. If you don't specify this parameter, Amazon ECS doesn't set CUDA_MPS_ACTIVE_THREAD_PERCENTAGE, and the active thread percentage of the MPS server on the container instance applies. By default, this is 100 percent.
+        public let maxComputePercent: Int?
+        /// The amount of GPU memory, in MiB, to allocate to the container. Amazon ECS assigns the container a GPU that has at least the specified amount of memory available, and sets the CUDA_MPS_PINNED_DEVICE_MEM_LIMIT environment variable in the container to limit its memory to this amount. The memory must be available on a single GPU. If more than one container in a task uses nvidiaMps, Amazon ECS assigns them the same GPU, which must have enough memory available for all of them.
+        public let memory: Int
+
+        @inlinable
+        public init(maxComputePercent: Int? = nil, memory: Int) {
+            self.maxComputePercent = maxComputePercent
+            self.memory = memory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxComputePercent = "maxComputePercent"
+            case memory = "memory"
+        }
+    }
+
     public struct PlacementConstraint: AWSEncodableShape & AWSDecodableShape {
         /// A cluster query language expression to apply to the constraint. The expression can have a maximum length of 2000 characters. You can't specify an expression if the constraint type is distinctInstance. For more information, see Cluster query language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
@@ -7535,7 +8877,7 @@ extension ECS {
         public let cpu: String?
         /// Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers. The default value is false.
         public let enableFaultInjection: Bool?
-        /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see Using data volumes in tasks in the Amazon ECS Developer Guide.  For tasks using the Fargate launch type, the task requires the following platforms:   Linux platform version 1.4.0 or later.   Windows platform version 1.0.0 or later.
+        /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see Using data volumes in tasks in the Amazon ECS Developer Guide.  For tasks using the Fargate launch type, the task requires the following platforms:   Linux platform version 1.4.0 or later.
         public let ephemeralStorage: EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see IAM roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
@@ -7563,11 +8905,13 @@ extension ECS {
         public let tags: [Tag]?
         /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see IAM Roles for Tasks in the Amazon Elastic Container Service Developer Guide.
         public let taskRoleArn: String?
+        /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy.  Trusted execution is supported only for Amazon ECS Managed Instances.
+        public let trustedExecutionConfiguration: TrustedExecutionConfiguration?
         /// A list of volume definitions in JSON format that containers in your task might use.
         public let volumes: [Volume]?
 
         @inlinable
-        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, runtimePlatform: RuntimePlatform? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, runtimePlatform: RuntimePlatform? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, trustedExecutionConfiguration: TrustedExecutionConfiguration? = nil, volumes: [Volume]? = nil) {
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
             self.enableFaultInjection = enableFaultInjection
@@ -7585,12 +8929,13 @@ extension ECS {
             self.runtimePlatform = runtimePlatform
             self.tags = tags
             self.taskRoleArn = taskRoleArn
+            self.trustedExecutionConfiguration = trustedExecutionConfiguration
             self.volumes = volumes
         }
 
         @available(*, deprecated, message: "Members inferenceAccelerators have been deprecated")
         @inlinable
-        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, runtimePlatform: RuntimePlatform? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, runtimePlatform: RuntimePlatform? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, trustedExecutionConfiguration: TrustedExecutionConfiguration? = nil, volumes: [Volume]? = nil) {
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
             self.enableFaultInjection = enableFaultInjection
@@ -7608,6 +8953,7 @@ extension ECS {
             self.runtimePlatform = runtimePlatform
             self.tags = tags
             self.taskRoleArn = taskRoleArn
+            self.trustedExecutionConfiguration = trustedExecutionConfiguration
             self.volumes = volumes
         }
 
@@ -7636,6 +8982,7 @@ extension ECS {
             case runtimePlatform = "runtimePlatform"
             case tags = "tags"
             case taskRoleArn = "taskRoleArn"
+            case trustedExecutionConfiguration = "trustedExecutionConfiguration"
             case volumes = "volumes"
         }
     }
@@ -7675,14 +9022,18 @@ extension ECS {
     public struct ResolvedConfiguration: AWSDecodableShape {
         /// The resolved load balancer configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
         public let loadBalancers: [ServiceRevisionLoadBalancer]?
+        /// The resolved VPC Lattice configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+        public let vpcLatticeConfigurations: [ServiceRevisionVpcLatticeConfiguration]?
 
         @inlinable
-        public init(loadBalancers: [ServiceRevisionLoadBalancer]? = nil) {
+        public init(loadBalancers: [ServiceRevisionLoadBalancer]? = nil, vpcLatticeConfigurations: [ServiceRevisionVpcLatticeConfiguration]? = nil) {
             self.loadBalancers = loadBalancers
+            self.vpcLatticeConfigurations = vpcLatticeConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case loadBalancers = "loadBalancers"
+            case vpcLatticeConfigurations = "vpcLatticeConfigurations"
         }
     }
 
@@ -7721,18 +9072,22 @@ extension ECS {
     }
 
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
+        /// The strategy that the container uses to share a GPU with other containers. Specify a sharing strategy only when the type is GPU. For a GPU resource requirement, specify either value or sharingStrategy, but not both. If you don't specify a sharing strategy, the container has exclusive use of each GPU that Amazon ECS assigns to it. The containers in a task that request GPUs must all use the same option. You can use GPU sharing with tasks that run on Amazon EC2 instances or Amazon ECS Managed Instances. Task definitions that require EXTERNAL compatibility don't support GPU sharing.
+        public let sharingStrategy: SharingStrategy?
         /// The type of resource to assign to a container.
         public let type: ResourceType
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an InferenceAccelerator specified in a task definition.
-        public let value: String
+        /// The value for the specified resource type. You must specify this parameter unless the type is GPU and you specify sharingStrategy. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an InferenceAccelerator specified in a task definition.
+        public let value: String?
 
         @inlinable
-        public init(type: ResourceType, value: String) {
+        public init(sharingStrategy: SharingStrategy? = nil, type: ResourceType, value: String? = nil) {
+            self.sharingStrategy = sharingStrategy
             self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sharingStrategy = "sharingStrategy"
             case type = "type"
             case value = "value"
         }
@@ -8169,6 +9524,8 @@ extension ECS {
     public struct ServiceConnectConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes.  To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
         public let accessLogConfiguration: ServiceConnectAccessLogConfiguration?
+        /// The settings for the Service Connect proxy container that Amazon ECS adds to each task in this service. Each object in the list sets exactly one setting, and each setting can appear only once in the list. Your changes to these settings apply only to tasks that Amazon ECS launches after you update the service. Your running tasks keep their existing settings until Amazon ECS replaces them. If you update the serviceConnectConfiguration of your service and don't include containerConfigurations, the proxy container settings return to their defaults.
+        public let containerConfigurations: [ServiceConnectContainerConfiguration]?
         /// Specifies whether to use Service Connect with this service.
         public let enabled: Bool
         public let logConfiguration: LogConfiguration?
@@ -8178,8 +9535,9 @@ extension ECS {
         public let services: [ServiceConnectService]?
 
         @inlinable
-        public init(accessLogConfiguration: ServiceConnectAccessLogConfiguration? = nil, enabled: Bool, logConfiguration: LogConfiguration? = nil, namespace: String? = nil, services: [ServiceConnectService]? = nil) {
+        public init(accessLogConfiguration: ServiceConnectAccessLogConfiguration? = nil, containerConfigurations: [ServiceConnectContainerConfiguration]? = nil, enabled: Bool, logConfiguration: LogConfiguration? = nil, namespace: String? = nil, services: [ServiceConnectService]? = nil) {
             self.accessLogConfiguration = accessLogConfiguration
+            self.containerConfigurations = containerConfigurations
             self.enabled = enabled
             self.logConfiguration = logConfiguration
             self.namespace = namespace
@@ -8187,6 +9545,7 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.containerConfigurations, name: "containerConfigurations", parent: name, max: 10)
             try self.services?.forEach {
                 try $0.validate(name: "\(name).services[]")
             }
@@ -8194,6 +9553,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case accessLogConfiguration = "accessLogConfiguration"
+            case containerConfigurations = "containerConfigurations"
             case enabled = "enabled"
             case logConfiguration = "logConfiguration"
             case namespace = "namespace"
@@ -8661,6 +10021,8 @@ extension ECS {
         /// The resources created and managed by Amazon ECS when you create an Express service for Amazon ECS.
         public let ecsManagedResources: ECSManagedResources?
         public let fargateEphemeralStorage: DeploymentEphemeralStorage?
+        /// The gateway connectors that are associated with the service revision.
+        public let gatewayConnectors: [GatewayConnector]?
         /// Indicates whether Runtime Monitoring is turned on.
         public let guardDutyEnabled: Bool?
         /// The launch type the service revision uses.
@@ -8693,13 +10055,14 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, ecsManagedResources: ECSManagedResources? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: ServiceRevisionOverrides? = nil, platformFamily: String? = nil, platformVersion: String? = nil, resolvedConfiguration: ResolvedConfiguration? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, ecsManagedResources: ECSManagedResources? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, gatewayConnectors: [GatewayConnector]? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: ServiceRevisionOverrides? = nil, platformFamily: String? = nil, platformVersion: String? = nil, resolvedConfiguration: ResolvedConfiguration? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.containerImages = containerImages
             self.createdAt = createdAt
             self.ecsManagedResources = ecsManagedResources
             self.fargateEphemeralStorage = fargateEphemeralStorage
+            self.gatewayConnectors = gatewayConnectors
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
             self.loadBalancers = loadBalancers
@@ -8725,6 +10088,7 @@ extension ECS {
             case createdAt = "createdAt"
             case ecsManagedResources = "ecsManagedResources"
             case fargateEphemeralStorage = "fargateEphemeralStorage"
+            case gatewayConnectors = "gatewayConnectors"
             case guardDutyEnabled = "guardDutyEnabled"
             case launchType = "launchType"
             case loadBalancers = "loadBalancers"
@@ -8807,6 +10171,24 @@ extension ECS {
             case requestedTaskCount = "requestedTaskCount"
             case requestedTestTrafficWeight = "requestedTestTrafficWeight"
             case runningTaskCount = "runningTaskCount"
+        }
+    }
+
+    public struct ServiceRevisionVpcLatticeConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
+        public let productionListenerRule: String?
+        /// The Amazon Resource Name (ARN) of the target group associated with the service revision.
+        public let targetGroupArn: String?
+
+        @inlinable
+        public init(productionListenerRule: String? = nil, targetGroupArn: String? = nil) {
+            self.productionListenerRule = productionListenerRule
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productionListenerRule = "productionListenerRule"
+            case targetGroupArn = "targetGroupArn"
         }
     }
 
@@ -9336,11 +10718,13 @@ extension ECS {
         public let taskArn: String?
         /// The ARN of the task definition that creates the task.
         public let taskDefinitionArn: String?
+        /// A summary of the trusted execution configuration for the task, including the isolation mode. This is a read-only view of the configuration that was set on the task definition.  Trusted execution is supported only for Amazon ECS Managed Instances.
+        public let trustedExecutionSummary: TrustedExecutionSummary?
         /// The version counter for the task. Every time a task experiences a change that starts a CloudWatch event, the version counter is incremented. If you replicate your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actions with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
 
         @inlinable
-        public init(attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, availabilityZone: String? = nil, capacityProviderName: String? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: Date? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: Date? = nil, desiredStatus: String? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionStoppedAt: Date? = nil, fargateEphemeralStorage: TaskEphemeralStorage? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformFamily: String? = nil, platformVersion: String? = nil, pullStartedAt: Date? = nil, pullStoppedAt: Date? = nil, startedAt: Date? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: Date? = nil, stoppedReason: String? = nil, stoppingAt: Date? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
+        public init(attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, availabilityZone: String? = nil, capacityProviderName: String? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: Date? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: Date? = nil, desiredStatus: String? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionStoppedAt: Date? = nil, fargateEphemeralStorage: TaskEphemeralStorage? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformFamily: String? = nil, platformVersion: String? = nil, pullStartedAt: Date? = nil, pullStoppedAt: Date? = nil, startedAt: Date? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: Date? = nil, stoppedReason: String? = nil, stoppingAt: Date? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, trustedExecutionSummary: TrustedExecutionSummary? = nil, version: Int64? = nil) {
             self.attachments = attachments
             self.attributes = attributes
             self.availabilityZone = availabilityZone
@@ -9377,6 +10761,7 @@ extension ECS {
             self.tags = tags
             self.taskArn = taskArn
             self.taskDefinitionArn = taskDefinitionArn
+            self.trustedExecutionSummary = trustedExecutionSummary
             self.version = version
         }
 
@@ -9417,6 +10802,7 @@ extension ECS {
             case tags = "tags"
             case taskArn = "taskArn"
             case taskDefinitionArn = "taskDefinitionArn"
+            case trustedExecutionSummary = "trustedExecutionSummary"
             case version = "version"
         }
     }
@@ -9472,11 +10858,13 @@ extension ECS {
         public let taskDefinitionArn: String?
         /// The short name or full Amazon Resource Name (ARN) of the Identity and Access Management role that grants containers in the task permission to call Amazon Web Services APIs on your behalf. For informationabout the required IAM roles for Amazon ECS, see IAM roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let taskRoleArn: String?
+        /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy.  Trusted execution is supported only for Amazon ECS Managed Instances.
+        public let trustedExecutionConfiguration: TrustedExecutionConfiguration?
         /// The list of data volume definitions for the task. For more information, see Using data volumes in tasks in the Amazon Elastic Container Service Developer Guide.  The host and sourcePath parameters aren't supported for tasks run on Fargate.
         public let volumes: [Volume]?
 
         @inlinable
-        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, deleteRequestedAt: Date? = nil, deregisteredAt: Date? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, runtimePlatform: RuntimePlatform? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, deleteRequestedAt: Date? = nil, deregisteredAt: Date? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, runtimePlatform: RuntimePlatform? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, trustedExecutionConfiguration: TrustedExecutionConfiguration? = nil, volumes: [Volume]? = nil) {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
@@ -9502,6 +10890,7 @@ extension ECS {
             self.status = status
             self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
+            self.trustedExecutionConfiguration = trustedExecutionConfiguration
             self.volumes = volumes
         }
 
@@ -9531,6 +10920,7 @@ extension ECS {
             case status = "status"
             case taskDefinitionArn = "taskDefinitionArn"
             case taskRoleArn = "taskRoleArn"
+            case trustedExecutionConfiguration = "trustedExecutionConfiguration"
             case volumes = "volumes"
         }
     }
@@ -9654,7 +11044,7 @@ extension ECS {
         public let containerOverrides: [ContainerOverride]?
         /// The CPU override for the task.
         public let cpu: String?
-        /// The ephemeral storage setting override for the task.  This parameter is only supported for tasks hosted on Fargate that use the following platform versions:   Linux platform version 1.4.0 or later.   Windows platform version 1.0.0 or later.
+        /// The ephemeral storage setting override for the task.  This parameter is only supported for tasks hosted on Fargate that use the following platform versions:   Linux platform version 1.4.0 or later.
         public let ephemeralStorage: EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role override for the task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
@@ -9899,6 +11289,42 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case max = "max"
             case min = "min"
+        }
+    }
+
+    public struct TrustedExecutionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The base64-encoded attestation policy envelope for the task. The policy specifies which containers are allowed to run and the runtime configuration that is cryptographically attested. This parameter is required when isolationMode is CONFIDENTIAL_SANDBOX.
+        public let attestationPolicy: String?
+        /// The isolation mode for tasks that use this task definition. The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.    SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.    ISOLATED_SANDBOX: The task runs in its own Nitro Sandbox, which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.    CONFIDENTIAL_SANDBOX: The task runs in its own Nitro Sandbox, which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.
+        public let isolationMode: IsolationMode
+
+        @inlinable
+        public init(attestationPolicy: String? = nil, isolationMode: IsolationMode) {
+            self.attestationPolicy = attestationPolicy
+            self.isolationMode = isolationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationPolicy = "attestationPolicy"
+            case isolationMode = "isolationMode"
+        }
+    }
+
+    public struct TrustedExecutionSummary: AWSDecodableShape {
+        /// The status of the attestation policy for the task. This value is present only for tasks that use the CONFIDENTIAL_SANDBOX isolation mode.
+        public let attestationPolicyStatus: AttestationPolicyStatus?
+        /// The isolation mode that the task runs in. This value mirrors the isolationMode that was set in the task definition's TrustedExecutionConfiguration.    SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.    ISOLATED_SANDBOX: The task runs in its own Nitro Sandbox, which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.    CONFIDENTIAL_SANDBOX: The task runs in its own Nitro Sandbox, which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see Isolated and confidential tasks in Amazon Elastic Container Service Developer Guide.
+        public let isolationMode: IsolationMode
+
+        @inlinable
+        public init(attestationPolicyStatus: AttestationPolicyStatus? = nil, isolationMode: IsolationMode) {
+            self.attestationPolicyStatus = attestationPolicyStatus
+            self.isolationMode = isolationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attestationPolicyStatus = "attestationPolicyStatus"
+            case isolationMode = "isolationMode"
         }
     }
 
@@ -10222,7 +11648,7 @@ extension ECS {
     public struct UpdateExpressGatewayServiceRequest: AWSEncodableShape {
         /// The number of CPU units used by the task.
         public let cpu: String?
-        /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+        /// The CPU architecture that the task runs on. If you don't specify a value, the service keeps its current architecture. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
         public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
         public let executionRoleArn: String?
@@ -10284,6 +11710,106 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case service = "service"
+        }
+    }
+
+    public struct UpdateGatewayAlbConfiguration: AWSEncodableShape {
+        /// The access log configuration for the load balancers that the gateway manages.
+        public let accessLogs: GatewayElbAccessLogConfiguration?
+        /// The desync mitigation mode for the load balancers that the gateway manages.
+        public let httpDesync: GatewayAlbDesyncMitigationMode?
+        /// The maximum number of Application Load Balancers that the gateway manages.
+        public let maxAlbCount: Int?
+        /// The mutable network configuration for the load balancers that the gateway manages.
+        public let networkConfiguration: UpdateGatewayNetworkConfiguration?
+        /// The rules that route test traffic for progressive deployments.
+        public let testTrafficRules: GatewayAlbTestTrafficRules?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate with the load balancers that the gateway manages.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(accessLogs: GatewayElbAccessLogConfiguration? = nil, httpDesync: GatewayAlbDesyncMitigationMode? = nil, maxAlbCount: Int? = nil, networkConfiguration: UpdateGatewayNetworkConfiguration? = nil, testTrafficRules: GatewayAlbTestTrafficRules? = nil, webACLArn: String? = nil) {
+            self.accessLogs = accessLogs
+            self.httpDesync = httpDesync
+            self.maxAlbCount = maxAlbCount
+            self.networkConfiguration = networkConfiguration
+            self.testTrafficRules = testTrafficRules
+            self.webACLArn = webACLArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLogs = "accessLogs"
+            case httpDesync = "httpDesync"
+            case maxAlbCount = "maxAlbCount"
+            case networkConfiguration = "networkConfiguration"
+            case testTrafficRules = "testTrafficRules"
+            case webACLArn = "webACLArn"
+        }
+    }
+
+    public struct UpdateGatewayNetworkConfiguration: AWSEncodableShape {
+        /// The ID of a security group that you provide to control inbound traffic to the load balancers that the gateway manages. When you specify a security group, the gateway doesn't create inbound rules on the security group it manages.
+        public let inboundSecurityGroup: String?
+
+        @inlinable
+        public init(inboundSecurityGroup: String? = nil) {
+            self.inboundSecurityGroup = inboundSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboundSecurityGroup = "inboundSecurityGroup"
+        }
+    }
+
+    public struct UpdateGatewayRequest: AWSEncodableShape {
+        /// The updated type-specific configuration for the gateway. The configuration variant must match the gateway's existing type, and only mutable fields can be changed.
+        public let configuration: UpdateGatewayConfiguration?
+        /// Specifies whether to enable deletion protection for the gateway. When enabled, the gateway can't be deleted.
+        public let deletionProtection: Bool?
+        /// The name or Amazon Resource Name (ARN) of the gateway to update.
+        public let gateway: String
+        /// The Amazon Resource Name (ARN) of the IAM role that the gateway assumes to manage infrastructure on your behalf.
+        public let infrastructureRoleArn: String?
+        /// Specifies whether to propagate the tags from the gateway to the infrastructure that the gateway manages. If you don't specify a value, the gateway's existing setting is unchanged.
+        public let propagateTags: PropagateGatewayTags?
+
+        @inlinable
+        public init(configuration: UpdateGatewayConfiguration? = nil, deletionProtection: Bool? = nil, gateway: String, infrastructureRoleArn: String? = nil, propagateTags: PropagateGatewayTags? = nil) {
+            self.configuration = configuration
+            self.deletionProtection = deletionProtection
+            self.gateway = gateway
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.propagateTags = propagateTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case deletionProtection = "deletionProtection"
+            case gateway = "gateway"
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case propagateTags = "propagateTags"
+        }
+    }
+
+    public struct UpdateGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public let gatewayArn: String?
+        /// The name of the gateway.
+        public let name: String?
+        /// The status of the gateway. After a successful update request, the status is UPDATE_IN_PROGRESS.
+        public let status: GatewayStatus?
+
+        @inlinable
+        public init(gatewayArn: String? = nil, name: String? = nil, status: GatewayStatus? = nil) {
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "gatewayArn"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -10375,6 +11901,8 @@ extension ECS {
         public let enableExecuteCommand: Bool?
         /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
         public let forceNewDeployment: Bool?
+        /// The updated set of gateway connectors that connect the service to a gateway ingress path. A service supports no more than one gateway connector.
+        public let gatewayConnectors: [GatewayConnector]?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
         public let healthCheckGracePeriodSeconds: Int?
         ///  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using  CreateDeployment  through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  For services that use the external deployment controller, you can add, update, or remove load balancers by using CreateTaskSet. Note that multiple target groups are not supported for external deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
@@ -10405,7 +11933,7 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, gatewayConnectors: [GatewayConnector]? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
@@ -10415,6 +11943,7 @@ extension ECS {
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
             self.forceNewDeployment = forceNewDeployment
+            self.gatewayConnectors = gatewayConnectors
             self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
             self.loadBalancers = loadBalancers
             self.monitoring = monitoring
@@ -10436,6 +11965,10 @@ extension ECS {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
             try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+            try self.gatewayConnectors?.forEach {
+                try $0.validate(name: "\(name).gatewayConnectors[]")
+            }
+            try self.validate(self.gatewayConnectors, name: "gatewayConnectors", parent: name, max: 1)
             try self.monitoring?.validate(name: "\(name).monitoring")
             try self.serviceConnectConfiguration?.validate(name: "\(name).serviceConnectConfiguration")
             try self.volumeConfigurations?.forEach {
@@ -10453,6 +11986,7 @@ extension ECS {
             case enableECSManagedTags = "enableECSManagedTags"
             case enableExecuteCommand = "enableExecuteCommand"
             case forceNewDeployment = "forceNewDeployment"
+            case gatewayConnectors = "gatewayConnectors"
             case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
             case loadBalancers = "loadBalancers"
             case monitoring = "monitoring"
@@ -10702,7 +12236,30 @@ extension ECS {
         }
     }
 
+    public struct VpcLatticeAdvancedConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the alternate target group associated with the VPC Lattice Configuration for Amazon ECS blue/green deployments.
+        public let alternateTargetGroupArn: String?
+        /// The Amazon Resource Name (ARN) that identifies the production listener rule or listener for routing production traffic.
+        public let productionListenerRule: String?
+        /// The Amazon Resource Name (ARN) that identifies the test listener rule or listener for routing test traffic.
+        public let testListenerRule: String?
+
+        @inlinable
+        public init(alternateTargetGroupArn: String? = nil, productionListenerRule: String? = nil, testListenerRule: String? = nil) {
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.productionListenerRule = productionListenerRule
+            self.testListenerRule = testListenerRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternateTargetGroupArn = "alternateTargetGroupArn"
+            case productionListenerRule = "productionListenerRule"
+            case testListenerRule = "testListenerRule"
+        }
+    }
+
     public struct VpcLatticeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let advancedConfiguration: VpcLatticeAdvancedConfiguration?
         /// The name of the port mapping to register in the VPC Lattice target group. This is the name of the portMapping you defined in your task definition.
         public let portName: String
         /// The ARN of the IAM role to associate with this VPC Lattice configuration. This is the Amazon ECS infrastructure IAM role that is used to manage your VPC Lattice infrastructure.
@@ -10711,16 +12268,144 @@ extension ECS {
         public let targetGroupArn: String
 
         @inlinable
-        public init(portName: String, roleArn: String, targetGroupArn: String) {
+        public init(advancedConfiguration: VpcLatticeAdvancedConfiguration? = nil, portName: String, roleArn: String, targetGroupArn: String) {
+            self.advancedConfiguration = advancedConfiguration
             self.portName = portName
             self.roleArn = roleArn
             self.targetGroupArn = targetGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedConfiguration = "advancedConfiguration"
             case portName = "portName"
             case roleArn = "roleArn"
             case targetGroupArn = "targetGroupArn"
+        }
+    }
+
+    public struct DescribeGatewayConfiguration: AWSDecodableShape {
+        /// The configuration for a host-based, shared Application Load Balancer gateway.
+        public let hostSharedAlb: DescribeGatewayAlbConfiguration?
+
+        @inlinable
+        public init(hostSharedAlb: DescribeGatewayAlbConfiguration? = nil) {
+            self.hostSharedAlb = hostSharedAlb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostSharedAlb = "hostSharedAlb"
+        }
+    }
+
+    public struct GatewayConfiguration: AWSEncodableShape {
+        /// The configuration for a host-based, shared Application Load Balancer gateway. Each service that uses the gateway is assigned a unique DNS host name.
+        public let hostSharedAlb: HostSharedAlbConfiguration?
+
+        @inlinable
+        public init(hostSharedAlb: HostSharedAlbConfiguration? = nil) {
+            self.hostSharedAlb = hostSharedAlb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostSharedAlb = "hostSharedAlb"
+        }
+    }
+
+    public struct GatewayConnectionResources: AWSDecodableShape {
+        /// The Application Load Balancer resources for a host-based, shared ALB gateway.
+        public let hostSharedAlb: [GatewayConnectionAlbResources]?
+
+        @inlinable
+        public init(hostSharedAlb: [GatewayConnectionAlbResources]? = nil) {
+            self.hostSharedAlb = hostSharedAlb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostSharedAlb = "hostSharedAlb"
+        }
+    }
+
+    public struct GatewayElbAccessLogDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 destination for access logs.
+        public let s3: GatewayElbAccessLogS3Destination?
+
+        @inlinable
+        public init(s3: GatewayElbAccessLogS3Destination? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct GatewayInfrastructureResources: AWSDecodableShape {
+        /// The Application Load Balancer resource groups for a host-based, shared ALB gateway.
+        public let hostSharedAlb: [ElbGatewayResources]?
+
+        @inlinable
+        public init(hostSharedAlb: [ElbGatewayResources]? = nil) {
+            self.hostSharedAlb = hostSharedAlb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostSharedAlb = "hostSharedAlb"
+        }
+    }
+
+    public struct GatewayRouteResources: AWSDecodableShape {
+        /// The Application Load Balancer resources for a host-based, shared ALB gateway.
+        public let hostSharedAlb: [GatewayRouteAlbResources]?
+
+        @inlinable
+        public init(hostSharedAlb: [GatewayRouteAlbResources]? = nil) {
+            self.hostSharedAlb = hostSharedAlb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostSharedAlb = "hostSharedAlb"
+        }
+    }
+
+    public struct ServiceConnectContainerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The log level of the Service Connect proxy container. Set the log level to debug to collect more detailed proxy logs when you troubleshoot connectivity issues between services, and set it back to info when you finish. Debug logging increases the volume of logs that the proxy container writes. If you don't specify a log level, the default is info.
+        public let logLevel: ServiceConnectContainerLogLevel?
+
+        @inlinable
+        public init(logLevel: ServiceConnectContainerLogLevel? = nil) {
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "logLevel"
+        }
+    }
+
+    public struct SharingStrategy: AWSEncodableShape & AWSDecodableShape {
+        /// Shares a GPU between containers by using NVIDIA Multi-Process Service (MPS). You specify the GPU memory to allocate to the container and, optionally, the maximum percentage of the GPU's compute capacity that the container can use.
+        public let nvidiaMps: NvidiaMpsAllocation?
+
+        @inlinable
+        public init(nvidiaMps: NvidiaMpsAllocation? = nil) {
+            self.nvidiaMps = nvidiaMps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nvidiaMps = "nvidiaMps"
+        }
+    }
+
+    public struct UpdateGatewayConfiguration: AWSEncodableShape {
+        /// The mutable configuration for a host-based, shared Application Load Balancer gateway.
+        public let hostSharedAlb: UpdateGatewayAlbConfiguration?
+
+        @inlinable
+        public init(hostSharedAlb: UpdateGatewayAlbConfiguration? = nil) {
+            self.hostSharedAlb = hostSharedAlb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostSharedAlb = "hostSharedAlb"
         }
     }
 }
@@ -10742,6 +12427,7 @@ public struct ECSErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case daemonNotActiveException = "DaemonNotActiveException"
         case daemonNotFoundException = "DaemonNotFoundException"
+        case gatewayNotFoundException = "GatewayNotFoundException"
         case invalidParameterException = "InvalidParameterException"
         case limitExceededException = "LimitExceededException"
         case missingVersionException = "MissingVersionException"
@@ -10804,6 +12490,8 @@ public struct ECSErrorType: AWSErrorType {
     public static var daemonNotActiveException: Self { .init(.daemonNotActiveException) }
     /// The specified daemon wasn't found. You can view your available daemons with ListDaemons. Amazon ECS daemons are cluster specific and Region specific.
     public static var daemonNotFoundException: Self { .init(.daemonNotFoundException) }
+    /// The specified gateway wasn't found. Check that the gateway name or ARN is correct and that the gateway exists in your account and Region.
+    public static var gatewayNotFoundException: Self { .init(.gatewayNotFoundException) }
     /// The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see Amazon ECS service event messages.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The limit for the resource was exceeded.

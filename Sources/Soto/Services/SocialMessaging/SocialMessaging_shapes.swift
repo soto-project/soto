@@ -1076,6 +1076,10 @@ extension SocialMessaging {
         public let arn: String
         /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
         public let datasetId: String?
+        /// The Direct Send enforcement status for the WhatsApp Business Account. Enforcement applies when an account repeatedly sends messages in a category that does not match the content. This field is not present when no enforcement is active.
+        public let directSendEnforcementStatus: String?
+        /// The time when the current Direct Send enforcement is expected to lift. This field is not present for permanent enforcement or when no enforcement is active.
+        public let directSendEnforcementStatusExpiresAt: Date?
         /// The event destinations for the linked WhatsApp Business Account.
         public let eventDestinations: [WhatsAppBusinessAccountEventDestination]
         /// The ID of the linked WhatsApp Business Account, formatted as waba-01234567890123456789012345678901.
@@ -1094,9 +1098,11 @@ extension SocialMessaging {
         public let wabaName: String
 
         @inlinable
-        public init(arn: String, datasetId: String? = nil, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, phoneNumbers: [WhatsAppPhoneNumberSummary], registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
+        public init(arn: String, datasetId: String? = nil, directSendEnforcementStatus: String? = nil, directSendEnforcementStatusExpiresAt: Date? = nil, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, phoneNumbers: [WhatsAppPhoneNumberSummary], registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
             self.arn = arn
             self.datasetId = datasetId
+            self.directSendEnforcementStatus = directSendEnforcementStatus
+            self.directSendEnforcementStatusExpiresAt = directSendEnforcementStatusExpiresAt
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -1110,6 +1116,8 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case datasetId = "datasetId"
+            case directSendEnforcementStatus = "directSendEnforcementStatus"
+            case directSendEnforcementStatusExpiresAt = "directSendEnforcementStatusExpiresAt"
             case eventDestinations = "eventDestinations"
             case id = "id"
             case linkDate = "linkDate"
@@ -1152,6 +1160,10 @@ extension SocialMessaging {
         public let arn: String
         /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
         public let datasetId: String?
+        /// The Direct Send enforcement status for the WhatsApp Business Account. Enforcement applies when an account repeatedly sends messages in a category that does not match the content. This field is not present when no enforcement is active.
+        public let directSendEnforcementStatus: String?
+        /// The time when the current Direct Send enforcement is expected to lift. This field is not present for permanent enforcement or when no enforcement is active.
+        public let directSendEnforcementStatusExpiresAt: Date?
         /// The event destinations for the linked WhatsApp Business Account.
         public let eventDestinations: [WhatsAppBusinessAccountEventDestination]
         /// The ID of the linked WhatsApp Business Account, formatted as waba-01234567890123456789012345678901.
@@ -1168,9 +1180,11 @@ extension SocialMessaging {
         public let wabaName: String
 
         @inlinable
-        public init(arn: String, datasetId: String? = nil, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
+        public init(arn: String, datasetId: String? = nil, directSendEnforcementStatus: String? = nil, directSendEnforcementStatusExpiresAt: Date? = nil, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
             self.arn = arn
             self.datasetId = datasetId
+            self.directSendEnforcementStatus = directSendEnforcementStatus
+            self.directSendEnforcementStatusExpiresAt = directSendEnforcementStatusExpiresAt
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -1183,6 +1197,8 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case datasetId = "datasetId"
+            case directSendEnforcementStatus = "directSendEnforcementStatus"
+            case directSendEnforcementStatusExpiresAt = "directSendEnforcementStatusExpiresAt"
             case eventDestinations = "eventDestinations"
             case id = "id"
             case linkDate = "linkDate"
@@ -2146,6 +2162,8 @@ extension SocialMessaging {
     }
 
     public struct TemplateSummary: AWSDecodableShape {
+        /// The category that the template content actually belongs to, when it differs from the template's current category. This field is present only when the template has been flagged as miscategorized.
+        public let correctCategory: String?
         /// The numeric ID assigned to the template by Meta.
         public let metaTemplateId: String?
         /// The category of the template (for example, UTILITY or MARKETING).
@@ -2156,25 +2174,31 @@ extension SocialMessaging {
         public let templateName: String?
         /// The quality score assigned to the template by Meta.
         public let templateQualityScore: String?
+        /// The source of the template. A value of AUTO_GENERATED indicates that the template was created automatically from a message that you sent. This field is not present for templates that you created manually.
+        public let templateSource: String?
         /// The current status of the template (for example, APPROVED, PENDING, or REJECTED).
         public let templateStatus: String?
 
         @inlinable
-        public init(metaTemplateId: String? = nil, templateCategory: String? = nil, templateLanguage: String? = nil, templateName: String? = nil, templateQualityScore: String? = nil, templateStatus: String? = nil) {
+        public init(correctCategory: String? = nil, metaTemplateId: String? = nil, templateCategory: String? = nil, templateLanguage: String? = nil, templateName: String? = nil, templateQualityScore: String? = nil, templateSource: String? = nil, templateStatus: String? = nil) {
+            self.correctCategory = correctCategory
             self.metaTemplateId = metaTemplateId
             self.templateCategory = templateCategory
             self.templateLanguage = templateLanguage
             self.templateName = templateName
             self.templateQualityScore = templateQualityScore
+            self.templateSource = templateSource
             self.templateStatus = templateStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case correctCategory = "correctCategory"
             case metaTemplateId = "metaTemplateId"
             case templateCategory = "templateCategory"
             case templateLanguage = "templateLanguage"
             case templateName = "templateName"
             case templateQualityScore = "templateQualityScore"
+            case templateSource = "templateSource"
             case templateStatus = "templateStatus"
         }
     }

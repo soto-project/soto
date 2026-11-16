@@ -112,6 +112,12 @@ extension SSOAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allRegions = "ALL_REGIONS"
+        case currentRegion = "CURRENT_REGION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case adding = "ADDING"
@@ -1857,6 +1863,8 @@ extension SSOAdmin {
         public let instanceArn: String?
         /// Specifies the instance name.
         public let name: String?
+        /// The network access controls configured for your Identity Center instance, including whether VPC endpoint access is required, and any VPC, IP address range, or application controls applied to instance traffic. Present only after a network configuration has been set on the instance.
+        public let networkConfigurationDetails: NetworkConfigurationInfo?
         /// The identifier of the Amazon Web Services account for which the instance was created.
         public let ownerAccountId: String?
         /// Indicates whether permission sets are enabled for this Identity Center instance.
@@ -1871,13 +1879,14 @@ extension SSOAdmin {
         public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreArn: String? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, permissionSetsEnabled: Bool? = nil, primaryRegion: String? = nil, regions: [RegionMetadata]? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
+        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreArn: String? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, networkConfigurationDetails: NetworkConfigurationInfo? = nil, ownerAccountId: String? = nil, permissionSetsEnabled: Bool? = nil, primaryRegion: String? = nil, regions: [RegionMetadata]? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
             self.encryptionConfigurationDetails = encryptionConfigurationDetails
             self.identityStoreArn = identityStoreArn
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
+            self.networkConfigurationDetails = networkConfigurationDetails
             self.ownerAccountId = ownerAccountId
             self.permissionSetsEnabled = permissionSetsEnabled
             self.primaryRegion = primaryRegion
@@ -1893,6 +1902,7 @@ extension SSOAdmin {
             case identityStoreId = "IdentityStoreId"
             case instanceArn = "InstanceArn"
             case name = "Name"
+            case networkConfigurationDetails = "NetworkConfigurationDetails"
             case ownerAccountId = "OwnerAccountId"
             case permissionSetsEnabled = "PermissionSetsEnabled"
             case primaryRegion = "PrimaryRegion"
@@ -3403,11 +3413,14 @@ extension SSOAdmin {
         public let maxResults: Int?
         /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
         public let nextToken: String?
+        /// Specifies which Amazon Web Services Regions to list IAM Identity Center instances from. Valid values:    CURRENT_REGION - Lists only the instances in the Region that you call this API from.    ALL_REGIONS - Lists the instances that the caller owns or that are shared with the caller across all Regions.   If you don't specify a value, the default is CURRENT_REGION.
+        public let regionScope: RegionScope?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, regionScope: RegionScope? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.regionScope = regionScope
         }
 
         public func validate(name: String) throws {
@@ -3420,6 +3433,7 @@ extension SSOAdmin {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case regionScope = "RegionScope"
         }
     }
 
@@ -3811,6 +3825,53 @@ extension SSOAdmin {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case trustedTokenIssuers = "TrustedTokenIssuers"
+        }
+    }
+
+    public struct NetworkConfigurationInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Allows access from the IPv4 or IPv6 CIDR blocks that you specify, in addition to the VPCs allowed by RestrictSourceVpcs. If you don't specify this value, no additional IP address ranges are allowed.
+        public let allowSourceIps: [String]?
+        /// Exempts the applications that you specify from the network access control, so that access to them is unchanged. You can specify both Amazon Web Services managed applications and customer managed applications, and you can use wildcards. These applications are not restricted by RestrictSourceVpcs or AllowSourceIps. If you don't specify this value, the controls apply to all applications.
+        public let excludeApplicationArns: [String]?
+        /// Limits access to the VPC endpoints in the VPCs that you specify. These VPCs must be in your organization, or in the Amazon Web Services account for an account instance. If you don't specify this value, access is allowed from any VPC in your organization or Amazon Web Services account.
+        public let restrictSourceVpcs: [String]?
+        /// Specifies whether access to your Identity Center instance and to applications must originate from a VPC endpoint. When this value is true and no other field is specified, access is allowed from any VPC in your organization, or from any VPC in the Amazon Web Services account for an account instance, and applies to all applications. When this value is false, no network access control is enforced and the values of RestrictSourceVpcs, AllowSourceIps, and ExcludeApplicationArns are cleared.
+        public let vpceAccessRequired: Bool
+
+        @inlinable
+        public init(allowSourceIps: [String]? = nil, excludeApplicationArns: [String]? = nil, restrictSourceVpcs: [String]? = nil, vpceAccessRequired: Bool) {
+            self.allowSourceIps = allowSourceIps
+            self.excludeApplicationArns = excludeApplicationArns
+            self.restrictSourceVpcs = restrictSourceVpcs
+            self.vpceAccessRequired = vpceAccessRequired
+        }
+
+        public func validate(name: String) throws {
+            try self.allowSourceIps?.forEach {
+                try validate($0, name: "allowSourceIps[]", parent: name, max: 43)
+                try validate($0, name: "allowSourceIps[]", parent: name, min: 2)
+                try validate($0, name: "allowSourceIps[]", parent: name, pattern: "^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))?|(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}|:((:[0-9a-fA-F]{1,4}){1,7}|:))(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?)$")
+            }
+            try self.validate(self.allowSourceIps, name: "allowSourceIps", parent: name, max: 50)
+            try self.excludeApplicationArns?.forEach {
+                try validate($0, name: "excludeApplicationArns[]", parent: name, max: 1224)
+                try validate($0, name: "excludeApplicationArns[]", parent: name, min: 10)
+                try validate($0, name: "excludeApplicationArns[]", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:[a-z0-9-]+:[a-z0-9-*]*:[0-9]{12}:[-a-zA-Z0-9./:_*]+$")
+            }
+            try self.validate(self.excludeApplicationArns, name: "excludeApplicationArns", parent: name, max: 50)
+            try self.restrictSourceVpcs?.forEach {
+                try validate($0, name: "restrictSourceVpcs[]", parent: name, max: 128)
+                try validate($0, name: "restrictSourceVpcs[]", parent: name, min: 43)
+                try validate($0, name: "restrictSourceVpcs[]", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:ec2:[a-z0-9-]+:[0-9]{12}:vpc/vpc-([0-9a-f]){8}(([0-9a-f]){9})?$")
+            }
+            try self.validate(self.restrictSourceVpcs, name: "restrictSourceVpcs", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowSourceIps = "AllowSourceIps"
+            case excludeApplicationArns = "ExcludeApplicationArns"
+            case restrictSourceVpcs = "RestrictSourceVpcs"
+            case vpceAccessRequired = "VpceAccessRequired"
         }
     }
 
@@ -4714,20 +4775,23 @@ extension SSOAdmin {
     }
 
     public struct UpdateInstanceRequest: AWSEncodableShape {
-        /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
+        /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.  You can't set more than one of EncryptionConfiguration, PermissionSetsEnabled, and NetworkConfiguration in the same request. To configure more than one of them, make a separate UpdateInstance call for each. These calls can be made in parallel.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
         /// Updates the instance name.
         public let name: String?
-        /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+        /// Specifies the network access controls for your Identity Center instance. Use this to require that access to your instance and to applications originates from VPC endpoints, and to optionally restrict which VPCs are permitted, allow specific IP address ranges that bypass the VPC endpoint requirement, or exempt specific applications from the controls. If you omit NetworkConfiguration, the stored network configuration is preserved. If you specify NetworkConfiguration, it replaces the stored network configuration in its entirety. Any list that you omit from the object, or include as an empty list, is cleared.
+        public let networkConfiguration: NetworkConfigurationInfo?
+        /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.
         public let permissionSetsEnabled: Bool?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil, permissionSetsEnabled: Bool? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil, networkConfiguration: NetworkConfigurationInfo? = nil, permissionSetsEnabled: Bool? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.instanceArn = instanceArn
             self.name = name
+            self.networkConfiguration = networkConfiguration
             self.permissionSetsEnabled = permissionSetsEnabled
         }
 
@@ -4738,12 +4802,14 @@ extension SSOAdmin {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionConfiguration = "EncryptionConfiguration"
             case instanceArn = "InstanceArn"
             case name = "Name"
+            case networkConfiguration = "NetworkConfiguration"
             case permissionSetsEnabled = "PermissionSetsEnabled"
         }
     }

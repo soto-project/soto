@@ -1531,7 +1531,7 @@ public struct MediaLive: AWSService {
         return try await self.deleteNode(input, logger: logger)
     }
 
-    /// Delete an expired reservation.
+    /// Delete an expired reservation, or cancel an active reservation during the calendar month (UTC) in which you purchased it. You can't cancel an active reservation that you purchased in an earlier month, including one that renewed automatically. You also can't cancel an active reservation during the last hour of the month, from 23:00 UTC on the last day of the month.
     @Sendable
     @inlinable
     public func deleteReservation(_ input: DeleteReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReservationResponse {
@@ -1544,7 +1544,7 @@ public struct MediaLive: AWSService {
             logger: logger
         )
     }
-    /// Delete an expired reservation.
+    /// Delete an expired reservation, or cancel an active reservation during the calendar month (UTC) in which you purchased it. You can't cancel an active reservation that you purchased in an earlier month, including one that renewed automatically. You also can't cancel an active reservation during the last hour of the month, from 23:00 UTC on the last day of the month.
     ///
     /// Parameters:
     ///   - reservationId: Unique reservation ID, e.g. '1234567'
@@ -4489,7 +4489,7 @@ public struct MediaLive: AWSService {
 extension MediaLive {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: MediaLive, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
