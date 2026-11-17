@@ -77,13 +77,15 @@ extension Task where Failure == Never {
 enum TestEnvironment {
     /// are we using Localstack to test. Also return use localstack if we are running a github action and don't have an access key if
     static var isUsingLocalstack: Bool {
-        Environment["AWS_DISABLE_LOCALSTACK"] != "true" || (Environment["GITHUB_ACTIONS"] == "true" && Environment["AWS_ACCESS_KEY_ID"] == "")
+        Environment["AWS_ENDPOINT_URL"] == "http://localhost:4566" || Environment["AWS_ENDPOINT_URL"] == "http://localstack:4566"
     }
 
-    static var credentialProvider: CredentialProviderFactory { isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default }
+    static var credentialProvider: CredentialProviderFactory {
+        isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default
+    }
 
     /// current list of middleware
-    public static var middlewares: AWSMiddlewareProtocol {
+    static var middlewares: AWSMiddlewareProtocol {
         (Environment["AWS_ENABLE_LOGGING"] == "true")
             ? AWSLoggingMiddleware(logger: TestEnvironment.logger, logLevel: .info)
             : AWSMiddleware { request, context, next in
@@ -92,6 +94,7 @@ enum TestEnvironment {
     }
 
     /// return endpoint
+    #warning("Delete this once we have converted all tests")
     static func getEndPoint(environment: String) -> String? {
         guard self.isUsingLocalstack == true else { return nil }
         return Environment[environment] ?? "http://localhost:4566"
