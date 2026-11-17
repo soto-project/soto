@@ -23,6 +23,9 @@ struct LambdaTrait: TestScoping, SuiteTrait {
     @TaskLocal
     static var functionName: String = ""
 
+    let functionName: String = TestEnvironment.generateResourceName("UnitTestSotoLambda")
+    let roleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
+
     /*
 
      The testing code for the AWS Lambda function is created with the following commands:
@@ -43,14 +46,14 @@ struct LambdaTrait: TestScoping, SuiteTrait {
         let functionHandler = "lambda.handler"
         let cfr = Lambda.CreateFunctionRequest(
             code: functionCode,
-            functionName: functionName,
+            functionName: self.functionName,
             handler: functionHandler,
             role: roleArn,
             runtime: functionRuntime
         )
         print("Creating Lambda Function : \(self.functionName)")
         _ = try await lambda.createFunction(cfr)
-        try await lambda.waitUntilFunctionActive(.init(functionName: functionName))
+        try await lambda.waitUntilFunctionActive(.init(functionName: self.functionName))
     }
 
     func deleteLambdaFunction(lambda: Lambda) async throws {
@@ -76,11 +79,11 @@ struct LambdaTrait: TestScoping, SuiteTrait {
             """
         let crr = IAM.CreateRoleRequest(
             assumeRolePolicyDocument: assumeRolePolicyDocument,
-            roleName: roleName
+            roleName: self.roleName
         )
         // no policies are required, create an empty role
 
-        print("Creating IAM Role : \(roleName)")
+        print("Creating IAM Role : \(self.roleName)")
         let response = try await iam.createRole(crr)
         try await iam.waitUntilRoleExists(.init(roleName: self.roleName))
         return response
@@ -90,9 +93,6 @@ struct LambdaTrait: TestScoping, SuiteTrait {
         print("Deleting IAM Role : \(roleName)")
         try await iam.deleteRole(roleName: self.roleName)
     }
-
-    let functionName: String = TestEnvironment.generateResourceName("UnitTestSotoLambda")
-    let roleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
     func provideScope(for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void) async throws {
         let lambda = Lambda(client: AWSClientTrait.client, region: .euwest1)
@@ -131,7 +131,11 @@ struct LambdaTrait: TestScoping, SuiteTrait {
     }
 }
 
-@Suite(.awsClient(), LambdaTrait())
+@Suite(
+    .disabled(if: TestEnvironment.isUsingLocalstack, "Lambda tests don't work with localstack"),
+    .awsClient(),
+    LambdaTrait()
+)
 struct LambdaTests {
 
     // MARK: TESTS
