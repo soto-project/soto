@@ -14,40 +14,19 @@
 
 import NIOCore
 import SotoIAM
-import XCTest
+import Testing
 
-// testing query service
+@Suite(.awsClient())
+struct IAMTests {
 
-class IAMTests: XCTestCase {
-    var client: AWSClient!
-    var iam: IAM!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.iam = IAM(
-            client: self.client,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
-    /// create SNS topic with supplied name and run supplied closure
+    /// create user with supplied name and run supplied closure
     func testUser(
         userName: String,
         tags: [String: String] = [:],
-        iam: IAM? = nil,
+        iam: IAM,
         test: @escaping (String) async throws -> Void
     ) async throws {
-        try await XCTTestAsset {
+        try await testAsset {
             try await self.createUser(userName: userName, tags: tags, iam: iam)
             return userName
         } test: {
@@ -57,12 +36,11 @@ class IAMTests: XCTestCase {
         }
     }
 
-    func createUser(userName: String, tags: [String: String] = [:], iam: IAM? = nil) async throws {
-        let iam: IAM = iam ?? self.iam
+    func createUser(userName: String, tags: [String: String] = [:], iam: IAM) async throws {
         let request = IAM.CreateUserRequest(tags: tags.map { IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
         do {
             let response = try await iam.createUser(request, logger: TestEnvironment.logger)
-            XCTAssertEqual(response.user?.userName, userName)
+            #expect(response.user?.userName == userName)
         } catch let error as IAMErrorType {
             if case .entityAlreadyExistsException = error.error {
                 print("User (\(userName)) already exists")
@@ -71,12 +49,9 @@ class IAMTests: XCTestCase {
         try await iam.waitUntilUserExists(.init(userName: userName))
     }
 
-    func deleteUser(userName: String, iam: IAM? = nil) async throws {
-        let iam: IAM = iam ?? self.iam
+    func deleteUser(userName: String, iam: IAM) async throws {
         let request = IAM.ListUserPoliciesRequest(userName: userName)
         let response = try await iam.listUserPolicies(request, logger: TestEnvironment.logger)
-        // add stall to avoid throttling errors.
-        try await Task.sleep(nanoseconds: 2_000_000_000)
         for policyName in response.policyNames {
             let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
             try await iam.deleteUserPolicy(deletePolicy, logger: TestEnvironment.logger)
@@ -86,18 +61,19 @@ class IAMTests: XCTestCase {
 
     // MARK: TESTS
 
-    func testCreateDeleteUser() async throws {
+    @Test func testCreateDeleteUser() async throws {
         let username = TestEnvironment.generateResourceName()
-        try await self.testUser(userName: username) { _ in }
+        try await self.testUser(userName: username, iam: IAM(client: AWSClientTrait.client)) { _ in }
     }
 
-    func testFIPSEndpoint() async throws {
-        let iam = self.iam.with(options: .useFipsEndpoint)
+    @Test func testFIPSEndpoint() async throws {
+        let iam = IAM(client: AWSClientTrait.client, options: .useFipsEndpoint)
         let username = TestEnvironment.generateResourceName()
         try await self.testUser(userName: username, iam: iam) { _ in }
     }
 
-    func testSetGetPolicy() async throws {
+    @Test func testSetGetPolicy() async throws {
+        let iam = IAM(client: AWSClientTrait.client)
         // put a policy on the user
         let policyDocument = """
             {
@@ -116,71 +92,67 @@ class IAMTests: XCTestCase {
             }
             """
         let username = TestEnvironment.generateResourceName()
-        try await self.testUser(userName: username) { _ in
-            let user = try await self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+        try await self.testUser(userName: username, iam: iam) { _ in
+            let user = try await iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             let request = IAM.PutUserPolicyRequest(
                 policyDocument: policyDocument,
                 policyName: "testSetGetPolicy",
                 userName: user.user.userName
             )
-            try await self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
+            try await iam.putUserPolicy(request, logger: TestEnvironment.logger)
             let getPolicyRequest = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
-            let getPolicyResponse = try await self.iam.getUserPolicy(getPolicyRequest, logger: TestEnvironment.logger)
+            let getPolicyResponse = try await iam.getUserPolicy(getPolicyRequest, logger: TestEnvironment.logger)
             let responsePolicyDocument = getPolicyResponse.policyDocument.removingPercentEncoding
-            XCTAssertEqual(responsePolicyDocument, policyDocument)
+            #expect(responsePolicyDocument == policyDocument)
         }
     }
 
-    func testSimulatePolicy() async throws {
+    @Test func testSimulatePolicy() async throws {
+        let iam = IAM(client: AWSClientTrait.client)
         guard !TestEnvironment.isUsingLocalstack else { return }
         // put a policy on the user
         let policyDocument = """
             {"Version": "2012-10-17","Statement": [{"Effect": "Allow","Action": ["sns:*","s3:*","sqs:*"],"Resource": "*"}]}
             """
         let username = TestEnvironment.generateResourceName()
-        try await self.createUser(userName: username)
-        do {
-            let user = try await self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-            let request = IAM.SimulateCustomPolicyRequest(
-                actionNames: ["sns:*", "sqs:*", "dynamodb:*"],
-                callerArn: user.user.arn,
-                policyInputList: [policyDocument]
-            )
-            let response = try await self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
-            XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
-            XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
-            XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitDeny)
-            if !TestEnvironment.isUsingLocalstack {
-                try await Task.sleep(nanoseconds: 10_000_000_000)
+        try await testUser(userName: username, iam: iam) { name in
+            do {
+                let user = try await iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+                let request = IAM.SimulateCustomPolicyRequest(
+                    actionNames: ["sns:*", "sqs:*", "dynamodb:*"],
+                    callerArn: user.user.arn,
+                    policyInputList: [policyDocument]
+                )
+                let response = try await iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
+                #expect(response.evaluationResults?[0].evalDecision == .allowed)
+                #expect(response.evaluationResults?[1].evalDecision == .allowed)
+                #expect(response.evaluationResults?[2].evalDecision == .implicitDeny)
+            } catch {
+                Issue.record("\(error)")
             }
-        } catch {
-            XCTFail("\(error)")
         }
-        // this test is very good as creating throttling errors
-        if !TestEnvironment.isUsingLocalstack {
-            try await Task.sleep(nanoseconds: 10_000_000_000)
-        }
-        try await self.deleteUser(userName: username)
     }
 
-    func testUserTags() async throws {
+    @Test func testUserTags() async throws {
+        let iam = IAM(client: AWSClientTrait.client)
         let username = TestEnvironment.generateResourceName()
-        try await self.createUser(userName: username, tags: ["test": "tag"])
-        do {
-            let response = try await self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-            XCTAssertEqual(response.user.tags?.first?.key, "test")
-            XCTAssertEqual(response.user.tags?.first?.value, "tag")
-        } catch {
-            XCTFail("\(error)")
+        try await testUser(userName: username, tags: ["test": "tag"], iam: iam) { name in
+            do {
+                let response = try await iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+                #expect(response.user.tags?.first?.key == "test")
+                #expect(response.user.tags?.first?.value == "tag")
+            } catch {
+                Issue.record("\(error)")
+            }
         }
     }
 
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Localstack returns the wrong error"))
     func testError() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        let error = await XCTAsyncExpectError(IAMErrorType.self) {
-            _ = try await self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
+        let iam = IAM(client: AWSClientTrait.client)
+        let error = await #expect(throws: IAMErrorType.self) {
+            _ = try await iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         }
-        XCTAssertEqual(error?.error, .noSuchEntityException)
+        #expect(error?.error == .noSuchEntityException)
     }
 }
