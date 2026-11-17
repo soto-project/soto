@@ -12,60 +12,24 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
 import Logging
-import XCTest
+import Testing
 
 @testable import SotoTimestreamWrite
 
 // testing query service
-
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-class TimestreamWriteTests: XCTestCase {
-    var client: AWSClient!
-    var ts: TimestreamWrite!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(
-            credentialProvider: TestEnvironment.credentialProvider,
-            middleware: TestEnvironment.middlewares,
-            logger: Logger(label: "Soto")
-        )
-        self.ts = TimestreamWrite(
-            client: self.client,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
-    func createTable(named name: String, databaseName: String) async throws {
-        do {
-            _ = try await self.ts.createTable(.init(databaseName: databaseName, tableName: name))
-        } catch let error as TimestreamWriteErrorType {
-            switch error.error {
-            case .conflictException:
-                return
-            default:
-                throw error
-            }
-        }
-    }
-
+@Suite(
+    .serialized,
+    .awsClient(),
+    .disabled(if: TestEnvironment.isUsingLocalstack, "TimestreamWrite are not available while using Localstack")
+)
+struct TimestreamWriteTests {
     /// create SNS topic with supplied name and run supplied closure
-    func testDatabase(name: String, test: @escaping (String) async throws -> Void) async throws {
-        try await XCTTestAsset {
+    func testDatabase(name: String, ts: TimestreamWrite, test: @escaping (String) async throws -> Void) async throws {
+        try await testAsset {
             do {
-                let request = TimestreamWrite.CreateDatabaseRequest(databaseName: name)
-                _ = try await self.ts.createDatabase(request)
+                _ = try await ts.createDatabase(databaseName: name)
             } catch let error as TimestreamWriteErrorType {
                 switch error.error {
                 case .conflictException:
@@ -78,28 +42,43 @@ class TimestreamWriteTests: XCTestCase {
         } test: {
             try await test($0)
         } delete: {
-            try await self.ts.deleteDatabase(.init(databaseName: $0))
+            try await ts.deleteDatabase(.init(databaseName: $0))
         }
     }
 
-    func testCreateDeleteDatabase() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
+    @Test func testCreateDeleteDatabase() async throws {
         let name = TestEnvironment.generateResourceName()
-        try await self.testDatabase(name: name) { _ in }
+        let ts = TimestreamWrite(
+            client: AWSClientTrait.client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
+        try await self.testDatabase(name: name, ts: ts) { _ in }
     }
 
-    func testCreateTableAndWrite() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
+    @Test func testCreateTableAndWrite() async throws {
         let name = TestEnvironment.generateResourceName()
         let tableName = "\(name)-table"
+        let ts = TimestreamWrite(
+            client: AWSClientTrait.client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
 
-        try await self.testDatabase(name: name) { name in
-            do {
-                try await self.createTable(named: tableName, databaseName: name)
+        try await self.testDatabase(name: name, ts: ts) { name in
+            try await testAsset {
+                do {
+                    _ = try await ts.createTable(databaseName: name, tableName: name)
+                    return name
+                } catch let error as TimestreamWriteErrorType {
+                    switch error.error {
+                    case .conflictException:
+                        return name
+                    default:
+                        throw error
+                    }
+                }
+            } test: { name in
                 let record = TimestreamWrite.Record(
                     dimensions: [.init(name: "Speed", value: "24.3")],
                     measureName: "Speed",
@@ -108,11 +87,9 @@ class TimestreamWriteTests: XCTestCase {
                     time: "\(Int(Date().timeIntervalSince1970))",
                     timeUnit: .seconds
                 )
-                _ = try await self.ts.writeRecords(.init(databaseName: name, records: [record], tableName: tableName))
-                try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
-            } catch {
-                XCTFail("\(error)")
-                try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
+                _ = try await ts.writeRecords(.init(databaseName: name, records: [record], tableName: tableName))
+            } delete: { name in
+                try await ts.deleteTable(databaseName: name, tableName: tableName)
             }
         }
     }
