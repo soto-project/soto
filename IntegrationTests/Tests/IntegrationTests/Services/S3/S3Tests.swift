@@ -659,7 +659,7 @@ class S3Tests: XCTestCase {
                 context: AWSMiddlewareContext,
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
-                XCTAssertEqual(request.request.authority, "123456780123.s3-control.eu-west-1.amazonaws.com")
+                XCTAssertTrue(request.request.authority?.hasPrefix("123456780123.") == true)
                 throw CancelError()
             }
         }

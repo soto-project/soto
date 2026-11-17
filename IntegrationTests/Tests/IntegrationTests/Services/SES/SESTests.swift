@@ -48,6 +48,8 @@ class SESTests: XCTestCase {
 
     // test fips region
     func testFipsRegion() async throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         struct TestError: Error {}
         struct TestRequestMiddleware: AWSMiddlewareProtocol {
             let test: @Sendable (AWSHTTPRequest) -> Void
