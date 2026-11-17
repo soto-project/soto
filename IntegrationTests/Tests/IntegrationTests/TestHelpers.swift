@@ -234,3 +234,14 @@ func withTeardown<Value>(_ process: () async throws -> Value, teardown: () async
     await teardown()
     return result
 }
+
+extension AWSClient {
+    #warning("Delete this once we have converted all tests")
+    func syncShutdown() throws {
+        Task {
+            await XCTAsyncAssertNoThrow {
+                try await self.shutdown()
+            }
+        }.syncAwait()
+    }
+}
