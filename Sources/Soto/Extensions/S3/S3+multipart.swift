@@ -524,6 +524,7 @@ extension S3 {
                 partSequence: bufferSequence.fixedSizeSequence(chunkSize: partSize).enumerated(),
                 concurrentUploads: concurrentUploads,
                 initialProgress: 0,
+                isResume: false,
                 logger: logger,
                 progress: progress
             )
@@ -590,22 +591,31 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
-        // upload all the parts
+        // The parts already uploaded are filtered out of the sequence. Their sizes are added to the
+        // reported progress as the filter sees them, so a smaller last part is counted correctly.
         let partsSet = Set<Int>(input.completedParts.map { $0.partNumber! - 1 })
+        let skippedBytes = ManagedAtomic(0)
         let partSequence =
             bufferSequence
             .fixedSizeSequence(chunkSize: partSize)
             .enumerated()
-            .filter { !partsSet.contains($0.0) }
+            .filter {
+                guard partsSet.contains($0.0) else { return true }
+                skippedBytes.wrappingIncrement(by: $0.1.readableBytes, ordering: .relaxed)
+                return false
+            }
+        let resumedProgress: (@Sendable (Int) async throws -> Void)? = progress.map { progress in
+            { @Sendable uploaded in try await progress(uploaded + skippedBytes.load(ordering: .relaxed)) }
+        }
 
         return try await self.resumeMultipartUpload(
             input,
-            partSize: partSize,
             partSequence: partSequence,
+            initialProgress: 0,
             concurrentUploads: concurrentUploads,
             abortOnFail: abortOnFail,
             logger: logger,
-            progress: progress
+            progress: resumedProgress
         )
     }
 
@@ -631,6 +641,28 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         progress: (@Sendable (Int) async throws -> Void)? = nil
     ) async throws -> CompleteMultipartUploadOutput where PartsSequence.Element == (Int, ByteBuffer) {
+        try await self.resumeMultipartUpload(
+            input,
+            partSequence: partSequence,
+            initialProgress: input.completedParts.count * partSize,
+            concurrentUploads: concurrentUploads,
+            abortOnFail: abortOnFail,
+            logger: logger,
+            progress: progress
+        )
+    }
+
+    /// Resume a failed multipart upload. `initialProgress` is the number of bytes the completed parts
+    /// in `input` already account for.
+    func resumeMultipartUpload<PartsSequence: AsyncSequence>(
+        _ input: ResumeMultipartUploadRequest,
+        partSequence: PartsSequence,
+        initialProgress: Int,
+        concurrentUploads: Int,
+        abortOnFail: Bool,
+        logger: Logger,
+        progress: (@Sendable (Int) async throws -> Void)?
+    ) async throws -> CompleteMultipartUploadOutput where PartsSequence.Element == (Int, ByteBuffer) {
         let uploadRequest = input.uploadRequest
 
         do {
@@ -640,11 +672,8 @@ extension S3 {
                 uploadId: input.uploadId,
                 partSequence: partSequence,
                 concurrentUploads: concurrentUploads,
-                // the exact size is only needed to report progress, but a non-zero value is also how
-                // `multipartUploadParts` knows this is a resume
-                initialProgress: progress == nil
-                    ? input.completedParts.count * partSize
-                    : await self.completedPartsSize(input, partSize: partSize, logger: logger),
+                initialProgress: initialProgress,
+                isResume: true,
                 logger: logger,
                 progress: progress
             )
@@ -693,43 +722,6 @@ extension S3 {
 
 // Internal functions used by multipart upload
 extension S3 {
-    /// Number of bytes already uploaded by the parts in a resume request.
-    ///
-    /// The last part of an upload is usually smaller than `partSize`, so the size is read
-    /// from `ListParts` rather than computed from the part count. If `ListParts` fails (for
-    /// example the caller lacks `s3:ListMultipartUploadParts`) it falls back to assuming every
-    /// completed part is `partSize` bytes.
-    func completedPartsSize(_ input: ResumeMultipartUploadRequest, partSize: Int, logger: Logger) async -> Int {
-        let estimate = input.completedParts.count * partSize
-        guard !input.completedParts.isEmpty else { return 0 }
-        let completed = Set(input.completedParts.compactMap(\.partNumber))
-        let request = input.uploadRequest
-        do {
-            var total = 0
-            let parts = self.listPartsPaginator(
-                bucket: request.bucket,
-                key: request.key,
-                requestPayer: request.requestPayer,
-                sseCustomerAlgorithm: request.sseCustomerAlgorithm,
-                sseCustomerKey: request.sseCustomerKey,
-                sseCustomerKeyMD5: request.sseCustomerKeyMD5,
-                uploadId: input.uploadId,
-                logger: logger
-            )
-            for try await page in parts {
-                for part in page.parts ?? [] {
-                    if let number = part.partNumber, completed.contains(number) {
-                        total += Int(part.size ?? 0)
-                    }
-                }
-            }
-            return total
-        } catch {
-            logger.debug("Failed to list parts of multipart upload, estimating progress", metadata: ["error": "\(error)"])
-            return estimate
-        }
-    }
-
     /// Used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
     ///
     /// - Parameters:
@@ -746,6 +738,7 @@ extension S3 {
         partSequence: PartSequence,
         concurrentUploads: Int,
         initialProgress: Int,
+        isResume: Bool,
         logger: Logger,
         progress: (@Sendable (Int) async throws -> Void)?
     ) async throws -> [S3.CompletedPart] where PartSequence.Element == (Int, ByteBuffer) {
@@ -802,7 +795,7 @@ extension S3 {
             }
             // if no parts were uploaded and this is not called from resumeMultipartUpload then
             // upload an empty part
-            if count == 0, initialProgress == 0 {
+            if count == 0, !isResume {
                 group.addTask {
                     let request = S3.UploadPartRequest(
                         body: .init(),
