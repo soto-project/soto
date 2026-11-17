@@ -640,7 +640,11 @@ extension S3 {
                 uploadId: input.uploadId,
                 partSequence: partSequence,
                 concurrentUploads: concurrentUploads,
-                initialProgress: input.completedParts.count * partSize,
+                // the exact size is only needed to report progress, but a non-zero value is also how
+                // `multipartUploadParts` knows this is a resume
+                initialProgress: progress == nil
+                    ? input.completedParts.count * partSize
+                    : await self.completedPartsSize(input, partSize: partSize, logger: logger),
                 logger: logger,
                 progress: progress
             )
@@ -689,6 +693,43 @@ extension S3 {
 
 // Internal functions used by multipart upload
 extension S3 {
+    /// Number of bytes already uploaded by the parts in a resume request.
+    ///
+    /// The last part of an upload is usually smaller than `partSize`, so the size is read
+    /// from `ListParts` rather than computed from the part count. If `ListParts` fails (for
+    /// example the caller lacks `s3:ListMultipartUploadParts`) it falls back to assuming every
+    /// completed part is `partSize` bytes.
+    func completedPartsSize(_ input: ResumeMultipartUploadRequest, partSize: Int, logger: Logger) async -> Int {
+        let estimate = input.completedParts.count * partSize
+        guard !input.completedParts.isEmpty else { return 0 }
+        let completed = Set(input.completedParts.compactMap(\.partNumber))
+        let request = input.uploadRequest
+        do {
+            var total = 0
+            let parts = self.listPartsPaginator(
+                bucket: request.bucket,
+                key: request.key,
+                requestPayer: request.requestPayer,
+                sseCustomerAlgorithm: request.sseCustomerAlgorithm,
+                sseCustomerKey: request.sseCustomerKey,
+                sseCustomerKeyMD5: request.sseCustomerKeyMD5,
+                uploadId: input.uploadId,
+                logger: logger
+            )
+            for try await page in parts {
+                for part in page.parts ?? [] {
+                    if let number = part.partNumber, completed.contains(number) {
+                        total += Int(part.size ?? 0)
+                    }
+                }
+            }
+            return total
+        } catch {
+            logger.debug("Failed to list parts of multipart upload, estimating progress", metadata: ["error": "\(error)"])
+            return estimate
+        }
+    }
+
     /// Used internally in multipartUpload, loads all the parts once the multipart upload has been initiated
     ///
     /// - Parameters:
