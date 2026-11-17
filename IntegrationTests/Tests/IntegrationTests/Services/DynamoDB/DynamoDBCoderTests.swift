@@ -12,56 +12,59 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
 import SotoCore
 import SotoDynamoDB
-import XCTest
+import Testing
 
-final class DynamoDBCoderTests: XCTestCase {
+struct DynamoDBCoderTests {
     func testEncodeDecode<Value: Codable & Equatable>(_ value: Value) throws {
         let result = try DynamoDBEncoder().encode(value)
         print(result)
         let result2 = try DynamoDBDecoder().decode(Value.self, from: result)
-        XCTAssertEqual(value, result2)
+        #expect(value == result2)
     }
 
     func testDecodeEncode<Value: Codable>(_ attributes: [String: DynamoDB.AttributeValue], type: Value.Type) throws {
         let result = try DynamoDBDecoder().decode(Value.self, from: attributes)
         let result2 = try DynamoDBEncoder().encode(result)
-        XCTAssertEqual(attributes, result2)
+        #expect(attributes == result2)
     }
 
-    func testNumbers() {
+    @Test func testNumbers() {
         struct Numbers: Codable, Equatable {
             let b: Bool
             let i: Int
             let f: Float
             let d: Double
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(Numbers(b: true, i: 23, f: 3.14, d: 2.165)))
+        #expect(throws: Never.self) { try self.testEncodeDecode(Numbers(b: true, i: 23, f: 3.14, d: 2.165)) }
     }
 
-    func testStrings() {
+    @Test func testStrings() {
         struct Strings: Codable, Equatable {
             let s: String
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(Strings(s: "TestString")))
+        #expect(throws: Never.self) { try self.testEncodeDecode(Strings(s: "TestString")) }
     }
 
-    func testData() {
+    @Test func testData() {
         struct DataTest: Codable, Equatable {
             let d: Data
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(DataTest(d: Data("data test".utf8))))
+        #expect(throws: Never.self) { try self.testEncodeDecode(DataTest(d: Data("data test".utf8))) }
     }
 
-    func testArray() {
+    @Test func testArray() {
         struct Arrays: Codable, Equatable {
             let i: [Int]
             let s: [String]
             let set: Set<String>?
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(Arrays(i: [2, 8, 24], s: ["TestString", "TestString1"], set: .init(["hello", "goodbye"]))))
-        XCTAssertNoThrow(
+        #expect(throws: Never.self) {
+            try self.testEncodeDecode(Arrays(i: [2, 8, 24], s: ["TestString", "TestString1"], set: .init(["hello", "goodbye"])))
+        }
+        #expect(throws: Never.self) {
             try self.testDecodeEncode(
                 [
                     "i": .l([.n("24"), .n("78"), .n("1")]),
@@ -69,37 +72,37 @@ final class DynamoDBCoderTests: XCTestCase {
                 ],
                 type: Arrays.self
             )
-        )
+        }
     }
 
-    func testArrayOfBool() {
+    @Test func testArrayOfBool() {
         struct ArrayOfBoolsTest: Codable, Equatable {
             let b: [Bool]
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(ArrayOfBoolsTest(b: [true, false, true, true])))
-        XCTAssertNoThrow(
+        #expect(throws: Never.self) { try self.testEncodeDecode(ArrayOfBoolsTest(b: [true, false, true, true])) }
+        #expect(throws: Never.self) {
             try self.testDecodeEncode(
                 ["b": .l([.bool(true), .bool(false), .bool(true), .bool(true)])],
                 type: ArrayOfBoolsTest.self
             )
-        )
+        }
     }
 
-    func testArrayOfData() {
+    @Test func testArrayOfData() {
         struct ArrayOfDataTest: Codable, Equatable {
             let d: [Data]
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(ArrayOfDataTest(d: [Data("test".utf8), Data("data".utf8)])))
+        #expect(throws: Never.self) { try self.testEncodeDecode(ArrayOfDataTest(d: [Data("test".utf8), Data("data".utf8)])) }
     }
 
-    func testDictionary() {
+    @Test func testDictionary() {
         struct DictionaryTest: Codable, Equatable {
             let d: [String: Int]
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(DictionaryTest(d: ["One": 1, "Two": 2])))
+        #expect(throws: Never.self) { try self.testEncodeDecode(DictionaryTest(d: ["One": 1, "Two": 2])) }
     }
 
-    func testChildObject() {
+    @Test func testChildObject() {
         struct Object: Codable, Equatable {
             let s: String
         }
@@ -107,10 +110,10 @@ final class DynamoDBCoderTests: XCTestCase {
             let f: Float
             let o: Object
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(ChildObjectTest(f: 500.1, o: Object(s: "Test"))))
+        #expect(throws: Never.self) { try self.testEncodeDecode(ChildObjectTest(f: 500.1, o: Object(s: "Test"))) }
     }
 
-    func testArrayOfObjects() {
+    @Test func testArrayOfObjects() {
         struct Object: Codable, Equatable {
             let s: String
         }
@@ -118,10 +121,10 @@ final class DynamoDBCoderTests: XCTestCase {
             let f: Float
             let o: [Object]
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(ChildObjectTest(f: 500.1, o: [Object(s: "Test"), Object(s: "Test2")])))
+        #expect(throws: Never.self) { try self.testEncodeDecode(ChildObjectTest(f: 500.1, o: [Object(s: "Test"), Object(s: "Test2")])) }
     }
 
-    func testEnum() {
+    @Test func testEnum() {
         enum YesNo: String, Codable {
             case yes
             case no
@@ -129,11 +132,11 @@ final class DynamoDBCoderTests: XCTestCase {
         struct EnumTest: Codable, Equatable {
             let answer: YesNo
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(EnumTest(answer: .yes)))
-        XCTAssertNoThrow(try self.testDecodeEncode(["answer": .s("no")], type: EnumTest.self))
+        #expect(throws: Never.self) { try self.testEncodeDecode(EnumTest(answer: .yes)) }
+        #expect(throws: Never.self) { try self.testDecodeEncode(["answer": .s("no")], type: EnumTest.self) }
     }
 
-    func testECustomDateDecode() throws {
+    @Test func testECustomDateDecode() throws {
         struct DateTest: Codable, Equatable {
             let date: Date
         }
@@ -150,10 +153,10 @@ final class DynamoDBCoderTests: XCTestCase {
         let test = DateTest(date: .now)
         let data = try encoder.encode(test)
         let result = try decoder.decode(DateTest.self, from: data)
-        XCTAssertEqual(test.date.timeIntervalSince1970, result.date.timeIntervalSince1970, accuracy: 1.0)
+        #expect(abs(test.date.timeIntervalSince1970 - result.date.timeIntervalSince1970) < 1.0)
     }
 
-    func testNestedKDC() {
+    @Test func testNestedKDC() {
         struct NestedKDCTest: Codable, Equatable {
             let firstName: String
             let surname: String
@@ -191,8 +194,8 @@ final class DynamoDBCoderTests: XCTestCase {
                 case surname
             }
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(NestedKDCTest(firstName: "John", surname: "Smith", age: 38)))
-        XCTAssertNoThrow(
+        #expect(throws: Never.self) { try self.testEncodeDecode(NestedKDCTest(firstName: "John", surname: "Smith", age: 38)) }
+        #expect(throws: Never.self) {
             try self.testDecodeEncode(
                 [
                     "name": .m(["firstName": .s("John"), "surname": .s("Smith")]),
@@ -200,10 +203,10 @@ final class DynamoDBCoderTests: XCTestCase {
                 ],
                 type: NestedKDCTest.self
             )
-        )
+        }
     }
 
-    func testNestedUKDC() {
+    @Test func testNestedUKDC() {
         struct NestedUKDCTest: Codable, Equatable {
             let indices: [Int]
             let selected: Int
@@ -238,8 +241,8 @@ final class DynamoDBCoderTests: XCTestCase {
                 case test
             }
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(NestedUKDCTest(indices: [1, 4, 7, 8], selected: 3)))
-        XCTAssertNoThrow(
+        #expect(throws: Never.self) { try self.testEncodeDecode(NestedUKDCTest(indices: [1, 4, 7, 8], selected: 3)) }
+        #expect(throws: Never.self) {
             try self.testDecodeEncode(
                 [
                     "test": .l([.n("1"), .n("4"), .n("7"), .n("8")]),
@@ -247,10 +250,10 @@ final class DynamoDBCoderTests: XCTestCase {
                 ],
                 type: NestedUKDCTest.self
             )
-        )
+        }
     }
 
-    func testSuperEncoder() {
+    @Test func testSuperEncoder() {
         class BaseClass: Codable {
             let type: String
 
@@ -281,7 +284,7 @@ final class DynamoDBCoderTests: XCTestCase {
             }
         }
 
-        XCTAssertNoThrow(
+        #expect(throws: Never.self) {
             try self.testDecodeEncode(
                 [
                     "subtype": .s("test type"),
@@ -289,10 +292,10 @@ final class DynamoDBCoderTests: XCTestCase {
                 ],
                 type: SuperEncoderTest.self
             )
-        )
+        }
     }
 
-    func testFlatContainer() {
+    @Test func testFlatContainer() {
         struct Header: Codable {
             let id: String
             let createdAt: String
@@ -320,7 +323,7 @@ final class DynamoDBCoderTests: XCTestCase {
             }
         }
 
-        XCTAssertNoThrow(
+        #expect(throws: Never.self) {
             try self.testDecodeEncode(
                 [
                     "id": .s("abc"),
@@ -329,10 +332,10 @@ final class DynamoDBCoderTests: XCTestCase {
                 ],
                 type: Document.self
             )
-        )
+        }
     }
 
-    func testFlatContainerDuplicateError() {
+    @Test func testFlatContainerDuplicateError() {
         struct Header: Codable {
             let id: String
             let title: String
@@ -365,13 +368,13 @@ final class DynamoDBCoderTests: XCTestCase {
             }
         }
 
-        XCTAssertThrowsError(
+        #expect(throws: EncodingError.self) {
             try DynamoDBEncoder().encode(
                 Document(
                     header: .init(id: "234-45-sdf", title: "hello"),
                     body: .init(title: "hello")
                 )
             )
-        )
+        }
     }
 }
