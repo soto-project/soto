@@ -16,6 +16,7 @@ import Dispatch
 import Foundation
 import Logging
 import NIOCore
+import Testing
 import XCTest
 
 @testable import SotoCore
@@ -102,15 +103,17 @@ enum TestEnvironment {
         return "soto-" + (prefix + function).filter { $0.isLetter || $0.isNumber }.lowercased()
     }
 
-    static var logger: Logger {
-        if let loggingLevel = Environment["AWS_LOG_LEVEL"] {
-            if let logLevel = Logger.Level(rawValue: loggingLevel.lowercased()) {
-                var logger = Logger(label: "soto")
-                logger.logLevel = logLevel
-                return logger
-            }
+    static var logLevel: Logger.Level {
+        if let loggingLevel = Environment["AWS_LOG_LEVEL"], let logLevel = Logger.Level(rawValue: loggingLevel.lowercased()) {
+            return logLevel
         }
-        return AWSClient.loggingDisabled
+        return .info
+    }
+
+    static var logger: Logger {
+        var logger = Logger(label: "soto")
+        logger.logLevel = self.logLevel
+        return logger
     }
 }
 
@@ -235,6 +238,18 @@ func withTeardown<Value>(_ process: () async throws -> Value, teardown: () async
     return result
 }
 
+/// Run some test code for a specific asset
+func testAsset<T>(
+    create: () async throws -> T,
+    test: (T) async throws -> Void,
+    delete: (T) async throws -> Void,
+    sourceLocation: SourceLocation = #_sourceLocation
+) async throws {
+    let asset = try await create()
+    await #expect(throws: Never.self, sourceLocation: sourceLocation) { try await test(asset) }
+    try await delete(asset)
+}
+
 extension AWSClient {
     #warning("Delete this once we have converted all tests")
     func syncShutdown() throws {
@@ -243,5 +258,60 @@ extension AWSClient {
                 try await self.shutdown()
             }
         }.syncAwait()
+    }
+}
+
+struct AWSClientTrait: TestScoping, SuiteTrait, TestTrait {
+    @TaskLocal
+    private static var _client: AWSClient?
+
+    static var client: AWSClient {
+        guard let client = AWSClientTrait._client else {
+            preconditionFailure("Test or TestSuite requires the .awsClient trait")
+        }
+        return client
+    }
+
+    let createClient: @Sendable (String) -> AWSClient
+
+    init(credentialProvider: CredentialProviderFactory = TestEnvironment.credentialProvider) {
+        self.createClient = {
+            var logger = Logger(label: $0)
+            logger.logLevel = TestEnvironment.logLevel
+            return AWSClient(credentialProvider: credentialProvider, middleware: TestEnvironment.middlewares, logger: logger)
+        }
+    }
+
+    func provideScope(for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void) async throws {
+        guard AWSClientTrait._client == nil else {
+            preconditionFailure("Cannot mix `.awsClient` suite and test traits")
+        }
+        let client = self.createClient(test.name)
+        do {
+            try await AWSClientTrait.$_client.withValue(client) {
+                try await function()
+            }
+        } catch {
+            try? await client.shutdown()
+            throw error
+        }
+        try await client.shutdown()
+    }
+}
+
+extension SuiteTrait where Self == AWSClientTrait {
+    static func awsClient(credentialProvider: CredentialProviderFactory = .default) -> AWSClientTrait {
+        if TestEnvironment.isUsingLocalstack {
+            print("Connecting to Localstack")
+        } else {
+            print("Connecting to AWS")
+        }
+        return AWSClientTrait(credentialProvider: credentialProvider)
+    }
+}
+
+extension TestTrait where Self == AWSClientTrait {
+    static func awsClient(credentialProvider: CredentialProviderFactory = .default) -> AWSClientTrait {
+        AWSClientTrait(credentialProvider: credentialProvider)
     }
 }
