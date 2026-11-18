@@ -12,102 +12,84 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
-
-@testable import SotoSQS
+import SotoSQS
+import Testing
 
 // testing query service
 
-class SQSTests: XCTestCase {
-    var client: AWSClient!
-    var sqs: SQS!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.sqs = SQS(
-            client: self.client,
-            region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
+@Suite(.awsClient())
+struct SQSTests {
     /// create SQS queue with supplied name and run supplied closure
-    func testQueue(name: String, test: @escaping (String) async throws -> Void) async throws {
-        try await XCTTestAsset {
+    func testQueue(name: String, sqs: SQS, test: @escaping (String) async throws -> Void) async throws {
+        try await testAsset {
             let request = SQS.CreateQueueRequest(queueName: name)
-            let response = try await self.sqs.createQueue(request)
-            return try XCTUnwrap(response.queueUrl)
+            let response = try await sqs.createQueue(request)
+            return try #require(response.queueUrl)
         } test: {
             try await test($0)
         } delete: {
             let request = SQS.DeleteQueueRequest(queueUrl: $0)
-            try await self.sqs.deleteQueue(request)
+            try await sqs.deleteQueue(request)
         }
     }
 
-    func testSendReceiveAndDelete(name: String, messageBody: String) async throws {
-        try await self.testQueue(name: name) { queueUrl in
+    func testSendReceiveAndDelete(name: String, messageBody: String, sqs: SQS) async throws {
+        try await self.testQueue(name: name, sqs: sqs) { queueUrl in
             let request = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: queueUrl)
-            let response = try await self.sqs.sendMessage(request)
-            let messageId: String = try XCTUnwrap(response.messageId)
+            let response = try await sqs.sendMessage(request)
+            let messageId: String = try #require(response.messageId)
             let receiveRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: queueUrl)
-            let receiveResponse = try await self.sqs.receiveMessage(receiveRequest)
-            let message = try XCTUnwrap(receiveResponse.messages?.first)
-            XCTAssertEqual(message.messageId, messageId)
-            XCTAssertEqual(message.body, messageBody)
-            let receiptHandle = try XCTUnwrap(message.receiptHandle)
+            let receiveResponse = try await sqs.receiveMessage(receiveRequest)
+            let message = try #require(receiveResponse.messages?.first)
+            #expect(message.messageId == messageId)
+            #expect(message.body == messageBody)
+            let receiptHandle = try #require(message.receiptHandle)
             let deleteRequest = SQS.DeleteMessageRequest(queueUrl: queueUrl, receiptHandle: receiptHandle)
-            try await self.sqs.deleteMessage(deleteRequest)
+            try await sqs.deleteMessage(deleteRequest)
         }
     }
 
     // MARK: TESTS
 
-    func testSendReceiveAndDelete() async throws {
+    @Test func testSendReceiveAndDelete() async throws {
+        let sqs = SQS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
-        try await self.testSendReceiveAndDelete(name: name, messageBody: "Testing, testing\n,1,2,1,2")
+        try await self.testSendReceiveAndDelete(name: name, messageBody: "Testing, testing\n,1,2,1,2", sqs: sqs)
     }
 
-    func testGetQueueAttributes() async throws {
+    @Test func testGetQueueAttributes() async throws {
+        let sqs = SQS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
-        try await self.testQueue(name: name) { queueUrl in
+        try await self.testQueue(name: name, sqs: sqs) { queueUrl in
             let request = SQS.GetQueueAttributesRequest(attributeNames: [.all], queueUrl: queueUrl)
-            let response = try await self.sqs.getQueueAttributes(request)
-            XCTAssertNotNil(response.attributes?[.queueArn])
+            let response = try await sqs.getQueueAttributes(request)
+            #expect(response.attributes?[.queueArn] != nil)
         }
     }
 
-    func testTestPercentEncodedCharacters() async throws {
+    @Test func testPercentEncodedCharacters() async throws {
+        let sqs = SQS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
-        try await self.testSendReceiveAndDelete(name: name, messageBody: "!@#$%^&*()-=_+[]{};':\",.<>\\|`~éñà")
+        try await self.testSendReceiveAndDelete(name: name, messageBody: "!@#$%^&*()-=_+[]{};':\",.<>\\|`~éñà", sqs: sqs)
     }
 
-    func testSendBatch() async throws {
+    @Test func testSendBatch() async throws {
+        let sqs = SQS(client: AWSClientTrait.client, region: .useast1)
         // tests decoding of empty xml arrays
         let name = TestEnvironment.generateResourceName()
-        try await self.testQueue(name: name) { queueUrl in
+        try await self.testQueue(name: name, sqs: sqs) { queueUrl in
             let messageBody = "Testing, testing\n,1,2,1,2"
             let request = SQS.SendMessageBatchRequest(entries: [.init(id: "msg1", messageBody: messageBody)], queueUrl: queueUrl)
-            _ = try await self.sqs.sendMessageBatch(request)
+            _ = try await sqs.sendMessageBatch(request)
         }
     }
 
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Get wrong error when using Localstack"))
     func testError() async throws {
-        // get wrong error with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
-        let error = await XCTAsyncExpectError(SQSErrorType.self) {
-            try await self.sqs.addPermission(.init(actions: [], awsAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
+        let sqs = SQS(client: AWSClientTrait.client, region: .useast1)
+        let error = await #expect(throws: SQSErrorType.self) {
+            try await sqs.addPermission(.init(actions: [], awsAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         }
-        XCTAssertEqual(error?.error, .queueDoesNotExist)
+        #expect(error?.error == .queueDoesNotExist)
     }
 }
