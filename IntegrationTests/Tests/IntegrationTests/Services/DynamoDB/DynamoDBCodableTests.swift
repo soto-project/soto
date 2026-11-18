@@ -12,14 +12,22 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
 import SotoCore
 import SotoDynamoDB
-import XCTest
+import Testing
 
-extension DynamoDBTests {
-    // MARK: Tests
-
-    func testCodablePutGet() async throws {
+@Suite(
+    .awsClient(),
+    DynamoDBTableTrait(
+        tableName: TestEnvironment.generateResourceName("soto-dynamodb-codable-tests"),
+        attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
+        keySchema: [.init(attributeName: "id", keyType: .hash)]
+    )
+)
+struct DynamoDBCodableTests {
+    @Test func testCodablePutGet() async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
         struct TestObject: Codable, Equatable {
             let id: String
             let name: String
@@ -43,16 +51,17 @@ extension DynamoDBTests {
         decoder.dateDecodingStrategy = .secondsSince1970
         let encoder = DynamoDBEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
-        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: Self.tableName)
-        _ = try await Self.dynamoDB.putItem(putRequest, encoder: encoder, logger: TestEnvironment.logger)
+        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: DynamoDBTableTrait.tableName)
+        _ = try await dynamoDB.putItem(putRequest, encoder: encoder, logger: TestEnvironment.logger)
 
-        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: Self.tableName)
-        let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, decoder: decoder, logger: TestEnvironment.logger)
+        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: DynamoDBTableTrait.tableName)
+        let response = try await dynamoDB.getItem(getRequest, type: TestObject.self, decoder: decoder, logger: TestEnvironment.logger)
 
-        XCTAssertEqual(test, response.item)
+        #expect(test == response.item)
     }
 
-    func testCodablePutGetWithISO8601Date() async throws {
+    @Test func testCodablePutGetWithISO8601Date() async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
         struct TestObject: Codable, Equatable {
             let id: String
             let date: Date
@@ -63,16 +72,17 @@ extension DynamoDBTests {
         decoder.dateDecodingStrategy = .iso8601
         let encoder = DynamoDBEncoder()
         encoder.dateEncodingStrategy = .iso8601
-        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: Self.tableName)
-        _ = try await Self.dynamoDB.putItem(putRequest, encoder: encoder, logger: TestEnvironment.logger)
+        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: DynamoDBTableTrait.tableName)
+        _ = try await dynamoDB.putItem(putRequest, encoder: encoder, logger: TestEnvironment.logger)
 
-        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: Self.tableName)
-        let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, decoder: decoder, logger: TestEnvironment.logger)
+        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: DynamoDBTableTrait.tableName)
+        let response = try await dynamoDB.getItem(getRequest, type: TestObject.self, decoder: decoder, logger: TestEnvironment.logger)
 
-        XCTAssertEqual(test, response.item)
+        #expect(test == response.item)
     }
 
-    func testCodableUpdate() async throws {
+    @Test func testCodableUpdate() async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
         struct TestObject: Codable, Equatable {
             let id: String
             let name: String
@@ -99,10 +109,10 @@ extension DynamoDBTests {
         let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
         let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
 
-        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: Self.tableName)
-        _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
-        let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: Self.tableName, updateItem: nameUpdate)
-        _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
+        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: DynamoDBTableTrait.tableName)
+        _ = try await dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
+        let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: DynamoDBTableTrait.tableName, updateItem: nameUpdate)
+        _ = try await dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
 
         // update
         let additionalAttributes1 = AdditionalAttributes(oldAge: 32)
@@ -112,12 +122,12 @@ extension DynamoDBTests {
             additionalAttributes: additionalAttributes1,
             conditionExpression: conditionExpression1,
             key: ["id"],
-            tableName: Self.tableName,
+            tableName: DynamoDBTableTrait.tableName,
             updateItem: nameUpdateWithAge1
         )
-        _ = try await Self.dynamoDB.updateItem(updateRequest1, logger: TestEnvironment.logger)
+        _ = try await dynamoDB.updateItem(updateRequest1, logger: TestEnvironment.logger)
 
-        do {
+        let error = await #expect(throws: DynamoDBErrorType.self) {
             let additionalAttributes = AdditionalAttributes(oldAge: 34)
             let nameUpdateWithAge = NameUpdateWithAge(id: id, name: "David", surname: "Jones", age: 35)
             let updateRequest = try DynamoDB.UpdateItemCodableInput(
@@ -125,114 +135,126 @@ extension DynamoDBTests {
                 conditionExpression: "attribute_exists(#id) AND #age = :oldAge",
                 key: ["id"],
                 returnValuesOnConditionCheckFailure: .allOld,
-                tableName: Self.tableName,
+                tableName: DynamoDBTableTrait.tableName,
                 updateItem: nameUpdateWithAge
             )
-            _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
-            XCTFail("Should have thrown error because conditionExpression is not met")
-        } catch let error as DynamoDBErrorType {
-            switch error.error {
-            case .conditionalCheckFailedException(let context):
-                XCTAssertEqual(context.item?["age"], .n("33"))
-                break
-            default:
-                throw error
+            _ = try await dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
+        }
+        switch error?.error {
+        case .conditionalCheckFailedException(let context):
+            #expect(context.item?["age"] == .n("33"))
+            break
+        default:
+            Issue.record("Expected conditionalCheckFailedException, got: \(error)")
+        }
+        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: DynamoDBTableTrait.tableName)
+        let response = try await dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
+
+        #expect("David" == response.item?.name)
+        #expect("Jones" == response.item?.surname)
+        #expect(33 == response.item?.age)
+        #expect("1 Park Lane" == response.item?.address)
+        #expect(["cat", "dog"] == response.item?.pets)
+    }
+
+    @Suite(
+        .serialized,
+        DynamoDBTableTrait(
+            tableName: TestEnvironment.generateResourceName("soto-dynamodb-codable-tests2"),
+            attributeDefinitions: [
+                .init(attributeName: "id", attributeType: .s),
+                .init(attributeName: "version", attributeType: .n),
+            ],
+            keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+        )
+    )
+    struct WithValueTable {
+        @Test func testCodableQuery() async throws {
+            let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+            struct TestObject: Codable, Equatable {
+                let id: String
+                let version: Int
+                let message: String
             }
-        } catch {
-            XCTFail("Wrong error thrown")
-        }
-        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: Self.tableName)
-        let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
+            let testItems = [
+                TestObject(id: "testCodableQuery", version: 1, message: "Message 1"),
+                TestObject(id: "testCodableQuery", version: 2, message: "Message 2"),
+                TestObject(id: "testCodableQuery", version: 3, message: "Message 3"),
+            ]
+            _ = try await testItems.concurrentMap {
+                try await dynamoDB.putItem(.init(item: $0, tableName: DynamoDBTableTrait.tableName), logger: TestEnvironment.logger)
+            }
+            let request = DynamoDB.QueryInput(
+                consistentRead: true,
+                expressionAttributeValues: [":id": .s("testCodableQuery"), ":version": .n("2")],
+                keyConditionExpression: "id = :id and version >= :version",
+                tableName: DynamoDBTableTrait.tableName
+            )
+            let response = try await dynamoDB.query(request, type: TestObject.self, logger: TestEnvironment.logger)
 
-        XCTAssertEqual("David", response.item?.name)
-        XCTAssertEqual("Jones", response.item?.surname)
-        XCTAssertEqual(33, response.item?.age)
-        XCTAssertEqual("1 Park Lane", response.item?.address)
-        XCTAssertEqual(["cat", "dog"], response.item?.pets)
-    }
-
-    func testCodableQuery() async throws {
-        struct TestObject: Codable, Equatable {
-            let id: String
-            let version: Int
-            let message: String
-        }
-        let testItems = [
-            TestObject(id: "testCodableQuery", version: 1, message: "Message 1"),
-            TestObject(id: "testCodableQuery", version: 2, message: "Message 2"),
-            TestObject(id: "testCodableQuery", version: 3, message: "Message 3"),
-        ]
-        _ = try await testItems.concurrentMap {
-            try await Self.dynamoDB.putItem(.init(item: $0, tableName: Self.tableWithValueName), logger: TestEnvironment.logger)
-        }
-        let request = DynamoDB.QueryInput(
-            consistentRead: true,
-            expressionAttributeValues: [":id": .s("testCodableQuery"), ":version": .n("2")],
-            keyConditionExpression: "id = :id and version >= :version",
-            tableName: Self.tableWithValueName
-        )
-        let response = try await Self.dynamoDB.query(request, type: TestObject.self, logger: TestEnvironment.logger)
-
-        XCTAssertEqual(testItems[1], response.items?[0])
-        XCTAssertEqual(testItems[2], response.items?[1])
-    }
-
-    func testCodableQueryPaginator() async throws {
-        struct TestObject: Codable, Equatable {
-            let id: String
-            let version: Int
-            let message: String
-        }
-        let testItems = [
-            TestObject(id: "testCodableQueryPaginator", version: 1, message: "Message 1"),
-            TestObject(id: "testCodableQueryPaginator", version: 2, message: "Message 2"),
-            TestObject(id: "testCodableQueryPaginator", version: 3, message: "Message 3"),
-            TestObject(id: "testCodableQueryPaginator", version: 4, message: "Message 4"),
-            TestObject(id: "testCodableQueryPaginator", version: 5, message: "Message 5"),
-        ]
-        _ = try await testItems.concurrentMap {
-            try await Self.dynamoDB.putItem(.init(item: $0, tableName: Self.tableWithValueName), logger: TestEnvironment.logger)
+            #expect(testItems[1] == response.items?[0])
+            #expect(testItems[2] == response.items?[1])
         }
 
-        let request = DynamoDB.QueryInput(
-            consistentRead: true,
-            expressionAttributeValues: [":id": .s("testCodableQueryPaginator"), ":version": .n("2")],
-            keyConditionExpression: "id = :id and version >= :version",
-            limit: 3,
-            tableName: Self.tableWithValueName
-        )
-        let results = try await Self.dynamoDB.queryPaginator(request, type: TestObject.self, logger: TestEnvironment.logger)
-            .reduce([]) { $0 + ($1.items ?? []) }
+        @Test func testCodableQueryPaginator() async throws {
+            let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+            struct TestObject: Codable, Equatable {
+                let id: String
+                let version: Int
+                let message: String
+            }
+            let testItems = [
+                TestObject(id: "testCodableQueryPaginator", version: 1, message: "Message 1"),
+                TestObject(id: "testCodableQueryPaginator", version: 2, message: "Message 2"),
+                TestObject(id: "testCodableQueryPaginator", version: 3, message: "Message 3"),
+                TestObject(id: "testCodableQueryPaginator", version: 4, message: "Message 4"),
+                TestObject(id: "testCodableQueryPaginator", version: 5, message: "Message 5"),
+            ]
+            _ = try await testItems.concurrentMap {
+                try await dynamoDB.putItem(.init(item: $0, tableName: DynamoDBTableTrait.tableName), logger: TestEnvironment.logger)
+            }
 
-        XCTAssertEqual(testItems[1], results[0])
-        XCTAssertEqual(testItems[2], results[1])
-        XCTAssertEqual(testItems[3], results[2])
-        XCTAssertEqual(testItems[4], results[3])
-    }
+            let request = DynamoDB.QueryInput(
+                consistentRead: true,
+                expressionAttributeValues: [":id": .s("testCodableQueryPaginator"), ":version": .n("2")],
+                keyConditionExpression: "id = :id and version >= :version",
+                limit: 3,
+                tableName: DynamoDBTableTrait.tableName
+            )
+            let results = try await dynamoDB.queryPaginator(request, type: TestObject.self, logger: TestEnvironment.logger)
+                .reduce([]) { $0 + ($1.items ?? []) }
 
-    func testCodableScan() async throws {
-        struct TestObject: Codable, Equatable {
-            let id: String
-            let version: Int
-            let message: String
+            #expect(testItems[1] == results[0])
+            #expect(testItems[2] == results[1])
+            #expect(testItems[3] == results[2])
+            #expect(testItems[4] == results[3])
         }
-        let testItems = [
-            TestObject(id: "testCodableScan", version: 1, message: "Message 1"),
-            TestObject(id: "testCodableScan", version: 2, message: "Message 2"),
-            TestObject(id: "testCodableScan", version: 3, message: "Message 3"),
-        ]
-        _ = try await testItems.concurrentMap {
-            try await Self.dynamoDB.putItem(.init(item: $0, tableName: Self.tableWithValueName), logger: TestEnvironment.logger)
+
+        @Test func testCodableScan() async throws {
+            let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+            struct TestObject: Codable, Equatable {
+                let id: String
+                let version: Int
+                let message: String
+            }
+            let testItems = [
+                TestObject(id: "testCodableScan", version: 1, message: "Message 1"),
+                TestObject(id: "testCodableScan", version: 2, message: "Message 2"),
+                TestObject(id: "testCodableScan", version: 3, message: "Message 3"),
+            ]
+            _ = try await testItems.concurrentMap {
+                try await dynamoDB.putItem(.init(item: $0, tableName: DynamoDBTableTrait.tableName), logger: TestEnvironment.logger)
+            }
+
+            let request = DynamoDB.ScanInput(
+                consistentRead: true,
+                expressionAttributeValues: [":id": .s("testCodableScan"), ":message": .s("Message 2")],
+                filterExpression: "id = :id and message = :message",
+                tableName: DynamoDBTableTrait.tableName
+            )
+            let response = try await dynamoDB.scan(request, type: TestObject.self, logger: TestEnvironment.logger)
+
+            #expect(testItems[1] == response.items?[0])
         }
-
-        let request = DynamoDB.ScanInput(
-            consistentRead: true,
-            expressionAttributeValues: [":id": .s("testCodableScan"), ":message": .s("Message 2")],
-            filterExpression: "id = :id and message = :message",
-            tableName: Self.tableWithValueName
-        )
-        let response = try await Self.dynamoDB.scan(request, type: TestObject.self, logger: TestEnvironment.logger)
-
-        XCTAssertEqual(testItems[1], response.items?[0])
     }
 }
