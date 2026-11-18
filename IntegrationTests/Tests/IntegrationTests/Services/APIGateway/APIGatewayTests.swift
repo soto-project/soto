@@ -27,7 +27,7 @@ struct APIGatewayTrait: TestScoping, SuiteTrait, TestTrait {
     let restApiName: String = TestEnvironment.generateResourceName("APIGatewayTests")
 
     func provideScope(for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void) async throws {
-        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .useast1)
+        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .euwest1)
         try await testAsset {
             let response = try await apiGateway.createRestApi(name: self.restApiName)
             return try #require(response.id)
@@ -49,7 +49,7 @@ struct APIGatewayTrait: TestScoping, SuiteTrait, TestTrait {
 )
 struct APIGatewayTests {
     @Test func testGetRestApis() async throws {
-        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .useast1)
+        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .euwest1)
         let request = APIGateway.GetRestApisRequest()
         let response = try await apiGateway.getRestApis(request, logger: TestEnvironment.logger)
         let restApi = try #require(response.items?.first(where: { $0.id == APIGatewayTrait.api.id }))
@@ -57,14 +57,14 @@ struct APIGatewayTests {
     }
 
     @Test func testGetRestApi() async throws {
-        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .useast1)
+        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .euwest1)
         let request = APIGateway.GetRestApiRequest(restApiId: APIGatewayTrait.api.id)
         let response = try await apiGateway.getRestApi(request, logger: TestEnvironment.logger)
         #expect(response.name == APIGatewayTrait.api.name)
     }
 
     @Test func testCreateGetResource() async throws {
-        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .useast1)
+        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .euwest1)
         // get parent resource
         let request = APIGateway.GetResourcesRequest(restApiId: APIGatewayTrait.api.id)
         let response = try await apiGateway.getResources(request, logger: TestEnvironment.logger)
@@ -83,24 +83,26 @@ struct APIGatewayTests {
         #expect(getResourceResponse.pathPart == "test")
     }
 
-    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "This test does not work with localstack"))
+    @Test
     func testPathWithSpecialCharacters() async throws {
-        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .useast1)
+        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .euwest1)
         let request = APIGateway.GetResourcesRequest(restApiId: "Test+%/*%25")
         let error = await #expect(throws: APIGatewayErrorType.self) {
             try await apiGateway.getResources(request, logger: TestEnvironment.logger)
         }
         switch error?.error {
         case .notFoundException:
-            #expect(error?.message?.hasPrefix("Invalid API identifier specified") == true)
-            #expect(error?.message?.hasSuffix(":Test+%/*%25") == true)
+            if !TestEnvironment.isUsingLocalstack {
+                #expect(error?.message?.hasPrefix("Invalid API identifier specified") == true)
+                #expect(error?.message?.hasSuffix(":Test+%/*%25") == true)
+            }
         default:
-            Issue.record("Expected notFoundException, got \(error)")
+            Issue.record("Expected notFoundException, got \(String(describing: error?.error))")
         }
     }
 
     @Test func testError() async throws {
-        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .useast1)
+        let apiGateway = APIGateway(client: AWSClientTrait.client, region: .euwest1)
         let error = await #expect(throws: APIGatewayErrorType.self) {
             _ = try await apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"), logger: TestEnvironment.logger)
         }
