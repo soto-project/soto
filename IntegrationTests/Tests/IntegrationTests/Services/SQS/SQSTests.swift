@@ -21,7 +21,7 @@ import Testing
 struct SQSTests {
     /// create SQS queue with supplied name and run supplied closure
     func testQueue(name: String, sqs: SQS, test: @escaping (String) async throws -> Void) async throws {
-        try await XCTTestAsset {
+        try await testAsset {
             let request = SQS.CreateQueueRequest(queueName: name)
             let response = try await sqs.createQueue(request)
             return try #require(response.queueUrl)
@@ -67,7 +67,7 @@ struct SQSTests {
         }
     }
 
-    @Test func testTestPercentEncodedCharacters() async throws {
+    @Test func testPercentEncodedCharacters() async throws {
         let sqs = SQS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
         try await self.testSendReceiveAndDelete(name: name, messageBody: "!@#$%^&*()-=_+[]{};':\",.<>\\|`~éñà", sqs: sqs)
