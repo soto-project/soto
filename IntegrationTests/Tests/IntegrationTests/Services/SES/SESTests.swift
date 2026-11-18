@@ -22,12 +22,14 @@ import Testing
 )
 struct SESTests {
     // Tests query protocol requests with no body
+    @Test
     func testGetAccountSendingEnabled() async throws {
         let ses = SES(client: AWSClientTrait.client, region: .useast1)
         _ = try await ses.getAccountSendingEnabled()
     }
 
     // test fips region
+    @Test
     func testFipsRegion() async throws {
         struct TestError: Error {}
         struct TestRequestMiddleware: AWSMiddlewareProtocol {
