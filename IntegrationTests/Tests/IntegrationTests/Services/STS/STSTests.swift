@@ -93,7 +93,7 @@ struct STSTests {
             case .authorizationErrorException:
                 break
             default:
-                Issue.record()
+                Issue.record("Expected authorizationErrorException, got \(String(describing: error?.error))")
             }
         } delete: { client in
             try await client.shutdown()
@@ -109,11 +109,7 @@ struct STSTests {
                 roleSessionName: "now",
                 webIdentityToken: "webtoken"
             )
-            do {
-                _ = try await sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
-            } catch {
-                throw error
-            }
+            _ = try await sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
         }
         #expect(error?.error == .invalidIdentityTokenException)
     }
