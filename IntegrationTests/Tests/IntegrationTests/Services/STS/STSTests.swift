@@ -16,49 +16,26 @@ import Logging
 import NIOConcurrencyHelpers
 import SotoS3
 import SotoSNS
-import XCTest
+import Testing
 
 @testable import SotoSTS
 
 // testing query service
-
-class STSTests: XCTestCase {
-    var client: AWSClient!
-    var sts: STS!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-        self.client = AWSClient(
-            credentialProvider: TestEnvironment.credentialProvider,
-            middleware: TestEnvironment.middlewares,
-            logger: Logger(label: "Soto")
-        )
-        self.sts = STS(
-            client: self.client,
-            region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
+@Suite(.awsClient())
+struct STSTests {
+    @Test func testGetCallerIdentity() async throws {
+        let sts = STS(client: AWSClientTrait.client, region: .useast1)
+        _ = try await sts.getCallerIdentity()
     }
 
-    func testGetCallerIdentity() async throws {
-        _ = try await self.sts.getCallerIdentity()
-    }
-
-    func testSTSCredentialProviderShutdown() async throws {
+    @Test func testSTSCredentialProviderShutdown() async throws {
         let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
         let credentialProvider = CredentialProviderFactory.stsAssumeRole(request: request, region: .euwest2)
         let client = AWSClient(credentialProvider: credentialProvider, logger: TestEnvironment.logger)
         try await client.shutdown()
     }
 
-    func testSTSCredentialProviderClosure() async throws {
+    @Test func testSTSCredentialProviderClosure() async throws {
         let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
         let returnedRequest: NIOLockedValueBox<STS.AssumeRoleRequest?> = .init(nil)
         let credentialProvider = CredentialProviderFactory.stsAssumeRole(region: .euwest2) {
@@ -72,13 +49,12 @@ class STSTests: XCTestCase {
         _ = try? await client.credentialProvider.getCredential(logger: TestEnvironment.logger)
         try await client.shutdown()
         returnedRequest.withLockedValue { value in
-            XCTAssertEqual(request.roleSessionName, value?.roleSessionName)
+            #expect(request.roleSessionName == value?.roleSessionName)
         }
     }
 
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Cannot verify federation tokens with Localstack"))
     func testFederationToken() async throws {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
         // create a role with this policy
         let policyDocument = """
             {
@@ -97,41 +73,44 @@ class STSTests: XCTestCase {
             """
         let name = TestEnvironment.generateResourceName("federationToken")
         let federationRequest = STS.GetFederationTokenRequest(name: name, policy: policyDocument)
-        let client = AWSClient(
-            credentialProvider: .stsFederationToken(
-                request: federationRequest,
-                credentialProvider: TestEnvironment.credentialProvider,
-                region: .useast1
-            ),
-            logger: Logger(label: "Soto")
-        )
-        do {
+        try await testAsset {
+            AWSClient(
+                credentialProvider: .stsFederationToken(
+                    request: federationRequest,
+                    credentialProvider: TestEnvironment.credentialProvider,
+                    region: .useast1
+                ),
+                logger: Logger(label: "Soto")
+            )
+        } test: { client in
             let s3 = S3(client: client, region: .euwest1)
             _ = try await s3.listBuckets(.init())
             let sns = SNS(client: client)
-            let error = await XCTAsyncExpectError(SNSErrorType.self) {
+            let error = await #expect(throws: SNSErrorType.self) {
                 _ = try await sns.listTopics(.init())
             }
             switch error?.error {
             case .authorizationErrorException:
                 break
             default:
-                XCTFail()
+                Issue.record("Expected authorizationErrorException, got \(String(describing: error?.error))")
             }
+        } delete: { client in
+            try await client.shutdown()
         }
-        try await client.shutdown()
     }
 
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Localstack error is inconsistent with AWS"))
     func testError() async throws {
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        let error = await XCTAsyncExpectError(STSErrorType.self) {
+        let sts = STS(client: AWSClientTrait.client, region: .useast1)
+        let error = await #expect(throws: STSErrorType.self) {
             let request = STS.AssumeRoleWithWebIdentityRequest(
                 roleArn: "arn:aws:iam::000000000000:role/Admin",
                 roleSessionName: "now",
                 webIdentityToken: "webtoken"
             )
-            _ = try await self.sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
+            _ = try await sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
         }
-        XCTAssertEqual(error?.error, .invalidIdentityTokenException)
+        #expect(error?.error == .invalidIdentityTokenException)
     }
 }
