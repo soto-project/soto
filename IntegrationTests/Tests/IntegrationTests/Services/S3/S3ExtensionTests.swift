@@ -115,7 +115,7 @@ struct S3ExtensionTests {
             let responseBody = try await getResponse.body.collect(upTo: .max)
             #expect(responseBody == buffer)
         } delete: {
-            await XCTAsyncAssertNoThrow { try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename) }
+            try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename)
         }
     }
 
@@ -194,7 +194,7 @@ struct S3ExtensionTests {
             let responseBody = try await getResponse.body.collect(upTo: .max)
             #expect(responseBody == buffer)
         } delete: {
-            await XCTAsyncAssertNoThrow { try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename) }
+            try await NonBlockingFileIO(threadPool: .singleton).remove(path: filename)
         }
     }
 
