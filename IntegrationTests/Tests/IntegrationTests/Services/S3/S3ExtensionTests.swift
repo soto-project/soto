@@ -444,19 +444,19 @@ extension S3Tests {
                 secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
             )
         )
-        let s3 = S3(client: client, region: .useast1)
+        let s3 = S3(client: client, region: .useast1, endpoint: "https://s3.us-east-1.amazonaws.com")
 
         try await withTeardown {
             let fields = [
                 "acl": "public-read",
-                "success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
+                "success_action_redirect": "https://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
                 "x-amz-meta-uuid": "14365123651274",
                 "x-amz-server-side-encryption": "AES256",
             ]
 
             let conditions: [S3.PostPolicyCondition] = [
                 .match("acl", "public-read"),
-                .match("success_action_redirect", "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"),
+                .match("success_action_redirect", "https://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"),
                 .match("x-amz-meta-uuid", "14365123651274"),
                 .match("x-amz-server-side-encryption", "AES256"),
                 .rule("starts-with", "$Content-Type", "image/"),
