@@ -121,14 +121,15 @@ struct DynamoDBTests {
         )
         let response = try await self.getItem(tableName: DynamoDBTableTrait.tableName, keys: ["id": "testNumberSetItem"], dynamoDB: dynamoDB)
         #expect(response.item?["id"] == .s("testNumberSetItem"))
-        if case .ns(let numbers) = response.item?["numbers"] {
+        let numbers = try #require(response.item?["numbers"])
+        if case .ns(let numbers) = numbers {
             let numberSet = Set(numbers)
             #expect(numberSet.contains("2"))
             #expect(numberSet.contains("4.001"))
             #expect(numberSet.contains("-6"))
             #expect(numberSet.contains("8"))
         } else {
-            Issue.record("Expected a number set, but got \(response.item?["numbers"])")
+            Issue.record("Expected a number set, but got \(numbers)")
         }
     }
 

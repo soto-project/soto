@@ -143,7 +143,6 @@ struct DynamoDBCodableTests {
         switch error?.error {
         case .conditionalCheckFailedException(let context):
             #expect(context.item?["age"] == .n("33"))
-            break
         default:
             Issue.record("Expected conditionalCheckFailedException, got: \(error)")
         }
@@ -158,7 +157,6 @@ struct DynamoDBCodableTests {
     }
 
     @Suite(
-        .serialized,
         DynamoDBTableTrait(
             tableName: TestEnvironment.generateResourceName("soto-dynamodb-codable-tests2"),
             attributeDefinitions: [
