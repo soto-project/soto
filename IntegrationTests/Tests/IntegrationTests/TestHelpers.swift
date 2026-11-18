@@ -286,9 +286,6 @@ struct AWSClientTrait: TestScoping, SuiteTrait, TestTrait {
     }
 
     func provideScope(for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void) async throws {
-        guard AWSClientTrait._client == nil else {
-            preconditionFailure("Cannot mix `.awsClient` suite and test traits")
-        }
         let client = self.createClient(test.name)
         do {
             try await AWSClientTrait.$_client.withValue(client) {
@@ -303,7 +300,7 @@ struct AWSClientTrait: TestScoping, SuiteTrait, TestTrait {
 }
 
 extension SuiteTrait where Self == AWSClientTrait {
-    static func awsClient(credentialProvider: CredentialProviderFactory = .default) -> AWSClientTrait {
+    static func awsClient(credentialProvider: CredentialProviderFactory = TestEnvironment.credentialProvider) -> AWSClientTrait {
         if TestEnvironment.isUsingLocalstack {
             print("Connecting to Localstack")
         } else {
