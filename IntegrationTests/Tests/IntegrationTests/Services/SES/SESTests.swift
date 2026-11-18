@@ -12,44 +12,25 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
 import SotoSES
-import XCTest
+import Testing
 
-// testing json service
-
-class SESTests: XCTestCase {
-    var client: AWSClient!
-    var ses: SES!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.ses = SES(
-            client: self.client,
-            region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
+@Suite(
+    .awsClient(),
+    .disabled(if: TestEnvironment.isUsingLocalstack, "SES tests don't work with localstack")
+)
+struct SESTests {
     // Tests query protocol requests with no body
+    @Test
     func testGetAccountSendingEnabled() async throws {
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        _ = try await self.ses.getAccountSendingEnabled()
+        let ses = SES(client: AWSClientTrait.client, region: .useast1)
+        _ = try await ses.getAccountSendingEnabled()
     }
 
     // test fips region
+    @Test
     func testFipsRegion() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         struct TestError: Error {}
         struct TestRequestMiddleware: AWSMiddlewareProtocol {
             let test: @Sendable (AWSHTTPRequest) -> Void
@@ -64,11 +45,11 @@ class SESTests: XCTestCase {
             }
         }
         let testMiddleware = TestRequestMiddleware { request in
-            XCTAssertEqual(request.request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
+            #expect(request.request.url == URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
         }
-        let ses = SES(client: self.client, region: .useast1, options: .useFipsEndpoint).with(middleware: testMiddleware)
-        do {
-            _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
-        } catch is TestError {}
+        let fipsSES = SES(client: AWSClientTrait.client, region: .useast1, options: .useFipsEndpoint).with(middleware: testMiddleware)
+        await #expect(throws: TestError.self) {
+            _ = try await fipsSES.createConfigurationSet(.init(configurationSet: .init(name: "test")))
+        }
     }
 }
