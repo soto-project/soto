@@ -21,7 +21,7 @@ import Testing
 struct SNSTests {
     /// create SNS topic with supplied name and run supplied closure
     func testTopic(name: String, sns: SNS, test: @escaping (String) async throws -> Void) async throws {
-        try await XCTTestAsset {
+        try await testAsset {
             let createRequest = SNS.CreateTopicInput(name: name)
             let createResponse = try await sns.createTopic(createRequest)
             return try #require(createResponse.topicArn)
@@ -53,9 +53,9 @@ struct SNSTests {
     }
 
     // disabled until we get valid topic arn's returned from Localstack
-    @Test func testSetTopicAttributes() async throws {
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Need Topic ARNs from localstack"))
+    func testSetTopicAttributes() async throws {
         let sns = SNS(client: AWSClientTrait.client, region: .useast1)
-        guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
         try await self.testTopic(name: name, sns: sns) { topicArn in
             let request = SNS.SetTopicAttributesInput(
@@ -73,14 +73,14 @@ struct SNSTests {
     @Test func testError() async throws {
         let sns = SNS(client: AWSClientTrait.client, region: .useast1)
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let error = await XCTAsyncExpectError(SNSErrorType.self) {
+        let error = await #expect(throws: SNSErrorType.self) {
             _ = try await sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
         }
         switch error?.error {
         case .invalidParameterException:
             break
         default:
-            Issue.record()
+            Issue.record("Expected invalidParameterException, got \(String(describing: error?.error))")
         }
     }
 }
