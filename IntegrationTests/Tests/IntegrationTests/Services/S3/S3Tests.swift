@@ -500,11 +500,16 @@ struct S3Tests {
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try #require(request.request.url)
-                #expect(url.absoluteString.split(separator: ".")[2] == "dualstack")
+                let urlComp = url.absoluteString.split(separator: ".")[2]
+                #expect(urlComp == "dualstack")
                 return try await next(request, context)
             }
         }
-        let s3 = S3(client: AWSClientTrait.client, region: .useast1, middleware: VerifyDualStackMiddleware(), options: .useDualStackEndpoint)
+        let s3 = S3(
+            client: AWSClientTrait.client,
+            region: .useast1,
+            options: .useDualStackEndpoint
+        ).with(middleware: VerifyDualStackMiddleware())
         let name = TestEnvironment.generateResourceName()
 
         try await self.testPutGetObject(
@@ -524,11 +529,16 @@ struct S3Tests {
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try #require(request.request.url)
-                #expect(url.absoluteString.split(separator: ".")[1] == "s3-fips")
+                let urlComp = url.absoluteString.split(separator: ".")[1]
+                #expect(urlComp == "s3-fips")
                 return try await next(request, context)
             }
         }
-        let s3 = S3(client: AWSClientTrait.client, region: .useast1, middleware: VerifyFipsEndpointMiddleware(), options: .useFipsEndpoint)
+        let s3 = S3(
+            client: AWSClientTrait.client,
+            region: .useast1,
+            options: .useFipsEndpoint
+        ).with(middleware: VerifyFipsEndpointMiddleware())
         let name = TestEnvironment.generateResourceName()
 
         try await self.testPutGetObject(
@@ -548,16 +558,13 @@ struct S3Tests {
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try #require(request.request.url)
-                #expect(url.absoluteString.split(separator: ".")[1] == "s3-accelerate")
+                let urlComp = url.absoluteString.split(separator: ".")[1]
+                #expect(urlComp == "s3-accelerate")
                 return try await next(request, context)
             }
         }
-        let s3 = S3(
-            client: AWSClientTrait.client,
-            region: .useast1,
-            middleware: VerifyTransferAccelerateMiddleware(),
-            options: .s3UseTransferAcceleratedEndpoint
-        )
+        let s3 = S3(client: AWSClientTrait.client, region: .useast1)
+        let s3Accelerated = s3.with(middleware: VerifyTransferAccelerateMiddleware(), options: .s3UseTransferAcceleratedEndpoint)
         let name = TestEnvironment.generateResourceName()
         try await self.testBucket(name, s3: s3) { name in
             let filename = "testfile.txt"
@@ -574,9 +581,9 @@ struct S3Tests {
                 bucket: name,
                 key: filename
             )
-            let putResponse = try await s3.putObject(putRequest)
+            let putResponse = try await s3Accelerated.putObject(putRequest)
             #expect(putResponse.eTag != nil)
-            let getResponse = try await s3.getObject(
+            let getResponse = try await s3Accelerated.getObject(
                 .init(bucket: name, key: filename, responseExpires: Date())
             )
             let responseContents = try await getResponse.body.collect(upTo: .max)
