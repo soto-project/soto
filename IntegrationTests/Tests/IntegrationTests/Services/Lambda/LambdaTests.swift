@@ -21,7 +21,12 @@ import Testing
 /// This trait expects an AWSClientTrait to have already been declared
 struct LambdaTrait: TestScoping, SuiteTrait {
     @TaskLocal
-    static var functionName: String = ""
+    static var _functionName: String?
+
+    static var functionName: String {
+        guard let _functionName else { fatalError("Test requires a lambda trait to run") }
+        return _functionName
+    }
 
     let functionName: String = TestEnvironment.generateResourceName("UnitTestSotoLambda")
     let roleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
@@ -61,7 +66,7 @@ struct LambdaTrait: TestScoping, SuiteTrait {
         _ = try await lambda.deleteFunction(functionName: self.functionName)
     }
 
-    func createIAMRole(iam: IAM) async throws -> IAM.CreateRoleResponse {
+    func createIAMRole(iam: IAM) async throws -> IAM.Role {
         // as documented at https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
         let assumeRolePolicyDocument = """
             {
@@ -84,9 +89,24 @@ struct LambdaTrait: TestScoping, SuiteTrait {
         // no policies are required, create an empty role
 
         print("Creating IAM Role : \(self.roleName)")
-        let response = try await iam.createRole(crr)
-        try await iam.waitUntilRoleExists(.init(roleName: self.roleName))
-        return response
+        do {
+            let response = try await iam.createRole(crr)
+            try await iam.waitUntilRoleExists(.init(roleName: self.roleName))
+            // IAM needs some time after Role creation,
+            // before the role can be attached to a Lambda function
+            // https://stackoverflow.com/a/37438525/663360
+            print("Sleeping 20 secs, waiting for IAM Role to be ready")
+            try await Task.sleep(nanoseconds: 20_000_000_000)
+            return response.role
+        } catch let error as IAMErrorType {
+            switch error.error {
+            case .entityAlreadyExistsException:
+                let response = try await iam.getRole(roleName: self.roleName)
+                return response.role
+            default:
+                throw error
+            }
+        }
     }
 
     func deleteIAMRole(iam: IAM) async throws {
@@ -97,37 +117,22 @@ struct LambdaTrait: TestScoping, SuiteTrait {
     func provideScope(for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void) async throws {
         let lambda = Lambda(client: AWSClientTrait.client, region: .euwest1)
         let iam = IAM(client: AWSClientTrait.client)
-        let arn: String
-        do {
-            let response = try await self.createIAMRole(iam: iam)
-            // IAM needs some time after Role creation,
-            // before the role can be attached to a Lambda function
-            // https://stackoverflow.com/a/37438525/663360
-            print("Sleeping 20 secs, waiting for IAM Role to be ready")
-            try await Task.sleep(nanoseconds: 20_000_000_000)
-            arn = response.role.arn
-        } catch let error as IAMErrorType {
-            switch error.error {
-            case .entityAlreadyExistsException:
-                let response = try await iam.getRole(roleName: self.roleName)
-                arn = response.role.arn
-            default:
-                throw error
-            }
-        }
-        try await self.createLambdaFunction(roleArn: arn, lambda: lambda)
 
-        do {
-            try await Self.$functionName.withValue(self.functionName) {
-                try await function()
+        try await testAsset {
+            try await self.createIAMRole(iam: iam).arn
+        } test: { arn in
+            try await testAsset {
+                try await self.createLambdaFunction(roleArn: arn, lambda: lambda)
+            } test: {
+                try await Self.$_functionName.withValue(self.functionName) {
+                    try await function()
+                }
+            } delete: {
+                try await self.deleteLambdaFunction(lambda: lambda)
             }
-        } catch {
-            try await self.deleteLambdaFunction(lambda: lambda)
+        } delete: { arn in
             try await self.deleteIAMRole(iam: iam)
-            throw error
         }
-        try await self.deleteLambdaFunction(lambda: lambda)
-        try await self.deleteIAMRole(iam: iam)
     }
 }
 
@@ -140,10 +145,10 @@ struct LambdaTests {
 
     // MARK: TESTS
 
-    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Lambda tests don't work with localstack"))
+    @Test
     func testInvoke() async throws {
         let lambda = Lambda(client: AWSClientTrait.client, region: .euwest1)
-        // invoke the Lambda function created by setUp()
+        // invoke the Lambda function created by the LambdaTrait
         let request = Lambda.InvocationRequest(functionName: LambdaTrait.functionName, logType: .tail, payload: .init(string: "{}"))
         let response = try await lambda.invoke(request)
         // is there an function execution error returned by the service?
