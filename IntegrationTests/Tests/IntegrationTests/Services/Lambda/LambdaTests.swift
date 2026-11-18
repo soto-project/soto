@@ -192,7 +192,7 @@ struct LambdaTests {
         case .resourceNotFoundException:
             break
         default:
-            Issue.record()
+            Issue.record("Expected resourceNotFoundException, got \(String(describing: error?.error))")
         }
     }
 }
