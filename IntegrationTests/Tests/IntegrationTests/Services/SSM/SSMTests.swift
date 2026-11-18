@@ -12,86 +12,67 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
+import Testing
 
 @testable import SotoSSM
 
 // testing json service
 
-class SSMTests: XCTestCase {
-    var client: AWSClient!
-    var ssm: SSM!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.ssm = SSM(
-            client: self.client,
-            region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
+@Suite(.awsClient())
+struct SSMTests {
     /// put parameter, test it, delete it
-    func testParameter(name: String, value: String, test: @escaping (String) async throws -> Void) async throws {
-        try await XCTTestAsset {
+    func testParameter(name: String, value: String, ssm: SSM, test: @escaping (String) async throws -> Void) async throws {
+        try await testAsset {
             let request = SSM.PutParameterRequest(name: name, overwrite: true, type: .string, value: value)
-            _ = try await self.ssm.putParameter(request)
+            _ = try await ssm.putParameter(request)
             return name
         } test: {
             try await test($0)
         } delete: {
             let request = SSM.DeleteParameterRequest(name: $0)
-            _ = try await self.ssm.deleteParameter(request)
+            _ = try await ssm.deleteParameter(request)
         }
     }
 
     // MARK: TESTS
 
-    func testGetParameter() async throws {
+    @Test func testGetParameter() async throws {
+        let ssm = SSM(client: AWSClientTrait.client, region: .useast1)
         // parameter names cannot begin wih "aws"
         let name = "test" + TestEnvironment.generateResourceName()
-        try await self.testParameter(name: name, value: "testdata") { name in
+        try await self.testParameter(name: name, value: "testdata", ssm: ssm) { name in
             let request = SSM.GetParameterRequest(name: name)
-            let response = try await self.ssm.getParameter(request)
-            let parameter = try XCTUnwrap(response.parameter)
-            XCTAssertEqual(parameter.name, name)
-            XCTAssertEqual(parameter.value, "testdata")
+            let response = try await ssm.getParameter(request)
+            let parameter = try #require(response.parameter)
+            #expect(parameter.name == name)
+            #expect(parameter.value == "testdata")
         }
     }
 
-    func testGetParametersByPath() async throws {
+    @Test func testGetParametersByPath() async throws {
+        let ssm = SSM(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
         let fullname = "/\(name)/\(name)"
-        try await self.testParameter(name: fullname, value: "testdata2") { parameterName in
+        try await self.testParameter(name: fullname, value: "testdata2", ssm: ssm) { parameterName in
             try await Task.sleep(nanoseconds: 500_000_000)
             let request = SSM.GetParametersByPathRequest(path: "/\(name)/")
-            let response = try await self.ssm.getParametersByPath(request)
-            let parameter = try XCTUnwrap(response.parameters?.first { $0.name == parameterName })
-            XCTAssertEqual(parameter.value, "testdata2")
+            let response = try await ssm.getParametersByPath(request)
+            let parameter = try #require(response.parameters?.first { $0.name == parameterName })
+            #expect(parameter.value == "testdata2")
         }
     }
 
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Doesn't work with localstack"))
     func testError() async throws {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
-        let error = await XCTAsyncExpectError(SSMErrorType.self) {
-            _ = try await self.ssm.describeDocument(.init(name: "non-existent-document"))
+        let ssm = SSM(client: AWSClientTrait.client, region: .useast1)
+        let error = await #expect(throws: SSMErrorType.self) {
+            _ = try await ssm.describeDocument(.init(name: "non-existent-document"))
         }
         switch error?.error {
         case .invalidDocument:
             break
         default:
-            XCTFail()
+            Issue.record("Expected invalidDocument, got \(String(describing: error?.error))")
         }
     }
 }
