@@ -19,7 +19,7 @@ import Testing
 // testing json service
 
 @Suite(.awsClient())
-class SSMTests {
+struct SSMTests {
     /// put parameter, test it, delete it
     func testParameter(name: String, value: String, ssm: SSM, test: @escaping (String) async throws -> Void) async throws {
         try await testAsset {
@@ -72,7 +72,7 @@ class SSMTests {
         case .invalidDocument:
             break
         default:
-            Issue.record()
+            Issue.record("Expected invalidDocument, got \(String(describing: error?.error))")
         }
     }
 }
