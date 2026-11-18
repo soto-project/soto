@@ -688,11 +688,13 @@ struct S3Tests {
     }
 
     /// test S3 control host is prefixed with account id
-    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test s3 access points with localstack"))
+    @Test(
+        .disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test s3 access points with localstack"),
+        .disabled(if: Environment["AWS_ACCOUNT_ID"] == nil, "Require AWS_ACCOUNT_ID environment variable")
+    )
     func testS3AccessPoints() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         guard let accountId = Environment["AWS_ACCOUNT_ID"] else {
-            Issue.record("Require AWS_ACCOUNT_ID environment variable", severity: .warning)
             return
         }
         let name = TestEnvironment.generateResourceName()
