@@ -22,7 +22,7 @@ import Testing
 @Suite(
     .serialized,
     .awsClient(),
-    .disabled(if: TestEnvironment.isUsingLocalstack, "TimestreamWrite are not available while using Localstack")
+    .disabled(if: TestEnvironment.isUsingLocalstack, "TimestreamWrite is not available while using Localstack")
 )
 struct TimestreamWriteTests {
     /// create SNS topic with supplied name and run supplied closure
@@ -48,27 +48,19 @@ struct TimestreamWriteTests {
 
     @Test func testCreateDeleteDatabase() async throws {
         let name = TestEnvironment.generateResourceName()
-        let ts = TimestreamWrite(
-            client: AWSClientTrait.client,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
+        let ts = TimestreamWrite(client: AWSClientTrait.client, region: .euwest1)
         try await self.testDatabase(name: name, ts: ts) { _ in }
     }
 
     @Test func testCreateTableAndWrite() async throws {
         let name = TestEnvironment.generateResourceName()
         let tableName = "\(name)-table"
-        let ts = TimestreamWrite(
-            client: AWSClientTrait.client,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
+        let ts = TimestreamWrite(client: AWSClientTrait.client, region: .euwest1)
 
         try await self.testDatabase(name: name, ts: ts) { name in
             try await testAsset {
                 do {
-                    _ = try await ts.createTable(databaseName: name, tableName: name)
+                    _ = try await ts.createTable(databaseName: name, tableName: tableName)
                     return name
                 } catch let error as TimestreamWriteErrorType {
                     switch error.error {
