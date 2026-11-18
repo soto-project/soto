@@ -13,157 +13,223 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import XCTest
+import Testing
 
 @testable import SotoDynamoDB
 
-// testing json service
+struct DynamoDBTableTrait: TestScoping, SuiteTrait, TestTrait {
+    @TaskLocal
+    static var _tableName: String?
 
-class DynamoDBTests: XCTestCase {
-    nonisolated(unsafe) static var client: AWSClient!
-    nonisolated(unsafe) static var dynamoDB: DynamoDB!
-    nonisolated(unsafe) static var tableName: String!
-    nonisolated(unsafe) static var tableWithValueName: String!
-
-    override class func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.dynamoDB = DynamoDB(
-            client: DynamoDBTests.client,
-            region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-        /// If we create a rest api for each test, when we delete them APIGateway will
-        /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
-        Task {
-            await XCTAsyncAssertNoThrow {
-                try await withThrowingTaskGroup(of: Void.self) { group in
-                    group.addTask {
-                        self.tableName = TestEnvironment.generateResourceName("soto-dynamodb-tests")
-                        _ = try await Self.createTable(
-                            name: self.tableName,
-                            attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
-                            keySchema: [.init(attributeName: "id", keyType: .hash)]
-                        )
-                    }
-                    group.addTask {
-                        self.tableWithValueName = TestEnvironment.generateResourceName("soto-dynamodb-tests_value")
-                        _ = try await Self.createTable(
-                            name: self.tableWithValueName,
-                            attributeDefinitions: [
-                                .init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n),
-                            ],
-                            keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
-                        )
-                    }
-                    try await group.waitForAll()
-                }
-            }
-        }.syncAwait()
+    static var tableName: String {
+        guard let _tableName else { fatalError("Test needs a DynamoDBTableTrait") }
+        return _tableName
     }
 
-    override class func tearDown() {
-        Task {
-            await XCTAsyncAssertNoThrow {
-                _ = try await Self.deleteTable(name: self.tableName)
-                _ = try await Self.deleteTable(name: self.tableWithValueName)
-                try await Self.client.shutdown()
-            }
-        }.syncAwait()
-    }
+    let input: DynamoDB.CreateTableInput
 
-    static func createTable(
-        name: String,
-        attributeDefinitions: [DynamoDB.AttributeDefinition],
-        keySchema: [DynamoDB.KeySchemaElement]
-    ) async throws {
-        let input = DynamoDB.CreateTableInput(
+    init(tableName: String, attributeDefinitions: [DynamoDB.AttributeDefinition], keySchema: [DynamoDB.KeySchemaElement]?) {
+        self.input = .init(
             attributeDefinitions: attributeDefinitions,
             keySchema: keySchema,
             provisionedThroughput: .init(readCapacityUnits: 5, writeCapacityUnits: 5),
-            tableName: name
+            tableName: tableName
         )
+    }
+
+    func provideScope(for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void) async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+        try await testAsset {
+            try await self.createTable(input: input, dynamoDB: dynamoDB)
+        } test: {
+            try await DynamoDBTableTrait.$_tableName.withValue(self.input.tableName) {
+                try await function()
+            }
+        } delete: {
+            _ = try await dynamoDB.deleteTable(tableName: input.tableName)
+        }
+    }
+
+    func createTable(
+        input: DynamoDB.CreateTableInput,
+        dynamoDB: DynamoDB
+    ) async throws {
         do {
-            let response = try await Self.dynamoDB.createTable(input, logger: TestEnvironment.logger)
-            XCTAssertEqual(response.tableDescription?.tableName, name)
+            _ = try await dynamoDB.createTable(input, logger: TestEnvironment.logger)
         } catch let error as DynamoDBErrorType {
             switch error.error {
             case .resourceInUseException:
-                print("Table (\(name)) already exists")
+                print("Table (\(input.tableName)) already exists")
             default:
                 throw error
             }
         }
-        try await Self.dynamoDB.waitUntilTableExists(.init(tableName: name), logger: TestEnvironment.logger)
+        try await dynamoDB.waitUntilTableExists(.init(tableName: input.tableName), logger: TestEnvironment.logger)
     }
 
-    static func deleteTable(name: String) async throws {
-        let input = DynamoDB.DeleteTableInput(tableName: name)
-        _ = try await Self.dynamoDB.deleteTable(input, logger: TestEnvironment.logger)
-    }
+}
 
-    func putItem(tableName: String, values: [String: Any]) async throws -> DynamoDB.PutItemOutput {
+@Suite(
+    .awsClient(),
+    DynamoDBTableTrait(
+        tableName: TestEnvironment.generateResourceName("soto-dynamodb-tests"),
+        attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
+        keySchema: [.init(attributeName: "id", keyType: .hash)]
+    )
+)
+struct DynamoDBTests {
+    /*    override class func setUp() {
+            if TestEnvironment.isUsingLocalstack {
+                print("Connecting to Localstack")
+            } else {
+                print("Connecting to AWS")
+            }
+
+            self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
+            self.dynamoDB = DynamoDB(
+                client: DynamoDBTests.client,
+                region: .useast1,
+                endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+            )
+            /// If we create a rest api for each test, when we delete them APIGateway will
+            /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
+            Task {
+                await XCTAsyncAssertNoThrow {
+                    try await withThrowingTaskGroup(of: Void.self) { group in
+                        group.addTask {
+                            self.tableName = TestEnvironment.generateResourceName("soto-dynamodb-tests")
+                            _ = try await Self.createTable(
+                                name: self.tableName,
+                                attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
+                                keySchema: [.init(attributeName: "id", keyType: .hash)]
+                            )
+                        }
+                        group.addTask {
+                            self.tableWithValueName = TestEnvironment.generateResourceName("soto-dynamodb-tests_value")
+                            _ = try await Self.createTable(
+                                name: self.tableWithValueName,
+                                attributeDefinitions: [
+                                    .init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n),
+                                ],
+                                keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+                            )
+                        }
+                        try await group.waitForAll()
+                    }
+                }
+            }.syncAwait()
+        }
+
+        override class func tearDown() {
+            Task {
+                await XCTAsyncAssertNoThrow {
+                    _ = try await Self.deleteTable(name: self.tableName)
+                    _ = try await Self.deleteTable(name: self.tableWithValueName)
+                    try await Self.client.shutdown()
+                }
+            }.syncAwait()
+        }
+
+        static func createTable(
+            name: String,
+            attributeDefinitions: [DynamoDB.AttributeDefinition],
+            keySchema: [DynamoDB.KeySchemaElement]
+        ) async throws {
+            let input = DynamoDB.CreateTableInput(
+                attributeDefinitions: attributeDefinitions,
+                keySchema: keySchema,
+                provisionedThroughput: .init(readCapacityUnits: 5, writeCapacityUnits: 5),
+                tableName: name
+            )
+            do {
+                let response = try await Self.dynamoDB.createTable(input, logger: TestEnvironment.logger)
+                #expect(response.tableDescription?.tableName == name)
+            } catch let error as DynamoDBErrorType {
+                switch error.error {
+                case .resourceInUseException:
+                    print("Table (\(name)) already exists")
+                default:
+                    throw error
+                }
+            }
+            try await Self.dynamoDB.waitUntilTableExists(.init(tableName: name), logger: TestEnvironment.logger)
+        }
+
+        static func deleteTable(name: String) async throws {
+            let input = DynamoDB.DeleteTableInput(tableName: name)
+            _ = try await Self.dynamoDB.deleteTable(input, logger: TestEnvironment.logger)
+        }
+*/
+    func putItem(tableName: String, values: [String: Any], dynamoDB: DynamoDB) async throws -> DynamoDB.PutItemOutput {
         let input = DynamoDB.PutItemInput(item: values.mapValues { DynamoDB.AttributeValue(any: $0) }, tableName: tableName)
-        return try await Self.dynamoDB.putItem(input)
+        return try await dynamoDB.putItem(input)
     }
 
-    func getItem(tableName: String, keys: [String: String]) async throws -> DynamoDB.GetItemOutput {
+    func getItem(tableName: String, keys: [String: String], dynamoDB: DynamoDB) async throws -> DynamoDB.GetItemOutput {
         let input = DynamoDB.GetItemInput(consistentRead: true, key: keys.mapValues { DynamoDB.AttributeValue.s($0) }, tableName: tableName)
-        return try await Self.dynamoDB.getItem(input)
+        return try await dynamoDB.getItem(input)
     }
 
     // MARK: TESTS
 
-    func testGetObject() async throws {
-        _ = try await self.putItem(tableName: Self.tableName, values: ["id": "testGetObject", "First name": "John", "Surname": "Smith"])
-        let response = try await self.getItem(tableName: Self.tableName, keys: ["id": "testGetObject"])
-        XCTAssertEqual(response.item?["id"], .s("testGetObject"))
-        XCTAssertEqual(response.item?["First name"], .s("John"))
-        XCTAssertEqual(response.item?["Surname"], .s("Smith"))
+    @Test func testGetObject() async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+        _ = try await self.putItem(
+            tableName: DynamoDBTableTrait.tableName,
+            values: ["id": "testGetObject", "First name": "John", "Surname": "Smith"],
+            dynamoDB: dynamoDB
+        )
+        let response = try await self.getItem(tableName: DynamoDBTableTrait.tableName, keys: ["id": "testGetObject"], dynamoDB: dynamoDB)
+        #expect(response.item?["id"] == .s("testGetObject"))
+        #expect(response.item?["First name"] == .s("John"))
+        #expect(response.item?["Surname"] == .s("Smith"))
     }
 
-    func testDataItem() async throws {
+    @Test func testDataItem() async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
         let data = Data("testdata".utf8)
-        _ = try await self.putItem(tableName: Self.tableName, values: ["id": "testDataItem", "data": data])
-        let response = try await self.getItem(tableName: Self.tableName, keys: ["id": "testDataItem"])
-        XCTAssertEqual(response.item?["id"], .s("testDataItem"))
-        XCTAssertEqual(response.item?["data"], .b(.data(data)))
+        _ = try await self.putItem(tableName: DynamoDBTableTrait.tableName, values: ["id": "testDataItem", "data": data], dynamoDB: dynamoDB)
+        let response = try await self.getItem(tableName: DynamoDBTableTrait.tableName, keys: ["id": "testDataItem"], dynamoDB: dynamoDB)
+        #expect(response.item?["id"] == .s("testDataItem"))
+        #expect(response.item?["data"] == .b(.data(data)))
     }
 
-    func testNumberSetItem() async throws {
-        _ = try await self.putItem(tableName: Self.tableName, values: ["id": "testNumberSetItem", "numbers": [2, 4.001, -6, 8]])
-        let response = try await self.getItem(tableName: Self.tableName, keys: ["id": "testNumberSetItem"])
-        XCTAssertEqual(response.item?["id"], .s("testNumberSetItem"))
+    @Test func testNumberSetItem() async throws {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+        _ = try await self.putItem(
+            tableName: DynamoDBTableTrait.tableName,
+            values: ["id": "testNumberSetItem", "numbers": [2, 4.001, -6, 8]],
+            dynamoDB: dynamoDB
+        )
+        let response = try await self.getItem(tableName: DynamoDBTableTrait.tableName, keys: ["id": "testNumberSetItem"], dynamoDB: dynamoDB)
+        #expect(response.item?["id"] == .s("testNumberSetItem"))
         if case .ns(let numbers) = response.item?["numbers"] {
             let numberSet = Set(numbers)
-            XCTAssert(numberSet.contains("2"))
-            XCTAssert(numberSet.contains("4.001"))
-            XCTAssert(numberSet.contains("-6"))
-            XCTAssert(numberSet.contains("8"))
+            #expect(numberSet.contains("2"))
+            #expect(numberSet.contains("4.001"))
+            #expect(numberSet.contains("-6"))
+            #expect(numberSet.contains("8"))
         } else {
-            XCTFail()
+            Issue.record("Expected a number set, but got \(response.item?["numbers"])")
         }
     }
 
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Localstack doesn't support dynamoDB endpoints"))
     func testDescribeEndpoints() async throws {
-        guard !TestEnvironment.isUsingLocalstack else { return }
-        _ = try await Self.dynamoDB.describeEndpoints()
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+        _ = try await dynamoDB.describeEndpoints()
     }
 
-    func testError() async {
-        let error = await XCTAsyncExpectError(DynamoDBErrorType.self) {
-            _ = try await Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
+    @Test func testError() async {
+        let dynamoDB = DynamoDB(client: AWSClientTrait.client, region: .useast1)
+        let error = await #expect(throws: DynamoDBErrorType.self) {
+            _ = try await dynamoDB.describeTable(.init(tableName: "non-existent-table"))
         }
         switch error?.error {
         case .resourceNotFoundException:
-            print("Table (\(name)) already exists")
+            break
         default:
-            XCTFail()
+            Issue.record("Expected resourceNotFoundException, got \(error?.error)")
         }
     }
 }
