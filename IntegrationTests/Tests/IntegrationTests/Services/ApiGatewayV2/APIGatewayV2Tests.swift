@@ -16,10 +16,6 @@ import Foundation
 import SotoApiGatewayV2
 import Testing
 
-enum APIGatewayV2TestsError: Error {
-    case noApi
-}
-
 @Suite(
     .disabled(if: TestEnvironment.isUsingLocalstack, "APIGatewayV2 tests don't work with localstack"),
     .awsClient()
