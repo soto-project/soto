@@ -25,7 +25,7 @@ import Testing
 
 @testable import SotoCore
 
-@Suite(.awsClient())
+@Suite(.awsClient(), .s3Bucket)
 struct S3Tests {
     func testPutGetObject(
         filename: String,
@@ -50,17 +50,17 @@ struct S3Tests {
 
     // MARK: TESTS
 
-    @Test(.s3Bucket)
+    @Test
     func testPutGetObject() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         try await self.testPutGetObject(
-            filename: "testfile.txt",
+            filename: "testPutGetObject",
             contents: .init(string: "testing S3.PutObject and S3.GetObject"),
             s3: s3
         )
     }
 
-    @Test(.s3Bucket)
+    @Test
     func testPutGetObjectWithSpecialName() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         let filename =
@@ -76,11 +76,11 @@ struct S3Tests {
         )
     }
 
-    @Test(.s3Bucket)
+    @Test
     func testCopy() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
-        let keyName = "file1"
-        let newKeyName = "file2"
+        let keyName = "testCopy-file1"
+        let newKeyName = "testCopy-file2"
         let contents = "testing S3.PutObject and S3.GetObject"
         let putRequest = S3.PutObjectRequest(
             body: .init(string: contents),
@@ -103,10 +103,10 @@ struct S3Tests {
         #expect(getResponse.lastModified != nil)
     }
 
-    @Test(.s3Bucket)
+    @Test
     func testPutObjectChecksum() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
-        let filename = "testfile.txt"
+        let filename = "test-checksum.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         var response = try await s3.putObject(
             .init(
@@ -147,19 +147,19 @@ struct S3Tests {
     }
 
     /// test uploaded objects are returned in ListObjects
-    @Test(.s3Bucket)
+    @Test
     func testListObjects() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         let contents = "testing S3.ListObjectsV2"
         let putRequest = S3.PutObjectRequest(
             body: .init(string: contents),
             bucket: S3BucketTrait.name,
-            key: "objects"
+            key: "testListObjects/object"
         )
         let putResponse = try await s3.putObject(putRequest)
         let eTag = putResponse.eTag
-        let listResponse = try await s3.listObjectsV2(.init(bucket: S3BucketTrait.name))
-        #expect(listResponse.contents?.first?.key == "objects")
+        let listResponse = try await s3.listObjectsV2(bucket: S3BucketTrait.name, prefix: "testListObjects/")
+        #expect(listResponse.contents?.first?.key == "testListObjects/object")
         #expect(listResponse.contents?.first?.size == Int64(contents.utf8.count))
         #expect(listResponse.contents?.first?.eTag == eTag)
         #expect(listResponse.contents?.first?.lastModified != nil)
@@ -407,10 +407,7 @@ struct S3Tests {
         #expect(byteBuffer == getBuffer)
     }
 
-    @Test(
-        .disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test dual stack endoints using localstack"),
-        .s3Bucket
-    )
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test dual stack endoints using localstack"))
     func testDualStack() async throws {
         struct VerifyDualStackMiddleware: AWSMiddlewareProtocol {
             func handle(
@@ -431,16 +428,13 @@ struct S3Tests {
         ).with(middleware: VerifyDualStackMiddleware())
 
         try await self.testPutGetObject(
-            filename: "testfile.txt",
+            filename: "test-dualstack.txt",
             contents: .init(string: "testing S3.PutObject and S3.GetObject"),
             s3: s3
         )
     }
 
-    @Test(
-        .disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test fips endoints using localstack"),
-        .s3Bucket
-    )
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test fips endoints using localstack"))
     func testFIPSEndpoints() async throws {
         struct VerifyFipsEndpointMiddleware: AWSMiddlewareProtocol {
             func handle(
@@ -461,7 +455,7 @@ struct S3Tests {
         ).with(middleware: VerifyFipsEndpointMiddleware())
 
         try await self.testPutGetObject(
-            filename: "testfile.txt",
+            filename: "test-fips-endpoint.txt",
             contents: .init(string: "testing S3.PutObject and S3.GetObject"),
             s3: s3
         )
@@ -486,7 +480,7 @@ struct S3Tests {
         }
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         let s3Accelerated = s3.with(middleware: VerifyTransferAccelerateMiddleware(), options: .s3UseTransferAcceleratedEndpoint)
-        let filename = "testfile.txt"
+        let filename = "test-transfer-accelerated.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         // set acceleration configuration
         let request = S3.PutBucketAccelerateConfigurationRequest(
@@ -510,10 +504,10 @@ struct S3Tests {
         #expect(getResponse.lastModified != nil)
     }
 
-    @Test(.s3Bucket)
+    @Test
     func testWaiters() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
-        let filename = "testfile.txt"
+        let filename = "test-waiters.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
 
         _ = try await s3.putObject(
@@ -601,8 +595,7 @@ struct S3Tests {
 
     /// test S3 control host is prefixed with account id
     @Test(
-        .disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test s3 access points with localstack"),
-        .s3Bucket
+        .disabled(if: TestEnvironment.isUsingLocalstack, "Cannot test s3 access points with localstack")
     )
     func testS3AccessPoints() async throws {
         let sts = STS(client: AWSClientTrait.client, region: .useast1)
@@ -697,6 +690,11 @@ struct S3BucketTrait: TestScoping, SuiteTrait, TestTrait {
 }
 
 extension TestTrait where Self == S3BucketTrait {
+    /// Provide a temporary s3 bucket. Bucket name is accessible from `S3BucketTrait.name`
+    static var s3Bucket: Self { S3BucketTrait() }
+}
+
+extension SuiteTrait where Self == S3BucketTrait {
     /// Provide a temporary s3 bucket. Bucket name is accessible from `S3BucketTrait.name`
     static var s3Bucket: Self { S3BucketTrait() }
 }

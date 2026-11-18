@@ -24,10 +24,13 @@ import _NIOFileSystem
 @testable import SotoCore
 @testable import SotoS3
 
-@Suite(.awsClient())
+@Suite(.awsClient(), .s3Bucket)
 struct S3ExtensionTests {
+    /// Large random buffer to be used by multi-part tests
+    static let randomBuffer = createRandomBuffer(size: 11 * 1024 * 1024)
+
     /// test bucket location is correctly returned.
-    @Test(.s3Bucket)
+    @Test
     func testGetBucketLocation() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         let response = try await s3.getBucketLocation(.init(bucket: S3BucketTrait.name))
@@ -35,7 +38,7 @@ struct S3ExtensionTests {
     }
 
     /// test metadata is uploaded and downloaded ok
-    @Test(.s3Bucket)
+    @Test
     func testMetaData() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
         let contents = "testing metadata header"
@@ -55,7 +58,7 @@ struct S3ExtensionTests {
     @Test(.s3Bucket)
     func testMultipartUploadDownloadToFile() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1, timeout: .seconds(120))
-        let buffer = createRandomBuffer(size: 11 * 1024 * 1024)
+        let buffer = Self.randomBuffer
         let filename = #function
 
         let putRequest = S3.CreateMultipartUploadRequest(bucket: S3BucketTrait.name, key: filename)
@@ -93,9 +96,9 @@ struct S3ExtensionTests {
     @Test(.s3Bucket)
     func testMultipartUploadFile() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1, timeout: .seconds(120))
-        let buffer = createRandomBuffer(size: 11 * 1024 * 1024)
+        let buffer = Self.randomBuffer
 
-        let filename = "S3MultipartUploadTest"
+        let filename = "testMultipartUploadFile"
         try await testAsset {
             try await FileSystem.shared.withFileHandle(forWritingAt: .init(filename), options: .newFile(replaceExisting: true)) { write in
                 _ = try await write.write(contentsOf: buffer, toAbsoluteOffset: 0)
@@ -122,7 +125,7 @@ struct S3ExtensionTests {
     @Test(.s3Bucket)
     func testMultipartUploadBuffer() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1, timeout: .seconds(120))
-        let buffer = createRandomBuffer(size: 11 * 1024 * 1024)
+        let buffer = Self.randomBuffer
         let filename = "testMultipartUploadBuffer"
 
         let request = S3.CreateMultipartUploadRequest(bucket: S3BucketTrait.name, key: filename)
@@ -145,8 +148,8 @@ struct S3ExtensionTests {
         struct CancelError: Error {}
 
         let s3 = S3(client: AWSClientTrait.client, region: .useast1, timeout: .seconds(120))
-        let buffer = createRandomBuffer(size: 11 * 1024 * 1024)
-        let filename = "testResumeMultiPartUpload"
+        let buffer = Self.randomBuffer
+        let filename = "testResumeMultipartUpload"
 
         try await testAsset {
             try await FileSystem.shared.withFileHandle(forWritingAt: .init(filename), options: .newFile(replaceExisting: true)) { write in
@@ -198,21 +201,22 @@ struct S3ExtensionTests {
         }
     }
 
-    @Test(.s3Bucket)
+    @Test
     func testMultipartUploadEmpty() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1, timeout: .seconds(120))
-        let request = S3.CreateMultipartUploadRequest(bucket: S3BucketTrait.name, key: "empty")
+        let request = S3.CreateMultipartUploadRequest(bucket: S3BucketTrait.name, key: "testMultipartUploadEmpty")
         _ = try await s3.multipartUpload(request, bufferSequence: ByteBuffer().asyncSequence(chunkSize: 1), logger: TestEnvironment.logger)
 
-        let getRequest = S3.GetObjectRequest(bucket: S3BucketTrait.name, key: "empty")
+        let getRequest = S3.GetObjectRequest(bucket: S3BucketTrait.name, key: "testMultipartUploadEmpty")
         let response = try await s3.getObject(getRequest, logger: TestEnvironment.logger)
         let responseBody = try await response.body.collect(upTo: .max)
         #expect(responseBody.readableBytes == 0)  // Empty
     }
 
+    @Test
     func testMultipartUploadFailure() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
-        let buffer = createRandomBuffer(size: 11 * 1024 * 1024)
+        let buffer = Self.randomBuffer
 
         let error = await #expect(throws: S3ErrorType.self) {
             let request = S3.CreateMultipartUploadRequest(bucket: "soto-no-such-bucket", key: "key")
@@ -270,11 +274,11 @@ struct S3ExtensionTests {
     }
 
     @Test(
-        .disabled(if: TestEnvironment.isUsingLocalstack, "Localstack does not support S3 select"),
-        .s3Bucket
+        .disabled(if: TestEnvironment.isUsingLocalstack, "Localstack does not support S3 select")
     )
     func testSelectObjectContent() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1, timeout: .seconds(120))
+        let filename = "testSelectObjectContent.csv"
         let strings =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             .split(separator: " ")
@@ -289,7 +293,7 @@ struct S3ExtensionTests {
         let file9 = file8 + file8
         let file10 = file9 + file9
 
-        let putRequest = S3.PutObjectRequest(body: .init(string: file10), bucket: S3BucketTrait.name, key: "file.csv")
+        let putRequest = S3.PutObjectRequest(body: .init(string: file10), bucket: S3BucketTrait.name, key: filename)
         _ = try await s3.putObject(putRequest, logger: TestEnvironment.logger)
 
         let expression = "Select * from S3Object"
@@ -300,7 +304,7 @@ struct S3ExtensionTests {
             expression: expression,
             expressionType: .sql,
             inputSerialization: input,
-            key: "file.csv",
+            key: filename,
             outputSerialization: output,
             requestProgress: S3.RequestProgress(enabled: true)
         )
