@@ -12,93 +12,75 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
-
-@testable import SotoSNS
+import SotoSNS
+import Testing
 
 // testing query service
 
-class SNSTests: XCTestCase {
-    var client: AWSClient!
-    var sns: SNS!
-
-    override func setUp() {
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.sns = SNS(
-            client: self.client,
-            region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
+@Suite(.awsClient())
+struct SNSTests {
     /// create SNS topic with supplied name and run supplied closure
-    func testTopic(name: String, test: @escaping (String) async throws -> Void) async throws {
-        try await XCTTestAsset {
+    func testTopic(name: String, sns: SNS, test: @escaping (String) async throws -> Void) async throws {
+        try await testAsset {
             let createRequest = SNS.CreateTopicInput(name: name)
-            let createResponse = try await self.sns.createTopic(createRequest)
-            return try XCTUnwrap(createResponse.topicArn)
+            let createResponse = try await sns.createTopic(createRequest)
+            return try #require(createResponse.topicArn)
         } test: {
             try await test($0)
         } delete: {
             let deleteRequest = SNS.DeleteTopicInput(topicArn: $0)
-            try await self.sns.deleteTopic(deleteRequest)
+            try await sns.deleteTopic(deleteRequest)
         }
     }
 
     // MARK: TESTS
 
-    func testCreateDelete() async throws {
+    @Test func testCreateDelete() async throws {
+        let sns = SNS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
-        try await self.testTopic(name: name) { _ in }
+        try await self.testTopic(name: name, sns: sns) { _ in }
     }
 
-    func testListTopics() async throws {
+    @Test func testListTopics() async throws {
+        let sns = SNS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
-        try await self.testTopic(name: name) { topicArn in
+        try await self.testTopic(name: name, sns: sns) { topicArn in
             let request = SNS.ListTopicsInput()
-            let response = try await self.sns.listTopics(request)
+            let response = try await sns.listTopics(request)
             let topic = response.topics?.first { $0.topicArn == topicArn }
-            XCTAssertNotNil(topic)
+            #expect(topic != nil)
         }
     }
 
     // disabled until we get valid topic arn's returned from Localstack
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Need Topic ARNs from localstack"))
     func testSetTopicAttributes() async throws {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        let sns = SNS(client: AWSClientTrait.client, region: .useast1)
         let name = TestEnvironment.generateResourceName()
-        try await self.testTopic(name: name) { topicArn in
+        try await self.testTopic(name: name, sns: sns) { topicArn in
             let request = SNS.SetTopicAttributesInput(
                 attributeName: "DisplayName",
                 attributeValue: "aws-test topic &",
                 topicArn: topicArn
             )
-            _ = try await self.sns.setTopicAttributes(request)
+            _ = try await sns.setTopicAttributes(request)
             let getRequest = SNS.GetTopicAttributesInput(topicArn: topicArn)
-            let getResponse = try await self.sns.getTopicAttributes(getRequest)
-            XCTAssertEqual(getResponse.attributes?["DisplayName"], "aws-test topic &")
+            let getResponse = try await sns.getTopicAttributes(getRequest)
+            #expect(getResponse.attributes?["DisplayName"] == "aws-test topic &")
         }
     }
 
-    func testError() async throws {
+    @Test func testError() async throws {
+        let sns = SNS(client: AWSClientTrait.client, region: .useast1)
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let error = await XCTAsyncExpectError(SNSErrorType.self) {
-            _ = try await self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
+        let error = await #expect(throws: SNSErrorType.self) {
+            _ = try await sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
         }
         switch error?.error {
         case .invalidParameterException:
             break
         default:
-            XCTFail()
+            Issue.record("Expected invalidParameterException, got \(String(describing: error?.error))")
         }
     }
 }
