@@ -42,8 +42,11 @@ struct IAMTests {
             let response = try await iam.createUser(request, logger: TestEnvironment.logger)
             #expect(response.user?.userName == userName)
         } catch let error as IAMErrorType {
-            if case .entityAlreadyExistsException = error.error {
+            switch error.error {
+            case .entityAlreadyExistsException:
                 print("User (\(userName)) already exists")
+            default:
+                throw error
             }
         }
         try await iam.waitUntilUserExists(.init(userName: userName))
@@ -107,29 +110,25 @@ struct IAMTests {
         }
     }
 
-    @Test func testSimulatePolicy() async throws {
+    @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Localstack doesn't support policy simulation"))
+    func testSimulatePolicy() async throws {
         let iam = IAM(client: AWSClientTrait.client)
-        guard !TestEnvironment.isUsingLocalstack else { return }
         // put a policy on the user
         let policyDocument = """
             {"Version": "2012-10-17","Statement": [{"Effect": "Allow","Action": ["sns:*","s3:*","sqs:*"],"Resource": "*"}]}
             """
         let username = TestEnvironment.generateResourceName()
         try await testUser(userName: username, iam: iam) { name in
-            do {
-                let user = try await iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-                let request = IAM.SimulateCustomPolicyRequest(
-                    actionNames: ["sns:*", "sqs:*", "dynamodb:*"],
-                    callerArn: user.user.arn,
-                    policyInputList: [policyDocument]
-                )
-                let response = try await iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
-                #expect(response.evaluationResults?[0].evalDecision == .allowed)
-                #expect(response.evaluationResults?[1].evalDecision == .allowed)
-                #expect(response.evaluationResults?[2].evalDecision == .implicitDeny)
-            } catch {
-                Issue.record("\(error)")
-            }
+            let user = try await iam.getUser(.init(userName: name), logger: TestEnvironment.logger)
+            let request = IAM.SimulateCustomPolicyRequest(
+                actionNames: ["sns:*", "sqs:*", "dynamodb:*"],
+                callerArn: user.user.arn,
+                policyInputList: [policyDocument]
+            )
+            let response = try await iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
+            #expect(response.evaluationResults?[0].evalDecision == .allowed)
+            #expect(response.evaluationResults?[1].evalDecision == .allowed)
+            #expect(response.evaluationResults?[2].evalDecision == .implicitDeny)
         }
     }
 
