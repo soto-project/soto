@@ -36,9 +36,14 @@ struct EC2Tests {
     func testDescribeInstanceTypes() async throws {
         try await testAsset {
             let httpClient = HTTPClient()
-            return AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClient: httpClient)
-        } test: { client in
-            let ec2 = EC2(client: client, region: .useast1)
+            let awsClient = AWSClient(
+                credentialProvider: TestEnvironment.credentialProvider,
+                middleware: TestEnvironment.middlewares,
+                httpClient: httpClient
+            )
+            return (http: httpClient, aws: awsClient)
+        } test: { clients in
+            let ec2 = EC2(client: clients.aws, region: .useast1)
             let describeTypesPaginator = ec2.describeInstanceTypesPaginator(
                 filters: [
                     EC2.Filter(name: "bare-metal", values: ["true"])
@@ -46,10 +51,9 @@ struct EC2Tests {
                 logger: TestEnvironment.logger
             )
             _ = try await describeTypesPaginator.reduce([]) { $0 + ($1.instanceTypes ?? []) }
-        } delete: {
-            let httpClient = $0.httpClient as! HTTPClient
-            try await $0.shutdown()
-            try await httpClient.shutdown()
+        } delete: { clients in
+            try await clients.aws.shutdown()
+            try await clients.http.shutdown()
         }
     }
 
@@ -66,7 +70,7 @@ struct EC2Tests {
 
     @Test(.disabled(if: TestEnvironment.isUsingLocalstack, "Localstack returns the wrong error"))
     func testError() async throws {
-        let ec2 = EC2(client: AWSClientTrait.client, region: .euwest1)
+        let ec2 = EC2(client: AWSClientTrait.client, region: .useast1)
         await #expect(throws: AWSResponseError(errorCode: "InvalidInstanceID.Malformed")) {
             _ = try await ec2.getConsoleOutput(.init(instanceId: "not-an-instance"))
         }
