@@ -15,10 +15,10 @@
 import AsyncHTTPClient
 import Foundation
 import HTTPTypes
-import NIOConcurrencyHelpers
 import NIOCore
 import NIOFoundationEssentialsCompat
 import NIOPosix
+import Synchronization
 import Testing
 import _NIOFileSystem
 
@@ -152,7 +152,7 @@ struct S3ExtensionTests {
         let buffer = Self.randomBuffer
         let filename = "testResumeMultipartUpload"
         // progress values reported while resuming
-        let resumeProgress = NIOLockedValueBox<[Double]>([])
+        let resumeProgress = Mutex<[Double]>([])
 
         try await testAsset {
             try await FileSystem.shared.withFileHandle(forWritingAt: .init(filename), options: .newFile(replaceExisting: true)) { write in
@@ -181,7 +181,7 @@ struct S3ExtensionTests {
                         abortOnFail: false,
                         logger: TestEnvironment.logger
                     ) { value in
-                        resumeProgress.withLockedValue { $0.append(value) }
+                        resumeProgress.withLock { $0.append(value) }
                         guard value < 0.95 else { throw CancelError() }
                         print("Progress \(value * 100)")
                     }
@@ -193,13 +193,13 @@ struct S3ExtensionTests {
                         abortOnFail: false,
                         logger: TestEnvironment.logger
                     ) { value in
-                        resumeProgress.withLockedValue { $0.append(value) }
+                        resumeProgress.withLock { $0.append(value) }
                         print("Progress \(value * 100)")
                     }
                 }
             }
             // progress must never exceed 100%, even when the short last part was already uploaded
-            let progress = resumeProgress.withLockedValue { $0 }
+            let progress = resumeProgress.withLock { $0 }
             #expect(progress.allSatisfy { $0 <= 1.0 })
             #expect(try #require(progress.last) > 0.999)
             let getResponse = try await s3.getObject(.init(bucket: S3BucketTrait.name, key: filename))
