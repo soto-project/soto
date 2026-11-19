@@ -189,7 +189,10 @@ struct S3Tests {
         let bufferSequence =
             byteBuffer
             .asyncSequence(chunkSize: chunkSize)
-            .report { count.wrappingDecrement(by: $0.readableBytes, ordering: .relaxed) }
+            .map {
+                count.wrappingDecrement(by: $0.readableBytes, ordering: .relaxed)
+                return $0
+            }
 
         let putRequest = S3.PutObjectRequest(
             body: .init(asyncSequence: bufferSequence, length: byteBuffer.readableBytes),
@@ -567,9 +570,10 @@ struct S3Tests {
     )
     func testS3Express() async throws {
         let s3 = S3(client: AWSClientTrait.client, region: .useast1)
-        let (client, _expressS3) = s3.createS3ExpressClientAndService(bucket: S3BucketTrait.name)
-        let expressS3 = _expressS3.with(middleware: TestEnvironment.middlewares)
-        try await withTeardown {
+        try await testAsset {
+            s3.createS3ExpressClientAndService(bucket: S3BucketTrait.name)
+        } test: { s3Express in
+            let expressS3 = s3Express.s3.with(middleware: TestEnvironment.middlewares)
             let putResponse = try await expressS3.putObject(
                 body: .init(buffer: ByteBuffer(string: "Uploaded")),
                 bucket: S3BucketTrait.name,
@@ -588,8 +592,8 @@ struct S3Tests {
             )
             let body = try await getResponse.body.collect(upTo: .max)
             #expect(body == ByteBuffer(string: "Uploaded"))
-        } teardown: {
-            try? await client.shutdown()
+        } delete: { s3Express in
+            try await s3Express.client.shutdown()
         }
     }
 
