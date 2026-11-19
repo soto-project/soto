@@ -12,105 +12,37 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
+import Foundation
+import SotoApiGatewayV2
+import Testing
 
-@testable import SotoApiGatewayV2
-
-enum APIGatewayV2TestsError: Error {
-    case noApi
-}
-
-class APIGatewayV2Tests: XCTestCase {
-    nonisolated(unsafe) static var client: AWSClient!
-    nonisolated(unsafe) static var apiGatewayV2: ApiGatewayV2!
-
-    static let restApiName: String = TestEnvironment.generateResourceName("ApiGatewayV2Tests")
-    nonisolated(unsafe) static var restApiId: String!
-
-    override class func setUp() {
-        guard !TestEnvironment.isUsingLocalstack else { return }
-        self.client = AWSClient(
-            credentialProvider: TestEnvironment.credentialProvider,
-            middleware: TestEnvironment.middlewares,
-            logger: TestEnvironment.logger
-        )
-        self.apiGatewayV2 = ApiGatewayV2(
-            client: self.client,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-        /// If we create a rest api for each test, when we delete them APIGateway will throttle
-        /// and we will most likely not delete the all APIs so we create one API to be used by all tests
-        Task {
-            await XCTAsyncAssertNoThrow {
-                do {
-                    Self.restApiId = try await self.createRestApi(name: self.restApiName)
-                } catch {
-                    print("Failed to create APIGateway rest api, error: \(error)")
-                    throw error
-                }
-            }
-        }.syncAwait()
-    }
-
-    override class func tearDown() {
-        guard !TestEnvironment.isUsingLocalstack else { return }
-        Task {
-            await XCTAsyncAssertNoThrow {
-                _ = try await self.deleteRestApi(id: self.restApiId)
-                try await self.client.shutdown()
-            }
-        }.syncAwait()
-    }
-
-    static func createRestApi(name: String) async throws -> String {
-        let response = try await self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
-        if let restApi = response.items?.first(where: { $0.name == name }) {
-            guard let apiId = restApi.apiId else { throw APIGatewayV2TestsError.noApi }
-            return apiId
-        } else {
-            let request = ApiGatewayV2.CreateApiRequest(
-                description: "\(name) API",
-                name: name,
-                protocolType: .http
-            )
-            let response = try await Self.apiGatewayV2.createApi(request, logger: TestEnvironment.logger)
-            let apiId = try XCTUnwrap(response.apiId)
-            return apiId
-        }
-    }
-
-    static func deleteRestApi(id: String) async throws {
-        try await self.apiGatewayV2.deleteApi(.init(apiId: id), logger: TestEnvironment.logger)
-    }
-
-    /// create Rest api with supplied name and run supplied closure with rest api id
-    func testRestApi(body: @escaping (String) async throws -> Void) async throws {
-        try await body(Self.restApiId)
-    }
-
-    // MARK: TESTS
-
+@Suite(
+    .disabled(if: TestEnvironment.isUsingLocalstack, "APIGatewayV2 tests don't work with localstack"),
+    .awsClient()
+)
+struct APIGatewayV2Tests {
     /// tests whether created date is loading correctly
+    @Test
     func testGetApis() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+        let apiGatewayV2 = ApiGatewayV2(client: AWSClientTrait.client, region: .euwest1)
+        let restApiName: String = TestEnvironment.generateResourceName("ApiGatewayV2Tests")
 
-        // get date from 1 minute before now.
-        let date = Date(timeIntervalSinceNow: -60.0)
-        try await self.testRestApi { id in
-            let response = try await Self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
-            let restApi = response.items?.first(where: { $0.apiId == id })
-            XCTAssertNotNil(restApi)
-            XCTAssertEqual(restApi?.name, Self.restApiName)
-            let createdDate = try XCTUnwrap(restApi?.createdDate)
-            XCTAssertGreaterThanOrEqual(createdDate, date)
+        try await testAsset {
+            let response = try await apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
+            if let restApi = response.items?.first(where: { $0.name == restApiName }) {
+                return restApi.apiId
+            }
+            return try await apiGatewayV2.createApi(description: "\(restApiName) API", name: restApiName, protocolType: .http).apiId
+        } test: { id in
+            let id = try #require(id)
+            let response = try await apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
+            let restApi = try #require(response.items?.first(where: { $0.apiId == id }))
+            #expect(restApi.name == restApiName)
+            let createdDate = try #require(restApi.createdDate)
+            #expect(createdDate > Date(timeIntervalSinceNow: -60.0))
+        } delete: { id in
+            let id = try #require(id)
+            try await apiGatewayV2.deleteApi(apiId: id)
         }
     }
 }
