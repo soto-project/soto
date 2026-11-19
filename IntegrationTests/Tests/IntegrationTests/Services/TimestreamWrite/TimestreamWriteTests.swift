@@ -13,19 +13,17 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import Logging
 import Testing
 
 @testable import SotoTimestreamWrite
 
 // testing query service
 @Suite(
-    .serialized,
     .awsClient(),
     .disabled(if: TestEnvironment.isUsingLocalstack, "TimestreamWrite is not available while using Localstack")
 )
 struct TimestreamWriteTests {
-    /// create SNS topic with supplied name and run supplied closure
+    /// create Timestream database with supplied name and run supplied closure
     func testDatabase(name: String, ts: TimestreamWrite, test: @escaping (String) async throws -> Void) async throws {
         try await testAsset {
             do {
