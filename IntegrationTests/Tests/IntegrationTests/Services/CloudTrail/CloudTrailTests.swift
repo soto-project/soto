@@ -12,54 +12,30 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
 import SotoCloudTrail
-import XCTest
+import Testing
 
-class CloudTrailTests: XCTestCase {
-    var client: AWSClient!
-    var cloudTrail: CloudTrail!
-
-    override func setUp() {
-        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        self.cloudTrail = CloudTrail(
-            client: self.client,
-            region: .euwest1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
-
-        if TestEnvironment.isUsingLocalstack {
-            print("Connecting to Localstack")
-        } else {
-            print("Connecting to AWS")
-        }
-    }
-
-    override func tearDown() {
-        XCTAssertNoThrow(try self.client.syncShutdown())
-    }
-
-    func testLookupEvents() async throws {
-        // doesnt work with LocalStack
-        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
+@Suite(
+    .disabled(if: TestEnvironment.isUsingLocalstack, "Cloud trail tests don't work with localstack"),
+    .awsClient(),
+)
+struct CloudTrailTests {
+    @Test func testLookupEvents() async throws {
+        let cloudTrail = CloudTrail(client: AWSClientTrait.client, region: .euwest1)
         let from = Date(timeIntervalSinceNow: -1 * 24 * 60 * 60)
         let to = Date()
         let request = CloudTrail.LookupEventsRequest(endTime: to, lookupAttributes: nil, startTime: from)
-        let response = try await self.cloudTrail.lookupEvents(request)
-        let event = try XCTUnwrap(response.events?.first)
-        XCTAssertNotNil(event.eventTime)
+        let response = try await cloudTrail.lookupEvents(request)
+        let event = try #require(response.events?.first)
+        #expect(event.eventTime != nil)
     }
 
-    func testError() async throws {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
-        do {
-            _ = try await self.cloudTrail.getTrail(.init(name: "nonexistent-trail"))
-        } catch let error as CloudTrailErrorType {
-            XCTAssertEqual(error.error, .trailNotFoundException)
-            XCTAssertNotNil(error.message)
-        } catch {
-            XCTFail("Wrong error: \(error)")
+    @Test func testError() async throws {
+        let cloudTrail = CloudTrail(client: AWSClientTrait.client, region: .euwest1)
+        let error = await #expect(throws: CloudTrailErrorType.self) {
+            _ = try await cloudTrail.getTrail(.init(name: "nonexistent-trail"))
         }
+        #expect(error?.error == .trailNotFoundException)
     }
 }
