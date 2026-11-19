@@ -315,3 +315,12 @@ extension TestTrait where Self == AWSClientTrait {
         AWSClientTrait(credentialProvider: credentialProvider)
     }
 }
+
+func createRandomBuffer(size: Int) -> ByteBuffer {
+    // create buffer
+    var data = [UInt8](repeating: 0, count: size)
+    for i in 0..<size {
+        data[i] = UInt8.random(in: 0...255)
+    }
+    return ByteBuffer(bytes: data)
+}
