@@ -39,9 +39,20 @@ public class DynamoDBEncoder {
         case custom(@Sendable (Date, Encoder) -> DynamoDB.AttributeValue)
     }
 
+    /// The strategy to use for encoding `Set` values.
+    public enum SetEncodingStrategy: Sendable {
+        /// Encode a `Set` as a list. This is the default strategy.
+        case list
+
+        /// Encode a `Set` of strings or numbers as a set. An empty `Set` is left out,
+        /// so a dictionary loses any key whose value is an empty `Set`.
+        case set
+    }
+
     /// Options set on the top-level encoder to pass down the encoding hierarchy.
     fileprivate struct Options {
         var dateEncodingStrategy: DateEncodingStrategy = .deferredToDate
+        var setEncodingStrategy: SetEncodingStrategy = .list
         var userInfo: [CodingUserInfoKey: any Sendable] = [:]
     }
     fileprivate var options: Options = .init()
@@ -49,6 +60,10 @@ public class DynamoDBEncoder {
     public var dateEncodingStrategy: DateEncodingStrategy {
         get { self.options.dateEncodingStrategy }
         set { self.options.dateEncodingStrategy = newValue }
+    }
+    public var setEncodingStrategy: SetEncodingStrategy {
+        get { self.options.setEncodingStrategy }
+        set { self.options.setEncodingStrategy = newValue }
     }
     public var userInfo: [CodingUserInfoKey: any Sendable] {
         get { self.options.userInfo }
@@ -277,6 +292,9 @@ private class _DynamoDBEncoder: Encoder {
         }
 
         mutating func encode(_ value: some Encodable, forKey key: Key) throws {
+            if self.encoder.options.setEncodingStrategy == .set, let set = value as? any _EncoderSet, set.isEmpty {
+                return
+            }
             self.encoder.codingPath.append(key)
             defer { self.encoder.codingPath.removeLast() }
 
@@ -543,12 +561,41 @@ extension _DynamoDBEncoder {
             return try self.box(value as! AWSBase64Data)
         } else if type == Date.self {
             return try self.box(value as! Date)
+        } else if self.options.setEncodingStrategy == .set, value is any _EncoderSet {
+            try value.encode(to: self)
+            return self.set(from: self.storage.popContainer().attribute)
         } else {
             try value.encode(to: self)
             return self.storage.popContainer().attribute
         }
     }
+
+    /// Convert the list a `Set` was encoded as to a string or number set.
+    private func set(from attribute: DynamoDB.AttributeValue) -> DynamoDB.AttributeValue {
+        guard case .l(let elements) = attribute, !elements.isEmpty else {
+            return attribute
+        }
+        let strings = elements.compactMap { element -> String? in
+            if case .s(let string) = element { string } else { nil }
+        }
+        if strings.count == elements.count {
+            return .ss(strings)
+        }
+        let numbers = elements.compactMap { element -> String? in
+            if case .n(let number) = element { number } else { nil }
+        }
+        if numbers.count == elements.count {
+            return .ns(numbers)
+        }
+        return attribute
+    }
 }
+
+private protocol _EncoderSet {
+    var isEmpty: Bool { get }
+}
+
+extension Set: _EncoderSet {}
 
 // MARK: DynamoDBEncoderError
 
