@@ -39,9 +39,19 @@ public class DynamoDBDecoder {
         case custom(@Sendable (_ decoder: Decoder) throws -> Date)
     }
 
+    /// The strategy to use for decoding `Set` values.
+    public enum SetDecodingStrategy: Sendable {
+        /// Decode a `Set` from a list or a set. This is the default strategy.
+        case list
+
+        /// Decode a `Set` from a list or a set. A missing key decodes as an empty `Set`.
+        case set
+    }
+
     /// Options set on the top-level encoder to pass down the decoding hierarchy.
     fileprivate struct Options {
         var dateDecodingStrategy: DateDecodingStrategy = .deferredToDate
+        var setDecodingStrategy: SetDecodingStrategy = .list
         var userInfo: [CodingUserInfoKey: any Sendable] = [:]
     }
     fileprivate var options: Options = .init()
@@ -49,6 +59,10 @@ public class DynamoDBDecoder {
     public var dateDecodingStrategy: DateDecodingStrategy {
         get { self.options.dateDecodingStrategy }
         set { self.options.dateDecodingStrategy = newValue }
+    }
+    public var setDecodingStrategy: SetDecodingStrategy {
+        get { self.options.setDecodingStrategy }
+        set { self.options.setDecodingStrategy = newValue }
     }
     public var userInfo: [CodingUserInfoKey: any Sendable] {
         get { self.options.userInfo }
@@ -70,6 +84,12 @@ public class DynamoDBDecoder {
         return value
     }
 }
+
+private protocol _DecoderSet {
+    init()
+}
+
+extension Set: _DecoderSet {}
 
 /// storage for Dynamo Decoder. Stores a stack of Attribute values
 private struct _DecoderStorage {
@@ -210,6 +230,9 @@ private class _DynamoDBDecoder: Decoder {
         }
 
         func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T: Decodable {
+            if self.decoder.options.setDecodingStrategy == .set, !self.contains(key), let type = type as? any _DecoderSet.Type {
+                return type.init() as! T
+            }
             self.decoder.codingPath.append(key)
             defer { self.decoder.codingPath.removeLast() }
 

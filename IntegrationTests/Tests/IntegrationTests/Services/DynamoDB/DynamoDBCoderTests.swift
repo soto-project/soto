@@ -85,6 +85,99 @@ final class DynamoDBCoderTests: XCTestCase {
         )
     }
 
+    func testSetEncodingStrategy() throws {
+        struct SetTest: Codable, Equatable {
+            let s: Set<String>
+            let i: Set<Int>
+        }
+        let test = SetTest(s: ["TestString"], i: [24])
+        XCTAssertEqual(try DynamoDBEncoder().encode(test), ["s": .l([.s("TestString")]), "i": .l([.n("24")])])
+        let encoder = DynamoDBEncoder()
+        encoder.setEncodingStrategy = .set
+        XCTAssertEqual(try encoder.encode(test), ["s": .ss(["TestString"]), "i": .ns(["24"])])
+        let test2 = SetTest(s: ["TestString", "TestString1"], i: [2, 8, 24])
+        let data = try encoder.encode(test2)
+        let result = try DynamoDBDecoder().decode(SetTest.self, from: data)
+        XCTAssertEqual(test2, result)
+    }
+
+    func testSetEncodingStrategyData() throws {
+        struct Binary: Codable, Hashable {
+            let d: Data
+
+            init(d: Data) {
+                self.d = d
+            }
+
+            init(from decoder: Decoder) throws {
+                let container = try decoder.singleValueContainer()
+                self.d = try Data(container.decode(AWSBase64Data.self).decoded() ?? [])
+            }
+
+            func encode(to encoder: Encoder) throws {
+                var container = encoder.singleValueContainer()
+                try container.encode(AWSBase64Data.data(self.d))
+            }
+        }
+        struct SetTest: Codable, Equatable {
+            let d: Set<Binary>
+        }
+        let encoder = DynamoDBEncoder()
+        encoder.setEncodingStrategy = .set
+        let test = SetTest(d: [Binary(d: Data("data test".utf8))])
+        let data = try encoder.encode(test)
+        XCTAssertEqual(data, ["d": .bs([.data("data test".utf8)])])
+        let result = try DynamoDBDecoder().decode(SetTest.self, from: data)
+        XCTAssertEqual(test, result)
+    }
+
+    func testSetEncodingStrategyList() throws {
+        struct SetTest: Codable, Equatable {
+            let a: Set<[String]>
+            let e: [Set<String>]
+        }
+        let encoder = DynamoDBEncoder()
+        encoder.setEncodingStrategy = .set
+        let test = SetTest(a: [["TestString"]], e: [[]])
+        let data = try encoder.encode(test)
+        XCTAssertEqual(data, ["a": .l([.l([.s("TestString")])]), "e": .l([.l([])])])
+        let result = try DynamoDBDecoder().decode(SetTest.self, from: data)
+        XCTAssertEqual(test, result)
+    }
+
+    func testSetEncodingStrategyEmpty() throws {
+        struct SetTest: Codable, Equatable {
+            let s: Set<String>
+            let o: Set<String>?
+        }
+        let encoder = DynamoDBEncoder()
+        encoder.setEncodingStrategy = .set
+        let data = try encoder.encode(SetTest(s: [], o: []))
+        XCTAssertEqual(data, [:])
+        XCTAssertThrowsError(try DynamoDBDecoder().decode(SetTest.self, from: data))
+        let decoder = DynamoDBDecoder()
+        decoder.setDecodingStrategy = .set
+        let result = try decoder.decode(SetTest.self, from: data)
+        XCTAssertEqual(result, SetTest(s: [], o: nil))
+    }
+
+    func testSetEncodingStrategyChildObject() throws {
+        struct Object: Codable, Equatable {
+            let s: Set<String>
+        }
+        struct ChildObjectTest: Codable, Equatable {
+            let o: Object
+            let d: [String: Set<Int>]
+        }
+        let encoder = DynamoDBEncoder()
+        encoder.setEncodingStrategy = .set
+        let test = ChildObjectTest(o: Object(s: ["TestString"]), d: ["One": [1]])
+        let data = try encoder.encode(test)
+        XCTAssertEqual(data, ["o": .m(["s": .ss(["TestString"])]), "d": .m(["One": .ns(["1"])])])
+        let result = try DynamoDBDecoder().decode(ChildObjectTest.self, from: data)
+        XCTAssertEqual(test, result)
+    }
+
     func testArrayOfData() {
         struct ArrayOfDataTest: Codable, Equatable {
             let d: [Data]
