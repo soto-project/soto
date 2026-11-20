@@ -257,7 +257,14 @@ public struct Route53: AWSService {
     /// 			single operation. If validation for either the DELETE or the
     /// 				CREATE action fails, then the request is canceled, and the original
     /// 				CNAME record continues to exist.  If you try to delete the same resource record set more than once in a single
-    /// 				change batch, Route 53 returns an InvalidChangeBatch error.   Traffic Flow  To create resource record sets for complex routing configurations, use either the
+    /// 				change batch, Route 53 returns an InvalidChangeBatch error.   Protected Resource Record Sets  If a resource record set protection exists for a name and type, Route 53 rejects any
+    /// 			change in the change batch that creates, updates, or deletes a resource record set with
+    /// 			that name and type. Because change batches are transactional, Route 53 rejects the
+    /// 			entire request and returns an InvalidChangeBatch error. Route 53 identifies
+    /// 			each protected resource record set in the error message and includes the protection's
+    /// 			comment, if any. To make the change, first delete the protection by using
+    /// 				DeleteResourceRecordSetProtections. To see which resource record sets
+    /// 			are protected, use ListResourceRecordSetProtections.  Traffic Flow  To create resource record sets for complex routing configurations, use either the
     /// 			traffic flow visual editor in the Route 53 console or the API actions for traffic
     /// 			policies and traffic policy instances. Save the configuration as a traffic policy, then
     /// 			associate the traffic policy with one or more domain names (such as example.com) or
@@ -311,7 +318,14 @@ public struct Route53: AWSService {
     /// 			single operation. If validation for either the DELETE or the
     /// 				CREATE action fails, then the request is canceled, and the original
     /// 				CNAME record continues to exist.  If you try to delete the same resource record set more than once in a single
-    /// 				change batch, Route 53 returns an InvalidChangeBatch error.   Traffic Flow  To create resource record sets for complex routing configurations, use either the
+    /// 				change batch, Route 53 returns an InvalidChangeBatch error.   Protected Resource Record Sets  If a resource record set protection exists for a name and type, Route 53 rejects any
+    /// 			change in the change batch that creates, updates, or deletes a resource record set with
+    /// 			that name and type. Because change batches are transactional, Route 53 rejects the
+    /// 			entire request and returns an InvalidChangeBatch error. Route 53 identifies
+    /// 			each protected resource record set in the error message and includes the protection's
+    /// 			comment, if any. To make the change, first delete the protection by using
+    /// 				DeleteResourceRecordSetProtections. To see which resource record sets
+    /// 			are protected, use ListResourceRecordSetProtections.  Traffic Flow  To create resource record sets for complex routing configurations, use either the
     /// 			traffic flow visual editor in the Route 53 console or the API actions for traffic
     /// 			policies and traffic policy instances. Save the configuration as a traffic policy, then
     /// 			associate the traffic policy with one or more domain names (such as example.com) or
@@ -785,6 +799,38 @@ public struct Route53: AWSService {
         return try await self.createQueryLoggingConfig(input, logger: logger)
     }
 
+    /// Creates one or more resource record set protections in a hosted zone. A protection applies to every resource record set in the hosted zone that has the specified name and type. While a protection exists, Route 53 rejects any ChangeResourceRecordSets request that creates, updates, or deletes a resource record set with that name and type, and returns an InvalidChangeBatch error. To change a protected resource record set, first delete its protection by using DeleteResourceRecordSetProtections. You can create a protection for a name and type that doesn't have a resource record set yet. In that case, Route 53 also rejects requests to create that resource record set. You can't delete a hosted zone that has protections. To delete the hosted zone, first delete all of its protections by using DeleteResourceRecordSetProtections. The request is atomic. Route 53 either creates all of the protections in the request or none of them. If one or more entries fail, the response is an error that lists the failing entries and the reason that each one failed. Route 53 checks for invalid entries before it checks for existing protections, so if any entry is invalid, the error lists only the invalid entries. The error that Route 53 returns depends on the failures:   If every entry already has a protection, Route 53 returns a ProtectionAlreadyExists error.   For any other combination of failures, Route 53 returns an InvalidResourceRecordSetProtectionBatch error.   You can specify up to 100 protections in one request. The number of protections that you can have in a hosted zone is limited by a quota. If the request would exceed that quota, Route 53 returns a LimitsExceeded error.
+    @Sendable
+    @inlinable
+    public func createResourceRecordSetProtections(_ input: CreateResourceRecordSetProtectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceRecordSetProtectionsResponse {
+        try await self.client.execute(
+            operation: "CreateResourceRecordSetProtections", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/rrsetprotection", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates one or more resource record set protections in a hosted zone. A protection applies to every resource record set in the hosted zone that has the specified name and type. While a protection exists, Route 53 rejects any ChangeResourceRecordSets request that creates, updates, or deletes a resource record set with that name and type, and returns an InvalidChangeBatch error. To change a protected resource record set, first delete its protection by using DeleteResourceRecordSetProtections. You can create a protection for a name and type that doesn't have a resource record set yet. In that case, Route 53 also rejects requests to create that resource record set. You can't delete a hosted zone that has protections. To delete the hosted zone, first delete all of its protections by using DeleteResourceRecordSetProtections. The request is atomic. Route 53 either creates all of the protections in the request or none of them. If one or more entries fail, the response is an error that lists the failing entries and the reason that each one failed. Route 53 checks for invalid entries before it checks for existing protections, so if any entry is invalid, the error lists only the invalid entries. The error that Route 53 returns depends on the failures:   If every entry already has a protection, Route 53 returns a ProtectionAlreadyExists error.   For any other combination of failures, Route 53 returns an InvalidResourceRecordSetProtectionBatch error.   You can specify up to 100 protections in one request. The number of protections that you can have in a hosted zone is limited by a quota. If the request would exceed that quota, Route 53 returns a LimitsExceeded error.
+    ///
+    /// Parameters:
+    ///   - hostedZoneId: The ID of the hosted zone that contains the resource record sets that you want to protect.
+    ///   - protections: The protections to create. Each entry specifies a resource record set name and type, and an optional comment. The list must contain at least one entry and can contain up to 100 entries. Each name and type can appear only once in the list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceRecordSetProtections(
+        hostedZoneId: String,
+        protections: [ResourceRecordSetProtectionConfig],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceRecordSetProtectionsResponse {
+        let input = CreateResourceRecordSetProtectionsRequest(
+            hostedZoneId: hostedZoneId, 
+            protections: protections
+        )
+        return try await self.createResourceRecordSetProtections(input, logger: logger)
+    }
+
     /// Creates a delegation set (a group of four name servers) that can be reused by multiple
     /// 			hosted zones that were created by the same Amazon Web Services account.  You can also create a reusable delegation set that uses the four name servers that are
     /// 			associated with an existing hosted zone. Specify the hosted zone ID in the
@@ -1185,7 +1231,9 @@ public struct Route53: AWSService {
     /// 			enabled, you must delete the records and disable DNSSEC before deletion. Attempting to
     /// 			delete a hosted zone with additional records or DNSSEC enabled returns a
     /// 				HostedZoneNotEmpty error. For information about deleting records, see
-    /// 				ChangeResourceRecordSets.  To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
+    /// 				ChangeResourceRecordSets.  You also can't delete a hosted zone that has resource record set protections. To see
+    /// 			the protections in a hosted zone, use ListResourceRecordSetProtections. To
+    /// 			delete them, use DeleteResourceRecordSetProtections. To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
     /// 					hosted zone.   Use the ListHostedZones action to get a list of the hosted zones
     /// 					associated with the current Amazon Web Services account.
     @Sendable
@@ -1223,7 +1271,9 @@ public struct Route53: AWSService {
     /// 			enabled, you must delete the records and disable DNSSEC before deletion. Attempting to
     /// 			delete a hosted zone with additional records or DNSSEC enabled returns a
     /// 				HostedZoneNotEmpty error. For information about deleting records, see
-    /// 				ChangeResourceRecordSets.  To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
+    /// 				ChangeResourceRecordSets.  You also can't delete a hosted zone that has resource record set protections. To see
+    /// 			the protections in a hosted zone, use ListResourceRecordSetProtections. To
+    /// 			delete them, use DeleteResourceRecordSetProtections. To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
     /// 					hosted zone.   Use the ListHostedZones action to get a list of the hosted zones
     /// 					associated with the current Amazon Web Services account.
     ///
@@ -1310,6 +1360,38 @@ public struct Route53: AWSService {
             id: id
         )
         return try await self.deleteQueryLoggingConfig(input, logger: logger)
+    }
+
+    /// Deletes one or more resource record set protections from a hosted zone. After a protection is deleted, you can change the resource record sets that have that name and type by using ChangeResourceRecordSets. The request is atomic. Route 53 either deletes all of the protections in the request or none of them. If one or more entries fail, for example because no protection exists for the specified name and type, Route 53 returns an InvalidResourceRecordSetProtectionBatch error that lists the failing entries and the reason that each one failed. You can specify up to 100 protections in one request.
+    @Sendable
+    @inlinable
+    public func deleteResourceRecordSetProtections(_ input: DeleteResourceRecordSetProtectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceRecordSetProtectionsResponse {
+        try await self.client.execute(
+            operation: "DeleteResourceRecordSetProtections", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/rrsetprotection/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes one or more resource record set protections from a hosted zone. After a protection is deleted, you can change the resource record sets that have that name and type by using ChangeResourceRecordSets. The request is atomic. Route 53 either deletes all of the protections in the request or none of them. If one or more entries fail, for example because no protection exists for the specified name and type, Route 53 returns an InvalidResourceRecordSetProtectionBatch error that lists the failing entries and the reason that each one failed. You can specify up to 100 protections in one request.
+    ///
+    /// Parameters:
+    ///   - hostedZoneId: The ID of the hosted zone that contains the protections that you want to delete.
+    ///   - protections: The name and type of each protection to delete. The list must contain at least one entry and can contain up to 100 entries. Each name and type can appear only once in the list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceRecordSetProtections(
+        hostedZoneId: String,
+        protections: [ResourceRecordSetProtectionKey],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourceRecordSetProtectionsResponse {
+        let input = DeleteResourceRecordSetProtectionsRequest(
+            hostedZoneId: hostedZoneId, 
+            protections: protections
+        )
+        return try await self.deleteResourceRecordSetProtections(input, logger: logger)
     }
 
     /// Deletes a reusable delegation set.  You can delete a reusable delegation set only if it isn't associated with any
@@ -2631,6 +2713,47 @@ public struct Route53: AWSService {
         return try await self.listQueryLoggingConfigs(input, logger: logger)
     }
 
+    /// Lists the resource record set protections in a hosted zone. We recommend using pagination to ensure that the operation returns quickly and successfully. If the response includes a NextToken element, there are more protections to list. To get the next page of results, submit another request and specify the value of NextToken in the NextToken parameter.
+    @Sendable
+    @inlinable
+    public func listResourceRecordSetProtections(_ input: ListResourceRecordSetProtectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceRecordSetProtectionsResponse {
+        try await self.client.execute(
+            operation: "ListResourceRecordSetProtections", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/rrsetprotection", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the resource record set protections in a hosted zone. We recommend using pagination to ensure that the operation returns quickly and successfully. If the response includes a NextToken element, there are more protections to list. To get the next page of results, submit another request and specify the value of NextToken in the NextToken parameter.
+    ///
+    /// Parameters:
+    ///   - hostedZoneId: The ID of the hosted zone that contains the protections that you want to list.
+    ///   - maxResults: The maximum number of protections that you want Route 53 to return in this response. If you don't specify a value, or if you specify a value greater than 300, Route 53 returns up to 300 protections.
+    ///   - nextToken: If the response to a previous ListResourceRecordSetProtections request included a NextToken element, specify that value here to get the next page of results.
+    ///   - startRecordName: The first resource record set name that you want Route 53 to list protections for. If you don't specify a value, the list starts with the first protection in the hosted zone. If you specify NextToken, Route 53 ignores StartRecordName.
+    ///   - startRecordType: The first resource record set type, within the name specified by StartRecordName, that you want Route 53 to list protections for. If you specify StartRecordType, you must also specify StartRecordName. If you specify NextToken, Route 53 ignores StartRecordType.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceRecordSetProtections(
+        hostedZoneId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startRecordName: String? = nil,
+        startRecordType: RRType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceRecordSetProtectionsResponse {
+        let input = ListResourceRecordSetProtectionsRequest(
+            hostedZoneId: hostedZoneId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startRecordName: startRecordName, 
+            startRecordType: startRecordType
+        )
+        return try await self.listResourceRecordSetProtections(input, logger: logger)
+    }
+
     /// Lists the resource record sets in a specified hosted zone.  ListResourceRecordSets returns up to 300 resource record sets at a time
     /// 			in ASCII order, beginning at a position specified by the name and
     /// 				type elements.  Sort order   ListResourceRecordSets sorts results first by DNS name with the labels
@@ -3398,7 +3521,7 @@ public struct Route53: AWSService {
 extension Route53 {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Route53, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -3629,6 +3752,49 @@ extension Route53 {
         )
         return self.listQueryLoggingConfigsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listResourceRecordSetProtections(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceRecordSetProtectionsPaginator(
+        _ input: ListResourceRecordSetProtectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceRecordSetProtectionsRequest, ListResourceRecordSetProtectionsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceRecordSetProtections,
+            inputKey: \ListResourceRecordSetProtectionsRequest.nextToken,
+            outputKey: \ListResourceRecordSetProtectionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceRecordSetProtections(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - hostedZoneId: The ID of the hosted zone that contains the protections that you want to list.
+    ///   - maxResults: The maximum number of protections that you want Route 53 to return in this response. If you don't specify a value, or if you specify a value greater than 300, Route 53 returns up to 300 protections.
+    ///   - startRecordName: The first resource record set name that you want Route 53 to list protections for. If you don't specify a value, the list starts with the first protection in the hosted zone. If you specify NextToken, Route 53 ignores StartRecordName.
+    ///   - startRecordType: The first resource record set type, within the name specified by StartRecordName, that you want Route 53 to list protections for. If you specify StartRecordType, you must also specify StartRecordName. If you specify NextToken, Route 53 ignores StartRecordType.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceRecordSetProtectionsPaginator(
+        hostedZoneId: String,
+        maxResults: Int? = nil,
+        startRecordName: String? = nil,
+        startRecordType: RRType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceRecordSetProtectionsRequest, ListResourceRecordSetProtectionsResponse> {
+        let input = ListResourceRecordSetProtectionsRequest(
+            hostedZoneId: hostedZoneId, 
+            maxResults: maxResults, 
+            startRecordName: startRecordName, 
+            startRecordType: startRecordType
+        )
+        return self.listResourceRecordSetProtectionsPaginator(input, logger: logger)
+    }
 }
 
 extension Route53.ListCidrBlocksRequest: AWSPaginateToken {
@@ -3693,6 +3859,19 @@ extension Route53.ListQueryLoggingConfigsRequest: AWSPaginateToken {
             hostedZoneId: self.hostedZoneId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Route53.ListResourceRecordSetProtectionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Route53.ListResourceRecordSetProtectionsRequest {
+        return .init(
+            hostedZoneId: self.hostedZoneId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startRecordName: self.startRecordName,
+            startRecordType: self.startRecordType
         )
     }
 }

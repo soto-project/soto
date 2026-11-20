@@ -241,7 +241,7 @@ public struct CloudFormation: AWSService {
         return try await self.cancelUpdateStack(input, logger: logger)
     }
 
-    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see Continue rolling back an update in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see Update rollback failed.
+    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see Continue rolling back an update in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see Update rollback failed.  ForceRollback and ResourcesToSkip are mutually exclusive. For details, see ContinueUpdateRollbackInput$ForceRollback.
     @Sendable
     @inlinable
     public func continueUpdateRollback(_ input: ContinueUpdateRollbackInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ContinueUpdateRollbackOutput {
@@ -254,10 +254,11 @@ public struct CloudFormation: AWSService {
             logger: logger
         )
     }
-    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see Continue rolling back an update in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see Update rollback failed.
+    /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see Continue rolling back an update in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see Update rollback failed.  ForceRollback and ResourcesToSkip are mutually exclusive. For details, see ContinueUpdateRollbackInput$ForceRollback.
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
+    ///   - forceRollback: Specifies whether CloudFormation forces the rollback to continue by skipping resources currently in the UPDATE_FAILED state. Use this instead of listing each resource individually in ResourcesToSkip. Only resources that entered the UPDATE_FAILED state because a rollback failed are skipped. If you don't specify a value, the default is false and CloudFormation doesn't skip any resources.  ForceRollback and ResourcesToSkip are mutually exclusive. Specifying both in the same request returns a validation error.  We recommend that you troubleshoot resources before skipping them. CloudFormation sets the status of the skipped resources to UPDATE_COMPLETE and continues to roll back the stack, including resources in nested stacks. After the rollback completes, the skipped resources no longer match the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable. Drift detection reports skipped resources as NOT_CHECKED. For guidance, see Continue rolling back an update in the CloudFormation User Guide.
     ///   - resourcesToSkip: A list of the logical IDs of the resources that CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.  Specify this property to skip rolling back resources that CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.  Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources. To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID. If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED.  Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Continue rolling back from failed nested stack updates.
     ///   - roleARN: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to roll back the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least permission. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials.
     ///   - stackName: The name or the unique ID of the stack that you want to continue rolling back.  Don't specify the name of a nested stack (a stack that was created by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource).
@@ -265,6 +266,7 @@ public struct CloudFormation: AWSService {
     @inlinable
     public func continueUpdateRollback(
         clientRequestToken: String? = nil,
+        forceRollback: Bool? = nil,
         resourcesToSkip: [String]? = nil,
         roleARN: String? = nil,
         stackName: String? = nil,
@@ -272,6 +274,7 @@ public struct CloudFormation: AWSService {
     ) async throws -> ContinueUpdateRollbackOutput {
         let input = ContinueUpdateRollbackInput(
             clientRequestToken: clientRequestToken, 
+            forceRollback: forceRollback, 
             resourcesToSkip: resourcesToSkip, 
             roleARN: roleARN, 
             stackName: stackName
@@ -3004,6 +3007,35 @@ public struct CloudFormation: AWSService {
         return try await self.registerType(input, logger: logger)
     }
 
+    /// Removes an alias from a stack. After the alias is removed successfully, it can no longer be used to reference the stack in API calls.
+    @Sendable
+    @inlinable
+    public func removeAlias(_ input: RemoveAliasInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "RemoveAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes an alias from a stack. After the alias is removed successfully, it can no longer be used to reference the stack in API calls.
+    ///
+    /// Parameters:
+    ///   - aliasName: The alias name to remove.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func removeAlias(
+        aliasName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = RemoveAliasInput(
+            aliasName: aliasName
+        )
+        return try await self.removeAlias(input, logger: logger)
+    }
+
     /// When specifying RollbackStack, you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the DescribeStacks operation. Rolls back the specified stack to the last known stable state from CREATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COMPLETE. This includes the following stack statuses.    CREATE_COMPLETE     UPDATE_COMPLETE     UPDATE_ROLLBACK_COMPLETE     IMPORT_COMPLETE     IMPORT_ROLLBACK_COMPLETE
     @Sendable
     @inlinable
@@ -3043,6 +3075,38 @@ public struct CloudFormation: AWSService {
             stackName: stackName
         )
         return try await self.rollbackStack(input, logger: logger)
+    }
+
+    /// Assigns an alias to an existing stack. An alias is an alternative name for a stack that can be used in place of the stack name in any CloudFormation API call that accepts the StackName parameter. This enables you to effectively rename a stack without recreating it. After setting an alias, both the original stack name and the alias resolve to the same stack. Setting an alias does not change the stack's ARN, physical resource IDs, or any deployed resources.  Each stack can have at most one alias. To change a stack's alias, first remove the existing alias using RemoveAlias, then set a new one.
+    @Sendable
+    @inlinable
+    public func setAlias(_ input: SetAliasInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "SetAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Assigns an alias to an existing stack. An alias is an alternative name for a stack that can be used in place of the stack name in any CloudFormation API call that accepts the StackName parameter. This enables you to effectively rename a stack without recreating it. After setting an alias, both the original stack name and the alias resolve to the same stack. Setting an alias does not change the stack's ARN, physical resource IDs, or any deployed resources.  Each stack can have at most one alias. To change a stack's alias, first remove the existing alias using RemoveAlias, then set a new one.
+    ///
+    /// Parameters:
+    ///   - aliasName: The alias to assign to the stack. The alias can then be used in place of the stack name in any API call that accepts StackName. The name must be unique within the same account and Region. It cannot match an existing stack name or another active alias.  An alias name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.
+    ///   - stackName: The name or unique stack ID of the stack to assign an alias to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func setAlias(
+        aliasName: String? = nil,
+        stackName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = SetAliasInput(
+            aliasName: aliasName, 
+            stackName: stackName
+        )
+        return try await self.setAlias(input, logger: logger)
     }
 
     /// Sets a stack policy for a specified stack.
@@ -3636,7 +3700,7 @@ public struct CloudFormation: AWSService {
 extension CloudFormation {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: CloudFormation, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

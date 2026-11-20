@@ -238,6 +238,7 @@ public struct RAM: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - permissionArn: Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and  then choose the name of the permission. The ARN is displayed on the detail page.
+    ///   - permissionTemplateParameters: Specifies the template parameter values for the permission being associated. You must provide values for all parameters declared in the permission template. This parameter is required only if the specified permission has template parameters.
     ///   - permissionVersion: Specifies the version of the RAM permission to associate with the resource share. You can specify only the version that is currently set as the default version for the permission. If you also set the replace pararameter to true, then this operation updates an outdated version of the permission to the current default version.  You don't need to specify this parameter because the default behavior is to use the version that is currently set as the default version for the permission. This parameter is supported for backwards compatibility.
     ///   - replace: Specifies whether the specified permission should replace the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false.  A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
     ///   - resourceShareArn: Specifies the Amazon Resource Name (ARN) of the resource share to which you want to add or replace permissions.
@@ -246,6 +247,7 @@ public struct RAM: AWSService {
     public func associateResourceSharePermission(
         clientToken: String? = nil,
         permissionArn: String,
+        permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil,
         permissionVersion: Int? = nil,
         replace: Bool? = nil,
         resourceShareArn: String,
@@ -254,6 +256,7 @@ public struct RAM: AWSService {
         let input = AssociateResourceSharePermissionRequest(
             clientToken: clientToken, 
             permissionArn: permissionArn, 
+            permissionTemplateParameters: permissionTemplateParameters, 
             permissionVersion: permissionVersion, 
             replace: replace, 
             resourceShareArn: resourceShareArn
@@ -279,6 +282,7 @@ public struct RAM: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - name: Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region.
+    ///   - permissionTemplateParameters: Specifies a list of template parameter declarations for this permission. Each declaration defines a named placeholder that can be used in the policy template using the syntax @{parameterName}. Template parameters can only appear in Condition Key and Condition Value fields of the policy. When you associate this permission with a resource share, you must provide values for all declared parameters.
     ///   - policyTemplate: A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
     ///   - resourceType: Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet. To see the list of valid values for this parameter, query the ListResourceTypes operation. This value must match the display name of the resource  (available in ListResourceTypes).
     ///   - tags: Specifies a list of one or more tag key and value pairs to attach to the permission.
@@ -287,6 +291,7 @@ public struct RAM: AWSService {
     public func createPermission(
         clientToken: String? = nil,
         name: String,
+        permissionTemplateParameters: [PermissionTemplateParameterDeclaration]? = nil,
         policyTemplate: String,
         resourceType: String,
         tags: [Tag]? = nil,
@@ -295,6 +300,7 @@ public struct RAM: AWSService {
         let input = CreatePermissionRequest(
             clientToken: clientToken, 
             name: name, 
+            permissionTemplateParameters: permissionTemplateParameters, 
             policyTemplate: policyTemplate, 
             resourceType: resourceType, 
             tags: tags
@@ -320,18 +326,21 @@ public struct RAM: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - permissionArn: Specifies the Amazon Resource Name (ARN) of the customer managed permission you're creating a new version for.
+    ///   - permissionTemplateParameters: Specifies a list of template parameter declarations for this version of the permission. Each declaration defines a named placeholder that can be used in the policy template. Because each version is independent, you can define the same or a different set of template parameters for each version.
     ///   - policyTemplate: A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPermissionVersion(
         clientToken: String? = nil,
         permissionArn: String,
+        permissionTemplateParameters: [PermissionTemplateParameterDeclaration]? = nil,
         policyTemplate: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePermissionVersionResponse {
         let input = CreatePermissionVersionRequest(
             clientToken: clientToken, 
             permissionArn: permissionArn, 
+            permissionTemplateParameters: permissionTemplateParameters, 
             policyTemplate: policyTemplate
         )
         return try await self.createPermissionVersion(input, logger: logger)
@@ -357,6 +366,7 @@ public struct RAM: AWSService {
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - name: Specifies the name of the resource share.
     ///   - permissionArns: Specifies the Amazon Resource Names (ARNs) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share.
+    ///   - permissionTemplateParameters: Specifies the template parameter values for each permission being associated that has template parameters. Each entry maps a permission ARN to the parameter values to use when rendering the permission template for this resource share. You must provide values for all parameters declared in each permission template.
     ///   - principals: Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
     ///   - resourceArns: Specifies a list of one or more ARNs of the resources to associate with the resource share.
     ///   - resourceShareConfiguration: Specifies the configuration of this resource share.
@@ -369,6 +379,7 @@ public struct RAM: AWSService {
         clientToken: String? = nil,
         name: String,
         permissionArns: [String]? = nil,
+        permissionTemplateParameters: [PermissionArnAndTemplateParameters]? = nil,
         principals: [String]? = nil,
         resourceArns: [String]? = nil,
         resourceShareConfiguration: ResourceShareConfiguration? = nil,
@@ -381,6 +392,7 @@ public struct RAM: AWSService {
             clientToken: clientToken, 
             name: name, 
             permissionArns: permissionArns, 
+            permissionTemplateParameters: permissionTemplateParameters, 
             principals: principals, 
             resourceArns: resourceArns, 
             resourceShareConfiguration: resourceShareConfiguration, 
@@ -591,7 +603,7 @@ public struct RAM: AWSService {
         return try await self.enableSharingWithAwsOrganization(input, logger: logger)
     }
 
-    /// Retrieves the contents of a managed permission in JSON format.
+    /// Retrieves the contents of a managed permission in JSON format. If the permission has template parameters, you can include the permissionTemplateParameters parameter in your request. The operation then renders the returned policy with the specified values in place of the template parameter placeholders. If you omit permissionTemplateParameters, the operation returns the raw policy template with @{parameterName} placeholders unchanged.
     @Sendable
     @inlinable
     public func getPermission(_ input: GetPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPermissionResponse {
@@ -604,20 +616,23 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the contents of a managed permission in JSON format.
+    /// Retrieves the contents of a managed permission in JSON format. If the permission has template parameters, you can include the permissionTemplateParameters parameter in your request. The operation then renders the returned policy with the specified values in place of the template parameter placeholders. If you omit permissionTemplateParameters, the operation returns the raw policy template with @{parameterName} placeholders unchanged.
     ///
     /// Parameters:
     ///   - permissionArn: Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and  then choose the name of the permission. The ARN is displayed on the detail page.
+    ///   - permissionTemplateParameters: Specifies the template parameter values to use when rendering the permission's policy template. Each entry supplies a parameter name and its values. When you provide this parameter, the response contains the rendered policy with the specified values in place of the template parameter placeholders. For STRING type parameters, provide a single value. For STRING_LIST type parameters, provide one or more values. You can specify this parameter only for permissions that declare template parameters. You must provide values for all parameters declared in the permission template.
     ///   - permissionVersion: Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version. To see the list of available versions, use ListPermissionVersions.
     ///   - logger: Logger use during operation
     @inlinable
     public func getPermission(
         permissionArn: String,
+        permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil,
         permissionVersion: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetPermissionResponse {
         let input = GetPermissionRequest(
             permissionArn: permissionArn, 
+            permissionTemplateParameters: permissionTemplateParameters, 
             permissionVersion: permissionVersion
         )
         return try await self.getPermission(input, logger: logger)
@@ -896,6 +911,8 @@ public struct RAM: AWSService {
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
     ///   - permissionArn: Specifies the Amazon Resource Name (ARN) of the managed permission.
     ///   - permissionVersion: Specifies that you want to list only those associations with resource shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation returns information about associations with resource shares that use any version of the managed permission.
+    ///   - resourceOwner: Specifies that you want to list only those associations with resource shares owned by a specific entity:    SELF – returns only associations with resource shares owned by the calling account.    OTHER-ACCOUNTS – returns only associations with resource shares owned by other Amazon Web Services accounts.   If you don't specify this parameter, the default is SELF.
+    ///   - resourceShareArn: Specifies the Amazon Resource Name (ARN) of the resource share for which you want to retrieve permission associations.
     ///   - resourceType: Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
     ///   - logger: Logger use during operation
     @inlinable
@@ -907,6 +924,8 @@ public struct RAM: AWSService {
         nextToken: String? = nil,
         permissionArn: String? = nil,
         permissionVersion: Int? = nil,
+        resourceOwner: ResourceOwner? = nil,
+        resourceShareArn: String? = nil,
         resourceType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListPermissionAssociationsResponse {
@@ -918,6 +937,8 @@ public struct RAM: AWSService {
             nextToken: nextToken, 
             permissionArn: permissionArn, 
             permissionVersion: permissionVersion, 
+            resourceOwner: resourceOwner, 
+            resourceShareArn: resourceShareArn, 
             resourceType: resourceType
         )
         return try await self.listPermissionAssociations(input, logger: logger)
@@ -988,21 +1009,27 @@ public struct RAM: AWSService {
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+    ///   - permissionStatus: Specifies that you want to filter the results to include only permissions with the specified status. For example, use ATTACHABLE to list only permissions that can be associated with resource shares, or DEPRECATED to list only deprecated permissions.
     ///   - permissionType: Specifies that you want to list only permissions of this type:    AWS – returns only Amazon Web Services managed permissions.    LOCAL – returns only customer managed permissions    ALL – returns both Amazon Web Services managed permissions and customer managed permissions.   If you don't specify this parameter, the default is All.
+    ///   - resourceOwner: Specifies that you want to list only permissions owned by a specific entity:    SELF – returns only permissions owned by the calling account.    OTHER-ACCOUNTS – returns only permissions shared with the calling account by other accounts.
     ///   - resourceType: Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the ListResourceTypes operation to get the specific string required.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPermissions(
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        permissionStatus: PermissionStatus? = nil,
         permissionType: PermissionTypeFilter? = nil,
+        resourceOwner: ResourceOwner? = nil,
         resourceType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListPermissionsResponse {
         let input = ListPermissionsRequest(
             maxResults: maxResults, 
             nextToken: nextToken, 
+            permissionStatus: permissionStatus, 
             permissionType: permissionType, 
+            resourceOwner: resourceOwner, 
             resourceType: resourceType
         )
         return try await self.listPermissions(input, logger: logger)
@@ -1396,6 +1423,7 @@ public struct RAM: AWSService {
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - fromPermissionArn: Specifies the Amazon Resource Name (ARN) of the managed permission that you want to replace.
     ///   - fromPermissionVersion: Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed permission.
+    ///   - permissionTemplateParameters: Specifies the template parameter values to apply when replacing the permission. You must provide values for all parameters declared in the target permission template. This parameter is required only if the target permission (toPermissionArn) has template parameters.
     ///   - toPermissionArn: Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion. The operation always associates the version that is currently the default for the specified managed permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1403,6 +1431,7 @@ public struct RAM: AWSService {
         clientToken: String? = nil,
         fromPermissionArn: String,
         fromPermissionVersion: Int? = nil,
+        permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil,
         toPermissionArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ReplacePermissionAssociationsResponse {
@@ -1410,6 +1439,7 @@ public struct RAM: AWSService {
             clientToken: clientToken, 
             fromPermissionArn: fromPermissionArn, 
             fromPermissionVersion: fromPermissionVersion, 
+            permissionTemplateParameters: permissionTemplateParameters, 
             toPermissionArn: toPermissionArn
         )
         return try await self.replacePermissionAssociations(input, logger: logger)
@@ -1520,6 +1550,41 @@ public struct RAM: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates the status of the specified customer managed permission. Setting the status to DEPRECATED prevents new resource share associations. Setting it to ATTACHABLE restores a previously deprecated permission. Existing resource shares that use the permission continue to function.
+    @Sendable
+    @inlinable
+    public func updatePermission(_ input: UpdatePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePermissionResponse {
+        try await self.client.execute(
+            operation: "UpdatePermission", 
+            path: "/updatepermission", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the status of the specified customer managed permission. Setting the status to DEPRECATED prevents new resource share associations. Setting it to ATTACHABLE restores a previously deprecated permission. Existing resource shares that use the permission continue to function.
+    ///
+    /// Parameters:
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - permissionArn: Specifies the Amazon Resource Name (ARN) of the customer managed permission that you want to update.
+    ///   - status: Specifies the new status for the permission. This can be one of the following values:    ATTACHABLE – Restores a previously deprecated permission so it can be associated with resource shares again.    DEPRECATED – Deprecates the permission so it can no longer be associated with new resource shares.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePermission(
+        clientToken: String? = nil,
+        permissionArn: String,
+        status: UpdatePermissionStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePermissionResponse {
+        let input = UpdatePermissionRequest(
+            clientToken: clientToken, 
+            permissionArn: permissionArn, 
+            status: status
+        )
+        return try await self.updatePermission(input, logger: logger)
+    }
+
     /// Modifies some of the properties of the specified resource share.
     @Sendable
     @inlinable
@@ -1562,7 +1627,7 @@ public struct RAM: AWSService {
 extension RAM {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: RAM, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1823,6 +1888,8 @@ extension RAM {
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
     ///   - permissionArn: Specifies the Amazon Resource Name (ARN) of the managed permission.
     ///   - permissionVersion: Specifies that you want to list only those associations with resource shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation returns information about associations with resource shares that use any version of the managed permission.
+    ///   - resourceOwner: Specifies that you want to list only those associations with resource shares owned by a specific entity:    SELF – returns only associations with resource shares owned by the calling account.    OTHER-ACCOUNTS – returns only associations with resource shares owned by other Amazon Web Services accounts.   If you don't specify this parameter, the default is SELF.
+    ///   - resourceShareArn: Specifies the Amazon Resource Name (ARN) of the resource share for which you want to retrieve permission associations.
     ///   - resourceType: Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1833,6 +1900,8 @@ extension RAM {
         maxResults: Int? = nil,
         permissionArn: String? = nil,
         permissionVersion: Int? = nil,
+        resourceOwner: ResourceOwner? = nil,
+        resourceShareArn: String? = nil,
         resourceType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPermissionAssociationsRequest, ListPermissionAssociationsResponse> {
@@ -1843,6 +1912,8 @@ extension RAM {
             maxResults: maxResults, 
             permissionArn: permissionArn, 
             permissionVersion: permissionVersion, 
+            resourceOwner: resourceOwner, 
+            resourceShareArn: resourceShareArn, 
             resourceType: resourceType
         )
         return self.listPermissionAssociationsPaginator(input, logger: logger)
@@ -1907,19 +1978,25 @@ extension RAM {
     ///
     /// - Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
+    ///   - permissionStatus: Specifies that you want to filter the results to include only permissions with the specified status. For example, use ATTACHABLE to list only permissions that can be associated with resource shares, or DEPRECATED to list only deprecated permissions.
     ///   - permissionType: Specifies that you want to list only permissions of this type:    AWS – returns only Amazon Web Services managed permissions.    LOCAL – returns only customer managed permissions    ALL – returns both Amazon Web Services managed permissions and customer managed permissions.   If you don't specify this parameter, the default is All.
+    ///   - resourceOwner: Specifies that you want to list only permissions owned by a specific entity:    SELF – returns only permissions owned by the calling account.    OTHER-ACCOUNTS – returns only permissions shared with the calling account by other accounts.
     ///   - resourceType: Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the ListResourceTypes operation to get the specific string required.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPermissionsPaginator(
         maxResults: Int? = nil,
+        permissionStatus: PermissionStatus? = nil,
         permissionType: PermissionTypeFilter? = nil,
+        resourceOwner: ResourceOwner? = nil,
         resourceType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPermissionsRequest, ListPermissionsResponse> {
         let input = ListPermissionsRequest(
             maxResults: maxResults, 
+            permissionStatus: permissionStatus, 
             permissionType: permissionType, 
+            resourceOwner: resourceOwner, 
             resourceType: resourceType
         )
         return self.listPermissionsPaginator(input, logger: logger)
@@ -2266,6 +2343,8 @@ extension RAM.ListPermissionAssociationsRequest: AWSPaginateToken {
             nextToken: token,
             permissionArn: self.permissionArn,
             permissionVersion: self.permissionVersion,
+            resourceOwner: self.resourceOwner,
+            resourceShareArn: self.resourceShareArn,
             resourceType: self.resourceType
         )
     }
@@ -2288,7 +2367,9 @@ extension RAM.ListPermissionsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            permissionStatus: self.permissionStatus,
             permissionType: self.permissionType,
+            resourceOwner: self.resourceOwner,
             resourceType: self.resourceType
         )
     }

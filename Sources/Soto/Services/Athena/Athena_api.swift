@@ -481,6 +481,44 @@ public struct Athena: AWSService {
         return try await self.createPresignedNotebookUrl(input, logger: logger)
     }
 
+    /// Enables system tables for the current account. System tables are enabled or disabled for the entire account: creating this configuration enables them. If a configuration already exists, use UpdateSystemTableConfiguration to update it.
+    @Sendable
+    @inlinable
+    public func createSystemTableConfiguration(_ input: CreateSystemTableConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSystemTableConfigurationOutput {
+        try await self.client.execute(
+            operation: "CreateSystemTableConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables system tables for the current account. System tables are enabled or disabled for the entire account: creating this configuration enables them. If a configuration already exists, use UpdateSystemTableConfiguration to update it.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique case-sensitive string used to ensure the request to create the system table configuration is idempotent (executes only once). If another CreateSystemTableConfiguration request is received with the same client token but different parameters, the request fails with an InvalidRequestException.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key to use for encrypting the system table data.
+    ///   - tableName: The system table configuration to create. The only accepted value is ALL, the reserved keyword that enables all system tables for the account.
+    ///   - tags: The tags to add to the system table configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSystemTableConfiguration(
+        clientRequestToken: String? = CreateSystemTableConfigurationInput.idempotencyToken(),
+        kmsKeyArn: String? = nil,
+        tableName: SystemTableName,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSystemTableConfigurationOutput {
+        let input = CreateSystemTableConfigurationInput(
+            clientRequestToken: clientRequestToken, 
+            kmsKeyArn: kmsKeyArn, 
+            tableName: tableName, 
+            tags: tags
+        )
+        return try await self.createSystemTableConfiguration(input, logger: logger)
+    }
+
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     @Sendable
     @inlinable
@@ -668,6 +706,35 @@ public struct Athena: AWSService {
             workGroup: workGroup
         )
         return try await self.deletePreparedStatement(input, logger: logger)
+    }
+
+    /// Disables system tables for the current account by deleting the account-level configuration. If the configuration doesn't exist, the operation succeeds without making any changes. The system table and previously published data are left intact.
+    @Sendable
+    @inlinable
+    public func deleteSystemTableConfiguration(_ input: DeleteSystemTableConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSystemTableConfigurationOutput {
+        try await self.client.execute(
+            operation: "DeleteSystemTableConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables system tables for the current account by deleting the account-level configuration. If the configuration doesn't exist, the operation succeeds without making any changes. The system table and previously published data are left intact.
+    ///
+    /// Parameters:
+    ///   - tableName: The system table configuration to delete. The only accepted value is ALL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSystemTableConfiguration(
+        tableName: SystemTableName,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSystemTableConfigurationOutput {
+        let input = DeleteSystemTableConfigurationInput(
+            tableName: tableName
+        )
+        return try await self.deleteSystemTableConfiguration(input, logger: logger)
     }
 
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
@@ -1245,6 +1312,35 @@ public struct Athena: AWSService {
         return try await self.getSessionStatus(input, logger: logger)
     }
 
+    /// Returns the account-level system tables configuration. Fails with a ResourceNotFoundException if system tables are not enabled for the account.
+    @Sendable
+    @inlinable
+    public func getSystemTableConfiguration(_ input: GetSystemTableConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemTableConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetSystemTableConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the account-level system tables configuration. Fails with a ResourceNotFoundException if system tables are not enabled for the account.
+    ///
+    /// Parameters:
+    ///   - tableName: The system table configuration to retrieve. The only accepted value is ALL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSystemTableConfiguration(
+        tableName: SystemTableName,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSystemTableConfigurationOutput {
+        let input = GetSystemTableConfigurationInput(
+            tableName: tableName
+        )
+        return try await self.getSystemTableConfiguration(input, logger: logger)
+    }
+
     /// Returns table metadata for the specified catalog, database, and table.
     @Sendable
     @inlinable
@@ -1817,6 +1913,38 @@ public struct Athena: AWSService {
         return try await self.listSessions(input, logger: logger)
     }
 
+    /// Lists the system tables that the account-level configuration activates, along with whether each is currently enabled. Because system tables are enabled at the account level, every entry reflects the same account-wide state.
+    @Sendable
+    @inlinable
+    public func listSystemTableStatuses(_ input: ListSystemTableStatusesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSystemTableStatusesOutput {
+        try await self.client.execute(
+            operation: "ListSystemTableStatuses", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the system tables that the account-level configuration activates, along with whether each is currently enabled. Because system tables are enabled at the account level, every entry reflects the same account-wide state.
+    ///
+    /// Parameters:
+    ///   - maxResults: Specifies the maximum number of results to return.
+    ///   - nextToken: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSystemTableStatuses(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSystemTableStatusesOutput {
+        let input = ListSystemTableStatusesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSystemTableStatuses(input, logger: logger)
+    }
+
     /// Lists the metadata for the tables in the specified data catalog database.
     @Sendable
     @inlinable
@@ -2015,7 +2143,7 @@ public struct Athena: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
-    ///   - engineConfiguration: The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
+    ///   - engineConfiguration: The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.  Note: When using StartQueryExecution, only the Classifications field applies. Do not specify the other fields (AdditionalConfigs, CoordinatorDpuSize, DefaultExecutorDpuSize, MaxConcurrentDpus, and SparkProperties), as these are used only with StartSession to configure Apache Spark-based sessions.
     ///   - executionParameters: A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     ///   - queryExecutionContext: The database within which the query executes.
     ///   - queryString: The SQL query statements to be executed.
@@ -2069,7 +2197,7 @@ public struct Athena: AWSService {
     ///   - description: The session description.
     ///   - engineConfiguration: Contains engine data processing unit (DPU) configuration settings and parameter mappings.
     ///   - executionRole: The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
-    ///   - monitoringConfiguration: Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+    ///   - monitoringConfiguration: Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
     ///   - notebookVersion: The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See EngineConfiguration$AdditionalConfigs.
     ///   - sessionIdleTimeoutInMinutes: The idle timeout in minutes for the session.
     ///   - tags: A list of comma separated tags to add to the session that is created.
@@ -2477,6 +2605,38 @@ public struct Athena: AWSService {
         return try await self.updatePreparedStatement(input, logger: logger)
     }
 
+    /// Updates the account-level system tables configuration. If no configuration exists, use CreateSystemTableConfiguration to create one. Fields that you omit retain their current values.
+    @Sendable
+    @inlinable
+    public func updateSystemTableConfiguration(_ input: UpdateSystemTableConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSystemTableConfigurationOutput {
+        try await self.client.execute(
+            operation: "UpdateSystemTableConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the account-level system tables configuration. If no configuration exists, use CreateSystemTableConfiguration to create one. Fields that you omit retain their current values.
+    ///
+    /// Parameters:
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key to use for encrypting the system table data. The encryption key is immutable while the system table exists, so a change takes effect only after the table has been deleted.
+    ///   - tableName: The system table configuration to update. The only accepted value is ALL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSystemTableConfiguration(
+        kmsKeyArn: String? = nil,
+        tableName: SystemTableName,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSystemTableConfigurationOutput {
+        let input = UpdateSystemTableConfigurationInput(
+            kmsKeyArn: kmsKeyArn, 
+            tableName: tableName
+        )
+        return try await self.updateSystemTableConfiguration(input, logger: logger)
+    }
+
     /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only ConfigurationUpdates can be specified.
     @Sendable
     @inlinable
@@ -2519,7 +2679,7 @@ public struct Athena: AWSService {
 extension Athena {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Athena, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -2979,6 +3139,40 @@ extension Athena {
         return self.listSessionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSystemTableStatuses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSystemTableStatusesPaginator(
+        _ input: ListSystemTableStatusesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSystemTableStatusesInput, ListSystemTableStatusesOutput> {
+        return .init(
+            input: input,
+            command: self.listSystemTableStatuses,
+            inputKey: \ListSystemTableStatusesInput.nextToken,
+            outputKey: \ListSystemTableStatusesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSystemTableStatuses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Specifies the maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSystemTableStatusesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSystemTableStatusesInput, ListSystemTableStatusesOutput> {
+        let input = ListSystemTableStatusesInput(
+            maxResults: maxResults
+        )
+        return self.listSystemTableStatusesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTableMetadata(_:logger:)``.
     ///
     /// - Parameters:
@@ -3227,6 +3421,16 @@ extension Athena.ListSessionsRequest: AWSPaginateToken {
             nextToken: token,
             stateFilter: self.stateFilter,
             workGroup: self.workGroup
+        )
+    }
+}
+
+extension Athena.ListSystemTableStatusesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Athena.ListSystemTableStatusesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

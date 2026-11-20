@@ -308,6 +308,35 @@ public struct CloudWatch: AWSService {
         return try await self.deleteInsightRules(input, logger: logger)
     }
 
+    /// Deletes a metric data query definition. This operation is idempotent. If the definition doesn't exist, the operation succeeds without returning an error.  Permissions  To delete a definition, you need the cloudwatch:DeleteMetricDataQueryDefinition permission on the metric data query definition resource. You can use the aws:ResourceTag/${TagKey} condition key to control access based on the tags of the definition.
+    @Sendable
+    @inlinable
+    public func deleteMetricDataQueryDefinition(_ input: DeleteMetricDataQueryDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMetricDataQueryDefinitionOutput {
+        try await self.client.execute(
+            operation: "DeleteMetricDataQueryDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a metric data query definition. This operation is idempotent. If the definition doesn't exist, the operation succeeds without returning an error.  Permissions  To delete a definition, you need the cloudwatch:DeleteMetricDataQueryDefinition permission on the metric data query definition resource. You can use the aws:ResourceTag/${TagKey} condition key to control access based on the tags of the definition.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the metric data query definition to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMetricDataQueryDefinition(
+        id: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMetricDataQueryDefinitionOutput {
+        let input = DeleteMetricDataQueryDefinitionInput(
+            id: id
+        )
+        return try await self.deleteMetricDataQueryDefinition(input, logger: logger)
+    }
+
     /// Permanently deletes the metric stream that you specify.
     @Sendable
     @inlinable
@@ -956,6 +985,35 @@ public struct CloudWatch: AWSService {
         return try await self.getMetricData(input, logger: logger)
     }
 
+    /// Returns a metric data query definition, including its expression.  Permissions  To get a definition, you need the cloudwatch:GetMetricDataQueryDefinition permission on the metric data query definition resource. You can use the aws:ResourceTag/${TagKey} condition key to control access based on the tags of the definition.
+    @Sendable
+    @inlinable
+    public func getMetricDataQueryDefinition(_ input: GetMetricDataQueryDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataQueryDefinitionOutput {
+        try await self.client.execute(
+            operation: "GetMetricDataQueryDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a metric data query definition, including its expression.  Permissions  To get a definition, you need the cloudwatch:GetMetricDataQueryDefinition permission on the metric data query definition resource. You can use the aws:ResourceTag/${TagKey} condition key to control access based on the tags of the definition.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the metric data query definition to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMetricDataQueryDefinition(
+        id: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMetricDataQueryDefinitionOutput {
+        let input = GetMetricDataQueryDefinitionInput(
+            id: id
+        )
+        return try await self.getMetricDataQueryDefinition(input, logger: logger)
+    }
+
     /// Gets statistics for the specified metric. The maximum number of data points returned from a single call is 1,440. If you request more than 1,440 data points, CloudWatch returns an error. To reduce the number of data points, you can narrow the specified time range and make multiple requests across adjacent time ranges, or you can increase the specified period. Data points are not returned in chronological order. CloudWatch aggregates data points based on the length of the period that you specify. For example, if you request statistics with a one-hour period, CloudWatch aggregates all data points with time stamps that fall within each one-hour period. Therefore, the number of values aggregated by CloudWatch is larger than the number of data points returned. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:   The SampleCount value of the statistic set is 1.   The Min and the Max values of the statistic set are equal.   Percentile statistics are not available for metrics when any of the metric values are negative numbers. Amazon CloudWatch retains metric data as follows:   Data points with a period of less than 60 seconds are available for 3 hours. These data points are high-resolution metrics and are available only for custom metrics that have been defined with a StorageResolution of 1.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 455 days (15 months).   Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. CloudWatch started retaining 5-minute and 1-hour metric data as of July 9, 2016. For information about metrics and dimensions supported by Amazon Web Services services, see the Amazon CloudWatch Metrics and Dimensions Reference in the Amazon CloudWatch User Guide.
     @Sendable
     @inlinable
@@ -1038,7 +1096,7 @@ public struct CloudWatch: AWSService {
         return try await self.getMetricStream(input, logger: logger)
     }
 
-    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
+    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard.   GetMetricWidgetImage is not available in the Amazon Web Services GovCloud (US) Regions. In those Regions, calls to this operation fail. For the list of Amazon CloudWatch features that are not available in Amazon Web Services GovCloud (US), see Amazon CloudWatch in Amazon Web Services GovCloud (US).  The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
     @Sendable
     @inlinable
     public func getMetricWidgetImage(_ input: GetMetricWidgetImageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricWidgetImageOutput {
@@ -1051,7 +1109,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard. The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
+    /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this image into your services and products, such as wiki pages, reports, and documents. You could also retrieve images regularly, such as every minute, and create your own custom live dashboard.   GetMetricWidgetImage is not available in the Amazon Web Services GovCloud (US) Regions. In those Regions, calls to this operation fail. For the list of Amazon CloudWatch features that are not available in Amazon Web Services GovCloud (US), see Amazon CloudWatch in Amazon Web Services GovCloud (US).  The graph you retrieve can include all CloudWatch metric graph features, including metric math and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
     ///
     /// Parameters:
     ///   - metricWidget: A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
@@ -1228,6 +1286,38 @@ public struct CloudWatch: AWSService {
             resourceARN: resourceARN
         )
         return try await self.listManagedInsightRules(input, logger: logger)
+    }
+
+    /// Lists the metric data query definitions in your account and Region. The results are summaries that don't include the expression. To get the full definition, call GetMetricDataQueryDefinition with its ID. This operation supports pagination. Use the MaxResults and NextToken parameters to retrieve results in multiple calls.  Permissions  To list definitions, you need the cloudwatch:ListMetricDataQueryDefinitions permission. This permission applies to all definitions in the account and Region. The results aren't filtered by tags.
+    @Sendable
+    @inlinable
+    public func listMetricDataQueryDefinitions(_ input: ListMetricDataQueryDefinitionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricDataQueryDefinitionsOutput {
+        try await self.client.execute(
+            operation: "ListMetricDataQueryDefinitions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the metric data query definitions in your account and Region. The results are summaries that don't include the expression. To get the full definition, call GetMetricDataQueryDefinition with its ID. This operation supports pagination. Use the MaxResults and NextToken parameters to retrieve results in multiple calls.  Permissions  To list definitions, you need the cloudwatch:ListMetricDataQueryDefinitions permission. This permission applies to all definitions in the account and Region. The results aren't filtered by tags.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of metric data query definitions to return in one call. The default is 100.
+    ///   - nextToken: The token returned by a previous call to indicate where to continue retrieving results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMetricDataQueryDefinitions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMetricDataQueryDefinitionsOutput {
+        let input = ListMetricDataQueryDefinitionsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listMetricDataQueryDefinitions(input, logger: logger)
     }
 
     /// Returns a list of metric streams in this account.
@@ -1439,6 +1529,7 @@ public struct CloudWatch: AWSService {
     /// Creates or updates a composite alarm. When you create a composite alarm, you specify a rule expression for the alarm that takes into account the alarm states of other alarms that you have created. The composite alarm goes into ALARM state only if all conditions of the rule are met. The alarms specified in a composite alarm's rule expression can include metric alarms and other composite alarms. The rule expression of a composite alarm can include as many as 100 underlying alarms. Any single alarm can be included in the rule expressions of as many as 150 composite alarms. Using composite alarms can reduce alarm noise. You can create multiple metric alarms, and also create a composite alarm and set up alerts only for the composite alarm. For example, you could create a composite alarm that goes into ALARM state only when more than one of the underlying metric alarms are in ALARM state. Composite alarms can take the following actions:   Notify Amazon SNS topics.   Invoke Lambda functions.   Create OpsItems in Systems Manager Ops Center.   Create incidents in Systems Manager Incident Manager.    It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.   When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. For a composite alarm, this initial time after creation is the only time that the alarm can be in INSUFFICIENT_DATA state. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. To use this operation, you must be signed on with the cloudwatch:PutCompositeAlarm permission that is scoped to *. You can't create a composite alarms if your cloudwatch:PutCompositeAlarm permission has a narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager OpsItem actions.
     ///
     /// Parameters:
+    ///   - actionConfiguration: Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE.
     ///   - actionsSuppressor:  Actions will be suppressed if the suppressor alarm is in the ALARM state. ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN) from an existing alarm.
     ///   - actionsSuppressorExtensionPeriod:  The maximum time in seconds that the composite alarm waits after suppressor alarm goes out of the ALARM state. After this time, the composite alarm performs its actions.    ExtensionPeriod is required only when ActionsSuppressor is specified.
@@ -1453,6 +1544,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putCompositeAlarm(
+        actionConfiguration: ActionConfiguration? = nil,
         actionsEnabled: Bool? = nil,
         actionsSuppressor: String? = nil,
         actionsSuppressorExtensionPeriod: Int? = nil,
@@ -1467,6 +1559,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutCompositeAlarmInput(
+            actionConfiguration: actionConfiguration, 
             actionsEnabled: actionsEnabled, 
             actionsSuppressor: actionsSuppressor, 
             actionsSuppressorExtensionPeriod: actionsSuppressorExtensionPeriod, 
@@ -1574,6 +1667,7 @@ public struct CloudWatch: AWSService {
     /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression, and each aggregated value is compared against the alarm Threshold to determine the alarm state. The alarm uses M-out-of-N evaluation: if QueryResultsToAlarm out of the most recent QueryResultsToEvaluate query results breach the threshold, the alarm transitions to ALARM. Log alarms support the alarm states (OK, ALARM, INSUFFICIENT_DATA). Configure transition actions using OKActions, AlarmActions, and InsufficientDataActions. If you call this operation with the name of an existing log alarm, the operation replaces the previous configuration of that alarm.  Permissions  To create or update a log alarm, you must have the cloudwatch:PutLogAlarm permission. The IAM role specified in ScheduledQueryRoleARN must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set ActionLogLineCount, the role specified in ActionLogLineRoleArn must grant permission to retrieve log events for inclusion in alarm notifications.
     ///
     /// Parameters:
+    ///   - actionConfiguration: Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
     ///   - actionLogLineCount: The number of log lines from the most recent scheduled query execution to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
     ///   - actionLogLineRoleArn: The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Required when ActionLogLineCount is greater than 0.
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state. The default is true.
@@ -1593,6 +1687,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putLogAlarm(
+        actionConfiguration: ActionConfiguration? = nil,
         actionLogLineCount: Int? = nil,
         actionLogLineRoleArn: String? = nil,
         actionsEnabled: Bool? = nil,
@@ -1612,6 +1707,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutLogAlarmInput(
+            actionConfiguration: actionConfiguration, 
             actionLogLineCount: actionLogLineCount, 
             actionLogLineRoleArn: actionLogLineRoleArn, 
             actionsEnabled: actionsEnabled, 
@@ -1677,6 +1773,7 @@ public struct CloudWatch: AWSService {
     /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries. Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. For PromQL alarms, the alarm state is instead immediately set to OK. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following pre-requisites:   The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role must grant access to the ID of the account where you are creating the alarm.    The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in  Cross-account cross-Region CloudWatch console.
     ///
     /// Parameters:
+    ///   - actionConfiguration: Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
     ///   - alarmActions: The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name      Start a Amazon Q Developer operational investigation   arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
     ///   - alarmDescription: The description for the alarm.
@@ -1706,6 +1803,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putMetricAlarm(
+        actionConfiguration: ActionConfiguration? = nil,
         actionsEnabled: Bool? = nil,
         alarmActions: [String]? = nil,
         alarmDescription: String? = nil,
@@ -1735,6 +1833,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutMetricAlarmInput(
+            actionConfiguration: actionConfiguration, 
             actionsEnabled: actionsEnabled, 
             alarmActions: alarmActions, 
             alarmDescription: alarmDescription, 
@@ -1801,6 +1900,47 @@ public struct CloudWatch: AWSService {
             strictEntityValidation: strictEntityValidation
         )
         return try await self.putMetricData(input, logger: logger)
+    }
+
+    /// Creates or updates a metric data query definition. A metric data query definition saves a metric query so that you can reuse it later. It includes the query expression, the query language, and a path that names the definition and can organize it into folders. When you save a definition, CloudWatch doesn't validate or run its expression. To create a definition, omit Id. CloudWatch generates the ID and returns it. To update a definition, specify its Id. An update replaces the path, expression, and type, and keeps the creation time. The path must be unique in your account and Region. If another definition already uses the path, the request fails with a ConflictException. You can have up to 1,000 metric data query definitions in each Region of your account. A request that would create more fails with a LimitExceededException.  Permissions  To create or update a definition, you need the cloudwatch:PutMetricDataQueryDefinition permission on the metric data query definition resource. The resource ARN has the format arn:aws:cloudwatch:Region:account-id:metric-query-definition/Id. To add tags when you create a definition, you also need the cloudwatch:TagResource permission. You can use the aws:RequestTag/${TagKey} and aws:TagKeys condition keys to control which tags can be added.
+    @Sendable
+    @inlinable
+    public func putMetricDataQueryDefinition(_ input: PutMetricDataQueryDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMetricDataQueryDefinitionOutput {
+        try await self.client.execute(
+            operation: "PutMetricDataQueryDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a metric data query definition. A metric data query definition saves a metric query so that you can reuse it later. It includes the query expression, the query language, and a path that names the definition and can organize it into folders. When you save a definition, CloudWatch doesn't validate or run its expression. To create a definition, omit Id. CloudWatch generates the ID and returns it. To update a definition, specify its Id. An update replaces the path, expression, and type, and keeps the creation time. The path must be unique in your account and Region. If another definition already uses the path, the request fails with a ConflictException. You can have up to 1,000 metric data query definitions in each Region of your account. A request that would create more fails with a LimitExceededException.  Permissions  To create or update a definition, you need the cloudwatch:PutMetricDataQueryDefinition permission on the metric data query definition resource. The resource ARN has the format arn:aws:cloudwatch:Region:account-id:metric-query-definition/Id. To add tags when you create a definition, you also need the cloudwatch:TagResource permission. You can use the aws:RequestTag/${TagKey} and aws:TagKeys condition keys to control which tags can be added.
+    ///
+    /// Parameters:
+    ///   - expression: The query expression, in the language that Type specifies. CloudWatch doesn't validate or run the expression when you save it.
+    ///   - id: The ID of the metric data query definition to update. Omit this parameter to create a definition. CloudWatch then generates the ID and returns it in the response.
+    ///   - path: The name of the metric data query definition. Use slashes (/) to organize definitions into folders, for example team/web/latency. The path must meet the following requirements:   It must be unique in your account and Region.   It can't start or end with a slash.   It can't contain an empty folder name (//).   It can be at most 1,015 bytes when encoded as UTF-8.
+    ///   - tags: A list of key-value pairs to associate with the metric data query definition. You can use tags to categorize definitions and to control access to them. Tags are applied only when the request creates a definition, that is, when you omit Id. To change the tags of an existing definition, use TagResource and UntagResource.
+    ///   - type: The language of the expression. Valid values are the following:    PROMQL – A PromQL query.    SQL – A CloudWatch Metrics Insights query.    METRIC_MATH – A metric math expression.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putMetricDataQueryDefinition(
+        expression: String? = nil,
+        id: String? = nil,
+        path: String? = nil,
+        tags: [Tag]? = nil,
+        type: QueryType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutMetricDataQueryDefinitionOutput {
+        let input = PutMetricDataQueryDefinitionInput(
+            expression: expression, 
+            id: id, 
+            path: path, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.putMetricDataQueryDefinition(input, logger: logger)
     }
 
     /// Creates or updates a metric stream. Metric streams can automatically stream CloudWatch metrics to Amazon Web Services destinations, including Amazon S3, and to many third-party solutions. For more information, see  Using Metric Streams. To create a metric stream, you must be signed in to an account that has the iam:PassRole permission and either the CloudWatchFullAccess policy or the cloudwatch:PutMetricStream permission. When you create or update a metric stream, you choose one of the following:   Stream metrics from all metric namespaces in the account.   Stream metrics from all metric namespaces in the account, except for the namespaces that you list in ExcludeFilters.   Stream metrics from only the metric namespaces that you list in IncludeFilters.   By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use the StatisticsConfigurations parameter to have the metric stream send additional statistics in the stream. Streaming additional statistics incurs additional costs. For more information, see Amazon CloudWatch Pricing.  When you use PutMetricStream to create a new metric stream, the stream is created in the running state. If you use it to update an existing stream, the state of the stream is not changed. If you are using CloudWatch cross-account observability and you create a metric stream in a monitoring account, you can choose whether to include metrics from source accounts in the stream. For more information, see CloudWatch cross-account observability.
@@ -2142,7 +2282,7 @@ public struct CloudWatch: AWSService {
 extension CloudWatch {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: CloudWatch, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -2505,6 +2645,40 @@ extension CloudWatch {
         return self.listManagedInsightRulesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMetricDataQueryDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMetricDataQueryDefinitionsPaginator(
+        _ input: ListMetricDataQueryDefinitionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput> {
+        return .init(
+            input: input,
+            command: self.listMetricDataQueryDefinitions,
+            inputKey: \ListMetricDataQueryDefinitionsInput.nextToken,
+            outputKey: \ListMetricDataQueryDefinitionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMetricDataQueryDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of metric data query definitions to return in one call. The default is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMetricDataQueryDefinitionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput> {
+        let input = ListMetricDataQueryDefinitionsInput(
+            maxResults: maxResults
+        )
+        return self.listMetricDataQueryDefinitionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listMetricStreams(_:logger:)``.
     ///
     /// - Parameters:
@@ -2692,6 +2866,16 @@ extension CloudWatch.ListManagedInsightRulesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceARN: self.resourceARN
+        )
+    }
+}
+
+extension CloudWatch.ListMetricDataQueryDefinitionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudWatch.ListMetricDataQueryDefinitionsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

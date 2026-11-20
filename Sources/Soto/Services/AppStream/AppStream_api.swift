@@ -785,6 +785,7 @@ public struct AppStream: AWSService {
     ///
     /// Parameters:
     ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
+    ///   - agentAccessConfig: The configuration for agent access on the image builder. If specified, agent access is enabled for the image builder.
     ///   - appstreamAgentVersion: The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
     ///   - description: The description to display.
     ///   - disableIMDSV1: Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.  Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
@@ -805,6 +806,7 @@ public struct AppStream: AWSService {
     @inlinable
     public func createImageBuilder(
         accessEndpoints: [AccessEndpoint]? = nil,
+        agentAccessConfig: ImageBuilderAgentAccessConfig? = nil,
         appstreamAgentVersion: String? = nil,
         description: String? = nil,
         disableIMDSV1: Bool? = nil,
@@ -825,6 +827,7 @@ public struct AppStream: AWSService {
     ) async throws -> CreateImageBuilderResult {
         let input = CreateImageBuilderRequest(
             accessEndpoints: accessEndpoints, 
+            agentAccessConfig: agentAccessConfig, 
             appstreamAgentVersion: appstreamAgentVersion, 
             description: description, 
             disableIMDSV1: disableIMDSV1, 
@@ -962,6 +965,7 @@ public struct AppStream: AWSService {
     ///   - feedbackURL: The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     ///   - name: The name of the stack.
     ///   - redirectURL: The URL that users are redirected to after their streaming session ends.
+    ///   - storageConnectorAuthentication: Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
     ///   - storageConnectors: The storage connectors to enable.
     ///   - streamingExperienceSettings: The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
     ///   - tags: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
@@ -979,6 +983,7 @@ public struct AppStream: AWSService {
         feedbackURL: String? = nil,
         name: String? = nil,
         redirectURL: String? = nil,
+        storageConnectorAuthentication: StorageConnectorAuthentication? = nil,
         storageConnectors: [StorageConnector]? = nil,
         streamingExperienceSettings: StreamingExperienceSettings? = nil,
         tags: [String: String]? = nil,
@@ -996,6 +1001,7 @@ public struct AppStream: AWSService {
             feedbackURL: feedbackURL, 
             name: name, 
             redirectURL: redirectURL, 
+            storageConnectorAuthentication: storageConnectorAuthentication, 
             storageConnectors: storageConnectors, 
             streamingExperienceSettings: streamingExperienceSettings, 
             tags: tags, 
@@ -1907,7 +1913,7 @@ public struct AppStream: AWSService {
         return try await self.describeFleets(input, logger: logger)
     }
 
-    /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
+    /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described. The description of each image builder includes its agent access configuration, if agent access is enabled.
     @Sendable
     @inlinable
     public func describeImageBuilders(_ input: DescribeImageBuildersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImageBuildersResult {
@@ -1920,7 +1926,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
+    /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described. The description of each image builder includes its agent access configuration, if agent access is enabled.
     ///
     /// Parameters:
     ///   - maxResults: The maximum size of each page of results.
@@ -3311,6 +3317,47 @@ public struct AppStream: AWSService {
         return try await self.updateFleet(input, logger: logger)
     }
 
+    /// Updates the specified fields for the specified image builder. The image builder must be in the STOPPED state.
+    @Sendable
+    @inlinable
+    public func updateImageBuilder(_ input: UpdateImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImageBuilderResult {
+        try await self.client.execute(
+            operation: "UpdateImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified fields for the specified image builder. The image builder must be in the STOPPED state.
+    ///
+    /// Parameters:
+    ///   - agentAccessConfig: The configuration for agent access on the image builder. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.
+    ///   - attributesToDelete: The image builder attributes to delete.
+    ///   - description: The description to display.
+    ///   - displayName: The image builder name to display.
+    ///   - name: The name of the image builder.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateImageBuilder(
+        agentAccessConfig: ImageBuilderAgentAccessConfigForUpdate? = nil,
+        attributesToDelete: [ImageBuilderAttribute]? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateImageBuilderResult {
+        let input = UpdateImageBuilderRequest(
+            agentAccessConfig: agentAccessConfig, 
+            attributesToDelete: attributesToDelete, 
+            description: description, 
+            displayName: displayName, 
+            name: name
+        )
+        return try await self.updateImageBuilder(input, logger: logger)
+    }
+
     /// Adds or updates permissions for the specified private image.
     @Sendable
     @inlinable
@@ -3373,6 +3420,7 @@ public struct AppStream: AWSService {
     ///   - feedbackURL: The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     ///   - name: The name of the stack.
     ///   - redirectURL: The URL that users are redirected to after their streaming session ends.
+    ///   - storageConnectorAuthentication: Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.
     ///   - storageConnectors: The storage connectors to enable.
     ///   - streamingExperienceSettings: The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
     ///   - userSettings: The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
@@ -3390,6 +3438,7 @@ public struct AppStream: AWSService {
         feedbackURL: String? = nil,
         name: String? = nil,
         redirectURL: String? = nil,
+        storageConnectorAuthentication: StorageConnectorAuthentication? = nil,
         storageConnectors: [StorageConnector]? = nil,
         streamingExperienceSettings: StreamingExperienceSettings? = nil,
         userSettings: [UserSetting]? = nil,
@@ -3407,6 +3456,7 @@ public struct AppStream: AWSService {
             feedbackURL: feedbackURL, 
             name: name, 
             redirectURL: redirectURL, 
+            storageConnectorAuthentication: storageConnectorAuthentication, 
             storageConnectors: storageConnectors, 
             streamingExperienceSettings: streamingExperienceSettings, 
             userSettings: userSettings
@@ -3468,7 +3518,7 @@ public struct AppStream: AWSService {
 extension AppStream {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: AppStream, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

@@ -223,6 +223,7 @@ public struct IVS: AWSService {
     ///   - adConfigurationArn: ARN of the ad configuration associated with the channel.
     ///   - authorized: Whether the channel is private (enabled for playback authorization). Default: false.
     ///   - containerFormat: Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+    ///   - failoverSlateConfigurationArn: Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
     ///   - insecureIngest: Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     ///   - latencyMode: Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
     ///   - multitrackInputConfiguration: Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
@@ -238,6 +239,7 @@ public struct IVS: AWSService {
         adConfigurationArn: String? = nil,
         authorized: Bool? = nil,
         containerFormat: ContainerFormat? = nil,
+        failoverSlateConfigurationArn: String? = nil,
         insecureIngest: Bool? = nil,
         latencyMode: ChannelLatencyMode? = nil,
         multitrackInputConfiguration: MultitrackInputConfiguration? = nil,
@@ -253,6 +255,7 @@ public struct IVS: AWSService {
             adConfigurationArn: adConfigurationArn, 
             authorized: authorized, 
             containerFormat: containerFormat, 
+            failoverSlateConfigurationArn: failoverSlateConfigurationArn, 
             insecureIngest: insecureIngest, 
             latencyMode: latencyMode, 
             multitrackInputConfiguration: multitrackInputConfiguration, 
@@ -264,6 +267,47 @@ public struct IVS: AWSService {
             type: type
         )
         return try await self.createChannel(input, logger: logger)
+    }
+
+    /// Creates a new failover slate configuration.
+    @Sendable
+    @inlinable
+    public func createFailoverSlateConfiguration(_ input: CreateFailoverSlateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFailoverSlateConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateFailoverSlateConfiguration", 
+            path: "/CreateFailoverSlateConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new failover slate configuration.
+    ///
+    /// Parameters:
+    ///   - activationThresholdSeconds: Number of seconds of ingest interruption before the failover slate activates. Default: 3.
+    ///   - maxSlateDisplaySeconds: Maximum number of seconds that the failover slate displays. Default: 60.
+    ///   - minSlateDisplaySeconds: Minimum number of seconds that the failover slate displays after activation. Default: 3.
+    ///   - name: Failover-slate-configuration name. The value does not need to be unique.
+    ///   - tags: Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createFailoverSlateConfiguration(
+        activationThresholdSeconds: Int? = nil,
+        maxSlateDisplaySeconds: Int? = nil,
+        minSlateDisplaySeconds: Int? = nil,
+        name: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateFailoverSlateConfigurationResponse {
+        let input = CreateFailoverSlateConfigurationRequest(
+            activationThresholdSeconds: activationThresholdSeconds, 
+            maxSlateDisplaySeconds: maxSlateDisplaySeconds, 
+            minSlateDisplaySeconds: minSlateDisplaySeconds, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createFailoverSlateConfiguration(input, logger: logger)
     }
 
     /// Creates a new playback restriction policy, for constraining playback by countries and/or origins.
@@ -441,6 +485,35 @@ public struct IVS: AWSService {
         return try await self.deleteChannel(input, logger: logger)
     }
 
+    /// Deletes the specified failover slate configuration.
+    @Sendable
+    @inlinable
+    public func deleteFailoverSlateConfiguration(_ input: DeleteFailoverSlateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteFailoverSlateConfiguration", 
+            path: "/DeleteFailoverSlateConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified failover slate configuration.
+    ///
+    /// Parameters:
+    ///   - arn: ARN of the failover slate configuration to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteFailoverSlateConfiguration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteFailoverSlateConfigurationRequest(
+            arn: arn
+        )
+        return try await self.deleteFailoverSlateConfiguration(input, logger: logger)
+    }
+
     /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey. For more information, see Setting Up Private Channels in the Amazon IVS User Guide.
     @Sendable
     @inlinable
@@ -613,6 +686,35 @@ public struct IVS: AWSService {
             arn: arn
         )
         return try await self.getChannel(input, logger: logger)
+    }
+
+    /// Gets the failover slate configuration for the specified ARN.
+    @Sendable
+    @inlinable
+    public func getFailoverSlateConfiguration(_ input: GetFailoverSlateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFailoverSlateConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetFailoverSlateConfiguration", 
+            path: "/GetFailoverSlateConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the failover slate configuration for the specified ARN.
+    ///
+    /// Parameters:
+    ///   - arn: ARN of the failover slate configuration to be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFailoverSlateConfiguration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFailoverSlateConfigurationResponse {
+        let input = GetFailoverSlateConfigurationRequest(
+            arn: arn
+        )
+        return try await self.getFailoverSlateConfiguration(input, logger: logger)
     }
 
     /// Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see Setting Up Private Channels in the Amazon IVS User Guide.
@@ -843,18 +945,24 @@ public struct IVS: AWSService {
     /// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel.  Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Elemental MediaTailor User Guide for details on available metrics.
     ///
     /// Parameters:
+    ///   - adBreakId: Caller-specified unique identifier for the ad break to insert into the playlist.
     ///   - channelArn: ARN of the channel into which the ad break is inserted.
     ///   - durationSeconds: Duration of the ad break, in seconds.
+    ///   - targetStartAt: Target time at which the ad break starts.
     ///   - logger: Logger use during operation
     @inlinable
     public func insertAdBreak(
+        adBreakId: String? = nil,
         channelArn: String,
         durationSeconds: Int,
+        targetStartAt: Date? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InsertAdBreakResponse {
         let input = InsertAdBreakRequest(
+            adBreakId: adBreakId, 
             channelArn: channelArn, 
-            durationSeconds: durationSeconds
+            durationSeconds: durationSeconds, 
+            targetStartAt: targetStartAt
         )
         return try await self.insertAdBreak(input, logger: logger)
     }
@@ -908,6 +1016,7 @@ public struct IVS: AWSService {
     ///
     /// Parameters:
     ///   - filterByAdConfigurationArn: Filters the channel list to match the specified ad configuration ARN.
+    ///   - filterByFailoverSlateConfigurationArn: Filters the channel list to match the specified failover-slate-configuration ARN.
     ///   - filterByName: Filters the channel list to match the specified name.
     ///   - filterByPlaybackRestrictionPolicyArn: Filters the channel list to match the specified policy.
     ///   - filterByRecordingConfigurationArn: Filters the channel list to match the specified recording-configuration ARN.
@@ -917,6 +1026,7 @@ public struct IVS: AWSService {
     @inlinable
     public func listChannels(
         filterByAdConfigurationArn: String? = nil,
+        filterByFailoverSlateConfigurationArn: String? = nil,
         filterByName: String? = nil,
         filterByPlaybackRestrictionPolicyArn: String? = nil,
         filterByRecordingConfigurationArn: String? = nil,
@@ -926,6 +1036,7 @@ public struct IVS: AWSService {
     ) async throws -> ListChannelsResponse {
         let input = ListChannelsRequest(
             filterByAdConfigurationArn: filterByAdConfigurationArn, 
+            filterByFailoverSlateConfigurationArn: filterByFailoverSlateConfigurationArn, 
             filterByName: filterByName, 
             filterByPlaybackRestrictionPolicyArn: filterByPlaybackRestrictionPolicyArn, 
             filterByRecordingConfigurationArn: filterByRecordingConfigurationArn, 
@@ -933,6 +1044,38 @@ public struct IVS: AWSService {
             nextToken: nextToken
         )
         return try await self.listChannels(input, logger: logger)
+    }
+
+    /// Gets summary information about all failover slate configurations in your account, in the Amazon Web Services region where the API request is processed.
+    @Sendable
+    @inlinable
+    public func listFailoverSlateConfigurations(_ input: ListFailoverSlateConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFailoverSlateConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListFailoverSlateConfigurations", 
+            path: "/ListFailoverSlateConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets summary information about all failover slate configurations in your account, in the Amazon Web Services region where the API request is processed.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of failover slate configurations to return. Default: your service quota or 100, whichever is smaller.
+    ///   - nextToken: The first failover slate configuration to retrieve. This is used for pagination; see the nextToken response field.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFailoverSlateConfigurations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFailoverSlateConfigurationsResponse {
+        let input = ListFailoverSlateConfigurationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFailoverSlateConfigurations(input, logger: logger)
     }
 
     /// Gets summary information about playback key pairs. For more information, see Setting Up Private Channels in the Amazon IVS User Guide.
@@ -1383,6 +1526,7 @@ public struct IVS: AWSService {
     ///   - arn: ARN of the channel to be updated.
     ///   - authorized: Whether the channel is private (enabled for playback authorization).
     ///   - containerFormat: Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+    ///   - failoverSlateConfigurationArn: Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. If this is set to an empty string, failover slate configuration is disabled.
     ///   - insecureIngest: Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     ///   - latencyMode: Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
     ///   - multitrackInputConfiguration: Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
@@ -1398,6 +1542,7 @@ public struct IVS: AWSService {
         arn: String,
         authorized: Bool? = nil,
         containerFormat: ContainerFormat? = nil,
+        failoverSlateConfigurationArn: String? = nil,
         insecureIngest: Bool? = nil,
         latencyMode: ChannelLatencyMode? = nil,
         multitrackInputConfiguration: MultitrackInputConfiguration? = nil,
@@ -1413,6 +1558,7 @@ public struct IVS: AWSService {
             arn: arn, 
             authorized: authorized, 
             containerFormat: containerFormat, 
+            failoverSlateConfigurationArn: failoverSlateConfigurationArn, 
             insecureIngest: insecureIngest, 
             latencyMode: latencyMode, 
             multitrackInputConfiguration: multitrackInputConfiguration, 
@@ -1423,6 +1569,47 @@ public struct IVS: AWSService {
             type: type
         )
         return try await self.updateChannel(input, logger: logger)
+    }
+
+    /// Updates a specified failover slate configuration.
+    @Sendable
+    @inlinable
+    public func updateFailoverSlateConfiguration(_ input: UpdateFailoverSlateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFailoverSlateConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateFailoverSlateConfiguration", 
+            path: "/UpdateFailoverSlateConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a specified failover slate configuration.
+    ///
+    /// Parameters:
+    ///   - activationThresholdSeconds: Number of seconds of ingest interruption before the failover slate activates. Default: 3.
+    ///   - arn: ARN of the failover slate configuration to be updated.
+    ///   - maxSlateDisplaySeconds: Maximum number of seconds that the failover slate displays. Default: 60.
+    ///   - minSlateDisplaySeconds: Minimum number of seconds that the failover slate displays after activation. Default: 3.
+    ///   - name: Failover-slate-configuration name. The value does not need to be unique.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateFailoverSlateConfiguration(
+        activationThresholdSeconds: Int? = nil,
+        arn: String,
+        maxSlateDisplaySeconds: Int? = nil,
+        minSlateDisplaySeconds: Int? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateFailoverSlateConfigurationResponse {
+        let input = UpdateFailoverSlateConfigurationRequest(
+            activationThresholdSeconds: activationThresholdSeconds, 
+            arn: arn, 
+            maxSlateDisplaySeconds: maxSlateDisplaySeconds, 
+            minSlateDisplaySeconds: minSlateDisplaySeconds, 
+            name: name
+        )
+        return try await self.updateFailoverSlateConfiguration(input, logger: logger)
     }
 
     /// Updates a specified playback restriction policy.
@@ -1470,7 +1657,7 @@ public struct IVS: AWSService {
 extension IVS {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: IVS, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1536,6 +1723,7 @@ extension IVS {
     ///
     /// - Parameters:
     ///   - filterByAdConfigurationArn: Filters the channel list to match the specified ad configuration ARN.
+    ///   - filterByFailoverSlateConfigurationArn: Filters the channel list to match the specified failover-slate-configuration ARN.
     ///   - filterByName: Filters the channel list to match the specified name.
     ///   - filterByPlaybackRestrictionPolicyArn: Filters the channel list to match the specified policy.
     ///   - filterByRecordingConfigurationArn: Filters the channel list to match the specified recording-configuration ARN.
@@ -1544,6 +1732,7 @@ extension IVS {
     @inlinable
     public func listChannelsPaginator(
         filterByAdConfigurationArn: String? = nil,
+        filterByFailoverSlateConfigurationArn: String? = nil,
         filterByName: String? = nil,
         filterByPlaybackRestrictionPolicyArn: String? = nil,
         filterByRecordingConfigurationArn: String? = nil,
@@ -1552,12 +1741,47 @@ extension IVS {
     ) -> AWSClient.PaginatorSequence<ListChannelsRequest, ListChannelsResponse> {
         let input = ListChannelsRequest(
             filterByAdConfigurationArn: filterByAdConfigurationArn, 
+            filterByFailoverSlateConfigurationArn: filterByFailoverSlateConfigurationArn, 
             filterByName: filterByName, 
             filterByPlaybackRestrictionPolicyArn: filterByPlaybackRestrictionPolicyArn, 
             filterByRecordingConfigurationArn: filterByRecordingConfigurationArn, 
             maxResults: maxResults
         )
         return self.listChannelsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFailoverSlateConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFailoverSlateConfigurationsPaginator(
+        _ input: ListFailoverSlateConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFailoverSlateConfigurationsRequest, ListFailoverSlateConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listFailoverSlateConfigurations,
+            inputKey: \ListFailoverSlateConfigurationsRequest.nextToken,
+            outputKey: \ListFailoverSlateConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFailoverSlateConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of failover slate configurations to return. Default: your service quota or 100, whichever is smaller.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFailoverSlateConfigurationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFailoverSlateConfigurationsRequest, ListFailoverSlateConfigurationsResponse> {
+        let input = ListFailoverSlateConfigurationsRequest(
+            maxResults: maxResults
+        )
+        return self.listFailoverSlateConfigurationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listPlaybackKeyPairs(_:logger:)``.
@@ -1789,9 +2013,20 @@ extension IVS.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IVS.ListChannelsRequest {
         return .init(
             filterByAdConfigurationArn: self.filterByAdConfigurationArn,
+            filterByFailoverSlateConfigurationArn: self.filterByFailoverSlateConfigurationArn,
             filterByName: self.filterByName,
             filterByPlaybackRestrictionPolicyArn: self.filterByPlaybackRestrictionPolicyArn,
             filterByRecordingConfigurationArn: self.filterByRecordingConfigurationArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IVS.ListFailoverSlateConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IVS.ListFailoverSlateConfigurationsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

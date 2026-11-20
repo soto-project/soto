@@ -98,14 +98,14 @@ public struct Scheduler: AWSService {
     ///   - actionAfterCompletion: Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
     ///   - clientToken:  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     ///   - description: The description you specify for the schedule.
-    ///   - endDate: The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify.
+    ///   - endDate: The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
     ///   - flexibleTimeWindow: Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
     ///   - groupName: The name of the schedule group to associate with this schedule. If you omit this, the default schedule group is used.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) for the customer managed KMS key that EventBridge Scheduler will use to encrypt and decrypt your data.
     ///   - name: The name of the schedule that you are creating.
-    ///   - scheduleExpression:  The expression that defines when the schedule runs. The following formats are supported.
+    ///   - scheduleExpression:  The expression that defines when the schedule runs. The following formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
     ///   - scheduleExpressionTimezone: The timezone in which the scheduling expression is evaluated.
-    ///   - startDate: The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify.
+    ///   - startDate: The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
     ///   - state: Specifies whether the schedule is enabled or disabled.
     ///   - target: The schedule's target.
     ///   - logger: Logger use during operation
@@ -495,14 +495,14 @@ public struct Scheduler: AWSService {
     ///   - actionAfterCompletion: Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
     ///   - clientToken:  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     ///   - description: The description you specify for the schedule.
-    ///   - endDate: The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify.
+    ///   - endDate: The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
     ///   - flexibleTimeWindow: Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
     ///   - groupName: The name of the schedule group with which the schedule is associated. You must provide this value in order for EventBridge Scheduler to find the schedule you want to update. If you omit this value, EventBridge Scheduler assumes the group is associated to the default group.
     ///   - kmsKeyArn: The ARN for the customer managed KMS key that that you want EventBridge Scheduler to use to encrypt and decrypt your data.
     ///   - name: The name of the schedule that you are updating.
-    ///   - scheduleExpression:  The expression that defines when the schedule runs. The following formats are supported.
+    ///   - scheduleExpression:  The expression that defines when the schedule runs. The following formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression - rate(value unit)     cron expression - cron(fields)     You can use at expressions to create one-time schedules that invoke a target once, at the time and in the time zone, that you specify. You can use rate and cron expressions to create recurring schedules. Rate-based schedules are useful when you want to invoke a target at regular intervals, such as every 15 minutes or every five days. Cron-based schedules are useful when you want to invoke a target periodically at a specific time, such as at 8:00 am (UTC+0) every 1st day of the month.   A cron expression consists of six fields separated by white spaces: (minutes hours day_of_month month day_of_week year).   A rate expression consists of a value as a positive integer, and a unit with the following options: minute | minutes | hour | hours | day | days   For more information and examples, see Schedule types on EventBridge Scheduler in the EventBridge Scheduler User Guide.
     ///   - scheduleExpressionTimezone: The timezone in which the scheduling expression is evaluated.
-    ///   - startDate: The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify.
+    ///   - startDate: The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
     ///   - state: Specifies whether the schedule is enabled or disabled.
     ///   - target: The schedule target. You can use this operation to change the target that your schedule invokes.
     ///   - logger: Logger use during operation
@@ -545,7 +545,7 @@ public struct Scheduler: AWSService {
 extension Scheduler {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Scheduler, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

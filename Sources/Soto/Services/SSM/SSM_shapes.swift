@@ -166,6 +166,8 @@ extension SSM {
     }
 
     public enum CloudConnectorFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case organizationId = "OrganizationId"
+        case projectId = "ProjectId"
         case subscriptionId = "SubscriptionId"
         case tenantId = "TenantId"
         public var description: String { return self.rawValue }
@@ -247,6 +249,12 @@ extension SSM {
     public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "connected"
         case notConnected = "notconnected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DHMCPermissionModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case selfManaged = "SELF_MANAGED"
+        case serviceManaged = "SERVICE_MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -814,6 +822,12 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azure = "Azure"
+        case gcp = "GCP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RebootOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noReboot = "NoReboot"
         case rebootIfNeeded = "RebootIfNeeded"
@@ -895,6 +909,7 @@ extension SSM {
         case awsIotThing = "AWS::IoT::Thing"
         case awsSsmManagedinstance = "AWS::SSM::ManagedInstance"
         case azureInstance = "Microsoft.Compute/virtualMachines"
+        case gcpInstance = "compute.googleapis.com/Instance"
         public var description: String { return self.rawValue }
     }
 
@@ -922,7 +937,9 @@ extension SSM {
         case outboundWebIdentityFederationDisabled = "OutboundWebIdentityFederationDisabled"
         case providerCredentialCreationFailed = "ProviderCredentialCreationFailed"
         case subscriptionAccessible = "SubscriptionAccessible"
+        case targetApiDisabled = "TargetApiDisabled"
         case targetInaccessible = "TargetInaccessible"
+        case targetMissingPermissions = "TargetMissingPermissions"
         case targetStateWarning = "TargetStateWarning"
         case targetUnusable = "TargetUnusable"
         case tenantSummary = "TenantSummary"
@@ -933,6 +950,8 @@ extension SSM {
     public enum ValidationFindingScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case azureSubscription = "azure:subscription"
         case azureTenant = "azure:tenant"
+        case gcpOrganization = "gcp:organization"
+        case gcpProject = "gcp:project"
         public var description: String { return self.rawValue }
     }
 
@@ -941,6 +960,56 @@ extension SSM {
         case info = "INFO"
         case warn = "WARN"
         public var description: String { return self.rawValue }
+    }
+
+    public enum CloudConnectorConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The access details and targets for connecting to a Microsoft Azure environment.
+        case azureConfiguration(AzureConfiguration)
+        /// The access details and targets for connecting to a Google Cloud Platform (GCP) environment.
+        case gcpConfiguration(GcpConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .azureConfiguration:
+                let value = try container.decode(AzureConfiguration.self, forKey: .azureConfiguration)
+                self = .azureConfiguration(value)
+            case .gcpConfiguration:
+                let value = try container.decode(GcpConfiguration.self, forKey: .gcpConfiguration)
+                self = .gcpConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .azureConfiguration(let value):
+                try container.encode(value, forKey: .azureConfiguration)
+            case .gcpConfiguration(let value):
+                try container.encode(value, forKey: .gcpConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .azureConfiguration(let value):
+                try value.validate(name: "\(name).azureConfiguration")
+            case .gcpConfiguration(let value):
+                try value.validate(name: "\(name).gcpConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azureConfiguration = "AzureConfiguration"
+            case gcpConfiguration = "GcpConfiguration"
+        }
     }
 
     // MARK: Shapes
@@ -1801,6 +1870,8 @@ extension SSM {
         public let targetParameterName: String?
         /// The specified targets.
         public let targets: [Target]?
+        /// A summary of the child executions that a rate control execution started for its targets. This field is returned only for rate control executions.
+        public let targetsSummary: TargetsSummary?
         /// The CloudWatch alarm that was invoked by the automation.
         public let triggeredAlarms: [AlarmStateInformation]?
         /// Variables defined for the automation.
@@ -1809,7 +1880,7 @@ extension SSM {
         public let warningMessage: String?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, variables: [String: [String]]? = nil, warningMessage: String? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, targetsSummary: TargetsSummary? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, variables: [String: [String]]? = nil, warningMessage: String? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -1843,6 +1914,7 @@ extension SSM {
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
+            self.targetsSummary = targetsSummary
             self.triggeredAlarms = triggeredAlarms
             self.variables = variables
             self.warningMessage = warningMessage
@@ -1882,6 +1954,7 @@ extension SSM {
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
+            case targetsSummary = "TargetsSummary"
             case triggeredAlarms = "TriggeredAlarms"
             case variables = "Variables"
             case warningMessage = "WarningMessage"
@@ -2345,7 +2418,7 @@ extension SSM {
     public struct CloudConnectorFilter: AWSEncodableShape {
         /// The name of the filter key.
         public let filterKey: CloudConnectorFilterKey?
-        /// The filter values. Valid values for each filter key are as follows:  SubscriptionId  The Azure subscription ID to filter by. To return only tenant-level connectors, specify NONE.  TenantId  The Azure tenant ID to filter by. Filters the results to connectors that target the specified tenant.
+        /// The filter values. Valid values for each filter key are as follows:  SubscriptionId  The Azure subscription ID to filter by. To return only tenant-level connectors, specify NONE.  TenantId  The Azure tenant ID to filter by. Filters the results to connectors that target the specified tenant.  ProjectId  The Google Cloud Platform (GCP) project ID to filter by. Filters the results to connectors that target the specified project.  OrganizationId  The GCP organization ID to filter by. Filters the results to connectors that target the entire specified organization.   You can't combine Azure filter keys (SubscriptionId and TenantId) with GCP filter keys (ProjectId and OrganizationId) in the same request.
         public let filterValues: [String]?
 
         @inlinable
@@ -2372,32 +2445,40 @@ extension SSM {
     public struct CloudConnectorSummary: AWSDecodableShape {
         /// The ID of the cloud connector.
         public let cloudConnectorId: String?
+        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector. This value is returned only if the cloud connector was created with an Amazon Web Services Config connector.
+        public let configConnectorArn: String?
         /// The date and time the cloud connector was created.
         public let createdAt: Date?
         /// The description of the cloud connector.
         public let description: String?
         /// The friendly name of the cloud connector.
         public let displayName: String?
+        /// The third-party cloud provider that the cloud connector connects to. Valid values: Azure | GCP.
+        public let provider: Provider?
         /// The ARN of the IAM role used by the cloud connector.
         public let roleArn: String?
         /// The date and time the cloud connector was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(cloudConnectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
+        public init(cloudConnectorId: String? = nil, configConnectorArn: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, provider: Provider? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
             self.cloudConnectorId = cloudConnectorId
+            self.configConnectorArn = configConnectorArn
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
+            self.provider = provider
             self.roleArn = roleArn
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudConnectorId = "CloudConnectorId"
+            case configConnectorArn = "ConfigConnectorArn"
             case createdAt = "CreatedAt"
             case description = "Description"
             case displayName = "DisplayName"
+            case provider = "Provider"
             case roleArn = "RoleArn"
             case updatedAt = "UpdatedAt"
         }
@@ -3276,8 +3357,8 @@ extension SSM {
     }
 
     public struct CreateCloudConnectorRequest: AWSEncodableShape {
-        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
-        public let configConnectorArn: String
+        /// The ARN of the Amazon Web Services Config connector to associate with this cloud connector. If you omit it, the cloud connector is created without Amazon Web Services Config integration.
+        public let configConnectorArn: String?
         /// The configuration details for connecting to the third-party cloud environment.
         public let configuration: CloudConnectorConfiguration
         /// A description for the cloud connector.
@@ -3290,7 +3371,7 @@ extension SSM {
         public let tags: [Tag]?
 
         @inlinable
-        public init(configConnectorArn: String, configuration: CloudConnectorConfiguration, description: String? = nil, displayName: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(configConnectorArn: String? = nil, configuration: CloudConnectorConfiguration, description: String? = nil, displayName: String, roleArn: String, tags: [Tag]? = nil) {
             self.configConnectorArn = configConnectorArn
             self.configuration = configuration
             self.description = description
@@ -4293,6 +4374,14 @@ extension SSM {
     }
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeregisterDefaultHostManagementConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeregisterDefaultHostManagementConfigurationResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -6804,6 +6893,71 @@ extension SSM {
         }
     }
 
+    public struct GcpConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the GCP organization.
+        public let organizationId: String?
+        /// The email address of the GCP service account used for authentication.
+        public let serviceAccountEmail: String
+        /// The target GCP projects for the cloud connector.
+        public let targets: GcpConfigurationTargets?
+        /// The full resource name of the GCP workload identity pool provider used for authentication.
+        public let workloadIdentityPoolProvider: String
+
+        @inlinable
+        public init(organizationId: String? = nil, serviceAccountEmail: String, targets: GcpConfigurationTargets? = nil, workloadIdentityPoolProvider: String) {
+            self.organizationId = organizationId
+            self.serviceAccountEmail = serviceAccountEmail
+            self.targets = targets
+            self.workloadIdentityPoolProvider = workloadIdentityPoolProvider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 19)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^[1-9][0-9]{0,18}$")
+            try self.validate(self.serviceAccountEmail, name: "serviceAccountEmail", parent: name, max: 256)
+            try self.validate(self.serviceAccountEmail, name: "serviceAccountEmail", parent: name, min: 1)
+            try self.validate(self.serviceAccountEmail, name: "serviceAccountEmail", parent: name, pattern: "^[a-z][a-z0-9\\-]*[a-z0-9]@[a-z][a-z0-9\\-]*[a-z0-9]\\.iam\\.gserviceaccount\\.com$")
+            try self.targets?.validate(name: "\(name).targets")
+            try self.validate(self.workloadIdentityPoolProvider, name: "workloadIdentityPoolProvider", parent: name, max: 256)
+            try self.validate(self.workloadIdentityPoolProvider, name: "workloadIdentityPoolProvider", parent: name, min: 1)
+            try self.validate(self.workloadIdentityPoolProvider, name: "workloadIdentityPoolProvider", parent: name, pattern: "^projects/[1-9][0-9]{0,18}/locations/global/workloadIdentityPools\\/[a-z0-9-]{4,32}/providers/[a-z0-9-]{4,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case serviceAccountEmail = "ServiceAccountEmail"
+            case targets = "Targets"
+            case workloadIdentityPoolProvider = "WorkloadIdentityPoolProvider"
+        }
+    }
+
+    public struct GcpProject: AWSEncodableShape & AWSDecodableShape {
+        /// The display name of the GCP project.
+        public let projectDisplayName: String?
+        /// The ID of the GCP project.
+        public let projectId: String
+
+        @inlinable
+        public init(projectDisplayName: String? = nil, projectId: String) {
+            self.projectDisplayName = projectDisplayName
+            self.projectId = projectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectDisplayName, name: "projectDisplayName", parent: name, max: 128)
+            try self.validate(self.projectDisplayName, name: "projectDisplayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.projectId, name: "projectId", parent: name, max: 30)
+            try self.validate(self.projectId, name: "projectId", parent: name, min: 6)
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-z][a-z0-9-]{4,28}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectDisplayName = "ProjectDisplayName"
+            case projectId = "ProjectId"
+        }
+    }
+
     public struct GetAccessTokenRequest: AWSEncodableShape {
         /// The ID of a just-in-time node access request.
         public let accessRequestId: String
@@ -6936,7 +7090,7 @@ extension SSM {
     public struct GetCloudConnectorResult: AWSDecodableShape {
         /// The ARN of the cloud connector.
         public let cloudConnectorArn: String?
-        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector. This value is returned only if the cloud connector was created with an Amazon Web Services Config connector.
         public let configConnectorArn: String?
         /// The configuration details for the third-party cloud environment connection.
         public let configuration: CloudConnectorConfiguration?
@@ -8171,7 +8325,7 @@ extension SSM {
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
         public let path: String
-        /// Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API operation recursively for /a and view /a/b.
+        /// Retrieve all parameters within a hierarchy.
         public let recursive: Bool?
         /// Retrieve all parameters in a hierarchy with their value decrypted.
         public let withDecryption: Bool?
@@ -8676,7 +8830,7 @@ extension SSM {
         public let sourceId: String?
         /// The location of the source resource in the third-party cloud environment.
         public let sourceLocation: String?
-        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines. For Google Cloud Platform (GCP) Compute Engine Virtual Machines, SourceType is compute.googleapis.com/Instance.
         public let sourceType: SourceType?
 
         @inlinable
@@ -8762,7 +8916,7 @@ extension SSM {
         public let sourceId: String?
         /// The location of the source resource in the third-party cloud environment.
         public let sourceLocation: String?
-        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines.
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines. For Google Cloud Platform (GCP) Compute Engine Virtual Machines, SourceType is compute.googleapis.com/Instance.
         public let sourceType: SourceType?
 
         @inlinable
@@ -8844,7 +8998,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformTypes filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
+        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformTypes filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines | compute.googleapis.com/Instance   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -9055,7 +9209,7 @@ extension SSM {
         public let sourceId: String?
         /// The location of the source resource in the third-party cloud environment.
         public let sourceLocation: String?
-        /// The type of the source resource. Valid values: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines.
+        /// The type of the source resource. Valid values: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines | compute.googleapis.com/Instance.
         public let sourceType: SourceType?
 
         @inlinable
@@ -12127,7 +12281,7 @@ extension SSM {
     public struct Parameter: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the parameter.
         public let arn: String?
-        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        /// The data type of the parameter, such as text, aws:ec2:image, or json. The default is text. For the list of data types, see the DataType parameter of PutParameter.
         public let dataType: String?
         /// Date the parameter was last changed or updated and the parameter version was created.
         public let lastModifiedDate: Date?
@@ -12173,7 +12327,7 @@ extension SSM {
     public struct ParameterHistory: AWSDecodableShape {
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
-        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        /// The data type of the parameter, such as text, aws:ec2:image, or json. The default is text. For the list of data types, see the DataType parameter of PutParameter.
         public let dataType: String?
         /// Information about the parameter.
         public let description: String?
@@ -12259,7 +12413,7 @@ extension SSM {
         public let allowedPattern: String?
         /// The Amazon Resource Name (ARN) of the parameter.
         public let arn: String?
-        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        /// The data type of the parameter, such as text, aws:ec2:image, or json. The default is text. For the list of data types, see the DataType parameter of PutParameter.
         public let dataType: String?
         /// Description of the parameter actions.
         public let description: String?
@@ -12915,7 +13069,7 @@ extension SSM {
     public struct PutParameterRequest: AWSEncodableShape {
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
         public let allowedPattern: String?
-        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account.  If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see Setting up notifications or trigger actions based on Parameter Store events. For more information about AMI format validation , see Native parameter support for Amazon Machine Image IDs.
+        /// The data type of the parameter value. Parameter Store validates the value against the data type when you create or update the parameter. The default is text, which performs no validation.  The following data type values are supported.     text     aws:ec2:image     aws:ssm:integration     aws:region     aws:account:id     boolean     integer     float     binary     hostname     email     ipv4-address     ipv6-address     url     json     jsonc    For more information about the supported data types, see Working with parameter data types in Parameter Store.  Regardless of a parameter's data type, the Parameter Store API operations that retrieve parameters, such as GetParameter, GetParameters, and GetParametersByPath, return the parameter value as a string. For example, if a parameter has the data type integer and the value 443, GetParameter returns the value as the string "443". Convert the value to the type your application needs after you retrieve it.  When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account.  If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see Setting up notifications or trigger actions based on Parameter Store events. For more information about AMI format validation , see Native parameter support for Amazon Machine Image IDs.
         public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Don't enter personally identifiable information in this field.
         public let description: String?
@@ -12929,7 +13083,7 @@ extension SSM {
         public let policies: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key-value pairs:    Key=Resource,Value=S3bucket     Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an existing Systems Manager parameter, use the AddTagsToResource operation.
         public let tags: [Tag]?
-        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an Amazon Web Services account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an Amazon Web Services account. Advanced parameters incur a charge. For more information, see Managing parameter tiers in the Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you don't specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your Amazon Web Services account in the current Amazon Web Services Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the Amazon Web Services Systems Manager User Guide.
+        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an Amazon Web Services account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an Amazon Web Services account. Advanced parameters incur a charge. For more information, see Managing parameter tiers in the Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you don't specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   The parameter uses the url, json, or jsonc data type.   More than 10,000 parameters already exist in your Amazon Web Services account in the current Amazon Web Services Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the Amazon Web Services Systems Manager User Guide.
         public let tier: ParameterTier?
         /// The type of parameter that you want to create.   SecureString isn't currently supported for CloudFormation templates.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
         public let type: ParameterType?
@@ -13048,6 +13202,48 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case policyHash = "PolicyHash"
             case policyId = "PolicyId"
+        }
+    }
+
+    public struct RegisterDefaultHostManagementConfigurationRequest: AWSEncodableShape {
+        /// Specifies whether to override the role that is currently registered for Default Host Management Configuration. The default is false, which acts as a guardrail against accidentally replacing an existing configuration. Set this to true to replace the currently registered role.
+        public let overwrite: Bool?
+        /// The permission model that determines how the IAM role for Default Host Management Configuration is provided. The permission model can be one of the following values:  SERVICE_MANAGED  Amazon Web Services Systems Manager creates and manages the role on your behalf.  SELF_MANAGED  You provide the role to register in RoleArn.
+        public let permissionModel: DHMCPermissionModel
+        /// The Amazon Resource Name (ARN) of the self-managed IAM role that you register for Default Host Management Configuration. The requirement for this value depends on the permission model:   If PermissionModel is SELF_MANAGED, this value is required.   If PermissionModel is SERVICE_MANAGED, this value must not be set.
+        public let roleArn: String?
+
+        @inlinable
+        public init(overwrite: Bool? = nil, permissionModel: DHMCPermissionModel, roleArn: String? = nil) {
+            self.overwrite = overwrite
+            self.permissionModel = permissionModel
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:iam::\\d{12}:role/[\\w+=,.@/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overwrite = "Overwrite"
+            case permissionModel = "PermissionModel"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct RegisterDefaultHostManagementConfigurationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role registered for Default Host Management Configuration. The value depends on the permission model:  SERVICE_MANAGED  The ARN of the role that Amazon Web Services Systems Manager created in the IAM reserved path.  SELF_MANAGED  The RoleArn that you provided.
+        public let roleArn: String?
+
+        @inlinable
+        public init(roleArn: String? = nil) {
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
         }
     }
 
@@ -15106,6 +15302,36 @@ extension SSM {
         }
     }
 
+    public struct TargetsSummary: AWSDecodableShape {
+        /// The number of child executions that finished, whether they succeeded or failed.
+        public let completedCount: Int?
+        /// The number of child executions that failed, timed out, or were canceled.
+        public let failedCount: Int?
+        /// The number of child executions that started.
+        public let startedCount: Int?
+        /// The number of child executions that succeeded.
+        public let successfulCount: Int?
+        /// The total number of targets in the rate control execution.
+        public let totalCount: Int?
+
+        @inlinable
+        public init(completedCount: Int? = nil, failedCount: Int? = nil, startedCount: Int? = nil, successfulCount: Int? = nil, totalCount: Int? = nil) {
+            self.completedCount = completedCount
+            self.failedCount = failedCount
+            self.startedCount = startedCount
+            self.successfulCount = successfulCount
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedCount = "CompletedCount"
+            case failedCount = "FailedCount"
+            case startedCount = "StartedCount"
+            case successfulCount = "SuccessfulCount"
+            case totalCount = "TotalCount"
+        }
+    }
+
     public struct TerminateSessionRequest: AWSEncodableShape {
         /// The ID of the session to terminate.
         public let sessionId: String
@@ -16549,24 +16775,6 @@ extension SSM {
         }
     }
 
-    public struct CloudConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The access details and targets for connecting to a Microsoft Azure environment.
-        public let azureConfiguration: AzureConfiguration?
-
-        @inlinable
-        public init(azureConfiguration: AzureConfiguration? = nil) {
-            self.azureConfiguration = azureConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.azureConfiguration?.validate(name: "\(name).azureConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case azureConfiguration = "AzureConfiguration"
-        }
-    }
-
     public struct ConfigurationTargets: AWSEncodableShape & AWSDecodableShape {
         /// A list of Azure subscriptions to target.
         public let subscriptions: [AzureSubscription]?
@@ -16618,6 +16826,28 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case automation = "Automation"
+        }
+    }
+
+    public struct GcpConfigurationTargets: AWSEncodableShape & AWSDecodableShape {
+        /// A list of GCP projects to target.
+        public let projects: [GcpProject]?
+
+        @inlinable
+        public init(projects: [GcpProject]? = nil) {
+            self.projects = projects
+        }
+
+        public func validate(name: String) throws {
+            try self.projects?.forEach {
+                try $0.validate(name: "\(name).projects[]")
+            }
+            try self.validate(self.projects, name: "projects", parent: name, max: 75)
+            try self.validate(self.projects, name: "projects", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projects = "Projects"
         }
     }
 

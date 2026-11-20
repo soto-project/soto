@@ -26,10 +26,16 @@ extension KafkaConnect {
     // MARK: Enums
 
     public enum ConnectorOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pauseComplete = "PAUSE_COMPLETE"
+        case pauseFailed = "PAUSE_FAILED"
+        case pauseInProgress = "PAUSE_IN_PROGRESS"
         case pending = "PENDING"
         case restartComplete = "RESTART_COMPLETE"
         case restartFailed = "RESTART_FAILED"
         case restartInProgress = "RESTART_IN_PROGRESS"
+        case resumeComplete = "RESUME_COMPLETE"
+        case resumeFailed = "RESUME_FAILED"
+        case resumeInProgress = "RESUME_IN_PROGRESS"
         case rollbackComplete = "ROLLBACK_COMPLETE"
         case rollbackFailed = "ROLLBACK_FAILED"
         case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
@@ -59,8 +65,10 @@ extension KafkaConnect {
 
     public enum ConnectorOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isolateConnector = "ISOLATE_CONNECTOR"
+        case pauseConnector = "PAUSE_CONNECTOR"
         case restartConnector = "RESTART_CONNECTOR"
         case restoreConnector = "RESTORE_CONNECTOR"
+        case resumeConnector = "RESUME_CONNECTOR"
         case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
         case updateWorkerSetting = "UPDATE_WORKER_SETTING"
         public var description: String { return self.rawValue }
@@ -70,7 +78,10 @@ extension KafkaConnect {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case paused = "PAUSED"
+        case pausing = "PAUSING"
         case restarting = "RESTARTING"
+        case resuming = "RESUMING"
         case running = "RUNNING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -894,6 +905,29 @@ extension KafkaConnect {
         }
     }
 
+    public struct CustomPluginUpdate: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the custom plugin.
+        public let customPluginArn: String
+        /// The revision of the custom plugin.
+        public let revision: Int64
+
+        @inlinable
+        public init(customPluginArn: String, revision: Int64) {
+            self.customPluginArn = customPluginArn
+            self.revision = revision
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.revision, name: "revision", parent: name, max: 9223372036854775807)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPluginArn = "customPluginArn"
+            case revision = "revision"
+        }
+    }
+
     public struct DeleteConnectorRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the connector that you want to delete.
         public let connectorArn: String
@@ -1670,6 +1704,42 @@ extension KafkaConnect {
         }
     }
 
+    public struct PauseConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that you want to pause.
+        public let connectorArn: String
+
+        @inlinable
+        public init(connectorArn: String) {
+            self.connectorArn = connectorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PauseConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation created to perform the pause.
+        public let connectorOperationArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
+        }
+    }
+
     public struct Plugin: AWSEncodableShape {
         /// Details about a custom plugin.
         public let customPlugin: CustomPlugin
@@ -1695,6 +1765,24 @@ extension KafkaConnect {
         @inlinable
         public init(customPlugin: CustomPluginDescription? = nil) {
             self.customPlugin = customPlugin
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPlugin = "customPlugin"
+        }
+    }
+
+    public struct PluginUpdate: AWSEncodableShape {
+        /// The custom plugin to use for the connector.
+        public let customPlugin: CustomPluginUpdate
+
+        @inlinable
+        public init(customPlugin: CustomPluginUpdate) {
+            self.customPlugin = customPlugin
+        }
+
+        public func validate(name: String) throws {
+            try self.customPlugin.validate(name: "\(name).customPlugin")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1792,6 +1880,42 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the connector.
         public let connectorArn: String?
         /// The Amazon Resource Name (ARN) of the connector operation created to perform the restart.
+        public let connectorOperationArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
+        }
+    }
+
+    public struct ResumeConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that you want to resume.
+        public let connectorArn: String
+
+        @inlinable
+        public init(connectorArn: String) {
+            self.connectorArn = connectorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ResumeConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation created to perform the resume.
         public let connectorOperationArn: String?
 
         @inlinable
@@ -2096,13 +2220,25 @@ extension KafkaConnect {
         public let connectorConfiguration: [String: String]?
         /// The current version of the connector that you want to update.
         public let currentVersion: String
+        ///  Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together.  Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object. If you don't specify this parameter, the connector keeps its current plugin.
+        public let plugins: [PluginUpdate]?
+        /// Specifies whether the update bypasses connector-level and task-level health checks. If true, the update skips the health checks. The update stays in effect even if the connector or its tasks are unhealthy, and Amazon MSK Connect doesn't roll it back. If false or not specified, the health checks run. If they fail, MSK Connect automatically rolls the connector back to its previous configuration, and the update doesn't take effect. To update a connector that is in the PAUSED state, you must set this parameter to true.
+        public let skipHealthValidation: Bool?
+        /// Specifies whether to switch the connector to the default worker configuration that Amazon MSK Connect provides. If true, the connector stops using its custom worker configuration and uses the default worker configuration instead. If false or not specified, the connector keeps its current worker configuration. You can't specify both useDefaultWorkerConfiguration and workerConfiguration in the same request.
+        public let useDefaultWorkerConfiguration: Bool?
+        /// The worker configuration to use with the connector. Specify the Amazon Resource Name (ARN) and the revision of the worker configuration. You can't specify both workerConfiguration and useDefaultWorkerConfiguration in the same request. If you specify neither parameter, the connector keeps its current worker configuration.
+        public let workerConfiguration: WorkerConfigurationUpdate?
 
         @inlinable
-        public init(capacity: CapacityUpdate? = nil, connectorArn: String, connectorConfiguration: [String: String]? = nil, currentVersion: String) {
+        public init(capacity: CapacityUpdate? = nil, connectorArn: String, connectorConfiguration: [String: String]? = nil, currentVersion: String, plugins: [PluginUpdate]? = nil, skipHealthValidation: Bool? = nil, useDefaultWorkerConfiguration: Bool? = nil, workerConfiguration: WorkerConfigurationUpdate? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.connectorConfiguration = connectorConfiguration
             self.currentVersion = currentVersion
+            self.plugins = plugins
+            self.skipHealthValidation = skipHealthValidation
+            self.useDefaultWorkerConfiguration = useDefaultWorkerConfiguration
+            self.workerConfiguration = workerConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2112,15 +2248,27 @@ extension KafkaConnect {
             request.encodePath(self.connectorArn, key: "connectorArn")
             try container.encodeIfPresent(self.connectorConfiguration, forKey: .connectorConfiguration)
             request.encodeQuery(self.currentVersion, key: "currentVersion")
+            try container.encodeIfPresent(self.plugins, forKey: .plugins)
+            try container.encodeIfPresent(self.skipHealthValidation, forKey: .skipHealthValidation)
+            try container.encodeIfPresent(self.useDefaultWorkerConfiguration, forKey: .useDefaultWorkerConfiguration)
+            try container.encodeIfPresent(self.workerConfiguration, forKey: .workerConfiguration)
         }
 
         public func validate(name: String) throws {
             try self.capacity?.validate(name: "\(name).capacity")
+            try self.plugins?.forEach {
+                try $0.validate(name: "\(name).plugins[]")
+            }
+            try self.workerConfiguration?.validate(name: "\(name).workerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "capacity"
             case connectorConfiguration = "connectorConfiguration"
+            case plugins = "plugins"
+            case skipHealthValidation = "skipHealthValidation"
+            case useDefaultWorkerConfiguration = "useDefaultWorkerConfiguration"
+            case workerConfiguration = "workerConfiguration"
         }
     }
 
@@ -2308,6 +2456,29 @@ extension KafkaConnect {
         }
     }
 
+    public struct WorkerConfigurationUpdate: AWSEncodableShape {
+        /// The revision of the worker configuration.
+        public let revision: Int64
+        /// The Amazon Resource Name (ARN) of the worker configuration.
+        public let workerConfigurationArn: String
+
+        @inlinable
+        public init(revision: Int64, workerConfigurationArn: String) {
+            self.revision = revision
+            self.workerConfigurationArn = workerConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.revision, name: "revision", parent: name, max: 9223372036854775807)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case workerConfigurationArn = "workerConfigurationArn"
+        }
+    }
+
     public struct WorkerLogDelivery: AWSEncodableShape {
         /// Details about delivering logs to Amazon CloudWatch Logs.
         public let cloudWatchLogs: CloudWatchLogsLogDelivery?
@@ -2353,15 +2524,28 @@ extension KafkaConnect {
     }
 
     public struct WorkerSetting: AWSDecodableShape {
+        /// Specifies the compute capacity settings of the connector.
         public let capacity: CapacityDescription?
+        /// Specifies which plugins the connector uses.
+        public let plugins: [PluginDescription]?
+        /// Specifies whether the connector uses the default worker configuration instead of a custom worker configuration.
+        public let useDefaultWorkerConfiguration: Bool?
+        /// Specifies which worker configuration the connector uses.
+        public let workerConfiguration: WorkerConfigurationDescription?
 
         @inlinable
-        public init(capacity: CapacityDescription? = nil) {
+        public init(capacity: CapacityDescription? = nil, plugins: [PluginDescription]? = nil, useDefaultWorkerConfiguration: Bool? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
             self.capacity = capacity
+            self.plugins = plugins
+            self.useDefaultWorkerConfiguration = useDefaultWorkerConfiguration
+            self.workerConfiguration = workerConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "capacity"
+            case plugins = "plugins"
+            case useDefaultWorkerConfiguration = "useDefaultWorkerConfiguration"
+            case workerConfiguration = "workerConfiguration"
         }
     }
 }

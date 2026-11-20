@@ -25,20 +25,18 @@ import Foundation
 extension HealthLake {
     // MARK: Enums
 
-    public enum AgentInputMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case normal = "normal"
-        case userConfirmationResponse = "confirmation_response"
+    public enum AgentErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentOutputMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case choices = "choices"
-        case complete = "complete"
-        case error = "error"
-        case initialGreeting = "INITIAL_GREETING"
+    public enum AgentInputMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case normal = "normal"
-        case options = "options"
-        case userConfirmationRequest = "confirmation"
+        case userConfirmationResponse = "confirmation_response"
         public var description: String { return self.rawValue }
     }
 
@@ -153,6 +151,55 @@ extension HealthLake {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgentOutputMessageStream: AWSDecodableShape, Sendable {
+        /// The final event in the response stream from the agent during chat-based profile customization. The caller can assume that the stream has ended upon receiving this event.
+        case endOfOutputEvent(EndOfOutputEvent)
+        /// An exception encountered while serving the request.
+        case errorEvent(ErrorEvent)
+        /// Periodically emitted event to keep the connection alive.
+        case heartbeatEvent(HeartbeatEvent)
+        /// An incremental progress update from the agent.
+        case progressEvent(ProgressEvent)
+        /// An incremental text update from the agent.
+        case textMessageEvent(TextMessageEvent)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .endOfOutputEvent:
+                let value = try container.decode(EndOfOutputEvent.self, forKey: .endOfOutputEvent)
+                self = .endOfOutputEvent(value)
+            case .errorEvent:
+                let value = try container.decode(ErrorEvent.self, forKey: .errorEvent)
+                self = .errorEvent(value)
+            case .heartbeatEvent:
+                let value = try container.decode(HeartbeatEvent.self, forKey: .heartbeatEvent)
+                self = .heartbeatEvent(value)
+            case .progressEvent:
+                let value = try container.decode(ProgressEvent.self, forKey: .progressEvent)
+                self = .progressEvent(value)
+            case .textMessageEvent:
+                let value = try container.decode(TextMessageEvent.self, forKey: .textMessageEvent)
+                self = .textMessageEvent(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endOfOutputEvent = "EndOfOutputEvent"
+            case errorEvent = "ErrorEvent"
+            case heartbeatEvent = "HeartbeatEvent"
+            case progressEvent = "ProgressEvent"
+            case textMessageEvent = "TextMessageEvent"
+        }
+    }
+
     public enum CreateDataTransformationProfileSource: AWSEncodableShape, Sendable {
         /// Creates the profile by cloning an existing profile at a specific version.
         case existingVersionedProfileId(ExistingVersionedProfileSource)
@@ -215,28 +262,6 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
-            case type = "Type"
-        }
-    }
-
-    public struct AgentOutputMessage: AWSDecodableShape {
-        /// The text of the agent's response.
-        public let body: String
-        /// A list of selectable options presented when the response type is options.
-        public let optionsList: [String]?
-        /// The type of output message, which indicates how to interpret the agent's response.
-        public let type: AgentOutputMessageType
-
-        @inlinable
-        public init(body: String, optionsList: [String]? = nil, type: AgentOutputMessageType) {
-            self.body = body
-            self.optionsList = optionsList
-            self.type = type
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-            case optionsList = "OptionsList"
             case type = "Type"
         }
     }
@@ -967,6 +992,28 @@ extension HealthLake {
         }
     }
 
+    public struct EndOfOutputEvent: AWSDecodableShape {
+        /// The conversation ID of the request. You can use this ID to continue the profile mapping based on this request's context at a later time.
+        public let conversationId: String?
+        /// The final response message from the agent.
+        public let finalResponseMessage: String
+        /// The response options that you can use to easily answer follow-up questions from the agent.
+        public let options: [String]?
+
+        @inlinable
+        public init(conversationId: String? = nil, finalResponseMessage: String, options: [String]? = nil) {
+            self.conversationId = conversationId
+            self.finalResponseMessage = finalResponseMessage
+            self.options = options
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationId = "ConversationId"
+            case finalResponseMessage = "FinalResponseMessage"
+            case options = "Options"
+        }
+    }
+
     public struct ErrorCause: AWSDecodableShape {
         /// The error category for ErrorCause.
         public let errorCategory: ErrorCategory?
@@ -982,6 +1029,24 @@ extension HealthLake {
         private enum CodingKeys: String, CodingKey {
             case errorCategory = "ErrorCategory"
             case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct ErrorEvent: AWSDecodableShape {
+        /// The type of the exception.
+        public let error: AgentErrorType
+        /// The exception message.
+        public let message: String
+
+        @inlinable
+        public init(error: AgentErrorType, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case message = "Message"
         }
     }
 
@@ -1123,6 +1188,10 @@ extension HealthLake {
             case targetFormat = "TargetFormat"
             case version = "Version"
         }
+    }
+
+    public struct HeartbeatEvent: AWSDecodableShape {
+        public init() {}
     }
 
     public struct IdentityProviderConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -1770,6 +1839,20 @@ extension HealthLake {
         }
     }
 
+    public struct ProgressEvent: AWSDecodableShape {
+        /// An incremental progress update message by the agent
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct PublishDataTransformationProfileRequest: AWSEncodableShape {
         /// A description of what changed or why this version is being published.
         public let changeDescription: String?
@@ -2320,6 +2403,20 @@ extension HealthLake {
         public init() {}
     }
 
+    public struct TextMessageEvent: AWSDecodableShape {
+        /// An incremental text update from the agent.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct TransformationInputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 URI of the input data to transform.
         public let s3Uri: String
@@ -2670,15 +2767,12 @@ extension HealthLake {
         public let inputMessage: AgentInputMessage
         /// The unique identifier of the profile to update via the agent.
         public let profileId: String
-        /// The source data format for the transformation.
-        public let sourceFormat: SourceFormat
 
         @inlinable
-        public init(conversationId: String? = nil, inputMessage: AgentInputMessage, profileId: String, sourceFormat: SourceFormat) {
+        public init(conversationId: String? = nil, inputMessage: AgentInputMessage, profileId: String) {
             self.conversationId = conversationId
             self.inputMessage = inputMessage
             self.profileId = profileId
-            self.sourceFormat = sourceFormat
         }
 
         public func validate(name: String) throws {
@@ -2694,26 +2788,25 @@ extension HealthLake {
             case conversationId = "ConversationId"
             case inputMessage = "InputMessage"
             case profileId = "ProfileId"
-            case sourceFormat = "SourceFormat"
         }
     }
 
     public struct UpdateProfileWithAgentResponse: AWSDecodableShape {
-        /// The response message from the agent.
-        public let agentResponse: AgentOutputMessage
-        /// The conversation identifier to use for follow-up messages in this conversation.
-        public let conversationId: String
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The streaming response from the agent.
+        public let agentResponse: AWSEventStream<AgentOutputMessageStream>
 
         @inlinable
-        public init(agentResponse: AgentOutputMessage, conversationId: String) {
+        public init(agentResponse: AWSEventStream<AgentOutputMessageStream>) {
             self.agentResponse = agentResponse
-            self.conversationId = conversationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case agentResponse = "AgentResponse"
-            case conversationId = "ConversationId"
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.agentResponse = try container.decode(AWSEventStream<AgentOutputMessageStream>.self)
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
@@ -2774,17 +2867,12 @@ extension HealthLake {
 public struct HealthLakeErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
-        case agentMessageOutOfContextException = "AgentMessageOutOfContextException"
         case conflictException = "ConflictException"
-        case conversationNotFoundException = "ConversationNotFoundException"
         case failedDependencyException = "FailedDependencyException"
         case internalServerException = "InternalServerException"
-        case notImplementedOperationException = "NotImplementedOperationException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
-        case unauthorizedException = "UnauthorizedException"
-        case unsupportedMIMETypeException = "UnsupportedMIMETypeException"
         case validationException = "ValidationException"
     }
 
@@ -2808,28 +2896,18 @@ public struct HealthLakeErrorType: AWSErrorType {
 
     /// Access is denied. Your account is not authorized to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The agent message does not fit within the current conversation context. Start a new conversation or provide a message that relates to the current profile customization session.
-    public static var agentMessageOutOfContextException: Self { .init(.agentMessageOutOfContextException) }
     /// The data store is in a transition state and the user requested action cannot be performed.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The specified conversation identifier does not exist. Verify the conversation ID or omit it to start a new conversation.
-    public static var conversationNotFoundException: Self { .init(.conversationNotFoundException) }
     /// A dependent service failed to fulfill the request.
     public static var failedDependencyException: Self { .init(.failedDependencyException) }
     /// An unknown internal error occurred in the service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The requested operation is not yet available. Check the service documentation for a list of supported operations.
-    public static var notImplementedOperationException: Self { .init(.notImplementedOperationException) }
     /// The requested data store was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request exceeds the service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The user has exceeded their maximum number of allowed calls to the given API.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// You are not authorized to make this request. Verify that your Amazon Web Services credentials are valid and that you have the required permissions.
-    public static var unauthorizedException: Self { .init(.unauthorizedException) }
-    /// The content type in your request is not supported. Use a supported content type for this operation.
-    public static var unsupportedMIMETypeException: Self { .init(.unsupportedMIMETypeException) }
     /// The user input parameter was invalid.
     public static var validationException: Self { .init(.validationException) }
 }

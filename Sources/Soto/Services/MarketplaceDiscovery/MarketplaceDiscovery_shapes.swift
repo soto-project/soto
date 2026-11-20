@@ -141,6 +141,8 @@ extension MarketplaceDiscovery {
 
     public enum ReviewSourceId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsMarketplace = "AWS_MARKETPLACE"
+        case g2 = "G2"
+        case peerspot = "PEERSPOT"
         public var description: String { return self.rawValue }
     }
 
@@ -2555,9 +2557,9 @@ extension MarketplaceDiscovery {
     public struct ReviewSourceSummary: AWSDecodableShape {
         /// The average rating across all reviews from this source.
         public let averageRating: String
-        /// The machine-readable identifier of the review source.
+        /// The machine-readable identifier of the review source. This field has one of the following values:    AWS_MARKETPLACE – The reviews come from AWS Marketplace.    G2 – The reviews come from G2.    PEERSPOT – The reviews come from PeerSpot.
         public let sourceId: ReviewSourceId
-        /// The name of the review source, such as AWS Marketplace.
+        /// The name of the review source. This field has one of the following values:   AWS Marketplace   G2   PeerSpot
         public let sourceName: String
         /// The URL where the reviews can be accessed at the source.
         public let sourceUrl: String?
@@ -2583,7 +2585,7 @@ extension MarketplaceDiscovery {
     }
 
     public struct ReviewSummary: AWSDecodableShape {
-        /// Review summaries from different sources, such as AWS Marketplace.
+        /// Review summaries from different sources, such as AWS Marketplace, G2, and PeerSpot.
         public let reviewSourceSummaries: [ReviewSourceSummary]
 
         @inlinable

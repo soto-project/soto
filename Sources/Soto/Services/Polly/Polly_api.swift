@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Polly service.
 ///
-/// Amazon Polly is a web service that makes it easy to synthesize speech from text. The Amazon Polly service provides API operations for synthesizing high-quality speech from plain text and Speech Synthesis Markup Language (SSML), along with managing pronunciations lexicons that enable you to get the best results for your application domain.
+/// Amazon Polly is a web service that makes it easy to synthesize speech from text. The Amazon Polly service provides API operations for synthesizing high-quality speech from plain text and Speech Synthesis Markup Language (SSML), along with managing pronunciations lexicons that enable you to get the best results for your application domain. Authenticated API calls must be signed using the Signature Version 4 Signing Process. For more information, see Signing Amazon Web Services API Requests in the IAM User Guide.
 public struct Polly: AWSService {
     // MARK: Member variables
 
@@ -315,7 +315,36 @@ public struct Polly: AWSService {
         return try await self.listSpeechSynthesisTasks(input, logger: logger)
     }
 
-    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
+    /// Lists the tags for an Amazon Polly resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/v1/listTagsForResource", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the tags for an Amazon Polly resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon Polly lexicon.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceOutput {
+        let input = ListTagsForResourceInput(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. Overwriting a lexicon keeps its existing tags. You can specify tags only when you create a lexicon. If you specify tags for a lexicon that already exists, the request fails with a ValidationException. To change the tags of an existing lexicon, use TagResource and UntagResource. For more information, see Managing Lexicons.
     @Sendable
     @inlinable
     public func putLexicon(_ input: PutLexiconInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutLexiconOutput {
@@ -328,21 +357,24 @@ public struct Polly: AWSService {
             logger: logger
         )
     }
-    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. For more information, see Managing Lexicons.
+    /// Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same name already exists in the region, it is overwritten by the new lexicon. Lexicon operations have eventual consistency, therefore, it might take some time before the lexicon is available to the SynthesizeSpeech operation. Overwriting a lexicon keeps its existing tags. You can specify tags only when you create a lexicon. If you specify tags for a lexicon that already exists, the request fails with a ValidationException. To change the tags of an existing lexicon, use TagResource and UntagResource. For more information, see Managing Lexicons.
     ///
     /// Parameters:
     ///   - content: Content of the PLS lexicon as string data.
-    ///   - name: Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
+    ///   - name: Name of the lexicon. The name must follow the regular expression format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
+    ///   - tags: The metadata that you apply to the lexicon to help you categorize and organize it. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. You can't replace the tags of an existing lexicon by overwriting it with PutLexicon.
     ///   - logger: Logger use during operation
     @inlinable
     public func putLexicon(
         content: String,
         name: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutLexiconOutput {
         let input = PutLexiconInput(
             content: content, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.putLexicon(input, logger: logger)
     }
@@ -508,12 +540,76 @@ public struct Polly: AWSService {
         )
         return try await self.synthesizeSpeech(input, logger: logger)
     }
+
+    /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters. If you specify a tag key that already exists on the resource, the value in the request replaces the existing value.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/v1/tagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters. If you specify a tag key that already exists on the resource, the value in the request replaces the existing value.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the only supported resource is an Amazon Polly lexicon.
+    ///   - tags: The tags to add to the resource, as key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceOutput {
+        let input = TagResourceInput(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Deletes specified tags from a resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/v1/untagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes specified tags from a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon Polly lexicon.
+    ///   - tagKeys: The keys of the tags to be removed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceOutput {
+        let input = UntagResourceInput(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
 }
 
 extension Polly {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Polly, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

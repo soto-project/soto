@@ -78,6 +78,12 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssistantGlobalResiliencyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssistantStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -169,6 +175,12 @@ extension QConnect {
 
     public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalResiliencyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case supported = "SUPPORTED"
+        case unsupported = "UNSUPPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -324,6 +336,7 @@ extension QConnect {
 
     public enum MessageTemplateAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "AGENT"
+        case `case` = "CASE"
         case custom = "CUSTOM"
         case customerProfile = "CUSTOMER_PROFILE"
         case system = "SYSTEM"
@@ -585,6 +598,14 @@ extension QConnect {
         case constant = "CONSTANT"
         case modelContextProtocol = "MODEL_CONTEXT_PROTOCOL"
         case returnToControl = "RETURN_TO_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnprocessableContentReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The AI inference model is temporarily unavailable.
+        case aiInferenceModelUnavailable = "AI_INFERENCE_MODEL_UNAVAILABLE"
+        /// The orchestration failed for a reason not covered by a more specific value.
+        case orchestrationError = "ORCHESTRATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -1550,6 +1571,10 @@ extension QConnect {
         public let configuration: AIAgentConfiguration
         /// The description of the AI Agent.
         public let description: String?
+        /// The Amazon Web Services Region where the AI Agent was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the AI Agent was last modified.
+        public let lastModifiedTime: Date?
         /// The time the AI Agent was last modified.
         public let modifiedTime: Date?
         /// The name of the AI Agent.
@@ -1566,13 +1591,15 @@ extension QConnect {
         public let visibilityStatus: VisibilityStatus
 
         @inlinable
-        public init(aiAgentArn: String, aiAgentId: String, assistantArn: String, assistantId: String, configuration: AIAgentConfiguration, description: String? = nil, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
+        public init(aiAgentArn: String, aiAgentId: String, assistantArn: String, assistantId: String, configuration: AIAgentConfiguration, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
             self.aiAgentArn = aiAgentArn
             self.aiAgentId = aiAgentId
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.configuration = configuration
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.origin = origin
@@ -1589,6 +1616,8 @@ extension QConnect {
             case assistantId = "assistantId"
             case configuration = "configuration"
             case description = "description"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case modifiedTime = "modifiedTime"
             case name = "name"
             case origin = "origin"
@@ -1612,6 +1641,10 @@ extension QConnect {
         public let configuration: AIAgentConfiguration?
         /// The description of the AI Agent.
         public let description: String?
+        /// The Amazon Web Services Region where the AI Agent was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the AI Agent was last modified.
+        public let lastModifiedTime: Date?
         /// The time the AI Agent was last modified.
         public let modifiedTime: Date?
         /// The name of the AI Agent.
@@ -1628,13 +1661,15 @@ extension QConnect {
         public let visibilityStatus: VisibilityStatus
 
         @inlinable
-        public init(aiAgentArn: String, aiAgentId: String, assistantArn: String, assistantId: String, configuration: AIAgentConfiguration? = nil, description: String? = nil, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
+        public init(aiAgentArn: String, aiAgentId: String, assistantArn: String, assistantId: String, configuration: AIAgentConfiguration? = nil, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
             self.aiAgentArn = aiAgentArn
             self.aiAgentId = aiAgentId
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.configuration = configuration
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.origin = origin
@@ -1651,6 +1686,8 @@ extension QConnect {
             case assistantId = "assistantId"
             case configuration = "configuration"
             case description = "description"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case modifiedTime = "modifiedTime"
             case name = "name"
             case origin = "origin"
@@ -1752,6 +1789,10 @@ extension QConnect {
         public let contextualGroundingPolicyConfig: AIGuardrailContextualGroundingPolicyConfig?
         /// A description of the AI Guardrail.
         public let description: String?
+        /// The Amazon Web Services Region where the AI Guardrail was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the AI Guardrail was last modified.
+        public let lastModifiedTime: Date?
         /// The time the AI Guardrail was last modified.
         public let modifiedTime: Date?
         /// The name of the AI Guardrail.
@@ -1770,7 +1811,7 @@ extension QConnect {
         public let wordPolicyConfig: AIGuardrailWordPolicyConfig?
 
         @inlinable
-        public init(aiGuardrailArn: String, aiGuardrailId: String, assistantArn: String, assistantId: String, blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: AIGuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: AIGuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, modifiedTime: Date? = nil, name: String, sensitiveInformationPolicyConfig: AIGuardrailSensitiveInformationPolicyConfig? = nil, status: Status? = nil, tags: [String: String]? = nil, topicPolicyConfig: AIGuardrailTopicPolicyConfig? = nil, visibilityStatus: VisibilityStatus, wordPolicyConfig: AIGuardrailWordPolicyConfig? = nil) {
+        public init(aiGuardrailArn: String, aiGuardrailId: String, assistantArn: String, assistantId: String, blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: AIGuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: AIGuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, modifiedTime: Date? = nil, name: String, sensitiveInformationPolicyConfig: AIGuardrailSensitiveInformationPolicyConfig? = nil, status: Status? = nil, tags: [String: String]? = nil, topicPolicyConfig: AIGuardrailTopicPolicyConfig? = nil, visibilityStatus: VisibilityStatus, wordPolicyConfig: AIGuardrailWordPolicyConfig? = nil) {
             self.aiGuardrailArn = aiGuardrailArn
             self.aiGuardrailId = aiGuardrailId
             self.assistantArn = assistantArn
@@ -1780,6 +1821,8 @@ extension QConnect {
             self.contentPolicyConfig = contentPolicyConfig
             self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfig
@@ -1800,6 +1843,8 @@ extension QConnect {
             case contentPolicyConfig = "contentPolicyConfig"
             case contextualGroundingPolicyConfig = "contextualGroundingPolicyConfig"
             case description = "description"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case modifiedTime = "modifiedTime"
             case name = "name"
             case sensitiveInformationPolicyConfig = "sensitiveInformationPolicyConfig"
@@ -1848,6 +1893,10 @@ extension QConnect {
         public let assistantId: String
         /// A description of the AI Guardrail.
         public let description: String?
+        /// The Amazon Web Services Region where the AI Guardrail was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the AI Guardrail was last modified.
+        public let lastModifiedTime: Date?
         /// The time the AI Guardrail was last modified.
         public let modifiedTime: Date?
         /// The name of the AI Guardrail.
@@ -1860,12 +1909,14 @@ extension QConnect {
         public let visibilityStatus: VisibilityStatus
 
         @inlinable
-        public init(aiGuardrailArn: String, aiGuardrailId: String, assistantArn: String, assistantId: String, description: String? = nil, modifiedTime: Date? = nil, name: String, status: Status? = nil, tags: [String: String]? = nil, visibilityStatus: VisibilityStatus) {
+        public init(aiGuardrailArn: String, aiGuardrailId: String, assistantArn: String, assistantId: String, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, modifiedTime: Date? = nil, name: String, status: Status? = nil, tags: [String: String]? = nil, visibilityStatus: VisibilityStatus) {
             self.aiGuardrailArn = aiGuardrailArn
             self.aiGuardrailId = aiGuardrailId
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.status = status
@@ -1879,6 +1930,8 @@ extension QConnect {
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case description = "description"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case modifiedTime = "modifiedTime"
             case name = "name"
             case status = "status"
@@ -1966,6 +2019,10 @@ extension QConnect {
         public let description: String?
         /// The configuration for inference parameters when using the AI Prompt.
         public let inferenceConfiguration: AIPromptInferenceConfiguration?
+        /// The Amazon Web Services Region where the AI Prompt was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the AI Prompt was last modified.
+        public let lastModifiedTime: Date?
         /// The identifier of the model used for this AI Prompt. The following model Ids are supported:    anthropic.claude-3-haiku--v1:0     apac.amazon.nova-lite-v1:0     apac.amazon.nova-micro-v1:0     apac.amazon.nova-pro-v1:0     apac.anthropic.claude-3-5-sonnet--v2:0     apac.anthropic.claude-3-haiku-20240307-v1:0     eu.amazon.nova-lite-v1:0     eu.amazon.nova-micro-v1:0     eu.amazon.nova-pro-v1:0     eu.anthropic.claude-3-7-sonnet-20250219-v1:0     eu.anthropic.claude-3-haiku-20240307-v1:0     us.amazon.nova-lite-v1:0     us.amazon.nova-micro-v1:0     us.amazon.nova-pro-v1:0     us.anthropic.claude-3-5-haiku-20241022-v1:0     us.anthropic.claude-3-7-sonnet-20250219-v1:0     us.anthropic.claude-3-haiku-20240307-v1:0
         public let modelId: String
         /// The time the AI Prompt was last modified.
@@ -1988,7 +2045,7 @@ extension QConnect {
         public let visibilityStatus: VisibilityStatus
 
         @inlinable
-        public init(aiPromptArn: String, aiPromptId: String, apiFormat: AIPromptAPIFormat, assistantArn: String, assistantId: String, description: String? = nil, inferenceConfiguration: AIPromptInferenceConfiguration? = nil, modelId: String, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, templateConfiguration: AIPromptTemplateConfiguration, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
+        public init(aiPromptArn: String, aiPromptId: String, apiFormat: AIPromptAPIFormat, assistantArn: String, assistantId: String, description: String? = nil, inferenceConfiguration: AIPromptInferenceConfiguration? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, modelId: String, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, templateConfiguration: AIPromptTemplateConfiguration, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
             self.aiPromptArn = aiPromptArn
             self.aiPromptId = aiPromptId
             self.apiFormat = apiFormat
@@ -1996,6 +2053,8 @@ extension QConnect {
             self.assistantId = assistantId
             self.description = description
             self.inferenceConfiguration = inferenceConfiguration
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modelId = modelId
             self.modifiedTime = modifiedTime
             self.name = name
@@ -2016,6 +2075,8 @@ extension QConnect {
             case assistantId = "assistantId"
             case description = "description"
             case inferenceConfiguration = "inferenceConfiguration"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case modelId = "modelId"
             case modifiedTime = "modifiedTime"
             case name = "name"
@@ -2079,6 +2140,10 @@ extension QConnect {
         public let assistantId: String
         /// The description of the AI Prompt.
         public let description: String?
+        /// The Amazon Web Services Region where the AI Prompt was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the AI Prompt was last modified.
+        public let lastModifiedTime: Date?
         /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         public let modelId: String
         /// The time the AI Prompt was last modified.
@@ -2099,13 +2164,15 @@ extension QConnect {
         public let visibilityStatus: VisibilityStatus
 
         @inlinable
-        public init(aiPromptArn: String, aiPromptId: String, apiFormat: AIPromptAPIFormat, assistantArn: String, assistantId: String, description: String? = nil, modelId: String, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
+        public init(aiPromptArn: String, aiPromptId: String, apiFormat: AIPromptAPIFormat, assistantArn: String, assistantId: String, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, modelId: String, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
             self.aiPromptArn = aiPromptArn
             self.aiPromptId = aiPromptId
             self.apiFormat = apiFormat
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modelId = modelId
             self.modifiedTime = modifiedTime
             self.name = name
@@ -2124,6 +2191,8 @@ extension QConnect {
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case description = "description"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case modelId = "modelId"
             case modifiedTime = "modifiedTime"
             case name = "name"
@@ -2370,17 +2439,23 @@ extension QConnect {
         public let associationData: AssistantAssociationOutputData
         /// The type of association.
         public let associationType: AssociationType
+        /// The Amazon Web Services Region where the assistant association was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the assistant association was last modified.
+        public let lastModifiedTime: Date?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(assistantArn: String, assistantAssociationArn: String, assistantAssociationId: String, assistantId: String, associationData: AssistantAssociationOutputData, associationType: AssociationType, tags: [String: String]? = nil) {
+        public init(assistantArn: String, assistantAssociationArn: String, assistantAssociationId: String, assistantId: String, associationData: AssistantAssociationOutputData, associationType: AssociationType, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, tags: [String: String]? = nil) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
             self.assistantAssociationId = assistantAssociationId
             self.assistantId = assistantId
             self.associationData = associationData
             self.associationType = associationType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.tags = tags
         }
 
@@ -2391,6 +2466,8 @@ extension QConnect {
             case assistantId = "assistantId"
             case associationData = "associationData"
             case associationType = "associationType"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case tags = "tags"
         }
     }
@@ -2408,17 +2485,23 @@ extension QConnect {
         public let associationData: AssistantAssociationOutputData
         /// The type of association.
         public let associationType: AssociationType
+        /// The Amazon Web Services Region where the assistant association was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the assistant association was last modified.
+        public let lastModifiedTime: Date?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(assistantArn: String, assistantAssociationArn: String, assistantAssociationId: String, assistantId: String, associationData: AssistantAssociationOutputData, associationType: AssociationType, tags: [String: String]? = nil) {
+        public init(assistantArn: String, assistantAssociationArn: String, assistantAssociationId: String, assistantId: String, associationData: AssistantAssociationOutputData, associationType: AssociationType, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, tags: [String: String]? = nil) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
             self.assistantAssociationId = assistantAssociationId
             self.assistantId = assistantId
             self.associationData = associationData
             self.associationType = associationType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.tags = tags
         }
 
@@ -2429,6 +2512,8 @@ extension QConnect {
             case assistantId = "assistantId"
             case associationData = "associationData"
             case associationType = "associationType"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case tags = "tags"
         }
     }
@@ -2452,6 +2537,14 @@ extension QConnect {
         public let aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]?
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         public let assistantArn: String
+        /// Whether Amazon Connect Global Resiliency replicates the Connect instance this assistant is
+        /// associated with, and so whether resources created under this assistant must satisfy the
+        /// replication group's model parity constraint. Answered from the ACGR side per request rather
+        /// than stored, so it reflects the customer's replication state now.
+        /// Absent means "not applicable or not known" - never read an absent field as DISABLED. It is
+        /// absent on the operations that return an assistant which is not yet associated with a Connect
+        /// instance, because replication cannot be established until it is.
+        public let assistantGlobalResiliencyStatus: AssistantGlobalResiliencyStatus?
         /// The identifier of the Amazon Q in Connect assistant.
         public let assistantId: String
         /// The configuration information for the Amazon Q in Connect assistant capability.
@@ -2460,6 +2553,10 @@ extension QConnect {
         public let description: String?
         /// The configuration information for the Amazon Q in Connect assistant integration.
         public let integrationConfiguration: AssistantIntegrationConfiguration?
+        /// The Amazon Web Services Region where the assistant was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the assistant was last modified.
+        public let lastModifiedTime: Date?
         /// The name.
         public let name: String
         /// The list of orchestrator configurations for the assistant.
@@ -2474,13 +2571,16 @@ extension QConnect {
         public let type: AssistantType
 
         @inlinable
-        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantArn: String, assistantGlobalResiliencyStatus: AssistantGlobalResiliencyStatus? = nil, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String, orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
+            self.assistantGlobalResiliencyStatus = assistantGlobalResiliencyStatus
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.orchestratorConfigurationList = orchestratorConfigurationList
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -2492,10 +2592,13 @@ extension QConnect {
         private enum CodingKeys: String, CodingKey {
             case aiAgentConfiguration = "aiAgentConfiguration"
             case assistantArn = "assistantArn"
+            case assistantGlobalResiliencyStatus = "assistantGlobalResiliencyStatus"
             case assistantId = "assistantId"
             case capabilityConfiguration = "capabilityConfiguration"
             case description = "description"
             case integrationConfiguration = "integrationConfiguration"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case orchestratorConfigurationList = "orchestratorConfigurationList"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
@@ -2532,6 +2635,10 @@ extension QConnect {
         public let description: String?
         /// The configuration information for the Amazon Q in Connect assistant integration.
         public let integrationConfiguration: AssistantIntegrationConfiguration?
+        /// The Amazon Web Services Region where the assistant was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the assistant was last modified.
+        public let lastModifiedTime: Date?
         /// The name of the assistant.
         public let name: String
         /// The list of orchestrator configurations for the assistant.
@@ -2546,13 +2653,15 @@ extension QConnect {
         public let type: AssistantType
 
         @inlinable
-        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String, orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.orchestratorConfigurationList = orchestratorConfigurationList
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -2568,6 +2677,8 @@ extension QConnect {
             case capabilityConfiguration = "capabilityConfiguration"
             case description = "description"
             case integrationConfiguration = "integrationConfiguration"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case orchestratorConfigurationList = "orchestratorConfigurationList"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
@@ -2898,10 +3009,16 @@ extension QConnect {
         public let contentId: String
         /// The media type of the content.
         public let contentType: String
+        /// The Base64-encoded SHA-256 hash of the content file. Amazon Connect Global Resiliency returns this field only for replicated content.
+        public let fileHash: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
         /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
+        /// The Amazon Web Services Region where the content was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the content was last modified.
+        public let lastModifiedTime: Date?
         /// The URI of the content.
         public let linkOutUri: String?
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
@@ -2922,12 +3039,15 @@ extension QConnect {
         public let urlExpiry: Date
 
         @inlinable
-        public init(contentArn: String, contentId: String, contentType: String, knowledgeBaseArn: String, knowledgeBaseId: String, linkOutUri: String? = nil, metadata: [String: String], name: String, revisionId: String, status: ContentStatus, tags: [String: String]? = nil, title: String, url: String, urlExpiry: Date) {
+        public init(contentArn: String, contentId: String, contentType: String, fileHash: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, linkOutUri: String? = nil, metadata: [String: String], name: String, revisionId: String, status: ContentStatus, tags: [String: String]? = nil, title: String, url: String, urlExpiry: Date) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
+            self.fileHash = fileHash
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.linkOutUri = linkOutUri
             self.metadata = metadata
             self.name = name
@@ -2943,8 +3063,11 @@ extension QConnect {
             case contentArn = "contentArn"
             case contentId = "contentId"
             case contentType = "contentType"
+            case fileHash = "fileHash"
             case knowledgeBaseArn = "knowledgeBaseArn"
             case knowledgeBaseId = "knowledgeBaseId"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case linkOutUri = "linkOutUri"
             case metadata = "metadata"
             case name = "name"
@@ -3016,10 +3139,16 @@ extension QConnect {
         public let contentId: String
         /// The media type of the content.
         public let contentType: String
+        /// The Base64-encoded SHA-256 hash of the content file. Amazon Connect Global Resiliency returns this field only for replicated content.
+        public let fileHash: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public let knowledgeBaseId: String
+        /// The Amazon Web Services Region where the content was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the content was last modified.
+        public let lastModifiedTime: Date?
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         public let metadata: [String: String]
         /// The name of the content.
@@ -3034,12 +3163,15 @@ extension QConnect {
         public let title: String
 
         @inlinable
-        public init(contentArn: String, contentId: String, contentType: String, knowledgeBaseArn: String, knowledgeBaseId: String, metadata: [String: String], name: String, revisionId: String, status: ContentStatus, tags: [String: String]? = nil, title: String) {
+        public init(contentArn: String, contentId: String, contentType: String, fileHash: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, metadata: [String: String], name: String, revisionId: String, status: ContentStatus, tags: [String: String]? = nil, title: String) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
+            self.fileHash = fileHash
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.metadata = metadata
             self.name = name
             self.revisionId = revisionId
@@ -3052,8 +3184,11 @@ extension QConnect {
             case contentArn = "contentArn"
             case contentId = "contentId"
             case contentType = "contentType"
+            case fileHash = "fileHash"
             case knowledgeBaseArn = "knowledgeBaseArn"
             case knowledgeBaseId = "knowledgeBaseId"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case metadata = "metadata"
             case name = "name"
             case revisionId = "revisionId"
@@ -4466,6 +4601,8 @@ extension QConnect {
         public let businessName: String?
         /// The customer's business phone number.
         public let businessPhoneNumber: String?
+        /// The calculated attributes from the customer profile that are used with the message template.
+        public let calculatedAttributes: [String: String]?
         /// The city in which a customer lives.
         public let city: String?
         /// The country in which a customer lives.
@@ -4520,6 +4657,8 @@ extension QConnect {
         public let profileId: String?
         /// The province in which a customer lives.
         public let province: String?
+        /// The recommendations that are associated with the customer profile.
+        public let recommendations: [ProfileRecommendation]?
         /// The first line of a customer’s shipping address.
         public let shippingAddress1: String?
         /// The second line of a customer’s shipping address.
@@ -4544,7 +4683,7 @@ extension QConnect {
         public let state: String?
 
         @inlinable
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address1: String? = nil, address2: String? = nil, address3: String? = nil, address4: String? = nil, billingAddress1: String? = nil, billingAddress2: String? = nil, billingAddress3: String? = nil, billingAddress4: String? = nil, billingCity: String? = nil, billingCountry: String? = nil, billingCounty: String? = nil, billingPostalCode: String? = nil, billingProvince: String? = nil, billingState: String? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, city: String? = nil, country: String? = nil, county: String? = nil, custom: [String: String]? = nil, emailAddress: String? = nil, firstName: String? = nil, gender: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress1: String? = nil, mailingAddress2: String? = nil, mailingAddress3: String? = nil, mailingAddress4: String? = nil, mailingCity: String? = nil, mailingCountry: String? = nil, mailingCounty: String? = nil, mailingPostalCode: String? = nil, mailingProvince: String? = nil, mailingState: String? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, profileARN: String? = nil, profileId: String? = nil, province: String? = nil, shippingAddress1: String? = nil, shippingAddress2: String? = nil, shippingAddress3: String? = nil, shippingAddress4: String? = nil, shippingCity: String? = nil, shippingCountry: String? = nil, shippingCounty: String? = nil, shippingPostalCode: String? = nil, shippingProvince: String? = nil, shippingState: String? = nil, state: String? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address1: String? = nil, address2: String? = nil, address3: String? = nil, address4: String? = nil, billingAddress1: String? = nil, billingAddress2: String? = nil, billingAddress3: String? = nil, billingAddress4: String? = nil, billingCity: String? = nil, billingCountry: String? = nil, billingCounty: String? = nil, billingPostalCode: String? = nil, billingProvince: String? = nil, billingState: String? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, calculatedAttributes: [String: String]? = nil, city: String? = nil, country: String? = nil, county: String? = nil, custom: [String: String]? = nil, emailAddress: String? = nil, firstName: String? = nil, gender: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress1: String? = nil, mailingAddress2: String? = nil, mailingAddress3: String? = nil, mailingAddress4: String? = nil, mailingCity: String? = nil, mailingCountry: String? = nil, mailingCounty: String? = nil, mailingPostalCode: String? = nil, mailingProvince: String? = nil, mailingState: String? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, profileARN: String? = nil, profileId: String? = nil, province: String? = nil, recommendations: [ProfileRecommendation]? = nil, shippingAddress1: String? = nil, shippingAddress2: String? = nil, shippingAddress3: String? = nil, shippingAddress4: String? = nil, shippingCity: String? = nil, shippingCountry: String? = nil, shippingCounty: String? = nil, shippingPostalCode: String? = nil, shippingProvince: String? = nil, shippingState: String? = nil, state: String? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address1 = address1
@@ -4565,6 +4704,7 @@ extension QConnect {
             self.businessEmailAddress = businessEmailAddress
             self.businessName = businessName
             self.businessPhoneNumber = businessPhoneNumber
+            self.calculatedAttributes = calculatedAttributes
             self.city = city
             self.country = country
             self.county = county
@@ -4592,6 +4732,7 @@ extension QConnect {
             self.profileARN = profileARN
             self.profileId = profileId
             self.province = province
+            self.recommendations = recommendations
             self.shippingAddress1 = shippingAddress1
             self.shippingAddress2 = shippingAddress2
             self.shippingAddress3 = shippingAddress3
@@ -4646,6 +4787,13 @@ extension QConnect {
             try self.validate(self.businessName, name: "businessName", parent: name, min: 1)
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, max: 32767)
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, min: 1)
+            try self.calculatedAttributes?.forEach {
+                try validate($0.key, name: "calculatedAttributes.key", parent: name, max: 32767)
+                try validate($0.key, name: "calculatedAttributes.key", parent: name, min: 1)
+                try validate($0.value, name: "calculatedAttributes[\"\($0.key)\"]", parent: name, max: 32767)
+                try validate($0.value, name: "calculatedAttributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.calculatedAttributes, name: "calculatedAttributes", parent: name, max: 100)
             try self.validate(self.city, name: "city", parent: name, max: 32767)
             try self.validate(self.city, name: "city", parent: name, min: 1)
             try self.validate(self.country, name: "country", parent: name, max: 32767)
@@ -4704,6 +4852,10 @@ extension QConnect {
             try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
             try self.validate(self.province, name: "province", parent: name, max: 32767)
             try self.validate(self.province, name: "province", parent: name, min: 1)
+            try self.recommendations?.forEach {
+                try $0.validate(name: "\(name).recommendations[]")
+            }
+            try self.validate(self.recommendations, name: "recommendations", parent: name, max: 50)
             try self.validate(self.shippingAddress1, name: "shippingAddress1", parent: name, max: 32767)
             try self.validate(self.shippingAddress1, name: "shippingAddress1", parent: name, min: 1)
             try self.validate(self.shippingAddress2, name: "shippingAddress2", parent: name, max: 32767)
@@ -4749,6 +4901,7 @@ extension QConnect {
             case businessEmailAddress = "businessEmailAddress"
             case businessName = "businessName"
             case businessPhoneNumber = "businessPhoneNumber"
+            case calculatedAttributes = "calculatedAttributes"
             case city = "city"
             case country = "country"
             case county = "county"
@@ -4776,6 +4929,7 @@ extension QConnect {
             case profileARN = "profileARN"
             case profileId = "profileId"
             case province = "province"
+            case recommendations = "recommendations"
             case shippingAddress1 = "shippingAddress1"
             case shippingAddress2 = "shippingAddress2"
             case shippingAddress3 = "shippingAddress3"
@@ -7120,6 +7274,10 @@ extension QConnect {
         public let knowledgeBaseType: KnowledgeBaseType
         /// An epoch timestamp indicating the most recent content modification inside the knowledge base. If no content exists in a knowledge base, this value is unset.
         public let lastContentModificationTime: Date?
+        /// The Amazon Web Services Region where the knowledge base was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the knowledge base was last modified.
+        public let lastModifiedTime: Date?
         /// The name of the knowledge base.
         public let name: String
         /// Information about how to render the content.
@@ -7136,7 +7294,7 @@ extension QConnect {
         public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
         @inlinable
-        public init(description: String? = nil, ingestionFailureReasons: [String]? = nil, ingestionStatus: SyncStatus? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, lastContentModificationTime: Date? = nil, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
+        public init(description: String? = nil, ingestionFailureReasons: [String]? = nil, ingestionStatus: SyncStatus? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, lastContentModificationTime: Date? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.description = description
             self.ingestionFailureReasons = ingestionFailureReasons
             self.ingestionStatus = ingestionStatus
@@ -7144,6 +7302,8 @@ extension QConnect {
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseType = knowledgeBaseType
             self.lastContentModificationTime = lastContentModificationTime
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.renderingConfiguration = renderingConfiguration
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -7161,6 +7321,8 @@ extension QConnect {
             case knowledgeBaseId = "knowledgeBaseId"
             case knowledgeBaseType = "knowledgeBaseType"
             case lastContentModificationTime = "lastContentModificationTime"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case renderingConfiguration = "renderingConfiguration"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
@@ -7180,6 +7342,10 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The type of knowledge base.
         public let knowledgeBaseType: KnowledgeBaseType
+        /// The Amazon Web Services Region where the knowledge base was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the knowledge base was last modified.
+        public let lastModifiedTime: Date?
         /// The name of the knowledge base.
         public let name: String
         /// Information about how to render the content.
@@ -7196,11 +7362,13 @@ extension QConnect {
         public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
         @inlinable
-        public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
+        public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseType = knowledgeBaseType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.renderingConfiguration = renderingConfiguration
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -7215,6 +7383,8 @@ extension QConnect {
             case knowledgeBaseArn = "knowledgeBaseArn"
             case knowledgeBaseId = "knowledgeBaseId"
             case knowledgeBaseType = "knowledgeBaseType"
+            case lastModifiedRegion = "lastModifiedRegion"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case renderingConfiguration = "renderingConfiguration"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
@@ -8385,6 +8555,8 @@ extension QConnect {
     public struct MessageTemplateAttributes: AWSEncodableShape & AWSDecodableShape {
         /// The agent attributes that are used with the message template.
         public let agentAttributes: AgentAttributes?
+        /// The case attributes that are used with the message template.
+        public let caseAttributes: [String: String]?
         /// The custom attributes that are used with the message template.
         public let customAttributes: [String: String]?
         /// The customer profile attributes that are used with the message template.
@@ -8393,8 +8565,9 @@ extension QConnect {
         public let systemAttributes: SystemAttributes?
 
         @inlinable
-        public init(agentAttributes: AgentAttributes? = nil, customAttributes: [String: String]? = nil, customerProfileAttributes: CustomerProfileAttributes? = nil, systemAttributes: SystemAttributes? = nil) {
+        public init(agentAttributes: AgentAttributes? = nil, caseAttributes: [String: String]? = nil, customAttributes: [String: String]? = nil, customerProfileAttributes: CustomerProfileAttributes? = nil, systemAttributes: SystemAttributes? = nil) {
             self.agentAttributes = agentAttributes
+            self.caseAttributes = caseAttributes
             self.customAttributes = customAttributes
             self.customerProfileAttributes = customerProfileAttributes
             self.systemAttributes = systemAttributes
@@ -8402,6 +8575,13 @@ extension QConnect {
 
         public func validate(name: String) throws {
             try self.agentAttributes?.validate(name: "\(name).agentAttributes")
+            try self.caseAttributes?.forEach {
+                try validate($0.key, name: "caseAttributes.key", parent: name, max: 32767)
+                try validate($0.key, name: "caseAttributes.key", parent: name, min: 1)
+                try validate($0.value, name: "caseAttributes[\"\($0.key)\"]", parent: name, max: 32767)
+                try validate($0.value, name: "caseAttributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.caseAttributes, name: "caseAttributes", parent: name, max: 220)
             try self.customAttributes?.forEach {
                 try validate($0.key, name: "customAttributes.key", parent: name, max: 32767)
                 try validate($0.key, name: "customAttributes.key", parent: name, min: 1)
@@ -8414,6 +8594,7 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case agentAttributes = "agentAttributes"
+            case caseAttributes = "caseAttributes"
             case customAttributes = "customAttributes"
             case customerProfileAttributes = "customerProfileAttributes"
             case systemAttributes = "systemAttributes"
@@ -8835,6 +9016,10 @@ extension QConnect {
         public let displayName: String
         /// The timestamp when the model will reach end of life and no longer be available for use.
         public let endOfLifeTimestamp: Date?
+        /// Whether this model is published in every Region of the caller's Amazon Connect Global
+        /// Resiliency replication group, and so can be referenced by an AI Prompt that replicates.
+        /// Present only for callers to which global resiliency applies.
+        public let globalResiliencyStatus: GlobalResiliencyStatus?
         /// The timestamp when the model lifecycle will transition from ACTIVE to LEGACY.
         public let legacyTimestamp: Date?
         /// The identifier of the model.
@@ -8847,10 +9032,11 @@ extension QConnect {
         public let supportsPromptCaching: Bool?
 
         @inlinable
-        public init(crossRegionStatus: CrossRegionStatus? = nil, displayName: String, endOfLifeTimestamp: Date? = nil, legacyTimestamp: Date? = nil, modelId: String, modelLifecycle: ModelLifecycle? = nil, supportedAIPromptTypes: [AIPromptType]? = nil, supportsPromptCaching: Bool? = nil) {
+        public init(crossRegionStatus: CrossRegionStatus? = nil, displayName: String, endOfLifeTimestamp: Date? = nil, globalResiliencyStatus: GlobalResiliencyStatus? = nil, legacyTimestamp: Date? = nil, modelId: String, modelLifecycle: ModelLifecycle? = nil, supportedAIPromptTypes: [AIPromptType]? = nil, supportsPromptCaching: Bool? = nil) {
             self.crossRegionStatus = crossRegionStatus
             self.displayName = displayName
             self.endOfLifeTimestamp = endOfLifeTimestamp
+            self.globalResiliencyStatus = globalResiliencyStatus
             self.legacyTimestamp = legacyTimestamp
             self.modelId = modelId
             self.modelLifecycle = modelLifecycle
@@ -8862,6 +9048,7 @@ extension QConnect {
             case crossRegionStatus = "crossRegionStatus"
             case displayName = "displayName"
             case endOfLifeTimestamp = "endOfLifeTimestamp"
+            case globalResiliencyStatus = "globalResiliencyStatus"
             case legacyTimestamp = "legacyTimestamp"
             case modelId = "modelId"
             case modelLifecycle = "modelLifecycle"
@@ -9157,6 +9344,124 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case nextMessageToken = "nextMessageToken"
+        }
+    }
+
+    public struct ProfileCatalogItem: AWSEncodableShape & AWSDecodableShape {
+        /// Additional information about the catalog item.
+        public let additionalInformation: String?
+        /// The custom attributes of the catalog item.
+        public let attributes: [String: String]?
+        /// The category of the catalog item.
+        public let category: String?
+        /// The code of the catalog item.
+        public let code: String?
+        /// The timestamp when the catalog item was created.
+        public let createdAt: String?
+        /// The description of the catalog item.
+        public let description: String?
+        /// The unique identifier of the catalog item.
+        public let id: String?
+        /// The URL of the image of the catalog item.
+        public let imageLink: String?
+        /// The URL of the catalog item.
+        public let link: String?
+        /// The name of the catalog item.
+        public let name: String?
+        /// The price of the catalog item.
+        public let price: String?
+        /// The type of the catalog item.
+        public let type: String?
+        /// The timestamp when the catalog item was last updated.
+        public let updatedAt: String?
+
+        @inlinable
+        public init(additionalInformation: String? = nil, attributes: [String: String]? = nil, category: String? = nil, code: String? = nil, createdAt: String? = nil, description: String? = nil, id: String? = nil, imageLink: String? = nil, link: String? = nil, name: String? = nil, price: String? = nil, type: String? = nil, updatedAt: String? = nil) {
+            self.additionalInformation = additionalInformation
+            self.attributes = attributes
+            self.category = category
+            self.code = code
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.imageLink = imageLink
+            self.link = link
+            self.name = name
+            self.price = price
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, max: 32767)
+            try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, min: 1)
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 32767)
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 32767)
+            try self.validate(self.category, name: "category", parent: name, min: 1)
+            try self.validate(self.code, name: "code", parent: name, max: 32767)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
+            try self.validate(self.createdAt, name: "createdAt", parent: name, max: 32767)
+            try self.validate(self.createdAt, name: "createdAt", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 32767)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 32767)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.imageLink, name: "imageLink", parent: name, max: 32767)
+            try self.validate(self.imageLink, name: "imageLink", parent: name, min: 1)
+            try self.validate(self.link, name: "link", parent: name, max: 32767)
+            try self.validate(self.link, name: "link", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 32767)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.price, name: "price", parent: name, max: 32767)
+            try self.validate(self.price, name: "price", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, max: 32767)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.updatedAt, name: "updatedAt", parent: name, max: 32767)
+            try self.validate(self.updatedAt, name: "updatedAt", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalInformation = "additionalInformation"
+            case attributes = "attributes"
+            case category = "category"
+            case code = "code"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case imageLink = "imageLink"
+            case link = "link"
+            case name = "name"
+            case price = "price"
+            case type = "type"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ProfileRecommendation: AWSEncodableShape & AWSDecodableShape {
+        /// The catalog item that is associated with the recommendation.
+        public let catalogItem: ProfileCatalogItem?
+        /// The relevance score of the recommendation.
+        public let score: Double?
+
+        @inlinable
+        public init(catalogItem: ProfileCatalogItem? = nil, score: Double? = nil) {
+            self.catalogItem = catalogItem
+            self.score = score
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogItem?.validate(name: "\(name).catalogItem")
+            try self.validate(self.score, name: "score", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogItem = "catalogItem"
+            case score = "score"
         }
     }
 
@@ -9665,6 +9970,8 @@ extension QConnect {
         public let language: String?
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
         public let lastModifiedBy: String?
+        /// The Amazon Web Services Region where the quick response was last modified.
+        public let lastModifiedRegion: String?
         /// The timestamp when the quick response data was last modified.
         public let lastModifiedTime: Date
         /// The name of the quick response.
@@ -9681,7 +9988,7 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(channels: [String]? = nil, contents: QuickResponseContents? = nil, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
+        public init(channels: [String]? = nil, contents: QuickResponseContents? = nil, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
             self.channels = channels
             self.contents = contents
             self.contentType = contentType
@@ -9693,6 +10000,7 @@ extension QConnect {
             self.knowledgeBaseId = knowledgeBaseId
             self.language = language
             self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickResponseArn = quickResponseArn
@@ -9714,6 +10022,7 @@ extension QConnect {
             case knowledgeBaseId = "knowledgeBaseId"
             case language = "language"
             case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedRegion = "lastModifiedRegion"
             case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case quickResponseArn = "quickResponseArn"
@@ -9886,6 +10195,8 @@ extension QConnect {
         public let language: String?
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response search result data.
         public let lastModifiedBy: String?
+        /// The Amazon Web Services Region where the quick response was last modified.
+        public let lastModifiedRegion: String?
         /// The timestamp when the quick response search result data was last modified.
         public let lastModifiedTime: Date
         /// The name of the quick response.
@@ -9902,7 +10213,7 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(attributesInterpolated: [String]? = nil, attributesNotInterpolated: [String]? = nil, channels: [String]? = nil, contents: QuickResponseContents, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
+        public init(attributesInterpolated: [String]? = nil, attributesNotInterpolated: [String]? = nil, channels: [String]? = nil, contents: QuickResponseContents, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
             self.attributesInterpolated = attributesInterpolated
             self.attributesNotInterpolated = attributesNotInterpolated
             self.channels = channels
@@ -9916,6 +10227,7 @@ extension QConnect {
             self.knowledgeBaseId = knowledgeBaseId
             self.language = language
             self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickResponseArn = quickResponseArn
@@ -9939,6 +10251,7 @@ extension QConnect {
             case knowledgeBaseId = "knowledgeBaseId"
             case language = "language"
             case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedRegion = "lastModifiedRegion"
             case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case quickResponseArn = "quickResponseArn"
@@ -9966,6 +10279,8 @@ extension QConnect {
         public let knowledgeBaseId: String
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
         public let lastModifiedBy: String?
+        /// The Amazon Web Services Region where the quick response was last modified.
+        public let lastModifiedRegion: String?
         /// The timestamp when the quick response summary was last modified.
         public let lastModifiedTime: Date
         /// The name of the quick response.
@@ -9980,7 +10295,7 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(channels: [String]? = nil, contentType: String, createdTime: Date, description: String? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, status: QuickResponseStatus, tags: [String: String]? = nil) {
+        public init(channels: [String]? = nil, contentType: String, createdTime: Date, description: String? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedBy: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, status: QuickResponseStatus, tags: [String: String]? = nil) {
             self.channels = channels
             self.contentType = contentType
             self.createdTime = createdTime
@@ -9989,6 +10304,7 @@ extension QConnect {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
             self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickResponseArn = quickResponseArn
@@ -10006,6 +10322,7 @@ extension QConnect {
             case knowledgeBaseArn = "knowledgeBaseArn"
             case knowledgeBaseId = "knowledgeBaseId"
             case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedRegion = "lastModifiedRegion"
             case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case quickResponseArn = "quickResponseArn"
@@ -10094,6 +10411,104 @@ extension QConnect {
             case recommendationIds = "recommendationIds"
             case source = "source"
             case type = "type"
+        }
+    }
+
+    public struct RegisterAssistantReplicaKeyRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect assistant.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+        public let clientToken: String?
+        /// The replica Region KMS key to register for the assistant.
+        public let replicaKmsKey: ReplicaKmsKey
+
+        @inlinable
+        public init(assistantId: String, clientToken: String? = RegisterAssistantReplicaKeyRequest.idempotencyToken(), replicaKmsKey: ReplicaKmsKey) {
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.replicaKmsKey = replicaKmsKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.replicaKmsKey, forKey: .replicaKmsKey)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.replicaKmsKey.validate(name: "\(name).replicaKmsKey")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case replicaKmsKey = "replicaKmsKey"
+        }
+    }
+
+    public struct RegisterAssistantReplicaKeyResponse: AWSDecodableShape {
+        public let assistant: AssistantData
+
+        @inlinable
+        public init(assistant: AssistantData) {
+            self.assistant = assistant
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assistant = "assistant"
+        }
+    }
+
+    public struct RegisterKnowledgeBaseReplicaKeyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+        public let clientToken: String?
+        /// The identifier of the knowledge base.
+        public let knowledgeBaseId: String
+        /// The replica Region KMS key to register for the knowledge base.
+        public let replicaKmsKey: ReplicaKmsKey
+
+        @inlinable
+        public init(clientToken: String? = RegisterKnowledgeBaseReplicaKeyRequest.idempotencyToken(), knowledgeBaseId: String, replicaKmsKey: ReplicaKmsKey) {
+            self.clientToken = clientToken
+            self.knowledgeBaseId = knowledgeBaseId
+            self.replicaKmsKey = replicaKmsKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encode(self.replicaKmsKey, forKey: .replicaKmsKey)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.replicaKmsKey.validate(name: "\(name).replicaKmsKey")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case replicaKmsKey = "replicaKmsKey"
+        }
+    }
+
+    public struct RegisterKnowledgeBaseReplicaKeyResponse: AWSDecodableShape {
+        public let knowledgeBase: KnowledgeBaseData
+
+        @inlinable
+        public init(knowledgeBase: KnowledgeBaseData) {
+            self.knowledgeBase = knowledgeBase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBase = "knowledgeBase"
         }
     }
 
@@ -10235,6 +10650,25 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case templateUri = "templateUri"
+        }
+    }
+
+    public struct ReplicaKmsKey: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key in the replica Region.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 4096)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
@@ -10953,19 +11387,28 @@ extension QConnect {
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance. For information about valid ID values, see Key identifiers (KeyId).
         public let kmsKeyId: String?
+        /// The list of KMS keys used to encrypt data for this resource's replicas in other Amazon Web Services Regions. Each entry corresponds to a Region where a replica is configured.
+        public let replicaKmsKeys: [ReplicaKmsKey]?
 
         @inlinable
-        public init(kmsKeyId: String? = nil) {
+        public init(kmsKeyId: String? = nil, replicaKmsKeys: [ReplicaKmsKey]? = nil) {
             self.kmsKeyId = kmsKeyId
+            self.replicaKmsKeys = replicaKmsKeys
         }
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 4096)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.replicaKmsKeys?.forEach {
+                try $0.validate(name: "\(name).replicaKmsKeys[]")
+            }
+            try self.validate(self.replicaKmsKeys, name: "replicaKmsKeys", parent: name, max: 5)
+            try self.validate(self.replicaKmsKeys, name: "replicaKmsKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "kmsKeyId"
+            case replicaKmsKeys = "replicaKmsKeys"
         }
     }
 
@@ -12059,6 +12502,23 @@ extension QConnect {
             case toolName = "toolName"
             case toolResult = "toolResult"
             case toolUseId = "toolUseId"
+        }
+    }
+
+    public struct UnprocessableContentException: AWSErrorShape {
+        public let message: String?
+        /// The reason the content could not be processed.
+        public let reason: UnprocessableContentReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: UnprocessableContentReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
         }
     }
 
@@ -13485,7 +13945,8 @@ public struct QConnectErrorType: AWSErrorType {
 extension QConnectErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "ResourceNotFoundException": QConnect.ResourceNotFoundException.self,
-        "TooManyTagsException": QConnect.TooManyTagsException.self
+        "TooManyTagsException": QConnect.TooManyTagsException.self,
+        "UnprocessableContentException": QConnect.UnprocessableContentException.self
     ]
 }
 

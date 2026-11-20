@@ -108,6 +108,7 @@ public struct RolesAnywhere: AWSService {
     ///
     /// Parameters:
     ///   - acceptRoleSessionName: Used to determine if a custom role session name will be accepted in a temporary credential request.
+    ///   - aliasName: An alias for the profile. When you set an alias, the response includes the alias ARN of the profile in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
     ///   - durationSeconds:  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
     ///   - enabled: Specifies whether the profile is enabled.
     ///   - managedPolicyArns: A list of managed policy ARNs that apply to the vended session credentials.
@@ -120,6 +121,7 @@ public struct RolesAnywhere: AWSService {
     @inlinable
     public func createProfile(
         acceptRoleSessionName: Bool? = nil,
+        aliasName: String? = nil,
         durationSeconds: Int? = nil,
         enabled: Bool? = nil,
         managedPolicyArns: [String]? = nil,
@@ -132,6 +134,7 @@ public struct RolesAnywhere: AWSService {
     ) async throws -> ProfileDetailResponse {
         let input = CreateProfileRequest(
             acceptRoleSessionName: acceptRoleSessionName, 
+            aliasName: aliasName, 
             durationSeconds: durationSeconds, 
             enabled: enabled, 
             managedPolicyArns: managedPolicyArns, 
@@ -160,6 +163,8 @@ public struct RolesAnywhere: AWSService {
     /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.  Required permissions:  rolesanywhere:CreateTrustAnchor.
     ///
     /// Parameters:
+    ///   - aliasName: An alias for the trust anchor. When you set an alias, the response includes the alias ARN of the trust anchor in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
+    ///   - crlDpRevocationEnabled: Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
     ///   - enabled: Specifies whether the trust anchor is enabled.
     ///   - name: The name of the trust anchor.
     ///   - notificationSettings: A list of notification settings to be associated to the trust anchor.
@@ -168,6 +173,8 @@ public struct RolesAnywhere: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createTrustAnchor(
+        aliasName: String? = nil,
+        crlDpRevocationEnabled: Bool? = nil,
         enabled: Bool? = nil,
         name: String,
         notificationSettings: [NotificationSetting]? = nil,
@@ -176,6 +183,8 @@ public struct RolesAnywhere: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TrustAnchorDetailResponse {
         let input = CreateTrustAnchorRequest(
+            aliasName: aliasName, 
+            crlDpRevocationEnabled: crlDpRevocationEnabled, 
             enabled: enabled, 
             name: name, 
             notificationSettings: notificationSettings, 
@@ -202,7 +211,7 @@ public struct RolesAnywhere: AWSService {
     ///
     /// Parameters:
     ///   - certificateField: Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - specifiers: A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject.
     ///   - logger: Logger use during operation
     @inlinable
@@ -236,7 +245,7 @@ public struct RolesAnywhere: AWSService {
     /// Deletes a certificate revocation list (CRL).  Required permissions:  rolesanywhere:DeleteCrl.
     ///
     /// Parameters:
-    ///   - crlId: The unique identifier of the certificate revocation list (CRL).
+    ///   - crlId: The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteCrl(
@@ -265,7 +274,7 @@ public struct RolesAnywhere: AWSService {
     /// Deletes a profile.  Required permissions:  rolesanywhere:DeleteProfile.
     ///
     /// Parameters:
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteProfile(
@@ -294,7 +303,7 @@ public struct RolesAnywhere: AWSService {
     /// Deletes a trust anchor.  Required permissions:  rolesanywhere:DeleteTrustAnchor.
     ///
     /// Parameters:
-    ///   - trustAnchorId: The unique identifier of the trust anchor.
+    ///   - trustAnchorId: The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTrustAnchor(
@@ -323,7 +332,7 @@ public struct RolesAnywhere: AWSService {
     /// Disables a certificate revocation list (CRL).  Required permissions:  rolesanywhere:DisableCrl.
     ///
     /// Parameters:
-    ///   - crlId: The unique identifier of the certificate revocation list (CRL).
+    ///   - crlId: The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableCrl(
@@ -352,7 +361,7 @@ public struct RolesAnywhere: AWSService {
     /// Disables a profile. When disabled, temporary credential requests with this profile fail.  Required permissions:  rolesanywhere:DisableProfile.
     ///
     /// Parameters:
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableProfile(
@@ -381,7 +390,7 @@ public struct RolesAnywhere: AWSService {
     /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized.  Required permissions:  rolesanywhere:DisableTrustAnchor.
     ///
     /// Parameters:
-    ///   - trustAnchorId: The unique identifier of the trust anchor.
+    ///   - trustAnchorId: The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableTrustAnchor(
@@ -410,7 +419,7 @@ public struct RolesAnywhere: AWSService {
     /// Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials.  Required permissions:  rolesanywhere:EnableCrl.
     ///
     /// Parameters:
-    ///   - crlId: The unique identifier of the certificate revocation list (CRL).
+    ///   - crlId: The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableCrl(
@@ -439,7 +448,7 @@ public struct RolesAnywhere: AWSService {
     /// Enables temporary credential requests for a profile.   Required permissions:  rolesanywhere:EnableProfile.
     ///
     /// Parameters:
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableProfile(
@@ -468,7 +477,7 @@ public struct RolesAnywhere: AWSService {
     /// Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation.   Required permissions:  rolesanywhere:EnableTrustAnchor.
     ///
     /// Parameters:
-    ///   - trustAnchorId: The unique identifier of the trust anchor.
+    ///   - trustAnchorId: The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableTrustAnchor(
@@ -497,7 +506,7 @@ public struct RolesAnywhere: AWSService {
     /// Gets a certificate revocation list (CRL).  Required permissions:  rolesanywhere:GetCrl.
     ///
     /// Parameters:
-    ///   - crlId: The unique identifier of the certificate revocation list (CRL).
+    ///   - crlId: The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCrl(
@@ -526,7 +535,7 @@ public struct RolesAnywhere: AWSService {
     /// Gets a profile.  Required permissions:  rolesanywhere:GetProfile.
     ///
     /// Parameters:
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func getProfile(
@@ -584,7 +593,7 @@ public struct RolesAnywhere: AWSService {
     /// Gets a trust anchor.  Required permissions:  rolesanywhere:GetTrustAnchor.
     ///
     /// Parameters:
-    ///   - trustAnchorId: The unique identifier of the trust anchor.
+    ///   - trustAnchorId: The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTrustAnchor(
@@ -613,14 +622,16 @@ public struct RolesAnywhere: AWSService {
     /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
     ///
     /// Parameters:
+    ///   - aliasName: An alias for the certificate revocation list (CRL). When you set an alias, the response includes the alias ARN of the CRL in aliasArn. An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException. If you omit this parameter or specify an empty string, the resource is created without an alias.
     ///   - crlData: The x509 v3 specified certificate revocation list (CRL).
     ///   - enabled: Specifies whether the certificate revocation list (CRL) is enabled.
     ///   - name: The name of the certificate revocation list (CRL).
     ///   - tags: A list of tags to attach to the certificate revocation list (CRL).
-    ///   - trustAnchorArn: The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for.
+    ///   - trustAnchorArn: The ARN of the trust anchor that the certificate revocation list (CRL) provides revocation for. Specify the trust anchor ARN that contains the trust anchor ID. This parameter doesn't support alias ARNs. If you specify an alias ARN, the request fails with ResourceNotFoundException.
     ///   - logger: Logger use during operation
     @inlinable
     public func importCrl(
+        aliasName: String? = nil,
         crlData: AWSBase64Data,
         enabled: Bool? = nil,
         name: String,
@@ -629,6 +640,7 @@ public struct RolesAnywhere: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CrlDetailResponse {
         let input = ImportCrlRequest(
+            aliasName: aliasName, 
             crlData: crlData, 
             enabled: enabled, 
             name: name, 
@@ -813,7 +825,7 @@ public struct RolesAnywhere: AWSService {
     /// Parameters:
     ///   - certificateField: Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
     ///   - mappingRules: A list of mapping entries for every supported specifier or sub-field.
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAttributeMapping(
@@ -974,18 +986,21 @@ public struct RolesAnywhere: AWSService {
     /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials.  Required permissions:  rolesanywhere:UpdateCrl.
     ///
     /// Parameters:
+    ///   - aliasName: The alias for the certificate revocation list (CRL). You can use this parameter in the following ways:   To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.   To remove the alias, specify an empty string.   To keep the current alias, omit this parameter.   An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
     ///   - crlData: The x509 v3 specified certificate revocation list (CRL).
-    ///   - crlId: The unique identifier of the certificate revocation list (CRL).
+    ///   - crlId: The certificate revocation list (CRL) to act on. You can specify one of the following:   The CRL ID.   The CRL ARN.   The alias ARN of the CRL.   An ARN must be for a CRL in your account and Region.
     ///   - name: The name of the Crl.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCrl(
+        aliasName: String? = nil,
         crlData: AWSBase64Data? = nil,
         crlId: String,
         name: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CrlDetailResponse {
         let input = UpdateCrlRequest(
+            aliasName: aliasName, 
             crlData: crlData, 
             crlId: crlId, 
             name: name
@@ -1010,16 +1025,18 @@ public struct RolesAnywhere: AWSService {
     ///
     /// Parameters:
     ///   - acceptRoleSessionName: Used to determine if a custom role session name will be accepted in a temporary credential request.
+    ///   - aliasName: The alias for the profile. You can use this parameter in the following ways:   To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.   To remove the alias, specify an empty string.   To keep the current alias, omit this parameter.   An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
     ///   - durationSeconds:  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
     ///   - managedPolicyArns: A list of managed policy ARNs that apply to the vended session credentials.
     ///   - name: The name of the profile.
-    ///   - profileId: The unique identifier of the profile.
+    ///   - profileId: The profile to act on. You can specify one of the following:   The profile ID.   The profile ARN.   The alias ARN of the profile.   An ARN must be for a profile in your account and Region.
     ///   - roleArns: A list of IAM roles that this profile can assume in a temporary credential request.
     ///   - sessionPolicy: A session policy that applies to the trust boundary of the vended session credentials.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateProfile(
         acceptRoleSessionName: Bool? = nil,
+        aliasName: String? = nil,
         durationSeconds: Int? = nil,
         managedPolicyArns: [String]? = nil,
         name: String? = nil,
@@ -1030,6 +1047,7 @@ public struct RolesAnywhere: AWSService {
     ) async throws -> ProfileDetailResponse {
         let input = UpdateProfileRequest(
             acceptRoleSessionName: acceptRoleSessionName, 
+            aliasName: aliasName, 
             durationSeconds: durationSeconds, 
             managedPolicyArns: managedPolicyArns, 
             name: name, 
@@ -1056,18 +1074,24 @@ public struct RolesAnywhere: AWSService {
     /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.  Required permissions:  rolesanywhere:UpdateTrustAnchor.
     ///
     /// Parameters:
+    ///   - aliasName: The alias for the trust anchor. You can use this parameter in the following ways:   To set or change the alias, specify the new alias name. After the change, the previous alias ARN no longer identifies the resource. You can then assign the previous alias to another resource of the same type. A change can take a short time to take effect for requests that use an alias ARN.   To remove the alias, specify an empty string.   To keep the current alias, omit this parameter.   An alias name contains 1 to 256 characters. It must begin with a letter (A-Z or a-z). It can contain only letters (A-Z and a-z), numbers (0-9), underscores (_), hyphens (-), and forward slashes (/). A forward slash can appear only between two other characters, so an alias name can't end with a forward slash or contain two in a row. Alias names that begin with aws/, in any combination of uppercase and lowercase letters, are reserved. Alias names are case sensitive. The alias name must be unique among resources of the same type in your account and Region. If another resource of the same type already has the alias, the request fails with a ValidationException. An invalid or reserved alias name also causes a ValidationException.
+    ///   - crlDpRevocationEnabled: Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
     ///   - name: The name of the trust anchor.
     ///   - source: The trust anchor type and its related certificate data.
-    ///   - trustAnchorId: The unique identifier of the trust anchor.
+    ///   - trustAnchorId: The trust anchor to act on. You can specify one of the following:   The trust anchor ID.   The trust anchor ARN.   The alias ARN of the trust anchor.   An ARN must be for a trust anchor in your account and Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTrustAnchor(
+        aliasName: String? = nil,
+        crlDpRevocationEnabled: Bool? = nil,
         name: String? = nil,
         source: Source? = nil,
         trustAnchorId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TrustAnchorDetailResponse {
         let input = UpdateTrustAnchorRequest(
+            aliasName: aliasName, 
+            crlDpRevocationEnabled: crlDpRevocationEnabled, 
             name: name, 
             source: source, 
             trustAnchorId: trustAnchorId
@@ -1079,7 +1103,7 @@ public struct RolesAnywhere: AWSService {
 extension RolesAnywhere {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: RolesAnywhere, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

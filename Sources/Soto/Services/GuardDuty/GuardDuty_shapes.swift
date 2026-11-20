@@ -25,6 +25,13 @@ import Foundation
 extension GuardDuty {
     // MARK: Enums
 
+    public enum ActionPriority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case immediate = "IMMEDIATE"
+        case shortTerm = "SHORT_TERM"
+        case strategic = "STRATEGIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// The observed activity is an API call.
         case apiCall = "API_CALL"
@@ -37,9 +44,41 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case baseline = "BASELINE"
+        case kubernetesPolicyViolation = "KUBERNETES_POLICY_VIOLATION"
+        case processLineage = "PROCESS_LINEAGE"
+        case rdsThreatAssessment = "RDS_THREAT_ASSESSMENT"
+        case reputation = "REPUTATION"
+        case s3ActorContext = "S3_ACTOR_CONTEXT"
+        case s3Exposure = "S3_EXPOSURE"
+        case s3PenTest = "S3_PEN_TEST"
+        case threatAssessment = "THREAT_ASSESSMENT"
+        case trend = "TREND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssociationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dryRun = "DRY_RUN"
         case live = "LIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttackPhaseName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case collection = "Collection"
+        case commandAndControl = "Command and Control"
+        case credentialAccess = "Credential Access"
+        case defenseEvasion = "Defense Evasion"
+        case discovery = "Discovery"
+        case execution = "Execution"
+        case exfiltration = "Exfiltration"
+        case impact = "Impact"
+        case initialAccess = "Initial Access"
+        case lateralMovement = "Lateral Movement"
+        case persistence = "Persistence"
+        case privilegeEscalation = "Privilege Escalation"
+        case reconnaissance = "Reconnaissance"
+        case resourceDevelopment = "Resource Development"
         public var description: String { return self.rawValue }
     }
 
@@ -95,6 +134,13 @@ extension GuardDuty {
         case promptAttack = "PROMPT_ATTACK"
         case sexual = "SEXUAL"
         case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CorrelationReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case highSeverity = "HIGH_SEVERITY"
+        case sameBehavior = "SAME_BEHAVIOR"
+        case sameResource = "SAME_RESOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -165,6 +211,15 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum DefenseTactic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case detect = "Detect"
+        case evict = "Evict"
+        case harden = "Harden"
+        case isolate = "Isolate"
+        case restore = "Restore"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
@@ -179,6 +234,7 @@ extension GuardDuty {
 
     public enum DetectionRuleDataSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudtrailManagementEvent = "CloudTrailManagementEvent"
+        case runtimeMonitoring = "RuntimeMonitoring"
         public var description: String { return self.rawValue }
     }
 
@@ -237,6 +293,24 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum Disposition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessRevoked = "Access Revoked"
+        case blocked = "Blocked"
+        case deleted = "Deleted"
+        case isolated = "Isolated"
+        case logged = "Logged"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DistributionDimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case archive = "ARCHIVE"
+        case attackVector = "ATTACK_VECTOR"
+        case resource = "RESOURCE"
+        case severity = "SEVERITY"
+        case type = "TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EbsSnapshotPreservation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noRetention = "NO_RETENTION"
         case retentionWithFinding = "RETENTION_WITH_FINDING"
@@ -262,6 +336,8 @@ extension GuardDuty {
         case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
         case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
         case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk = "RDS_DATA_RISK"
         public var description: String { return self.rawValue }
     }
 
@@ -274,6 +350,34 @@ extension GuardDuty {
     public enum Feedback: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notUseful = "NOT_USEFUL"
         case useful = "USEFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FetchCriterionCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case notEquals = "NOT_EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FetchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudTrailRawEvents = "CLOUD_TRAIL_RAW_EVENTS"
+        case detector = "DETECTOR"
+        case findingTypeDocumentation = "FINDING_TYPE_DOCUMENTATION"
+        case findings = "FINDINGS"
+        case memberAccounts = "MEMBER_ACCOUNTS"
+        case reputation = "REPUTATION"
+        case runtimeSignals = "RUNTIME_SIGNALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FetchVerdict: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case benign = "BENIGN"
+        case neutral = "NEUTRAL"
+        case threat = "THREAT"
         public var description: String { return self.rawValue }
     }
 
@@ -409,6 +513,56 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum InvestigationDetectorFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudTrail = "CLOUD_TRAIL"
+        case dnsLogs = "DNS_LOGS"
+        case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
+        case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
+        case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
+        case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
+        case flowLogs = "FLOW_LOGS"
+        case lambdaNetworkLogs = "LAMBDA_NETWORK_LOGS"
+        case rdsLoginEvents = "RDS_LOGIN_EVENTS"
+        case runtimeMonitoring = "RUNTIME_MONITORING"
+        case s3DataEvents = "S3_DATA_EVENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestigationFilterCriterionKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case confidence = "CONFIDENCE"
+        case findingId = "FINDING_ID"
+        case investigationType = "INVESTIGATION_TYPE"
+        case riskLevel = "RISK_LEVEL"
+        case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestigationIndicatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domain = "DOMAIN"
+        case file = "FILE"
+        case ip = "IP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestigationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ebsVolume = "EBS_VOLUME"
+        case ec2Instance = "EC2_INSTANCE"
+        case ec2SecurityGroup = "EC2_SECURITY_GROUP"
+        case ecsCluster = "ECS_CLUSTER"
+        case eksCluster = "EKS_CLUSTER"
+        case iamAccessKey = "IAM_ACCESS_KEY"
+        case iamRole = "IAM_ROLE"
+        case iamUser = "IAM_USER"
+        case kubernetesWorkload = "KUBERNETES_WORKLOAD"
+        case lambdaFunction = "LAMBDA_FUNCTION"
+        case rdsDbUser = "RDS_DB_USER"
+        case rdsInstance = "RDS_INSTANCE"
+        case s3Bucket = "S3_BUCKET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InvestigationSortField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confidence = "CONFIDENCE"
         case endTime = "END_TIME"
@@ -422,6 +576,13 @@ extension GuardDuty {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestigationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case finding = "FINDING"
+        case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
@@ -512,6 +673,11 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case guarddutyPolicy = "GUARDDUTY_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ManagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoManaged = "AUTO_MANAGED"
         case disabled = "DISABLED"
@@ -528,6 +694,24 @@ extension GuardDuty {
     public enum NetworkDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inbound = "INBOUND"
         case outbound = "OUTBOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObservationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountOverview = "ACCOUNT_OVERVIEW"
+        case detectionCoverage = "DETECTION_COVERAGE"
+        case distribution = "DISTRIBUTION"
+        case findingDetail = "FINDING_DETAIL"
+        case kubernetesActivity = "KUBERNETES_ACTIVITY"
+        case malwareScan = "MALWARE_SCAN"
+        case networkActivity = "NETWORK_ACTIVITY"
+        case rdsLoginActivity = "RDS_LOGIN_ACTIVITY"
+        case recommendation = "RECOMMENDATION"
+        case relatedFindings = "RELATED_FINDINGS"
+        case representativeResource = "REPRESENTATIVE_RESOURCE"
+        case resource = "RESOURCE"
+        case runtimeSignals = "RUNTIME_SIGNALS"
+        case s3Activity = "S3_ACTIVITY"
         public var description: String { return self.rawValue }
     }
 
@@ -553,6 +737,8 @@ extension GuardDuty {
         case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
         case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
         case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk = "RDS_DATA_RISK"
         public var description: String { return self.rawValue }
     }
 
@@ -602,6 +788,24 @@ extension GuardDuty {
         case publishing = "PUBLISHING"
         case stopped = "STOPPED"
         case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enableProtection = "ENABLE_PROTECTION"
+        case furtherInvestigation = "FURTHER_INVESTIGATION"
+        case hardening = "HARDENING"
+        case monitoring = "MONITORING"
+        case suppressionRule = "SUPPRESSION_RULE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case analysis = "ANALYSIS"
+        case fetch = "FETCH"
+        case metadata = "METADATA"
+        case observation = "OBSERVATION"
+        case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
@@ -700,6 +904,20 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum SummaryFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case string = "STRING"
+        case structured = "STRUCTURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThreatConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case veryHigh = "VERY_HIGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThreatEntitySetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alienVault = "ALIEN_VAULT"
         case fireEye = "FIRE_EYE"
@@ -742,6 +960,13 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimeGranularity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case day = "DAY"
+        case month = "MONTH"
+        case week = "WEEK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backup = "BACKUP"
         case guardduty = "GUARDDUTY"
@@ -780,6 +1005,14 @@ extension GuardDuty {
         case fargateRuntimeMonitoring = "FARGATE_RUNTIME_MONITORING"
         case flowLogs = "FLOW_LOGS"
         case lambdaNetworkLogs = "LAMBDA_NETWORK_LOGS"
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDataActivityDbiProtectionLimitless = "RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS"
+        /// Usage attributed to RDS Data Activity Monitoring for provisioned Amazon RDS databases.
+        case rdsDataActivityDbiProtectionProvisioned = "RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED"
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora Serverless databases.
+        case rdsDataActivityDbiProtectionServerless = "RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS"
+        /// Usage attributed to RDS Protection database infrastructure monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDbiProtectionLimitless = "RDS_DBI_PROTECTION_LIMITLESS"
         case rdsDbiProtectionProvisioned = "RDS_DBI_PROTECTION_PROVISIONED"
         case rdsDbiProtectionServerless = "RDS_DBI_PROTECTION_SERVERLESS"
         case rdsLoginEvents = "RDS_LOGIN_EVENTS"
@@ -795,6 +1028,49 @@ extension GuardDuty {
         case topAccountsByFeature = "TOP_ACCOUNTS_BY_FEATURE"
         case topResources = "TOP_RESOURCES"
         public var description: String { return self.rawValue }
+    }
+
+    public enum SupportingData: AWSDecodableShape, Sendable {
+        /// Details about an assessment that GuardDuty derived from the data. Set for ANALYSIS records.
+        case analysis(AnalysisRecord)
+        /// Details about data that GuardDuty retrieved. Set for FETCH records.
+        case fetch(FetchRecord)
+        /// Operational details about the investigation. Set for METADATA records.
+        case metadata(MetadataRecord)
+        /// Details about a fact that GuardDuty noted about your environment. Set for OBSERVATION records.
+        case observation(ObservationRecord)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .analysis:
+                let value = try container.decode(AnalysisRecord.self, forKey: .analysis)
+                self = .analysis(value)
+            case .fetch:
+                let value = try container.decode(FetchRecord.self, forKey: .fetch)
+                self = .fetch(value)
+            case .metadata:
+                let value = try container.decode(MetadataRecord.self, forKey: .metadata)
+                self = .metadata(value)
+            case .observation:
+                let value = try container.decode(ObservationRecord.self, forKey: .observation)
+                self = .observation(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysis = "analysis"
+            case fetch = "fetch"
+            case metadata = "metadata"
+            case observation = "observation"
+        }
     }
 
     // MARK: Shapes
@@ -977,6 +1253,50 @@ extension GuardDuty {
         }
     }
 
+    public struct AccountAffectedResource: AWSDecodableShape {
+        /// The number of findings associated with the resource.
+        public let findingCount: Int?
+        /// The identifier of the resource.
+        public let identifier: String?
+        /// The type of the resource. Possible values are EC2_INSTANCE, EBS_VOLUME, S3_BUCKET, IAM_ROLE, IAM_USER, IAM_ACCESS_KEY, LAMBDA_FUNCTION, EKS_CLUSTER, ECS_CLUSTER, KUBERNETES_WORKLOAD, RDS_INSTANCE, RDS_DB_USER, and EC2_SECURITY_GROUP.
+        public let type: InvestigationResourceType?
+
+        @inlinable
+        public init(findingCount: Int? = nil, identifier: String? = nil, type: InvestigationResourceType? = nil) {
+            self.findingCount = findingCount
+            self.identifier = identifier
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingCount = "findingCount"
+            case identifier = "identifier"
+            case type = "type"
+        }
+    }
+
+    public struct AccountAnalysis: AWSDecodableShape {
+        /// The resources in the account that are associated with findings.
+        public let affectedResources: [AccountAffectedResource]?
+        /// A summary of the findings in the account.
+        public let findingsSummary: FindingsSummary?
+        /// The findings in the account, mapped to MITRE ATT&amp;CK tactics and techniques.
+        public let tacticCoverage: [TacticCoverage]?
+
+        @inlinable
+        public init(affectedResources: [AccountAffectedResource]? = nil, findingsSummary: FindingsSummary? = nil, tacticCoverage: [TacticCoverage]? = nil) {
+            self.affectedResources = affectedResources
+            self.findingsSummary = findingsSummary
+            self.tacticCoverage = tacticCoverage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedResources = "affectedResources"
+            case findingsSummary = "findingsSummary"
+            case tacticCoverage = "tacticCoverage"
+        }
+    }
+
     public struct AccountDetail: AWSEncodableShape {
         /// The member account ID.
         public let accountId: String?
@@ -1046,6 +1366,52 @@ extension GuardDuty {
         }
     }
 
+    public struct AccountOverview: AWSDecodableShape {
+        /// The Amazon Web Services account ID.
+        public let accountId: String?
+        /// A ranking of member accounts.
+        public let accountRankings: [MemberAccountRanking]?
+        /// The status of the account.
+        public let accountStatus: String?
+        /// The number of accounts that have findings.
+        public let affectedAccountCount: Int64?
+        /// The account ID of the GuardDuty delegated administrator account.
+        public let delegatedAdminAccountId: String?
+        /// The ID of the detector of the account.
+        public let detectorId: String?
+        /// The Amazon Web Services Region of the detector.
+        public let region: String?
+        /// The total number of findings.
+        public let totalFindings: Int64?
+        /// The total number of member accounts.
+        public let totalMemberAccounts: Int64?
+
+        @inlinable
+        public init(accountId: String? = nil, accountRankings: [MemberAccountRanking]? = nil, accountStatus: String? = nil, affectedAccountCount: Int64? = nil, delegatedAdminAccountId: String? = nil, detectorId: String? = nil, region: String? = nil, totalFindings: Int64? = nil, totalMemberAccounts: Int64? = nil) {
+            self.accountId = accountId
+            self.accountRankings = accountRankings
+            self.accountStatus = accountStatus
+            self.affectedAccountCount = affectedAccountCount
+            self.delegatedAdminAccountId = delegatedAdminAccountId
+            self.detectorId = detectorId
+            self.region = region
+            self.totalFindings = totalFindings
+            self.totalMemberAccounts = totalMemberAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case accountRankings = "accountRankings"
+            case accountStatus = "accountStatus"
+            case affectedAccountCount = "affectedAccountCount"
+            case delegatedAdminAccountId = "delegatedAdminAccountId"
+            case detectorId = "detectorId"
+            case region = "region"
+            case totalFindings = "totalFindings"
+            case totalMemberAccounts = "totalMemberAccounts"
+        }
+    }
+
     public struct AccountStatistics: AWSDecodableShape {
         /// The ID of the Amazon Web Services account.
         public let accountId: String?
@@ -1065,6 +1431,24 @@ extension GuardDuty {
             case accountId = "accountId"
             case lastGeneratedAt = "lastGeneratedAt"
             case totalFindings = "totalFindings"
+        }
+    }
+
+    public struct AccountSummary: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
+        /// The number of findings in the account.
+        public let findingCount: Int?
+
+        @inlinable
+        public init(accountId: String? = nil, findingCount: Int? = nil) {
+            self.accountId = accountId
+            self.findingCount = findingCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case findingCount = "findingCount"
         }
     }
 
@@ -1133,6 +1517,24 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case api = "api"
             case type = "type"
+        }
+    }
+
+    public struct ActivityWindow: AWSDecodableShape {
+        /// The timestamp at which the activity was first observed.
+        public let firstSeenAt: Date?
+        /// The timestamp at which the activity was last observed.
+        public let lastSeenAt: Date?
+
+        @inlinable
+        public init(firstSeenAt: Date? = nil, lastSeenAt: Date? = nil) {
+            self.firstSeenAt = firstSeenAt
+            self.lastSeenAt = lastSeenAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstSeenAt = "firstSeenAt"
+            case lastSeenAt = "lastSeenAt"
         }
     }
 
@@ -1264,6 +1666,28 @@ extension GuardDuty {
         }
     }
 
+    public struct AffectedResource: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The identifier of the resource.
+        public let identifier: String?
+        /// The type of the resource. Possible values are EC2_INSTANCE, EBS_VOLUME, S3_BUCKET, IAM_ROLE, IAM_USER, IAM_ACCESS_KEY, LAMBDA_FUNCTION, EKS_CLUSTER, ECS_CLUSTER, KUBERNETES_WORKLOAD, RDS_INSTANCE, RDS_DB_USER, and EC2_SECURITY_GROUP.
+        public let type: InvestigationResourceType?
+
+        @inlinable
+        public init(arn: String? = nil, identifier: String? = nil, type: InvestigationResourceType? = nil) {
+            self.arn = arn
+            self.identifier = identifier
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case identifier = "identifier"
+            case type = "type"
+        }
+    }
+
     public struct AgentDetails: AWSDecodableShape {
         /// Version of the installed GuardDuty security agent.
         public let version: String?
@@ -1275,6 +1699,44 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case version = "version"
+        }
+    }
+
+    public struct AnalysisRecord: AWSDecodableShape {
+        /// An analysis of the findings in an account over time. Set when AnalysisType is TREND or BASELINE.
+        public let accountAnalysis: InvestigationAccountAnalysis?
+        /// The kind of analysis. The value identifies the payload member that can be set: REPUTATION, THREAT_ASSESSMENT, and RDS_THREAT_ASSESSMENT (ThreatAssessment); KUBERNETES_POLICY_VIOLATION (KubernetesPolicyViolation); S3_EXPOSURE, S3_ACTOR_CONTEXT, and S3_PEN_TEST (S3Analysis); PROCESS_LINEAGE (Processes); and TREND and BASELINE (AccountAnalysis).
+        public let analysisType: AnalysisType?
+        /// The threat indicators associated with the analysis, such as an IP address, a domain, or a file hash.
+        public let indicators: [InvestigationIndicator]?
+        /// An assessment of a Kubernetes policy violation. Set when AnalysisType is KUBERNETES_POLICY_VIOLATION.
+        public let kubernetesPolicyViolation: KubernetesPolicyViolation?
+        /// The processes in a process lineage. Set when AnalysisType is PROCESS_LINEAGE.
+        public let processes: [Process]?
+        /// An analysis of Amazon S3 activity or exposure. Set when AnalysisType is S3_EXPOSURE, S3_ACTOR_CONTEXT, or S3_PEN_TEST.
+        public let s3Analysis: S3Analysis?
+        /// A threat assessment. Set when AnalysisType is REPUTATION, THREAT_ASSESSMENT, or RDS_THREAT_ASSESSMENT.
+        public let threatAssessment: InvestigationThreatAssessment?
+
+        @inlinable
+        public init(accountAnalysis: InvestigationAccountAnalysis? = nil, analysisType: AnalysisType? = nil, indicators: [InvestigationIndicator]? = nil, kubernetesPolicyViolation: KubernetesPolicyViolation? = nil, processes: [Process]? = nil, s3Analysis: S3Analysis? = nil, threatAssessment: InvestigationThreatAssessment? = nil) {
+            self.accountAnalysis = accountAnalysis
+            self.analysisType = analysisType
+            self.indicators = indicators
+            self.kubernetesPolicyViolation = kubernetesPolicyViolation
+            self.processes = processes
+            self.s3Analysis = s3Analysis
+            self.threatAssessment = threatAssessment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAnalysis = "accountAnalysis"
+            case analysisType = "analysisType"
+            case indicators = "indicators"
+            case kubernetesPolicyViolation = "kubernetesPolicyViolation"
+            case processes = "processes"
+            case s3Analysis = "s3Analysis"
+            case threatAssessment = "threatAssessment"
         }
     }
 
@@ -1355,6 +1817,32 @@ extension GuardDuty {
             case operation = "operation"
             case service = "service"
             case userAgent = "userAgent"
+        }
+    }
+
+    public struct ArchiveDistribution: AWSDecodableShape {
+        /// The number of archived findings.
+        public let archivedCount: Int64?
+        /// The percentage of findings that are archived, from 0 to 100.
+        public let archivedPercentage: Double?
+        /// The number of unarchived findings.
+        public let unarchivedCount: Int64?
+        /// The percentage of findings that are unarchived, from 0 to 100.
+        public let unarchivedPercentage: Double?
+
+        @inlinable
+        public init(archivedCount: Int64? = nil, archivedPercentage: Double? = nil, unarchivedCount: Int64? = nil, unarchivedPercentage: Double? = nil) {
+            self.archivedCount = archivedCount
+            self.archivedPercentage = archivedPercentage
+            self.unarchivedCount = unarchivedCount
+            self.unarchivedPercentage = unarchivedPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archivedCount = "archivedCount"
+            case archivedPercentage = "archivedPercentage"
+            case unarchivedCount = "unarchivedCount"
+            case unarchivedPercentage = "unarchivedPercentage"
         }
     }
 
@@ -1476,6 +1964,54 @@ extension GuardDuty {
         }
     }
 
+    public struct Attack: AWSDecodableShape {
+        /// The findings associated with the tactic and technique.
+        public let findings: [FindingReference]?
+        /// The MITRE ATT&amp;CK tactic.
+        public let tactic: ThreatReference?
+        /// The MITRE ATT&amp;CK technique.
+        public let technique: ThreatReference?
+        /// The version of the attack framework that the tactic and technique classification uses.
+        public let version: String?
+
+        @inlinable
+        public init(findings: [FindingReference]? = nil, tactic: ThreatReference? = nil, technique: ThreatReference? = nil, version: String? = nil) {
+            self.findings = findings
+            self.tactic = tactic
+            self.technique = technique
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case tactic = "tactic"
+            case technique = "technique"
+            case version = "version"
+        }
+    }
+
+    public struct AttackPhase: AWSDecodableShape {
+        /// The MITRE ATT&amp;CK tactics and techniques observed in this phase, with the findings that are associated with them.
+        public let attacks: [Attack]?
+        /// A description of the activity in this phase.
+        public let description: String?
+        /// The MITRE ATT&amp;CK tactic of the phase. Possible values are Reconnaissance, Resource Development, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command and Control, Exfiltration, and Impact.
+        public let phase: AttackPhaseName?
+
+        @inlinable
+        public init(attacks: [Attack]? = nil, description: String? = nil, phase: AttackPhaseName? = nil) {
+            self.attacks = attacks
+            self.description = description
+            self.phase = phase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attacks = "attacks"
+            case description = "description"
+            case phase = "phase"
+        }
+    }
+
     public struct AutonomousSystem: AWSDecodableShape {
         /// Name associated with the Autonomous System (AS).
         public let name: String?
@@ -1569,6 +2105,28 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case type = "type"
+        }
+    }
+
+    public struct Baseline: AWSDecodableShape {
+        /// The finding types that deviate from normal behavior.
+        public let anomalousFindings: [FindingTypeClassification]?
+        /// The finding types that are consistent with normal behavior.
+        public let baselineFindings: [FindingTypeClassification]?
+        /// The total number of findings.
+        public let totalFindings: Int64?
+
+        @inlinable
+        public init(anomalousFindings: [FindingTypeClassification]? = nil, baselineFindings: [FindingTypeClassification]? = nil, totalFindings: Int64? = nil) {
+            self.anomalousFindings = anomalousFindings
+            self.baselineFindings = baselineFindings
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalousFindings = "anomalousFindings"
+            case baselineFindings = "baselineFindings"
+            case totalFindings = "totalFindings"
         }
     }
 
@@ -2014,6 +2572,112 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
             case startTime = "startTime"
+        }
+    }
+
+    public struct CorrelatedFinding: AWSDecodableShape {
+        /// The reasons why GuardDuty correlated the findings. Possible values are HIGH_SEVERITY, SAME_RESOURCE, and SAME_BEHAVIOR. A value can appear more than once.
+        public let correlationReasons: [CorrelationReason]?
+        /// The number of correlated findings of this type. This value can be greater than the number of IDs in FindingIds.
+        public let count: Int64?
+        /// A sample of the IDs of the findings in the group.
+        public let findingIds: [String]?
+        /// The finding type of the group.
+        public let findingType: String?
+        /// The highest severity score among the findings in the group, from 0 to 10.
+        public let severityMax: Double?
+        /// The behaviors that the findings in the group share with the investigated activity.
+        public let sharedBehaviors: [SharedBehavior]?
+        /// The resources that the findings in the group share with the investigated activity.
+        public let sharedResources: [SharedResource]?
+
+        @inlinable
+        public init(correlationReasons: [CorrelationReason]? = nil, count: Int64? = nil, findingIds: [String]? = nil, findingType: String? = nil, severityMax: Double? = nil, sharedBehaviors: [SharedBehavior]? = nil, sharedResources: [SharedResource]? = nil) {
+            self.correlationReasons = correlationReasons
+            self.count = count
+            self.findingIds = findingIds
+            self.findingType = findingType
+            self.severityMax = severityMax
+            self.sharedBehaviors = sharedBehaviors
+            self.sharedResources = sharedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case correlationReasons = "correlationReasons"
+            case count = "count"
+            case findingIds = "findingIds"
+            case findingType = "findingType"
+            case severityMax = "severityMax"
+            case sharedBehaviors = "sharedBehaviors"
+            case sharedResources = "sharedResources"
+        }
+    }
+
+    public struct Countermeasure: AWSDecodableShape {
+        /// The actions for the defensive tactic.
+        public let actions: [CountermeasureAction]?
+        /// The defensive tactic. Possible values are Isolate, Evict, Restore, Harden, and Detect.
+        public let defenseTactic: DefenseTactic?
+        /// A description of the countermeasure.
+        public let description: String?
+
+        @inlinable
+        public init(actions: [CountermeasureAction]? = nil, defenseTactic: DefenseTactic? = nil, description: String? = nil) {
+            self.actions = actions
+            self.defenseTactic = defenseTactic
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case defenseTactic = "defenseTactic"
+            case description = "description"
+        }
+    }
+
+    public struct CountermeasureAction: AWSDecodableShape {
+        /// The resources that the action applies to.
+        public let affectedResources: [AffectedResource]?
+        /// CLI commands that you can run to carry out the action.
+        public let cliCommands: [String]?
+        /// The defensive technique that the action applies.
+        public let defenseTechnique: String?
+        /// A description of the action.
+        public let description: String?
+        /// The outcome of the action. Possible values are Isolated, Blocked, Deleted, Access Revoked, and Logged.
+        public let disposition: Disposition?
+        /// The numeric identifier of the action's disposition.
+        public let dispositionId: Int?
+        /// The MITRE ATT&amp;CK technique IDs that the action mitigates, such as T1059.004.
+        public let mitigates: [String]?
+        /// The priority of the action. Possible values are IMMEDIATE, SHORT_TERM, and STRATEGIC.
+        public let priority: ActionPriority?
+        /// A short title for the action.
+        public let title: String?
+
+        @inlinable
+        public init(affectedResources: [AffectedResource]? = nil, cliCommands: [String]? = nil, defenseTechnique: String? = nil, description: String? = nil, disposition: Disposition? = nil, dispositionId: Int? = nil, mitigates: [String]? = nil, priority: ActionPriority? = nil, title: String? = nil) {
+            self.affectedResources = affectedResources
+            self.cliCommands = cliCommands
+            self.defenseTechnique = defenseTechnique
+            self.description = description
+            self.disposition = disposition
+            self.dispositionId = dispositionId
+            self.mitigates = mitigates
+            self.priority = priority
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedResources = "affectedResources"
+            case cliCommands = "cliCommands"
+            case defenseTechnique = "defenseTechnique"
+            case description = "description"
+            case disposition = "disposition"
+            case dispositionId = "dispositionId"
+            case mitigates = "mitigates"
+            case priority = "priority"
+            case title = "title"
         }
     }
 
@@ -2835,6 +3499,7 @@ extension GuardDuty {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.destinationProperties?.validate(name: "\(name).destinationProperties")
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -4007,17 +4672,26 @@ extension GuardDuty {
     public struct DestinationProperties: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/
         public let destinationArn: String?
+        /// The 12-digit Amazon Web Services account ID of the account that owns the Amazon S3 bucket specified in the DestinationArn parameter. When you provide this value, GuardDuty verifies that the specified account owns the bucket before it exports findings. If the account ID doesn't match the actual owner of the bucket, GuardDuty doesn't export findings to that bucket. This helps prevent GuardDuty from exporting your findings to a bucket that a different Amazon Web Services account owns (for example, if the original bucket was deleted and its name was later claimed by another account). If you don't specify this value, GuardDuty doesn't perform this verification. GuardDuty strongly recommends that you provide the expected bucket owner when possible. When you update a publishing destination, omitting this field leaves the currently stored value unchanged. This field appears in the response only if it was provided when the publishing destination was created or updated. For more information, see Verifying the Amazon S3 bucket owner in the Amazon GuardDuty User Guide.
+        public let expectedBucketOwner: String?
         /// The ARN of the KMS key to use for encryption.
         public let kmsKeyArn: String?
 
         @inlinable
-        public init(destinationArn: String? = nil, kmsKeyArn: String? = nil) {
+        public init(destinationArn: String? = nil, expectedBucketOwner: String? = nil, kmsKeyArn: String? = nil) {
             self.destinationArn = destinationArn
+            self.expectedBucketOwner = expectedBucketOwner
             self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationArn = "destinationArn"
+            case expectedBucketOwner = "expectedBucketOwner"
             case kmsKeyArn = "kmsKeyArn"
         }
     }
@@ -4037,6 +4711,74 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case anomaly = "anomaly"
             case sequence = "sequence"
+        }
+    }
+
+    public struct DetectionCoverage: AWSDecodableShape {
+        /// A description of the gaps in detection coverage. A record doesn't include both CoverageGaps and KeyObservation.
+        public let coverageGaps: String?
+        /// The foundational data sources, such as CLOUD_TRAIL, DNS_LOGS, and FLOW_LOGS.
+        public let foundationalDataSources: [InvestigationDetectorFeature]?
+        /// A key observation about detection coverage.
+        public let keyObservation: String?
+        /// The protection plans and their status.
+        public let protectionPlans: [ProtectionPlan]?
+
+        @inlinable
+        public init(coverageGaps: String? = nil, foundationalDataSources: [InvestigationDetectorFeature]? = nil, keyObservation: String? = nil, protectionPlans: [ProtectionPlan]? = nil) {
+            self.coverageGaps = coverageGaps
+            self.foundationalDataSources = foundationalDataSources
+            self.keyObservation = keyObservation
+            self.protectionPlans = protectionPlans
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coverageGaps = "coverageGaps"
+            case foundationalDataSources = "foundationalDataSources"
+            case keyObservation = "keyObservation"
+            case protectionPlans = "protectionPlans"
+        }
+    }
+
+    public struct DetectionRuleEc2Requirements: AWSDecodableShape {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon EC2.
+        public let minAgentVersion: String?
+
+        @inlinable
+        public init(minAgentVersion: String? = nil) {
+            self.minAgentVersion = minAgentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minAgentVersion = "minAgentVersion"
+        }
+    }
+
+    public struct DetectionRuleEcsFargateRequirements: AWSDecodableShape {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon ECS with the Fargate launch type.
+        public let minAgentVersion: String?
+
+        @inlinable
+        public init(minAgentVersion: String? = nil) {
+            self.minAgentVersion = minAgentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minAgentVersion = "minAgentVersion"
+        }
+    }
+
+    public struct DetectionRuleEksRequirements: AWSDecodableShape {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon EKS.
+        public let minAgentVersion: String?
+
+        @inlinable
+        public init(minAgentVersion: String? = nil) {
+            self.minAgentVersion = minAgentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minAgentVersion = "minAgentVersion"
         }
     }
 
@@ -4156,6 +4898,42 @@ extension GuardDuty {
         }
     }
 
+    public struct DetectionRuleRuntimeMonitoringDetails: AWSDecodableShape {
+        /// The platforms on which the rule can run. The presence of a platform member indicates that the rule is supported on that platform; the absence of a member indicates that the rule cannot run on that platform at any agent version.
+        public let platforms: DetectionRuleRuntimePlatforms?
+
+        @inlinable
+        public init(platforms: DetectionRuleRuntimePlatforms? = nil) {
+            self.platforms = platforms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platforms = "platforms"
+        }
+    }
+
+    public struct DetectionRuleRuntimePlatforms: AWSDecodableShape {
+        /// The requirements for running the rule on Amazon EC2.
+        public let ec2: DetectionRuleEc2Requirements?
+        /// The requirements for running the rule on Amazon ECS with the Fargate launch type.
+        public let ecsFargate: DetectionRuleEcsFargateRequirements?
+        /// The requirements for running the rule on Amazon EKS.
+        public let eks: DetectionRuleEksRequirements?
+
+        @inlinable
+        public init(ec2: DetectionRuleEc2Requirements? = nil, ecsFargate: DetectionRuleEcsFargateRequirements? = nil, eks: DetectionRuleEksRequirements? = nil) {
+            self.ec2 = ec2
+            self.ecsFargate = ecsFargate
+            self.eks = eks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2 = "ec2"
+            case ecsFargate = "ecsFargate"
+            case eks = "eks"
+        }
+    }
+
     public struct DetectorAdditionalConfiguration: AWSEncodableShape {
         /// Name of the additional configuration.
         public let name: FeatureAdditionalConfiguration?
@@ -4175,6 +4953,8 @@ extension GuardDuty {
     }
 
     public struct DetectorAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public let managedBy: ManagedBy?
         /// Name of the additional configuration.
         public let name: FeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -4183,13 +4963,15 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(managedBy: ManagedBy? = nil, name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -4221,6 +5003,8 @@ extension GuardDuty {
     public struct DetectorFeatureConfigurationResult: AWSDecodableShape {
         /// Additional configuration for a resource.
         public let additionalConfiguration: [DetectorAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the feature that can be enabled for the detector.
         public let name: DetectorFeatureResult?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -4229,8 +5013,9 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, managedBy: ManagedBy? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -4238,6 +5023,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfiguration = "additionalConfiguration"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -4362,6 +5148,70 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct Distribution: AWSDecodableShape {
+        /// The number and percentage of archived and unarchived findings.
+        public let archive: ArchiveDistribution?
+        /// The findings broken down by MITRE ATT&amp;CK tactic.
+        public let attackVectors: [TacticCoverage]?
+        /// The dimension of the breakdown. The value identifies the breakdown that the record describes: SEVERITY (SeverityBreakdown), TYPE (FindingTypes or TopFindingTypes), RESOURCE (Resources), ATTACK_VECTOR (AttackVectors), and ARCHIVE (Archive).
+        public let dimension: DistributionDimension?
+        /// The findings broken down by finding type, with counts and percentages.
+        public let findingTypes: [TypeDistribution]?
+        /// The findings broken down by affected resource.
+        public let resources: [ResourceDistribution]?
+        /// The number of findings at each severity level.
+        public let severityBreakdown: SeverityBreakdown?
+        /// The finding types that have the most findings, with counts.
+        public let topFindingTypes: [FindingTypeCount]?
+        /// The total number of findings in the breakdown.
+        public let totalFindings: Int64?
+
+        @inlinable
+        public init(archive: ArchiveDistribution? = nil, attackVectors: [TacticCoverage]? = nil, dimension: DistributionDimension? = nil, findingTypes: [TypeDistribution]? = nil, resources: [ResourceDistribution]? = nil, severityBreakdown: SeverityBreakdown? = nil, topFindingTypes: [FindingTypeCount]? = nil, totalFindings: Int64? = nil) {
+            self.archive = archive
+            self.attackVectors = attackVectors
+            self.dimension = dimension
+            self.findingTypes = findingTypes
+            self.resources = resources
+            self.severityBreakdown = severityBreakdown
+            self.topFindingTypes = topFindingTypes
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archive = "archive"
+            case attackVectors = "attackVectors"
+            case dimension = "dimension"
+            case findingTypes = "findingTypes"
+            case resources = "resources"
+            case severityBreakdown = "severityBreakdown"
+            case topFindingTypes = "topFindingTypes"
+            case totalFindings = "totalFindings"
+        }
+    }
+
+    public struct DnsContext: AWSDecodableShape {
+        /// The suffix of the domain that was queried.
+        public let domainSuffix: String?
+        /// Other domains that were queried.
+        public let otherDomains: String?
+        /// The DNS resolution history for the domain.
+        public let resolverHistory: String?
+
+        @inlinable
+        public init(domainSuffix: String? = nil, otherDomains: String? = nil, resolverHistory: String? = nil) {
+            self.domainSuffix = domainSuffix
+            self.otherDomains = otherDomains
+            self.resolverHistory = resolverHistory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainSuffix = "domainSuffix"
+            case otherDomains = "otherDomains"
+            case resolverHistory = "resolverHistory"
         }
     }
 
@@ -4872,6 +5722,32 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct Enrichment: AWSDecodableShape {
+        /// The name of the organization that owns the autonomous system number (ASN).
+        public let asnOrg: String?
+        /// The name of the country associated with the activity.
+        public let countryName: String?
+        /// The name of the threat list that contains the indicator.
+        public let threatListName: String?
+        /// The name of the threat.
+        public let threatName: String?
+
+        @inlinable
+        public init(asnOrg: String? = nil, countryName: String? = nil, threatListName: String? = nil, threatName: String? = nil) {
+            self.asnOrg = asnOrg
+            self.countryName = countryName
+            self.threatListName = threatListName
+            self.threatName = threatName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asnOrg = "asnOrg"
+            case countryName = "countryName"
+            case threatListName = "threatListName"
+            case threatName = "threatName"
+        }
+    }
+
     public struct Evidence: AWSDecodableShape {
         /// A list of threat intelligence details related to the evidence.
         public let threatIntelligenceDetails: [ThreatIntelligenceDetail]?
@@ -4901,6 +5777,140 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case issues = "issues"
             case managementType = "managementType"
+        }
+    }
+
+    public struct FetchCriterion: AWSDecodableShape {
+        /// The comparison operator of the condition. Possible values are EQUALS, NOT_EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, and LESS_THAN_OR_EQUAL.
+        public let condition: FetchCriterionCondition?
+        /// The name of the field that the condition applies to.
+        public let field: String?
+        /// The values that the field is compared against. Numeric and Boolean values are represented as strings.
+        public let values: [String]?
+
+        @inlinable
+        public init(condition: FetchCriterionCondition? = nil, field: String? = nil, values: [String]? = nil) {
+            self.condition = condition
+            self.field = field
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "condition"
+            case field = "field"
+            case values = "values"
+        }
+    }
+
+    public struct FetchQuery: AWSDecodableShape {
+        /// The Amazon Web Services account ID that the request was made for.
+        public let accountId: String?
+        /// The filter criteria that GuardDuty applied to the request.
+        public let criteria: [FetchCriterion]?
+        /// The ID of the finding that GuardDuty retrieved.
+        public let findingId: String?
+        /// The finding type whose documentation GuardDuty retrieved.
+        public let findingType: String?
+        /// The threat indicator that GuardDuty looked up, such as an IP address, a domain, or a file hash.
+        public let indicator: String?
+        /// The type of the threat indicator. Possible values are IP, DOMAIN, and FILE.
+        public let indicatorType: InvestigationIndicatorType?
+        /// The maximum number of rows that GuardDuty requested. Valid values are 1 to 1,000.
+        public let rowLimit: Int?
+        /// The time range of the data that GuardDuty requested.
+        public let timeWindow: FetchTimeWindow?
+
+        @inlinable
+        public init(accountId: String? = nil, criteria: [FetchCriterion]? = nil, findingId: String? = nil, findingType: String? = nil, indicator: String? = nil, indicatorType: InvestigationIndicatorType? = nil, rowLimit: Int? = nil, timeWindow: FetchTimeWindow? = nil) {
+            self.accountId = accountId
+            self.criteria = criteria
+            self.findingId = findingId
+            self.findingType = findingType
+            self.indicator = indicator
+            self.indicatorType = indicatorType
+            self.rowLimit = rowLimit
+            self.timeWindow = timeWindow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case criteria = "criteria"
+            case findingId = "findingId"
+            case findingType = "findingType"
+            case indicator = "indicator"
+            case indicatorType = "indicatorType"
+            case rowLimit = "rowLimit"
+            case timeWindow = "timeWindow"
+        }
+    }
+
+    public struct FetchRecord: AWSDecodableShape {
+        /// The kind of data that GuardDuty retrieved. The value determines which members of Query and Result can be set. Possible values:    FINDINGS – GuardDuty findings.    DETECTOR – The configuration of a GuardDuty detector.    REPUTATION – Reputation information about a threat indicator, such as an IP address, a domain, or a file hash.    FINDING_TYPE_DOCUMENTATION – The documentation for a finding type.    CLOUD_TRAIL_RAW_EVENTS – Amazon Web Services CloudTrail events.    RUNTIME_SIGNALS – Runtime signals.    MEMBER_ACCOUNTS – A list of member accounts.
+        public let fetchType: FetchType?
+        /// The request that GuardDuty made. Not every record includes a query.
+        public let query: FetchQuery?
+        /// The data that GuardDuty received in response to the request. Not every record includes a result.
+        public let result: FetchResult?
+
+        @inlinable
+        public init(fetchType: FetchType? = nil, query: FetchQuery? = nil, result: FetchResult? = nil) {
+            self.fetchType = fetchType
+            self.query = query
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fetchType = "fetchType"
+            case query = "query"
+            case result = "result"
+        }
+    }
+
+    public struct FetchResult: AWSDecodableShape {
+        /// The documentation for the finding type that GuardDuty retrieved.
+        public let documentation: FindingTypeDocumentation?
+        /// The configuration of the detector features that GuardDuty retrieved.
+        public let features: [InvestigationDetectorFeatureConfiguration]?
+        /// The identifiers of the items that were returned, such as finding IDs, event IDs, signal IDs, or account IDs, depending on FetchType. The list contains at most 50 identifiers; TotalCount can be larger.
+        public let itemIds: [String]?
+        /// The total number of items that were returned. This value can be greater than the number of identifiers in ItemIds.
+        public let totalCount: Int64?
+        /// The reputation verdict for the threat indicator. Possible values are THREAT, BENIGN, and NEUTRAL. If the lookup returned more than one result, the verdict describes the first result.
+        public let verdict: FetchVerdict?
+
+        @inlinable
+        public init(documentation: FindingTypeDocumentation? = nil, features: [InvestigationDetectorFeatureConfiguration]? = nil, itemIds: [String]? = nil, totalCount: Int64? = nil, verdict: FetchVerdict? = nil) {
+            self.documentation = documentation
+            self.features = features
+            self.itemIds = itemIds
+            self.totalCount = totalCount
+            self.verdict = verdict
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentation = "documentation"
+            case features = "features"
+            case itemIds = "itemIds"
+            case totalCount = "totalCount"
+            case verdict = "verdict"
+        }
+    }
+
+    public struct FetchTimeWindow: AWSDecodableShape {
+        /// The length of the time range, in minutes. Valid values are 1 to 120.
+        public let durationInMinutes: Int?
+        /// The timestamp at which the time range starts.
+        public let startedAt: Date?
+
+        @inlinable
+        public init(durationInMinutes: Int? = nil, startedAt: Date? = nil) {
+            self.durationInMinutes = durationInMinutes
+            self.startedAt = startedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInMinutes = "durationInMinutes"
+            case startedAt = "startedAt"
         }
     }
 
@@ -4985,6 +5995,8 @@ extension GuardDuty {
         public let confidence: Double?
         /// The time and date when the finding was created.
         public let createdAt: String?
+        /// The name of the custom detection rule that generated this finding.
+        public let customDetectionRuleName: String?
         /// The description of the finding.
         public let description: String?
         /// The ID of the finding.
@@ -5007,12 +6019,13 @@ extension GuardDuty {
         public let updatedAt: String?
 
         @inlinable
-        public init(accountId: String? = nil, arn: String? = nil, associatedAttackSequenceArn: String? = nil, confidence: Double? = nil, createdAt: String? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, region: String? = nil, resource: Resource? = nil, schemaVersion: String? = nil, service: Service? = nil, severity: Double? = nil, title: String? = nil, type: String? = nil, updatedAt: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, associatedAttackSequenceArn: String? = nil, confidence: Double? = nil, createdAt: String? = nil, customDetectionRuleName: String? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, region: String? = nil, resource: Resource? = nil, schemaVersion: String? = nil, service: Service? = nil, severity: Double? = nil, title: String? = nil, type: String? = nil, updatedAt: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.associatedAttackSequenceArn = associatedAttackSequenceArn
             self.confidence = confidence
             self.createdAt = createdAt
+            self.customDetectionRuleName = customDetectionRuleName
             self.description = description
             self.id = id
             self.partition = partition
@@ -5032,6 +6045,7 @@ extension GuardDuty {
             case associatedAttackSequenceArn = "associatedAttackSequenceArn"
             case confidence = "confidence"
             case createdAt = "createdAt"
+            case customDetectionRuleName = "customDetectionRuleName"
             case description = "description"
             case id = "id"
             case partition = "partition"
@@ -5063,6 +6077,58 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case criterion = "criterion"
+        }
+    }
+
+    public struct FindingDetail: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account in which the finding was generated.
+        public let accountId: String?
+        /// The time range of the activity that the finding describes.
+        public let activityWindow: ActivityWindow?
+        /// The ID of the finding.
+        public let findingId: String?
+        /// The type of the finding.
+        public let findingType: String?
+        /// The Amazon Web Services Region in which the finding was generated.
+        public let region: String?
+        /// The severity of the finding.
+        public let severity: String?
+
+        @inlinable
+        public init(accountId: String? = nil, activityWindow: ActivityWindow? = nil, findingId: String? = nil, findingType: String? = nil, region: String? = nil, severity: String? = nil) {
+            self.accountId = accountId
+            self.activityWindow = activityWindow
+            self.findingId = findingId
+            self.findingType = findingType
+            self.region = region
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case activityWindow = "activityWindow"
+            case findingId = "findingId"
+            case findingType = "findingType"
+            case region = "region"
+            case severity = "severity"
+        }
+    }
+
+    public struct FindingReference: AWSDecodableShape {
+        /// The type of the finding.
+        public let findingType: String?
+        /// The ID of the finding.
+        public let uid: String?
+
+        @inlinable
+        public init(findingType: String? = nil, uid: String? = nil) {
+            self.findingType = findingType
+            self.uid = uid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingType = "findingType"
+            case uid = "uid"
         }
     }
 
@@ -5111,6 +6177,88 @@ extension GuardDuty {
         }
     }
 
+    public struct FindingTypeClassification: AWSDecodableShape {
+        /// The classification of the finding type.
+        public let classification: String?
+        /// The number of findings of this type.
+        public let count: Int64?
+        /// A description of the classification.
+        public let description: String?
+        /// The finding type.
+        public let findingType: String?
+        /// The percentage of findings that are of this type, from 0 to 100.
+        public let percentage: Double?
+
+        @inlinable
+        public init(classification: String? = nil, count: Int64? = nil, description: String? = nil, findingType: String? = nil, percentage: Double? = nil) {
+            self.classification = classification
+            self.count = count
+            self.description = description
+            self.findingType = findingType
+            self.percentage = percentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case classification = "classification"
+            case count = "count"
+            case description = "description"
+            case findingType = "findingType"
+            case percentage = "percentage"
+        }
+    }
+
+    public struct FindingTypeCount: AWSDecodableShape {
+        /// The number of findings of this type.
+        public let count: Int?
+        /// The finding type.
+        public let findingType: String?
+
+        @inlinable
+        public init(count: Int? = nil, findingType: String? = nil) {
+            self.count = count
+            self.findingType = findingType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case findingType = "findingType"
+        }
+    }
+
+    public struct FindingTypeDocumentation: AWSDecodableShape {
+        /// A short description of the finding type.
+        public let description: String?
+        /// The label that the documentation uses for the GuardDuty capability associated with the finding type. This value isn't a detector feature name.
+        public let feature: String?
+        /// The full description of the finding type.
+        public let fullDescription: String?
+        /// Links to more information about the finding type.
+        public let learnMoreLinks: [String]?
+        /// The recommended steps to remediate the finding type.
+        public let remediation: String?
+        /// The severity of the finding type, as stated in the documentation.
+        public let severity: String?
+
+        @inlinable
+        public init(description: String? = nil, feature: String? = nil, fullDescription: String? = nil, learnMoreLinks: [String]? = nil, remediation: String? = nil, severity: String? = nil) {
+            self.description = description
+            self.feature = feature
+            self.fullDescription = fullDescription
+            self.learnMoreLinks = learnMoreLinks
+            self.remediation = remediation
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case feature = "feature"
+            case fullDescription = "fullDescription"
+            case learnMoreLinks = "learnMoreLinks"
+            case remediation = "remediation"
+            case severity = "severity"
+        }
+    }
+
     public struct FindingTypeStatistics: AWSDecodableShape {
         /// Name of the finding type.
         public let findingType: String?
@@ -5129,6 +6277,32 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case findingType = "findingType"
             case lastGeneratedAt = "lastGeneratedAt"
+            case totalFindings = "totalFindings"
+        }
+    }
+
+    public struct FindingsSummary: AWSDecodableShape {
+        /// The number of findings in each time window.
+        public let byTimeWindow: [TimeWindowGroup]?
+        /// The number of findings at each severity level.
+        public let severityBreakdown: SeverityBreakdown?
+        /// The finding types that have the most findings, with counts.
+        public let topFindingTypes: [FindingTypeCount]?
+        /// The total number of findings.
+        public let totalFindings: Int?
+
+        @inlinable
+        public init(byTimeWindow: [TimeWindowGroup]? = nil, severityBreakdown: SeverityBreakdown? = nil, topFindingTypes: [FindingTypeCount]? = nil, totalFindings: Int? = nil) {
+            self.byTimeWindow = byTimeWindow
+            self.severityBreakdown = severityBreakdown
+            self.topFindingTypes = topFindingTypes
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case byTimeWindow = "byTimeWindow"
+            case severityBreakdown = "severityBreakdown"
+            case topFindingTypes = "topFindingTypes"
             case totalFindings = "totalFindings"
         }
     }
@@ -5750,11 +6924,14 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique identifier of the investigation to retrieve.
         public let investigationId: String
+        /// The format in which to return the investigation summary. Possible values:    STRING – (Default) Returns the summary as text in Summary.    STRUCTURED – Returns a typed summary in SummaryData.   GuardDuty returns a summary only when the investigation status is COMPLETED.
+        public let summaryFormat: SummaryFormat?
 
         @inlinable
-        public init(detectorId: String, investigationId: String) {
+        public init(detectorId: String, investigationId: String, summaryFormat: SummaryFormat? = nil) {
             self.detectorId = detectorId
             self.investigationId = investigationId
+            self.summaryFormat = summaryFormat
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5762,6 +6939,7 @@ extension GuardDuty {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.detectorId, key: "DetectorId")
             request.encodePath(self.investigationId, key: "InvestigationId")
+            request.encodeQuery(self.summaryFormat, key: "summaryFormat")
         }
 
         public func validate(name: String) throws {
@@ -6757,19 +7935,23 @@ extension GuardDuty {
         public let risk: String?
         /// The assessed risk level of the investigated threat. Possible values are Info, Low, Medium, High, and Critical.
         public let riskLevel: RiskLevel?
+        /// Information about what the investigation analyzed, including the investigation type, the finding, account, or organization that was analyzed, and, for ACCOUNT and ORGANIZATION investigations, the time window over which the investigation queried data. Returned only when the investigation status is COMPLETED.
+        public let scope: InvestigationScope?
         /// The timestamp at which the investigation started.
         public let startTime: Date?
         /// The current status of the investigation. Possible values are RUNNING, COMPLETED, and FAILED.
         public let status: InvestigationStatus?
-        /// A structured summary of the investigation findings, including affected resources, threat assessment, and recommended remediation steps.
+        /// A summary of the investigation results as text, up to 262,144 characters. Returned only when the investigation status is COMPLETED. When you set SummaryFormat to STRUCTURED, the summary is returned in SummaryData instead, unless it isn't available in a structured form, in which case it's returned in this field.
         public let summary: String?
+        /// A structured summary of the investigation results. GuardDuty returns this field only when you set SummaryFormat to STRUCTURED, the investigation status is COMPLETED, and the summary is available in a structured form. When this field is returned, Summary isn't returned.
+        public let summaryData: InvestigationSummaryData?
         /// The account that initiated the investigation.
         public let triggeredBy: String?
         /// The natural-language prompt that initiated this investigation.
         public let triggerPrompt: String?
 
         @inlinable
-        public init(cloud: CloudDetails? = nil, confidence: Confidence? = nil, endTime: Date? = nil, error: String? = nil, investigationId: String? = nil, metadata: InvestigationMetadata? = nil, risk: String? = nil, riskLevel: RiskLevel? = nil, startTime: Date? = nil, status: InvestigationStatus? = nil, summary: String? = nil, triggeredBy: String? = nil, triggerPrompt: String? = nil) {
+        public init(cloud: CloudDetails? = nil, confidence: Confidence? = nil, endTime: Date? = nil, error: String? = nil, investigationId: String? = nil, metadata: InvestigationMetadata? = nil, risk: String? = nil, riskLevel: RiskLevel? = nil, scope: InvestigationScope? = nil, startTime: Date? = nil, status: InvestigationStatus? = nil, summary: String? = nil, summaryData: InvestigationSummaryData? = nil, triggeredBy: String? = nil, triggerPrompt: String? = nil) {
             self.cloud = cloud
             self.confidence = confidence
             self.endTime = endTime
@@ -6778,9 +7960,11 @@ extension GuardDuty {
             self.metadata = metadata
             self.risk = risk
             self.riskLevel = riskLevel
+            self.scope = scope
             self.startTime = startTime
             self.status = status
             self.summary = summary
+            self.summaryData = summaryData
             self.triggeredBy = triggeredBy
             self.triggerPrompt = triggerPrompt
         }
@@ -6794,11 +7978,343 @@ extension GuardDuty {
             case metadata = "metadata"
             case risk = "risk"
             case riskLevel = "riskLevel"
+            case scope = "scope"
             case startTime = "startTime"
             case status = "status"
             case summary = "summary"
+            case summaryData = "summaryData"
             case triggeredBy = "triggeredBy"
             case triggerPrompt = "triggerPrompt"
+        }
+    }
+
+    public struct InvestigationAccountAnalysis: AWSDecodableShape {
+        /// A comparison of findings against normal behavior. Set when AnalysisType is BASELINE.
+        public let baseline: Baseline?
+        /// The trend of findings over time. Set when AnalysisType is TREND.
+        public let trend: Trend?
+
+        @inlinable
+        public init(baseline: Baseline? = nil, trend: Trend? = nil) {
+            self.baseline = baseline
+            self.trend = trend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseline = "baseline"
+            case trend = "trend"
+        }
+    }
+
+    public struct InvestigationActor: AWSDecodableShape {
+        /// The access key ID that the identity used.
+        public let accessKeyId: String?
+        /// The ID of the principal.
+        public let principalId: String?
+        /// The user agent that the identity used.
+        public let userAgent: String?
+        /// The name of the user.
+        public let userName: String?
+        /// The type of the identity, such as IAMUser, AssumedRole, or Root.
+        public let userType: String?
+
+        @inlinable
+        public init(accessKeyId: String? = nil, principalId: String? = nil, userAgent: String? = nil, userName: String? = nil, userType: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.principalId = principalId
+            self.userAgent = userAgent
+            self.userName = userName
+            self.userType = userType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case principalId = "principalId"
+            case userAgent = "userAgent"
+            case userName = "userName"
+            case userType = "userType"
+        }
+    }
+
+    public struct InvestigationDetectorFeatureConfiguration: AWSDecodableShape {
+        /// The name of the feature. Possible values are CLOUD_TRAIL, DNS_LOGS, FLOW_LOGS, S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, EKS_RUNTIME_MONITORING, EKS_ADDON_MANAGEMENT, LAMBDA_NETWORK_LOGS, RUNTIME_MONITORING, ECS_FARGATE_AGENT_MANAGEMENT, and EC2_AGENT_MANAGEMENT.
+        public let name: InvestigationDetectorFeature?
+        /// The status of the feature. Possible values are ENABLED and DISABLED.
+        public let status: FeatureStatus?
+        /// The timestamp at which the feature configuration was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(name: InvestigationDetectorFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct InvestigationEc2Instance: AWSDecodableShape {
+        /// The Availability Zone of the instance.
+        public let availabilityZone: String?
+        /// The ID of the Amazon Machine Image (AMI) that was used to launch the instance.
+        public let imageId: String?
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The state of the instance.
+        public let instanceState: String?
+        /// The instance type.
+        public let instanceType: String?
+        /// The timestamp at which the instance was launched.
+        public let launchedAt: Date?
+        /// The private IP address of the instance.
+        public let privateIpAddress: String?
+        /// The public IP address of the instance.
+        public let publicIp: String?
+        /// The ID of the subnet in which the instance runs.
+        public let subnetId: String?
+        /// The ID of the VPC in which the instance runs.
+        public let vpcId: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceState: String? = nil, instanceType: String? = nil, launchedAt: Date? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.imageId = imageId
+            self.instanceId = instanceId
+            self.instanceState = instanceState
+            self.instanceType = instanceType
+            self.launchedAt = launchedAt
+            self.privateIpAddress = privateIpAddress
+            self.publicIp = publicIp
+            self.subnetId = subnetId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case imageId = "imageId"
+            case instanceId = "instanceId"
+            case instanceState = "instanceState"
+            case instanceType = "instanceType"
+            case launchedAt = "launchedAt"
+            case privateIpAddress = "privateIpAddress"
+            case publicIp = "publicIp"
+            case subnetId = "subnetId"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct InvestigationEcsCluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let arn: String?
+        /// The name of the cluster.
+        public let name: String?
+        /// The status of the cluster.
+        public let status: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil, status: String? = nil) {
+            self.arn = arn
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct InvestigationEksCluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let arn: String?
+        /// The name of the cluster.
+        public let name: String?
+        /// The status of the cluster.
+        public let status: String?
+        /// The ID of the VPC that is associated with the cluster.
+        public let vpcId: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil, status: String? = nil, vpcId: String? = nil) {
+            self.arn = arn
+            self.name = name
+            self.status = status
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case status = "status"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct InvestigationFilterCondition: AWSEncodableShape {
+        /// The values to match. An investigation matches if its attribute value equals any of the specified values.
+        public let equals: [String]?
+        /// The values to exclude. An investigation matches only if its attribute value doesn't equal any of the specified values. An investigation that has no value for the attribute also matches.
+        public let notEquals: [String]?
+
+        @inlinable
+        public init(equals: [String]? = nil, notEquals: [String]? = nil) {
+            self.equals = equals
+            self.notEquals = notEquals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equals = "equals"
+            case notEquals = "notEquals"
+        }
+    }
+
+    public struct InvestigationFilterCriteria: AWSEncodableShape {
+        /// A map of investigation attributes to the conditions that they must match. When you specify more than one attribute, an investigation must match the conditions for every attribute. Valid attributes and values:    STATUS – RUNNING, COMPLETED, and FAILED.    RISK_LEVEL – Info, Low, Medium, High, and Critical.    CONFIDENCE – Unknown, Low, Medium, and High.    FINDING_ID – A finding ID, which is 32 lowercase hexadecimal characters.    INVESTIGATION_TYPE – FINDING, ACCOUNT, and ORGANIZATION.   Values are case sensitive. GuardDuty sets the risk level, confidence, and investigation type of an investigation only when the investigation completes.
+        public let criterion: [InvestigationFilterCriterionKey: InvestigationFilterCondition]?
+
+        @inlinable
+        public init(criterion: [InvestigationFilterCriterionKey: InvestigationFilterCondition]? = nil) {
+            self.criterion = criterion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criterion = "criterion"
+        }
+    }
+
+    public struct InvestigationIndicator: AWSDecodableShape {
+        /// The type of the indicator. Possible values are IP, DOMAIN, and FILE.
+        public let type: InvestigationIndicatorType?
+        /// The value of the indicator.
+        public let value: String?
+
+        @inlinable
+        public init(type: InvestigationIndicatorType? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+            case value = "value"
+        }
+    }
+
+    public struct InvestigationKubernetesWorkload: AWSDecodableShape {
+        /// The containers in the workload.
+        public let containers: String?
+        /// The security context of the workload.
+        public let securityContext: String?
+        /// The volumes of the workload.
+        public let volumes: String?
+        /// The name of the workload.
+        public let workloadName: String?
+        /// The type of the workload.
+        public let workloadType: String?
+
+        @inlinable
+        public init(containers: String? = nil, securityContext: String? = nil, volumes: String? = nil, workloadName: String? = nil, workloadType: String? = nil) {
+            self.containers = containers
+            self.securityContext = securityContext
+            self.volumes = volumes
+            self.workloadName = workloadName
+            self.workloadType = workloadType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containers = "containers"
+            case securityContext = "securityContext"
+            case volumes = "volumes"
+            case workloadName = "workloadName"
+            case workloadType = "workloadType"
+        }
+    }
+
+    public struct InvestigationMalwareScan: AWSDecodableShape {
+        /// The scan engines that the scan used.
+        public let engineSources: String?
+        /// The number of files that the scan scanned.
+        public let filesScanned: Int64?
+        /// The amount of data that the scan scanned, in GB.
+        public let gigabytesScanned: Double?
+        /// The highest severity among the threats that the scan detected.
+        public let highestSeverity: String?
+        /// The name of the threat that has the highest severity.
+        public let highestSeverityThreatName: String?
+        /// The number of infected files.
+        public let infectedFileCount: Int64?
+        /// The identifier of the scanned resource.
+        public let resourceIdentifier: String?
+        /// The type of the scanned resource.
+        public let resourceType: String?
+        /// The category of the scan. Possible values are FULL_SCAN and INCREMENTAL_SCAN.
+        public let scanCategory: ScanCategory?
+        /// The timestamp at which the scan completed.
+        public let scanCompletedAt: Date?
+        /// The ID of the scan.
+        public let scanId: String?
+        /// The timestamp at which the scan started.
+        public let scanStartedAt: Date?
+        /// The type of the scan. Possible values are BACKUP_INITIATED, ON_DEMAND, and GUARDDUTY_INITIATED.
+        public let scanType: MalwareProtectionScanType?
+        /// The threats that the scan detected.
+        public let threats: [MalwareThreat]?
+        /// The total number of infected items.
+        public let totalInfectedItems: Int64?
+        /// The ID of the finding that initiated the scan.
+        public let triggerFindingId: String?
+        /// The number of unique threats that the scan detected.
+        public let uniqueThreatCount: Int64?
+        /// The number of volumes that the scan scanned.
+        public let volumesScanned: Int64?
+
+        @inlinable
+        public init(engineSources: String? = nil, filesScanned: Int64? = nil, gigabytesScanned: Double? = nil, highestSeverity: String? = nil, highestSeverityThreatName: String? = nil, infectedFileCount: Int64? = nil, resourceIdentifier: String? = nil, resourceType: String? = nil, scanCategory: ScanCategory? = nil, scanCompletedAt: Date? = nil, scanId: String? = nil, scanStartedAt: Date? = nil, scanType: MalwareProtectionScanType? = nil, threats: [MalwareThreat]? = nil, totalInfectedItems: Int64? = nil, triggerFindingId: String? = nil, uniqueThreatCount: Int64? = nil, volumesScanned: Int64? = nil) {
+            self.engineSources = engineSources
+            self.filesScanned = filesScanned
+            self.gigabytesScanned = gigabytesScanned
+            self.highestSeverity = highestSeverity
+            self.highestSeverityThreatName = highestSeverityThreatName
+            self.infectedFileCount = infectedFileCount
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+            self.scanCategory = scanCategory
+            self.scanCompletedAt = scanCompletedAt
+            self.scanId = scanId
+            self.scanStartedAt = scanStartedAt
+            self.scanType = scanType
+            self.threats = threats
+            self.totalInfectedItems = totalInfectedItems
+            self.triggerFindingId = triggerFindingId
+            self.uniqueThreatCount = uniqueThreatCount
+            self.volumesScanned = volumesScanned
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineSources = "engineSources"
+            case filesScanned = "filesScanned"
+            case gigabytesScanned = "gigabytesScanned"
+            case highestSeverity = "highestSeverity"
+            case highestSeverityThreatName = "highestSeverityThreatName"
+            case infectedFileCount = "infectedFileCount"
+            case resourceIdentifier = "resourceIdentifier"
+            case resourceType = "resourceType"
+            case scanCategory = "scanCategory"
+            case scanCompletedAt = "scanCompletedAt"
+            case scanId = "scanId"
+            case scanStartedAt = "scanStartedAt"
+            case scanType = "scanType"
+            case threats = "threats"
+            case totalInfectedItems = "totalInfectedItems"
+            case triggerFindingId = "triggerFindingId"
+            case uniqueThreatCount = "uniqueThreatCount"
+            case volumesScanned = "volumesScanned"
         }
     }
 
@@ -6817,6 +8333,130 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case product = "product"
             case version = "version"
+        }
+    }
+
+    public struct InvestigationRecord: AWSDecodableShape {
+        /// The timestamp at which GuardDuty created the record.
+        public let createdAt: Date?
+        /// A plain-text explanation of the step. A narrative can span several paragraphs. Not every record includes a narrative.
+        public let narrative: String?
+        /// The unique identifier of the record.
+        public let recordId: String?
+        /// The structured details for the step. The member that is set matches the record type. UPDATE records never include supporting data, and records of other types don't always include it.
+        public let supportingData: SupportingData?
+        /// A short title that describes the step.
+        public let title: String?
+        /// The type of the record. Possible values:    UPDATE – A progress milestone, such as the request that started the investigation or a response from GuardDuty.    FETCH – Data that GuardDuty retrieved for the investigation, such as a finding, a detector configuration, or a list of your member accounts. The record includes what GuardDuty requested and what it received.    OBSERVATION – A fact that GuardDuty noted about your environment, such as the affected resource, the activity on that resource, or your detection coverage.    ANALYSIS – An assessment that GuardDuty derived from the data, such as a threat assessment, a comparison against normal behavior, or a process lineage.    METADATA – Operational details about the investigation itself, such as how long the investigation took.
+        public let type: RecordType?
+
+        @inlinable
+        public init(createdAt: Date? = nil, narrative: String? = nil, recordId: String? = nil, supportingData: SupportingData? = nil, title: String? = nil, type: RecordType? = nil) {
+            self.createdAt = createdAt
+            self.narrative = narrative
+            self.recordId = recordId
+            self.supportingData = supportingData
+            self.title = title
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case narrative = "narrative"
+            case recordId = "recordId"
+            case supportingData = "supportingData"
+            case title = "title"
+            case type = "type"
+        }
+    }
+
+    public struct InvestigationResource: AWSDecodableShape {
+        /// Details that are specific to the type of the resource.
+        public let data: InvestigationResourceData?
+        /// The name of the resource.
+        public let name: String?
+        /// The type of the resource. Possible values are EC2_INSTANCE, EBS_VOLUME, S3_BUCKET, IAM_ROLE, IAM_USER, IAM_ACCESS_KEY, LAMBDA_FUNCTION, EKS_CLUSTER, ECS_CLUSTER, KUBERNETES_WORKLOAD, RDS_INSTANCE, RDS_DB_USER, and EC2_SECURITY_GROUP.
+        public let resourceType: InvestigationResourceType?
+        /// The unique identifier of the resource. This is the Amazon Resource Name (ARN) of the resource when it's available. Otherwise, it's the name or ID of the resource.
+        public let uid: String?
+
+        @inlinable
+        public init(data: InvestigationResourceData? = nil, name: String? = nil, resourceType: InvestigationResourceType? = nil, uid: String? = nil) {
+            self.data = data
+            self.name = name
+            self.resourceType = resourceType
+            self.uid = uid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case name = "name"
+            case resourceType = "resourceType"
+            case uid = "uid"
+        }
+    }
+
+    public struct InvestigationResourceData: AWSDecodableShape {
+        /// Details about an Amazon EC2 instance.
+        public let ec2Instance: InvestigationEc2Instance?
+        /// Details about an Amazon ECS cluster.
+        public let ecsCluster: InvestigationEcsCluster?
+        /// Details about an Amazon EKS cluster.
+        public let eksCluster: InvestigationEksCluster?
+        /// Details about an Lambda function.
+        public let lambdaFunction: LambdaFunction?
+        /// Details about an Amazon RDS database instance.
+        public let rdsDbInstance: RdsDbInstance?
+        /// Details about the user that logged in to an Amazon RDS database instance.
+        public let rdsDbUser: RdsDbUser?
+
+        @inlinable
+        public init(ec2Instance: InvestigationEc2Instance? = nil, ecsCluster: InvestigationEcsCluster? = nil, eksCluster: InvestigationEksCluster? = nil, lambdaFunction: LambdaFunction? = nil, rdsDbInstance: RdsDbInstance? = nil, rdsDbUser: RdsDbUser? = nil) {
+            self.ec2Instance = ec2Instance
+            self.ecsCluster = ecsCluster
+            self.eksCluster = eksCluster
+            self.lambdaFunction = lambdaFunction
+            self.rdsDbInstance = rdsDbInstance
+            self.rdsDbUser = rdsDbUser
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2Instance = "ec2Instance"
+            case ecsCluster = "ecsCluster"
+            case eksCluster = "eksCluster"
+            case lambdaFunction = "lambdaFunction"
+            case rdsDbInstance = "rdsDbInstance"
+            case rdsDbUser = "rdsDbUser"
+        }
+    }
+
+    public struct InvestigationScope: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that the investigation analyzed. Set only when InvestigationType is ACCOUNT.
+        public let accountId: String?
+        /// The ID of the administrator account of the organization that the investigation analyzed. Set only when InvestigationType is ORGANIZATION.
+        public let adminAccountId: String?
+        /// The ID of the finding that the investigation analyzed. Set only when InvestigationType is FINDING.
+        public let findingId: String?
+        /// The type of investigation. Possible values:    FINDING – An investigation of a specific GuardDuty finding.    ACCOUNT – An investigation of the threat posture of an Amazon Web Services account.    ORGANIZATION – An investigation of your organization's threat posture.
+        public let investigationType: InvestigationType?
+        /// The time window over which the investigation queried data, set only when InvestigationType is ACCOUNT or ORGANIZATION.
+        public let queryTimeWindow: QueryTimeWindow?
+
+        @inlinable
+        public init(accountId: String? = nil, adminAccountId: String? = nil, findingId: String? = nil, investigationType: InvestigationType? = nil, queryTimeWindow: QueryTimeWindow? = nil) {
+            self.accountId = accountId
+            self.adminAccountId = adminAccountId
+            self.findingId = findingId
+            self.investigationType = investigationType
+            self.queryTimeWindow = queryTimeWindow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case adminAccountId = "adminAccountId"
+            case findingId = "findingId"
+            case investigationType = "investigationType"
+            case queryTimeWindow = "queryTimeWindow"
         }
     }
 
@@ -6841,12 +8481,18 @@ extension GuardDuty {
     public struct InvestigationSummary: AWSDecodableShape {
         /// The Amazon Web Services account ID associated with the investigation.
         public let accountId: String?
+        /// For an ORGANIZATION investigation, the ID of the administrator account of the organization that the investigation analyzed. GuardDuty sets this field when the investigation completes.
+        public let adminAccountId: String?
         /// The confidence level of the investigation's assessment.
         public let confidence: Confidence?
         /// The timestamp at which the investigation completed.
         public let endTime: Date?
+        /// For a FINDING investigation, the ID of the finding that the investigation analyzed. GuardDuty sets this field when the investigation completes.
+        public let findingId: String?
         /// The unique identifier of the investigation.
         public let investigationId: String?
+        /// The type of investigation. Possible values are FINDING, ACCOUNT, and ORGANIZATION. GuardDuty sets this field when the investigation completes.
+        public let investigationType: InvestigationType?
         /// The assessed risk level of the investigated threat.
         public let riskLevel: RiskLevel?
         /// The timestamp at which the investigation started.
@@ -6859,11 +8505,14 @@ extension GuardDuty {
         public let triggerPrompt: String?
 
         @inlinable
-        public init(accountId: String? = nil, confidence: Confidence? = nil, endTime: Date? = nil, investigationId: String? = nil, riskLevel: RiskLevel? = nil, startTime: Date? = nil, status: InvestigationStatus? = nil, title: String? = nil, triggerPrompt: String? = nil) {
+        public init(accountId: String? = nil, adminAccountId: String? = nil, confidence: Confidence? = nil, endTime: Date? = nil, findingId: String? = nil, investigationId: String? = nil, investigationType: InvestigationType? = nil, riskLevel: RiskLevel? = nil, startTime: Date? = nil, status: InvestigationStatus? = nil, title: String? = nil, triggerPrompt: String? = nil) {
             self.accountId = accountId
+            self.adminAccountId = adminAccountId
             self.confidence = confidence
             self.endTime = endTime
+            self.findingId = findingId
             self.investigationId = investigationId
+            self.investigationType = investigationType
             self.riskLevel = riskLevel
             self.startTime = startTime
             self.status = status
@@ -6873,14 +8522,97 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case adminAccountId = "adminAccountId"
             case confidence = "confidence"
             case endTime = "endTime"
+            case findingId = "findingId"
             case investigationId = "investigationId"
+            case investigationType = "investigationType"
             case riskLevel = "riskLevel"
             case startTime = "startTime"
             case status = "status"
             case title = "title"
             case triggerPrompt = "triggerPrompt"
+        }
+    }
+
+    public struct InvestigationSummaryData: AWSDecodableShape {
+        /// For an ACCOUNT investigation, an analysis of the findings in the investigated account.
+        public let accountAnalysis: AccountAnalysis?
+        /// For a FINDING investigation, actions that you can take to respond to the threat, grouped by defensive tactic.
+        public let countermeasures: [Countermeasure]?
+        /// For a FINDING investigation, the type of the finding that the investigation analyzed.
+        public let findingType: String?
+        /// The key observations of the investigation.
+        public let keyObservations: KeyObservations?
+        /// For an ORGANIZATION investigation, an analysis of the findings across the organization.
+        public let organizationAnalysis: OrganizationAnalysis?
+        /// For an ACCOUNT or ORGANIZATION investigation, the recommended actions.
+        public let recommendations: [Recommendation]?
+        /// For a FINDING investigation, an assessment of the threat, including how the attack progressed.
+        public let threatAssessment: ThreatAssessment?
+
+        @inlinable
+        public init(accountAnalysis: AccountAnalysis? = nil, countermeasures: [Countermeasure]? = nil, findingType: String? = nil, keyObservations: KeyObservations? = nil, organizationAnalysis: OrganizationAnalysis? = nil, recommendations: [Recommendation]? = nil, threatAssessment: ThreatAssessment? = nil) {
+            self.accountAnalysis = accountAnalysis
+            self.countermeasures = countermeasures
+            self.findingType = findingType
+            self.keyObservations = keyObservations
+            self.organizationAnalysis = organizationAnalysis
+            self.recommendations = recommendations
+            self.threatAssessment = threatAssessment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAnalysis = "accountAnalysis"
+            case countermeasures = "countermeasures"
+            case findingType = "findingType"
+            case keyObservations = "keyObservations"
+            case organizationAnalysis = "organizationAnalysis"
+            case recommendations = "recommendations"
+            case threatAssessment = "threatAssessment"
+        }
+    }
+
+    public struct InvestigationThreatAssessment: AWSDecodableShape {
+        /// The assessment of the threat.
+        public let assessment: String?
+        /// Context about how the identity involved in the activity authenticated.
+        public let authenticationContext: String?
+        /// The classification of the threat.
+        public let classification: String?
+        /// An assessment of whether credentials were compromised.
+        public let credentialCompromise: String?
+        /// An assessment of the activity from the IP address in the account.
+        public let ipAccountActivity: String?
+        /// An assessment of Amazon RDS control plane activity that is related to the threat.
+        public let rdsControlPlaneActivity: String?
+        /// Reputation information about a threat indicator. Set when AnalysisType is REPUTATION.
+        public let reputation: Reputation?
+        /// The confidence in the threat assessment. Possible values are VERY_HIGH, HIGH, MEDIUM, and LOW.
+        public let threatConfidence: ThreatConfidence?
+
+        @inlinable
+        public init(assessment: String? = nil, authenticationContext: String? = nil, classification: String? = nil, credentialCompromise: String? = nil, ipAccountActivity: String? = nil, rdsControlPlaneActivity: String? = nil, reputation: Reputation? = nil, threatConfidence: ThreatConfidence? = nil) {
+            self.assessment = assessment
+            self.authenticationContext = authenticationContext
+            self.classification = classification
+            self.credentialCompromise = credentialCompromise
+            self.ipAccountActivity = ipAccountActivity
+            self.rdsControlPlaneActivity = rdsControlPlaneActivity
+            self.reputation = reputation
+            self.threatConfidence = threatConfidence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessment = "assessment"
+            case authenticationContext = "authenticationContext"
+            case classification = "classification"
+            case credentialCompromise = "credentialCompromise"
+            case ipAccountActivity = "ipAccountActivity"
+            case rdsControlPlaneActivity = "rdsControlPlaneActivity"
+            case reputation = "reputation"
+            case threatConfidence = "threatConfidence"
         }
     }
 
@@ -7010,6 +8742,142 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case hash = "hash"
             case nestedItemPath = "nestedItemPath"
+        }
+    }
+
+    public struct KeyObservations: AWSDecodableShape {
+        /// A narrative explanation of the key observations.
+        public let narrative: String?
+        /// The individual key observations.
+        public let observations: [String]?
+        /// A short title for the key observations.
+        public let title: String?
+
+        @inlinable
+        public init(narrative: String? = nil, observations: [String]? = nil, title: String? = nil) {
+            self.narrative = narrative
+            self.observations = observations
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case narrative = "narrative"
+            case observations = "observations"
+            case title = "title"
+        }
+    }
+
+    public struct KubernetesActivity: AWSDecodableShape {
+        /// Details about anomalous Kubernetes behavior.
+        public let anomaly: KubernetesAnomaly?
+        /// Details about a Kubernetes API call.
+        public let apiCall: KubernetesApiCall?
+        /// Additional context about the API call, such as geolocation information.
+        public let enrichment: Enrichment?
+        /// The Kubernetes workload that is associated with the anomaly.
+        public let workload: InvestigationKubernetesWorkload?
+
+        @inlinable
+        public init(anomaly: KubernetesAnomaly? = nil, apiCall: KubernetesApiCall? = nil, enrichment: Enrichment? = nil, workload: InvestigationKubernetesWorkload? = nil) {
+            self.anomaly = anomaly
+            self.apiCall = apiCall
+            self.enrichment = enrichment
+            self.workload = workload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomaly = "anomaly"
+            case apiCall = "apiCall"
+            case enrichment = "enrichment"
+            case workload = "workload"
+        }
+    }
+
+    public struct KubernetesAnomaly: AWSDecodableShape {
+        /// The anomaly score of the behavior.
+        public let anomalyScore: String?
+        /// A description of the normal behavior that the activity was compared against.
+        public let baselineContext: String?
+        /// The period over which the normal behavior was established.
+        public let trainingPeriod: String?
+        /// A description of the unusual behavior.
+        public let unusualBehavior: String?
+
+        @inlinable
+        public init(anomalyScore: String? = nil, baselineContext: String? = nil, trainingPeriod: String? = nil, unusualBehavior: String? = nil) {
+            self.anomalyScore = anomalyScore
+            self.baselineContext = baselineContext
+            self.trainingPeriod = trainingPeriod
+            self.unusualBehavior = unusualBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyScore = "anomalyScore"
+            case baselineContext = "baselineContext"
+            case trainingPeriod = "trainingPeriod"
+            case unusualBehavior = "unusualBehavior"
+        }
+    }
+
+    public struct KubernetesApiCall: AWSDecodableShape {
+        /// The name of the cluster.
+        public let clusterName: String?
+        /// The number of matching API calls.
+        public let eventCount: Int64?
+        /// The Kubernetes namespace of the resource.
+        public let namespace: String?
+        /// The URI of the request.
+        public let requestUri: String?
+        /// The name of the Kubernetes resource.
+        public let resourceName: String?
+        /// The type of the Kubernetes resource.
+        public let resourceType: String?
+        /// The source IP addresses of the API call.
+        public let sourceIps: String?
+        /// The status code of the API call.
+        public let statusCode: Int?
+        /// The user agent of the caller.
+        public let userAgent: String?
+        /// The Kubernetes groups of the caller.
+        public let userGroups: String?
+        /// The ID of the caller.
+        public let userId: String?
+        /// The Kubernetes user name of the caller.
+        public let username: String?
+        /// The Kubernetes API verb, such as get or create.
+        public let verb: String?
+
+        @inlinable
+        public init(clusterName: String? = nil, eventCount: Int64? = nil, namespace: String? = nil, requestUri: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceIps: String? = nil, statusCode: Int? = nil, userAgent: String? = nil, userGroups: String? = nil, userId: String? = nil, username: String? = nil, verb: String? = nil) {
+            self.clusterName = clusterName
+            self.eventCount = eventCount
+            self.namespace = namespace
+            self.requestUri = requestUri
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.sourceIps = sourceIps
+            self.statusCode = statusCode
+            self.userAgent = userAgent
+            self.userGroups = userGroups
+            self.userId = userId
+            self.username = username
+            self.verb = verb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case eventCount = "eventCount"
+            case namespace = "namespace"
+            case requestUri = "requestUri"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case sourceIps = "sourceIPs"
+            case statusCode = "statusCode"
+            case userAgent = "userAgent"
+            case userGroups = "userGroups"
+            case userId = "userId"
+            case username = "username"
+            case verb = "verb"
         }
     }
 
@@ -7177,6 +9045,40 @@ extension GuardDuty {
             case namespace = "namespace"
             case resource = "resource"
             case verb = "verb"
+        }
+    }
+
+    public struct KubernetesPolicyViolation: AWSDecodableShape {
+        /// The Kubernetes resource that the violation affects.
+        public let affectedResource: String?
+        /// How the misconfiguration exposes the resource.
+        public let exposureVector: String?
+        /// The access that the violation grants.
+        public let grantedAccess: String?
+        /// The potential impact of the misconfiguration.
+        public let misconfigurationImpact: String?
+        /// The Kubernetes subject, such as a user, a group, or a service account, that the violation involves.
+        public let subject: String?
+        /// The type of the violation.
+        public let violationType: String?
+
+        @inlinable
+        public init(affectedResource: String? = nil, exposureVector: String? = nil, grantedAccess: String? = nil, misconfigurationImpact: String? = nil, subject: String? = nil, violationType: String? = nil) {
+            self.affectedResource = affectedResource
+            self.exposureVector = exposureVector
+            self.grantedAccess = grantedAccess
+            self.misconfigurationImpact = misconfigurationImpact
+            self.subject = subject
+            self.violationType = violationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedResource = "affectedResource"
+            case exposureVector = "exposureVector"
+            case grantedAccess = "grantedAccess"
+            case misconfigurationImpact = "misconfigurationImpact"
+            case subject = "subject"
+            case violationType = "violationType"
         }
     }
 
@@ -7377,6 +9279,48 @@ extension GuardDuty {
             case role = "role"
             case tags = "tags"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct LambdaFunction: AWSDecodableShape {
+        /// The description of the function.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the function.
+        public let functionArn: String?
+        /// The name of the function.
+        public let functionName: String?
+        /// The version of the function.
+        public let functionVersion: String?
+        /// The revision ID of the function version.
+        public let revisionId: String?
+        /// The execution role of the function.
+        public let role: String?
+        /// The timestamp at which the function was last updated.
+        public let updatedAt: Date?
+        /// A summary of the VPC configuration of the function, as a single string.
+        public let vpcConfigurationSummary: String?
+
+        @inlinable
+        public init(description: String? = nil, functionArn: String? = nil, functionName: String? = nil, functionVersion: String? = nil, revisionId: String? = nil, role: String? = nil, updatedAt: Date? = nil, vpcConfigurationSummary: String? = nil) {
+            self.description = description
+            self.functionArn = functionArn
+            self.functionName = functionName
+            self.functionVersion = functionVersion
+            self.revisionId = revisionId
+            self.role = role
+            self.updatedAt = updatedAt
+            self.vpcConfigurationSummary = vpcConfigurationSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case functionArn = "functionArn"
+            case functionName = "functionName"
+            case functionVersion = "functionVersion"
+            case revisionId = "revisionId"
+            case role = "role"
+            case updatedAt = "updatedAt"
+            case vpcConfigurationSummary = "vpcConfigurationSummary"
         }
     }
 
@@ -7857,9 +9801,91 @@ extension GuardDuty {
         }
     }
 
+    public struct ListInvestigationRecordsRequest: AWSEncodableShape {
+        /// The unique ID of the GuardDuty detector associated with the investigation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The unique identifier of the investigation whose records you want to list.
+        public let investigationId: String?
+        /// The maximum number of records to return in a single response. Valid values are 1 to 50. The default value is 20. A response can contain fewer records than this value, or no records, and still include a NextToken.
+        public let maxResults: Int?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. Use the same InvestigationId and RecordTypes values that you used in the previous request. If you specify this parameter for an investigation whose status isn't COMPLETED, the operation returns a BadRequestException. A NextToken expires 24 hours after it's returned.
+        public let nextToken: String?
+        /// The types of records to return. Possible values are UPDATE, FETCH, OBSERVATION, ANALYSIS, and METADATA. If you don't specify this parameter, GuardDuty returns records of all types.
+        public let recordTypes: [RecordType]?
+
+        @inlinable
+        public init(detectorId: String, investigationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, recordTypes: [RecordType]? = nil) {
+            self.detectorId = detectorId
+            self.investigationId = investigationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recordTypes = recordTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "DetectorId")
+            try container.encodeIfPresent(self.investigationId, forKey: .investigationId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.recordTypes, forKey: .recordTypes)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, max: 64)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, min: 1)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, pattern: "^[a-fA-F0-9\\-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_\\-]+$")
+            try self.validate(self.recordTypes, name: "recordTypes", parent: name, max: 10)
+            try self.validate(self.recordTypes, name: "recordTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigationId = "investigationId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recordTypes = "recordTypes"
+        }
+    }
+
+    public struct ListInvestigationRecordsResponse: AWSDecodableShape {
+        /// The unique identifier of the investigation.
+        public let investigationId: String?
+        /// The pagination parameter to be used on the next list operation to retrieve more items. If this value is absent, there are no more records to retrieve.
+        public let nextToken: String?
+        /// The records for the investigation, in the order that GuardDuty created them, oldest first. This list can contain fewer records than MaxResults, or no records, even when more records are available. To check for more records, use NextToken.
+        public let records: [InvestigationRecord]?
+        /// The current status of the investigation. Possible values are RUNNING, COMPLETED, and FAILED. Records are returned only when the status is COMPLETED. If the status is RUNNING or FAILED, the response contains an empty list of records and no NextToken.
+        public let status: InvestigationStatus?
+
+        @inlinable
+        public init(investigationId: String? = nil, nextToken: String? = nil, records: [InvestigationRecord]? = nil, status: InvestigationStatus? = nil) {
+            self.investigationId = investigationId
+            self.nextToken = nextToken
+            self.records = records
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigationId = "investigationId"
+            case nextToken = "nextToken"
+            case records = "records"
+            case status = "status"
+        }
+    }
+
     public struct ListInvestigationsRequest: AWSEncodableShape {
         /// The unique ID of the GuardDuty detector whose investigations you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
+        /// The criteria used to filter investigations. GuardDuty returns only the investigations that match all of the specified criteria.
+        public let filterCriteria: InvestigationFilterCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -7868,8 +9894,9 @@ extension GuardDuty {
         public let sortCriteria: InvestigationSortCriteria?
 
         @inlinable
-        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: InvestigationSortCriteria? = nil) {
+        public init(detectorId: String, filterCriteria: InvestigationFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: InvestigationSortCriteria? = nil) {
             self.detectorId = detectorId
+            self.filterCriteria = filterCriteria
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortCriteria = sortCriteria
@@ -7879,6 +9906,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.detectorId, key: "DetectorId")
+            try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
@@ -7895,6 +9923,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterCriteria = "filterCriteria"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case sortCriteria = "sortCriteria"
@@ -8701,6 +10730,32 @@ extension GuardDuty {
         }
     }
 
+    public struct MalwareThreat: AWSDecodableShape {
+        /// The number of files that the threat infected.
+        public let infectedFileCount: Int64?
+        /// The name of the threat.
+        public let name: String?
+        /// Examples of files that the threat infected.
+        public let sampleFiles: String?
+        /// The severity of the threat.
+        public let severity: String?
+
+        @inlinable
+        public init(infectedFileCount: Int64? = nil, name: String? = nil, sampleFiles: String? = nil, severity: String? = nil) {
+            self.infectedFileCount = infectedFileCount
+            self.name = name
+            self.sampleFiles = sampleFiles
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infectedFileCount = "infectedFileCount"
+            case name = "name"
+            case sampleFiles = "sampleFiles"
+            case severity = "severity"
+        }
+    }
+
     public struct Master: AWSDecodableShape {
         /// The ID of the account used as the administrator account.
         public let accountId: String?
@@ -8769,6 +10824,36 @@ extension GuardDuty {
         }
     }
 
+    public struct MemberAccountRanking: AWSDecodableShape {
+        /// The Amazon Web Services account ID of the member account.
+        public let accountId: String?
+        /// The number of findings in the account.
+        public let findingCount: Int64?
+        /// The position of the account in the ranking.
+        public let rank: Int?
+        /// The assessed risk level of the account. Possible values are Info, Low, Medium, High, and Critical.
+        public let riskLevel: RiskLevel?
+        /// The reason for the assessed risk level.
+        public let riskRationale: String?
+
+        @inlinable
+        public init(accountId: String? = nil, findingCount: Int64? = nil, rank: Int? = nil, riskLevel: RiskLevel? = nil, riskRationale: String? = nil) {
+            self.accountId = accountId
+            self.findingCount = findingCount
+            self.rank = rank
+            self.riskLevel = riskLevel
+            self.riskRationale = riskRationale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case findingCount = "findingCount"
+            case rank = "rank"
+            case riskLevel = "riskLevel"
+            case riskRationale = "riskRationale"
+        }
+    }
+
     public struct MemberAdditionalConfiguration: AWSEncodableShape {
         /// Name of the additional configuration.
         public let name: OrgFeatureAdditionalConfiguration?
@@ -8788,6 +10873,8 @@ extension GuardDuty {
     }
 
     public struct MemberAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the additional configuration that is set for the member account.
         public let name: OrgFeatureAdditionalConfiguration?
         /// Indicates the status of the additional configuration that is set for the member account.
@@ -8796,13 +10883,15 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(managedBy: ManagedBy? = nil, name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -8864,6 +10953,8 @@ extension GuardDuty {
     public struct MemberFeaturesConfigurationResult: AWSDecodableShape {
         /// Indicates the additional configuration of the feature that is configured for the member account.
         public let additionalConfiguration: [MemberAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the feature that is enabled for the detector.
         public let name: OrgFeature?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -8872,8 +10963,9 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, managedBy: ManagedBy? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -8881,9 +10973,24 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfiguration = "additionalConfiguration"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct MetadataRecord: AWSDecodableShape {
+        /// The total time that the investigation took, in milliseconds.
+        public let totalTimeMilliseconds: Int64?
+
+        @inlinable
+        public init(totalTimeMilliseconds: Int64? = nil) {
+            self.totalTimeMilliseconds = totalTimeMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalTimeMilliseconds = "totalTimeMilliseconds"
         }
     }
 
@@ -8898,6 +11005,102 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case modelId = "modelId"
+        }
+    }
+
+    public struct NetworkActivity: AWSDecodableShape {
+        /// Details about how the network activity deviates from normal behavior.
+        public let anomaly: NetworkAnomaly?
+        /// Indicates whether the network connection was blocked.
+        public let blocked: String?
+        /// Counts that describe the network activity, such as the number of requests or connection attempts.
+        public let counts: NetworkCounts?
+        /// The direction of the network connection, such as inbound or outbound.
+        public let direction: String?
+        /// DNS details about the network activity.
+        public let dns: DnsContext?
+        /// Additional context about the network activity, such as geolocation and threat intelligence information.
+        public let enrichment: Enrichment?
+        /// The method that the network activity used.
+        public let method: String?
+        /// The platform on which the network activity was observed.
+        public let platform: String?
+        /// The ports that the network activity involved.
+        public let ports: NetworkPorts?
+        /// The network protocol of the activity.
+        public let `protocol`: String?
+        /// The amount of data that the network activity transferred.
+        public let traffic: NetworkTraffic?
+
+        @inlinable
+        public init(anomaly: NetworkAnomaly? = nil, blocked: String? = nil, counts: NetworkCounts? = nil, direction: String? = nil, dns: DnsContext? = nil, enrichment: Enrichment? = nil, method: String? = nil, platform: String? = nil, ports: NetworkPorts? = nil, protocol: String? = nil, traffic: NetworkTraffic? = nil) {
+            self.anomaly = anomaly
+            self.blocked = blocked
+            self.counts = counts
+            self.direction = direction
+            self.dns = dns
+            self.enrichment = enrichment
+            self.method = method
+            self.platform = platform
+            self.ports = ports
+            self.`protocol` = `protocol`
+            self.traffic = traffic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomaly = "anomaly"
+            case blocked = "blocked"
+            case counts = "counts"
+            case direction = "direction"
+            case dns = "dns"
+            case enrichment = "enrichment"
+            case method = "method"
+            case platform = "platform"
+            case ports = "ports"
+            case `protocol` = "protocol"
+            case traffic = "traffic"
+        }
+    }
+
+    public struct NetworkAnomaly: AWSDecodableShape {
+        /// The amount of data that is typical for the normal behavior.
+        public let baselineBytes: String?
+        /// How much the activity deviates from normal behavior.
+        public let deviation: String?
+        /// The duration of the activity.
+        public let duration: String?
+        /// The number of days of activity that the normal behavior is based on.
+        public let profileAgeDays: Int?
+        /// The Region of the remote endpoint.
+        public let remoteRegion: String?
+        /// The remote service that the activity involved.
+        public let remoteService: String?
+        /// The ratio of connection attempts that were reset.
+        public let resetRatio: String?
+        /// The number of target hosts.
+        public let targetHostCount: Int64?
+
+        @inlinable
+        public init(baselineBytes: String? = nil, deviation: String? = nil, duration: String? = nil, profileAgeDays: Int? = nil, remoteRegion: String? = nil, remoteService: String? = nil, resetRatio: String? = nil, targetHostCount: Int64? = nil) {
+            self.baselineBytes = baselineBytes
+            self.deviation = deviation
+            self.duration = duration
+            self.profileAgeDays = profileAgeDays
+            self.remoteRegion = remoteRegion
+            self.remoteService = remoteService
+            self.resetRatio = resetRatio
+            self.targetHostCount = targetHostCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineBytes = "baselineBytes"
+            case deviation = "deviation"
+            case duration = "duration"
+            case profileAgeDays = "profileAgeDays"
+            case remoteRegion = "remoteRegion"
+            case remoteService = "remoteService"
+            case resetRatio = "resetRatio"
+            case targetHostCount = "targetHostCount"
         }
     }
 
@@ -8954,6 +11157,32 @@ extension GuardDuty {
             case `protocol` = "protocol"
             case remoteIpDetails = "remoteIpDetails"
             case remotePortDetails = "remotePortDetails"
+        }
+    }
+
+    public struct NetworkCounts: AWSDecodableShape {
+        /// The number of requests.
+        public let requestCount: Int64?
+        /// The number of connection attempts that were reset.
+        public let resetAttempts: Int64?
+        /// The number of connection attempts that were suspicious.
+        public let suspiciousAttempts: Int64?
+        /// The total number of connection attempts.
+        public let totalAttempts: Int64?
+
+        @inlinable
+        public init(requestCount: Int64? = nil, resetAttempts: Int64? = nil, suspiciousAttempts: Int64? = nil, totalAttempts: Int64? = nil) {
+            self.requestCount = requestCount
+            self.resetAttempts = resetAttempts
+            self.suspiciousAttempts = suspiciousAttempts
+            self.totalAttempts = totalAttempts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestCount = "requestCount"
+            case resetAttempts = "resetAttempts"
+            case suspiciousAttempts = "suspiciousAttempts"
+            case totalAttempts = "totalAttempts"
         }
     }
 
@@ -9071,6 +11300,132 @@ extension GuardDuty {
         }
     }
 
+    public struct NetworkPorts: AWSDecodableShape {
+        /// The number of ports that the activity involved.
+        public let portCount: Int64?
+        /// The ports that the activity involved.
+        public let ports: String?
+        /// The ports that the activity used.
+        public let portsUsed: String?
+        /// The port on the remote host.
+        public let remotePort: String?
+        /// The port of the DNS resolver.
+        public let resolverPort: String?
+        /// The port on the target of the activity.
+        public let targetPort: String?
+
+        @inlinable
+        public init(portCount: Int64? = nil, ports: String? = nil, portsUsed: String? = nil, remotePort: String? = nil, resolverPort: String? = nil, targetPort: String? = nil) {
+            self.portCount = portCount
+            self.ports = ports
+            self.portsUsed = portsUsed
+            self.remotePort = remotePort
+            self.resolverPort = resolverPort
+            self.targetPort = targetPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portCount = "portCount"
+            case ports = "ports"
+            case portsUsed = "portsUsed"
+            case remotePort = "remotePort"
+            case resolverPort = "resolverPort"
+            case targetPort = "targetPort"
+        }
+    }
+
+    public struct NetworkTraffic: AWSDecodableShape {
+        /// The number of bytes received.
+        public let bytesReceived: Int64?
+        /// The number of bytes sent.
+        public let bytesSent: Int64?
+
+        @inlinable
+        public init(bytesReceived: Int64? = nil, bytesSent: Int64? = nil) {
+            self.bytesReceived = bytesReceived
+            self.bytesSent = bytesSent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesReceived = "bytesReceived"
+            case bytesSent = "bytesSent"
+        }
+    }
+
+    public struct ObservationRecord: AWSDecodableShape {
+        /// Overview information about an account. Set when ObservationType is ACCOUNT_OVERVIEW.
+        public let accountOverview: AccountOverview?
+        /// Details about your detection coverage. Set when ObservationType is DETECTION_COVERAGE.
+        public let detectionCoverage: DetectionCoverage?
+        /// A breakdown of findings along one dimension. Set when ObservationType is DISTRIBUTION.
+        public let distribution: Distribution?
+        /// Details about a GuardDuty finding. Set when ObservationType is FINDING_DETAIL.
+        public let findingDetail: FindingDetail?
+        /// The threat indicators associated with the observation, such as an IP address, a domain, or a file hash.
+        public let indicators: [InvestigationIndicator]?
+        /// Details about Kubernetes activity. Set when ObservationType is KUBERNETES_ACTIVITY.
+        public let kubernetesActivity: KubernetesActivity?
+        /// Details about a malware scan. Set when ObservationType is MALWARE_SCAN.
+        public let malwareScan: InvestigationMalwareScan?
+        /// Details about network activity. Set when ObservationType is NETWORK_ACTIVITY.
+        public let networkActivity: NetworkActivity?
+        /// The kind of observation. The value identifies the payload member that can be set: FINDING_DETAIL (FindingDetail), RESOURCE (Resource), NETWORK_ACTIVITY (NetworkActivity), RDS_LOGIN_ACTIVITY (RdsLoginActivity), S3_ACTIVITY (S3Activity), KUBERNETES_ACTIVITY (KubernetesActivity), MALWARE_SCAN (MalwareScan), RELATED_FINDINGS (RelatedFindings), DETECTION_COVERAGE (DetectionCoverage), ACCOUNT_OVERVIEW (AccountOverview), RECOMMENDATION (Recommendations), RUNTIME_SIGNALS (RuntimeSignals), DISTRIBUTION (Distribution), and REPRESENTATIVE_RESOURCE (RepresentativeResources).
+        public let observationType: ObservationType?
+        /// Details about login activity on an Amazon RDS database. Set when ObservationType is RDS_LOGIN_ACTIVITY.
+        public let rdsLoginActivity: RdsLoginActivity?
+        /// Recommended actions. Set when ObservationType is RECOMMENDATION.
+        public let recommendations: [Recommendation]?
+        /// Details about findings that are related to the investigated activity. Set when ObservationType is RELATED_FINDINGS.
+        public let relatedFindings: RelatedFindings?
+        /// Representative findings for the affected resources, one finding for each resource. Set when ObservationType is REPRESENTATIVE_RESOURCE.
+        public let representativeResources: [RepresentativeFinding]?
+        /// Details about an affected resource. Set when ObservationType is RESOURCE.
+        public let resource: InvestigationResource?
+        /// A summary of runtime signals. Set when ObservationType is RUNTIME_SIGNALS.
+        public let runtimeSignals: RuntimeSignals?
+        /// Details about Amazon S3 activity. Set when ObservationType is S3_ACTIVITY.
+        public let s3Activity: S3Activity?
+
+        @inlinable
+        public init(accountOverview: AccountOverview? = nil, detectionCoverage: DetectionCoverage? = nil, distribution: Distribution? = nil, findingDetail: FindingDetail? = nil, indicators: [InvestigationIndicator]? = nil, kubernetesActivity: KubernetesActivity? = nil, malwareScan: InvestigationMalwareScan? = nil, networkActivity: NetworkActivity? = nil, observationType: ObservationType? = nil, rdsLoginActivity: RdsLoginActivity? = nil, recommendations: [Recommendation]? = nil, relatedFindings: RelatedFindings? = nil, representativeResources: [RepresentativeFinding]? = nil, resource: InvestigationResource? = nil, runtimeSignals: RuntimeSignals? = nil, s3Activity: S3Activity? = nil) {
+            self.accountOverview = accountOverview
+            self.detectionCoverage = detectionCoverage
+            self.distribution = distribution
+            self.findingDetail = findingDetail
+            self.indicators = indicators
+            self.kubernetesActivity = kubernetesActivity
+            self.malwareScan = malwareScan
+            self.networkActivity = networkActivity
+            self.observationType = observationType
+            self.rdsLoginActivity = rdsLoginActivity
+            self.recommendations = recommendations
+            self.relatedFindings = relatedFindings
+            self.representativeResources = representativeResources
+            self.resource = resource
+            self.runtimeSignals = runtimeSignals
+            self.s3Activity = s3Activity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountOverview = "accountOverview"
+            case detectionCoverage = "detectionCoverage"
+            case distribution = "distribution"
+            case findingDetail = "findingDetail"
+            case indicators = "indicators"
+            case kubernetesActivity = "kubernetesActivity"
+            case malwareScan = "malwareScan"
+            case networkActivity = "networkActivity"
+            case observationType = "observationType"
+            case rdsLoginActivity = "rdsLoginActivity"
+            case recommendations = "recommendations"
+            case relatedFindings = "relatedFindings"
+            case representativeResources = "representativeResources"
+            case resource = "resource"
+            case runtimeSignals = "runtimeSignals"
+            case s3Activity = "s3Activity"
+        }
+    }
+
     public struct Observations: AWSDecodableShape {
         /// The numeric values that were unusual.
         public let number: [Int64]?
@@ -9086,6 +11441,32 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case number = "number"
             case text = "text"
+        }
+    }
+
+    public struct ObservedFindingType: AWSDecodableShape {
+        /// The number of findings of this type.
+        public let count: Int64?
+        /// The finding type.
+        public let findingType: String?
+        /// The highest severity score among the findings of this type, from 0 to 10.
+        public let severityMax: Double?
+        /// The resources that the findings of this type share with the investigated activity.
+        public let sharedResources: [SharedResource]?
+
+        @inlinable
+        public init(count: Int64? = nil, findingType: String? = nil, severityMax: Double? = nil, sharedResources: [SharedResource]? = nil) {
+            self.count = count
+            self.findingType = findingType
+            self.severityMax = severityMax
+            self.sharedResources = sharedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case findingType = "findingType"
+            case severityMax = "severityMax"
+            case sharedResources = "sharedResources"
         }
     }
 
@@ -9148,6 +11529,24 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case autoEnable = "autoEnable"
             case name = "name"
+        }
+    }
+
+    public struct OrganizationAnalysis: AWSDecodableShape {
+        /// The accounts in the organization that have findings, with the number of findings in each.
+        public let accountBreakdown: [AccountSummary]?
+        /// A summary of the findings across the organization.
+        public let findingsSummary: OrganizationFindingsSummary?
+
+        @inlinable
+        public init(accountBreakdown: [AccountSummary]? = nil, findingsSummary: OrganizationFindingsSummary? = nil) {
+            self.accountBreakdown = accountBreakdown
+            self.findingsSummary = findingsSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountBreakdown = "accountBreakdown"
+            case findingsSummary = "findingsSummary"
         }
     }
 
@@ -9322,6 +11721,40 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case enabledAccountsCount = "enabledAccountsCount"
             case name = "name"
+        }
+    }
+
+    public struct OrganizationFindingsSummary: AWSDecodableShape {
+        /// The number of accounts that have findings.
+        public let affectedAccountCount: Int?
+        /// The number of findings in each time window.
+        public let byTimeWindow: [TimeWindowGroup]?
+        /// The number of findings at each severity level across the organization.
+        public let severityBreakdown: SeverityBreakdown?
+        /// The finding types that have the most findings, with counts.
+        public let topFindingTypes: [FindingTypeCount]?
+        /// The total number of accounts in the organization.
+        public let totalAccountCount: Int?
+        /// The total number of findings across the organization.
+        public let totalFindings: Int?
+
+        @inlinable
+        public init(affectedAccountCount: Int? = nil, byTimeWindow: [TimeWindowGroup]? = nil, severityBreakdown: SeverityBreakdown? = nil, topFindingTypes: [FindingTypeCount]? = nil, totalAccountCount: Int? = nil, totalFindings: Int? = nil) {
+            self.affectedAccountCount = affectedAccountCount
+            self.byTimeWindow = byTimeWindow
+            self.severityBreakdown = severityBreakdown
+            self.topFindingTypes = topFindingTypes
+            self.totalAccountCount = totalAccountCount
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedAccountCount = "affectedAccountCount"
+            case byTimeWindow = "byTimeWindow"
+            case severityBreakdown = "severityBreakdown"
+            case topFindingTypes = "topFindingTypes"
+            case totalAccountCount = "totalAccountCount"
+            case totalFindings = "totalFindings"
         }
     }
 
@@ -9585,6 +12018,36 @@ extension GuardDuty {
         }
     }
 
+    public struct Process: AWSDecodableShape {
+        /// The findings associated with this process.
+        public let findings: [FindingReference]?
+        /// The name of the process.
+        public let name: String?
+        /// The unique identifier of the parent process. Not set for the root process.
+        public let parentUuid: String?
+        /// The path of the process executable.
+        public let path: String?
+        /// The unique identifier of the process.
+        public let uuid: String?
+
+        @inlinable
+        public init(findings: [FindingReference]? = nil, name: String? = nil, parentUuid: String? = nil, path: String? = nil, uuid: String? = nil) {
+            self.findings = findings
+            self.name = name
+            self.parentUuid = parentUuid
+            self.path = path
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case name = "name"
+            case parentUuid = "parentUuid"
+            case path = "path"
+            case uuid = "uuid"
+        }
+    }
+
     public struct ProcessDetails: AWSDecodableShape {
         /// The effective user ID of the user that executed the process.
         public let euid: Int?
@@ -9683,6 +12146,24 @@ extension GuardDuty {
         }
     }
 
+    public struct ProtectionPlan: AWSDecodableShape {
+        /// The name of the protection plan. Possible values are CLOUD_TRAIL, DNS_LOGS, FLOW_LOGS, S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, EKS_RUNTIME_MONITORING, EKS_ADDON_MANAGEMENT, LAMBDA_NETWORK_LOGS, RUNTIME_MONITORING, ECS_FARGATE_AGENT_MANAGEMENT, and EC2_AGENT_MANAGEMENT.
+        public let name: InvestigationDetectorFeature?
+        /// The status of the protection plan. Possible values are ENABLED and DISABLED.
+        public let status: FeatureStatus?
+
+        @inlinable
+        public init(name: InvestigationDetectorFeature? = nil, status: FeatureStatus? = nil) {
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct PublicAccess: AWSDecodableShape {
         /// Describes the effective permission on this bucket after factoring all attached policies.
         public let effectivePermission: String?
@@ -9727,6 +12208,58 @@ extension GuardDuty {
         }
     }
 
+    public struct QueryTimeWindow: AWSDecodableShape {
+        /// The timestamp at which the time window ends.
+        public let endTime: Date?
+        /// The timestamp at which the time window starts.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct RdsDbInstance: AWSDecodableShape {
+        /// The identifier of the database cluster that contains the instance.
+        public let dbClusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) of the database instance.
+        public let dbInstanceArn: String?
+        /// The identifier of the database instance.
+        public let dbInstanceIdentifier: String?
+        /// The unique resource ID of the database instance.
+        public let dbiResourceId: String?
+        /// The database engine of the instance.
+        public let engine: String?
+        /// The version of the database engine.
+        public let engineVersion: String?
+
+        @inlinable
+        public init(dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, engine: String? = nil, engineVersion: String? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceArn = dbInstanceArn
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbiResourceId = dbiResourceId
+            self.engine = engine
+            self.engineVersion = engineVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterIdentifier = "dbClusterIdentifier"
+            case dbInstanceArn = "dbInstanceArn"
+            case dbInstanceIdentifier = "dbInstanceIdentifier"
+            case dbiResourceId = "dbiResourceId"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+        }
+    }
+
     public struct RdsDbInstanceDetails: AWSDecodableShape {
         /// The identifier of the database cluster that contains the database instance ID involved in the finding.
         public let dbClusterIdentifier: String?
@@ -9762,6 +12295,36 @@ extension GuardDuty {
             case engine = "engine"
             case engineVersion = "engineVersion"
             case tags = "tags"
+        }
+    }
+
+    public struct RdsDbUser: AWSDecodableShape {
+        /// The name of the application that was used to log in.
+        public let application: String?
+        /// The authentication method that the user used.
+        public let authMethod: String?
+        /// The name of the database that the user logged in to.
+        public let database: String?
+        /// The version of Secure Sockets Layer (SSL) that the connection used.
+        public let ssl: String?
+        /// The user name that was used to log in.
+        public let user: String?
+
+        @inlinable
+        public init(application: String? = nil, authMethod: String? = nil, database: String? = nil, ssl: String? = nil, user: String? = nil) {
+            self.application = application
+            self.authMethod = authMethod
+            self.database = database
+            self.ssl = ssl
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case authMethod = "authMethod"
+            case database = "database"
+            case ssl = "ssl"
+            case user = "user"
         }
     }
 
@@ -9833,6 +12396,40 @@ extension GuardDuty {
         }
     }
 
+    public struct RdsLoginActivity: AWSDecodableShape {
+        /// The time range of the login activity.
+        public let activityWindow: ActivityWindow?
+        /// An explanation of how the login activity deviates from normal behavior.
+        public let anomalyContext: String?
+        /// Additional context about the login activity, such as geolocation information.
+        public let enrichment: Enrichment?
+        /// The number of login attempts.
+        public let loginCount: Int64?
+        /// The outcome of the login attempts.
+        public let outcome: String?
+        /// The rate of the login attempts.
+        public let rate: String?
+
+        @inlinable
+        public init(activityWindow: ActivityWindow? = nil, anomalyContext: String? = nil, enrichment: Enrichment? = nil, loginCount: Int64? = nil, outcome: String? = nil, rate: String? = nil) {
+            self.activityWindow = activityWindow
+            self.anomalyContext = anomalyContext
+            self.enrichment = enrichment
+            self.loginCount = loginCount
+            self.outcome = outcome
+            self.rate = rate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityWindow = "activityWindow"
+            case anomalyContext = "anomalyContext"
+            case enrichment = "enrichment"
+            case loginCount = "loginCount"
+            case outcome = "outcome"
+            case rate = "rate"
+        }
+    }
+
     public struct RdsLoginAttemptAction: AWSDecodableShape {
         /// Indicates the login attributes used in the login attempt.
         public let loginAttributes: [LoginAttribute]?
@@ -9847,6 +12444,36 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case loginAttributes = "LoginAttributes"
             case remoteIpDetails = "remoteIpDetails"
+        }
+    }
+
+    public struct Recommendation: AWSDecodableShape {
+        /// The category of the recommendation. Possible values are ENABLE_PROTECTION, FURTHER_INVESTIGATION, SUPPRESSION_RULE, HARDENING, and MONITORING.
+        public let category: RecommendationCategory?
+        /// CLI commands that you can run to carry out the recommendation.
+        public let cliCommands: [String]?
+        /// The priority of the recommendation. Possible values are IMMEDIATE, SHORT_TERM, and STRATEGIC.
+        public let priority: ActionPriority?
+        /// The reason for the recommendation.
+        public let rationale: String?
+        /// A short title for the recommendation.
+        public let title: String?
+
+        @inlinable
+        public init(category: RecommendationCategory? = nil, cliCommands: [String]? = nil, priority: ActionPriority? = nil, rationale: String? = nil, title: String? = nil) {
+            self.category = category
+            self.cliCommands = cliCommands
+            self.priority = priority
+            self.rationale = rationale
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case cliCommands = "cliCommands"
+            case priority = "priority"
+            case rationale = "rationale"
+            case title = "title"
         }
     }
 
@@ -9886,6 +12513,24 @@ extension GuardDuty {
             case backupVaultName = "backupVaultName"
             case continuousScanDetails = "continuousScanDetails"
             case recoveryPointArn = "recoveryPointArn"
+        }
+    }
+
+    public struct RelatedFindings: AWSDecodableShape {
+        /// The findings that GuardDuty correlated with the investigated activity, grouped by finding type.
+        public let correlated: [CorrelatedFinding]?
+        /// Other finding types that GuardDuty observed, with counts. These entries don't include finding IDs.
+        public let observed: [ObservedFindingType]?
+
+        @inlinable
+        public init(correlated: [CorrelatedFinding]? = nil, observed: [ObservedFindingType]? = nil) {
+            self.correlated = correlated
+            self.observed = observed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case correlated = "correlated"
+            case observed = "observed"
         }
     }
 
@@ -9960,6 +12605,62 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case port = "port"
             case portName = "portName"
+        }
+    }
+
+    public struct RepresentativeFinding: AWSDecodableShape {
+        /// The number of findings for the resource.
+        public let findingCount: Int64?
+        /// The ID of the representative finding.
+        public let findingId: String?
+        /// The identifier of the affected resource.
+        public let identifier: String?
+        /// The type of the affected resource.
+        public let resourceType: String?
+        /// The assessed risk level of the resource. Possible values are Info, Low, Medium, High, and Critical.
+        public let riskLevel: RiskLevel?
+        /// The reason for the assessed risk level.
+        public let riskRationale: String?
+
+        @inlinable
+        public init(findingCount: Int64? = nil, findingId: String? = nil, identifier: String? = nil, resourceType: String? = nil, riskLevel: RiskLevel? = nil, riskRationale: String? = nil) {
+            self.findingCount = findingCount
+            self.findingId = findingId
+            self.identifier = identifier
+            self.resourceType = resourceType
+            self.riskLevel = riskLevel
+            self.riskRationale = riskRationale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingCount = "findingCount"
+            case findingId = "findingId"
+            case identifier = "identifier"
+            case resourceType = "resourceType"
+            case riskLevel = "riskLevel"
+            case riskRationale = "riskRationale"
+        }
+    }
+
+    public struct Reputation: AWSDecodableShape {
+        /// The current reputation of the indicator.
+        public let currentDisposition: String?
+        /// The reputation of the indicator at the time of the finding.
+        public let findingTimeDisposition: String?
+        /// A comparison of the reputation at the time of the finding with the current reputation.
+        public let reputationComparison: String?
+
+        @inlinable
+        public init(currentDisposition: String? = nil, findingTimeDisposition: String? = nil, reputationComparison: String? = nil) {
+            self.currentDisposition = currentDisposition
+            self.findingTimeDisposition = findingTimeDisposition
+            self.reputationComparison = reputationComparison
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentDisposition = "currentDisposition"
+            case findingTimeDisposition = "findingTimeDisposition"
+            case reputationComparison = "reputationComparison"
         }
     }
 
@@ -10136,6 +12837,28 @@ extension GuardDuty {
         }
     }
 
+    public struct ResourceDistribution: AWSDecodableShape {
+        /// The number of findings for the resource.
+        public let count: Int64?
+        /// The identifier of the resource.
+        public let identifier: String?
+        /// The display name of the resource type, such as Instance.
+        public let resourceType: String?
+
+        @inlinable
+        public init(count: Int64? = nil, identifier: String? = nil, resourceType: String? = nil) {
+            self.count = count
+            self.identifier = identifier
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case identifier = "identifier"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
         /// The error message.
         public let message: String?
@@ -10261,6 +12984,8 @@ extension GuardDuty {
         public let name: String?
         /// The unique identifier for the rule.
         public let ruleId: String?
+        /// Runtime Monitoring-specific details for the rule, including the platforms on which the rule can run and the minimum GuardDuty agent version required on each.
+        public let runtimeMonitoringDetails: DetectionRuleRuntimeMonitoringDetails?
         /// The schema version used by the rule definition.
         public let schema: RuleSchema?
         /// The Amazon Web Services service associated with the rule.
@@ -10275,7 +13000,7 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, dataSource: DetectionRuleDataSource? = nil, definition: RuleDefinition? = nil, description: String? = nil, language: RuleLanguage? = nil, name: String? = nil, ruleId: String? = nil, schema: RuleSchema? = nil, service: String? = nil, severity: DetectionRuleSeverity? = nil, tactic: String? = nil, technique: String? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, dataSource: DetectionRuleDataSource? = nil, definition: RuleDefinition? = nil, description: String? = nil, language: RuleLanguage? = nil, name: String? = nil, ruleId: String? = nil, runtimeMonitoringDetails: DetectionRuleRuntimeMonitoringDetails? = nil, schema: RuleSchema? = nil, service: String? = nil, severity: DetectionRuleSeverity? = nil, tactic: String? = nil, technique: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.dataSource = dataSource
@@ -10284,6 +13009,7 @@ extension GuardDuty {
             self.language = language
             self.name = name
             self.ruleId = ruleId
+            self.runtimeMonitoringDetails = runtimeMonitoringDetails
             self.schema = schema
             self.service = service
             self.severity = severity
@@ -10301,6 +13027,7 @@ extension GuardDuty {
             case language = "language"
             case name = "name"
             case ruleId = "ruleId"
+            case runtimeMonitoringDetails = "runtimeMonitoringDetails"
             case schema = "schema"
             case service = "service"
             case severity = "severity"
@@ -10509,6 +13236,132 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case context = "context"
             case process = "process"
+        }
+    }
+
+    public struct RuntimeSignals: AWSDecodableShape {
+        /// A key observation about the runtime signals.
+        public let keyObservation: String?
+        /// The runtime signals, grouped by finding type.
+        public let signalGroups: [SignalGroup]?
+
+        @inlinable
+        public init(keyObservation: String? = nil, signalGroups: [SignalGroup]? = nil) {
+            self.keyObservation = keyObservation
+            self.signalGroups = signalGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyObservation = "keyObservation"
+            case signalGroups = "signalGroups"
+        }
+    }
+
+    public struct S3Activity: AWSDecodableShape {
+        /// The time range of the activity.
+        public let activityWindow: ActivityWindow?
+        /// The identity that performed the activity.
+        public let actor: InvestigationActor?
+        /// The name of the affected bucket, or account-wide if the activity isn't limited to one bucket.
+        public let affectedBucket: String?
+        /// The Amazon S3 API operation that was called.
+        public let api: String?
+        /// Additional context about the activity, such as geolocation information.
+        public let enrichment: Enrichment?
+        /// The number of events.
+        public let eventCount: Int64?
+        /// Related activity on Amazon Web Services services other than Amazon S3.
+        public let nonS3Activity: String?
+        /// Other Amazon S3 activity that is related to the observation.
+        public let otherS3Activity: String?
+        /// An assessment of the session in which the activity occurred.
+        public let sessionAssessment: String?
+        /// The source address of the activity, or a description of the source.
+        public let sourceIp: String?
+
+        @inlinable
+        public init(activityWindow: ActivityWindow? = nil, actor: InvestigationActor? = nil, affectedBucket: String? = nil, api: String? = nil, enrichment: Enrichment? = nil, eventCount: Int64? = nil, nonS3Activity: String? = nil, otherS3Activity: String? = nil, sessionAssessment: String? = nil, sourceIp: String? = nil) {
+            self.activityWindow = activityWindow
+            self.actor = actor
+            self.affectedBucket = affectedBucket
+            self.api = api
+            self.enrichment = enrichment
+            self.eventCount = eventCount
+            self.nonS3Activity = nonS3Activity
+            self.otherS3Activity = otherS3Activity
+            self.sessionAssessment = sessionAssessment
+            self.sourceIp = sourceIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityWindow = "activityWindow"
+            case actor = "actor"
+            case affectedBucket = "affectedBucket"
+            case api = "api"
+            case enrichment = "enrichment"
+            case eventCount = "eventCount"
+            case nonS3Activity = "nonS3Activity"
+            case otherS3Activity = "otherS3Activity"
+            case sessionAssessment = "sessionAssessment"
+            case sourceIp = "sourceIp"
+        }
+    }
+
+    public struct S3Analysis: AWSDecodableShape {
+        /// An assessment of the identity that performed the activity.
+        public let actorAssessment: String?
+        /// An assessment of whether the activity was authorized.
+        public let authorizationAssessment: String?
+        /// A description of the Amazon S3 Block Public Access settings.
+        public let blockPublicAccessSettings: String?
+        /// The effective permission of the Amazon S3 resource.
+        public let effectivePermission: String?
+        /// An assessment of the exposure of the Amazon S3 resource.
+        public let exposure: String?
+        /// The subtype of the finding.
+        public let findingSubtype: String?
+        /// The reputation of the source IP address.
+        public let ipReputation: String?
+        /// A description of the Amazon S3 API activity.
+        public let s3ApiActivity: String?
+        /// Context about the source of the activity.
+        public let sourceContext: String?
+        /// The source address of the activity, or a description of the source.
+        public let sourceIp: String?
+        /// The user agent of the caller.
+        public let userAgent: String?
+        /// The classification of the user agent.
+        public let userAgentClassification: String?
+
+        @inlinable
+        public init(actorAssessment: String? = nil, authorizationAssessment: String? = nil, blockPublicAccessSettings: String? = nil, effectivePermission: String? = nil, exposure: String? = nil, findingSubtype: String? = nil, ipReputation: String? = nil, s3ApiActivity: String? = nil, sourceContext: String? = nil, sourceIp: String? = nil, userAgent: String? = nil, userAgentClassification: String? = nil) {
+            self.actorAssessment = actorAssessment
+            self.authorizationAssessment = authorizationAssessment
+            self.blockPublicAccessSettings = blockPublicAccessSettings
+            self.effectivePermission = effectivePermission
+            self.exposure = exposure
+            self.findingSubtype = findingSubtype
+            self.ipReputation = ipReputation
+            self.s3ApiActivity = s3ApiActivity
+            self.sourceContext = sourceContext
+            self.sourceIp = sourceIp
+            self.userAgent = userAgent
+            self.userAgentClassification = userAgentClassification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorAssessment = "actorAssessment"
+            case authorizationAssessment = "authorizationAssessment"
+            case blockPublicAccessSettings = "blockPublicAccessSettings"
+            case effectivePermission = "effectivePermission"
+            case exposure = "exposure"
+            case findingSubtype = "findingSubtype"
+            case ipReputation = "ipReputation"
+            case s3ApiActivity = "s3ApiActivity"
+            case sourceContext = "sourceContext"
+            case sourceIp = "sourceIp"
+            case userAgent = "userAgent"
+            case userAgentClassification = "userAgentClassification"
         }
     }
 
@@ -11348,6 +14201,36 @@ extension GuardDuty {
         }
     }
 
+    public struct SeverityBreakdown: AWSDecodableShape {
+        /// The number of findings that have Critical severity.
+        public let critical: Int?
+        /// The number of findings that have High severity.
+        public let high: Int?
+        /// The number of findings that have Info severity.
+        public let info: Int?
+        /// The number of findings that have Low severity.
+        public let low: Int?
+        /// The number of findings that have Medium severity.
+        public let medium: Int?
+
+        @inlinable
+        public init(critical: Int? = nil, high: Int? = nil, info: Int? = nil, low: Int? = nil, medium: Int? = nil) {
+            self.critical = critical
+            self.high = high
+            self.info = info
+            self.low = low
+            self.medium = medium
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case critical = "critical"
+            case high = "high"
+            case info = "info"
+            case low = "low"
+            case medium = "medium"
+        }
+    }
+
     public struct SeverityStatistics: AWSDecodableShape {
         /// The timestamp at which a finding type for a specific severity was last generated.
         public let lastGeneratedAt: Date?
@@ -11367,6 +14250,42 @@ extension GuardDuty {
             case lastGeneratedAt = "lastGeneratedAt"
             case severity = "severity"
             case totalFindings = "totalFindings"
+        }
+    }
+
+    public struct SharedBehavior: AWSDecodableShape {
+        /// The JSON path of the finding attribute that matched.
+        public let path: String?
+        /// The value that matched.
+        public let value: String?
+
+        @inlinable
+        public init(path: String? = nil, value: String? = nil) {
+            self.path = path
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "path"
+            case value = "value"
+        }
+    }
+
+    public struct SharedResource: AWSDecodableShape {
+        /// The identifier of the resource.
+        public let identifier: String?
+        /// The type of the resource. This value isn't limited to the resource types of InvestigationResource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(identifier: String? = nil, resourceType: String? = nil) {
+            self.identifier = identifier
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+            case resourceType = "resourceType"
         }
     }
 
@@ -11437,6 +14356,28 @@ extension GuardDuty {
             case type = "type"
             case uid = "uid"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct SignalGroup: AWSDecodableShape {
+        /// The number of signals in the group.
+        public let count: Int64?
+        /// The finding type of the group.
+        public let findingType: String?
+        /// The severity score of the signals in the group, from 0 to 10.
+        public let severity: Double?
+
+        @inlinable
+        public init(count: Int64? = nil, findingType: String? = nil, severity: Double? = nil) {
+            self.count = count
+            self.findingType = findingType
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case findingType = "findingType"
+            case severity = "severity"
         }
     }
 
@@ -11626,6 +14567,32 @@ extension GuardDuty {
         }
     }
 
+    public struct TacticCoverage: AWSDecodableShape {
+        /// The number of findings associated with the tactic.
+        public let findingCount: Int?
+        /// The finding types associated with the tactic.
+        public let findingTypes: [String]?
+        /// The name of the tactic. Possible values are Reconnaissance, Resource Development, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command and Control, Exfiltration, and Impact.
+        public let phase: AttackPhaseName?
+        /// The MITRE ATT&amp;CK techniques within the tactic that are associated with findings.
+        public let techniques: [TechniqueCoverage]?
+
+        @inlinable
+        public init(findingCount: Int? = nil, findingTypes: [String]? = nil, phase: AttackPhaseName? = nil, techniques: [TechniqueCoverage]? = nil) {
+            self.findingCount = findingCount
+            self.findingTypes = findingTypes
+            self.phase = phase
+            self.techniques = techniques
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingCount = "findingCount"
+            case findingTypes = "findingTypes"
+            case phase = "phase"
+            case techniques = "techniques"
+        }
+    }
+
     public struct Tag: AWSDecodableShape {
         /// Describes the key associated with the tag.
         public let key: String?
@@ -11684,6 +14651,28 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct TechniqueCoverage: AWSDecodableShape {
+        /// The number of findings associated with the technique.
+        public let findingCount: Int?
+        /// The finding types associated with the technique.
+        public let findingTypes: [String]?
+        /// The technique.
+        public let technique: ThreatReference?
+
+        @inlinable
+        public init(findingCount: Int? = nil, findingTypes: [String]? = nil, technique: ThreatReference? = nil) {
+            self.findingCount = findingCount
+            self.findingTypes = findingTypes
+            self.technique = technique
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingCount = "findingCount"
+            case findingTypes = "findingTypes"
+            case technique = "technique"
+        }
+    }
+
     public struct Threat: AWSDecodableShape {
         /// The number of occurrences of this specific threat detected during the scan.
         public let count: Int64?
@@ -11715,6 +14704,24 @@ extension GuardDuty {
             case itemPaths = "itemPaths"
             case name = "name"
             case source = "source"
+        }
+    }
+
+    public struct ThreatAssessment: AWSDecodableShape {
+        /// The phases of the attack, in terms of MITRE ATT&amp;CK tactics.
+        public let attackProgression: [AttackPhase]?
+        /// A description of the likely threat actor.
+        public let threatActorProfile: String?
+
+        @inlinable
+        public init(attackProgression: [AttackPhase]? = nil, threatActorProfile: String? = nil) {
+            self.attackProgression = attackProgression
+            self.threatActorProfile = threatActorProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attackProgression = "attackProgression"
+            case threatActorProfile = "threatActorProfile"
         }
     }
 
@@ -11766,6 +14773,24 @@ extension GuardDuty {
         }
     }
 
+    public struct ThreatReference: AWSDecodableShape {
+        /// The name of the tactic or technique.
+        public let name: String?
+        /// The MITRE ATT&amp;CK identifier of the tactic or technique, such as TA0002 or T1059.004.
+        public let uid: String?
+
+        @inlinable
+        public init(name: String? = nil, uid: String? = nil) {
+            self.name = name
+            self.uid = uid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case uid = "uid"
+        }
+    }
+
     public struct ThreatsDetectedItemCount: AWSDecodableShape {
         /// Total number of infected files.
         public let files: Int?
@@ -11777,6 +14802,28 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case files = "files"
+        }
+    }
+
+    public struct TimeWindowGroup: AWSDecodableShape {
+        /// The timestamp at which the time window ends.
+        public let endTime: Date?
+        /// The number of findings in the time window.
+        public let findingCount: Int?
+        /// The timestamp at which the time window starts.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date? = nil, findingCount: Int? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.findingCount = findingCount
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case findingCount = "findingCount"
+            case startTime = "startTime"
         }
     }
 
@@ -11795,6 +14842,36 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case amount = "amount"
             case unit = "unit"
+        }
+    }
+
+    public struct Trend: AWSDecodableShape {
+        /// The number of findings in each time window.
+        public let byTimeWindow: [TimeWindowGroup]?
+        /// The timestamp at which the period of the trend ends.
+        public let endedAt: Date?
+        /// The length of each time window in the trend. Possible values are DAY, WEEK, and MONTH.
+        public let granularity: TimeGranularity?
+        /// The timestamp at which the period of the trend starts.
+        public let startedAt: Date?
+        /// The total number of findings in the period.
+        public let totalFindings: Int64?
+
+        @inlinable
+        public init(byTimeWindow: [TimeWindowGroup]? = nil, endedAt: Date? = nil, granularity: TimeGranularity? = nil, startedAt: Date? = nil, totalFindings: Int64? = nil) {
+            self.byTimeWindow = byTimeWindow
+            self.endedAt = endedAt
+            self.granularity = granularity
+            self.startedAt = startedAt
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case byTimeWindow = "byTimeWindow"
+            case endedAt = "endTime"
+            case granularity = "granularity"
+            case startedAt = "startTime"
+            case totalFindings = "totalFindings"
         }
     }
 
@@ -11817,6 +14894,32 @@ extension GuardDuty {
             case description = "description"
             case guardDutyFindingId = "guardDutyFindingId"
             case triggerType = "triggerType"
+        }
+    }
+
+    public struct TypeDistribution: AWSDecodableShape {
+        /// The number of findings of this type.
+        public let count: Int64?
+        /// The most common severity among findings of this type.
+        public let dominantSeverity: String?
+        /// The finding type.
+        public let findingType: String?
+        /// The percentage of findings that are of this type, from 0 to 100.
+        public let percentage: Double?
+
+        @inlinable
+        public init(count: Int64? = nil, dominantSeverity: String? = nil, findingType: String? = nil, percentage: Double? = nil) {
+            self.count = count
+            self.dominantSeverity = dominantSeverity
+            self.findingType = findingType
+            self.percentage = percentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case dominantSeverity = "dominantSeverity"
+            case findingType = "findingType"
+            case percentage = "percentage"
         }
     }
 
@@ -12496,6 +15599,7 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
+            try self.destinationProperties?.validate(name: "\(name).destinationProperties")
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }

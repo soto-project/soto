@@ -1090,21 +1090,18 @@ public struct HealthLake: AWSService {
     ///   - conversationId: The conversation identifier for multi-turn interactions. Omit to start a new conversation.
     ///   - inputMessage: The message to send to the agent.
     ///   - profileId: The unique identifier of the profile to update via the agent.
-    ///   - sourceFormat: The source data format for the transformation.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateProfileWithAgent(
         conversationId: String? = nil,
         inputMessage: AgentInputMessage,
         profileId: String,
-        sourceFormat: SourceFormat,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateProfileWithAgentResponse {
         let input = UpdateProfileWithAgentRequest(
             conversationId: conversationId, 
             inputMessage: inputMessage, 
-            profileId: profileId, 
-            sourceFormat: sourceFormat
+            profileId: profileId
         )
         return try await self.updateProfileWithAgent(input, logger: logger)
     }
@@ -1113,7 +1110,7 @@ public struct HealthLake: AWSService {
 extension HealthLake {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: HealthLake, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

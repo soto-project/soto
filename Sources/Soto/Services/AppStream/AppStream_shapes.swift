@@ -189,6 +189,11 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageBuilderAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentAccessConfig = "AGENT_ACCESS_CONFIG"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageBuilderState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -284,6 +289,7 @@ extension AppStream {
         case rockyLinux8 = "ROCKY_LINUX8"
         case ubuntuPro2404 = "UBUNTU_PRO_2404"
         case windows = "WINDOWS"
+        case windows11 = "WINDOWS_11"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
         case windowsServer2019 = "WINDOWS_SERVER_2019"
         case windowsServer2022 = "WINDOWS_SERVER_2022"
@@ -335,11 +341,13 @@ extension AppStream {
     public enum StackAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessEndpoints = "ACCESS_ENDPOINTS"
         case agentAccessConfig = "AGENT_ACCESS_CONFIG"
+        case agentAccessConfigKmsKeyArn = "AGENT_ACCESS_CONFIG_KMS_KEY_ARN"
         case contentRedirection = "CONTENT_REDIRECTION"
         case embedHostDomains = "EMBED_HOST_DOMAINS"
         case feedbackUrl = "FEEDBACK_URL"
         case iamRoleArn = "IAM_ROLE_ARN"
         case redirectUrl = "REDIRECT_URL"
+        case storageConnectorAuthentication = "STORAGE_CONNECTOR_AUTHENTICATION"
         case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
         case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
         case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
@@ -353,6 +361,12 @@ extension AppStream {
     public enum StackErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageConnectorAuthentication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forceReauthentication = "FORCE_REAUTHENTICATION"
+        case reuseCredentials = "REUSE_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
@@ -485,7 +499,11 @@ extension AppStream {
     }
 
     public struct AgentAccessConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+        /// The Amazon Resource Name (ARN) of the customer managed symmetric encryption KMS key that encrypts Replay Session artifacts while WorkSpaces Applications processes them. The key must be in the same Region as the stack, and ReplaySessionEnabled must be true.
+        public let kmsKeyArn: String?
+        /// Indicates whether Replay Session is enabled for agent sessions. WorkSpaces Applications delivers a video combining session screenshots, a transcript, and a report for each session. Requires the COMPUTER_VISION agent action.
+        public let replaySessionEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots and Replay Session artifacts are stored. Required when ScreenshotsUploadEnabled or ReplaySessionEnabled is true.
         public let s3BucketArn: String?
         /// The image format for agent screen captures.
         public let screenImageFormat: ScreenImageFormat?
@@ -493,13 +511,15 @@ extension AppStream {
         public let screenResolution: ScreenResolution?
         /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
         public let screenshotsUploadEnabled: Bool?
-        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting.
+        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting, and at least one agent action must be enabled.
         public let settings: [AgentAccessSetting]?
         /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
         public let userControlMode: UserControlMode?
 
         @inlinable
-        public init(s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+        public init(kmsKeyArn: String? = nil, replaySessionEnabled: Bool? = nil, s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.replaySessionEnabled = replaySessionEnabled
             self.s3BucketArn = s3BucketArn
             self.screenImageFormat = screenImageFormat
             self.screenResolution = screenResolution
@@ -509,11 +529,14 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:kms:[a-z0-9\\-]+:\\d{12}:key/[A-Za-z0-9\\-]+$")
             try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:s3:::[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9]$")
             try self.validate(self.settings, name: "settings", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case replaySessionEnabled = "ReplaySessionEnabled"
             case s3BucketArn = "S3BucketArn"
             case screenImageFormat = "ScreenImageFormat"
             case screenResolution = "ScreenResolution"
@@ -524,7 +547,11 @@ extension AppStream {
     }
 
     public struct AgentAccessConfigForUpdate: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored.
+        /// The Amazon Resource Name (ARN) of the customer managed symmetric encryption KMS key that encrypts Replay Session artifacts while WorkSpaces Applications processes them. To remove the key, use AttributesToDelete with the AGENT_ACCESS_CONFIG_KMS_KEY_ARN value.
+        public let kmsKeyArn: String?
+        /// Indicates whether Replay Session is enabled for agent sessions. Setting this attribute to false also removes the KmsKeyArn value from the stack.
+        public let replaySessionEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots and Replay Session artifacts are stored.
         public let s3BucketArn: String?
         /// The image format for agent screen captures.
         public let screenImageFormat: ScreenImageFormat?
@@ -532,13 +559,15 @@ extension AppStream {
         public let screenResolution: ScreenResolution?
         /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
         public let screenshotsUploadEnabled: Bool?
-        /// The list of agent access settings that define permissions for each agent action.
+        /// The list of agent access settings that define permissions for each agent action. The merged settings must have at least one agent action enabled.
         public let settings: [AgentAccessSetting]?
         /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
         public let userControlMode: UserControlMode?
 
         @inlinable
-        public init(s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+        public init(kmsKeyArn: String? = nil, replaySessionEnabled: Bool? = nil, s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.replaySessionEnabled = replaySessionEnabled
             self.s3BucketArn = s3BucketArn
             self.screenImageFormat = screenImageFormat
             self.screenResolution = screenResolution
@@ -548,11 +577,14 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:kms:[a-z0-9\\-]+:\\d{12}:key/[A-Za-z0-9\\-]+$")
             try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:s3:::[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9]$")
             try self.validate(self.settings, name: "settings", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case replaySessionEnabled = "ReplaySessionEnabled"
             case s3BucketArn = "S3BucketArn"
             case screenImageFormat = "ScreenImageFormat"
             case screenResolution = "ScreenResolution"
@@ -1923,6 +1955,8 @@ extension AppStream {
     public struct CreateImageBuilderRequest: AWSEncodableShape {
         /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
+        /// The configuration for agent access on the image builder. If specified, agent access is enabled for the image builder.
+        public let agentAccessConfig: ImageBuilderAgentAccessConfig?
         /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
         public let appstreamAgentVersion: String?
         /// The description to display.
@@ -1957,8 +1991,9 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, rootVolumeConfig: VolumeConfig? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: ImageBuilderAgentAccessConfig? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, rootVolumeConfig: VolumeConfig? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
             self.disableIMDSV1 = disableIMDSV1
@@ -1983,6 +2018,7 @@ extension AppStream {
             }
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.agentAccessConfig?.validate(name: "\(name).agentAccessConfig")
             try self.validate(self.appstreamAgentVersion, name: "appstreamAgentVersion", parent: name, max: 100)
             try self.validate(self.appstreamAgentVersion, name: "appstreamAgentVersion", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
@@ -2013,6 +2049,7 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoints = "AccessEndpoints"
+            case agentAccessConfig = "AgentAccessConfig"
             case appstreamAgentVersion = "AppstreamAgentVersion"
             case description = "Description"
             case disableIMDSV1 = "DisableIMDSV1"
@@ -2200,6 +2237,8 @@ extension AppStream {
         public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
+        /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
+        public let storageConnectorAuthentication: StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -2210,7 +2249,7 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettings? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettings? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -2221,6 +2260,7 @@ extension AppStream {
             self.feedbackURL = feedbackURL
             self.name = name
             self.redirectURL = redirectURL
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.tags = tags
@@ -2273,6 +2313,7 @@ extension AppStream {
             case feedbackURL = "FeedbackURL"
             case name = "Name"
             case redirectURL = "RedirectURL"
+            case storageConnectorAuthentication = "StorageConnectorAuthentication"
             case storageConnectors = "StorageConnectors"
             case streamingExperienceSettings = "StreamingExperienceSettings"
             case tags = "Tags"
@@ -4427,6 +4468,8 @@ extension AppStream {
         public let imagePermissions: ImagePermissions?
         /// Indicates whether the image is shared with another account ID.
         public let imageSharedWithOthers: ImageSharedWithOthers?
+        /// The software metadata associated with the image.
+        public let imageSoftwareMetadata: ImageSoftwareMetadata?
         /// The type of the image. Images created through AMI import have type "custom", while WorkSpaces Applications provided images have type "native". Custom images support additional instance types including GeneralPurpose, MemoryOptimized, ComputeOptimized, and Accelerated instance families.
         public let imageType: ImageType?
         /// Indicates whether the image is using the latest WorkSpaces Applications agent version or not.
@@ -4449,7 +4492,7 @@ extension AppStream {
         public let visibility: VisibilityType?
 
         @inlinable
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageSoftwareMetadata: ImageSoftwareMetadata? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -4463,6 +4506,7 @@ extension AppStream {
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
+            self.imageSoftwareMetadata = imageSoftwareMetadata
             self.imageType = imageType
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.managedSoftwareIncluded = managedSoftwareIncluded
@@ -4489,6 +4533,7 @@ extension AppStream {
             case imageErrors = "ImageErrors"
             case imagePermissions = "ImagePermissions"
             case imageSharedWithOthers = "ImageSharedWithOthers"
+            case imageSoftwareMetadata = "ImageSoftwareMetadata"
             case imageType = "ImageType"
             case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
             case managedSoftwareIncluded = "ManagedSoftwareIncluded"
@@ -4505,6 +4550,8 @@ extension AppStream {
     public struct ImageBuilder: AWSDecodableShape {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
+        /// The agent access configuration of the image builder, if agent access is enabled.
+        public let agentAccessConfig: ImageBuilderAgentAccessConfig?
         /// The version of the WorkSpaces Applications agent that is currently being used by the image builder.
         public let appstreamAgentVersion: String?
         /// The ARN for the image builder.
@@ -4546,8 +4593,9 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: ImageBuilderAgentAccessConfig? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
             self.createdTime = createdTime
@@ -4572,6 +4620,7 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoints = "AccessEndpoints"
+            case agentAccessConfig = "AgentAccessConfig"
             case appstreamAgentVersion = "AppstreamAgentVersion"
             case arn = "Arn"
             case createdTime = "CreatedTime"
@@ -4592,6 +4641,84 @@ extension AppStream {
             case state = "State"
             case stateChangeReason = "StateChangeReason"
             case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct ImageBuilderAgentAccessConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+        public let s3BucketArn: String?
+        /// The image format for agent screen captures.   PNG - PNG format.   JPEG - JPEG format.
+        public let screenImageFormat: ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.   W_1280xH_720 - 1280 x 720 pixels.
+        public let screenResolution: ScreenResolution?
+        /// Specifies whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public let screenshotsUploadEnabled: Bool?
+        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting, and at least one agent action must be enabled.
+        public let settings: [AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.   VIEW_ONLY - Users can view and observe agent actions as they happen.   VIEW_STOP - Users can view agent actions and stop the agent if needed.   DISABLED - Users cannot view or stop the agent session.
+        public let userControlMode: UserControlMode?
+
+        @inlinable
+        public init(s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+            self.userControlMode = userControlMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:s3:::[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9]$")
+            try self.validate(self.settings, name: "settings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketArn = "S3BucketArn"
+            case screenImageFormat = "ScreenImageFormat"
+            case screenResolution = "ScreenResolution"
+            case screenshotsUploadEnabled = "ScreenshotsUploadEnabled"
+            case settings = "Settings"
+            case userControlMode = "UserControlMode"
+        }
+    }
+
+    public struct ImageBuilderAgentAccessConfigForUpdate: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. If ScreenshotsUploadEnabled is false after the merge, the stored bucket ARN is removed.
+        public let s3BucketArn: String?
+        /// The image format for agent screen captures.   PNG - PNG format.   JPEG - JPEG format.
+        public let screenImageFormat: ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.   W_1280xH_720 - 1280 x 720 pixels.
+        public let screenResolution: ScreenResolution?
+        /// Specifies whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public let screenshotsUploadEnabled: Bool?
+        /// The list of agent access settings that define permissions for each agent action. These settings are merged with the stored settings by agent action. A setting that you specify replaces the stored setting for the same agent action. The merged settings must have at least one agent action enabled.
+        public let settings: [AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.   VIEW_ONLY - Users can view and observe agent actions as they happen.   VIEW_STOP - Users can view agent actions and stop the agent if needed.   DISABLED - Users cannot view or stop the agent session.
+        public let userControlMode: UserControlMode?
+
+        @inlinable
+        public init(s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+            self.userControlMode = userControlMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:s3:::[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9]$")
+            try self.validate(self.settings, name: "settings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketArn = "S3BucketArn"
+            case screenImageFormat = "ScreenImageFormat"
+            case screenResolution = "ScreenResolution"
+            case screenshotsUploadEnabled = "ScreenshotsUploadEnabled"
+            case settings = "Settings"
+            case userControlMode = "UserControlMode"
         }
     }
 
@@ -4628,6 +4755,20 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case allowFleet = "allowFleet"
             case allowImageBuilder = "allowImageBuilder"
+        }
+    }
+
+    public struct ImageSoftwareMetadata: AWSDecodableShape {
+        /// The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.
+        public let nvidiaGridDriverVersion: String?
+
+        @inlinable
+        public init(nvidiaGridDriverVersion: String? = nil) {
+            self.nvidiaGridDriverVersion = nvidiaGridDriverVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nvidiaGridDriverVersion = "nvidiaGridDriverVersion"
         }
     }
 
@@ -5149,6 +5290,8 @@ extension AppStream {
         public let redirectURL: String?
         /// The errors for the stack.
         public let stackErrors: [StackError]?
+        /// Indicates whether users' cloud storage authentication persists across streaming sessions. When this attribute is FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
+        public let storageConnectorAuthentication: StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -5157,7 +5300,7 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, contentRedirection: ContentRedirection? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, contentRedirection: ContentRedirection? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -5171,6 +5314,7 @@ extension AppStream {
             self.name = name
             self.redirectURL = redirectURL
             self.stackErrors = stackErrors
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -5190,6 +5334,7 @@ extension AppStream {
             case name = "Name"
             case redirectURL = "RedirectURL"
             case stackErrors = "StackErrors"
+            case storageConnectorAuthentication = "StorageConnectorAuthentication"
             case storageConnectors = "StorageConnectors"
             case streamingExperienceSettings = "StreamingExperienceSettings"
             case userSettings = "UserSettings"
@@ -6027,6 +6172,58 @@ extension AppStream {
         }
     }
 
+    public struct UpdateImageBuilderRequest: AWSEncodableShape {
+        /// The configuration for agent access on the image builder. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.
+        public let agentAccessConfig: ImageBuilderAgentAccessConfigForUpdate?
+        /// The image builder attributes to delete.
+        public let attributesToDelete: [ImageBuilderAttribute]?
+        /// The description to display.
+        public let description: String?
+        /// The image builder name to display.
+        public let displayName: String?
+        /// The name of the image builder.
+        public let name: String?
+
+        @inlinable
+        public init(agentAccessConfig: ImageBuilderAgentAccessConfigForUpdate? = nil, attributesToDelete: [ImageBuilderAttribute]? = nil, description: String? = nil, displayName: String? = nil, name: String? = nil) {
+            self.agentAccessConfig = agentAccessConfig
+            self.attributesToDelete = attributesToDelete
+            self.description = description
+            self.displayName = displayName
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.agentAccessConfig?.validate(name: "\(name).agentAccessConfig")
+            try self.validate(self.attributesToDelete, name: "attributesToDelete", parent: name, max: 2)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentAccessConfig = "AgentAccessConfig"
+            case attributesToDelete = "AttributesToDelete"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateImageBuilderResult: AWSDecodableShape {
+        /// Information about the image builder.
+        public let imageBuilder: ImageBuilder?
+
+        @inlinable
+        public init(imageBuilder: ImageBuilder? = nil) {
+            self.imageBuilder = imageBuilder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageBuilder = "ImageBuilder"
+        }
+    }
+
     public struct UpdateImagePermissionsRequest: AWSEncodableShape {
         /// The permissions for the image.
         public let imagePermissions: ImagePermissions?
@@ -6082,6 +6279,8 @@ extension AppStream {
         public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
+        /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.
+        public let storageConnectorAuthentication: StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -6090,7 +6289,7 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -6103,6 +6302,7 @@ extension AppStream {
             self.feedbackURL = feedbackURL
             self.name = name
             self.redirectURL = redirectURL
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -6110,7 +6310,7 @@ extension AppStream {
 
         @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -6123,6 +6323,7 @@ extension AppStream {
             self.feedbackURL = feedbackURL
             self.name = name
             self.redirectURL = redirectURL
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -6167,6 +6368,7 @@ extension AppStream {
             case feedbackURL = "FeedbackURL"
             case name = "Name"
             case redirectURL = "RedirectURL"
+            case storageConnectorAuthentication = "StorageConnectorAuthentication"
             case storageConnectors = "StorageConnectors"
             case streamingExperienceSettings = "StreamingExperienceSettings"
             case userSettings = "UserSettings"

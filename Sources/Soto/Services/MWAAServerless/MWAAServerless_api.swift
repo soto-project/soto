@@ -80,6 +80,38 @@ public struct MWAAServerless: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a launch URL that opens the Apache Airflow UI for your workflows in Amazon Managed Workflows for Apache Airflow Serverless. The UI shows the workflows in your account in the current AWS Region. To start a UI session, open the URL in a browser before it expires. The UI runs with the permissions of the IAM identity that you use to call this operation. You see only the workflows, workflow runs, and logs that the identity can read, and you can start a workflow run only if the identity has permission to start one. The UI session uses the caller's permissions. The session works only from the network address that opened the URL. It ends at SessionExpiresAt or when you sign out from the UI.
+    @Sendable
+    @inlinable
+    public func createAirflowUiUrl(_ input: CreateAirflowUiUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAirflowUiUrlResponse {
+        try await self.client.execute(
+            operation: "CreateAirflowUiUrl", 
+            path: "/airflow-ui-url", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a launch URL that opens the Apache Airflow UI for your workflows in Amazon Managed Workflows for Apache Airflow Serverless. The UI shows the workflows in your account in the current AWS Region. To start a UI session, open the URL in a browser before it expires. The UI runs with the permissions of the IAM identity that you use to call this operation. You see only the workflows, workflow runs, and logs that the identity can read, and you can start a workflow run only if the identity has permission to start one. The UI session uses the caller's permissions. The session works only from the network address that opened the URL. It ends at SessionExpiresAt or when you sign out from the UI.
+    ///
+    /// Parameters:
+    ///   - expiresInSeconds: Specifies the number of seconds that the launch URL stays valid. This value limits only the time to open the URL, not the length of the UI session. The default is 300.
+    ///   - sessionDurationInSeconds: Specifies the number of seconds that the UI session lasts, starting from when you call this operation. The default is 43200 (12 hours).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAirflowUiUrl(
+        expiresInSeconds: Int? = nil,
+        sessionDurationInSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAirflowUiUrlResponse {
+        let input = CreateAirflowUiUrlRequest(
+            expiresInSeconds: expiresInSeconds, 
+            sessionDurationInSeconds: sessionDurationInSeconds
+        )
+        return try await self.createAirflowUiUrl(input, logger: logger)
+    }
+
     /// Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates the first version of the workflow and sets up the necessary execution environment with multi-tenant isolation and security controls.
     @Sendable
     @inlinable
@@ -102,6 +134,7 @@ public struct MWAAServerless: AWSService {
     ///   - description: An optional description of the workflow that you can use to provide additional context about the workflow's purpose and functionality.
     ///   - encryptionConfiguration: The configuration for encrypting workflow data at rest and in transit. Specifies the encryption type and optional KMS key for customer-managed encryption.
     ///   - engineVersion: The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for this workflow. This determines the feature set, supported operators, and execution environment capabilities available to your workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains backward compatibility across versions while introducing new features and improvements. Currently supports version 1 with plans for additional versions as the service evolves.
+    ///   - environment: The environment variables to set for tasks in the workflow. If you don't specify this parameter, the workflow has no environment variables.
     ///   - loggingConfiguration: The configuration for workflow logging. Specifies the CloudWatch log group where workflow execution logs are stored. Amazon Managed Workflows for Apache Airflow Serverless automatically exports worker logs and task-level information to the specified log group in your account using remote logging functionality. This provides comprehensive observability for debugging and monitoring workflow execution across the distributed, serverless environment.
     ///   - name: The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle.
     ///   - networkConfiguration: Network configuration for the workflow execution environment, including VPC security groups and subnets for secure network access. When specified, Amazon Managed Workflows for Apache Airflow Serverless deploys ECS worker tasks in your customer VPC to provide secure connectivity to your resources. If not specified, tasks run in the service's default worker VPC with network isolation from other customers. This configuration enables secure access to VPC-only resources like RDS databases or private endpoints.
@@ -117,6 +150,7 @@ public struct MWAAServerless: AWSService {
         description: String? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         engineVersion: EngineVersion? = nil,
+        environment: Environment? = nil,
         loggingConfiguration: LoggingConfiguration? = nil,
         name: String,
         networkConfiguration: NetworkConfiguration? = nil,
@@ -132,6 +166,7 @@ public struct MWAAServerless: AWSService {
             description: description, 
             encryptionConfiguration: encryptionConfiguration, 
             engineVersion: engineVersion, 
+            environment: environment, 
             loggingConfiguration: loggingConfiguration, 
             name: name, 
             networkConfiguration: networkConfiguration, 
@@ -464,7 +499,7 @@ public struct MWAAServerless: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token prevents duplicate workflow run requests.
     ///   - overrideParameters: Optional parameters to override default workflow parameters for this specific run. These parameters are passed to the workflow during execution and can be used to customize behavior without modifying the workflow definition. Parameters are made available as environment variables to tasks and you can reference them within the YAML workflow definition using standard parameter substitution syntax.
     ///   - workflowArn: The Amazon Resource Name (ARN) of the workflow you want to run.
-    ///   - workflowVersion: Optional. The specific version of the workflow to execute. If not specified, the latest version is used.
+    ///   - workflowVersion: Optional. The specific version of the workflow to execute. If you don't specify a version, we use the latest version.
     ///   - logger: Logger use during operation
     @inlinable
     public func startWorkflowRun(
@@ -599,6 +634,7 @@ public struct MWAAServerless: AWSService {
     ///   - definitionS3Location: The Amazon S3 location where the updated workflow definition file is stored.
     ///   - description: An updated description for the workflow.
     ///   - engineVersion: The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for the updated workflow.
+    ///   - environment: The environment variables to set for tasks in the workflow.  The variables that you specify replace all existing environment variables for the workflow. If you don't specify this parameter, the workflow has no environment variables. To keep existing environment variables, include them in the request.
     ///   - loggingConfiguration: Updated logging configuration for the workflow.
     ///   - networkConfiguration: Updated network configuration for the workflow execution environment.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when it executes the updated workflow.
@@ -611,6 +647,7 @@ public struct MWAAServerless: AWSService {
         definitionS3Location: DefinitionS3Location,
         description: String? = nil,
         engineVersion: EngineVersion? = nil,
+        environment: Environment? = nil,
         loggingConfiguration: LoggingConfiguration? = nil,
         networkConfiguration: NetworkConfiguration? = nil,
         roleArn: String,
@@ -623,6 +660,7 @@ public struct MWAAServerless: AWSService {
             definitionS3Location: definitionS3Location, 
             description: description, 
             engineVersion: engineVersion, 
+            environment: environment, 
             loggingConfiguration: loggingConfiguration, 
             networkConfiguration: networkConfiguration, 
             roleArn: roleArn, 
@@ -636,7 +674,7 @@ public struct MWAAServerless: AWSService {
 extension MWAAServerless {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: MWAAServerless, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

@@ -36,7 +36,14 @@ extension RAM {
         case attachable = "ATTACHABLE"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case deprecated = "DEPRECATED"
         case unattachable = "UNATTACHABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionTemplateParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case string = "STRING"
+        case stringList = "STRING_LIST"
         public var description: String { return self.rawValue }
     }
 
@@ -131,6 +138,12 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdatePermissionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachable = "ATTACHABLE"
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AcceptResourceShareInvitationRequest: AWSEncodableShape {
@@ -174,6 +187,8 @@ extension RAM {
         public let clientToken: String?
         /// Specifies the Amazon Resource Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and  then choose the name of the permission. The ARN is displayed on the detail page.
         public let permissionArn: String
+        /// Specifies the template parameter values for the permission being associated. You must provide values for all parameters declared in the permission template. This parameter is required only if the specified permission has template parameters.
+        public let permissionTemplateParameters: [PermissionTemplateParameterInput]?
         /// Specifies the version of the RAM permission to associate with the resource share. You can specify only the version that is currently set as the default version for the permission. If you also set the replace pararameter to true, then this operation updates an outdated version of the permission to the current default version.  You don't need to specify this parameter because the default behavior is to use the version that is currently set as the default version for the permission. This parameter is supported for backwards compatibility.
         public let permissionVersion: Int?
         /// Specifies whether the specified permission should replace the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to a resource share that currently doesn't have a permission. The default value is false.  A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
@@ -182,9 +197,10 @@ extension RAM {
         public let resourceShareArn: String
 
         @inlinable
-        public init(clientToken: String? = nil, permissionArn: String, permissionVersion: Int? = nil, replace: Bool? = nil, resourceShareArn: String) {
+        public init(clientToken: String? = nil, permissionArn: String, permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil, permissionVersion: Int? = nil, replace: Bool? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionVersion = permissionVersion
             self.replace = replace
             self.resourceShareArn = resourceShareArn
@@ -193,6 +209,7 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case permissionArn = "permissionArn"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case permissionVersion = "permissionVersion"
             case replace = "replace"
             case resourceShareArn = "resourceShareArn"
@@ -274,21 +291,24 @@ extension RAM {
         public let featureSet: PermissionFeatureSet?
         /// The date and time when the association between the permission and the resource share was last updated.
         public let lastUpdatedTime: Date?
+        /// The template parameter values provided when the permission was associated with this resource share. If the permission has no declared template parameters, this member doesn't appear in the response.
+        public let permissionTemplateParameters: [PermissionTemplateParameter]?
         /// The version of the permission currently associated with the resource share.
         public let permissionVersion: String?
         /// The Amazon Resource Name (ARN) of a resource share associated with this permission.
         public let resourceShareArn: String?
         /// The resource type to which this permission applies.
         public let resourceType: String?
-        /// The current status of the association between the permission and the resource share. The following are the possible values:    ATTACHABLE – This permission or version can be associated  with resource shares.    UNATTACHABLE – This permission or version can't  currently be associated with resource shares.    DELETING – This permission or version is in the process of being deleted.    DELETED – This permission or version is deleted.
+        /// The current status of the association between the permission and the resource share. The following are the possible values:    ATTACHABLE – This permission or version can be associated  with resource shares.    UNATTACHABLE – This permission or version can't  currently be associated with resource shares.    DELETING – This permission or version is in the process of being deleted.    DELETED – This permission or version is deleted.    DEPRECATED – The permission owner deprecated this permission. It can't be associated with new resource shares, but existing associations continue to function.
         public let status: String?
 
         @inlinable
-        public init(arn: String? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, lastUpdatedTime: Date? = nil, permissionVersion: String? = nil, resourceShareArn: String? = nil, resourceType: String? = nil, status: String? = nil) {
+        public init(arn: String? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, lastUpdatedTime: Date? = nil, permissionTemplateParameters: [PermissionTemplateParameter]? = nil, permissionVersion: String? = nil, resourceShareArn: String? = nil, resourceType: String? = nil, status: String? = nil) {
             self.arn = arn
             self.defaultVersion = defaultVersion
             self.featureSet = featureSet
             self.lastUpdatedTime = lastUpdatedTime
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionVersion = permissionVersion
             self.resourceShareArn = resourceShareArn
             self.resourceType = resourceType
@@ -300,6 +320,7 @@ extension RAM {
             case defaultVersion = "defaultVersion"
             case featureSet = "featureSet"
             case lastUpdatedTime = "lastUpdatedTime"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case permissionVersion = "permissionVersion"
             case resourceShareArn = "resourceShareArn"
             case resourceType = "resourceType"
@@ -350,6 +371,8 @@ extension RAM {
         public let clientToken: String?
         /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region.
         public let name: String
+        /// Specifies a list of template parameter declarations for this permission. Each declaration defines a named placeholder that can be used in the policy template using the syntax @{parameterName}. Template parameters can only appear in Condition Key and Condition Value fields of the policy. When you associate this permission with a resource share, you must provide values for all declared parameters.
+        public let permissionTemplateParameters: [PermissionTemplateParameterDeclaration]?
         /// A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
         public let policyTemplate: String
         /// Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet. To see the list of valid values for this parameter, query the ListResourceTypes operation. This value must match the display name of the resource  (available in ListResourceTypes).
@@ -358,9 +381,10 @@ extension RAM {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = nil, name: String, policyTemplate: String, resourceType: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = nil, name: String, permissionTemplateParameters: [PermissionTemplateParameterDeclaration]? = nil, policyTemplate: String, resourceType: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.name = name
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.policyTemplate = policyTemplate
             self.resourceType = resourceType
             self.tags = tags
@@ -370,11 +394,13 @@ extension RAM {
             try self.validate(self.name, name: "name", parent: name, max: 36)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w.-]*$")
+            try self.validate(self.permissionTemplateParameters, name: "permissionTemplateParameters", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case name = "name"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case policyTemplate = "policyTemplate"
             case resourceType = "resourceType"
             case tags = "tags"
@@ -404,19 +430,27 @@ extension RAM {
         public let clientToken: String?
         /// Specifies the Amazon Resource Name (ARN) of the customer managed permission you're creating a new version for.
         public let permissionArn: String
+        /// Specifies a list of template parameter declarations for this version of the permission. Each declaration defines a named placeholder that can be used in the policy template. Because each version is independent, you can define the same or a different set of template parameters for each version.
+        public let permissionTemplateParameters: [PermissionTemplateParameterDeclaration]?
         /// A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
         public let policyTemplate: String
 
         @inlinable
-        public init(clientToken: String? = nil, permissionArn: String, policyTemplate: String) {
+        public init(clientToken: String? = nil, permissionArn: String, permissionTemplateParameters: [PermissionTemplateParameterDeclaration]? = nil, policyTemplate: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.policyTemplate = policyTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.permissionTemplateParameters, name: "permissionTemplateParameters", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case permissionArn = "permissionArn"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case policyTemplate = "policyTemplate"
         }
     }
@@ -424,6 +458,7 @@ extension RAM {
     public struct CreatePermissionVersionResponse: AWSDecodableShape {
         /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other  parameters must also have the same values that you used in the first call.
         public let clientToken: String?
+        /// The details of the new permission version, including its Amazon Resource Name (ARN), version number, status, and policy document.
         public let permission: ResourceSharePermissionDetail?
 
         @inlinable
@@ -447,6 +482,8 @@ extension RAM {
         public let name: String
         /// Specifies the Amazon Resource Names (ARNs) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share.
         public let permissionArns: [String]?
+        /// Specifies the template parameter values for each permission being associated that has template parameters. Each entry maps a permission ARN to the parameter values to use when rendering the permission template for this resource share. You must provide values for all parameters declared in each permission template.
+        public let permissionTemplateParameters: [PermissionArnAndTemplateParameters]?
         /// Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
         /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
@@ -459,11 +496,12 @@ extension RAM {
         public let tags: [Tag]?
 
         @inlinable
-        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareConfiguration: ResourceShareConfiguration? = nil, sources: [String]? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, permissionTemplateParameters: [PermissionArnAndTemplateParameters]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareConfiguration: ResourceShareConfiguration? = nil, sources: [String]? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
             self.name = name
             self.permissionArns = permissionArns
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.principals = principals
             self.resourceArns = resourceArns
             self.resourceShareConfiguration = resourceShareConfiguration
@@ -476,6 +514,7 @@ extension RAM {
             case clientToken = "clientToken"
             case name = "name"
             case permissionArns = "permissionArns"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case principals = "principals"
             case resourceArns = "resourceArns"
             case resourceShareConfiguration = "resourceShareConfiguration"
@@ -743,17 +782,21 @@ extension RAM {
     public struct GetPermissionRequest: AWSEncodableShape {
         /// Specifies the Amazon Resource Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and  then choose the name of the permission. The ARN is displayed on the detail page.
         public let permissionArn: String
+        /// Specifies the template parameter values to use when rendering the permission's policy template. Each entry supplies a parameter name and its values. When you provide this parameter, the response contains the rendered policy with the specified values in place of the template parameter placeholders. For STRING type parameters, provide a single value. For STRING_LIST type parameters, provide one or more values. You can specify this parameter only for permissions that declare template parameters. You must provide values for all parameters declared in the permission template.
+        public let permissionTemplateParameters: [PermissionTemplateParameterInput]?
         /// Specifies the version number of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version. To see the list of available versions, use ListPermissionVersions.
         public let permissionVersion: Int?
 
         @inlinable
-        public init(permissionArn: String, permissionVersion: Int? = nil) {
+        public init(permissionArn: String, permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil, permissionVersion: Int? = nil) {
             self.permissionArn = permissionArn
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionVersion = permissionVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case permissionArn = "permissionArn"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case permissionVersion = "permissionVersion"
         }
     }
@@ -1064,11 +1107,15 @@ extension RAM {
         public let permissionArn: String?
         /// Specifies that you want to list only those associations with resource shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation returns information about associations with resource shares that use any version of the managed permission.
         public let permissionVersion: Int?
+        /// Specifies that you want to list only those associations with resource shares owned by a specific entity:    SELF – returns only associations with resource shares owned by the calling account.    OTHER-ACCOUNTS – returns only associations with resource shares owned by other Amazon Web Services accounts.   If you don't specify this parameter, the default is SELF.
+        public let resourceOwner: ResourceOwner?
+        /// Specifies the Amazon Resource Name (ARN) of the resource share for which you want to retrieve permission associations.
+        public let resourceShareArn: String?
         /// Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
         public let resourceType: String?
 
         @inlinable
-        public init(associationStatus: ResourceShareAssociationStatus? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, maxResults: Int? = nil, nextToken: String? = nil, permissionArn: String? = nil, permissionVersion: Int? = nil, resourceType: String? = nil) {
+        public init(associationStatus: ResourceShareAssociationStatus? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, maxResults: Int? = nil, nextToken: String? = nil, permissionArn: String? = nil, permissionVersion: Int? = nil, resourceOwner: ResourceOwner? = nil, resourceShareArn: String? = nil, resourceType: String? = nil) {
             self.associationStatus = associationStatus
             self.defaultVersion = defaultVersion
             self.featureSet = featureSet
@@ -1076,6 +1123,8 @@ extension RAM {
             self.nextToken = nextToken
             self.permissionArn = permissionArn
             self.permissionVersion = permissionVersion
+            self.resourceOwner = resourceOwner
+            self.resourceShareArn = resourceShareArn
             self.resourceType = resourceType
         }
 
@@ -1092,6 +1141,8 @@ extension RAM {
             case nextToken = "nextToken"
             case permissionArn = "permissionArn"
             case permissionVersion = "permissionVersion"
+            case resourceOwner = "resourceOwner"
+            case resourceShareArn = "resourceShareArn"
             case resourceType = "resourceType"
         }
     }
@@ -1164,16 +1215,22 @@ extension RAM {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
+        /// Specifies that you want to filter the results to include only permissions with the specified status. For example, use ATTACHABLE to list only permissions that can be associated with resource shares, or DEPRECATED to list only deprecated permissions.
+        public let permissionStatus: PermissionStatus?
         /// Specifies that you want to list only permissions of this type:    AWS – returns only Amazon Web Services managed permissions.    LOCAL – returns only customer managed permissions    ALL – returns both Amazon Web Services managed permissions and customer managed permissions.   If you don't specify this parameter, the default is All.
         public let permissionType: PermissionTypeFilter?
+        /// Specifies that you want to list only permissions owned by a specific entity:    SELF – returns only permissions owned by the calling account.    OTHER-ACCOUNTS – returns only permissions shared with the calling account by other accounts.
+        public let resourceOwner: ResourceOwner?
         /// Specifies that you want to list only those permissions that apply to the specified resource type. This parameter is not case sensitive. For example, to list only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the ListResourceTypes operation to get the specific string required.
         public let resourceType: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, permissionType: PermissionTypeFilter? = nil, resourceType: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, permissionStatus: PermissionStatus? = nil, permissionType: PermissionTypeFilter? = nil, resourceOwner: ResourceOwner? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.permissionStatus = permissionStatus
             self.permissionType = permissionType
+            self.resourceOwner = resourceOwner
             self.resourceType = resourceType
         }
 
@@ -1185,7 +1242,9 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case permissionStatus = "permissionStatus"
             case permissionType = "permissionType"
+            case resourceOwner = "resourceOwner"
             case resourceType = "resourceType"
         }
     }
@@ -1530,6 +1589,90 @@ extension RAM {
         }
     }
 
+    public struct PermissionArnAndTemplateParameters: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the permission to associate with the resource share.
+        public let permissionArn: String?
+        /// The list of template parameter values to assign for this permission. You must provide values for all parameters declared in the permission template.
+        public let permissionTemplateParameters: [PermissionTemplateParameterInput]?
+
+        @inlinable
+        public init(permissionArn: String? = nil, permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil) {
+            self.permissionArn = permissionArn
+            self.permissionTemplateParameters = permissionTemplateParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionArn = "permissionArn"
+            case permissionTemplateParameters = "permissionTemplateParameters"
+        }
+    }
+
+    public struct PermissionTemplateParameter: AWSDecodableShape {
+        /// A description of the template parameter.
+        public let description: String?
+        /// The name of the template parameter.
+        public let name: String?
+        /// The type of the template parameter. This can be one of the following values:    STRING – A single string value.    STRING_LIST – One or more string values.
+        public let type: PermissionTemplateParameterType?
+        /// The values assigned to this template parameter in the context of a permission association. This field is present only when the parameter has been assigned values (for example, in the response from ListPermissionAssociations or ListResourceSharePermissions).
+        public let values: [String]?
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, type: PermissionTemplateParameterType? = nil, values: [String]? = nil) {
+            self.description = description
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case type = "type"
+            case values = "values"
+        }
+    }
+
+    public struct PermissionTemplateParameterDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the template parameter that helps consumers understand what value to provide.
+        public let description: String?
+        /// The name of the template parameter. This name is used as the placeholder in the policy template using the syntax @{parameterName}.
+        public let name: String?
+        /// The type of the template parameter. This can be one of the following values:    STRING – A single string value that is substituted directly into the template.    STRING_LIST – One or more string values that expand to an array in the rendered policy.
+        public let type: PermissionTemplateParameterType?
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, type: PermissionTemplateParameterType? = nil) {
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct PermissionTemplateParameterInput: AWSEncodableShape {
+        /// The name of the template parameter to assign a value to. This must match a parameter name declared in the permission template.
+        public let name: String?
+        /// The values to assign to the template parameter. For STRING type parameters, provide a single value. For STRING_LIST type parameters, provide one or more values.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
     public struct Principal: AWSDecodableShape {
         /// The date and time when the principal was associated with the resource share.
         public let creationTime: Date?
@@ -1585,6 +1728,7 @@ extension RAM {
     public struct PromotePermissionCreatedFromPolicyResponse: AWSDecodableShape {
         /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other  parameters must also have the same values that you used in the first call.
         public let clientToken: String?
+        /// The details of the promoted customer managed permission, including its Amazon Resource Name (ARN), version, and status.
         public let permission: ResourceSharePermissionSummary?
 
         @inlinable
@@ -1674,14 +1818,17 @@ extension RAM {
         public let fromPermissionArn: String
         /// Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed permission.
         public let fromPermissionVersion: Int?
+        /// Specifies the template parameter values to apply when replacing the permission. You must provide values for all parameters declared in the target permission template. This parameter is required only if the target permission (toPermissionArn) has template parameters.
+        public let permissionTemplateParameters: [PermissionTemplateParameterInput]?
         /// Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion. The operation always associates the version that is currently the default for the specified managed permission.
         public let toPermissionArn: String
 
         @inlinable
-        public init(clientToken: String? = nil, fromPermissionArn: String, fromPermissionVersion: Int? = nil, toPermissionArn: String) {
+        public init(clientToken: String? = nil, fromPermissionArn: String, fromPermissionVersion: Int? = nil, permissionTemplateParameters: [PermissionTemplateParameterInput]? = nil, toPermissionArn: String) {
             self.clientToken = clientToken
             self.fromPermissionArn = fromPermissionArn
             self.fromPermissionVersion = fromPermissionVersion
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.toPermissionArn = toPermissionArn
         }
 
@@ -1689,6 +1836,7 @@ extension RAM {
             case clientToken = "clientToken"
             case fromPermissionArn = "fromPermissionArn"
             case fromPermissionVersion = "fromPermissionVersion"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case toPermissionArn = "toPermissionArn"
         }
     }
@@ -1722,6 +1870,8 @@ extension RAM {
         public let id: String?
         /// The date and time when the status of this background task was last updated.
         public let lastUpdatedTime: Date?
+        /// The template parameter values to apply when replacing the permission. This field is present only if the target permission is a template with declared parameters.
+        public let permissionTemplateParameters: [PermissionTemplateParameter]?
         /// Specifies the current status of the background tasks for the specified ID. The output is one of the following strings:    IN_PROGRESS     COMPLETED     FAILED
         public let status: ReplacePermissionAssociationsWorkStatus?
         /// Specifies the reason for a FAILED status. This field is present only when there status is FAILED.
@@ -1732,12 +1882,13 @@ extension RAM {
         public let toPermissionVersion: String?
 
         @inlinable
-        public init(creationTime: Date? = nil, fromPermissionArn: String? = nil, fromPermissionVersion: String? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, status: ReplacePermissionAssociationsWorkStatus? = nil, statusMessage: String? = nil, toPermissionArn: String? = nil, toPermissionVersion: String? = nil) {
+        public init(creationTime: Date? = nil, fromPermissionArn: String? = nil, fromPermissionVersion: String? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, permissionTemplateParameters: [PermissionTemplateParameter]? = nil, status: ReplacePermissionAssociationsWorkStatus? = nil, statusMessage: String? = nil, toPermissionArn: String? = nil, toPermissionVersion: String? = nil) {
             self.creationTime = creationTime
             self.fromPermissionArn = fromPermissionArn
             self.fromPermissionVersion = fromPermissionVersion
             self.id = id
             self.lastUpdatedTime = lastUpdatedTime
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.status = status
             self.statusMessage = statusMessage
             self.toPermissionArn = toPermissionArn
@@ -1750,6 +1901,7 @@ extension RAM {
             case fromPermissionVersion = "fromPermissionVersion"
             case id = "id"
             case lastUpdatedTime = "lastUpdatedTime"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case status = "status"
             case statusMessage = "statusMessage"
             case toPermissionArn = "toPermissionArn"
@@ -1994,11 +2146,15 @@ extension RAM {
         public let name: String?
         /// The permission's effect and actions in JSON format. The effect indicates whether the specified actions are allowed or denied. The actions list the operations to which the principal is granted or denied access.
         public let permission: String?
+        /// The list of template parameter declarations defined for this permission. Each declaration includes the parameter name, type, and description. This field is present only if the permission is a template with declared parameters.
+        public let permissionTemplateParameters: [PermissionTemplateParameterDeclaration]?
         /// The type of managed permission. This can be one of the following values:    AWS_MANAGED – Amazon Web Services created and manages this managed permission. You can associate it with your resource shares, but you can't modify it.    CUSTOMER_MANAGED – You, or another principal in your account created this managed permission. You can associate it with your resource shares and create new versions that have different permissions.
         public let permissionType: PermissionType?
+        /// The owner of the permission. This can be one of the following values:    SELF – The permission is owned by the current account.    OTHER-ACCOUNTS – The permission is owned by another account and shared with the current account.
+        public let resourceOwner: ResourceOwner?
         /// The resource type to which this permission applies.
         public let resourceType: String?
-        /// The current status of the association between the permission and the resource share. The following are the possible values:    ATTACHABLE – This permission or version can be associated  with resource shares.    UNATTACHABLE – This permission or version can't  currently be associated with resource shares.    DELETING – This permission or version is in the process of being deleted.    DELETED – This permission or version is deleted.
+        /// The current status of the association between the permission and the resource share. The following are the possible values:    ATTACHABLE – This permission or version can be associated  with resource shares.    UNATTACHABLE – This permission or version can't  currently be associated with resource shares.    DELETING – This permission or version is in the process of being deleted.    DELETED – This permission or version is deleted.    DEPRECATED – The permission owner deprecated this permission. It can't be associated with new resource shares, but existing associations continue to function.
         public let status: PermissionStatus?
         /// The tag key and value pairs attached to the resource share.
         public let tags: [Tag]?
@@ -2006,7 +2162,7 @@ extension RAM {
         public let version: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, permissionType: PermissionType? = nil, resourceType: String? = nil, status: PermissionStatus? = nil, tags: [Tag]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, permissionTemplateParameters: [PermissionTemplateParameterDeclaration]? = nil, permissionType: PermissionType? = nil, resourceOwner: ResourceOwner? = nil, resourceType: String? = nil, status: PermissionStatus? = nil, tags: [Tag]? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
@@ -2015,7 +2171,9 @@ extension RAM {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.permission = permission
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionType = permissionType
+            self.resourceOwner = resourceOwner
             self.resourceType = resourceType
             self.status = status
             self.tags = tags
@@ -2031,7 +2189,9 @@ extension RAM {
             case lastUpdatedTime = "lastUpdatedTime"
             case name = "name"
             case permission = "permission"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case permissionType = "permissionType"
+            case resourceOwner = "resourceOwner"
             case resourceType = "resourceType"
             case status = "status"
             case tags = "tags"
@@ -2054,8 +2214,12 @@ extension RAM {
         public let lastUpdatedTime: Date?
         /// The name of this managed permission.
         public let name: String?
+        /// The list of template parameters defined for this permission, including their names, types, descriptions, and values. This field is present only if the permission is a template with declared parameters. When returned in the context of a permission association, the values are also included.
+        public let permissionTemplateParameters: [PermissionTemplateParameter]?
         /// The type of managed permission. This can be one of the following values:    AWS_MANAGED – Amazon Web Services created and manages this managed permission. You can associate it with your resource shares, but you can't modify it.    CUSTOMER_MANAGED – You, or another principal in your account created this managed permission. You can associate it with your resource shares and create new versions that have different permissions.
         public let permissionType: PermissionType?
+        /// The owner of the permission. This can be one of the following values:    SELF – The permission is owned by the current account.    OTHER-ACCOUNTS – The permission is owned by another account and shared with the current account.
+        public let resourceOwner: ResourceOwner?
         /// The type of resource to which this permission applies. This takes the form of: service-code:resource-code, and is case-insensitive. For example, an Amazon EC2 Subnet would be represented by the string ec2:subnet.
         public let resourceType: String?
         /// The current status of the permission.
@@ -2066,7 +2230,7 @@ extension RAM {
         public let version: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permissionType: PermissionType? = nil, resourceType: String? = nil, status: String? = nil, tags: [Tag]? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, featureSet: PermissionFeatureSet? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permissionTemplateParameters: [PermissionTemplateParameter]? = nil, permissionType: PermissionType? = nil, resourceOwner: ResourceOwner? = nil, resourceType: String? = nil, status: String? = nil, tags: [Tag]? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
@@ -2074,7 +2238,9 @@ extension RAM {
             self.isResourceTypeDefault = isResourceTypeDefault
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.permissionTemplateParameters = permissionTemplateParameters
             self.permissionType = permissionType
+            self.resourceOwner = resourceOwner
             self.resourceType = resourceType
             self.status = status
             self.tags = tags
@@ -2089,7 +2255,9 @@ extension RAM {
             case isResourceTypeDefault = "isResourceTypeDefault"
             case lastUpdatedTime = "lastUpdatedTime"
             case name = "name"
+            case permissionTemplateParameters = "permissionTemplateParameters"
             case permissionType = "permissionType"
+            case resourceOwner = "resourceOwner"
             case resourceType = "resourceType"
             case status = "status"
             case tags = "tags"
@@ -2245,6 +2413,46 @@ extension RAM {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdatePermissionRequest: AWSEncodableShape {
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
+        public let clientToken: String?
+        /// Specifies the Amazon Resource Name (ARN) of the customer managed permission that you want to update.
+        public let permissionArn: String
+        /// Specifies the new status for the permission. This can be one of the following values:    ATTACHABLE – Restores a previously deprecated permission so it can be associated with resource shares again.    DEPRECATED – Deprecates the permission so it can no longer be associated with new resource shares.
+        public let status: UpdatePermissionStatus
+
+        @inlinable
+        public init(clientToken: String? = nil, permissionArn: String, status: UpdatePermissionStatus) {
+            self.clientToken = clientToken
+            self.permissionArn = permissionArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case permissionArn = "permissionArn"
+            case status = "status"
+        }
+    }
+
+    public struct UpdatePermissionResponse: AWSDecodableShape {
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other  parameters must also have the same values that you used in the first call.
+        public let clientToken: String?
+        /// The updated status of the permission.
+        public let permissionStatus: UpdatePermissionStatus?
+
+        @inlinable
+        public init(clientToken: String? = nil, permissionStatus: UpdatePermissionStatus? = nil) {
+            self.clientToken = clientToken
+            self.permissionStatus = permissionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case permissionStatus = "permissionStatus"
+        }
     }
 
     public struct UpdateResourceShareRequest: AWSEncodableShape {

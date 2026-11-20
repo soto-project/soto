@@ -26,19 +26,25 @@ extension NetworkManager {
     // MARK: Enums
 
     public enum AttachmentErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creationFailed = "CREATION_FAILED"
+        case deletionFailed = "DELETION_FAILED"
         case directConnectGatewayExistingAttachments = "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS"
         case directConnectGatewayNoPrivateVif = "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
         case directConnectGatewayNotFound = "DIRECT_CONNECT_GATEWAY_NOT_FOUND"
+        case directConnectGatewayTopologyRestrictions = "DIRECT_CONNECT_GATEWAY_TOPOLOGY_RESTRICTIONS"
         case maximumNoEncapLimitExceeded = "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+        case securityGroupReferencingUnsupportedAvailabilityZone = "SECURITY_GROUP_REFERENCING_UNSUPPORTED_AVAILABILITY_ZONE"
         case subnetDuplicatedInAvailabilityZone = "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
         case subnetNoFreeAddresses = "SUBNET_NO_FREE_ADDRESSES"
         case subnetNoIpv6Cidrs = "SUBNET_NO_IPV6_CIDRS"
         case subnetNotFound = "SUBNET_NOT_FOUND"
         case subnetUnsupportedAvailabilityZone = "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
+        case updateFailed = "UPDATE_FAILED"
         case vpcNotFound = "VPC_NOT_FOUND"
         case vpcUnsupportedFeatures = "VPC_UNSUPPORTED_FEATURES"
         case vpnConnectionNotFound = "VPN_CONNECTION_NOT_FOUND"
         case vpnExistingAssociations = "VPN_EXISTING_ASSOCIATIONS"
+        case vpnStaticRoutesNatUnsupported = "VPN_STATIC_ROUTES_NAT_UNSUPPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -116,6 +122,8 @@ extension NetworkManager {
     }
 
     public enum ConnectPeerErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creationFailed = "CREATION_FAILED"
+        case deletionFailed = "DELETION_FAILED"
         case edgeLocationNoFreeIps = "EDGE_LOCATION_NO_FREE_IPS"
         case edgeLocationPeerDuplicate = "EDGE_LOCATION_PEER_DUPLICATE"
         case invalidInsideCidrBlock = "INVALID_INSIDE_CIDR_BLOCK"
@@ -207,11 +215,42 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum NatGatewaySupportState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case pendingAttachmentAcceptance = "PENDING_ATTACHMENT_ACCEPTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewaySupportValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatRuleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activated = "ACTIVATED"
+        case activating = "ACTIVATING"
+        case creating = "CREATING"
+        case deactivated = "DEACTIVATED"
+        case deactivating = "DEACTIVATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case modifying = "MODIFYING"
+        case pendingAttachmentAcceptance = "PENDING_ATTACHMENT_ACCEPTANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PeeringErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creationFailed = "CREATION_FAILED"
+        case deletionFailed = "DELETION_FAILED"
         case edgeLocationPeerDuplicate = "EDGE_LOCATION_PEER_DUPLICATE"
         case internalError = "INTERNAL_ERROR"
         case invalidTransitGatewayState = "INVALID_TRANSIT_GATEWAY_STATE"
         case missingRequiredPermissions = "MISSING_PERMISSIONS"
+        case transitGatewayEncryptionNotSupported = "TRANSIT_GATEWAY_ENCRYPTION_NOT_SUPPORTED"
         case transitGatewayNotFound = "TRANSIT_GATEWAY_NOT_FOUND"
         case transitGatewayPeersLimitExceeded = "TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
@@ -274,6 +313,7 @@ extension NetworkManager {
     public enum RouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case propagated = "PROPAGATED"
+        case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
@@ -664,6 +704,10 @@ extension NetworkManager {
         public let edgeLocations: [String]?
         /// Describes the error associated with the attachment request.
         public let lastModificationErrors: [AttachmentError]?
+        /// The state of NAT gateway support on the attachment. This is returned only to the core network owner for attachment types that support NAT.
+        public let natGatewaySupport: NatGatewaySupportState?
+        /// Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. This is returned only to the core network owner for attachment types that support NAT.
+        public let natSystemRouteSupport: Bool?
         /// The name of the network function group.
         public let networkFunctionGroupName: String?
         /// The ID of the attachment account owner.
@@ -684,7 +728,7 @@ extension NetworkManager {
         public let updatedAt: Date?
 
         @inlinable
-        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, edgeLocations: [String]? = nil, lastModificationErrors: [AttachmentError]? = nil, networkFunctionGroupName: String? = nil, ownerAccountId: String? = nil, proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
+        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, edgeLocations: [String]? = nil, lastModificationErrors: [AttachmentError]? = nil, natGatewaySupport: NatGatewaySupportState? = nil, natSystemRouteSupport: Bool? = nil, networkFunctionGroupName: String? = nil, ownerAccountId: String? = nil, proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
             self.attachmentId = attachmentId
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.attachmentType = attachmentType
@@ -694,6 +738,8 @@ extension NetworkManager {
             self.edgeLocation = edgeLocation
             self.edgeLocations = edgeLocations
             self.lastModificationErrors = lastModificationErrors
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
             self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
             self.proposedNetworkFunctionGroupChange = proposedNetworkFunctionGroupChange
@@ -715,6 +761,8 @@ extension NetworkManager {
             case edgeLocation = "EdgeLocation"
             case edgeLocations = "EdgeLocations"
             case lastModificationErrors = "LastModificationErrors"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
             case networkFunctionGroupName = "NetworkFunctionGroupName"
             case ownerAccountId = "OwnerAccountId"
             case proposedNetworkFunctionGroupChange = "ProposedNetworkFunctionGroupChange"
@@ -750,6 +798,32 @@ extension NetworkManager {
             case message = "Message"
             case requestId = "RequestId"
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct AttachmentNatConfiguration: AWSDecodableShape {
+        /// The ID of the attachment.
+        public let attachmentId: String?
+        /// The NAT rules of the attachment.
+        public let natGatewayRules: [NatRule]?
+        /// The state of NAT gateway support on the attachment.
+        public let natGatewaySupport: NatGatewaySupportState?
+        /// Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.
+        public let natSystemRouteSupport: Bool?
+
+        @inlinable
+        public init(attachmentId: String? = nil, natGatewayRules: [NatRule]? = nil, natGatewaySupport: NatGatewaySupportState? = nil, natSystemRouteSupport: Bool? = nil) {
+            self.attachmentId = attachmentId
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
         }
     }
 
@@ -1277,7 +1351,7 @@ extension NetworkManager {
         public let networkFunctionGroupName: String?
         /// The edge location of the peer in a core network change event.
         public let peerEdgeLocation: String?
-        /// The names of the routing policies and other association details in the core network change values.
+        /// The names of the routing policies and other association details in a core network change event.
         public let routingPolicyAssociationDetails: [RoutingPolicyAssociationDetail]?
         /// The routing policy direction (inbound/outbound) in a core network change event.
         public let routingPolicyDirection: RoutingPolicyDirection?
@@ -1331,7 +1405,7 @@ extension NetworkManager {
         public let routingPolicy: String?
         /// The names of the routing policies and other association details in the core network change values.
         public let routingPolicyAssociationDetails: [RoutingPolicyAssociationDetail]?
-        /// The routing policy direction (inbound/outbound) in a core network change event.
+        /// The routing policy direction (inbound/outbound) in the core network change values.
         public let routingPolicyDirection: RoutingPolicyDirection?
         /// Indicates whether security group referencing is enabled for the core network.
         public let securityGroupReferencingSupport: Bool?
@@ -1430,7 +1504,7 @@ extension NetworkManager {
         }
     }
 
-    public struct CoreNetworkNetworkFunctionGroupIdentifier: AWSEncodableShape {
+    public struct CoreNetworkNetworkFunctionGroupIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the core network.
         public let coreNetworkId: String?
         /// The location for the core network edge.
@@ -1710,6 +1784,10 @@ extension NetworkManager {
         public let coreNetworkId: String
         /// The Region where the edge is located.
         public let edgeLocation: String
+        /// The NAT rules for the Connect attachment, up to 50 rules.
+        public let natGatewayRules: [NatRuleRequest]?
+        /// Specifies whether to enable NAT gateway support on the Connect attachment. NAT is supported only on Connect attachments that use the GRE tunnel protocol. Tunnel-less Connect attachments aren't supported. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+        public let natGatewaySupport: NatGatewaySupportValue?
         /// Options for creating an attachment.
         public let options: ConnectAttachmentOptions
         /// The routing policy label to apply to the Connect attachment for traffic routing decisions.
@@ -1720,10 +1798,12 @@ extension NetworkManager {
         public let transportAttachmentId: String
 
         @inlinable
-        public init(clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(), coreNetworkId: String, edgeLocation: String, options: ConnectAttachmentOptions, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, transportAttachmentId: String) {
+        public init(clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(), coreNetworkId: String, edgeLocation: String, natGatewayRules: [NatRuleRequest]? = nil, natGatewaySupport: NatGatewaySupportValue? = nil, options: ConnectAttachmentOptions, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, transportAttachmentId: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
             self.options = options
             self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
@@ -1738,6 +1818,10 @@ extension NetworkManager {
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "^[\\s\\S]*$")
+            try self.natGatewayRules?.forEach {
+                try $0.validate(name: "\(name).natGatewayRules[]")
+            }
+            try self.validate(self.natGatewayRules, name: "natGatewayRules", parent: name, max: 50)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
@@ -1751,6 +1835,8 @@ extension NetworkManager {
             case clientToken = "ClientToken"
             case coreNetworkId = "CoreNetworkId"
             case edgeLocation = "EdgeLocation"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
             case options = "Options"
             case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
@@ -2157,17 +2243,26 @@ extension NetworkManager {
         public let directConnectGatewayArn: String
         /// One or more core network edge locations that the Direct Connect gateway attachment is associated with.
         public let edgeLocations: [String]
+        /// The NAT rules for the Direct Connect gateway attachment, up to 50 rules.
+        public let natGatewayRules: [NatRuleRequest]?
+        /// Specifies whether to enable NAT gateway support on the Direct Connect gateway attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+        public let natGatewaySupport: NatGatewaySupportValue?
+        /// Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. The default is true.
+        public let natSystemRouteSupport: Bool?
         /// The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions.
         public let routingPolicyLabel: String?
         /// The key value tags to apply to the Direct Connect gateway attachment during creation.
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateDirectConnectGatewayAttachmentRequest.idempotencyToken(), coreNetworkId: String, directConnectGatewayArn: String, edgeLocations: [String], routingPolicyLabel: String? = nil, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateDirectConnectGatewayAttachmentRequest.idempotencyToken(), coreNetworkId: String, directConnectGatewayArn: String, edgeLocations: [String], natGatewayRules: [NatRuleRequest]? = nil, natGatewaySupport: NatGatewaySupportValue? = nil, natSystemRouteSupport: Bool? = nil, routingPolicyLabel: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
             self.directConnectGatewayArn = directConnectGatewayArn
             self.edgeLocations = edgeLocations
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
             self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
         }
@@ -2184,6 +2279,10 @@ extension NetworkManager {
                 try validate($0, name: "edgeLocations[]", parent: name, min: 1)
                 try validate($0, name: "edgeLocations[]", parent: name, pattern: "^[\\s\\S]*$")
             }
+            try self.natGatewayRules?.forEach {
+                try $0.validate(name: "\(name).natGatewayRules[]")
+            }
+            try self.validate(self.natGatewayRules, name: "natGatewayRules", parent: name, max: 50)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
@@ -2196,6 +2295,9 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case directConnectGatewayArn = "DirectConnectGatewayArn"
             case edgeLocations = "EdgeLocations"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
             case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
         }
@@ -2398,6 +2500,12 @@ extension NetworkManager {
         public let clientToken: String?
         /// The ID of a core network where you're creating a site-to-site VPN attachment.
         public let coreNetworkId: String
+        /// The NAT rules for the Site-to-Site VPN attachment, up to 50 rules.
+        public let natGatewayRules: [NatRuleRequest]?
+        /// Specifies whether to enable NAT gateway support on the Site-to-Site VPN attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+        public let natGatewaySupport: NatGatewaySupportValue?
+        /// Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. The default is true for VPN connections that use BGP and false for VPN connections that use static routing. If the VPN connection uses static routing, you must specify false or omit this parameter.
+        public let natSystemRouteSupport: Bool?
         /// The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions.
         public let routingPolicyLabel: String?
         /// The tags associated with the request.
@@ -2406,9 +2514,12 @@ extension NetworkManager {
         public let vpnConnectionArn: String
 
         @inlinable
-        public init(clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(), coreNetworkId: String, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, vpnConnectionArn: String) {
+        public init(clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(), coreNetworkId: String, natGatewayRules: [NatRuleRequest]? = nil, natGatewaySupport: NatGatewaySupportValue? = nil, natSystemRouteSupport: Bool? = nil, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, vpnConnectionArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
             self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
             self.vpnConnectionArn = vpnConnectionArn
@@ -2419,6 +2530,10 @@ extension NetworkManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.natGatewayRules?.forEach {
+                try $0.validate(name: "\(name).natGatewayRules[]")
+            }
+            try self.validate(self.natGatewayRules, name: "natGatewayRules", parent: name, max: 50)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
@@ -2431,6 +2546,9 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case coreNetworkId = "CoreNetworkId"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
             case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
             case vpnConnectionArn = "VpnConnectionArn"
@@ -2566,6 +2684,10 @@ extension NetworkManager {
         public let clientToken: String?
         /// The ID of a core network for the VPC attachment.
         public let coreNetworkId: String
+        /// The NAT rules for the VPC attachment, up to 50 rules.
+        public let natGatewayRules: [NatRuleRequest]?
+        /// Specifies whether to enable NAT gateway support on the VPC attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+        public let natGatewaySupport: NatGatewaySupportValue?
         /// Options for the VPC attachment.
         public let options: VpcOptions?
         /// The routing policy label to apply to the VPC attachment for traffic routing decisions.
@@ -2578,9 +2700,11 @@ extension NetworkManager {
         public let vpcArn: String
 
         @inlinable
-        public init(clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(), coreNetworkId: String, options: VpcOptions? = nil, routingPolicyLabel: String? = nil, subnetArns: [String], tags: [Tag]? = nil, vpcArn: String) {
+        public init(clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(), coreNetworkId: String, natGatewayRules: [NatRuleRequest]? = nil, natGatewaySupport: NatGatewaySupportValue? = nil, options: VpcOptions? = nil, routingPolicyLabel: String? = nil, subnetArns: [String], tags: [Tag]? = nil, vpcArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
             self.options = options
             self.routingPolicyLabel = routingPolicyLabel
             self.subnetArns = subnetArns
@@ -2593,6 +2717,10 @@ extension NetworkManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.natGatewayRules?.forEach {
+                try $0.validate(name: "\(name).natGatewayRules[]")
+            }
+            try self.validate(self.natGatewayRules, name: "natGatewayRules", parent: name, max: 50)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
             try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.subnetArns.forEach {
@@ -2609,6 +2737,8 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case coreNetworkId = "CoreNetworkId"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
             case options = "Options"
             case routingPolicyLabel = "RoutingPolicyLabel"
             case subnetArns = "SubnetArns"
@@ -4498,6 +4628,10 @@ extension NetworkManager {
         public let globalNetworkId: String
         /// The most specific route that matches the traffic (longest prefix match).
         public let longestPrefixMatches: [String]?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
         /// The IDs of the prefix lists.
         public let prefixListIds: [String]?
         /// The ID of the route table.
@@ -4512,11 +4646,13 @@ extension NetworkManager {
         public let types: [RouteType]?
 
         @inlinable
-        public init(destinationFilters: [String: [String]]? = nil, exactCidrMatches: [String]? = nil, globalNetworkId: String, longestPrefixMatches: [String]? = nil, prefixListIds: [String]? = nil, routeTableIdentifier: RouteTableIdentifier, states: [RouteState]? = nil, subnetOfMatches: [String]? = nil, supernetOfMatches: [String]? = nil, types: [RouteType]? = nil) {
+        public init(destinationFilters: [String: [String]]? = nil, exactCidrMatches: [String]? = nil, globalNetworkId: String, longestPrefixMatches: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, prefixListIds: [String]? = nil, routeTableIdentifier: RouteTableIdentifier, states: [RouteState]? = nil, subnetOfMatches: [String]? = nil, supernetOfMatches: [String]? = nil, types: [RouteType]? = nil) {
             self.destinationFilters = destinationFilters
             self.exactCidrMatches = exactCidrMatches
             self.globalNetworkId = globalNetworkId
             self.longestPrefixMatches = longestPrefixMatches
+            self.maxResults = maxResults
+            self.nextToken = nextToken
             self.prefixListIds = prefixListIds
             self.routeTableIdentifier = routeTableIdentifier
             self.states = states
@@ -4532,6 +4668,8 @@ extension NetworkManager {
             try container.encodeIfPresent(self.exactCidrMatches, forKey: .exactCidrMatches)
             request.encodePath(self.globalNetworkId, key: "GlobalNetworkId")
             try container.encodeIfPresent(self.longestPrefixMatches, forKey: .longestPrefixMatches)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             try container.encodeIfPresent(self.prefixListIds, forKey: .prefixListIds)
             try container.encode(self.routeTableIdentifier, forKey: .routeTableIdentifier)
             try container.encodeIfPresent(self.states, forKey: .states)
@@ -4555,6 +4693,10 @@ extension NetworkManager {
                 try validate($0, name: "longestPrefixMatches[]", parent: name, max: 256)
                 try validate($0, name: "longestPrefixMatches[]", parent: name, pattern: "^[\\s\\S]*$")
             }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.prefixListIds?.forEach {
                 try validate($0, name: "prefixListIds[]", parent: name, max: 256)
                 try validate($0, name: "prefixListIds[]", parent: name, pattern: "^[\\s\\S]*$")
@@ -4574,6 +4716,8 @@ extension NetworkManager {
             case destinationFilters = "DestinationFilters"
             case exactCidrMatches = "ExactCidrMatches"
             case longestPrefixMatches = "LongestPrefixMatches"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
             case prefixListIds = "PrefixListIds"
             case routeTableIdentifier = "RouteTableIdentifier"
             case states = "States"
@@ -4584,10 +4728,14 @@ extension NetworkManager {
     }
 
     public struct GetNetworkRoutesResponse: AWSDecodableShape {
+        /// Describes the network function group route table that the routes are from. This field is present only when you specify CoreNetworkNetworkFunctionGroup in RouteTableIdentifier.
+        public let coreNetworkNetworkFunctionGroup: CoreNetworkNetworkFunctionGroupIdentifier?
         /// Describes a core network segment edge.
         public let coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier?
         /// The network routes.
         public let networkRoutes: [NetworkRoute]?
+        /// The token for the next page of results.
+        public let nextToken: String?
         /// The ARN of the route table.
         public let routeTableArn: String?
         /// The route table creation time.
@@ -4596,17 +4744,21 @@ extension NetworkManager {
         public let routeTableType: RouteTableType?
 
         @inlinable
-        public init(coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, networkRoutes: [NetworkRoute]? = nil, routeTableArn: String? = nil, routeTableTimestamp: Date? = nil, routeTableType: RouteTableType? = nil) {
+        public init(coreNetworkNetworkFunctionGroup: CoreNetworkNetworkFunctionGroupIdentifier? = nil, coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, networkRoutes: [NetworkRoute]? = nil, nextToken: String? = nil, routeTableArn: String? = nil, routeTableTimestamp: Date? = nil, routeTableType: RouteTableType? = nil) {
+            self.coreNetworkNetworkFunctionGroup = coreNetworkNetworkFunctionGroup
             self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.networkRoutes = networkRoutes
+            self.nextToken = nextToken
             self.routeTableArn = routeTableArn
             self.routeTableTimestamp = routeTableTimestamp
             self.routeTableType = routeTableType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coreNetworkNetworkFunctionGroup = "CoreNetworkNetworkFunctionGroup"
             case coreNetworkSegmentEdge = "CoreNetworkSegmentEdge"
             case networkRoutes = "NetworkRoutes"
+            case nextToken = "NextToken"
             case routeTableArn = "RouteTableArn"
             case routeTableTimestamp = "RouteTableTimestamp"
             case routeTableType = "RouteTableType"
@@ -5252,6 +5404,69 @@ extension NetworkManager {
         }
     }
 
+    public struct ListAttachmentNatConfigurationsRequest: AWSEncodableShape {
+        /// The ID of an attachment. Returns the NAT configuration of the specified attachment. If you specify both an attachment ID and a core network ID, the attachment ID is used.
+        public let attachmentId: String?
+        /// The ID of a core network. Returns the NAT configurations of attachments in the core network that support NAT.
+        public let coreNetworkId: String?
+        /// The filters to apply to the results. Values for the same filter are joined with OR, and different filters are joined with AND. You can specify up to 10 filter values in total. The following filters are supported:    nat-gateway-support: The state of NAT gateway support on the attachment, for example ENABLED.    nat-system-route-support: Whether system routes are installed for the attachment, true or false.    rule-number: The rule number of a NAT rule.    match-source-cidr: The source CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.    nat-cidr: The NAT CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.    nat-rule-state: The state of a NAT rule, for example ACTIVATED.
+        public let filters: [String: [String]]?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachmentId: String? = nil, coreNetworkId: String? = nil, filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.attachmentId = attachmentId
+            self.coreNetworkId = coreNetworkId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.filters?.forEach {
+                try validate($0.key, name: "filters.key", parent: name, max: 128)
+                try validate($0.key, name: "filters.key", parent: name, pattern: "^[0-9a-zA-Z\\.-]*$")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case coreNetworkId = "CoreNetworkId"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAttachmentNatConfigurationsResponse: AWSDecodableShape {
+        /// The NAT configurations of the attachments.
+        public let attachmentNatConfigurations: [AttachmentNatConfiguration]
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachmentNatConfigurations: [AttachmentNatConfiguration], nextToken: String? = nil) {
+            self.attachmentNatConfigurations = attachmentNatConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentNatConfigurations = "AttachmentNatConfigurations"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAttachmentRoutingPolicyAssociationsRequest: AWSEncodableShape {
         /// The ID of a specific attachment to filter the routing policy associations.
         public let attachmentId: String?
@@ -5559,31 +5774,43 @@ extension NetworkManager {
         public let edgeLocation: String
         /// Exact AS path values to match when filtering routing information.
         public let exactAsPathMatches: [String]?
+        /// Exact prefix values to match when filtering routing information.
+        public let exactPrefixMatches: [String]?
         /// Local preference values to match when filtering routing information.
         public let localPreferenceMatches: [String]?
+        /// Filters routing information based on the longest prefix that matches each provided IP address.
+        public let longestPrefixMatches: [String]?
         /// The maximum number of routing information entries to return in a single page.
         public let maxResults: Int?
         /// Multi-Exit Discriminator (MED) values to match when filtering routing information.
         public let medMatches: [String]?
-        /// Filters to apply based on next hop information.
+        /// Filters to apply based on next hop information. Each filter value must exactly match the corresponding next hop value. Values for the same filter are joined with OR, and different filters are joined with AND. The following filters are supported:    core-network-attachment-id: The ID of the core network attachment for the next hop, for example attachment-0123456789abcdef0.    segment-name: The name of the segment for the next hop.    edge-location: The edge location for the next hop, for example us-east-1.    resource-id: The ID of the resource for the next hop.    resource-type: The type of resource for the next hop. The possible values are vpc, vpn, connect-peer, direct-connect-gateway, transit-gateway-route-table, attachment, and blackhole.    ip-address: The IP address of the next hop. For a Site-to-Site VPN next hop, this is the outside IP address of the AWS side of the VPN tunnel. For a Connect peer next hop, this is the core network BGP address of the Connect peer. The value must be a single IPv4 or IPv6 address.   You can specify up to 10 filter values in total across NextHopFilters and the other match parameters in the request. Each filter value can be up to 256 characters.
         public let nextHopFilters: [String: [String]]?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The name of the segment to filter routing information by.
         public let segmentName: String
+        /// Prefix values to filter routing information whose prefix is a subnet of the prefixes provided.
+        public let subnetOfMatches: [String]?
+        /// Prefix values to filter routing information whose prefix is a supernet of the prefixes provided.
+        public let supernetOfMatches: [String]?
 
         @inlinable
-        public init(communityMatches: [String]? = nil, coreNetworkId: String, edgeLocation: String, exactAsPathMatches: [String]? = nil, localPreferenceMatches: [String]? = nil, maxResults: Int? = nil, medMatches: [String]? = nil, nextHopFilters: [String: [String]]? = nil, nextToken: String? = nil, segmentName: String) {
+        public init(communityMatches: [String]? = nil, coreNetworkId: String, edgeLocation: String, exactAsPathMatches: [String]? = nil, exactPrefixMatches: [String]? = nil, localPreferenceMatches: [String]? = nil, longestPrefixMatches: [String]? = nil, maxResults: Int? = nil, medMatches: [String]? = nil, nextHopFilters: [String: [String]]? = nil, nextToken: String? = nil, segmentName: String, subnetOfMatches: [String]? = nil, supernetOfMatches: [String]? = nil) {
             self.communityMatches = communityMatches
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
             self.exactAsPathMatches = exactAsPathMatches
+            self.exactPrefixMatches = exactPrefixMatches
             self.localPreferenceMatches = localPreferenceMatches
+            self.longestPrefixMatches = longestPrefixMatches
             self.maxResults = maxResults
             self.medMatches = medMatches
             self.nextHopFilters = nextHopFilters
             self.nextToken = nextToken
             self.segmentName = segmentName
+            self.subnetOfMatches = subnetOfMatches
+            self.supernetOfMatches = supernetOfMatches
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5593,12 +5820,16 @@ extension NetworkManager {
             request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
             try container.encode(self.edgeLocation, forKey: .edgeLocation)
             try container.encodeIfPresent(self.exactAsPathMatches, forKey: .exactAsPathMatches)
+            try container.encodeIfPresent(self.exactPrefixMatches, forKey: .exactPrefixMatches)
             try container.encodeIfPresent(self.localPreferenceMatches, forKey: .localPreferenceMatches)
+            try container.encodeIfPresent(self.longestPrefixMatches, forKey: .longestPrefixMatches)
             request.encodeQuery(self.maxResults, key: "maxResults")
             try container.encodeIfPresent(self.medMatches, forKey: .medMatches)
             try container.encodeIfPresent(self.nextHopFilters, forKey: .nextHopFilters)
             request.encodeQuery(self.nextToken, key: "nextToken")
             try container.encode(self.segmentName, forKey: .segmentName)
+            try container.encodeIfPresent(self.subnetOfMatches, forKey: .subnetOfMatches)
+            try container.encodeIfPresent(self.supernetOfMatches, forKey: .supernetOfMatches)
         }
 
         public func validate(name: String) throws {
@@ -5615,9 +5846,17 @@ extension NetworkManager {
                 try validate($0, name: "exactAsPathMatches[]", parent: name, max: 256)
                 try validate($0, name: "exactAsPathMatches[]", parent: name, pattern: "^[\\s\\S]*$")
             }
+            try self.exactPrefixMatches?.forEach {
+                try validate($0, name: "exactPrefixMatches[]", parent: name, max: 256)
+                try validate($0, name: "exactPrefixMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
             try self.localPreferenceMatches?.forEach {
                 try validate($0, name: "localPreferenceMatches[]", parent: name, max: 256)
                 try validate($0, name: "localPreferenceMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.longestPrefixMatches?.forEach {
+                try validate($0, name: "longestPrefixMatches[]", parent: name, max: 256)
+                try validate($0, name: "longestPrefixMatches[]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -5633,16 +5872,28 @@ extension NetworkManager {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.segmentName, name: "segmentName", parent: name, max: 256)
             try self.validate(self.segmentName, name: "segmentName", parent: name, pattern: "^[\\s\\S]*$")
+            try self.subnetOfMatches?.forEach {
+                try validate($0, name: "subnetOfMatches[]", parent: name, max: 256)
+                try validate($0, name: "subnetOfMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.supernetOfMatches?.forEach {
+                try validate($0, name: "supernetOfMatches[]", parent: name, max: 256)
+                try validate($0, name: "supernetOfMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case communityMatches = "CommunityMatches"
             case edgeLocation = "EdgeLocation"
             case exactAsPathMatches = "ExactAsPathMatches"
+            case exactPrefixMatches = "ExactPrefixMatches"
             case localPreferenceMatches = "LocalPreferenceMatches"
+            case longestPrefixMatches = "LongestPrefixMatches"
             case medMatches = "MedMatches"
             case nextHopFilters = "NextHopFilters"
             case segmentName = "SegmentName"
+            case subnetOfMatches = "SubnetOfMatches"
+            case supernetOfMatches = "SupernetOfMatches"
         }
     }
 
@@ -5894,6 +6145,65 @@ extension NetworkManager {
         }
     }
 
+    public struct NatRule: AWSDecodableShape {
+        /// The source CIDR block that the rule matches for traffic from the attachment.
+        public let matchSourceCidr: String?
+        /// The CIDR block that matching source addresses are translated to.
+        public let natCidr: String?
+        /// The rule number. Rule numbers identify the rules of an attachment and don't set the order in which rules are evaluated.
+        public let ruleNumber: Int?
+        /// The state of the NAT rule. The possible values are the following:    CREATING: The rule is being created.    MODIFYING: The rule is being modified.    DELETING: The rule is being deleted.    ACTIVATING: NAT gateway support is being enabled, and the rule is being applied.    ACTIVATED: NAT gateway support is enabled, and the rule is applied.    DEACTIVATING: NAT gateway support is being disabled, and the rule is being removed from use.    DEACTIVATED: NAT gateway support is disabled, and the rule isn't applied.    FAILED: The attachment failed to be created, and the rule isn't applied.    PENDING_ATTACHMENT_ACCEPTANCE: The attachment is pending acceptance. The rule is applied after the attachment is accepted.
+        public let state: NatRuleState?
+
+        @inlinable
+        public init(matchSourceCidr: String? = nil, natCidr: String? = nil, ruleNumber: Int? = nil, state: NatRuleState? = nil) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchSourceCidr = "MatchSourceCidr"
+            case natCidr = "NatCidr"
+            case ruleNumber = "RuleNumber"
+            case state = "State"
+        }
+    }
+
+    public struct NatRuleRequest: AWSEncodableShape {
+        /// The IPv4 CIDR block to match against the source address of traffic from the attachment. The CIDR block can't overlap with the multicast range (224.0.0.0/4).
+        public let matchSourceCidr: String
+        /// The IPv4 CIDR block to translate matching source addresses to. The prefix length must be the same as the prefix length of MatchSourceCidr. The CIDR block must be within a private (RFC 1918) or shared address space (RFC 6598) range. The CIDR blocks of the NAT rules of an attachment can't overlap with each other.
+        public let natCidr: String
+        /// The rule number, from 1 to 32766. Each rule number must be unique for the attachment.
+        public let ruleNumber: Int
+
+        @inlinable
+        public init(matchSourceCidr: String, natCidr: String, ruleNumber: Int) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.matchSourceCidr, name: "matchSourceCidr", parent: name, max: 50)
+            try self.validate(self.matchSourceCidr, name: "matchSourceCidr", parent: name, min: 1)
+            try self.validate(self.matchSourceCidr, name: "matchSourceCidr", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.natCidr, name: "natCidr", parent: name, max: 50)
+            try self.validate(self.natCidr, name: "natCidr", parent: name, min: 1)
+            try self.validate(self.natCidr, name: "natCidr", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.ruleNumber, name: "ruleNumber", parent: name, max: 32766)
+            try self.validate(self.ruleNumber, name: "ruleNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchSourceCidr = "MatchSourceCidr"
+            case natCidr = "NatCidr"
+            case ruleNumber = "RuleNumber"
+        }
+    }
+
     public struct NetworkFunctionGroup: AWSDecodableShape {
         /// The name of the network function group.
         public let name: String?
@@ -6023,7 +6333,7 @@ extension NetworkManager {
         public let prefixListId: String?
         /// The route state. The possible values are active and blackhole.
         public let state: RouteState?
-        /// The route type. The possible values are propagated and static.
+        /// The route type. The possible values are PROPAGATED, STATIC, and SYSTEM. A SYSTEM route is installed by the core network for the NAT CIDR block of an attachment's NAT rule.
         public let type: RouteType?
 
         @inlinable
@@ -6185,7 +6495,7 @@ extension NetworkManager {
         public let createdAt: Date?
         /// The edge location for the peer.
         public let edgeLocation: String?
-        /// Describes the error associated with the Connect peer request.
+        /// Describes the error associated with the peering request.
         public let lastModificationErrors: [PeeringError]?
         /// The ID of the account owner.
         public let ownerAccountId: String?
@@ -6275,7 +6585,7 @@ extension NetworkManager {
     }
 
     public struct PrefixListAssociation: AWSDecodableShape {
-        /// The core network id in the association.
+        /// The ID of the core network in the association.
         public let coreNetworkId: String?
         /// The alias of the prefix list in the association.
         public let prefixListAlias: String?
@@ -7394,6 +7704,82 @@ extension NetworkManager {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAttachmentNatConfigurationRequest: AWSEncodableShape {
+        /// The ID of the attachment to update the NAT configuration for.
+        public let attachmentId: String
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The complete set of NAT rules for the attachment, up to 50 rules. The rules that you specify replace the existing rules of the attachment, matched by rule number. Existing rules that aren't included in the request are deleted. To delete all NAT rules, specify an empty list. You can delete all NAT rules only when NAT gateway support is disabled, or when you disable it in the same request. If you omit this parameter, the existing rules are unchanged.
+        public let natGatewayRules: [NatRuleRequest]?
+        /// Specifies whether to enable or disable NAT gateway support on the attachment. When you disable NAT gateway support, the attachment keeps its NAT rules but doesn't apply them. To enable NAT gateway support, the attachment must have at least one NAT rule, either specified in this request or already configured on the attachment. If you omit this parameter, NAT gateway support is unchanged.
+        public let natGatewaySupport: NatGatewaySupportValue?
+        /// Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. If you omit this parameter, the current value is unchanged.
+        public let natSystemRouteSupport: Bool?
+
+        @inlinable
+        public init(attachmentId: String, clientToken: String? = UpdateAttachmentNatConfigurationRequest.idempotencyToken(), natGatewayRules: [NatRuleRequest]? = nil, natGatewaySupport: NatGatewaySupportValue? = nil, natSystemRouteSupport: Bool? = nil) {
+            self.attachmentId = attachmentId
+            self.clientToken = clientToken
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.natGatewayRules, forKey: .natGatewayRules)
+            try container.encodeIfPresent(self.natGatewaySupport, forKey: .natGatewaySupport)
+            try container.encodeIfPresent(self.natSystemRouteSupport, forKey: .natSystemRouteSupport)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.natGatewayRules?.forEach {
+                try $0.validate(name: "\(name).natGatewayRules[]")
+            }
+            try self.validate(self.natGatewayRules, name: "natGatewayRules", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
+        }
+    }
+
+    public struct UpdateAttachmentNatConfigurationResponse: AWSDecodableShape {
+        /// The ID of the attachment.
+        public let attachmentId: String?
+        /// The NAT rules of the attachment, including rules that are being deleted.
+        public let natGatewayRules: [NatRule]?
+        /// The state of NAT gateway support on the attachment. The transitional states ENABLING and DISABLING change to ENABLED or DISABLED after the update is applied. The state is PENDING_ATTACHMENT_ACCEPTANCE when NAT gateway support is enabled on an attachment that is pending acceptance.
+        public let natGatewaySupport: NatGatewaySupportState?
+        /// Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.
+        public let natSystemRouteSupport: Bool?
+
+        @inlinable
+        public init(attachmentId: String? = nil, natGatewayRules: [NatRule]? = nil, natGatewaySupport: NatGatewaySupportState? = nil, natSystemRouteSupport: Bool? = nil) {
+            self.attachmentId = attachmentId
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case natGatewayRules = "NatGatewayRules"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
+        }
     }
 
     public struct UpdateConnectionRequest: AWSEncodableShape {

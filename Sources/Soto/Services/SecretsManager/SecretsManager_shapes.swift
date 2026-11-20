@@ -36,6 +36,12 @@ extension SecretsManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicaRestrictionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noRestriction = "NoRestriction"
+        case sameOrg = "SameOrg"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdDate = "created-date"
         case lastAccessedDate = "last-accessed-date"
@@ -51,9 +57,11 @@ extension SecretsManager {
     }
 
     public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case detached = "Detached"
         case failed = "Failed"
         case inProgress = "InProgress"
         case inSync = "InSync"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
@@ -78,6 +86,63 @@ extension SecretsManager {
             case errorCode = "ErrorCode"
             case message = "Message"
             case secretId = "SecretId"
+        }
+    }
+
+    public struct AssociateCrossAccountReplicaRequest: AWSEncodableShape {
+        /// The ARN of the replica secret in the other Amazon Web Services account. The replica secret must be in the same Region and partition as the primary secret. Additionally, the replica account owner must have created the replica secret as a cross-account replica of the primary secret. For more information see CreateSecret.
+        public let crossAccountReplicaARN: String
+        /// Whether the replica account must belong to the same Amazon Web Services organization as the primary account:    SameOrg, which requires the replica account to be in the same organization as the primary account. This is the default.    NoRestriction, which allows the replica account to be in any organization.
+        public let replicaRestriction: ReplicaRestrictionType?
+        /// The ARN of an IAM role in the primary account that Secrets Manager assumes to perform replication. If you don't include this field, Secrets Manager replicates using the credentials of caller who updates the primary secret. For more information, see  Cross-account replication permissions.
+        public let replicationRoleARN: String?
+        /// The ARN or name of the primary secret in your account to replicate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
+        public let secretId: String
+
+        @inlinable
+        public init(crossAccountReplicaARN: String, replicaRestriction: ReplicaRestrictionType? = nil, replicationRoleARN: String? = nil, secretId: String) {
+            self.crossAccountReplicaARN = crossAccountReplicaARN
+            self.replicaRestriction = replicaRestriction
+            self.replicationRoleARN = replicationRoleARN
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountReplicaARN, name: "crossAccountReplicaARN", parent: name, max: 2048)
+            try self.validate(self.crossAccountReplicaARN, name: "crossAccountReplicaARN", parent: name, min: 20)
+            try self.validate(self.replicationRoleARN, name: "replicationRoleARN", parent: name, max: 2048)
+            try self.validate(self.replicationRoleARN, name: "replicationRoleARN", parent: name, min: 20)
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountReplicaARN = "CrossAccountReplicaARN"
+            case replicaRestriction = "ReplicaRestriction"
+            case replicationRoleARN = "ReplicationRoleARN"
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct AssociateCrossAccountReplicaResponse: AWSDecodableShape {
+        /// The ARN of the primary secret.
+        public let arn: String?
+        /// The ARN of the replica secret in the other account.
+        public let crossAccountReplicaARN: String?
+        /// The status of replication to the replica secret. Possible values:    InSync, which indicates that replication to the replica completed successfully and the replica is up to date.    Failed, which indicates that replication to the replica did not succeed.    InProgress, which indicates that Secrets Manager is replicating to the replica.    Pending, which indicates that replication has not yet started.    Detached, which indicates that primary secret is no longer linked to the replica secret.
+        public let replicationStatus: StatusType?
+
+        @inlinable
+        public init(arn: String? = nil, crossAccountReplicaARN: String? = nil, replicationStatus: StatusType? = nil) {
+            self.arn = arn
+            self.crossAccountReplicaARN = crossAccountReplicaARN
+            self.replicationStatus = replicationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case crossAccountReplicaARN = "CrossAccountReplicaARN"
+            case replicationStatus = "ReplicationStatus"
         }
     }
 
@@ -192,6 +257,8 @@ extension SecretsManager {
         public let addReplicaRegions: [ReplicaRegionType]?
         /// If you include SecretString or SecretBinary, then Secrets Manager creates an initial version for the secret, and this parameter specifies the unique identifier for the new version.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request.   If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and the version SecretString and SecretBinary values are the same as those in the request, then the request is ignored.   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request, then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
+        /// The ARN of a primary secret in another Amazon Web Services account. Include this field to create a cross-account replica secret that receives replicated data from that primary secret. The primary secret must be in the same Amazon Web Services Region and partition as the replica, and you must specify a customer managed KMS key in KmsKeyId. You can't include SecretString, SecretBinary, Description, AddReplicaRegions, or Type.
+        public let crossAccountPrimaryARN: String?
         /// The description of the secret.
         public let description: String?
         /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
@@ -210,9 +277,10 @@ extension SecretsManager {
         public let type: String?
 
         @inlinable
-        public init(addReplicaRegions: [ReplicaRegionType]? = nil, clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), description: String? = nil, forceOverwriteReplicaSecret: Bool? = nil, kmsKeyId: String? = nil, name: String, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
+        public init(addReplicaRegions: [ReplicaRegionType]? = nil, clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), crossAccountPrimaryARN: String? = nil, description: String? = nil, forceOverwriteReplicaSecret: Bool? = nil, kmsKeyId: String? = nil, name: String, secretBinary: AWSBase64Data? = nil, secretString: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.addReplicaRegions = addReplicaRegions
             self.clientRequestToken = clientRequestToken
+            self.crossAccountPrimaryARN = crossAccountPrimaryARN
             self.description = description
             self.forceOverwriteReplicaSecret = forceOverwriteReplicaSecret
             self.kmsKeyId = kmsKeyId
@@ -230,6 +298,8 @@ extension SecretsManager {
             try self.validate(self.addReplicaRegions, name: "addReplicaRegions", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.crossAccountPrimaryARN, name: "crossAccountPrimaryARN", parent: name, max: 2048)
+            try self.validate(self.crossAccountPrimaryARN, name: "crossAccountPrimaryARN", parent: name, min: 20)
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, max: 512)
@@ -247,6 +317,7 @@ extension SecretsManager {
         private enum CodingKeys: String, CodingKey {
             case addReplicaRegions = "AddReplicaRegions"
             case clientRequestToken = "ClientRequestToken"
+            case crossAccountPrimaryARN = "CrossAccountPrimaryARN"
             case description = "Description"
             case forceOverwriteReplicaSecret = "ForceOverwriteReplicaSecret"
             case kmsKeyId = "KmsKeyId"
@@ -284,21 +355,76 @@ extension SecretsManager {
         }
     }
 
+    public struct CrossAccountPrimaryType: AWSDecodableShape {
+        /// The ARN of the primary secret replicating into this replica secret.
+        public let primarySecretARN: String?
+        /// The status of replication from the primary secret to this replica. The status can be:    InSync: Replication to the replica secret is complete.    Failed: Replication to the replica secret was unable to be completed.    InProgress: Replication to the replica secret has started but is not complete.    Pending: Replication has not yet started for the replica secret.    Detached: Replication to the replica secret was stopped by the primary.
+        public let replicationStatus: StatusType?
+        /// A message that describes the replication status, if Secrets Manager has more information to provide.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(primarySecretARN: String? = nil, replicationStatus: StatusType? = nil, statusMessage: String? = nil) {
+            self.primarySecretARN = primarySecretARN
+            self.replicationStatus = replicationStatus
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primarySecretARN = "PrimarySecretARN"
+            case replicationStatus = "ReplicationStatus"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct CrossAccountReplicaEntry: AWSDecodableShape {
+        /// The ARN of the replica secret.
+        public let replicaSecretARN: String?
+        /// The ARN of the IAM role that Secrets Manager assumes to replicate to this replica, if one was specified when the replica was associated.
+        public let replicationRoleARN: String?
+        /// The status of replication from this primary secret. The status can be:    InSync: Replication from the primary secret is complete.    Failed: Replication from the primary secret was unable to be completed.    InProgress: Replication from the primary secret has started but is not complete.    Detached: Replication from the primary secret was stopped by the replica.
+        public let replicationStatus: StatusType?
+        /// A message that describes the replication status, if Secrets Manager has more information to provide.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(replicaSecretARN: String? = nil, replicationRoleARN: String? = nil, replicationStatus: StatusType? = nil, statusMessage: String? = nil) {
+            self.replicaSecretARN = replicaSecretARN
+            self.replicationRoleARN = replicationRoleARN
+            self.replicationStatus = replicationStatus
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaSecretARN = "ReplicaSecretARN"
+            case replicationRoleARN = "ReplicationRoleARN"
+            case replicationStatus = "ReplicationStatus"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The name of the resource policy to delete. If you don't specify this field, Secrets Manager uses default. You can only delete the default policy; if you specify any other name, the operation returns an InvalidParameterException.
+        public let policyName: String?
         /// The ARN or name of the secret to delete the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         @inlinable
-        public init(secretId: String) {
+        public init(policyName: String? = nil, secretId: String) {
+            self.policyName = policyName
             self.secretId = secretId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 64)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[0-9A-Za-z\\-\\_]+$")
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
             case secretId = "SecretId"
         }
     }
@@ -308,16 +434,20 @@ extension SecretsManager {
         public let arn: String?
         /// The name of the secret that the resource-based policy was deleted for.
         public let name: String?
+        /// The name of the deleted resource policy. If you didn't specify PolicyName in the request, this is default.
+        public let policyName: String?
 
         @inlinable
-        public init(arn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, policyName: String? = nil) {
             self.arn = arn
             self.name = name
+            self.policyName = policyName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
+            case policyName = "PolicyName"
         }
     }
 
@@ -394,6 +524,10 @@ extension SecretsManager {
         public let arn: String?
         /// The date the secret was created.
         public let createdDate: Date?
+        /// Information about the primary secret in the other Amazon Web Services account that this cross-account replica secret replicates from, including the primary secret ARN and the replication status. This field is omitted if the secret is not a cross-account replica.
+        public let crossAccountPrimary: CrossAccountPrimaryType?
+        /// A list of this secret's cross-account replica secrets and their replication status, if this secret is the primary for cross-account replication. This field is omitted if the secret has no cross-account replicas.
+        public let crossAccountReplicas: [CrossAccountReplicaEntry]?
         /// The date the secret is scheduled for deletion. If it is not scheduled for deletion, this field is omitted. When you delete a secret, Secrets Manager requires a recovery window of at least 7 days before deleting the secret. Some time after the deleted date, Secrets Manager deletes the secret, including all of its versions. If a secret is scheduled for deletion, then its details, including the encrypted secret value, is not accessible. To cancel a scheduled deletion and restore access to the secret, use RestoreSecret.
         public let deletedDate: Date?
         /// The description of the secret.
@@ -434,9 +568,11 @@ extension SecretsManager {
         public let versionIdsToStages: [String: [String]]?
 
         @inlinable
-        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, externalSecretRotationMetadata: [ExternalSecretRotationMetadataItem]? = nil, externalSecretRotationRoleArn: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, nextRotationDate: Date? = nil, owningService: String? = nil, primaryRegion: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, type: String? = nil, versionIdsToStages: [String: [String]]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, crossAccountPrimary: CrossAccountPrimaryType? = nil, crossAccountReplicas: [CrossAccountReplicaEntry]? = nil, deletedDate: Date? = nil, description: String? = nil, externalSecretRotationMetadata: [ExternalSecretRotationMetadataItem]? = nil, externalSecretRotationRoleArn: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, nextRotationDate: Date? = nil, owningService: String? = nil, primaryRegion: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, type: String? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
+            self.crossAccountPrimary = crossAccountPrimary
+            self.crossAccountReplicas = crossAccountReplicas
             self.deletedDate = deletedDate
             self.description = description
             self.externalSecretRotationMetadata = externalSecretRotationMetadata
@@ -461,6 +597,8 @@ extension SecretsManager {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case createdDate = "CreatedDate"
+            case crossAccountPrimary = "CrossAccountPrimary"
+            case crossAccountReplicas = "CrossAccountReplicas"
             case deletedDate = "DeletedDate"
             case description = "Description"
             case externalSecretRotationMetadata = "ExternalSecretRotationMetadata"
@@ -480,6 +618,49 @@ extension SecretsManager {
             case tags = "Tags"
             case type = "Type"
             case versionIdsToStages = "VersionIdsToStages"
+        }
+    }
+
+    public struct DisassociateCrossAccountReplicaRequest: AWSEncodableShape {
+        /// The ARN of the cross-account replica secret to unlink from the primary secret.
+        public let crossAccountReplicaARN: String
+        /// The ARN or name of the primary secret in your account. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
+        public let secretId: String
+
+        @inlinable
+        public init(crossAccountReplicaARN: String, secretId: String) {
+            self.crossAccountReplicaARN = crossAccountReplicaARN
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountReplicaARN, name: "crossAccountReplicaARN", parent: name, max: 2048)
+            try self.validate(self.crossAccountReplicaARN, name: "crossAccountReplicaARN", parent: name, min: 20)
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountReplicaARN = "CrossAccountReplicaARN"
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct DisassociateCrossAccountReplicaResponse: AWSDecodableShape {
+        /// The ARN of the primary secret.
+        public let arn: String?
+        /// The ARN of the replica secret that was unlinked from the primary secret.
+        public let crossAccountReplicaARN: String?
+
+        @inlinable
+        public init(arn: String? = nil, crossAccountReplicaARN: String? = nil) {
+            self.arn = arn
+            self.crossAccountReplicaARN = crossAccountReplicaARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case crossAccountReplicaARN = "CrossAccountReplicaARN"
         }
     }
 
@@ -598,20 +779,27 @@ extension SecretsManager {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The name of the resource policy to retrieve. If you don't specify this field, Secrets Manager uses default. If you specify a name other than default and no policy with that name exists, the operation returns a ResourceNotFoundException.
+        public let policyName: String?
         /// The ARN or name of the secret to retrieve the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         @inlinable
-        public init(secretId: String) {
+        public init(policyName: String? = nil, secretId: String) {
+            self.policyName = policyName
             self.secretId = secretId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 64)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[0-9A-Za-z\\-\\_]+$")
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
             case secretId = "SecretId"
         }
     }
@@ -621,19 +809,23 @@ extension SecretsManager {
         public let arn: String?
         /// The name of the secret that the resource-based policy was retrieved for.
         public let name: String?
+        /// The name of the resource policy. If you didn't specify PolicyName in the request, this is default.
+        public let policyName: String?
         /// A JSON-formatted string that contains the permissions policy attached to the secret. For more information about permissions policies, see Authentication and access control for Secrets Manager.
         public let resourcePolicy: String?
 
         @inlinable
-        public init(arn: String? = nil, name: String? = nil, resourcePolicy: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, policyName: String? = nil, resourcePolicy: String? = nil) {
             self.arn = arn
             self.name = name
+            self.policyName = policyName
             self.resourcePolicy = resourcePolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
+            case policyName = "PolicyName"
             case resourcePolicy = "ResourcePolicy"
         }
     }
@@ -704,6 +896,55 @@ extension SecretsManager {
             case secretString = "SecretString"
             case versionId = "VersionId"
             case versionStages = "VersionStages"
+        }
+    }
+
+    public struct ListResourcePoliciesRequest: AWSEncodableShape {
+        /// The number of results to include in the response. If you don't specify this value, the service returns up to 100 results. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListResourcePolicies again with the value from NextToken.
+        public let maxResults: Int?
+        /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListResourcePolicies again with this value.
+        public let nextToken: String?
+        /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
+        public let secretId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, secretId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct ListResourcePoliciesResponse: AWSDecodableShape {
+        /// Secrets Manager includes this value if there's more output available than what is included in the current response. To get the next results, call ListResourcePolicies again with this value.
+        public let nextToken: String?
+        /// A list of the resource policies attached to the secret.
+        public let resourcePolicies: [ResourcePolicySummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicySummary]) {
+            self.nextToken = nextToken
+            self.resourcePolicies = resourcePolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourcePolicies = "ResourcePolicies"
         }
     }
 
@@ -834,19 +1075,25 @@ extension SecretsManager {
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// Specifies whether to block resource-based policies that allow broad access to the secret, for example those that use a wildcard for the principal. By default, public policies aren't blocked.  Resource policy validation and the BlockPublicPolicy parameter help protect your resources by preventing public access from being granted through the resource policies that are directly attached to your secrets. In addition to using these features, carefully inspect the following policies to confirm that they do not grant public access:   Identity-based policies attached to associated Amazon Web Services principals (for example, IAM roles)   Resource-based policies attached to associated Amazon Web Services resources (for example, Key Management Service (KMS) keys)   To review permissions to your secrets, see Determine who has permissions to your secrets.
         public let blockPublicPolicy: Bool?
+        /// The name of the resource policy to attach. If you don't specify this field, Secrets Manager uses default. You can only attach the default policy; if you specify any other name, the operation returns an InvalidParameterException.
+        public let policyName: String?
         /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions policy examples.
         public let resourcePolicy: String
         /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         @inlinable
-        public init(blockPublicPolicy: Bool? = nil, resourcePolicy: String, secretId: String) {
+        public init(blockPublicPolicy: Bool? = nil, policyName: String? = nil, resourcePolicy: String, secretId: String) {
             self.blockPublicPolicy = blockPublicPolicy
+            self.policyName = policyName
             self.resourcePolicy = resourcePolicy
             self.secretId = secretId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 64)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[0-9A-Za-z\\-\\_]+$")
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
@@ -855,6 +1102,7 @@ extension SecretsManager {
 
         private enum CodingKeys: String, CodingKey {
             case blockPublicPolicy = "BlockPublicPolicy"
+            case policyName = "PolicyName"
             case resourcePolicy = "ResourcePolicy"
             case secretId = "SecretId"
         }
@@ -865,16 +1113,20 @@ extension SecretsManager {
         public let arn: String?
         /// The name of the secret.
         public let name: String?
+        /// The name of the resource policy. If you didn't specify PolicyName in the request, this is default.
+        public let policyName: String?
 
         @inlinable
-        public init(arn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, policyName: String? = nil) {
             self.arn = arn
             self.name = name
+            self.policyName = policyName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
+            case policyName = "PolicyName"
         }
     }
 
@@ -1106,6 +1358,20 @@ extension SecretsManager {
             case region = "Region"
             case status = "Status"
             case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ResourcePolicySummary: AWSDecodableShape {
+        /// The name of the resource policy.
+        public let policyName: String?
+
+        @inlinable
+        public init(policyName: String? = nil) {
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
         }
     }
 
@@ -1412,7 +1678,7 @@ extension SecretsManager {
     }
 
     public struct StopReplicationToReplicaRequest: AWSEncodableShape {
-        /// The name of the secret or the replica ARN. The replica ARN is the same as the original primary secret ARN expect the Region is changed to the replica Region.
+        /// The ARN or name of the replica secret. For a cross-region replica, the replica ARN is the same as the original primary secret ARN except that the Region is changed to the replica Region. For a cross-account replica, this is the ARN or name of the replica secret in your account.
         public let secretId: String
 
         @inlinable
@@ -1431,7 +1697,7 @@ extension SecretsManager {
     }
 
     public struct StopReplicationToReplicaResponse: AWSDecodableShape {
-        /// The ARN of the promoted secret. The ARN is the same as the original primary secret except the Region is changed.
+        /// The ARN of the promoted secret. For a cross-region replica, this ARN is the same as the original primary secret's ARN except that the Region is changed. For a cross-account replica, this is the ARN of the promoted secret in your account.
         public let arn: String?
 
         @inlinable

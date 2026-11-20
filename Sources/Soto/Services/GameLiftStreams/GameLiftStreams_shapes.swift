@@ -1293,6 +1293,8 @@ extension GameLiftStreams {
         public let additionalLaunchArgs: [String]?
         /// The application streaming in this session. This value is an Amazon Resource Name (ARN) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
         public let applicationArn: String?
+        /// A timestamp that indicates when the application launched for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let applicationStartedAt: Date?
         /// The Amazon Resource Name (ARN) that's assigned to a stream session resource. When combined with the stream group resource ID, this value uniquely identifies the stream session across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[stream group resource ID]/[stream session resource ID].
         public let arn: String?
         /// The length of time that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. This time span starts when the stream session reaches ACTIVE or PENDING_CLIENT_RECONNECTION state. If no client connects (or reconnects) before the timeout, Amazon GameLift Streams terminates the stream session.
@@ -1329,16 +1331,21 @@ extension GameLiftStreams {
         public let statusReason: StreamSessionStatusReason?
         /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
         public let streamGroupId: String?
+        /// A timestamp that indicates when streaming ended for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let streamingEndedAt: Date?
+        /// A timestamp that indicates when streaming started for this stream session, which is when a client connected to the stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let streamingStartedAt: Date?
         ///  An opaque, unique identifier for an end-user, defined by the developer.
         public let userId: String?
         /// The URL of an S3 bucket that stores Amazon GameLift Streams WebSDK files. The URL is used to establish connection with the client.
         public let webSdkProtocolUrl: String?
 
         @inlinable
-        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, applicationStartedAt: Date? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, streamingEndedAt: Date? = nil, streamingStartedAt: Date? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
             self.additionalEnvironmentVariables = additionalEnvironmentVariables
             self.additionalLaunchArgs = additionalLaunchArgs
             self.applicationArn = applicationArn
+            self.applicationStartedAt = applicationStartedAt
             self.arn = arn
             self.connectionTimeoutSeconds = connectionTimeoutSeconds
             self.createdAt = createdAt
@@ -1357,6 +1364,8 @@ extension GameLiftStreams {
             self.status = status
             self.statusReason = statusReason
             self.streamGroupId = streamGroupId
+            self.streamingEndedAt = streamingEndedAt
+            self.streamingStartedAt = streamingStartedAt
             self.userId = userId
             self.webSdkProtocolUrl = webSdkProtocolUrl
         }
@@ -1365,6 +1374,7 @@ extension GameLiftStreams {
             case additionalEnvironmentVariables = "AdditionalEnvironmentVariables"
             case additionalLaunchArgs = "AdditionalLaunchArgs"
             case applicationArn = "ApplicationArn"
+            case applicationStartedAt = "ApplicationStartedAt"
             case arn = "Arn"
             case connectionTimeoutSeconds = "ConnectionTimeoutSeconds"
             case createdAt = "CreatedAt"
@@ -1383,6 +1393,8 @@ extension GameLiftStreams {
             case status = "Status"
             case statusReason = "StatusReason"
             case streamGroupId = "StreamGroupId"
+            case streamingEndedAt = "StreamingEndedAt"
+            case streamingStartedAt = "StreamingStartedAt"
             case userId = "UserId"
             case webSdkProtocolUrl = "WebSdkProtocolUrl"
         }
@@ -2265,6 +2277,8 @@ extension GameLiftStreams {
         public let additionalLaunchArgs: [String]?
         /// The application streaming in this session. This value is an Amazon Resource Name (ARN) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
         public let applicationArn: String?
+        /// A timestamp that indicates when the application launched for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let applicationStartedAt: Date?
         /// The Amazon Resource Name (ARN) that's assigned to a stream session resource. When combined with the stream group resource ID, this value uniquely identifies the stream session across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[stream group resource ID]/[stream session resource ID].
         public let arn: String?
         /// The length of time that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. This time span starts when the stream session reaches ACTIVE or PENDING_CLIENT_RECONNECTION state. If no client connects (or reconnects) before the timeout, Amazon GameLift Streams terminates the stream session.
@@ -2301,16 +2315,21 @@ extension GameLiftStreams {
         public let statusReason: StreamSessionStatusReason?
         /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
         public let streamGroupId: String?
+        /// A timestamp that indicates when streaming ended for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let streamingEndedAt: Date?
+        /// A timestamp that indicates when streaming started for this stream session, which is when a client connected to the stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let streamingStartedAt: Date?
         ///  An opaque, unique identifier for an end-user, defined by the developer.
         public let userId: String?
         /// The URL of an S3 bucket that stores Amazon GameLift Streams WebSDK files. The URL is used to establish connection with the client.
         public let webSdkProtocolUrl: String?
 
         @inlinable
-        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, applicationStartedAt: Date? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, streamingEndedAt: Date? = nil, streamingStartedAt: Date? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
             self.additionalEnvironmentVariables = additionalEnvironmentVariables
             self.additionalLaunchArgs = additionalLaunchArgs
             self.applicationArn = applicationArn
+            self.applicationStartedAt = applicationStartedAt
             self.arn = arn
             self.connectionTimeoutSeconds = connectionTimeoutSeconds
             self.createdAt = createdAt
@@ -2329,6 +2348,8 @@ extension GameLiftStreams {
             self.status = status
             self.statusReason = statusReason
             self.streamGroupId = streamGroupId
+            self.streamingEndedAt = streamingEndedAt
+            self.streamingStartedAt = streamingStartedAt
             self.userId = userId
             self.webSdkProtocolUrl = webSdkProtocolUrl
         }
@@ -2337,6 +2358,7 @@ extension GameLiftStreams {
             case additionalEnvironmentVariables = "AdditionalEnvironmentVariables"
             case additionalLaunchArgs = "AdditionalLaunchArgs"
             case applicationArn = "ApplicationArn"
+            case applicationStartedAt = "ApplicationStartedAt"
             case arn = "Arn"
             case connectionTimeoutSeconds = "ConnectionTimeoutSeconds"
             case createdAt = "CreatedAt"
@@ -2355,6 +2377,8 @@ extension GameLiftStreams {
             case status = "Status"
             case statusReason = "StatusReason"
             case streamGroupId = "StreamGroupId"
+            case streamingEndedAt = "StreamingEndedAt"
+            case streamingStartedAt = "StreamingStartedAt"
             case userId = "UserId"
             case webSdkProtocolUrl = "WebSdkProtocolUrl"
         }

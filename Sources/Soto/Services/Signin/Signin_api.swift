@@ -24,8 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Signin service.
 ///
-/// AWS Sign-In manages authentication for AWS services. This service provides
-/// secure authentication flows for accessing AWS resources from the console and developer tools.
+/// AWS Sign-In manages authentication for AWS services. It implements OAuth 2.0, providing secure token exchange and refresh capabilities.
 public struct Signin: AWSService {
     // MARK: Member variables
 
@@ -80,27 +79,42 @@ public struct Signin: AWSService {
 
     // MARK: API Calls
 
-    /// CreateOAuth2Token API
-    /// Path: /v1/token
-    /// Request Method: POST
-    /// Content-Type: application/json or application/x-www-form-urlencoded
-    /// This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both:
-    /// 1. Authorization code redemption (grant_type=authorization_code) - NOT idempotent
-    /// 2. Token refresh (grant_type=refresh_token) - Idempotent within token validity window
-    /// The operation behavior is determined by the grant_type parameter in the request body:
-    /// **Authorization Code Flow (NOT Idempotent):**
-    /// - JSON or form-encoded body with client_id, grant_type=authorization_code, code, redirect_uri, code_verifier
-    /// - Returns access_token, token_type, expires_in, refresh_token, and id_token
-    /// - Each authorization code can only be used ONCE for security (prevents replay attacks)
-    /// **Token Refresh Flow (Idempotent):**
-    /// - JSON or form-encoded body with client_id, grant_type=refresh_token, refresh_token
-    /// - Returns access_token, token_type, expires_in, and refresh_token (no id_token)
-    /// - Multiple calls with same refresh_token return consistent results within validity window
-    /// Authentication and authorization:
-    /// - Confidential clients: sigv4 signing required with signin:ExchangeToken permissions
-    /// - CLI clients (public): authn/authz skipped based on client_id & grant_type
-    /// Note: This operation cannot be marked as @idempotent because it handles both idempotent
-    /// (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
+    /// Creates a bearer token that represents your IAM credentials and can be used to access a supported AWS service. By default, the token is valid for 12 hours.
+    @Sendable
+    @inlinable
+    public func createBearerToken(_ input: CreateBearerTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBearerTokenResponse {
+        try await self.client.execute(
+            operation: "CreateBearerToken", 
+            path: "/v1/token?x-amz-token-request-type=bearer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a bearer token that represents your IAM credentials and can be used to access a supported AWS service. By default, the token is valid for 12 hours.
+    ///
+    /// Parameters:
+    ///   - durationSeconds: The requested token lifetime in seconds, from 300 (5 minutes) up to the maximum allowed for the service, currently 43200 (12 hours). If omitted, the token is valid for 12 hours.
+    ///   - grantType: The grant type. Must be "client_credentials".
+    ///   - resource: The AWS service the bearer token is for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createBearerToken(
+        durationSeconds: Int? = nil,
+        grantType: String,
+        resource: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateBearerTokenResponse {
+        let input = CreateBearerTokenRequest(
+            durationSeconds: durationSeconds, 
+            grantType: grantType, 
+            resource: resource
+        )
+        return try await self.createBearerToken(input, logger: logger)
+    }
+
+    /// Exchanges an authorization code or refresh token for an OAuth 2.0 access token and refresh token.
     @Sendable
     @inlinable
     public func createOAuth2Token(_ input: CreateOAuth2TokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOAuth2TokenResponse {
@@ -113,30 +127,10 @@ public struct Signin: AWSService {
             logger: logger
         )
     }
-    /// CreateOAuth2Token API
-    /// Path: /v1/token
-    /// Request Method: POST
-    /// Content-Type: application/json or application/x-www-form-urlencoded
-    /// This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both:
-    /// 1. Authorization code redemption (grant_type=authorization_code) - NOT idempotent
-    /// 2. Token refresh (grant_type=refresh_token) - Idempotent within token validity window
-    /// The operation behavior is determined by the grant_type parameter in the request body:
-    /// **Authorization Code Flow (NOT Idempotent):**
-    /// - JSON or form-encoded body with client_id, grant_type=authorization_code, code, redirect_uri, code_verifier
-    /// - Returns access_token, token_type, expires_in, refresh_token, and id_token
-    /// - Each authorization code can only be used ONCE for security (prevents replay attacks)
-    /// **Token Refresh Flow (Idempotent):**
-    /// - JSON or form-encoded body with client_id, grant_type=refresh_token, refresh_token
-    /// - Returns access_token, token_type, expires_in, and refresh_token (no id_token)
-    /// - Multiple calls with same refresh_token return consistent results within validity window
-    /// Authentication and authorization:
-    /// - Confidential clients: sigv4 signing required with signin:ExchangeToken permissions
-    /// - CLI clients (public): authn/authz skipped based on client_id & grant_type
-    /// Note: This operation cannot be marked as @idempotent because it handles both idempotent
-    /// (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
+    /// Exchanges an authorization code or refresh token for an OAuth 2.0 access token and refresh token.
     ///
     /// Parameters:
-    ///   - tokenInput: Flattened token operation inputs
+    ///   - tokenInput: Flattened token operation inputs. The "grant_type" in the request body determines the specific operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func createOAuth2Token(
@@ -149,8 +143,7 @@ public struct Signin: AWSService {
         return try await self.createOAuth2Token(input, logger: logger)
     }
 
-    /// Grants permission to exchange client credentials for an OAuth 2.0 access token
-    /// scoped to a resource that can be used to access AWS services from applications
+    /// Exchanges client credentials for an OAuth 2.0 access token scoped to a resource, which you can use to access AWS services from applications.
     @Sendable
     @inlinable
     public func createOAuth2TokenWithIAM(_ input: CreateOAuth2TokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOAuth2TokenWithIAMResponse {
@@ -163,11 +156,10 @@ public struct Signin: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to exchange client credentials for an OAuth 2.0 access token
-    /// scoped to a resource that can be used to access AWS services from applications
+    /// Exchanges client credentials for an OAuth 2.0 access token scoped to a resource, which you can use to access AWS services from applications.
     ///
     /// Parameters:
-    ///   - grantType: OAuth 2.0 grant type. Must be "client_credentials".
+    ///   - grantType: The OAuth 2.0 grant type. Must be "client_credentials".
     ///   - resource: The OAuth resource for which the access token is requested.
     ///   - logger: Logger use during operation
     @inlinable
@@ -181,6 +173,47 @@ public struct Signin: AWSService {
             resource: resource
         )
         return try await self.createOAuth2TokenWithIAM(input, logger: logger)
+    }
+
+    /// Exchanges a supported token for an OAuth 2.0 access token scoped to a resource, which you can use to access AWS services from applications.
+    @Sendable
+    @inlinable
+    public func createOAuth2TokenWithTokenExchange(_ input: CreateOAuth2TokenWithTokenExchangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOAuth2TokenWithTokenExchangeResponse {
+        try await self.client.execute(
+            operation: "CreateOAuth2TokenWithTokenExchange", 
+            path: "/v1/token?x-amz-oauth-token-method=token-exchange", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Exchanges a supported token for an OAuth 2.0 access token scoped to a resource, which you can use to access AWS services from applications.
+    ///
+    /// Parameters:
+    ///   - grantType: The OAuth 2.0 grant type. Currently only supports "urn:ietf:params:oauth:grant-type:token-exchange".
+    ///   - resource: The OAuth resource for which the access token is requested.
+    ///   - scope: IAM managed policy Amazon Resource Names (ARNs) to apply as session policies that further
+    ///   - subjectToken: The subject token that represents the identity of the party on whose behalf the request is made.
+    ///   - subjectTokenType: The token type of the subject token. Currently only supports "urn:ietf:params:oauth:token-type:jwt".
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createOAuth2TokenWithTokenExchange(
+        grantType: String,
+        resource: String? = nil,
+        scope: String? = nil,
+        subjectToken: String? = nil,
+        subjectTokenType: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateOAuth2TokenWithTokenExchangeResponse {
+        let input = CreateOAuth2TokenWithTokenExchangeRequest(
+            grantType: grantType, 
+            resource: resource, 
+            scope: scope, 
+            subjectToken: subjectToken, 
+            subjectTokenType: subjectTokenType
+        )
+        return try await self.createOAuth2TokenWithTokenExchange(input, logger: logger)
     }
 
     /// Delete console authorization configuration with automatic scope detection
@@ -299,15 +332,9 @@ public struct Signin: AWSService {
         return try await self.getResourcePolicy(input, logger: logger)
     }
 
-    /// Grants permission to inspect the metadata and state of an OAuth 2.0
-    /// access token or refresh token
+    /// Inspects the metadata and active state of an OAuth 2.0 access token or refresh token.
     /// Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated
-    /// endpoint. Inspects the metadata of an access_token or refresh_token issued
-    /// by AWS Sign-In and returns the claims associated with it.
-    /// Inactive token semantics (RFC 7662 §2.2): when the supplied token is
-    /// unknown, expired, revoked, malformed, or owned by a different account,
-    /// the response body is exactly { "active": false } with all other claims
-    /// omitted.
+    /// endpoint. Returns the claims associated with a token issued by AWS Sign-In.
     @Sendable
     @inlinable
     public func introspectOAuth2TokenWithIAM(_ input: IntrospectOAuth2TokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IntrospectOAuth2TokenWithIAMResponse {
@@ -320,19 +347,13 @@ public struct Signin: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to inspect the metadata and state of an OAuth 2.0
-    /// access token or refresh token
+    /// Inspects the metadata and active state of an OAuth 2.0 access token or refresh token.
     /// Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated
-    /// endpoint. Inspects the metadata of an access_token or refresh_token issued
-    /// by AWS Sign-In and returns the claims associated with it.
-    /// Inactive token semantics (RFC 7662 §2.2): when the supplied token is
-    /// unknown, expired, revoked, malformed, or owned by a different account,
-    /// the response body is exactly { "active": false } with all other claims
-    /// omitted.
+    /// endpoint. Returns the claims associated with a token issued by AWS Sign-In.
     ///
     /// Parameters:
-    ///   - token: The string value of the token to introspect.
-    ///   - tokenTypeHint: Optional hint about the type of the token submitted for introspection.
+    ///   - token: The access token or refresh token issued by AWS Sign-In.
+    ///   - tokenTypeHint: An optional hint about the type of the token submitted for introspection, as defined in RFC 7662 §2.1.
     ///   - logger: Logger use during operation
     @inlinable
     public func introspectOAuth2TokenWithIAM(
@@ -458,11 +479,7 @@ public struct Signin: AWSService {
         return try await self.putResourcePermissionStatement(input, logger: logger)
     }
 
-    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens
-    /// Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token
-    /// chain so that the refresh_token can no longer be used to mint new access_tokens.
-    /// Idempotency: revoking an already-revoked, expired, or otherwise invalid token
-    /// still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+    /// Revokes an OAuth 2.0 refresh token and its associated token chain.
     @Sendable
     @inlinable
     public func revokeOAuth2TokenWithIAM(_ input: RevokeOAuth2TokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeOAuth2TokenWithIAMResponse {
@@ -475,14 +492,10 @@ public struct Signin: AWSService {
             logger: logger
         )
     }
-    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens
-    /// Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token
-    /// chain so that the refresh_token can no longer be used to mint new access_tokens.
-    /// Idempotency: revoking an already-revoked, expired, or otherwise invalid token
-    /// still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+    /// Revokes an OAuth 2.0 refresh token and its associated token chain.
     ///
     /// Parameters:
-    ///   - token: The refresh_token to revoke. Must be a refresh_token issued by AWS
+    ///   - token: The refresh token to revoke. Must be a refresh token issued by AWS Sign-In.
     ///   - logger: Logger use during operation
     @inlinable
     public func revokeOAuth2TokenWithIAM(
@@ -499,7 +512,7 @@ public struct Signin: AWSService {
 extension Signin {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Signin, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

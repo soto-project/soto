@@ -6297,6 +6297,8 @@ extension EMR {
     public struct Step: AWSDecodableShape {
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead. If a cluster's StepConcurrencyLevel is greater than 1, do not use AddJobFlowSteps to submit a step with this parameter set to CANCEL_AND_WAIT or TERMINATE_CLUSTER. The step is not submitted and the action fails with a message that the ActionOnFailure setting is not valid. If you change a cluster's StepConcurrencyLevel to be greater than 1 while a step is running, the ActionOnFailure parameter may not behave as you expect. In this case, for a step that fails with this parameter set to CANCEL_AND_WAIT, pending steps and the running step are not canceled; for a step that fails with this parameter set to TERMINATE_CLUSTER, the cluster does not terminate.
         public let actionOnFailure: ActionOnFailure?
+        /// Additional information about the step, including the YARN application IDs associated with the step and the resource manager that processed it.
+        public let additionalInfo: StepAdditionalInfo?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
         /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
@@ -6313,8 +6315,9 @@ extension EMR {
         public let status: StepStatus?
 
         @inlinable
-        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, encryptionKeyArn: String? = nil, executionRoleArn: String? = nil, id: String? = nil, logUri: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, additionalInfo: StepAdditionalInfo? = nil, config: HadoopStepConfig? = nil, encryptionKeyArn: String? = nil, executionRoleArn: String? = nil, id: String? = nil, logUri: String? = nil, name: String? = nil, status: StepStatus? = nil) {
             self.actionOnFailure = actionOnFailure
+            self.additionalInfo = additionalInfo
             self.config = config
             self.encryptionKeyArn = encryptionKeyArn
             self.executionRoleArn = executionRoleArn
@@ -6326,6 +6329,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case actionOnFailure = "ActionOnFailure"
+            case additionalInfo = "AdditionalInfo"
             case config = "Config"
             case encryptionKeyArn = "EncryptionKeyArn"
             case executionRoleArn = "ExecutionRoleArn"
@@ -6333,6 +6337,24 @@ extension EMR {
             case logUri = "LogUri"
             case name = "Name"
             case status = "Status"
+        }
+    }
+
+    public struct StepAdditionalInfo: AWSDecodableShape {
+        /// The address of the YARN resource manager that processed the step.
+        public let resourceManager: String?
+        /// The YARN application IDs associated with the step.
+        public let resourceManagerApplicationIds: [String]?
+
+        @inlinable
+        public init(resourceManager: String? = nil, resourceManagerApplicationIds: [String]? = nil) {
+            self.resourceManager = resourceManager
+            self.resourceManagerApplicationIds = resourceManagerApplicationIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceManager = "ResourceManager"
+            case resourceManagerApplicationIds = "ResourceManagerApplicationIds"
         }
     }
 
@@ -6482,6 +6504,8 @@ extension EMR {
     public struct StepSummary: AWSDecodableShape {
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward compatibility.
         public let actionOnFailure: ActionOnFailure?
+        /// Additional information about the step, including the YARN application IDs associated with the step and the resource manager that processed it.
+        public let additionalInfo: StepAdditionalInfo?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
         /// The KMS key ARN to encrypt the logs published to the given Amazon S3  destination.
@@ -6496,8 +6520,9 @@ extension EMR {
         public let status: StepStatus?
 
         @inlinable
-        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, encryptionKeyArn: String? = nil, id: String? = nil, logUri: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, additionalInfo: StepAdditionalInfo? = nil, config: HadoopStepConfig? = nil, encryptionKeyArn: String? = nil, id: String? = nil, logUri: String? = nil, name: String? = nil, status: StepStatus? = nil) {
             self.actionOnFailure = actionOnFailure
+            self.additionalInfo = additionalInfo
             self.config = config
             self.encryptionKeyArn = encryptionKeyArn
             self.id = id
@@ -6508,6 +6533,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case actionOnFailure = "ActionOnFailure"
+            case additionalInfo = "AdditionalInfo"
             case config = "Config"
             case encryptionKeyArn = "EncryptionKeyArn"
             case id = "Id"

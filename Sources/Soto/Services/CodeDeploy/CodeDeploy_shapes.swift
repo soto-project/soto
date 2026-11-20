@@ -39,6 +39,14 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoScalingGroupProcess: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azRebalance = "AZRebalance"
+        case instanceRefresh = "InstanceRefresh"
+        case scheduledActions = "ScheduledActions"
+        case terminate = "Terminate"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BundleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case tar = "tar"
@@ -926,6 +934,7 @@ extension CodeDeploy {
         public let deploymentGroupName: String
         /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
+        public let ec2DeploymentOptions: EC2DeploymentOptions?
         /// The Amazon EC2 tags on which to filter. The deployment group includes Amazon EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
         public let ec2TagFilters: [EC2TagFilter]?
         /// Information about groups of tags applied to Amazon EC2 instances. The deployment group includes only Amazon EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
@@ -950,7 +959,7 @@ extension CodeDeploy {
         public let triggerConfigurations: [TriggerConfig]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String, tags: [Tag]? = nil, terminationHookEnabled: Bool? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String, deploymentStyle: DeploymentStyle? = nil, ec2DeploymentOptions: EC2DeploymentOptions? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String, tags: [Tag]? = nil, terminationHookEnabled: Bool? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -959,6 +968,7 @@ extension CodeDeploy {
             self.deploymentConfigName = deploymentConfigName
             self.deploymentGroupName = deploymentGroupName
             self.deploymentStyle = deploymentStyle
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.ec2TagFilters = ec2TagFilters
             self.ec2TagSet = ec2TagSet
             self.ecsServices = ecsServices
@@ -982,6 +992,7 @@ extension CodeDeploy {
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
+            try self.ec2DeploymentOptions?.validate(name: "\(name).ec2DeploymentOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -993,6 +1004,7 @@ extension CodeDeploy {
             case deploymentConfigName = "deploymentConfigName"
             case deploymentGroupName = "deploymentGroupName"
             case deploymentStyle = "deploymentStyle"
+            case ec2DeploymentOptions = "ec2DeploymentOptions"
             case ec2TagFilters = "ec2TagFilters"
             case ec2TagSet = "ec2TagSet"
             case ecsServices = "ecsServices"
@@ -1034,6 +1046,7 @@ extension CodeDeploy {
         public let deploymentMode: DeploymentMode?
         /// A comment about the deployment.
         public let description: String?
+        public let ec2DeploymentOptions: EC2DeploymentOptions?
         /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
         public let fileExistsBehavior: FileExistsBehavior?
         ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
@@ -1048,13 +1061,14 @@ extension CodeDeploy {
         public let updateOutdatedInstancesOnly: Bool?
 
         @inlinable
-        public init(applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, revision: RevisionLocation? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, ec2DeploymentOptions: EC2DeploymentOptions? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, revision: RevisionLocation? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.deploymentConfigName = deploymentConfigName
             self.deploymentGroupName = deploymentGroupName
             self.deploymentMode = deploymentMode
             self.description = description
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.fileExistsBehavior = fileExistsBehavior
             self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
             self.overrideAlarmConfiguration = overrideAlarmConfiguration
@@ -1073,6 +1087,7 @@ extension CodeDeploy {
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
+            try self.ec2DeploymentOptions?.validate(name: "\(name).ec2DeploymentOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1082,6 +1097,7 @@ extension CodeDeploy {
             case deploymentGroupName = "deploymentGroupName"
             case deploymentMode = "deploymentMode"
             case description = "description"
+            case ec2DeploymentOptions = "ec2DeploymentOptions"
             case fileExistsBehavior = "fileExistsBehavior"
             case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
             case overrideAlarmConfiguration = "overrideAlarmConfiguration"
@@ -1291,6 +1307,7 @@ extension CodeDeploy {
         public let deploymentGroupName: String?
         /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
+        public let ec2DeploymentOptions: EC2DeploymentOptions?
         /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.
         public let ec2TagFilters: [EC2TagFilter]?
         /// Information about groups of tags applied to an Amazon EC2 instance. The deployment group includes only Amazon EC2 instances identified by all of the tag groups. Cannot be used in the same call as ec2TagFilters.
@@ -1319,7 +1336,7 @@ extension CodeDeploy {
         public let triggerConfigurations: [TriggerConfig]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, computePlatform: ComputePlatform? = nil, deploymentConfigName: String? = nil, deploymentGroupId: String? = nil, deploymentGroupName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, lastSuccessfulDeployment: LastDeploymentInfo? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, targetRevision: RevisionLocation? = nil, terminationHookEnabled: Bool? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, computePlatform: ComputePlatform? = nil, deploymentConfigName: String? = nil, deploymentGroupId: String? = nil, deploymentGroupName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2DeploymentOptions: EC2DeploymentOptions? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, lastSuccessfulDeployment: LastDeploymentInfo? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, targetRevision: RevisionLocation? = nil, terminationHookEnabled: Bool? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1330,6 +1347,7 @@ extension CodeDeploy {
             self.deploymentGroupId = deploymentGroupId
             self.deploymentGroupName = deploymentGroupName
             self.deploymentStyle = deploymentStyle
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.ec2TagFilters = ec2TagFilters
             self.ec2TagSet = ec2TagSet
             self.ecsServices = ecsServices
@@ -1356,6 +1374,7 @@ extension CodeDeploy {
             case deploymentGroupId = "deploymentGroupId"
             case deploymentGroupName = "deploymentGroupName"
             case deploymentStyle = "deploymentStyle"
+            case ec2DeploymentOptions = "ec2DeploymentOptions"
             case ec2TagFilters = "ec2TagFilters"
             case ec2TagSet = "ec2TagSet"
             case ecsServices = "ecsServices"
@@ -1405,6 +1424,7 @@ extension CodeDeploy {
         public let deploymentStyle: DeploymentStyle?
         /// A comment about the deployment.
         public let description: String?
+        public let ec2DeploymentOptions: EC2DeploymentOptions?
         /// Information about any error associated with this deployment.
         public let errorInformation: ErrorInformation?
         /// The unique ID for an external resource (for example, a CloudFormation stack ID) that is linked to this deployment.
@@ -1435,7 +1455,7 @@ extension CodeDeploy {
         public let updateOutdatedInstancesOnly: Bool?
 
         @inlinable
-        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentMode: DeploymentMode? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, previousRevision: RevisionLocation? = nil, relatedDeployments: RelatedDeployments? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentMode: DeploymentMode? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, ec2DeploymentOptions: EC2DeploymentOptions? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, previousRevision: RevisionLocation? = nil, relatedDeployments: RelatedDeployments? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
             self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1452,6 +1472,7 @@ extension CodeDeploy {
             self.deploymentStatusMessages = deploymentStatusMessages
             self.deploymentStyle = deploymentStyle
             self.description = description
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.errorInformation = errorInformation
             self.externalId = externalId
             self.fileExistsBehavior = fileExistsBehavior
@@ -1486,6 +1507,7 @@ extension CodeDeploy {
             case deploymentStatusMessages = "deploymentStatusMessages"
             case deploymentStyle = "deploymentStyle"
             case description = "description"
+            case ec2DeploymentOptions = "ec2DeploymentOptions"
             case errorInformation = "errorInformation"
             case externalId = "externalId"
             case fileExistsBehavior = "fileExistsBehavior"
@@ -1640,6 +1662,24 @@ extension CodeDeploy {
             case logTail = "logTail"
             case message = "message"
             case scriptName = "scriptName"
+        }
+    }
+
+    public struct EC2DeploymentOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon EC2 Auto Scaling processes to suspend during the deployment. CodeDeploy suspends these processes before it deploys to instances in an Auto Scaling group, and resumes them when the deployment succeeds, fails, or is stopped. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. This parameter applies only to in-place deployments on the EC2/On-premises compute platform. If the list is empty, or if the deployment does not target instances in an Auto Scaling group, no processes are suspended. The service role for the deployment group must have permission to call autoscaling:SuspendProcesses and autoscaling:ResumeProcesses on the target Auto Scaling groups. If the processes cannot be suspended, the deployment fails before any instance is updated. If you suspend ScheduledActions, scheduled actions with a start time during the deployment are skipped and do not run after the process resumes.  If CodeDeploy cannot resume the processes, the deployment fails and the processes stay suspended until you resume them with the Auto Scaling ResumeProcesses action. While Terminate is suspended, Auto Scaling does not replace unhealthy instances. If you suspend Terminate, configure a trigger that notifies you when a deployment fails.
+        public let autoScalingGroupProcessesToSuspend: [AutoScalingGroupProcess]?
+
+        @inlinable
+        public init(autoScalingGroupProcessesToSuspend: [AutoScalingGroupProcess]? = nil) {
+            self.autoScalingGroupProcessesToSuspend = autoScalingGroupProcessesToSuspend
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupProcessesToSuspend, name: "autoScalingGroupProcessesToSuspend", parent: name, max: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupProcessesToSuspend = "autoScalingGroupProcessesToSuspend"
         }
     }
 
@@ -3480,6 +3520,7 @@ extension CodeDeploy {
         public let deploymentConfigName: String?
         /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
+        public let ec2DeploymentOptions: EC2DeploymentOptions?
         /// The replacement set of Amazon EC2 tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
         public let ec2TagFilters: [EC2TagFilter]?
         /// Information about groups of tags applied to on-premises instances. The deployment group includes only Amazon EC2 instances identified by all the tag groups.
@@ -3504,7 +3545,7 @@ extension CodeDeploy {
         public let triggerConfigurations: [TriggerConfig]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, currentDeploymentGroupName: String, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, terminationHookEnabled: Bool? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, currentDeploymentGroupName: String, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2DeploymentOptions: EC2DeploymentOptions? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, terminationHookEnabled: Bool? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -3513,6 +3554,7 @@ extension CodeDeploy {
             self.currentDeploymentGroupName = currentDeploymentGroupName
             self.deploymentConfigName = deploymentConfigName
             self.deploymentStyle = deploymentStyle
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.ec2TagFilters = ec2TagFilters
             self.ec2TagSet = ec2TagSet
             self.ecsServices = ecsServices
@@ -3536,6 +3578,7 @@ extension CodeDeploy {
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
+            try self.ec2DeploymentOptions?.validate(name: "\(name).ec2DeploymentOptions")
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, min: 1)
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
@@ -3550,6 +3593,7 @@ extension CodeDeploy {
             case currentDeploymentGroupName = "currentDeploymentGroupName"
             case deploymentConfigName = "deploymentConfigName"
             case deploymentStyle = "deploymentStyle"
+            case ec2DeploymentOptions = "ec2DeploymentOptions"
             case ec2TagFilters = "ec2TagFilters"
             case ec2TagSet = "ec2TagSet"
             case ecsServices = "ecsServices"
@@ -3651,6 +3695,7 @@ public struct CodeDeployErrorType: AWSErrorType {
         case invalidArnException = "InvalidArnException"
         case invalidAutoRollbackConfigException = "InvalidAutoRollbackConfigException"
         case invalidAutoScalingGroupException = "InvalidAutoScalingGroupException"
+        case invalidAutoScalingGroupProcessToSuspendException = "InvalidAutoScalingGroupProcessToSuspendException"
         case invalidBlueGreenDeploymentConfigurationException = "InvalidBlueGreenDeploymentConfigurationException"
         case invalidBucketNameFilterException = "InvalidBucketNameFilterException"
         case invalidComputePlatformException = "InvalidComputePlatformException"
@@ -3826,6 +3871,8 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidAutoRollbackConfigException: Self { .init(.invalidAutoRollbackConfigException) }
     /// The Auto Scaling group was specified in an invalid format or does not exist.
     public static var invalidAutoScalingGroupException: Self { .init(.invalidAutoScalingGroupException) }
+    /// The autoScalingGroupProcessesToSuspend list in ec2DeploymentOptions contains a process that is not valid. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. Process names are case sensitive.
+    public static var invalidAutoScalingGroupProcessToSuspendException: Self { .init(.invalidAutoScalingGroupProcessToSuspendException) }
     /// The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see CreateDeploymentConfig.
     public static var invalidBlueGreenDeploymentConfigurationException: Self { .init(.invalidBlueGreenDeploymentConfigurationException) }
     /// The bucket name either doesn't exist or was specified in an invalid format.

@@ -431,6 +431,44 @@ public struct KinesisAnalyticsV2: AWSService {
         return try await self.createApplicationSnapshot(input, logger: logger)
     }
 
+    /// Creates an enhanced snapshot of the state data of a running Managed Service for Apache Flink application. The application must be in the RUNNING status, use Apache Flink version 1.20 or later, and use the ENHANCED_SNAPSHOTS snapshot mode. This operation is asynchronous. The response returns the snapshot ARN with the CREATING status. To check the status of the snapshot, use DescribeSnapshot. To track the progress of the operation, use DescribeSnapshotOperation. An application can have only one CreateSnapshot operation in progress at a time. For information about limits, see Managed Service for Apache Flink Quotas. For more information about snapshots, see Enhanced Snapshots.
+    @Sendable
+    @inlinable
+    public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotResponse {
+        try await self.client.execute(
+            operation: "CreateSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an enhanced snapshot of the state data of a running Managed Service for Apache Flink application. The application must be in the RUNNING status, use Apache Flink version 1.20 or later, and use the ENHANCED_SNAPSHOTS snapshot mode. This operation is asynchronous. The response returns the snapshot ARN with the CREATING status. To check the status of the snapshot, use DescribeSnapshot. To track the progress of the operation, use DescribeSnapshotOperation. An application can have only one CreateSnapshot operation in progress at a time. For information about limits, see Managed Service for Apache Flink Quotas. For more information about snapshots, see Enhanced Snapshots.
+    ///
+    /// Parameters:
+    ///   - applicationName: 
+    ///   - snapshotDescription: A summary description of the snapshot.
+    ///   - snapshotName: The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the FAILED status, until you delete that snapshot. Names that begin with SYSTEMSNAPSHOT are reserved.
+    ///   - tags: A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see Using Tagging.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSnapshot(
+        applicationName: String,
+        snapshotDescription: String? = nil,
+        snapshotName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSnapshotResponse {
+        let input = CreateSnapshotRequest(
+            applicationName: applicationName, 
+            snapshotDescription: snapshotDescription, 
+            snapshotName: snapshotName, 
+            tags: tags
+        )
+        return try await self.createSnapshot(input, logger: logger)
+    }
+
     /// Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
     @Sendable
     @inlinable
@@ -679,6 +717,38 @@ public struct KinesisAnalyticsV2: AWSService {
         return try await self.deleteApplicationVpcConfiguration(input, logger: logger)
     }
 
+    /// Deletes an enhanced snapshot. Snapshots are not scoped to an application, so you can delete a snapshot independently of the application that it was created from. This operation is asynchronous. The response returns the snapshot ARN with the DELETING status. To track the progress of the operation, use DescribeSnapshotOperation. You can delete a snapshot in the READY or FAILED status. If a snapshot operation, such as an export, uses the snapshot, Managed Service for Apache Flink waits for that operation to finish before it deletes the snapshot. For a snapshot in any other status, ResourceInUseException is returned.
+    @Sendable
+    @inlinable
+    public func deleteSnapshot(_ input: DeleteSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSnapshotResponse {
+        try await self.client.execute(
+            operation: "DeleteSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an enhanced snapshot. Snapshots are not scoped to an application, so you can delete a snapshot independently of the application that it was created from. This operation is asynchronous. The response returns the snapshot ARN with the DELETING status. To track the progress of the operation, use DescribeSnapshotOperation. You can delete a snapshot in the READY or FAILED status. If a snapshot operation, such as an export, uses the snapshot, Managed Service for Apache Flink waits for that operation to finish before it deletes the snapshot. For a snapshot in any other status, ResourceInUseException is returned.
+    ///
+    /// Parameters:
+    ///   - snapshotCreationTimestamp: The creation timestamp of the enhanced snapshot to delete. Use the DescribeSnapshot operation to get this value.
+    ///   - snapshotName: The name of the enhanced snapshot to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSnapshot(
+        snapshotCreationTimestamp: Date,
+        snapshotName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSnapshotResponse {
+        let input = DeleteSnapshotRequest(
+            snapshotCreationTimestamp: snapshotCreationTimestamp, 
+            snapshotName: snapshotName
+        )
+        return try await self.deleteSnapshot(input, logger: logger)
+    }
+
     /// Returns information about a specific Managed Service for Apache Flink application. If you want to retrieve a list of all applications in your account, use the ListApplications operation.
     @Sendable
     @inlinable
@@ -807,6 +877,67 @@ public struct KinesisAnalyticsV2: AWSService {
         return try await self.describeApplicationVersion(input, logger: logger)
     }
 
+    /// Returns information about an enhanced snapshot. To see a list of the snapshots in your account, use ListSnapshots.
+    @Sendable
+    @inlinable
+    public func describeSnapshot(_ input: DescribeSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotResponse {
+        try await self.client.execute(
+            operation: "DescribeSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about an enhanced snapshot. To see a list of the snapshots in your account, use ListSnapshots.
+    ///
+    /// Parameters:
+    ///   - snapshotName: The name of the enhanced snapshot. You can retrieve this value using ListSnapshots.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSnapshot(
+        snapshotName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSnapshotResponse {
+        let input = DescribeSnapshotRequest(
+            snapshotName: snapshotName
+        )
+        return try await self.describeSnapshot(input, logger: logger)
+    }
+
+    /// Provides a detailed description of a specified operation that was performed on an enhanced snapshot. To see a list of the operations of a snapshot, use ListSnapshotOperations. Snapshot operations are available for 90 days after they are created.
+    @Sendable
+    @inlinable
+    public func describeSnapshotOperation(_ input: DescribeSnapshotOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotOperationResponse {
+        try await self.client.execute(
+            operation: "DescribeSnapshotOperation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides a detailed description of a specified operation that was performed on an enhanced snapshot. To see a list of the operations of a snapshot, use ListSnapshotOperations. Snapshot operations are available for 90 days after they are created.
+    ///
+    /// Parameters:
+    ///   - snapshotName: The name of the enhanced snapshot.
+    ///   - snapshotOperationId: The ID of the snapshot operation. You can retrieve this value using ListSnapshotOperations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSnapshotOperation(
+        snapshotName: String,
+        snapshotOperationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSnapshotOperationResponse {
+        let input = DescribeSnapshotOperationRequest(
+            snapshotName: snapshotName, 
+            snapshotOperationId: snapshotOperationId
+        )
+        return try await self.describeSnapshotOperation(input, logger: logger)
+    }
+
     /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytics console, the console uses this operation to infer a schema and show it in the console user interface.
     @Sendable
     @inlinable
@@ -846,6 +977,82 @@ public struct KinesisAnalyticsV2: AWSService {
             serviceExecutionRole: serviceExecutionRole
         )
         return try await self.discoverInputSchema(input, logger: logger)
+    }
+
+    /// Exports the data of an enhanced snapshot to an Amazon S3 location. Managed Service for Apache Flink assumes the IAM role that you specify in ExportDestinationConfiguration to write the snapshot data. The snapshot must be in the READY status. This operation is asynchronous. To track the progress of the export, use DescribeSnapshotOperation. A snapshot can have only one export in progress at a time. If an export of the snapshot is already in progress, LimitExceededException is returned. For more information, see Import and export.
+    @Sendable
+    @inlinable
+    public func exportSnapshot(_ input: ExportSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportSnapshotResponse {
+        try await self.client.execute(
+            operation: "ExportSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Exports the data of an enhanced snapshot to an Amazon S3 location. Managed Service for Apache Flink assumes the IAM role that you specify in ExportDestinationConfiguration to write the snapshot data. The snapshot must be in the READY status. This operation is asynchronous. To track the progress of the export, use DescribeSnapshotOperation. A snapshot can have only one export in progress at a time. If an export of the snapshot is already in progress, LimitExceededException is returned. For more information, see Import and export.
+    ///
+    /// Parameters:
+    ///   - exportDestinationConfiguration: Describes the location, IAM role, and encryption configuration of the export destination.
+    ///   - snapshotName: The name of the enhanced snapshot to export.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func exportSnapshot(
+        exportDestinationConfiguration: ExportDestinationConfiguration,
+        snapshotName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExportSnapshotResponse {
+        let input = ExportSnapshotRequest(
+            exportDestinationConfiguration: exportDestinationConfiguration, 
+            snapshotName: snapshotName
+        )
+        return try await self.exportSnapshot(input, logger: logger)
+    }
+
+    /// Imports an Apache Flink savepoint from an Amazon S3 location as an enhanced snapshot. Managed Service for Apache Flink assumes the IAM role that you specify in ImportSourceConfiguration to read the savepoint data. This operation is asynchronous. The response returns the snapshot ARN with the CREATING status. To track the progress of the import, use DescribeSnapshotOperation. For more information, see Import and export.
+    @Sendable
+    @inlinable
+    public func importSnapshot(_ input: ImportSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportSnapshotResponse {
+        try await self.client.execute(
+            operation: "ImportSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Imports an Apache Flink savepoint from an Amazon S3 location as an enhanced snapshot. Managed Service for Apache Flink assumes the IAM role that you specify in ImportSourceConfiguration to read the savepoint data. This operation is asynchronous. The response returns the snapshot ARN with the CREATING status. To track the progress of the import, use DescribeSnapshotOperation. For more information, see Import and export.
+    ///
+    /// Parameters:
+    ///   - destinationEncryptionConfiguration: The encryption configuration of the imported snapshot. If you don't specify this parameter, the snapshot is encrypted using a key of type AWS_OWNED_KEY. If you specify a KMS key, you must specify the key ARN.
+    ///   - importSourceConfiguration: Describes the location, IAM role, and encryption configuration of the savepoint data to import.
+    ///   - snapshotDescription: A summary description of the snapshot.
+    ///   - snapshotFormat: The format of the snapshot being imported.
+    ///   - snapshotName: The name of the enhanced snapshot. The name must be unique among the snapshots in your account and Region. You can't reuse the name of an existing snapshot, including a snapshot in the FAILED status, until you delete that snapshot. Names that begin with SYSTEMSNAPSHOT are reserved.
+    ///   - tags: A list of one or more tags to assign to the snapshot. A tag is a key-value pair that identifies a snapshot. For more information, see Using Tagging.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func importSnapshot(
+        destinationEncryptionConfiguration: SnapshotEncryptionConfiguration? = nil,
+        importSourceConfiguration: ImportSourceConfiguration,
+        snapshotDescription: String? = nil,
+        snapshotFormat: SnapshotFormat? = nil,
+        snapshotName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ImportSnapshotResponse {
+        let input = ImportSnapshotRequest(
+            destinationEncryptionConfiguration: destinationEncryptionConfiguration, 
+            importSourceConfiguration: importSourceConfiguration, 
+            snapshotDescription: snapshotDescription, 
+            snapshotFormat: snapshotFormat, 
+            snapshotName: snapshotName, 
+            tags: tags
+        )
+        return try await self.importSnapshot(input, logger: logger)
     }
 
     /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the DescribeApplicationOperation operation.  This operation is supported only for Managed Service for Apache Flink.
@@ -989,6 +1196,91 @@ public struct KinesisAnalyticsV2: AWSService {
             nextToken: nextToken
         )
         return try await self.listApplications(input, logger: logger)
+    }
+
+    /// Lists the operations that were performed on the specified enhanced snapshot, such as CreateSnapshot, ImportSnapshot, and ExportSnapshot. The response includes a summary of each operation. You can specify only one of the SnapshotOperation or SnapshotOperationStatus filters in a request. If you specify both, InvalidArgumentException is returned. To get the complete description of a specific operation, use DescribeSnapshotOperation. Snapshot operations are available for 90 days after they are created.
+    @Sendable
+    @inlinable
+    public func listSnapshotOperations(_ input: ListSnapshotOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSnapshotOperationsResponse {
+        try await self.client.execute(
+            operation: "ListSnapshotOperations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the operations that were performed on the specified enhanced snapshot, such as CreateSnapshot, ImportSnapshot, and ExportSnapshot. The response includes a summary of each operation. You can specify only one of the SnapshotOperation or SnapshotOperationStatus filters in a request. If you specify both, InvalidArgumentException is returned. To get the complete description of a specific operation, use DescribeSnapshotOperation. Snapshot operations are available for 90 days after they are created.
+    ///
+    /// Parameters:
+    ///   - limit: The maximum number of snapshot operations to list.
+    ///   - nextToken: 
+    ///   - snapshotName: The name of the enhanced snapshot.
+    ///   - snapshotOperation: Use this parameter to list only the operations of the specified type.
+    ///   - snapshotOperationStatus: Use this parameter to list only the operations with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSnapshotOperations(
+        limit: Int? = nil,
+        nextToken: String? = nil,
+        snapshotName: String,
+        snapshotOperation: SnapshotOperation? = nil,
+        snapshotOperationStatus: SnapshotOperationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSnapshotOperationsResponse {
+        let input = ListSnapshotOperationsRequest(
+            limit: limit, 
+            nextToken: nextToken, 
+            snapshotName: snapshotName, 
+            snapshotOperation: snapshotOperation, 
+            snapshotOperationStatus: snapshotOperationStatus
+        )
+        return try await self.listSnapshotOperations(input, logger: logger)
+    }
+
+    /// Lists the enhanced snapshots in your account. Snapshots are not scoped to an application. To list the snapshots that were created from a specific application, use the SourceApplicationName parameter. You can specify only one of the following filters in a request: SourceApplicationName, SnapshotInitiator, SnapshotInitiatorOperation, or SnapshotStatus. If you specify more than one filter, InvalidArgumentException is returned. The results are sorted in descending order of snapshot creation timestamp. To get detailed information about a specific snapshot, use DescribeSnapshot.
+    @Sendable
+    @inlinable
+    public func listSnapshots(_ input: ListSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSnapshotsResponse {
+        try await self.client.execute(
+            operation: "ListSnapshots", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the enhanced snapshots in your account. Snapshots are not scoped to an application. To list the snapshots that were created from a specific application, use the SourceApplicationName parameter. You can specify only one of the following filters in a request: SourceApplicationName, SnapshotInitiator, SnapshotInitiatorOperation, or SnapshotStatus. If you specify more than one filter, InvalidArgumentException is returned. The results are sorted in descending order of snapshot creation timestamp. To get detailed information about a specific snapshot, use DescribeSnapshot.
+    ///
+    /// Parameters:
+    ///   - limit: The maximum number of snapshots to list.
+    ///   - nextToken: 
+    ///   - snapshotInitiator: Use this parameter to list only the snapshots with the specified initiator.
+    ///   - snapshotInitiatorOperation: Use this parameter to list only the snapshots that were created by the specified operation.
+    ///   - snapshotStatus: Use this parameter to list only the snapshots with the specified status.
+    ///   - sourceApplicationName: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSnapshots(
+        limit: Int? = nil,
+        nextToken: String? = nil,
+        snapshotInitiator: SnapshotInitiator? = nil,
+        snapshotInitiatorOperation: SnapshotInitiatorOperation? = nil,
+        snapshotStatus: SnapshotStatus? = nil,
+        sourceApplicationName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSnapshotsResponse {
+        let input = ListSnapshotsRequest(
+            limit: limit, 
+            nextToken: nextToken, 
+            snapshotInitiator: snapshotInitiator, 
+            snapshotInitiatorOperation: snapshotInitiatorOperation, 
+            snapshotStatus: snapshotStatus, 
+            sourceApplicationName: sourceApplicationName
+        )
+        return try await self.listSnapshots(input, logger: logger)
     }
 
     /// Retrieves the list of key-value tags assigned to the application. For more information, see  Using Tagging.
@@ -1266,7 +1558,7 @@ public struct KinesisAnalyticsV2: AWSService {
 extension KinesisAnalyticsV2 {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: KinesisAnalyticsV2, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -1426,6 +1718,95 @@ extension KinesisAnalyticsV2 {
         )
         return self.listApplicationsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSnapshotOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSnapshotOperationsPaginator(
+        _ input: ListSnapshotOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSnapshotOperationsRequest, ListSnapshotOperationsResponse> {
+        return .init(
+            input: input,
+            command: self.listSnapshotOperations,
+            inputKey: \ListSnapshotOperationsRequest.nextToken,
+            outputKey: \ListSnapshotOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSnapshotOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - limit: The maximum number of snapshot operations to list.
+    ///   - snapshotName: The name of the enhanced snapshot.
+    ///   - snapshotOperation: Use this parameter to list only the operations of the specified type.
+    ///   - snapshotOperationStatus: Use this parameter to list only the operations with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSnapshotOperationsPaginator(
+        limit: Int? = nil,
+        snapshotName: String,
+        snapshotOperation: SnapshotOperation? = nil,
+        snapshotOperationStatus: SnapshotOperationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSnapshotOperationsRequest, ListSnapshotOperationsResponse> {
+        let input = ListSnapshotOperationsRequest(
+            limit: limit, 
+            snapshotName: snapshotName, 
+            snapshotOperation: snapshotOperation, 
+            snapshotOperationStatus: snapshotOperationStatus
+        )
+        return self.listSnapshotOperationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSnapshots(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSnapshotsPaginator(
+        _ input: ListSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSnapshotsRequest, ListSnapshotsResponse> {
+        return .init(
+            input: input,
+            command: self.listSnapshots,
+            inputKey: \ListSnapshotsRequest.nextToken,
+            outputKey: \ListSnapshotsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSnapshots(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - limit: The maximum number of snapshots to list.
+    ///   - snapshotInitiator: Use this parameter to list only the snapshots with the specified initiator.
+    ///   - snapshotInitiatorOperation: Use this parameter to list only the snapshots that were created by the specified operation.
+    ///   - snapshotStatus: Use this parameter to list only the snapshots with the specified status.
+    ///   - sourceApplicationName: 
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSnapshotsPaginator(
+        limit: Int? = nil,
+        snapshotInitiator: SnapshotInitiator? = nil,
+        snapshotInitiatorOperation: SnapshotInitiatorOperation? = nil,
+        snapshotStatus: SnapshotStatus? = nil,
+        sourceApplicationName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSnapshotsRequest, ListSnapshotsResponse> {
+        let input = ListSnapshotsRequest(
+            limit: limit, 
+            snapshotInitiator: snapshotInitiator, 
+            snapshotInitiatorOperation: snapshotInitiatorOperation, 
+            snapshotStatus: snapshotStatus, 
+            sourceApplicationName: sourceApplicationName
+        )
+        return self.listSnapshotsPaginator(input, logger: logger)
+    }
 }
 
 extension KinesisAnalyticsV2.ListApplicationOperationsRequest: AWSPaginateToken {
@@ -1469,6 +1850,33 @@ extension KinesisAnalyticsV2.ListApplicationsRequest: AWSPaginateToken {
         return .init(
             limit: self.limit,
             nextToken: token
+        )
+    }
+}
+
+extension KinesisAnalyticsV2.ListSnapshotOperationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> KinesisAnalyticsV2.ListSnapshotOperationsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            snapshotName: self.snapshotName,
+            snapshotOperation: self.snapshotOperation,
+            snapshotOperationStatus: self.snapshotOperationStatus
+        )
+    }
+}
+
+extension KinesisAnalyticsV2.ListSnapshotsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> KinesisAnalyticsV2.ListSnapshotsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            snapshotInitiator: self.snapshotInitiator,
+            snapshotInitiatorOperation: self.snapshotInitiatorOperation,
+            snapshotStatus: self.snapshotStatus,
+            sourceApplicationName: self.sourceApplicationName
         )
     }
 }

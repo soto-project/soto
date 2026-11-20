@@ -95,6 +95,42 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DestinationEndpointConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case connecting = "CONNECTING"
+        case disconnected = "DISCONNECTED"
+        case disconnecting = "DISCONNECTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationEndpointNetworkingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "PUBLIC"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationEndpointProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rist = "RIST"
+        case rtp = "RTP"
+        case srtCaller = "SRT_CALLER"
+        case srtListener = "SRT_LISTENER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationEndpointRegistrationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deregistering = "DEREGISTERING"
+        case registered = "REGISTERED"
+        case registering = "REGISTERING"
+        case registrationFailed = "REGISTRATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DestinationEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case routerInput = "ROUTER_INPUT"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DurationUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case months = "MONTHS"
         public var description: String { return self.rawValue }
@@ -120,6 +156,26 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointEncryptionSecretType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes128Key = "AES_128_KEY"
+        case aes192Key = "AES_192_KEY"
+        case aes256Key = "AES_256_KEY"
+        case srtPassphrase = "SRT_PASSPHRASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case secretsManager = "SECRETS_MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case managed = "MANAGED"
+        case unmanaged = "UNMANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntitlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -129,6 +185,12 @@ extension MediaConnect {
     public enum FabricLatencyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case balanced = "BALANCED"
         case lowLatency = "LOW_LATENCY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FabricSwitchingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case immediate = "IMMEDIATE"
+        case keyFrame = "KEY_FRAME"
         public var description: String { return self.rawValue }
     }
 
@@ -281,6 +343,18 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceShareOwnership: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case consumed = "CONSUMED"
+        case owned = "OWNED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceShareState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case shared = "SHARED"
+        case unshared = "UNSHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mbpsOutboundBandwidth = "Mbps_Outbound_Bandwidth"
         public var description: String { return self.rawValue }
@@ -293,6 +367,7 @@ extension MediaConnect {
 
     public enum RouterInputProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rist = "RIST"
+        case rtmpPush = "RTMP_PUSH"
         case rtp = "RTP"
         case srtCaller = "SRT_CALLER"
         case srtListener = "SRT_LISTENER"
@@ -316,7 +391,9 @@ extension MediaConnect {
     public enum RouterInputTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case input100 = "INPUT_100"
         case input20 = "INPUT_20"
+        case input250 = "INPUT_250"
         case input50 = "INPUT_50"
+        case input500 = "INPUT_500"
         public var description: String { return self.rawValue }
     }
 
@@ -327,6 +404,7 @@ extension MediaConnect {
     }
 
     public enum RouterInputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destinationEndpoint = "DESTINATION_ENDPOINT"
         case failover = "FAILOVER"
         case mediaconnectFlow = "MEDIACONNECT_FLOW"
         case medialiveChannel = "MEDIALIVE_CHANNEL"
@@ -384,13 +462,16 @@ extension MediaConnect {
     public enum RouterOutputTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case output100 = "OUTPUT_100"
         case output20 = "OUTPUT_20"
+        case output250 = "OUTPUT_250"
         case output50 = "OUTPUT_50"
+        case output500 = "OUTPUT_500"
         public var description: String { return self.rawValue }
     }
 
     public enum RouterOutputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mediaconnectFlow = "MEDIACONNECT_FLOW"
         case medialiveInput = "MEDIALIVE_INPUT"
+        case sourceEndpoint = "SOURCE_ENDPOINT"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
@@ -401,10 +482,60 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum RtmpPushNamingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interlace = "interlace"
         case progressive = "progressive"
         case progressiveSegmentedFrame = "progressive-segmented-frame"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEndpointConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case connecting = "CONNECTING"
+        case disconnected = "DISCONNECTED"
+        case disconnecting = "DISCONNECTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEndpointNetworkingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "PUBLIC"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEndpointProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rist = "RIST"
+        case rtp = "RTP"
+        case srtCaller = "SRT_CALLER"
+        case srtListener = "SRT_LISTENER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEndpointRegistrationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deregistering = "DEREGISTERING"
+        case registered = "REGISTERED"
+        case registering = "REGISTERING"
+        case registrationFailed = "REGISTRATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case routerOutput = "ROUTER_OUTPUT"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceMediaStreamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audio = "AUDIO"
+        case data = "DATA"
+        case unknown = "UNKNOWN"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
@@ -455,11 +586,64 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum VideoColorimetry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bt2020 = "BT2020"
+        case bt470bg = "BT470BG"
+        case bt470m = "BT470M"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case genericFilm = "GENERIC_FILM"
+        case smpte240m = "SMPTE240M"
+        case smpte428 = "SMPTE428"
+        case smpte431 = "SMPTE431"
+        case smpte432 = "SMPTE432"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoMatrixCoefficients: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bt2020Cl = "BT2020_CL"
+        case bt2020Ncl = "BT2020_NCL"
+        case bt2100Ictcp = "BT2100_ICTCP"
+        case bt470bg = "BT470BG"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case chromaticityDerivedCl = "CHROMATICITY_DERIVED_CL"
+        case chromaticityDerivedNcl = "CHROMATICITY_DERIVED_NCL"
+        case fcc = "FCC"
+        case identity = "IDENTITY"
+        case iptC2 = "IPT_C2"
+        case smpte2085 = "SMPTE2085"
+        case smpte240m = "SMPTE240M"
+        case ycgco = "YCGCO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoTransferCharacteristics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bt1361Ecg = "BT1361_ECG"
+        case bt202010 = "BT2020_10"
+        case bt202012 = "BT2020_12"
+        case bt2100Hlg = "BT2100_HLG"
+        case bt2100Pq = "BT2100_PQ"
+        case bt470bg = "BT470BG"
+        case bt470m = "BT470M"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case iec6196621 = "IEC61966_2_1"
+        case iec6196624 = "IEC61966_2_4"
+        case linear = "LINEAR"
+        case log100 = "LOG100"
+        case log316 = "LOG316"
+        case smpte240m = "SMPTE240M"
+        case smpte428 = "SMPTE428"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cdi = "cdi"
         case fujitsuQos = "fujitsu-qos"
         case ndiSpeedHq = "ndi-speed-hq"
         case rist = "rist"
+        case rtmpPush = "rtmp-push"
         case rtp = "rtp"
         case rtpFec = "rtp-fec"
         case srtCaller = "srt-caller"
@@ -471,8 +655,240 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DestinationEndpointAssociatedResourceDetails: AWSDecodableShape, Sendable {
+        /// The associated resource details for a destination endpoint that represents a router input.
+        case routerInput(RouterInputDestinationEndpointAssociatedResourceDetails)
+        /// The associated resource details for a standard destination endpoint.
+        case standard(StandardDestinationEndpointAssociatedResourceDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .routerInput:
+                let value = try container.decode(RouterInputDestinationEndpointAssociatedResourceDetails.self, forKey: .routerInput)
+                self = .routerInput(value)
+            case .standard:
+                let value = try container.decode(StandardDestinationEndpointAssociatedResourceDetails.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerInput = "routerInput"
+            case standard = "standard"
+        }
+    }
+
+    public enum DestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration settings for a destination endpoint that represents a router input.
+        case routerInput(RouterInputDestinationEndpointConfiguration)
+        /// The configuration settings for a standard destination endpoint, which represents an external destination.
+        case standard(StandardDestinationEndpointConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .routerInput:
+                let value = try container.decode(RouterInputDestinationEndpointConfiguration.self, forKey: .routerInput)
+                self = .routerInput(value)
+            case .standard:
+                let value = try container.decode(StandardDestinationEndpointConfiguration.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .routerInput(let value):
+                try container.encode(value, forKey: .routerInput)
+            case .standard(let value):
+                try container.encode(value, forKey: .standard)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .routerInput(let value):
+                try value.validate(name: "\(name).routerInput")
+            case .standard(let value):
+                try value.validate(name: "\(name).standard")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerInput = "routerInput"
+            case standard = "standard"
+        }
+    }
+
+    public enum DestinationEndpointConnectionDetails: AWSDecodableShape, Sendable {
+        /// The connection details for a destination endpoint that represents a router input.
+        case routerInput(RouterInputDestinationEndpointConnectionDetails)
+        /// The connection details for a standard destination endpoint.
+        case standard(StandardDestinationEndpointConnectionDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .routerInput:
+                let value = try container.decode(RouterInputDestinationEndpointConnectionDetails.self, forKey: .routerInput)
+                self = .routerInput(value)
+            case .standard:
+                let value = try container.decode(StandardDestinationEndpointConnectionDetails.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerInput = "routerInput"
+            case standard = "standard"
+        }
+    }
+
+    public enum DestinationEndpointFilter: AWSEncodableShape, Sendable {
+        /// Filters the results to destination endpoints of the specified types.
+        case destinationTypes([DestinationEndpointType])
+        /// Filters the results to destination endpoints whose names contain the specified strings.
+        case nameContains([String])
+        /// Filters the results to destination endpoints in the specified Amazon Web Services Regions.
+        case regionNames([String])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .destinationTypes(let value):
+                try container.encode(value, forKey: .destinationTypes)
+            case .nameContains(let value):
+                try container.encode(value, forKey: .nameContains)
+            case .regionNames(let value):
+                try container.encode(value, forKey: .regionNames)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationTypes = "destinationTypes"
+            case nameContains = "nameContains"
+            case regionNames = "regionNames"
+        }
+    }
+
+    public enum EndpointEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration for automatic encryption, where MediaConnect determines the encryption key when the endpoint connects.
+        case automatic(AutomaticEndpointEncryptionConfiguration)
+        /// The encryption configuration for a connection that uses a key or passphrase that you store in Secrets Manager.
+        case secretsManager(SecretsManagerEndpointEncryptionConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .automatic:
+                let value = try container.decode(AutomaticEndpointEncryptionConfiguration.self, forKey: .automatic)
+                self = .automatic(value)
+            case .secretsManager:
+                let value = try container.decode(SecretsManagerEndpointEncryptionConfiguration.self, forKey: .secretsManager)
+                self = .secretsManager(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .automatic(let value):
+                try container.encode(value, forKey: .automatic)
+            case .secretsManager(let value):
+                try container.encode(value, forKey: .secretsManager)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .secretsManager(let value):
+                try value.validate(name: "\(name).secretsManager")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automatic = "automatic"
+            case secretsManager = "secretsManager"
+        }
+    }
+
+    public enum FabricSwitchingConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The switching configuration where the router output switches to the new router input immediately.
+        case immediate(ImmediateFabricSwitchingConfiguration)
+        /// The switching configuration where the router output waits for a key frame on the new router input before it switches.
+        case keyFrame(KeyFrameFabricSwitchingConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .immediate:
+                let value = try container.decode(ImmediateFabricSwitchingConfiguration.self, forKey: .immediate)
+                self = .immediate(value)
+            case .keyFrame:
+                let value = try container.decode(KeyFrameFabricSwitchingConfiguration.self, forKey: .keyFrame)
+                self = .keyFrame(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .immediate(let value):
+                try container.encode(value, forKey: .immediate)
+            case .keyFrame(let value):
+                try container.encode(value, forKey: .keyFrame)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case immediate = "immediate"
+            case keyFrame = "keyFrame"
+        }
+    }
+
     public enum FailoverRouterInputProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         case rist(RistRouterInputConfiguration)
+        /// The configuration settings for a failover router input that uses the RTMP protocol.
+        case rtmpPush(RtmpPushRouterInputConfiguration)
         case rtp(RtpRouterInputConfiguration)
         case srtCaller(SrtCallerRouterInputConfiguration)
         case srtListener(SrtListenerRouterInputConfiguration)
@@ -490,6 +906,9 @@ extension MediaConnect {
             case .rist:
                 let value = try container.decode(RistRouterInputConfiguration.self, forKey: .rist)
                 self = .rist(value)
+            case .rtmpPush:
+                let value = try container.decode(RtmpPushRouterInputConfiguration.self, forKey: .rtmpPush)
+                self = .rtmpPush(value)
             case .rtp:
                 let value = try container.decode(RtpRouterInputConfiguration.self, forKey: .rtp)
                 self = .rtp(value)
@@ -507,6 +926,8 @@ extension MediaConnect {
             switch self {
             case .rist(let value):
                 try container.encode(value, forKey: .rist)
+            case .rtmpPush(let value):
+                try container.encode(value, forKey: .rtmpPush)
             case .rtp(let value):
                 try container.encode(value, forKey: .rtp)
             case .srtCaller(let value):
@@ -529,6 +950,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case rist = "rist"
+            case rtmpPush = "rtmpPush"
             case rtp = "rtp"
             case srtCaller = "srtCaller"
             case srtListener = "srtListener"
@@ -675,168 +1097,6 @@ extension MediaConnect {
     public enum MergeRouterInputProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         case rist(RistRouterInputConfiguration)
         case rtp(RtpRouterInputConfiguration)
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            guard container.allKeys.count == 1, let key = container.allKeys.first else {
-                let context = DecodingError.Context(
-                    codingPath: container.codingPath,
-                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
-                )
-                throw DecodingError.dataCorrupted(context)
-            }
-            switch key {
-            case .rist:
-                let value = try container.decode(RistRouterInputConfiguration.self, forKey: .rist)
-                self = .rist(value)
-            case .rtp:
-                let value = try container.decode(RtpRouterInputConfiguration.self, forKey: .rtp)
-                self = .rtp(value)
-            }
-        }
-
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            switch self {
-            case .rist(let value):
-                try container.encode(value, forKey: .rist)
-            case .rtp(let value):
-                try container.encode(value, forKey: .rtp)
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case rist = "rist"
-            case rtp = "rtp"
-        }
-    }
-
-    public enum RouterInputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
-        case failover(FailoverRouterInputConfiguration)
-        case mediaConnectFlow(MediaConnectFlowRouterInputConfiguration)
-        case mediaLiveChannel(MediaLiveChannelRouterInputConfiguration)
-        case merge(MergeRouterInputConfiguration)
-        case standard(StandardRouterInputConfiguration)
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            guard container.allKeys.count == 1, let key = container.allKeys.first else {
-                let context = DecodingError.Context(
-                    codingPath: container.codingPath,
-                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
-                )
-                throw DecodingError.dataCorrupted(context)
-            }
-            switch key {
-            case .failover:
-                let value = try container.decode(FailoverRouterInputConfiguration.self, forKey: .failover)
-                self = .failover(value)
-            case .mediaConnectFlow:
-                let value = try container.decode(MediaConnectFlowRouterInputConfiguration.self, forKey: .mediaConnectFlow)
-                self = .mediaConnectFlow(value)
-            case .mediaLiveChannel:
-                let value = try container.decode(MediaLiveChannelRouterInputConfiguration.self, forKey: .mediaLiveChannel)
-                self = .mediaLiveChannel(value)
-            case .merge:
-                let value = try container.decode(MergeRouterInputConfiguration.self, forKey: .merge)
-                self = .merge(value)
-            case .standard:
-                let value = try container.decode(StandardRouterInputConfiguration.self, forKey: .standard)
-                self = .standard(value)
-            }
-        }
-
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            switch self {
-            case .failover(let value):
-                try container.encode(value, forKey: .failover)
-            case .mediaConnectFlow(let value):
-                try container.encode(value, forKey: .mediaConnectFlow)
-            case .mediaLiveChannel(let value):
-                try container.encode(value, forKey: .mediaLiveChannel)
-            case .merge(let value):
-                try container.encode(value, forKey: .merge)
-            case .standard(let value):
-                try container.encode(value, forKey: .standard)
-            }
-        }
-
-        public func validate(name: String) throws {
-            switch self {
-            case .failover(let value):
-                try value.validate(name: "\(name).failover")
-            case .mediaConnectFlow(let value):
-                try value.validate(name: "\(name).mediaConnectFlow")
-            case .mediaLiveChannel(let value):
-                try value.validate(name: "\(name).mediaLiveChannel")
-            case .merge(let value):
-                try value.validate(name: "\(name).merge")
-            case .standard(let value):
-                try value.validate(name: "\(name).standard")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failover = "failover"
-            case mediaConnectFlow = "mediaConnectFlow"
-            case mediaLiveChannel = "mediaLiveChannel"
-            case merge = "merge"
-            case standard = "standard"
-        }
-    }
-
-    public enum RouterInputFilter: AWSEncodableShape, Sendable {
-        /// The types of router inputs to include in the filter.
-        case inputTypes([RouterInputType])
-        /// The names of the router inputs to include in the filter.
-        case nameContains([String])
-        /// The Amazon Resource Names (ARNs) of the network interfaces associated with the router inputs to include in the filter.
-        case networkInterfaceArns([String])
-        /// The AWS Regions of the router inputs to include in the filter.
-        case regionNames([String])
-        /// Filter criteria to list router inputs based on their routing scope (REGIONAL or GLOBAL).
-        case routingScopes([RoutingScope])
-
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            switch self {
-            case .inputTypes(let value):
-                try container.encode(value, forKey: .inputTypes)
-            case .nameContains(let value):
-                try container.encode(value, forKey: .nameContains)
-            case .networkInterfaceArns(let value):
-                try container.encode(value, forKey: .networkInterfaceArns)
-            case .regionNames(let value):
-                try container.encode(value, forKey: .regionNames)
-            case .routingScopes(let value):
-                try container.encode(value, forKey: .routingScopes)
-            }
-        }
-
-        public func validate(name: String) throws {
-            switch self {
-            case .networkInterfaceArns(let value):
-                try value.forEach {
-                    try validate($0, name: "networkInterfaceArns[]", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}$")
-                }
-            default:
-                break
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case inputTypes = "inputTypes"
-            case nameContains = "nameContains"
-            case networkInterfaceArns = "networkInterfaceArns"
-            case regionNames = "regionNames"
-            case routingScopes = "routingScopes"
-        }
-    }
-
-    public enum RouterInputProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
-        case rist(RistRouterInputConfiguration)
-        case rtp(RtpRouterInputConfiguration)
         case srtCaller(SrtCallerRouterInputConfiguration)
         case srtListener(SrtListenerRouterInputConfiguration)
 
@@ -898,7 +1158,418 @@ extension MediaConnect {
         }
     }
 
+    public enum ProgramClockReferencePidConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The PCR PID configuration that passes through the PCR PID from the source.
+        case passthrough(Passthrough)
+        /// The PCR PID to use for the router output. MediaConnect applies this value only when the PCR is carried on its own PID. If the PCR is carried on an elementary stream, this value has no effect. If you also set the PMT PID, the two values must be different.
+        case set(Int)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .passthrough:
+                let value = try container.decode(Passthrough.self, forKey: .passthrough)
+                self = .passthrough(value)
+            case .set:
+                let value = try container.decode(Int.self, forKey: .set)
+                self = .set(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .passthrough(let value):
+                try container.encode(value, forKey: .passthrough)
+            case .set(let value):
+                try container.encode(value, forKey: .set)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .set(let value):
+                try self.validate(value, name: "set", parent: name, max: 8190)
+                try self.validate(value, name: "set", parent: name, min: 32)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passthrough = "passthrough"
+            case set = "set"
+        }
+    }
+
+    public enum ProgramMapTablePidConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The PMT PID configuration that passes through the PMT PID from the source.
+        case passthrough(Passthrough)
+        /// The PMT PID to use for the router output. If you also set the PCR PID, the two values must be different.
+        case set(Int)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .passthrough:
+                let value = try container.decode(Passthrough.self, forKey: .passthrough)
+                self = .passthrough(value)
+            case .set:
+                let value = try container.decode(Int.self, forKey: .set)
+                self = .set(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .passthrough(let value):
+                try container.encode(value, forKey: .passthrough)
+            case .set(let value):
+                try container.encode(value, forKey: .set)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .set(let value):
+                try self.validate(value, name: "set", parent: name, max: 8190)
+                try self.validate(value, name: "set", parent: name, min: 32)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passthrough = "passthrough"
+            case set = "set"
+        }
+    }
+
+    public enum ProgramNumberConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The program number configuration that passes through the program number from the source.
+        case passthrough(Passthrough)
+        /// The program number to use for the router output.
+        case set(Int)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .passthrough:
+                let value = try container.decode(Passthrough.self, forKey: .passthrough)
+                self = .passthrough(value)
+            case .set:
+                let value = try container.decode(Int.self, forKey: .set)
+                self = .set(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .passthrough(let value):
+                try container.encode(value, forKey: .passthrough)
+            case .set(let value):
+                try container.encode(value, forKey: .set)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passthrough = "passthrough"
+            case set = "set"
+        }
+    }
+
+    public enum ResourceShareDetails: AWSDecodableShape, Sendable {
+        /// The sharing details for an endpoint that another account shares with this account through RAM.
+        case consumed(ConsumedResourceShareDetails)
+        /// The sharing details for an endpoint that this account owns and shares with other accounts through RAM.
+        case owned(OwnedResourceShareDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .consumed:
+                let value = try container.decode(ConsumedResourceShareDetails.self, forKey: .consumed)
+                self = .consumed(value)
+            case .owned:
+                let value = try container.decode(OwnedResourceShareDetails.self, forKey: .owned)
+                self = .owned(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumed = "consumed"
+            case owned = "owned"
+        }
+    }
+
+    public enum RouterInputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Configuration settings for a router input that is represented by a destination endpoint.
+        case destinationEndpoint(DestinationEndpointRouterInputConfiguration)
+        case failover(FailoverRouterInputConfiguration)
+        case mediaConnectFlow(MediaConnectFlowRouterInputConfiguration)
+        case mediaLiveChannel(MediaLiveChannelRouterInputConfiguration)
+        case merge(MergeRouterInputConfiguration)
+        case standard(StandardRouterInputConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .destinationEndpoint:
+                let value = try container.decode(DestinationEndpointRouterInputConfiguration.self, forKey: .destinationEndpoint)
+                self = .destinationEndpoint(value)
+            case .failover:
+                let value = try container.decode(FailoverRouterInputConfiguration.self, forKey: .failover)
+                self = .failover(value)
+            case .mediaConnectFlow:
+                let value = try container.decode(MediaConnectFlowRouterInputConfiguration.self, forKey: .mediaConnectFlow)
+                self = .mediaConnectFlow(value)
+            case .mediaLiveChannel:
+                let value = try container.decode(MediaLiveChannelRouterInputConfiguration.self, forKey: .mediaLiveChannel)
+                self = .mediaLiveChannel(value)
+            case .merge:
+                let value = try container.decode(MergeRouterInputConfiguration.self, forKey: .merge)
+                self = .merge(value)
+            case .standard:
+                let value = try container.decode(StandardRouterInputConfiguration.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .destinationEndpoint(let value):
+                try container.encode(value, forKey: .destinationEndpoint)
+            case .failover(let value):
+                try container.encode(value, forKey: .failover)
+            case .mediaConnectFlow(let value):
+                try container.encode(value, forKey: .mediaConnectFlow)
+            case .mediaLiveChannel(let value):
+                try container.encode(value, forKey: .mediaLiveChannel)
+            case .merge(let value):
+                try container.encode(value, forKey: .merge)
+            case .standard(let value):
+                try container.encode(value, forKey: .standard)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .destinationEndpoint(let value):
+                try value.validate(name: "\(name).destinationEndpoint")
+            case .failover(let value):
+                try value.validate(name: "\(name).failover")
+            case .mediaConnectFlow(let value):
+                try value.validate(name: "\(name).mediaConnectFlow")
+            case .mediaLiveChannel(let value):
+                try value.validate(name: "\(name).mediaLiveChannel")
+            case .merge(let value):
+                try value.validate(name: "\(name).merge")
+            case .standard(let value):
+                try value.validate(name: "\(name).standard")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpoint = "destinationEndpoint"
+            case failover = "failover"
+            case mediaConnectFlow = "mediaConnectFlow"
+            case mediaLiveChannel = "mediaLiveChannel"
+            case merge = "merge"
+            case standard = "standard"
+        }
+    }
+
+    public enum RouterInputFilter: AWSEncodableShape, Sendable {
+        /// The types of router inputs to include in the filter.
+        case inputTypes([RouterInputType])
+        /// The names of the router inputs to include in the filter.
+        case nameContains([String])
+        /// The Amazon Resource Names (ARNs) of the network interfaces associated with the router inputs to include in the filter.
+        case networkInterfaceArns([String])
+        /// The AWS Regions of the router inputs to include in the filter.
+        case regionNames([String])
+        /// Filter criteria to list router inputs based on their routing scope (REGIONAL or GLOBAL).
+        case routingScopes([RoutingScope])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .inputTypes(let value):
+                try container.encode(value, forKey: .inputTypes)
+            case .nameContains(let value):
+                try container.encode(value, forKey: .nameContains)
+            case .networkInterfaceArns(let value):
+                try container.encode(value, forKey: .networkInterfaceArns)
+            case .regionNames(let value):
+                try container.encode(value, forKey: .regionNames)
+            case .routingScopes(let value):
+                try container.encode(value, forKey: .routingScopes)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .networkInterfaceArns(let value):
+                try value.forEach {
+                    try validate($0, name: "networkInterfaceArns[]", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}$")
+                }
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTypes = "inputTypes"
+            case nameContains = "nameContains"
+            case networkInterfaceArns = "networkInterfaceArns"
+            case regionNames = "regionNames"
+            case routingScopes = "routingScopes"
+        }
+    }
+
+    public enum RouterInputMetadata: AWSDecodableShape, Sendable {
+        /// The RTMP (Real-Time Messaging Protocol) specific information about the router input's source. This includes the application name, the stream name, and the associated audio and video streams.
+        case rtmpInfo(RtmpSourceMetadataInfo)
+        case transportStreamMediaInfo(TransportMediaInfo)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .rtmpInfo:
+                let value = try container.decode(RtmpSourceMetadataInfo.self, forKey: .rtmpInfo)
+                self = .rtmpInfo(value)
+            case .transportStreamMediaInfo:
+                let value = try container.decode(TransportMediaInfo.self, forKey: .transportStreamMediaInfo)
+                self = .transportStreamMediaInfo(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rtmpInfo = "rtmpInfo"
+            case transportStreamMediaInfo = "transportStreamMediaInfo"
+        }
+    }
+
+    public enum RouterInputProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        case rist(RistRouterInputConfiguration)
+        /// The configuration settings for a router input that uses the RTMP protocol.
+        case rtmpPush(RtmpPushRouterInputConfiguration)
+        case rtp(RtpRouterInputConfiguration)
+        case srtCaller(SrtCallerRouterInputConfiguration)
+        case srtListener(SrtListenerRouterInputConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .rist:
+                let value = try container.decode(RistRouterInputConfiguration.self, forKey: .rist)
+                self = .rist(value)
+            case .rtmpPush:
+                let value = try container.decode(RtmpPushRouterInputConfiguration.self, forKey: .rtmpPush)
+                self = .rtmpPush(value)
+            case .rtp:
+                let value = try container.decode(RtpRouterInputConfiguration.self, forKey: .rtp)
+                self = .rtp(value)
+            case .srtCaller:
+                let value = try container.decode(SrtCallerRouterInputConfiguration.self, forKey: .srtCaller)
+                self = .srtCaller(value)
+            case .srtListener:
+                let value = try container.decode(SrtListenerRouterInputConfiguration.self, forKey: .srtListener)
+                self = .srtListener(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .rist(let value):
+                try container.encode(value, forKey: .rist)
+            case .rtmpPush(let value):
+                try container.encode(value, forKey: .rtmpPush)
+            case .rtp(let value):
+                try container.encode(value, forKey: .rtp)
+            case .srtCaller(let value):
+                try container.encode(value, forKey: .srtCaller)
+            case .srtListener(let value):
+                try container.encode(value, forKey: .srtListener)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .srtCaller(let value):
+                try value.validate(name: "\(name).srtCaller")
+            case .srtListener(let value):
+                try value.validate(name: "\(name).srtListener")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rist = "rist"
+            case rtmpPush = "rtmpPush"
+            case rtp = "rtp"
+            case srtCaller = "srtCaller"
+            case srtListener = "srtListener"
+        }
+    }
+
     public enum RouterInputStreamDetails: AWSDecodableShape, Sendable {
+        /// Configuration details for a router input stream that is represented by a destination endpoint.
+        case destinationEndpoint(DestinationEndpointRouterInputStreamDetails)
         case failover(FailoverRouterInputStreamDetails)
         case mediaConnectFlow(MediaConnectFlowRouterInputStreamDetails)
         case mediaLiveChannel(MediaLiveChannelRouterInputStreamDetails)
@@ -915,6 +1586,9 @@ extension MediaConnect {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .destinationEndpoint:
+                let value = try container.decode(DestinationEndpointRouterInputStreamDetails.self, forKey: .destinationEndpoint)
+                self = .destinationEndpoint(value)
             case .failover:
                 let value = try container.decode(FailoverRouterInputStreamDetails.self, forKey: .failover)
                 self = .failover(value)
@@ -934,6 +1608,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case destinationEndpoint = "destinationEndpoint"
             case failover = "failover"
             case mediaConnectFlow = "mediaConnectFlow"
             case mediaLiveChannel = "mediaLiveChannel"
@@ -1059,6 +1734,8 @@ extension MediaConnect {
     public enum RouterOutputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         case mediaConnectFlow(MediaConnectFlowRouterOutputConfiguration)
         case mediaLiveInput(MediaLiveInputRouterOutputConfiguration)
+        /// Configuration settings for a router output that is represented by a source endpoint.
+        case sourceEndpoint(SourceEndpointRouterOutputConfiguration)
         case standard(StandardRouterOutputConfiguration)
 
         public init(from decoder: Decoder) throws {
@@ -1077,6 +1754,9 @@ extension MediaConnect {
             case .mediaLiveInput:
                 let value = try container.decode(MediaLiveInputRouterOutputConfiguration.self, forKey: .mediaLiveInput)
                 self = .mediaLiveInput(value)
+            case .sourceEndpoint:
+                let value = try container.decode(SourceEndpointRouterOutputConfiguration.self, forKey: .sourceEndpoint)
+                self = .sourceEndpoint(value)
             case .standard:
                 let value = try container.decode(StandardRouterOutputConfiguration.self, forKey: .standard)
                 self = .standard(value)
@@ -1090,6 +1770,8 @@ extension MediaConnect {
                 try container.encode(value, forKey: .mediaConnectFlow)
             case .mediaLiveInput(let value):
                 try container.encode(value, forKey: .mediaLiveInput)
+            case .sourceEndpoint(let value):
+                try container.encode(value, forKey: .sourceEndpoint)
             case .standard(let value):
                 try container.encode(value, forKey: .standard)
             }
@@ -1101,6 +1783,8 @@ extension MediaConnect {
                 try value.validate(name: "\(name).mediaConnectFlow")
             case .mediaLiveInput(let value):
                 try value.validate(name: "\(name).mediaLiveInput")
+            case .sourceEndpoint(let value):
+                try value.validate(name: "\(name).sourceEndpoint")
             case .standard(let value):
                 try value.validate(name: "\(name).standard")
             }
@@ -1109,6 +1793,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case mediaConnectFlow = "mediaConnectFlow"
             case mediaLiveInput = "mediaLiveInput"
+            case sourceEndpoint = "sourceEndpoint"
             case standard = "standard"
         }
     }
@@ -1244,6 +1929,8 @@ extension MediaConnect {
     public enum RouterOutputStreamDetails: AWSDecodableShape, Sendable {
         case mediaConnectFlow(MediaConnectFlowRouterOutputStreamDetails)
         case mediaLiveInput(MediaLiveInputRouterOutputStreamDetails)
+        /// Configuration details for a router output stream that is represented by a source endpoint.
+        case sourceEndpoint(SourceEndpointRouterOutputStreamDetails)
         case standard(StandardRouterOutputStreamDetails)
 
         public init(from decoder: Decoder) throws {
@@ -1262,6 +1949,9 @@ extension MediaConnect {
             case .mediaLiveInput:
                 let value = try container.decode(MediaLiveInputRouterOutputStreamDetails.self, forKey: .mediaLiveInput)
                 self = .mediaLiveInput(value)
+            case .sourceEndpoint:
+                let value = try container.decode(SourceEndpointRouterOutputStreamDetails.self, forKey: .sourceEndpoint)
+                self = .sourceEndpoint(value)
             case .standard:
                 let value = try container.decode(StandardRouterOutputStreamDetails.self, forKey: .standard)
                 self = .standard(value)
@@ -1271,7 +1961,447 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case mediaConnectFlow = "mediaConnectFlow"
             case mediaLiveInput = "mediaLiveInput"
+            case sourceEndpoint = "sourceEndpoint"
             case standard = "standard"
+        }
+    }
+
+    public enum RtmpPushNamingConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The naming configuration where MediaConnect generates the application and stream names.
+        case automatic(AutomaticRtmpPushNamingConfiguration)
+        /// The naming configuration where you specify the application and stream names.
+        case manual(ManualRtmpPushNamingConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .automatic:
+                let value = try container.decode(AutomaticRtmpPushNamingConfiguration.self, forKey: .automatic)
+                self = .automatic(value)
+            case .manual:
+                let value = try container.decode(ManualRtmpPushNamingConfiguration.self, forKey: .manual)
+                self = .manual(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .automatic(let value):
+                try container.encode(value, forKey: .automatic)
+            case .manual(let value):
+                try container.encode(value, forKey: .manual)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automatic = "automatic"
+            case manual = "manual"
+        }
+    }
+
+    public enum SourceEndpointAssociatedResourceDetails: AWSDecodableShape, Sendable {
+        /// The associated resource details for a source endpoint that represents a router output.
+        case routerOutput(RouterOutputSourceEndpointAssociatedResourceDetails)
+        /// The associated resource details for a standard source endpoint.
+        case standard(StandardSourceEndpointAssociatedResourceDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .routerOutput:
+                let value = try container.decode(RouterOutputSourceEndpointAssociatedResourceDetails.self, forKey: .routerOutput)
+                self = .routerOutput(value)
+            case .standard:
+                let value = try container.decode(StandardSourceEndpointAssociatedResourceDetails.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerOutput = "routerOutput"
+            case standard = "standard"
+        }
+    }
+
+    public enum SourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration settings for a source endpoint that represents a router output.
+        case routerOutput(RouterOutputSourceEndpointConfiguration)
+        /// The configuration settings for a standard source endpoint, which represents an external source.
+        case standard(StandardSourceEndpointConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .routerOutput:
+                let value = try container.decode(RouterOutputSourceEndpointConfiguration.self, forKey: .routerOutput)
+                self = .routerOutput(value)
+            case .standard:
+                let value = try container.decode(StandardSourceEndpointConfiguration.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .routerOutput(let value):
+                try container.encode(value, forKey: .routerOutput)
+            case .standard(let value):
+                try container.encode(value, forKey: .standard)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .routerOutput(let value):
+                try value.validate(name: "\(name).routerOutput")
+            case .standard(let value):
+                try value.validate(name: "\(name).standard")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerOutput = "routerOutput"
+            case standard = "standard"
+        }
+    }
+
+    public enum SourceEndpointConnectionDetails: AWSDecodableShape, Sendable {
+        /// The connection details for a source endpoint that represents a router output.
+        case routerOutput(RouterOutputSourceEndpointConnectionDetails)
+        /// The connection details for a standard source endpoint.
+        case standard(StandardSourceEndpointConnectionDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .routerOutput:
+                let value = try container.decode(RouterOutputSourceEndpointConnectionDetails.self, forKey: .routerOutput)
+                self = .routerOutput(value)
+            case .standard:
+                let value = try container.decode(StandardSourceEndpointConnectionDetails.self, forKey: .standard)
+                self = .standard(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerOutput = "routerOutput"
+            case standard = "standard"
+        }
+    }
+
+    public enum SourceEndpointFilter: AWSEncodableShape, Sendable {
+        /// Filters the results to source endpoints whose names contain the specified strings.
+        case nameContains([String])
+        /// Filters the results to source endpoints in the specified Amazon Web Services Regions.
+        case regionNames([String])
+        /// Filters the results to source endpoints of the specified types.
+        case sourceTypes([SourceEndpointType])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .nameContains(let value):
+                try container.encode(value, forKey: .nameContains)
+            case .regionNames(let value):
+                try container.encode(value, forKey: .regionNames)
+            case .sourceTypes(let value):
+                try container.encode(value, forKey: .sourceTypes)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nameContains = "nameContains"
+            case regionNames = "regionNames"
+            case sourceTypes = "sourceTypes"
+        }
+    }
+
+    public enum StandardDestinationEndpointNetworkingConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration for a publicly accessible destination endpoint.
+        case `public`(PublicDestinationEndpointNetworkingConfiguration)
+        /// The configuration for a destination endpoint in a virtual private cloud (VPC).
+        case vpc(VpcDestinationEndpointNetworkingConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .`public`:
+                let value = try container.decode(PublicDestinationEndpointNetworkingConfiguration.self, forKey: .`public`)
+                self = .`public`(value)
+            case .vpc:
+                let value = try container.decode(VpcDestinationEndpointNetworkingConfiguration.self, forKey: .vpc)
+                self = .vpc(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .`public`(let value):
+                try container.encode(value, forKey: .`public`)
+            case .vpc(let value):
+                try container.encode(value, forKey: .vpc)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `public` = "public"
+            case vpc = "vpc"
+        }
+    }
+
+    public enum StandardDestinationEndpointProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration settings for a destination endpoint that uses the RIST protocol.
+        case rist(RistStandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that uses the RTP protocol.
+        case rtp(RtpStandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that uses SRT in caller mode.
+        case srtCaller(SrtCallerStandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that uses SRT in listener mode.
+        case srtListener(SrtListenerStandardDestinationEndpointConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .rist:
+                let value = try container.decode(RistStandardDestinationEndpointConfiguration.self, forKey: .rist)
+                self = .rist(value)
+            case .rtp:
+                let value = try container.decode(RtpStandardDestinationEndpointConfiguration.self, forKey: .rtp)
+                self = .rtp(value)
+            case .srtCaller:
+                let value = try container.decode(SrtCallerStandardDestinationEndpointConfiguration.self, forKey: .srtCaller)
+                self = .srtCaller(value)
+            case .srtListener:
+                let value = try container.decode(SrtListenerStandardDestinationEndpointConfiguration.self, forKey: .srtListener)
+                self = .srtListener(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .rist(let value):
+                try container.encode(value, forKey: .rist)
+            case .rtp(let value):
+                try container.encode(value, forKey: .rtp)
+            case .srtCaller(let value):
+                try container.encode(value, forKey: .srtCaller)
+            case .srtListener(let value):
+                try container.encode(value, forKey: .srtListener)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .srtCaller(let value):
+                try value.validate(name: "\(name).srtCaller")
+            case .srtListener(let value):
+                try value.validate(name: "\(name).srtListener")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rist = "rist"
+            case rtp = "rtp"
+            case srtCaller = "srtCaller"
+            case srtListener = "srtListener"
+        }
+    }
+
+    public enum StandardSourceEndpointNetworkingConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration for a publicly accessible source endpoint.
+        case `public`(PublicSourceEndpointNetworkingConfiguration)
+        /// The configuration for a source endpoint in a virtual private cloud (VPC).
+        case vpc(VpcSourceEndpointNetworkingConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .`public`:
+                let value = try container.decode(PublicSourceEndpointNetworkingConfiguration.self, forKey: .`public`)
+                self = .`public`(value)
+            case .vpc:
+                let value = try container.decode(VpcSourceEndpointNetworkingConfiguration.self, forKey: .vpc)
+                self = .vpc(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .`public`(let value):
+                try container.encode(value, forKey: .`public`)
+            case .vpc(let value):
+                try container.encode(value, forKey: .vpc)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `public` = "public"
+            case vpc = "vpc"
+        }
+    }
+
+    public enum StandardSourceEndpointProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration settings for a source endpoint that uses the RIST protocol.
+        case rist(RistStandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that uses the RTP protocol.
+        case rtp(RtpStandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that uses SRT in caller mode.
+        case srtCaller(SrtCallerStandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that uses SRT in listener mode.
+        case srtListener(SrtListenerStandardSourceEndpointConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .rist:
+                let value = try container.decode(RistStandardSourceEndpointConfiguration.self, forKey: .rist)
+                self = .rist(value)
+            case .rtp:
+                let value = try container.decode(RtpStandardSourceEndpointConfiguration.self, forKey: .rtp)
+                self = .rtp(value)
+            case .srtCaller:
+                let value = try container.decode(SrtCallerStandardSourceEndpointConfiguration.self, forKey: .srtCaller)
+                self = .srtCaller(value)
+            case .srtListener:
+                let value = try container.decode(SrtListenerStandardSourceEndpointConfiguration.self, forKey: .srtListener)
+                self = .srtListener(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .rist(let value):
+                try container.encode(value, forKey: .rist)
+            case .rtp(let value):
+                try container.encode(value, forKey: .rtp)
+            case .srtCaller(let value):
+                try container.encode(value, forKey: .srtCaller)
+            case .srtListener(let value):
+                try container.encode(value, forKey: .srtListener)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .srtCaller(let value):
+                try value.validate(name: "\(name).srtCaller")
+            case .srtListener(let value):
+                try value.validate(name: "\(name).srtListener")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rist = "rist"
+            case rtp = "rtp"
+            case srtCaller = "srtCaller"
+            case srtListener = "srtListener"
+        }
+    }
+
+    public enum TransportStreamIdConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The TSID configuration that passes through the TSID from the source.
+        case passthrough(Passthrough)
+        /// The TSID to use for the router output.
+        case set(Int)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .passthrough:
+                let value = try container.decode(Passthrough.self, forKey: .passthrough)
+                self = .passthrough(value)
+            case .set:
+                let value = try container.decode(Int.self, forKey: .set)
+                self = .set(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .passthrough(let value):
+                try container.encode(value, forKey: .passthrough)
+            case .set(let value):
+                try container.encode(value, forKey: .set)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passthrough = "passthrough"
+            case set = "set"
         }
     }
 
@@ -1782,6 +2912,8 @@ extension MediaConnect {
         public let minLatency: Int?
         ///  The name of the output. This value must be unique within the current flow.
         public let name: String?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20.
+        public let ndiAudioReferenceLevel: Int?
         /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect uses EMBEDDED_TIMECODE.    EMBEDDED_TIMECODE (default) - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
         public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
@@ -1801,6 +2933,8 @@ extension MediaConnect {
         /// Indicates whether to enable or disable router integration when creating a new flow output.
         public let routerIntegrationState: State?
         public let routerIntegrationTransitEncryption: FlowTransitEncryption?
+        /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified.
+        public let rtmpPushSettings: RtmpPushOutputSettings?
         ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
         ///  The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
@@ -1811,7 +2945,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiAudioReferenceLevel: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, rtmpPushSettings: RtmpPushOutputSettings? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -1820,6 +2954,7 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -1830,6 +2965,7 @@ extension MediaConnect {
             self.remoteId = remoteId
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
+            self.rtmpPushSettings = rtmpPushSettings
             self.senderControlPort = senderControlPort
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
@@ -1837,6 +2973,8 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, max: 0)
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, min: -40)
             try self.routerIntegrationTransitEncryption?.validate(name: "\(name).routerIntegrationTransitEncryption")
         }
 
@@ -1849,6 +2987,7 @@ extension MediaConnect {
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
             case name = "name"
+            case ndiAudioReferenceLevel = "ndiAudioReferenceLevel"
             case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
@@ -1859,6 +2998,7 @@ extension MediaConnect {
             case remoteId = "remoteId"
             case routerIntegrationState = "routerIntegrationState"
             case routerIntegrationTransitEncryption = "routerIntegrationTransitEncryption"
+            case rtmpPushSettings = "rtmpPushSettings"
             case senderControlPort = "senderControlPort"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
@@ -1880,8 +3020,105 @@ extension MediaConnect {
         }
     }
 
+    public struct AutoPidMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of PIDs in the range for automatic PID assignment.
+        public let pidsPerProgram: Int
+        /// The first PID in the range for automatic PID assignment.
+        public let startPid: Int
+
+        @inlinable
+        public init(pidsPerProgram: Int, startPid: Int) {
+            self.pidsPerProgram = pidsPerProgram
+            self.startPid = startPid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.startPid, name: "startPid", parent: name, max: 8190)
+            try self.validate(self.startPid, name: "startPid", parent: name, min: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pidsPerProgram = "pidsPerProgram"
+            case startPid = "startPid"
+        }
+    }
+
     public struct AutomaticEncryptionKeyConfiguration: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AutomaticEndpointEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AutomaticRtmpPushNamingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct BatchGetDestinationEndpointError: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint that MediaConnect couldn't retrieve.
+        public let arn: String
+        /// The error code.
+        public let code: String
+        /// A description of the error.
+        public let message: String
+
+        @inlinable
+        public init(arn: String, code: String, message: String) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct BatchGetDestinationEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of one or more destination endpoints to retrieve. You can specify from 1 to 20 ARNs.
+        public let arns: [String]
+
+        @inlinable
+        public init(arns: [String]) {
+            self.arns = arns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arns, key: "arns")
+        }
+
+        public func validate(name: String) throws {
+            try self.arns.forEach {
+                try validate($0, name: "arns[]", parent: name, max: 128)
+                try validate($0, name: "arns[]", parent: name, min: 64)
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:destinationEndpoint:[a-z0-9]{12}$")
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct BatchGetDestinationEndpointResponse: AWSDecodableShape {
+        /// The destination endpoints that MediaConnect successfully retrieved.
+        public let destinationEndpoints: [DestinationEndpoint]
+        /// The errors for any destination endpoints that MediaConnect couldn't retrieve.
+        public let errors: [BatchGetDestinationEndpointError]
+
+        @inlinable
+        public init(destinationEndpoints: [DestinationEndpoint], errors: [BatchGetDestinationEndpointError]) {
+            self.destinationEndpoints = destinationEndpoints
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpoints = "destinationEndpoints"
+            case errors = "errors"
+        }
     }
 
     public struct BatchGetRouterInputError: AWSDecodableShape {
@@ -2073,6 +3310,72 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case errors = "errors"
             case routerOutputs = "routerOutputs"
+        }
+    }
+
+    public struct BatchGetSourceEndpointError: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint that MediaConnect couldn't retrieve.
+        public let arn: String
+        /// The error code.
+        public let code: String
+        /// A description of the error.
+        public let message: String
+
+        @inlinable
+        public init(arn: String, code: String, message: String) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct BatchGetSourceEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of one or more source endpoints to retrieve. You can specify from 1 to 20 ARNs.
+        public let arns: [String]
+
+        @inlinable
+        public init(arns: [String]) {
+            self.arns = arns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arns, key: "arns")
+        }
+
+        public func validate(name: String) throws {
+            try self.arns.forEach {
+                try validate($0, name: "arns[]", parent: name, max: 128)
+                try validate($0, name: "arns[]", parent: name, min: 64)
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:sourceEndpoint:[a-z0-9]{12}$")
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct BatchGetSourceEndpointResponse: AWSDecodableShape {
+        /// The errors for any source endpoints that MediaConnect couldn't retrieve.
+        public let errors: [BatchGetSourceEndpointError]
+        /// The source endpoints that MediaConnect successfully retrieved.
+        public let sourceEndpoints: [SourceEndpoint]
+
+        @inlinable
+        public init(errors: [BatchGetSourceEndpointError], sourceEndpoints: [SourceEndpoint]) {
+            self.errors = errors
+            self.sourceEndpoints = sourceEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case sourceEndpoints = "sourceEndpoints"
         }
     }
 
@@ -2319,6 +3622,101 @@ extension MediaConnect {
         }
     }
 
+    public struct ColorInformation: AWSDecodableShape {
+        /// The color primaries that the video stream uses (for example, BT709 or BT2020).
+        public let colorimetry: VideoColorimetry?
+        /// The YCbCr matrix coefficients that the video stream uses (for example, BT709 or BT2020_NCL).
+        public let matrixCoefficients: VideoMatrixCoefficients?
+        /// The transfer characteristics that the video stream uses (for example, BT601, BT709, BT2100_PQ, or BT2100_HLG).
+        public let transferCharacteristics: VideoTransferCharacteristics?
+
+        @inlinable
+        public init(colorimetry: VideoColorimetry? = nil, matrixCoefficients: VideoMatrixCoefficients? = nil, transferCharacteristics: VideoTransferCharacteristics? = nil) {
+            self.colorimetry = colorimetry
+            self.matrixCoefficients = matrixCoefficients
+            self.transferCharacteristics = transferCharacteristics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorimetry = "colorimetry"
+            case matrixCoefficients = "matrixCoefficients"
+            case transferCharacteristics = "transferCharacteristics"
+        }
+    }
+
+    public struct ConnectEndpointsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint to connect.
+        public let destinationEndpointArn: String
+        /// The Amazon Resource Name (ARN) of the source endpoint to connect.
+        public let sourceEndpointArn: String
+
+        @inlinable
+        public init(destinationEndpointArn: String, sourceEndpointArn: String) {
+            self.destinationEndpointArn = destinationEndpointArn
+            self.sourceEndpointArn = sourceEndpointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.destinationEndpointArn, key: "DestinationEndpointArn")
+            try container.encode(self.sourceEndpointArn, forKey: .sourceEndpointArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationEndpointArn, name: "destinationEndpointArn", parent: name, max: 128)
+            try self.validate(self.destinationEndpointArn, name: "destinationEndpointArn", parent: name, min: 64)
+            try self.validate(self.destinationEndpointArn, name: "destinationEndpointArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:destinationEndpoint:[a-z0-9]{12}$")
+            try self.validate(self.sourceEndpointArn, name: "sourceEndpointArn", parent: name, max: 128)
+            try self.validate(self.sourceEndpointArn, name: "sourceEndpointArn", parent: name, min: 64)
+            try self.validate(self.sourceEndpointArn, name: "sourceEndpointArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:sourceEndpoint:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEndpointArn = "sourceEndpointArn"
+        }
+    }
+
+    public struct ConnectEndpointsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connected destination endpoint.
+        public let destinationEndpointArn: String
+        /// The name of the connected destination endpoint.
+        public let destinationEndpointName: String
+        /// The Amazon Resource Name (ARN) of the connected source endpoint.
+        public let sourceEndpointArn: String
+        /// The name of the connected source endpoint.
+        public let sourceEndpointName: String
+
+        @inlinable
+        public init(destinationEndpointArn: String, destinationEndpointName: String, sourceEndpointArn: String, sourceEndpointName: String) {
+            self.destinationEndpointArn = destinationEndpointArn
+            self.destinationEndpointName = destinationEndpointName
+            self.sourceEndpointArn = sourceEndpointArn
+            self.sourceEndpointName = sourceEndpointName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpointArn = "destinationEndpointArn"
+            case destinationEndpointName = "destinationEndpointName"
+            case sourceEndpointArn = "sourceEndpointArn"
+            case sourceEndpointName = "sourceEndpointName"
+        }
+    }
+
+    public struct ConsumedResourceShareDetails: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the shared endpoint.
+        public let ownerAccountId: String
+
+        @inlinable
+        public init(ownerAccountId: String) {
+            self.ownerAccountId = ownerAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerAccountId = "ownerAccountId"
+        }
+    }
+
     public struct ContentQualityAnalysisFeatureConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Settings for black frames detection.
         public let blackFrames: BlackFramesConfiguration?
@@ -2549,7 +3947,7 @@ extension MediaConnect {
         public let routingScope: RoutingScope
         /// Key-value pairs that can be used to tag and organize this router input.
         public let tags: [String: String]?
-        /// The tier level for the router input.
+        /// The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterInputTier
         /// The transit encryption settings for the router input.
         public let transitEncryption: RouterInputTransitEncryption?
@@ -2672,17 +4070,19 @@ extension MediaConnect {
         public let maximumBitrate: Int64
         /// The name of the router output.
         public let name: String
+        /// The processor settings for the router output.
+        public let processors: RouterOutputProcessors?
         /// The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
         public let regionName: String?
         /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
         public let routingScope: RoutingScope
         /// Key-value pairs that can be used to tag this router output.
         public let tags: [String: String]?
-        /// The tier level for the router output.
+        /// The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterOutputTier
 
         @inlinable
-        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterOutputRequest.idempotencyToken(), configuration: RouterOutputConfiguration, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterOutputTier) {
+        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterOutputRequest.idempotencyToken(), configuration: RouterOutputConfiguration, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, processors: RouterOutputProcessors? = nil, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterOutputTier) {
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
             self.configuration = configuration
@@ -2690,6 +4090,7 @@ extension MediaConnect {
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
+            self.processors = processors
             self.regionName = regionName
             self.routingScope = routingScope
             self.tags = tags
@@ -2700,6 +4101,7 @@ extension MediaConnect {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.configuration.validate(name: "\(name).configuration")
+            try self.processors?.validate(name: "\(name).processors")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2710,6 +4112,7 @@ extension MediaConnect {
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
+            case processors = "processors"
             case regionName = "regionName"
             case routingScope = "routingScope"
             case tags = "tags"
@@ -2971,6 +4374,48 @@ extension MediaConnect {
         }
     }
 
+    public struct DeregisterDestinationEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint to deregister.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 64)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:destinationEndpoint:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeregisterDestinationEndpointResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint that was deregistered.
+        public let arn: String
+        /// The name of the destination endpoint that was deregistered.
+        public let name: String
+
+        @inlinable
+        public init(arn: String, name: String) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+        }
+    }
+
     public struct DeregisterGatewayInstanceRequest: AWSEncodableShape {
         ///  Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
         public let force: Bool?
@@ -3008,6 +4453,48 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case gatewayInstanceArn = "gatewayInstanceArn"
             case instanceState = "instanceState"
+        }
+    }
+
+    public struct DeregisterSourceEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint to deregister.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 64)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:sourceEndpoint:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeregisterSourceEndpointResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint that was deregistered.
+        public let arn: String
+        /// The name of the source endpoint that was deregistered.
+        public let name: String
+
+        @inlinable
+        public init(arn: String, name: String) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -3112,16 +4599,19 @@ extension MediaConnect {
         public let messages: [MessageDetail]?
         ///  The NDI® specific information about the flow's source. This includes the current active NDI sender, a list of all discovered NDI senders, the associated media streams for the active NDI sender, and any relevant status messages.
         public let ndiInfo: NdiSourceMetadataInfo?
+        /// The RTMP (Real-Time Messaging Protocol) specific information about the flow's source. This includes the application name, the stream name, and the associated audio and video streams.
+        public let rtmpInfo: RtmpSourceMetadataInfo?
         ///  The timestamp of the most recent change in metadata for this flow’s source.
         public let timestamp: Date?
         ///  Information about the flow's transport media.
         public let transportMediaInfo: TransportMediaInfo?
 
         @inlinable
-        public init(flowArn: String? = nil, messages: [MessageDetail]? = nil, ndiInfo: NdiSourceMetadataInfo? = nil, timestamp: Date? = nil, transportMediaInfo: TransportMediaInfo? = nil) {
+        public init(flowArn: String? = nil, messages: [MessageDetail]? = nil, ndiInfo: NdiSourceMetadataInfo? = nil, rtmpInfo: RtmpSourceMetadataInfo? = nil, timestamp: Date? = nil, transportMediaInfo: TransportMediaInfo? = nil) {
             self.flowArn = flowArn
             self.messages = messages
             self.ndiInfo = ndiInfo
+            self.rtmpInfo = rtmpInfo
             self.timestamp = timestamp
             self.transportMediaInfo = transportMediaInfo
         }
@@ -3130,6 +4620,7 @@ extension MediaConnect {
             case flowArn = "flowArn"
             case messages = "messages"
             case ndiInfo = "ndiInfo"
+            case rtmpInfo = "rtmpInfo"
             case timestamp = "timestamp"
             case transportMediaInfo = "transportMediaInfo"
         }
@@ -3347,6 +4838,212 @@ extension MediaConnect {
         }
     }
 
+    public struct DestinationEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint.
+        public let arn: String
+        /// The details of the resource that is associated with the destination endpoint.
+        public let associatedResourceDetails: DestinationEndpointAssociatedResourceDetails
+        /// The Availability Zone in which the destination endpoint is located.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the destination endpoint is located.
+        public let availabilityZoneId: String?
+        /// The configuration settings for the destination endpoint.
+        public let configuration: DestinationEndpointConfiguration
+        /// The Amazon Resource Name (ARN) of the source endpoint that is connected to the destination endpoint.
+        public let connectedSource: String?
+        /// The connection details for the destination endpoint.
+        public let connectionDetails: DestinationEndpointConnectionDetails?
+        /// The connection state of the destination endpoint. Valid values include the following:    CONNECTED – The destination endpoint is connected to a source endpoint.    DISCONNECTED – The destination endpoint isn't connected to a source endpoint.    CONNECTING – The destination endpoint is connecting to a source endpoint.    DISCONNECTING – The destination endpoint is disconnecting from a source endpoint.
+        public let connectionState: DestinationEndpointConnectionState
+        /// The date and time when the destination endpoint was created.
+        public let createdAt: Date
+        public let decryptionConfiguration: EndpointEncryptionConfiguration?
+        /// The type of decryption used for the destination endpoint connection.
+        public let decryptionType: EndpointEncryptionType?
+        /// The description of the destination endpoint.
+        public let description: String
+        /// The type of the destination endpoint. Valid values include the following:    STANDARD – A destination endpoint that represents an external destination over a standard protocol, such as RTP, RIST, or SRT.    ROUTER_INPUT – A destination endpoint that represents a router input.
+        public let destinationType: DestinationEndpointType
+        /// The unique identifier of the destination endpoint.
+        public let id: String
+        /// The entity that manages the lifecycle of the destination endpoint.
+        public let lifecycleManagement: EndpointLifecycle
+        /// The status messages for the destination endpoint.
+        public let messages: [DestinationEndpointMessage]
+        /// The name of the destination endpoint.
+        public let name: String
+        /// The name of the Amazon Web Services Region in which the destination endpoint is located.
+        public let regionName: String
+        /// The registration state of the destination endpoint. Valid values include the following:    REGISTERED – The destination endpoint is registered and ready to use.    REGISTERING – MediaConnect is registering the destination endpoint.    DEREGISTERING – MediaConnect is deregistering the destination endpoint.    REGISTRATION_FAILED – MediaConnect couldn't register the destination endpoint.
+        public let registrationState: DestinationEndpointRegistrationState
+        public let resourceShareDetails: ResourceShareDetails
+        /// Indicates whether this account owns the destination endpoint or consumes it from another account through RAM.
+        public let resourceShareOwnership: ResourceShareOwnership
+        /// The tags associated with the destination endpoint. Each tag is a key-value pair.
+        public let tags: [String: String]
+        /// The date and time when the destination endpoint was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(arn: String, associatedResourceDetails: DestinationEndpointAssociatedResourceDetails, availabilityZone: String? = nil, availabilityZoneId: String? = nil, configuration: DestinationEndpointConfiguration, connectedSource: String? = nil, connectionDetails: DestinationEndpointConnectionDetails? = nil, connectionState: DestinationEndpointConnectionState, createdAt: Date, decryptionConfiguration: EndpointEncryptionConfiguration? = nil, decryptionType: EndpointEncryptionType? = nil, description: String, destinationType: DestinationEndpointType, id: String, lifecycleManagement: EndpointLifecycle, messages: [DestinationEndpointMessage], name: String, regionName: String, registrationState: DestinationEndpointRegistrationState, resourceShareDetails: ResourceShareDetails, resourceShareOwnership: ResourceShareOwnership, tags: [String: String], updatedAt: Date) {
+            self.arn = arn
+            self.associatedResourceDetails = associatedResourceDetails
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.configuration = configuration
+            self.connectedSource = connectedSource
+            self.connectionDetails = connectionDetails
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.decryptionConfiguration = decryptionConfiguration
+            self.decryptionType = decryptionType
+            self.description = description
+            self.destinationType = destinationType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messages = messages
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareDetails = resourceShareDetails
+            self.resourceShareOwnership = resourceShareOwnership
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedResourceDetails = "associatedResourceDetails"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case configuration = "configuration"
+            case connectedSource = "connectedSource"
+            case connectionDetails = "connectionDetails"
+            case connectionState = "connectionState"
+            case createdAt = "createdAt"
+            case decryptionConfiguration = "decryptionConfiguration"
+            case decryptionType = "decryptionType"
+            case description = "description"
+            case destinationType = "destinationType"
+            case id = "id"
+            case lifecycleManagement = "lifecycleManagement"
+            case messages = "messages"
+            case name = "name"
+            case regionName = "regionName"
+            case registrationState = "registrationState"
+            case resourceShareDetails = "resourceShareDetails"
+            case resourceShareOwnership = "resourceShareOwnership"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DestinationEndpointMessage: AWSDecodableShape {
+        /// The message code.
+        public let code: String
+        /// The message text.
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct DestinationEndpointRouterInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The entity that manages the lifecycle of the associated destination endpoint. Valid values include the following:    MANAGED – MediaConnect manages the lifecycle of the associated destination endpoint.    UNMANAGED – You manage the lifecycle of the associated destination endpoint.
+        public let endpointLifecycleManagement: EndpointLifecycle
+        public let sourceTransitDecryption: EndpointEncryptionConfiguration
+        /// The type of transit decryption applied to the source content that this router input receives. Valid values include the following:    SECRETS_MANAGER – The decryption key or passphrase is stored in Secrets Manager.    AUTOMATIC – MediaConnect determines the decryption key when the endpoint connects.
+        public let sourceTransitDecryptionType: EndpointEncryptionType?
+
+        @inlinable
+        public init(endpointLifecycleManagement: EndpointLifecycle, sourceTransitDecryption: EndpointEncryptionConfiguration, sourceTransitDecryptionType: EndpointEncryptionType? = nil) {
+            self.endpointLifecycleManagement = endpointLifecycleManagement
+            self.sourceTransitDecryption = sourceTransitDecryption
+            self.sourceTransitDecryptionType = sourceTransitDecryptionType
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceTransitDecryption.validate(name: "\(name).sourceTransitDecryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointLifecycleManagement = "endpointLifecycleManagement"
+            case sourceTransitDecryption = "sourceTransitDecryption"
+            case sourceTransitDecryptionType = "sourceTransitDecryptionType"
+        }
+    }
+
+    public struct DestinationEndpointRouterInputStreamDetails: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisconnectEndpointsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint to disconnect.
+        public let destinationEndpointArn: String
+        /// The Amazon Resource Name (ARN) of the source endpoint to disconnect.
+        public let sourceEndpointArn: String
+
+        @inlinable
+        public init(destinationEndpointArn: String, sourceEndpointArn: String) {
+            self.destinationEndpointArn = destinationEndpointArn
+            self.sourceEndpointArn = sourceEndpointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.destinationEndpointArn, key: "DestinationEndpointArn")
+            try container.encode(self.sourceEndpointArn, forKey: .sourceEndpointArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationEndpointArn, name: "destinationEndpointArn", parent: name, max: 128)
+            try self.validate(self.destinationEndpointArn, name: "destinationEndpointArn", parent: name, min: 64)
+            try self.validate(self.destinationEndpointArn, name: "destinationEndpointArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:destinationEndpoint:[a-z0-9]{12}$")
+            try self.validate(self.sourceEndpointArn, name: "sourceEndpointArn", parent: name, max: 128)
+            try self.validate(self.sourceEndpointArn, name: "sourceEndpointArn", parent: name, min: 64)
+            try self.validate(self.sourceEndpointArn, name: "sourceEndpointArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:sourceEndpoint:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEndpointArn = "sourceEndpointArn"
+        }
+    }
+
+    public struct DisconnectEndpointsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the disconnected destination endpoint.
+        public let destinationEndpointArn: String
+        /// The name of the disconnected destination endpoint.
+        public let destinationEndpointName: String
+        /// The Amazon Resource Name (ARN) of the disconnected source endpoint.
+        public let sourceEndpointArn: String
+        /// The name of the disconnected source endpoint.
+        public let sourceEndpointName: String
+
+        @inlinable
+        public init(destinationEndpointArn: String, destinationEndpointName: String, sourceEndpointArn: String, sourceEndpointName: String) {
+            self.destinationEndpointArn = destinationEndpointArn
+            self.destinationEndpointName = destinationEndpointName
+            self.sourceEndpointArn = sourceEndpointArn
+            self.sourceEndpointName = sourceEndpointName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpointArn = "destinationEndpointArn"
+            case destinationEndpointName = "destinationEndpointName"
+            case sourceEndpointArn = "sourceEndpointArn"
+            case sourceEndpointName = "sourceEndpointName"
+        }
+    }
+
     public struct EgressGatewayBridge: AWSDecodableShape {
         ///  The ID of the instance running this bridge.
         public let instanceId: String?
@@ -3465,6 +5162,24 @@ extension MediaConnect {
         }
     }
 
+    public struct EndpointEncryptionSecretConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Secrets Manager secret that holds the key or passphrase. The secret must be encrypted with a customer managed Amazon Web Services KMS key that is enabled and symmetric; it cannot use the Amazon Web Services managed key aws/secretsmanager. The secret must be in the same Amazon Web Services account and Region as the endpoint.
+        public let secretArn: String
+
+        @inlinable
+        public init(secretArn: String) {
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
+        }
+    }
+
     public struct Entitlement: AWSDecodableShape {
         ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -3506,14 +5221,22 @@ extension MediaConnect {
     public struct FabricConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The recovery latency mode for the router fabric connection. Valid values include the following:    BALANCED (default) – Optimizes for stream quality.    LOW_LATENCY – Reduces latency at the potential cost of stream quality under adverse network conditions.
         public let recoveryLatencyMode: FabricLatencyMode
+        /// The configuration settings for the switching mode.
+        public let switchingConfiguration: FabricSwitchingConfiguration?
+        /// The switching mode that the router output uses when it switches to a new router input. Valid values include the following:    IMMEDIATE (default) – Switches to the new router input immediately.    KEY_FRAME – Waits for a key frame on the new router input before it switches.   If you specify it, it must match the switching configuration.
+        public let switchingMode: FabricSwitchingMode?
 
         @inlinable
-        public init(recoveryLatencyMode: FabricLatencyMode) {
+        public init(recoveryLatencyMode: FabricLatencyMode, switchingConfiguration: FabricSwitchingConfiguration? = nil, switchingMode: FabricSwitchingMode? = nil) {
             self.recoveryLatencyMode = recoveryLatencyMode
+            self.switchingConfiguration = switchingConfiguration
+            self.switchingMode = switchingMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case recoveryLatencyMode = "recoveryLatencyMode"
+            case switchingConfiguration = "switchingConfiguration"
+            case switchingMode = "switchingMode"
         }
     }
 
@@ -3577,18 +5300,22 @@ extension MediaConnect {
     }
 
     public struct FailoverRouterInputIndexedStreamDetails: AWSDecodableShape {
+        /// The RTMP stream details for this indexed stream, including the application and stream names.
+        public let rtmpPush: RtmpPushStreamDetails?
         /// The index number (0 or 1) assigned to this source in the failover configuration.
         public let sourceIndex: Int
         /// The IP address of the source for this indexed stream.
         public let sourceIpAddress: String?
 
         @inlinable
-        public init(sourceIndex: Int, sourceIpAddress: String? = nil) {
+        public init(rtmpPush: RtmpPushStreamDetails? = nil, sourceIndex: Int, sourceIpAddress: String? = nil) {
+            self.rtmpPush = rtmpPush
             self.sourceIndex = sourceIndex
             self.sourceIpAddress = sourceIpAddress
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rtmpPush = "rtmpPush"
             case sourceIndex = "sourceIndex"
             case sourceIpAddress = "sourceIpAddress"
         }
@@ -3963,6 +5690,44 @@ extension MediaConnect {
         }
     }
 
+    public struct GetDestinationEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 64)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:destinationEndpoint:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDestinationEndpointResponse: AWSDecodableShape {
+        /// The details of the destination endpoint.
+        public let destinationEndpoint: DestinationEndpoint
+
+        @inlinable
+        public init(destinationEndpoint: DestinationEndpoint) {
+            self.destinationEndpoint = destinationEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpoint = "destinationEndpoint"
+        }
+    }
+
     public struct GetRouterInputRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the router input to retrieve information about.
         public let arn: String
@@ -4159,6 +5924,44 @@ extension MediaConnect {
         }
     }
 
+    public struct GetSourceEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 64)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:sourceEndpoint:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSourceEndpointResponse: AWSDecodableShape {
+        /// The details of the source endpoint.
+        public let sourceEndpoint: SourceEndpoint
+
+        @inlinable
+        public init(sourceEndpoint: SourceEndpoint) {
+            self.sourceEndpoint = sourceEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEndpoint = "sourceEndpoint"
+        }
+    }
+
     public struct GrantEntitlementRequest: AWSEncodableShape {
         ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
@@ -4241,6 +6044,10 @@ extension MediaConnect {
             case entitlements = "entitlements"
             case flowArn = "flowArn"
         }
+    }
+
+    public struct ImmediateFabricSwitchingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct IngressGatewayBridge: AWSDecodableShape {
@@ -4333,6 +6140,20 @@ extension MediaConnect {
         }
     }
 
+    public struct KeyFrameFabricSwitchingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum time, in milliseconds, that the router output waits for a key frame on the new input before it switches. Set this value to at least the GOP (Group of Pictures) duration of your content, which your upstream encoder determines. If the wait time is shorter than the GOP duration, MediaConnect makes a best effort to switch without a key frame. The default is 3000.
+        public let keyFrameWaitMilliseconds: Int64?
+
+        @inlinable
+        public init(keyFrameWaitMilliseconds: Int64? = nil) {
+            self.keyFrameWaitMilliseconds = keyFrameWaitMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyFrameWaitMilliseconds = "keyFrameWaitMilliseconds"
+        }
+    }
+
     public struct ListBridgesRequest: AWSEncodableShape {
         ///  Filter the list results to display only the bridges associated with the selected ARN.
         public let filterArn: String?
@@ -4378,6 +6199,52 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case bridges = "bridges"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDestinationEndpointsRequest: AWSEncodableShape {
+        /// The filters to apply to the list of destination endpoints.
+        public let filters: [DestinationEndpointFilter]?
+        /// The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+        public let maxResults: Int?
+        /// The token that identifies the next page of results to return. Use the token that a previous request returned.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [DestinationEndpointFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct ListDestinationEndpointsResponse: AWSDecodableShape {
+        /// The destination endpoints that match the request.
+        public let destinationEndpoints: [ListedDestinationEndpoint]
+        /// The token to use in the next request to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(destinationEndpoints: [ListedDestinationEndpoint], nextToken: String? = nil) {
+            self.destinationEndpoints = destinationEndpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpoints = "destinationEndpoints"
             case nextToken = "nextToken"
         }
     }
@@ -4806,6 +6673,52 @@ extension MediaConnect {
         }
     }
 
+    public struct ListSourceEndpointsRequest: AWSEncodableShape {
+        /// The filters to apply to the list of source endpoints.
+        public let filters: [SourceEndpointFilter]?
+        /// The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+        public let maxResults: Int?
+        /// The token that identifies the next page of results to return. Use the token that a previous request returned.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [SourceEndpointFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct ListSourceEndpointsResponse: AWSDecodableShape {
+        /// The token to use in the next request to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The source endpoints that match the request.
+        public let sourceEndpoints: [ListedSourceEndpoint]
+
+        @inlinable
+        public init(nextToken: String? = nil, sourceEndpoints: [ListedSourceEndpoint]) {
+            self.nextToken = nextToken
+            self.sourceEndpoints = sourceEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sourceEndpoints = "sourceEndpoints"
+        }
+    }
+
     public struct ListTagsForGlobalResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the global resource whose tags you want to list.
         public let resourceArn: String
@@ -4897,6 +6810,88 @@ extension MediaConnect {
             case bridgeType = "bridgeType"
             case name = "name"
             case placementArn = "placementArn"
+        }
+    }
+
+    public struct ListedDestinationEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the resource that is associated with the destination endpoint.
+        public let associatedResourceArn: String?
+        /// The Availability Zone in which the destination endpoint is located.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the destination endpoint is located.
+        public let availabilityZoneId: String?
+        /// The Amazon Resource Name (ARN) of the source endpoint that is connected to the destination endpoint.
+        public let connectedSource: String?
+        /// The connection state of the destination endpoint. Valid values include the following:    CONNECTED – The destination endpoint is connected to a source endpoint.    DISCONNECTED – The destination endpoint isn't connected to a source endpoint.    CONNECTING – The destination endpoint is connecting to a source endpoint.    DISCONNECTING – The destination endpoint is disconnecting from a source endpoint.
+        public let connectionState: DestinationEndpointConnectionState
+        /// The date and time when the destination endpoint was created.
+        public let createdAt: Date
+        /// The type of decryption used for the destination endpoint connection.
+        public let decryptionType: EndpointEncryptionType?
+        /// The type of the destination endpoint. Valid values include the following:    STANDARD – A destination endpoint that represents an external destination over a standard protocol, such as RTP, RIST, or SRT.    ROUTER_INPUT – A destination endpoint that represents a router input.
+        public let destinationType: DestinationEndpointType
+        /// The unique identifier of the destination endpoint.
+        public let id: String
+        /// The entity that manages the lifecycle of the destination endpoint.
+        public let lifecycleManagement: EndpointLifecycle
+        /// The number of status messages for the destination endpoint.
+        public let messageCount: Int
+        /// The name of the destination endpoint.
+        public let name: String
+        /// The name of the Amazon Web Services Region in which the destination endpoint is located.
+        public let regionName: String
+        /// The registration state of the destination endpoint. Valid values include the following:    REGISTERED – The destination endpoint is registered and ready to use.    REGISTERING – MediaConnect is registering the destination endpoint.    DEREGISTERING – MediaConnect is deregistering the destination endpoint.    REGISTRATION_FAILED – MediaConnect couldn't register the destination endpoint.
+        public let registrationState: DestinationEndpointRegistrationState
+        /// Indicates whether this account owns the destination endpoint or consumes it from another account through RAM.
+        public let resourceShareOwnership: ResourceShareOwnership
+        /// The sharing state of the destination endpoint.
+        public let resourceShareState: ResourceShareState
+        /// The date and time when the destination endpoint was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(arn: String, associatedResourceArn: String? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, connectedSource: String? = nil, connectionState: DestinationEndpointConnectionState, createdAt: Date, decryptionType: EndpointEncryptionType? = nil, destinationType: DestinationEndpointType, id: String, lifecycleManagement: EndpointLifecycle, messageCount: Int, name: String, regionName: String, registrationState: DestinationEndpointRegistrationState, resourceShareOwnership: ResourceShareOwnership, resourceShareState: ResourceShareState, updatedAt: Date) {
+            self.arn = arn
+            self.associatedResourceArn = associatedResourceArn
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.connectedSource = connectedSource
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.decryptionType = decryptionType
+            self.destinationType = destinationType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messageCount = messageCount
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareOwnership = resourceShareOwnership
+            self.resourceShareState = resourceShareState
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedResourceArn = "associatedResourceArn"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case connectedSource = "connectedSource"
+            case connectionState = "connectionState"
+            case createdAt = "createdAt"
+            case decryptionType = "decryptionType"
+            case destinationType = "destinationType"
+            case id = "id"
+            case lifecycleManagement = "lifecycleManagement"
+            case messageCount = "messageCount"
+            case name = "name"
+            case regionName = "regionName"
+            case registrationState = "registrationState"
+            case resourceShareOwnership = "resourceShareOwnership"
+            case resourceShareState = "resourceShareState"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -5210,6 +7205,88 @@ extension MediaConnect {
         }
     }
 
+    public struct ListedSourceEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the resource that is associated with the source endpoint.
+        public let associatedResourceArn: String?
+        /// The Availability Zone in which the source endpoint is located.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the source endpoint is located.
+        public let availabilityZoneId: String?
+        /// The number of destination endpoints that are connected to the source endpoint.
+        public let connectedDestinationCount: Int
+        /// The connection state of the source endpoint. Valid values include the following:    CONNECTED – The source endpoint is connected to a destination endpoint.    DISCONNECTED – The source endpoint isn't connected to a destination endpoint.    CONNECTING – The source endpoint is connecting to a destination endpoint.    DISCONNECTING – The source endpoint is disconnecting from a destination endpoint.
+        public let connectionState: SourceEndpointConnectionState
+        /// The date and time when the source endpoint was created.
+        public let createdAt: Date
+        /// The type of encryption used for the source endpoint connection.
+        public let encryptionType: EndpointEncryptionType?
+        /// The unique identifier of the source endpoint.
+        public let id: String
+        /// The entity that manages the lifecycle of the source endpoint.
+        public let lifecycleManagement: EndpointLifecycle
+        /// The number of status messages for the source endpoint.
+        public let messageCount: Int
+        /// The name of the source endpoint.
+        public let name: String
+        /// The name of the Amazon Web Services Region in which the source endpoint is located.
+        public let regionName: String
+        /// The registration state of the source endpoint. Valid values include the following:    REGISTERED – The source endpoint is registered and ready to use.    REGISTERING – MediaConnect is registering the source endpoint.    DEREGISTERING – MediaConnect is deregistering the source endpoint.    REGISTRATION_FAILED – MediaConnect couldn't register the source endpoint.
+        public let registrationState: SourceEndpointRegistrationState
+        /// Indicates whether this account owns the source endpoint or consumes it from another account through RAM.
+        public let resourceShareOwnership: ResourceShareOwnership
+        /// The sharing state of the source endpoint.
+        public let resourceShareState: ResourceShareState
+        /// The type of the source endpoint. Valid values include the following:    STANDARD – A source endpoint that represents an external source over a standard protocol, such as RTP, RIST, or SRT.    ROUTER_OUTPUT – A source endpoint that represents a router output.
+        public let sourceType: SourceEndpointType
+        /// The date and time when the source endpoint was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(arn: String, associatedResourceArn: String? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, connectedDestinationCount: Int, connectionState: SourceEndpointConnectionState, createdAt: Date, encryptionType: EndpointEncryptionType? = nil, id: String, lifecycleManagement: EndpointLifecycle, messageCount: Int, name: String, regionName: String, registrationState: SourceEndpointRegistrationState, resourceShareOwnership: ResourceShareOwnership, resourceShareState: ResourceShareState, sourceType: SourceEndpointType, updatedAt: Date) {
+            self.arn = arn
+            self.associatedResourceArn = associatedResourceArn
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.connectedDestinationCount = connectedDestinationCount
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.encryptionType = encryptionType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messageCount = messageCount
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareOwnership = resourceShareOwnership
+            self.resourceShareState = resourceShareState
+            self.sourceType = sourceType
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedResourceArn = "associatedResourceArn"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case connectedDestinationCount = "connectedDestinationCount"
+            case connectionState = "connectionState"
+            case createdAt = "createdAt"
+            case encryptionType = "encryptionType"
+            case id = "id"
+            case lifecycleManagement = "lifecycleManagement"
+            case messageCount = "messageCount"
+            case name = "name"
+            case regionName = "regionName"
+            case registrationState = "registrationState"
+            case resourceShareOwnership = "resourceShareOwnership"
+            case resourceShareState = "resourceShareState"
+            case sourceType = "sourceType"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct Maintenance: AWSDecodableShape {
         ///  A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
         public let maintenanceDay: MaintenanceDay?
@@ -5233,6 +7310,24 @@ extension MediaConnect {
             case maintenanceDeadline = "maintenanceDeadline"
             case maintenanceScheduledDate = "maintenanceScheduledDate"
             case maintenanceStartHour = "maintenanceStartHour"
+        }
+    }
+
+    public struct ManualRtmpPushNamingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the RTMP application. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://ingestAddress/applicationName/streamName.
+        public let applicationName: String
+        /// The name of the RTMP stream. The stream name forms the final segment of the RTMP URL path.
+        public let streamName: String
+
+        @inlinable
+        public init(applicationName: String, streamName: String) {
+            self.applicationName = applicationName
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case streamName = "streamName"
         }
     }
 
@@ -5578,6 +7673,9 @@ extension MediaConnect {
 
         public func validate(name: String) throws {
             try self.validate(self.networkInterfaceArn, name: "networkInterfaceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}$")
+            try self.protocolConfigurations.forEach {
+                try $0.validate(name: "\(name).protocolConfigurations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5762,6 +7860,8 @@ extension MediaConnect {
         public let channels: Int?
         ///  The codec used for the media stream. For NDI sources, use speed-hq.
         public let codec: String?
+        ///  The color signaling of the video stream. Used when the streamType is Video.
+        public let color: ColorInformation?
         ///  The number of video frames displayed per second. Used when the streamType is Video.
         public let frameRate: String?
         ///  The width and height dimensions of the video frame in pixels. Used when the streamType is Video.
@@ -5776,9 +7876,10 @@ extension MediaConnect {
         public let streamType: String?
 
         @inlinable
-        public init(channels: Int? = nil, codec: String? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, sampleRate: Int? = nil, scanMode: ScanMode? = nil, streamId: Int? = nil, streamType: String? = nil) {
+        public init(channels: Int? = nil, codec: String? = nil, color: ColorInformation? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, sampleRate: Int? = nil, scanMode: ScanMode? = nil, streamId: Int? = nil, streamType: String? = nil) {
             self.channels = channels
             self.codec = codec
+            self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
             self.sampleRate = sampleRate
@@ -5790,6 +7891,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
             case codec = "codec"
+            case color = "color"
             case frameRate = "frameRate"
             case frameResolution = "frameResolution"
             case sampleRate = "sampleRate"
@@ -5840,15 +7942,24 @@ extension MediaConnect {
     }
 
     public struct NdiSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The audio reference level of the NDI sender, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20.
+        public let audioReferenceLevel: Int?
         ///  The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName).
         public let sourceName: String?
 
         @inlinable
-        public init(sourceName: String? = nil) {
+        public init(audioReferenceLevel: Int? = nil, sourceName: String? = nil) {
+            self.audioReferenceLevel = audioReferenceLevel
             self.sourceName = sourceName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.audioReferenceLevel, name: "audioReferenceLevel", parent: name, max: 0)
+            try self.validate(self.audioReferenceLevel, name: "audioReferenceLevel", parent: name, min: -40)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case audioReferenceLevel = "audioReferenceLevel"
             case sourceName = "sourceName"
         }
     }
@@ -5985,6 +8096,47 @@ extension MediaConnect {
         }
     }
 
+    public struct OwnedResourceShareDetails: AWSDecodableShape {
+        /// The sharing state of the endpoint. Valid values include the following:    SHARED – The endpoint is shared with one or more accounts.    UNSHARED – The endpoint is not shared with other accounts.
+        public let shareState: ResourceShareState
+
+        @inlinable
+        public init(shareState: ResourceShareState) {
+            self.shareState = shareState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shareState = "shareState"
+        }
+    }
+
+    public struct Passthrough: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PidMapRule: AWSEncodableShape & AWSDecodableShape {
+        /// The action to apply to the elementary streams that match this rule.
+        public let action: String
+        /// An expression that selects the elementary streams that this rule applies to.
+        public let matchExpression: String
+
+        @inlinable
+        public init(action: String, matchExpression: String) {
+            self.action = action
+            self.matchExpression = matchExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.action, name: "action", parent: name, max: 256)
+            try self.validate(self.action, name: "action", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case matchExpression = "matchExpression"
+        }
+    }
+
     public struct PreferredDayTimeMaintenanceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The preferred day for maintenance operations.
         public let day: Day
@@ -6000,6 +8152,34 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case day = "day"
             case time = "time"
+        }
+    }
+
+    public struct PublicDestinationEndpointNetworkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The rules that specify which CIDR blocks can connect to the destination endpoint. You can specify up to 10 rules.
+        public let destinationAllowRules: [PublicDestinationEndpointNetworkingConfigurationAllowRule]
+
+        @inlinable
+        public init(destinationAllowRules: [PublicDestinationEndpointNetworkingConfigurationAllowRule]) {
+            self.destinationAllowRules = destinationAllowRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAllowRules = "destinationAllowRules"
+        }
+    }
+
+    public struct PublicDestinationEndpointNetworkingConfigurationAllowRule: AWSEncodableShape & AWSDecodableShape {
+        /// The CIDR block that is allowed to connect to the destination endpoint, in CIDR notation.
+        public let cidr: String
+
+        @inlinable
+        public init(cidr: String) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
         }
     }
 
@@ -6019,6 +8199,34 @@ extension MediaConnect {
 
     public struct PublicRouterNetworkInterfaceRule: AWSEncodableShape & AWSDecodableShape {
         /// The CIDR block that is allowed to access the public router network interface.
+        public let cidr: String
+
+        @inlinable
+        public init(cidr: String) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
+    public struct PublicSourceEndpointNetworkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The rules that specify which CIDR blocks can connect to the source endpoint. You can specify up to 10 rules.
+        public let sourceAllowRules: [PublicSourceEndpointNetworkingConfigurationAllowRule]
+
+        @inlinable
+        public init(sourceAllowRules: [PublicSourceEndpointNetworkingConfigurationAllowRule]) {
+            self.sourceAllowRules = sourceAllowRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceAllowRules = "sourceAllowRules"
+        }
+    }
+
+    public struct PublicSourceEndpointNetworkingConfigurationAllowRule: AWSEncodableShape & AWSDecodableShape {
+        /// The CIDR block that is allowed to connect to the source endpoint, in CIDR notation.
         public let cidr: String
 
         @inlinable
@@ -6075,6 +8283,106 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case reservation = "reservation"
+        }
+    }
+
+    public struct RegisterDestinationEndpointRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If this token matches a previous request, the service ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// The configuration settings for the destination endpoint.
+        public let configuration: DestinationEndpointConfiguration
+        /// A description to help you identify the destination endpoint.
+        public let description: String?
+        /// The name of the Amazon Web Services Region in which to register the destination endpoint. Defaults to the current region if not specified.
+        public let regionName: String?
+        /// The tags to apply to the destination endpoint. Each tag is a key-value pair.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = RegisterDestinationEndpointRequest.idempotencyToken(), configuration: DestinationEndpointConfiguration, description: String? = nil, regionName: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.regionName = regionName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case description = "description"
+            case regionName = "regionName"
+            case tags = "tags"
+        }
+    }
+
+    public struct RegisterDestinationEndpointResponse: AWSDecodableShape {
+        /// The details of the destination endpoint that was registered.
+        public let destinationEndpoint: DestinationEndpoint
+
+        @inlinable
+        public init(destinationEndpoint: DestinationEndpoint) {
+            self.destinationEndpoint = destinationEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpoint = "destinationEndpoint"
+        }
+    }
+
+    public struct RegisterSourceEndpointRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If this token matches a previous request, the service ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// The configuration settings for the source endpoint.
+        public let configuration: SourceEndpointConfiguration
+        /// A description to help you identify the source endpoint.
+        public let description: String?
+        /// The name of the Amazon Web Services Region in which to register the source endpoint. Defaults to the current region if not specified.
+        public let regionName: String?
+        /// The tags to apply to the source endpoint. Each tag is a key-value pair.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = RegisterSourceEndpointRequest.idempotencyToken(), configuration: SourceEndpointConfiguration, description: String? = nil, regionName: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.regionName = regionName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case description = "description"
+            case regionName = "regionName"
+            case tags = "tags"
+        }
+    }
+
+    public struct RegisterSourceEndpointResponse: AWSDecodableShape {
+        /// The details of the source endpoint that was registered.
+        public let sourceEndpoint: SourceEndpoint
+
+        @inlinable
+        public init(sourceEndpoint: SourceEndpoint) {
+            self.sourceEndpoint = sourceEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEndpoint = "sourceEndpoint"
         }
     }
 
@@ -6586,9 +8894,47 @@ extension MediaConnect {
         }
     }
 
+    public struct RistStandardDestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address on which the destination endpoint receives content.
+        public let destinationAddress: String
+        /// The port on which the destination endpoint receives content. The valid range is 1024 to 65531.
+        public let destinationIngestPort: Int
+
+        @inlinable
+        public init(destinationAddress: String, destinationIngestPort: Int) {
+            self.destinationAddress = destinationAddress
+            self.destinationIngestPort = destinationIngestPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "destinationAddress"
+            case destinationIngestPort = "destinationIngestPort"
+        }
+    }
+
+    public struct RistStandardSourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The port on the destination that receives the content. The valid range is 3000 to 30000.
+        public let destinationIngestPort: Int
+        /// The amount of time, in milliseconds, that the source endpoint allows for recovering lost packets. The valid range is 10 to 10000.
+        public let recoveryLatencyMilliseconds: Int64
+
+        @inlinable
+        public init(destinationIngestPort: Int, recoveryLatencyMilliseconds: Int64) {
+            self.destinationIngestPort = destinationIngestPort
+            self.recoveryLatencyMilliseconds = recoveryLatencyMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationIngestPort = "destinationIngestPort"
+            case recoveryLatencyMilliseconds = "recoveryLatencyMilliseconds"
+        }
+    }
+
     public struct RouterInput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the router input.
         public let arn: String
+        /// The Amazon Resource Names (ARNs) of one or more destination endpoints that are associated with this router input.
+        public let associatedDestinationEndpointArns: [String]?
         /// The Availability Zone of the router input.
         public let availabilityZone: String
         public let configuration: RouterInputConfiguration
@@ -6631,15 +8977,16 @@ extension MediaConnect {
         public let streamDetails: RouterInputStreamDetails
         /// Key-value pairs that can be used to tag and organize this router input.
         public let tags: [String: String]
-        /// The tier level of the router input.
+        /// The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterInputTier
         public let transitEncryption: RouterInputTransitEncryption
         /// The timestamp when the router input was last updated.
         public let updatedAt: Date
 
         @inlinable
-        public init(arn: String, availabilityZone: String, configuration: RouterInputConfiguration, contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil, contentQualityAnalysisType: RouterContentQualityAnalysisType? = nil, createdAt: Date, id: String, inputType: RouterInputType, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, maximumRoutedOutputs: Int? = nil, messages: [RouterInputMessage], name: String, regionName: String, routedOutputs: Int, routingScope: RoutingScope, state: RouterInputState, streamDetails: RouterInputStreamDetails, tags: [String: String], tier: RouterInputTier, transitEncryption: RouterInputTransitEncryption, updatedAt: Date) {
+        public init(arn: String, associatedDestinationEndpointArns: [String]? = nil, availabilityZone: String, configuration: RouterInputConfiguration, contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil, contentQualityAnalysisType: RouterContentQualityAnalysisType? = nil, createdAt: Date, id: String, inputType: RouterInputType, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, maximumRoutedOutputs: Int? = nil, messages: [RouterInputMessage], name: String, regionName: String, routedOutputs: Int, routingScope: RoutingScope, state: RouterInputState, streamDetails: RouterInputStreamDetails, tags: [String: String], tier: RouterInputTier, transitEncryption: RouterInputTransitEncryption, updatedAt: Date) {
             self.arn = arn
+            self.associatedDestinationEndpointArns = associatedDestinationEndpointArns
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
@@ -6669,6 +9016,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case associatedDestinationEndpointArns = "associatedDestinationEndpointArns"
             case availabilityZone = "availabilityZone"
             case configuration = "configuration"
             case contentQualityAnalysisConfiguration = "contentQualityAnalysisConfiguration"
@@ -6694,6 +9042,71 @@ extension MediaConnect {
             case tier = "tier"
             case transitEncryption = "transitEncryption"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RouterInputDestinationEndpointAssociatedResourceDetails: AWSDecodableShape {
+        /// The maximum bitrate of the router input, in bits per second.
+        public let maximumBitrate: Int64
+        /// The status messages for the router input.
+        public let messages: [RouterInputMessage]
+        /// The name of the router input.
+        public let name: String
+        /// The state of the router input.
+        public let state: RouterInputState
+
+        @inlinable
+        public init(maximumBitrate: Int64, messages: [RouterInputMessage], name: String, state: RouterInputState) {
+            self.maximumBitrate = maximumBitrate
+            self.messages = messages
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumBitrate = "maximumBitrate"
+            case messages = "messages"
+            case name = "name"
+            case state = "state"
+        }
+    }
+
+    public struct RouterInputDestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the router input that the destination endpoint represents.
+        public let routerInputArn: String
+
+        @inlinable
+        public init(routerInputArn: String) {
+            self.routerInputArn = routerInputArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.routerInputArn, name: "routerInputArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerInputArn = "routerInputArn"
+        }
+    }
+
+    public struct RouterInputDestinationEndpointConnectionDetails: AWSDecodableShape {
+        public let sourceEncryptionConfiguration: EndpointEncryptionConfiguration?
+        /// The type of encryption that the source uses for the connection.
+        public let sourceEncryptionType: EndpointEncryptionType?
+        /// The type of the connected source endpoint.
+        public let sourceEndpointType: SourceEndpointType?
+
+        @inlinable
+        public init(sourceEncryptionConfiguration: EndpointEncryptionConfiguration? = nil, sourceEncryptionType: EndpointEncryptionType? = nil, sourceEndpointType: SourceEndpointType? = nil) {
+            self.sourceEncryptionConfiguration = sourceEncryptionConfiguration
+            self.sourceEncryptionType = sourceEncryptionType
+            self.sourceEndpointType = sourceEndpointType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEncryptionConfiguration = "sourceEncryptionConfiguration"
+            case sourceEncryptionType = "sourceEncryptionType"
+            case sourceEndpointType = "sourceEndpointType"
         }
     }
 
@@ -6845,6 +9258,8 @@ extension MediaConnect {
     public struct RouterOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the router output.
         public let arn: String
+        /// The Amazon Resource Names (ARNs) of one or more source endpoints that are associated with this router output.
+        public let associatedSourceEndpointArns: [String]?
         /// The Availability Zone of the router output.
         public let availabilityZone: String
         public let configuration: RouterOutputConfiguration
@@ -6872,6 +9287,8 @@ extension MediaConnect {
         public let name: String
         /// The type of the router output.
         public let outputType: RouterOutputType
+        /// The processor settings for the router output.
+        public let processors: RouterOutputProcessors?
         /// The Amazon Web Services Region where the router output is located.
         public let regionName: String
         /// The Amazon Resource Name (ARN) of the router input associated with the output.
@@ -6885,14 +9302,15 @@ extension MediaConnect {
         public let streamDetails: RouterOutputStreamDetails
         /// Key-value pairs that can be used to tag and organize this router output.
         public let tags: [String: String]
-        /// The tier level of the router output.
+        /// The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterOutputTier
         /// The timestamp when the router output was last updated.
         public let updatedAt: Date
 
         @inlinable
-        public init(arn: String, availabilityZone: String, configuration: RouterOutputConfiguration, createdAt: Date, fabricConfiguration: FabricConfiguration? = nil, id: String, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, outputType: RouterOutputType, regionName: String, routedInputArn: String? = nil, routedState: RouterOutputRoutedState, routingScope: RoutingScope, state: RouterOutputState, streamDetails: RouterOutputStreamDetails, tags: [String: String], tier: RouterOutputTier, updatedAt: Date) {
+        public init(arn: String, associatedSourceEndpointArns: [String]? = nil, availabilityZone: String, configuration: RouterOutputConfiguration, createdAt: Date, fabricConfiguration: FabricConfiguration? = nil, id: String, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, outputType: RouterOutputType, processors: RouterOutputProcessors? = nil, regionName: String, routedInputArn: String? = nil, routedState: RouterOutputRoutedState, routingScope: RoutingScope, state: RouterOutputState, streamDetails: RouterOutputStreamDetails, tags: [String: String], tier: RouterOutputTier, updatedAt: Date) {
             self.arn = arn
+            self.associatedSourceEndpointArns = associatedSourceEndpointArns
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.createdAt = createdAt
@@ -6907,6 +9325,7 @@ extension MediaConnect {
             self.messages = messages
             self.name = name
             self.outputType = outputType
+            self.processors = processors
             self.regionName = regionName
             self.routedInputArn = routedInputArn
             self.routedState = routedState
@@ -6920,6 +9339,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case associatedSourceEndpointArns = "associatedSourceEndpointArns"
             case availabilityZone = "availabilityZone"
             case configuration = "configuration"
             case createdAt = "createdAt"
@@ -6934,6 +9354,7 @@ extension MediaConnect {
             case messages = "messages"
             case name = "name"
             case outputType = "outputType"
+            case processors = "processors"
             case regionName = "regionName"
             case routedInputArn = "routedInputArn"
             case routedState = "routedState"
@@ -6964,6 +9385,201 @@ extension MediaConnect {
         }
     }
 
+    public struct RouterOutputProcessors: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings for remapping the identification numbers of elementary streams and program identifiers of a single-program transport stream.
+        public let singleProgramTransportStreamPidMap: SingleProgramTransportStreamPidMapConfiguration?
+
+        @inlinable
+        public init(singleProgramTransportStreamPidMap: SingleProgramTransportStreamPidMapConfiguration? = nil) {
+            self.singleProgramTransportStreamPidMap = singleProgramTransportStreamPidMap
+        }
+
+        public func validate(name: String) throws {
+            try self.singleProgramTransportStreamPidMap?.validate(name: "\(name).singleProgramTransportStreamPidMap")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case singleProgramTransportStreamPidMap = "singleProgramTransportStreamPidMap"
+        }
+    }
+
+    public struct RouterOutputSourceEndpointAssociatedResourceDetails: AWSDecodableShape {
+        /// The maximum bitrate of the router output, in bits per second.
+        public let maximumBitrate: Int64
+        /// The status messages for the router output.
+        public let messages: [RouterOutputMessage]
+        /// The name of the router output.
+        public let name: String
+        /// The state of the router output.
+        public let state: RouterOutputState
+
+        @inlinable
+        public init(maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, state: RouterOutputState) {
+            self.maximumBitrate = maximumBitrate
+            self.messages = messages
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumBitrate = "maximumBitrate"
+            case messages = "messages"
+            case name = "name"
+            case state = "state"
+        }
+    }
+
+    public struct RouterOutputSourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the router output that the source endpoint represents.
+        public let routerOutputArn: String
+
+        @inlinable
+        public init(routerOutputArn: String) {
+            self.routerOutputArn = routerOutputArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.routerOutputArn, name: "routerOutputArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerOutputArn = "routerOutputArn"
+        }
+    }
+
+    public struct RouterOutputSourceEndpointConnectionDetails: AWSDecodableShape {
+        public let destinationDecryptionConfiguration: EndpointEncryptionConfiguration?
+        /// The type of decryption that the destination uses for the connection.
+        public let destinationDecryptionType: EndpointEncryptionType?
+        /// The type of the connected destination endpoint.
+        public let destinationEndpointType: DestinationEndpointType?
+
+        @inlinable
+        public init(destinationDecryptionConfiguration: EndpointEncryptionConfiguration? = nil, destinationDecryptionType: EndpointEncryptionType? = nil, destinationEndpointType: DestinationEndpointType? = nil) {
+            self.destinationDecryptionConfiguration = destinationDecryptionConfiguration
+            self.destinationDecryptionType = destinationDecryptionType
+            self.destinationEndpointType = destinationEndpointType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDecryptionConfiguration = "destinationDecryptionConfiguration"
+            case destinationDecryptionType = "destinationDecryptionType"
+            case destinationEndpointType = "destinationEndpointType"
+        }
+    }
+
+    public struct RtmpMediaInfo: AWSDecodableShape {
+        /// A list of the individual audio and video streams that make up the RTMP source. This includes details about each stream's codec, resolution, frame rate, audio channels, and other parameters.
+        public let streams: [RtmpMediaStreamInfo]?
+
+        @inlinable
+        public init(streams: [RtmpMediaStreamInfo]? = nil) {
+            self.streams = streams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streams = "streams"
+        }
+    }
+
+    public struct RtmpMediaStreamInfo: AWSDecodableShape {
+        /// The number of audio channels in the stream. Used when the streamType is AUDIO.
+        public let channels: Int?
+        /// The codec used for the stream.
+        public let codec: String?
+        /// The color signaling of the video stream. Used when the streamType is VIDEO.
+        public let color: ColorInformation?
+        /// The number of video frames displayed per second. Used when the streamType is VIDEO.
+        public let frameRate: String?
+        /// The width and height dimensions of the video frame in pixels. Used when the streamType is VIDEO.
+        public let frameResolution: FrameResolution?
+        /// The language of the audio stream. Used when the streamType is AUDIO.
+        public let language: String?
+        /// The number of audio samples captured per second. Used when the streamType is AUDIO.
+        public let sampleRate: Int?
+        /// The sample bit size used by the audio stream. Used when the streamType is AUDIO.
+        public let sampleSize: Int?
+        /// The method used to display video frames. Used when the streamType is VIDEO.
+        public let scanMode: ScanMode?
+        /// A unique identifier for the stream.
+        public let streamId: Int?
+        /// The type of stream (for example, VIDEO or AUDIO).
+        public let streamType: SourceMediaStreamType?
+
+        @inlinable
+        public init(channels: Int? = nil, codec: String? = nil, color: ColorInformation? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, language: String? = nil, sampleRate: Int? = nil, sampleSize: Int? = nil, scanMode: ScanMode? = nil, streamId: Int? = nil, streamType: SourceMediaStreamType? = nil) {
+            self.channels = channels
+            self.codec = codec
+            self.color = color
+            self.frameRate = frameRate
+            self.frameResolution = frameResolution
+            self.language = language
+            self.sampleRate = sampleRate
+            self.sampleSize = sampleSize
+            self.scanMode = scanMode
+            self.streamId = streamId
+            self.streamType = streamType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case codec = "codec"
+            case color = "color"
+            case frameRate = "frameRate"
+            case frameResolution = "frameResolution"
+            case language = "language"
+            case sampleRate = "sampleRate"
+            case sampleSize = "sampleSize"
+            case scanMode = "scanMode"
+            case streamId = "streamId"
+            case streamType = "streamType"
+        }
+    }
+
+    public struct RtmpPushOutputSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the RTMP application on the destination server. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://destinationAddress/applicationName/streamName.
+        public let applicationName: String?
+        /// The name of the RTMP stream that the output publishes to the destination application. The stream name forms the final segment of the RTMP URL path.
+        public let streamName: String?
+        /// The TLS encryption settings for the output. When you specify these settings, the output uses RTMPS (RTMP over TLS) to establish a secure, encrypted connection to the destination server.
+        public let tlsEncryption: TlsEncryption?
+
+        @inlinable
+        public init(applicationName: String? = nil, streamName: String? = nil, tlsEncryption: TlsEncryption? = nil) {
+            self.applicationName = applicationName
+            self.streamName = streamName
+            self.tlsEncryption = tlsEncryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case streamName = "streamName"
+            case tlsEncryption = "tlsEncryption"
+        }
+    }
+
+    public struct RtmpPushRouterInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings for the application and stream names.
+        public let namingConfiguration: RtmpPushNamingConfiguration
+        /// The naming type. If you specify it, it must match the naming configuration.
+        public let namingType: RtmpPushNamingType?
+        /// The port number for the RTMP protocol. The only valid value is 1935.
+        public let port: Int
+
+        @inlinable
+        public init(namingConfiguration: RtmpPushNamingConfiguration, namingType: RtmpPushNamingType? = nil, port: Int) {
+            self.namingConfiguration = namingConfiguration
+            self.namingType = namingType
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namingConfiguration = "namingConfiguration"
+            case namingType = "namingType"
+            case port = "port"
+        }
+    }
+
     public struct RtmpPushRouterOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the RTMP application on the destination server. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://destinationAddress/applicationName/streamName.
         public let applicationName: String
@@ -6991,6 +9607,68 @@ extension MediaConnect {
             case destinationPort = "destinationPort"
             case streamName = "streamName"
             case tlsEncryption = "tlsEncryption"
+        }
+    }
+
+    public struct RtmpPushSourceSettings: AWSDecodableShape {
+        /// The name of the RTMP application. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://ingestAddress/applicationName/streamName.
+        public let applicationName: String?
+        /// The naming type that the source uses. With AUTOMATIC naming, MediaConnect generates the application and stream names.
+        public let namingType: RtmpPushNamingType?
+        /// The name of the RTMP stream. The stream name forms the final segment of the RTMP URL path.
+        public let streamName: String?
+
+        @inlinable
+        public init(applicationName: String? = nil, namingType: RtmpPushNamingType? = nil, streamName: String? = nil) {
+            self.applicationName = applicationName
+            self.namingType = namingType
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case namingType = "namingType"
+            case streamName = "streamName"
+        }
+    }
+
+    public struct RtmpPushStreamDetails: AWSDecodableShape {
+        /// The name of the RTMP application.
+        public let applicationName: String
+        /// The name of the RTMP stream.
+        public let streamName: String
+
+        @inlinable
+        public init(applicationName: String, streamName: String) {
+            self.applicationName = applicationName
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case streamName = "streamName"
+        }
+    }
+
+    public struct RtmpSourceMetadataInfo: AWSDecodableShape {
+        /// The name of the RTMP application.
+        public let applicationName: String?
+        /// Information about the audio and video streams that are part of the RTMP source.
+        public let mediaInfo: RtmpMediaInfo?
+        /// The name of the RTMP stream.
+        public let streamName: String?
+
+        @inlinable
+        public init(applicationName: String? = nil, mediaInfo: RtmpMediaInfo? = nil, streamName: String? = nil) {
+            self.applicationName = applicationName
+            self.mediaInfo = mediaInfo
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case mediaInfo = "mediaInfo"
+            case streamName = "streamName"
         }
     }
 
@@ -7034,6 +9712,46 @@ extension MediaConnect {
         }
     }
 
+    public struct RtpStandardDestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address on which the destination endpoint receives content.
+        public let destinationAddress: String
+        /// The port on which the destination endpoint receives content. The valid range is 1024 to 65531.
+        public let destinationIngestPort: Int
+        /// Indicates whether forward error correction (FEC) is enabled for the destination endpoint.
+        public let forwardErrorCorrectionState: ForwardErrorCorrectionState
+
+        @inlinable
+        public init(destinationAddress: String, destinationIngestPort: Int, forwardErrorCorrectionState: ForwardErrorCorrectionState) {
+            self.destinationAddress = destinationAddress
+            self.destinationIngestPort = destinationIngestPort
+            self.forwardErrorCorrectionState = forwardErrorCorrectionState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "destinationAddress"
+            case destinationIngestPort = "destinationIngestPort"
+            case forwardErrorCorrectionState = "forwardErrorCorrectionState"
+        }
+    }
+
+    public struct RtpStandardSourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The port on the destination that receives the content. The valid range is 3000 to 30000.
+        public let destinationIngestPort: Int
+        /// Indicates whether forward error correction (FEC) is enabled for the source endpoint.
+        public let forwardErrorCorrectionState: ForwardErrorCorrectionState
+
+        @inlinable
+        public init(destinationIngestPort: Int, forwardErrorCorrectionState: ForwardErrorCorrectionState) {
+            self.destinationIngestPort = destinationIngestPort
+            self.forwardErrorCorrectionState = forwardErrorCorrectionState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationIngestPort = "destinationIngestPort"
+            case forwardErrorCorrectionState = "forwardErrorCorrectionState"
+        }
+    }
+
     public struct SecretsManagerEncryptionKeyConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret.
         public let roleArn: String
@@ -7057,6 +9775,28 @@ extension MediaConnect {
         }
     }
 
+    public struct SecretsManagerEndpointEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Secrets Manager secret that holds the key or passphrase used to encrypt the connection.
+        public let encryptionSecret: EndpointEncryptionSecretConfiguration
+        /// The type of secret used to encrypt the connection. Valid values include the following:    AES_128_KEY – A 128-bit AES encryption key.    AES_192_KEY – A 192-bit AES encryption key.    AES_256_KEY – A 256-bit AES encryption key.    SRT_PASSPHRASE – An SRT passphrase.
+        public let encryptionSecretType: EndpointEncryptionSecretType?
+
+        @inlinable
+        public init(encryptionSecret: EndpointEncryptionSecretConfiguration, encryptionSecretType: EndpointEncryptionSecretType? = nil) {
+            self.encryptionSecret = encryptionSecret
+            self.encryptionSecretType = encryptionSecretType
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionSecret.validate(name: "\(name).encryptionSecret")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionSecret = "encryptionSecret"
+            case encryptionSecretType = "encryptionSecretType"
+        }
+    }
+
     public struct SetGatewayBridgeSourceRequest: AWSEncodableShape {
         ///  The ARN of the bridge feeding this flow.
         public let bridgeArn: String?
@@ -7072,6 +9812,20 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case bridgeArn = "bridgeArn"
             case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
+    public struct SetRtmpPushSourceSettings: AWSEncodableShape {
+        /// The configuration settings for the application and stream names.
+        public let namingConfiguration: RtmpPushNamingConfiguration?
+
+        @inlinable
+        public init(namingConfiguration: RtmpPushNamingConfiguration? = nil) {
+            self.namingConfiguration = namingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namingConfiguration = "namingConfiguration"
         }
     }
 
@@ -7106,6 +9860,8 @@ extension MediaConnect {
         public let routerIntegrationState: State?
         /// The decryption configuration for the flow source when router integration is enabled. Specifies how the source content should be decrypted when router integration is used.
         public let routerIntegrationTransitDecryption: FlowTransitEncryption?
+        /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+        public let rtmpPushSettings: SetRtmpPushSourceSettings?
         ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
         ///  The IP address that the flow communicates with to initiate connection with the sender.
@@ -7124,7 +9880,7 @@ extension MediaConnect {
         public let whitelistCidr: String?
 
         @inlinable
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, sourceTags: [String: String]? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, rtmpPushSettings: SetRtmpPushSourceSettings? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, sourceTags: [String: String]? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -7140,6 +9896,7 @@ extension MediaConnect {
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
+            self.rtmpPushSettings = rtmpPushSettings
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceListenerAddress = sourceListenerAddress
@@ -7151,6 +9908,7 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.ndiSourceSettings?.validate(name: "\(name).ndiSourceSettings")
             try self.routerIntegrationTransitDecryption?.validate(name: "\(name).routerIntegrationTransitDecryption")
         }
 
@@ -7170,6 +9928,7 @@ extension MediaConnect {
             case `protocol` = "protocol"
             case routerIntegrationState = "routerIntegrationState"
             case routerIntegrationTransitDecryption = "routerIntegrationTransitDecryption"
+            case rtmpPushSettings = "rtmpPushSettings"
             case senderControlPort = "senderControlPort"
             case senderIpAddress = "senderIpAddress"
             case sourceListenerAddress = "sourceListenerAddress"
@@ -7219,6 +9978,56 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case state = "state"
             case thresholdSeconds = "thresholdSeconds"
+        }
+    }
+
+    public struct SingleProgramTransportStreamPidMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The settings for automatic Packet ID (PID) assignment. The default start PID is 512, with 32 PIDs per program.
+        public let auto: AutoPidMapConfiguration?
+        /// The action to apply to an elementary stream that doesn't match any rule.
+        public let defaultAction: String
+        /// The Program Clock Reference (PCR) PID settings for the router output. By default, the router output passes through the PCR PID from the source.
+        public let programClockReferencePid: ProgramClockReferencePidConfiguration?
+        /// The Program Map Table (PMT) PID settings for the router output. By default, the router output passes through the PMT PID from the source.
+        public let programMapTablePid: ProgramMapTablePidConfiguration?
+        /// The program number settings for the router output. By default, the router output passes through the program number from the source.
+        public let programNumber: ProgramNumberConfiguration?
+        /// The ordered list of up to 32 rules that determine the action for each elementary stream. MediaConnect applies the first rule that matches.
+        public let rules: [PidMapRule]
+        /// The transport stream ID (TSID) settings for the router output. By default, the router output passes through the TSID from the source.
+        public let transportStreamId: TransportStreamIdConfiguration?
+
+        @inlinable
+        public init(auto: AutoPidMapConfiguration? = nil, defaultAction: String, programClockReferencePid: ProgramClockReferencePidConfiguration? = nil, programMapTablePid: ProgramMapTablePidConfiguration? = nil, programNumber: ProgramNumberConfiguration? = nil, rules: [PidMapRule], transportStreamId: TransportStreamIdConfiguration? = nil) {
+            self.auto = auto
+            self.defaultAction = defaultAction
+            self.programClockReferencePid = programClockReferencePid
+            self.programMapTablePid = programMapTablePid
+            self.programNumber = programNumber
+            self.rules = rules
+            self.transportStreamId = transportStreamId
+        }
+
+        public func validate(name: String) throws {
+            try self.auto?.validate(name: "\(name).auto")
+            try self.validate(self.defaultAction, name: "defaultAction", parent: name, max: 256)
+            try self.validate(self.defaultAction, name: "defaultAction", parent: name, min: 1)
+            try self.programClockReferencePid?.validate(name: "\(name).programClockReferencePid")
+            try self.programMapTablePid?.validate(name: "\(name).programMapTablePid")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auto = "auto"
+            case defaultAction = "defaultAction"
+            case programClockReferencePid = "programClockReferencePid"
+            case programMapTablePid = "programMapTablePid"
+            case programNumber = "programNumber"
+            case rules = "rules"
+            case transportStreamId = "transportStreamId"
         }
     }
 
@@ -7308,6 +10117,153 @@ extension MediaConnect {
         }
     }
 
+    public struct SourceEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint.
+        public let arn: String
+        /// The details of the resource that is associated with the source endpoint.
+        public let associatedResourceDetails: SourceEndpointAssociatedResourceDetails
+        /// The Availability Zone in which the source endpoint is located.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone in which the source endpoint is located.
+        public let availabilityZoneId: String?
+        /// The configuration settings for the source endpoint.
+        public let configuration: SourceEndpointConfiguration
+        /// The Amazon Resource Names (ARNs) of the destination endpoints that are connected to the source endpoint.
+        public let connectedDestinations: [String]
+        /// The connection details for the source endpoint.
+        public let connectionDetails: SourceEndpointConnectionDetails?
+        /// The connection state of the source endpoint. Valid values include the following:    CONNECTED – The source endpoint is connected to a destination endpoint.    DISCONNECTED – The source endpoint isn't connected to a destination endpoint.    CONNECTING – The source endpoint is connecting to a destination endpoint.    DISCONNECTING – The source endpoint is disconnecting from a destination endpoint.
+        public let connectionState: SourceEndpointConnectionState
+        /// The date and time when the source endpoint was created.
+        public let createdAt: Date
+        /// The description of the source endpoint.
+        public let description: String
+        public let encryptionConfiguration: EndpointEncryptionConfiguration?
+        /// The type of encryption used for the source endpoint connection.
+        public let encryptionType: EndpointEncryptionType?
+        /// The unique identifier of the source endpoint.
+        public let id: String
+        /// The entity that manages the lifecycle of the source endpoint.
+        public let lifecycleManagement: EndpointLifecycle
+        /// The status messages for the source endpoint.
+        public let messages: [SourceEndpointMessage]
+        /// The name of the source endpoint.
+        public let name: String
+        /// The name of the Amazon Web Services Region in which the source endpoint is located.
+        public let regionName: String
+        /// The registration state of the source endpoint. Valid values include the following:    REGISTERED – The source endpoint is registered and ready to use.    REGISTERING – MediaConnect is registering the source endpoint.    DEREGISTERING – MediaConnect is deregistering the source endpoint.    REGISTRATION_FAILED – MediaConnect couldn't register the source endpoint.
+        public let registrationState: SourceEndpointRegistrationState
+        public let resourceShareDetails: ResourceShareDetails
+        /// Indicates whether this account owns the source endpoint or consumes it from another account through RAM.
+        public let resourceShareOwnership: ResourceShareOwnership
+        /// The type of the source endpoint. Valid values include the following:    STANDARD – A source endpoint that represents an external source over a standard protocol, such as RTP, RIST, or SRT.    ROUTER_OUTPUT – A source endpoint that represents a router output.
+        public let sourceType: SourceEndpointType
+        /// The tags associated with the source endpoint. Each tag is a key-value pair.
+        public let tags: [String: String]
+        /// The date and time when the source endpoint was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(arn: String, associatedResourceDetails: SourceEndpointAssociatedResourceDetails, availabilityZone: String? = nil, availabilityZoneId: String? = nil, configuration: SourceEndpointConfiguration, connectedDestinations: [String], connectionDetails: SourceEndpointConnectionDetails? = nil, connectionState: SourceEndpointConnectionState, createdAt: Date, description: String, encryptionConfiguration: EndpointEncryptionConfiguration? = nil, encryptionType: EndpointEncryptionType? = nil, id: String, lifecycleManagement: EndpointLifecycle, messages: [SourceEndpointMessage], name: String, regionName: String, registrationState: SourceEndpointRegistrationState, resourceShareDetails: ResourceShareDetails, resourceShareOwnership: ResourceShareOwnership, sourceType: SourceEndpointType, tags: [String: String], updatedAt: Date) {
+            self.arn = arn
+            self.associatedResourceDetails = associatedResourceDetails
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.configuration = configuration
+            self.connectedDestinations = connectedDestinations
+            self.connectionDetails = connectionDetails
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.encryptionType = encryptionType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messages = messages
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareDetails = resourceShareDetails
+            self.resourceShareOwnership = resourceShareOwnership
+            self.sourceType = sourceType
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedResourceDetails = "associatedResourceDetails"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case configuration = "configuration"
+            case connectedDestinations = "connectedDestinations"
+            case connectionDetails = "connectionDetails"
+            case connectionState = "connectionState"
+            case createdAt = "createdAt"
+            case description = "description"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case encryptionType = "encryptionType"
+            case id = "id"
+            case lifecycleManagement = "lifecycleManagement"
+            case messages = "messages"
+            case name = "name"
+            case regionName = "regionName"
+            case registrationState = "registrationState"
+            case resourceShareDetails = "resourceShareDetails"
+            case resourceShareOwnership = "resourceShareOwnership"
+            case sourceType = "sourceType"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct SourceEndpointMessage: AWSDecodableShape {
+        /// The message code.
+        public let code: String
+        /// The message text.
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct SourceEndpointRouterOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let destinationTransitEncryption: EndpointEncryptionConfiguration
+        /// The type of transit encryption applied to the destination content that this router output sends. Valid values include the following:    SECRETS_MANAGER – The encryption key or passphrase is stored in Secrets Manager.    AUTOMATIC – MediaConnect determines the encryption key when the endpoint connects.
+        public let destinationTransitEncryptionType: EndpointEncryptionType?
+        /// The entity that manages the lifecycle of the associated source endpoint. Valid values include the following:    MANAGED – MediaConnect manages the lifecycle of the associated source endpoint.    UNMANAGED – You manage the lifecycle of the associated source endpoint.
+        public let endpointLifecycleManagement: EndpointLifecycle
+
+        @inlinable
+        public init(destinationTransitEncryption: EndpointEncryptionConfiguration, destinationTransitEncryptionType: EndpointEncryptionType? = nil, endpointLifecycleManagement: EndpointLifecycle) {
+            self.destinationTransitEncryption = destinationTransitEncryption
+            self.destinationTransitEncryptionType = destinationTransitEncryptionType
+            self.endpointLifecycleManagement = endpointLifecycleManagement
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationTransitEncryption.validate(name: "\(name).destinationTransitEncryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationTransitEncryption = "destinationTransitEncryption"
+            case destinationTransitEncryptionType = "destinationTransitEncryptionType"
+            case endpointLifecycleManagement = "endpointLifecycleManagement"
+        }
+    }
+
+    public struct SourceEndpointRouterOutputStreamDetails: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct SourcePriority: AWSEncodableShape & AWSDecodableShape {
         ///  The name of the source you choose as the primary source for this flow.
         public let primarySource: String?
@@ -7387,6 +10343,56 @@ extension MediaConnect {
             case encryptionConfiguration = "encryptionConfiguration"
             case minimumLatencyMilliseconds = "minimumLatencyMilliseconds"
             case streamId = "streamId"
+        }
+    }
+
+    public struct SrtCallerStandardDestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let encryptionPassphrase: EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        public let minimumLatencyMilliseconds: Int64
+        /// The port on which the source listens for the connection. The valid range is 3000 to 30000.
+        public let sourceListenerPort: Int
+
+        @inlinable
+        public init(encryptionPassphrase: EndpointEncryptionSecretConfiguration? = nil, minimumLatencyMilliseconds: Int64, sourceListenerPort: Int) {
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.sourceListenerPort = sourceListenerPort
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionPassphrase?.validate(name: "\(name).encryptionPassphrase")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionPassphrase = "encryptionPassphrase"
+            case minimumLatencyMilliseconds = "minimumLatencyMilliseconds"
+            case sourceListenerPort = "sourceListenerPort"
+        }
+    }
+
+    public struct SrtCallerStandardSourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The port on which the destination listens for the connection. The valid range is 3000 to 30000.
+        public let destinationIngestPort: Int
+        public let encryptionPassphrase: EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        public let minimumLatencyMilliseconds: Int64
+
+        @inlinable
+        public init(destinationIngestPort: Int, encryptionPassphrase: EndpointEncryptionSecretConfiguration? = nil, minimumLatencyMilliseconds: Int64) {
+            self.destinationIngestPort = destinationIngestPort
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionPassphrase?.validate(name: "\(name).encryptionPassphrase")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationIngestPort = "destinationIngestPort"
+            case encryptionPassphrase = "encryptionPassphrase"
+            case minimumLatencyMilliseconds = "minimumLatencyMilliseconds"
         }
     }
 
@@ -7478,6 +10484,139 @@ extension MediaConnect {
         }
     }
 
+    public struct SrtListenerStandardDestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address on which the destination endpoint listens for incoming connections.
+        public let destinationAddress: String
+        /// The port on which the destination endpoint listens for incoming connections. The valid range is 0 to 65531.
+        public let destinationIngestPort: Int
+        public let encryptionPassphrase: EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        public let minimumLatencyMilliseconds: Int64
+        /// The stream ID that identifies the content for the SRT connection.
+        public let streamId: String?
+
+        @inlinable
+        public init(destinationAddress: String, destinationIngestPort: Int, encryptionPassphrase: EndpointEncryptionSecretConfiguration? = nil, minimumLatencyMilliseconds: Int64, streamId: String? = nil) {
+            self.destinationAddress = destinationAddress
+            self.destinationIngestPort = destinationIngestPort
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.streamId = streamId
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionPassphrase?.validate(name: "\(name).encryptionPassphrase")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "destinationAddress"
+            case destinationIngestPort = "destinationIngestPort"
+            case encryptionPassphrase = "encryptionPassphrase"
+            case minimumLatencyMilliseconds = "minimumLatencyMilliseconds"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct SrtListenerStandardSourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let encryptionPassphrase: EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        public let minimumLatencyMilliseconds: Int64
+        /// The IP address that the source endpoint listens on for incoming connections.
+        public let sourceAddress: String
+        /// The port that the source endpoint listens on for incoming connections. The valid range is 1024 to 65535.
+        public let sourceListenerPort: Int
+        /// The stream ID that identifies the content for the SRT connection.
+        public let streamId: String?
+
+        @inlinable
+        public init(encryptionPassphrase: EndpointEncryptionSecretConfiguration? = nil, minimumLatencyMilliseconds: Int64, sourceAddress: String, sourceListenerPort: Int, streamId: String? = nil) {
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.sourceAddress = sourceAddress
+            self.sourceListenerPort = sourceListenerPort
+            self.streamId = streamId
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionPassphrase?.validate(name: "\(name).encryptionPassphrase")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionPassphrase = "encryptionPassphrase"
+            case minimumLatencyMilliseconds = "minimumLatencyMilliseconds"
+            case sourceAddress = "sourceAddress"
+            case sourceListenerPort = "sourceListenerPort"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct StandardDestinationEndpointAssociatedResourceDetails: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StandardDestinationEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The networking configuration for the destination endpoint, which determines whether it is publicly accessible or in a virtual private cloud (VPC).
+        public let destinationNetworkingConfiguration: StandardDestinationEndpointNetworkingConfiguration
+        /// The networking type of the destination endpoint. Valid values include the following:    PUBLIC – The destination endpoint is publicly accessible.    VPC – The destination endpoint is in a virtual private cloud (VPC).
+        public let destinationNetworkingType: DestinationEndpointNetworkingType?
+        /// The name of the destination endpoint.
+        public let name: String
+        /// The protocol used by the destination endpoint. Valid values include the following:    RTP – Real-time Transport Protocol.    RIST – Reliable Internet Stream Transport.    SRT_CALLER – Secure Reliable Transport (SRT) in caller mode.    SRT_LISTENER – Secure Reliable Transport (SRT) in listener mode.
+        public let `protocol`: DestinationEndpointProtocol?
+        /// The protocol configuration for the destination endpoint.
+        public let protocolConfiguration: StandardDestinationEndpointProtocolConfiguration
+
+        @inlinable
+        public init(destinationNetworkingConfiguration: StandardDestinationEndpointNetworkingConfiguration, destinationNetworkingType: DestinationEndpointNetworkingType? = nil, name: String, protocol: DestinationEndpointProtocol? = nil, protocolConfiguration: StandardDestinationEndpointProtocolConfiguration) {
+            self.destinationNetworkingConfiguration = destinationNetworkingConfiguration
+            self.destinationNetworkingType = destinationNetworkingType
+            self.name = name
+            self.`protocol` = `protocol`
+            self.protocolConfiguration = protocolConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.protocolConfiguration.validate(name: "\(name).protocolConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationNetworkingConfiguration = "destinationNetworkingConfiguration"
+            case destinationNetworkingType = "destinationNetworkingType"
+            case name = "name"
+            case `protocol` = "protocol"
+            case protocolConfiguration = "protocolConfiguration"
+        }
+    }
+
+    public struct StandardDestinationEndpointConnectionDetails: AWSDecodableShape {
+        public let sourceEncryptionConfiguration: EndpointEncryptionConfiguration?
+        /// The type of encryption that the source uses for the connection.
+        public let sourceEncryptionType: EndpointEncryptionType?
+        /// The type of the connected source endpoint.
+        public let sourceEndpointType: SourceEndpointType?
+        /// The IP address of the source that is connected to the destination endpoint.
+        public let sourceIpAddress: String?
+        /// The port on which the source listens for the connection.
+        public let sourceListenerPort: Int?
+
+        @inlinable
+        public init(sourceEncryptionConfiguration: EndpointEncryptionConfiguration? = nil, sourceEncryptionType: EndpointEncryptionType? = nil, sourceEndpointType: SourceEndpointType? = nil, sourceIpAddress: String? = nil, sourceListenerPort: Int? = nil) {
+            self.sourceEncryptionConfiguration = sourceEncryptionConfiguration
+            self.sourceEncryptionType = sourceEncryptionType
+            self.sourceEndpointType = sourceEndpointType
+            self.sourceIpAddress = sourceIpAddress
+            self.sourceListenerPort = sourceListenerPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEncryptionConfiguration = "sourceEncryptionConfiguration"
+            case sourceEncryptionType = "sourceEncryptionType"
+            case sourceEndpointType = "sourceEndpointType"
+            case sourceIpAddress = "sourceIpAddress"
+            case sourceListenerPort = "sourceListenerPort"
+        }
+    }
+
     public struct StandardRouterInputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the network interface associated with the standard router input.
         public let networkInterfaceArn: String
@@ -7506,15 +10645,19 @@ extension MediaConnect {
     }
 
     public struct StandardRouterInputStreamDetails: AWSDecodableShape {
+        /// The RTMP stream details for the standard router input stream, including the application and stream names.
+        public let rtmpPush: RtmpPushStreamDetails?
         /// The source IP address for the standard router input stream.
         public let sourceIpAddress: String?
 
         @inlinable
-        public init(sourceIpAddress: String? = nil) {
+        public init(rtmpPush: RtmpPushStreamDetails? = nil, sourceIpAddress: String? = nil) {
+            self.rtmpPush = rtmpPush
             self.sourceIpAddress = sourceIpAddress
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rtmpPush = "rtmpPush"
             case sourceIpAddress = "sourceIpAddress"
         }
     }
@@ -7556,6 +10699,73 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case destinationIpAddress = "destinationIpAddress"
+        }
+    }
+
+    public struct StandardSourceEndpointAssociatedResourceDetails: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StandardSourceEndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the source endpoint.
+        public let name: String
+        /// The protocol used by the source endpoint. Valid values include the following:    RTP – Real-time Transport Protocol.    RIST – Reliable Internet Stream Transport.    SRT_CALLER – Secure Reliable Transport (SRT) in caller mode.    SRT_LISTENER – Secure Reliable Transport (SRT) in listener mode.
+        public let `protocol`: SourceEndpointProtocol?
+        /// The protocol configuration for the source endpoint.
+        public let protocolConfiguration: StandardSourceEndpointProtocolConfiguration
+        /// The networking configuration for the source endpoint, which determines whether it is publicly accessible or in a virtual private cloud (VPC).
+        public let sourceNetworkingConfiguration: StandardSourceEndpointNetworkingConfiguration
+        /// The networking type of the source endpoint. Valid values include the following:    PUBLIC – The source endpoint is publicly accessible.    VPC – The source endpoint is in a virtual private cloud (VPC).
+        public let sourceNetworkingType: SourceEndpointNetworkingType?
+
+        @inlinable
+        public init(name: String, protocol: SourceEndpointProtocol? = nil, protocolConfiguration: StandardSourceEndpointProtocolConfiguration, sourceNetworkingConfiguration: StandardSourceEndpointNetworkingConfiguration, sourceNetworkingType: SourceEndpointNetworkingType? = nil) {
+            self.name = name
+            self.`protocol` = `protocol`
+            self.protocolConfiguration = protocolConfiguration
+            self.sourceNetworkingConfiguration = sourceNetworkingConfiguration
+            self.sourceNetworkingType = sourceNetworkingType
+        }
+
+        public func validate(name: String) throws {
+            try self.protocolConfiguration.validate(name: "\(name).protocolConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `protocol` = "protocol"
+            case protocolConfiguration = "protocolConfiguration"
+            case sourceNetworkingConfiguration = "sourceNetworkingConfiguration"
+            case sourceNetworkingType = "sourceNetworkingType"
+        }
+    }
+
+    public struct StandardSourceEndpointConnectionDetails: AWSDecodableShape {
+        public let destinationDecryptionConfiguration: EndpointEncryptionConfiguration?
+        /// The type of decryption that the destination uses for the connection.
+        public let destinationDecryptionType: EndpointEncryptionType?
+        /// The type of the connected destination endpoint.
+        public let destinationEndpointType: DestinationEndpointType?
+        /// The port on the destination that receives the content.
+        public let destinationIngestPort: Int?
+        /// The IP address of the destination that receives the content.
+        public let destinationIpAddress: String?
+
+        @inlinable
+        public init(destinationDecryptionConfiguration: EndpointEncryptionConfiguration? = nil, destinationDecryptionType: EndpointEncryptionType? = nil, destinationEndpointType: DestinationEndpointType? = nil, destinationIngestPort: Int? = nil, destinationIpAddress: String? = nil) {
+            self.destinationDecryptionConfiguration = destinationDecryptionConfiguration
+            self.destinationDecryptionType = destinationDecryptionType
+            self.destinationEndpointType = destinationEndpointType
+            self.destinationIngestPort = destinationIngestPort
+            self.destinationIpAddress = destinationIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDecryptionConfiguration = "destinationDecryptionConfiguration"
+            case destinationDecryptionType = "destinationDecryptionType"
+            case destinationEndpointType = "destinationEndpointType"
+            case destinationIngestPort = "destinationIngestPort"
             case destinationIpAddress = "destinationIpAddress"
         }
     }
@@ -7998,6 +11208,8 @@ extension MediaConnect {
         public let maxSyncBuffer: Int?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). For NDI outputs, this field is always present and defaults to -20.
+        public let ndiAudioReferenceLevel: Int?
         /// The timecode source for NDI output frames. For NDI outputs, this field is always present and defaults to EMBEDDED_TIMECODE.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
         public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
@@ -8010,6 +11222,10 @@ extension MediaConnect {
         public let `protocol`: `Protocol`?
         ///  The remote ID for the Zixi-pull stream.
         public let remoteId: String?
+        /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified.
+        public let rtmpPushOutputSettings: RtmpPushOutputSettings?
+        /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+        public let rtmpPushSourceSettings: RtmpPushSourceSettings?
         ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
         ///  The IP address that the flow communicates with to initiate connection with the sender.
@@ -8024,18 +11240,21 @@ extension MediaConnect {
         public let streamId: String?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiAudioReferenceLevel: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, rtmpPushOutputSettings: RtmpPushOutputSettings? = nil, rtmpPushSourceSettings: RtmpPushSourceSettings? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSourceSettings = ndiSourceSettings
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
+            self.rtmpPushOutputSettings = rtmpPushOutputSettings
+            self.rtmpPushSourceSettings = rtmpPushSourceSettings
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.smoothingLatency = smoothingLatency
@@ -8050,12 +11269,15 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case maxSyncBuffer = "maxSyncBuffer"
             case minLatency = "minLatency"
+            case ndiAudioReferenceLevel = "ndiAudioReferenceLevel"
             case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSourceSettings = "ndiSourceSettings"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case `protocol` = "protocol"
             case remoteId = "remoteId"
+            case rtmpPushOutputSettings = "rtmpPushOutputSettings"
+            case rtmpPushSourceSettings = "rtmpPushSourceSettings"
             case senderControlPort = "senderControlPort"
             case senderIpAddress = "senderIpAddress"
             case smoothingLatency = "smoothingLatency"
@@ -8068,14 +11290,18 @@ extension MediaConnect {
     public struct TransportMediaInfo: AWSDecodableShape {
         ///  The list of transport stream programs in the current flow's source.
         public let programs: [TransportStreamProgram]?
+        /// The transport stream ID (TSID) of the source, from the Program Association Table (PAT).
+        public let tsId: Int?
 
         @inlinable
-        public init(programs: [TransportStreamProgram]? = nil) {
+        public init(programs: [TransportStreamProgram]? = nil, tsId: Int? = nil) {
             self.programs = programs
+            self.tsId = tsId
         }
 
         private enum CodingKeys: String, CodingKey {
             case programs = "programs"
+            case tsId = "tsId"
         }
     }
 
@@ -8084,39 +11310,51 @@ extension MediaConnect {
         public let channels: Int?
         ///  The codec used by the stream.
         public let codec: String?
+        /// The color signaling of the video stream.
+        public let color: ColorInformation?
         ///  The frame rate used by the video stream.
         public let frameRate: String?
         /// The frame resolution used by the video stream.
         public let frameResolution: FrameResolution?
+        /// The language of the elementary stream.
+        public let language: String?
         ///  The Packet ID (PID) as it is reported in the Program Map Table.
         public let pid: Int?
         ///  The sample rate used by the audio stream.
         public let sampleRate: Int?
         ///  The sample bit size used by the audio stream.
         public let sampleSize: Int?
+        /// The scan mode used by the video stream.
+        public let scanMode: ScanMode?
         ///  The Stream Type as it is reported in the Program Map Table.
         public let streamType: String?
 
         @inlinable
-        public init(channels: Int? = nil, codec: String? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, pid: Int? = nil, sampleRate: Int? = nil, sampleSize: Int? = nil, streamType: String? = nil) {
+        public init(channels: Int? = nil, codec: String? = nil, color: ColorInformation? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, language: String? = nil, pid: Int? = nil, sampleRate: Int? = nil, sampleSize: Int? = nil, scanMode: ScanMode? = nil, streamType: String? = nil) {
             self.channels = channels
             self.codec = codec
+            self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
+            self.language = language
             self.pid = pid
             self.sampleRate = sampleRate
             self.sampleSize = sampleSize
+            self.scanMode = scanMode
             self.streamType = streamType
         }
 
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
             case codec = "codec"
+            case color = "color"
             case frameRate = "frameRate"
             case frameResolution = "frameResolution"
+            case language = "language"
             case pid = "pid"
             case sampleRate = "sampleRate"
             case sampleSize = "sampleSize"
+            case scanMode = "scanMode"
             case streamType = "streamType"
         }
     }
@@ -8460,6 +11698,56 @@ extension MediaConnect {
         }
     }
 
+    public struct UpdateDestinationEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination endpoint to update.
+        public let arn: String
+        /// The updated configuration settings for the destination endpoint.
+        public let configuration: DestinationEndpointConfiguration?
+        /// A description to help you identify the destination endpoint.
+        public let description: String?
+
+        @inlinable
+        public init(arn: String, configuration: DestinationEndpointConfiguration? = nil, description: String? = nil) {
+            self.arn = arn
+            self.configuration = configuration
+            self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 64)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:destinationEndpoint:[a-z0-9]{12}$")
+            try self.configuration?.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case description = "description"
+        }
+    }
+
+    public struct UpdateDestinationEndpointResponse: AWSDecodableShape {
+        /// The details of the updated destination endpoint.
+        public let destinationEndpoint: DestinationEndpoint
+
+        @inlinable
+        public init(destinationEndpoint: DestinationEndpoint) {
+            self.destinationEndpoint = destinationEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationEndpoint = "destinationEndpoint"
+        }
+    }
+
     public struct UpdateEgressGatewayBridgeRequest: AWSEncodableShape {
         /// The maximum expected bitrate (in bps).
         public let maxBitrate: Int?
@@ -8698,6 +11986,8 @@ extension MediaConnect {
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect leaves the value unchanged.
+        public let ndiAudioReferenceLevel: Int?
         /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
         public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
@@ -8717,6 +12007,8 @@ extension MediaConnect {
         /// Indicates whether to enable or disable router integration for this flow output.
         public let routerIntegrationState: State?
         public let routerIntegrationTransitEncryption: FlowTransitEncryption?
+        /// The settings for an output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified.
+        public let rtmpPushSettings: RtmpPushOutputSettings?
         ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
         ///  The IP address that the flow communicates with to initiate connection with the sender.
@@ -8729,7 +12021,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiAudioReferenceLevel: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, rtmpPushSettings: RtmpPushOutputSettings? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -8738,6 +12030,7 @@ extension MediaConnect {
             self.maxLatency = maxLatency
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -8748,6 +12041,7 @@ extension MediaConnect {
             self.remoteId = remoteId
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
+            self.rtmpPushSettings = rtmpPushSettings
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.smoothingLatency = smoothingLatency
@@ -8766,6 +12060,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.maxLatency, forKey: .maxLatency)
             try container.encodeIfPresent(self.mediaStreamOutputConfigurations, forKey: .mediaStreamOutputConfigurations)
             try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            try container.encodeIfPresent(self.ndiAudioReferenceLevel, forKey: .ndiAudioReferenceLevel)
             try container.encodeIfPresent(self.ndiOutputTimecodeSource, forKey: .ndiOutputTimecodeSource)
             try container.encodeIfPresent(self.ndiProgramName, forKey: .ndiProgramName)
             try container.encodeIfPresent(self.ndiSpeedHqQuality, forKey: .ndiSpeedHqQuality)
@@ -8776,6 +12071,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.remoteId, forKey: .remoteId)
             try container.encodeIfPresent(self.routerIntegrationState, forKey: .routerIntegrationState)
             try container.encodeIfPresent(self.routerIntegrationTransitEncryption, forKey: .routerIntegrationTransitEncryption)
+            try container.encodeIfPresent(self.rtmpPushSettings, forKey: .rtmpPushSettings)
             try container.encodeIfPresent(self.senderControlPort, forKey: .senderControlPort)
             try container.encodeIfPresent(self.senderIpAddress, forKey: .senderIpAddress)
             try container.encodeIfPresent(self.smoothingLatency, forKey: .smoothingLatency)
@@ -8785,6 +12081,8 @@ extension MediaConnect {
 
         public func validate(name: String) throws {
             try self.validate(self.flowArn, name: "flowArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:flow:[a-zA-Z0-9-]+:[a-zA-Z0-9_-]+$")
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, max: 0)
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, min: -40)
             try self.routerIntegrationTransitEncryption?.validate(name: "\(name).routerIntegrationTransitEncryption")
         }
 
@@ -8796,6 +12094,7 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
+            case ndiAudioReferenceLevel = "ndiAudioReferenceLevel"
             case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
@@ -8805,6 +12104,7 @@ extension MediaConnect {
             case remoteId = "remoteId"
             case routerIntegrationState = "routerIntegrationState"
             case routerIntegrationTransitEncryption = "routerIntegrationTransitEncryption"
+            case rtmpPushSettings = "rtmpPushSettings"
             case senderControlPort = "senderControlPort"
             case senderIpAddress = "senderIpAddress"
             case smoothingLatency = "smoothingLatency"
@@ -8928,6 +12228,8 @@ extension MediaConnect {
         public let routerIntegrationState: State?
         /// The encryption configuration for the flow source when router integration is enabled.
         public let routerIntegrationTransitDecryption: FlowTransitEncryption?
+        /// The settings for the RTMP (Real-Time Messaging Protocol) source.
+        public let rtmpPushSettings: SetRtmpPushSourceSettings?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -8946,7 +12248,7 @@ extension MediaConnect {
         public let whitelistCidr: String?
 
         @inlinable
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, gatewayBridgeSource: UpdateGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, ndiSourceSettings: NdiSourceSettings? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, gatewayBridgeSource: UpdateGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, ndiSourceSettings: NdiSourceSettings? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, rtmpPushSettings: SetRtmpPushSourceSettings? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -8962,6 +12264,7 @@ extension MediaConnect {
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
+            self.rtmpPushSettings = rtmpPushSettings
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceArn = sourceArn
@@ -8990,6 +12293,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.`protocol`, forKey: .`protocol`)
             try container.encodeIfPresent(self.routerIntegrationState, forKey: .routerIntegrationState)
             try container.encodeIfPresent(self.routerIntegrationTransitDecryption, forKey: .routerIntegrationTransitDecryption)
+            try container.encodeIfPresent(self.rtmpPushSettings, forKey: .rtmpPushSettings)
             try container.encodeIfPresent(self.senderControlPort, forKey: .senderControlPort)
             try container.encodeIfPresent(self.senderIpAddress, forKey: .senderIpAddress)
             request.encodePath(self.sourceArn, key: "SourceArn")
@@ -9002,6 +12306,7 @@ extension MediaConnect {
 
         public func validate(name: String) throws {
             try self.validate(self.flowArn, name: "flowArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:flow:[a-zA-Z0-9-]+:[a-zA-Z0-9_-]+$")
+            try self.ndiSourceSettings?.validate(name: "\(name).ndiSourceSettings")
             try self.routerIntegrationTransitDecryption?.validate(name: "\(name).routerIntegrationTransitDecryption")
         }
 
@@ -9020,6 +12325,7 @@ extension MediaConnect {
             case `protocol` = "protocol"
             case routerIntegrationState = "routerIntegrationState"
             case routerIntegrationTransitDecryption = "routerIntegrationTransitDecryption"
+            case rtmpPushSettings = "rtmpPushSettings"
             case senderControlPort = "senderControlPort"
             case senderIpAddress = "senderIpAddress"
             case sourceListenerAddress = "sourceListenerAddress"
@@ -9163,7 +12469,7 @@ extension MediaConnect {
         public let name: String?
         /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
         public let routingScope: RoutingScope?
-        /// The updated tier level for the router input.
+        /// The updated tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterInputTier?
         /// The updated transit encryption settings for the router input.
         public let transitEncryption: RouterInputTransitEncryption?
@@ -9288,19 +12594,22 @@ extension MediaConnect {
         public let maximumBitrate: Int64?
         /// The updated name for the router output.
         public let name: String?
+        /// The updated processor settings for the router output. When you update the processors, include every setting that you want to keep. MediaConnect resets the settings that you don't specify to their defaults.
+        public let processors: RouterOutputProcessors?
         /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
         public let routingScope: RoutingScope?
-        /// The updated tier level for the router output.
+        /// The updated tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterOutputTier?
 
         @inlinable
-        public init(arn: String, configuration: RouterOutputConfiguration? = nil, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterOutputTier? = nil) {
+        public init(arn: String, configuration: RouterOutputConfiguration? = nil, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, processors: RouterOutputProcessors? = nil, routingScope: RoutingScope? = nil, tier: RouterOutputTier? = nil) {
             self.arn = arn
             self.configuration = configuration
             self.fabricConfiguration = fabricConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
+            self.processors = processors
             self.routingScope = routingScope
             self.tier = tier
         }
@@ -9314,6 +12623,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.maintenanceConfiguration, forKey: .maintenanceConfiguration)
             try container.encodeIfPresent(self.maximumBitrate, forKey: .maximumBitrate)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.processors, forKey: .processors)
             try container.encodeIfPresent(self.routingScope, forKey: .routingScope)
             try container.encodeIfPresent(self.tier, forKey: .tier)
         }
@@ -9321,6 +12631,7 @@ extension MediaConnect {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerOutput:[a-z0-9]{12}$")
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.processors?.validate(name: "\(name).processors")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9329,6 +12640,7 @@ extension MediaConnect {
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
+            case processors = "processors"
             case routingScope = "routingScope"
             case tier = "tier"
         }
@@ -9348,6 +12660,56 @@ extension MediaConnect {
         }
     }
 
+    public struct UpdateSourceEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the source endpoint to update.
+        public let arn: String
+        /// The updated configuration settings for the source endpoint.
+        public let configuration: SourceEndpointConfiguration?
+        /// A description to help you identify the source endpoint.
+        public let description: String?
+
+        @inlinable
+        public init(arn: String, configuration: SourceEndpointConfiguration? = nil, description: String? = nil) {
+            self.arn = arn
+            self.configuration = configuration
+            self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 64)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:sourceEndpoint:[a-z0-9]{12}$")
+            try self.configuration?.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case description = "description"
+        }
+    }
+
+    public struct UpdateSourceEndpointResponse: AWSDecodableShape {
+        /// The details of the updated source endpoint.
+        public let sourceEndpoint: SourceEndpoint
+
+        @inlinable
+        public init(sourceEndpoint: SourceEndpoint) {
+            self.sourceEndpoint = sourceEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEndpoint = "sourceEndpoint"
+        }
+    }
+
     public struct VideoMonitoringSetting: AWSEncodableShape & AWSDecodableShape {
         /// Detects video frames that are black.
         public let blackFrames: BlackFrames?
@@ -9363,6 +12725,24 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case blackFrames = "blackFrames"
             case frozenFrames = "frozenFrames"
+        }
+    }
+
+    public struct VpcDestinationEndpointNetworkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IDs of the security groups to associate with the destination endpoint. You can specify from 1 to 5 security groups.
+        public let securityGroupIds: [String]
+        /// The ID of the subnet to use for the destination endpoint.
+        public let subnetId: String
+
+        @inlinable
+        public init(securityGroupIds: [String], subnetId: String) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
         }
     }
 
@@ -9466,6 +12846,24 @@ extension MediaConnect {
         }
     }
 
+    public struct VpcSourceEndpointNetworkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IDs of the security groups to associate with the source endpoint. You can specify from 1 to 5 security groups.
+        public let securityGroupIds: [String]
+        /// The ID of the subnet to use for the source endpoint.
+        public let subnetId: String
+
+        @inlinable
+        public init(securityGroupIds: [String], subnetId: String) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
+        }
+    }
+
     public struct WindowMaintenanceSchedule: AWSDecodableShape {
         /// The end time of the maintenance window.
         public let end: Date
@@ -9519,19 +12917,6 @@ extension MediaConnect {
         }
     }
 
-    public struct RouterInputMetadata: AWSDecodableShape {
-        public let transportStreamMediaInfo: TransportMediaInfo?
-
-        @inlinable
-        public init(transportStreamMediaInfo: TransportMediaInfo? = nil) {
-            self.transportStreamMediaInfo = transportStreamMediaInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case transportStreamMediaInfo = "transportStreamMediaInfo"
-        }
-    }
-
     public struct TlsEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The TLS encryption configuration that validates the destination by using a publicly trusted certificate authority.
         public let `public`: PublicTlsEncryptionConfiguration?
@@ -9558,6 +12943,7 @@ public struct MediaConnectErrorType: AWSErrorType {
         case createBridge420Exception = "CreateBridge420Exception"
         case createFlow420Exception = "CreateFlow420Exception"
         case createGateway420Exception = "CreateGateway420Exception"
+        case destinationEndpointServiceQuotaExceededException = "DestinationEndpointServiceQuotaExceededException"
         case forbiddenException = "ForbiddenException"
         case grantFlowEntitlements420Exception = "GrantFlowEntitlements420Exception"
         case internalServerErrorException = "InternalServerErrorException"
@@ -9566,6 +12952,7 @@ public struct MediaConnectErrorType: AWSErrorType {
         case routerNetworkInterfaceServiceQuotaExceededException = "RouterNetworkInterfaceServiceQuotaExceededException"
         case routerOutputServiceQuotaExceededException = "RouterOutputServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
+        case sourceEndpointServiceQuotaExceededException = "SourceEndpointServiceQuotaExceededException"
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
@@ -9599,6 +12986,8 @@ public struct MediaConnectErrorType: AWSErrorType {
     public static var createFlow420Exception: Self { .init(.createFlow420Exception) }
     /// Exception raised by Elemental MediaConnect when creating the gateway. See the error message for the operation for more information on the cause of this exception.
     public static var createGateway420Exception: Self { .init(.createGateway420Exception) }
+    /// The request would cause you to exceed a service quota for destination endpoints. Delete unused destination endpoints or request a quota increase, then try your request again.
+    public static var destinationEndpointServiceQuotaExceededException: Self { .init(.destinationEndpointServiceQuotaExceededException) }
     /// You do not have sufficient access to perform this action.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// Exception raised by Elemental MediaConnect when granting the entitlement. See the error message for the operation for more information on the cause of this exception.
@@ -9615,6 +13004,8 @@ public struct MediaConnectErrorType: AWSErrorType {
     public static var routerOutputServiceQuotaExceededException: Self { .init(.routerOutputServiceQuotaExceededException) }
     /// The service is currently unavailable or busy.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request would cause you to exceed a service quota for source endpoints. Delete unused source endpoints or request a quota increase, then try your request again.
+    public static var sourceEndpointServiceQuotaExceededException: Self { .init(.sourceEndpointServiceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }

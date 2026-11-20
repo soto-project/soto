@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ConnectParticipant service.
 ///
-///    Participant Service actions     Participant Service data types    Connect Customer is an easy-to-use omnichannel cloud contact center service that enables companies of any size to deliver superior customer service at a lower cost. Connect Customer communications capabilities make it easy for companies to deliver personalized interactions across communication channels, including chat.  Use the Connect Customer Participant Service to manage participants (for example, agents, customers, and managers listening in), and to send messages and events within a chat contact. The APIs in the service enable the following: sending chat messages, attachment sharing, managing a participant's connection state and message events, and retrieving chat transcripts.
+///    Participant Service actions     Participant Service data types    Use the Connect Customer Participant Service to manage participants (for example, agents, customers, and managers listening in), and to send messages and events within a chat contact. The APIs in the service enable the following: sending chat messages, attachment sharing, managing a participant's connection state and message events, and retrieving chat transcripts.
 public struct ConnectParticipant: AWSService {
     // MARK: Member variables
 
@@ -273,18 +273,21 @@ public struct ConnectParticipant: AWSService {
     /// Parameters:
     ///   - attachmentId: A unique identifier for the attachment.
     ///   - connectionToken: The authentication token associated with the participant's connection.
+    ///   - urlContentDisposition: Specifies how a browser handles the file at the pre-signed URL. The following values are valid:  INLINE  Displays the file in the browser.  ATTACHMENT  Downloads the file. This is the default behavior.
     ///   - urlExpiryInSeconds: The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAttachment(
         attachmentId: String,
         connectionToken: String,
+        urlContentDisposition: ContentDisposition? = nil,
         urlExpiryInSeconds: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetAttachmentResponse {
         let input = GetAttachmentRequest(
             attachmentId: attachmentId, 
             connectionToken: connectionToken, 
+            urlContentDisposition: urlContentDisposition, 
             urlExpiryInSeconds: urlExpiryInSeconds
         )
         return try await self.getAttachment(input, logger: logger)
@@ -428,7 +431,7 @@ public struct ConnectParticipant: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - connectionToken: The authentication token associated with the connection.
-    ///   - content: The content of the message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.    For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
+    ///   - content: The content of the message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see Chat message size limits by channel in the Amazon Connect Customer Administrator Guide.
     ///   - contentType: The type of the content. Possible types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.  Supported types on the contact are configured through SupportedMessagingContentTypes on StartChatContact and StartOutboundChatContact. For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported.
     ///   - logger: Logger use during operation
     @inlinable
@@ -493,7 +496,7 @@ public struct ConnectParticipant: AWSService {
 extension ConnectParticipant {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ConnectParticipant, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

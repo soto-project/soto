@@ -145,6 +145,22 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationBackfillResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationBackfillStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case preparing = "PREPARING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case failed = "FAILED"
@@ -1570,6 +1586,93 @@ extension ECR {
         }
     }
 
+    public struct DescribeReplicationBackfillResultsRequest: AWSEncodableShape {
+        /// The maximum number of replication backfill results returned by DescribeReplicationBackfillResults in paginated output. When this parameter is used, DescribeReplicationBackfillResults only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeReplicationBackfillResults request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeReplicationBackfillResults returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated DescribeReplicationBackfillResults request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// The Amazon Web Services account ID associated with the registry that contains the replication backfill to describe. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The ID of the replication backfill to describe.
+        public let replicationBackfillId: String
+        /// The status used to filter the returned results. Each result has a status of COMPLETE or FAILED. If you omit this parameter, results with both statuses are returned.
+        public let resultStatusFilter: ReplicationBackfillResultStatus?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, replicationBackfillId: String, resultStatusFilter: ReplicationBackfillResultStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registryId = registryId
+            self.replicationBackfillId = replicationBackfillId
+            self.resultStatusFilter = resultStatusFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.replicationBackfillId, name: "replicationBackfillId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case replicationBackfillId = "replicationBackfillId"
+            case resultStatusFilter = "resultStatusFilter"
+        }
+    }
+
+    public struct DescribeReplicationBackfillResultsResponse: AWSDecodableShape {
+        /// The destination Region and registry to which the images are replicated.
+        public let destination: ReplicationDestination?
+        /// The date and time, in JavaScript date format, when the replication backfill ended. This value is null while the replication backfill is still in progress.
+        public let endedAt: Date?
+        /// The failure code for a replication backfill that has failed.
+        public let failureCode: String?
+        /// The nextToken value to include in a future DescribeReplicationBackfillResults request. When the results of a DescribeReplicationBackfillResults request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The progress of the replication backfill, including the total, completed, and failed replication counts. This value is null until the replication backfill finishes preparing the set of images to replicate. It is therefore null while the replication backfill is PREPARING, and remains null if the replication backfill is stopped before preparation completes.
+        public let progress: ReplicationBackfillProgress?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The ID of the replication backfill.
+        public let replicationBackfillId: String?
+        /// The per-image results for the replication backfill. Results are available only after the replication backfill reaches a terminal status.
+        public let results: [ReplicationBackfillResult]?
+        /// The date and time, in JavaScript date format, when the replication backfill was started.
+        public let startedAt: Date?
+        /// The current status of the replication backfill.
+        public let status: ReplicationBackfillStatus?
+
+        @inlinable
+        public init(destination: ReplicationDestination? = nil, endedAt: Date? = nil, failureCode: String? = nil, nextToken: String? = nil, progress: ReplicationBackfillProgress? = nil, registryId: String? = nil, replicationBackfillId: String? = nil, results: [ReplicationBackfillResult]? = nil, startedAt: Date? = nil, status: ReplicationBackfillStatus? = nil) {
+            self.destination = destination
+            self.endedAt = endedAt
+            self.failureCode = failureCode
+            self.nextToken = nextToken
+            self.progress = progress
+            self.registryId = registryId
+            self.replicationBackfillId = replicationBackfillId
+            self.results = results
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case endedAt = "endedAt"
+            case failureCode = "failureCode"
+            case nextToken = "nextToken"
+            case progress = "progress"
+            case registryId = "registryId"
+            case replicationBackfillId = "replicationBackfillId"
+            case results = "results"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
     public struct DescribeRepositoriesRequest: AWSEncodableShape {
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
         public let maxResults: Int?
@@ -2977,6 +3080,56 @@ extension ECR {
         }
     }
 
+    public struct ListReplicationBackfillsRequest: AWSEncodableShape {
+        /// The maximum number of replication backfill results returned by ListReplicationBackfills in paginated output. When this parameter is used, ListReplicationBackfills only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListReplicationBackfills request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListReplicationBackfills returns up to 25 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListReplicationBackfills request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// The Amazon Web Services account ID associated with the registry for which to list replication backfills. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct ListReplicationBackfillsResponse: AWSDecodableShape {
+        /// A list of the replication backfills for the registry.
+        public let backfills: [ReplicationBackfillSummary]?
+        /// The nextToken value to include in a future ListReplicationBackfills request. When the results of a ListReplicationBackfills request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+
+        @inlinable
+        public init(backfills: [ReplicationBackfillSummary]? = nil, nextToken: String? = nil, registryId: String? = nil) {
+            self.backfills = backfills
+            self.nextToken = nextToken
+            self.registryId = registryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backfills = "backfills"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -3620,6 +3773,100 @@ extension ECR {
         }
     }
 
+    public struct ReplicationBackfillProgress: AWSDecodableShape {
+        /// The number of replications that have completed successfully.
+        public let completedReplicationCount: Int
+        /// The number of replications that have failed.
+        public let failedReplicationCount: Int
+        /// The distinct failure codes for the replications that have failed. Each failure code appears at most once, regardless of how many replications failed with that code.
+        public let failureCodes: [String]
+        /// The total number of replications that the backfill will perform. Each image and tag combination is counted as a single replication.
+        public let totalReplicationCount: Int
+
+        @inlinable
+        public init(completedReplicationCount: Int, failedReplicationCount: Int, failureCodes: [String], totalReplicationCount: Int) {
+            self.completedReplicationCount = completedReplicationCount
+            self.failedReplicationCount = failedReplicationCount
+            self.failureCodes = failureCodes
+            self.totalReplicationCount = totalReplicationCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedReplicationCount = "completedReplicationCount"
+            case failedReplicationCount = "failedReplicationCount"
+            case failureCodes = "failureCodes"
+            case totalReplicationCount = "totalReplicationCount"
+        }
+    }
+
+    public struct ReplicationBackfillResult: AWSDecodableShape {
+        /// The failure code for a replication that has failed.
+        public let failureCode: String?
+        /// An object with identifying information for the image.
+        public let imageId: ImageIdentifier
+        /// The name of the repository that contains the image.
+        public let repositoryName: String
+        /// The replication status of the image.
+        public let status: ReplicationBackfillResultStatus
+        /// The distinct failure codes for the images referenced by a manifest list that failed to replicate. Each failure code appears at most once, regardless of how many referenced images failed with that code. This field is present only when the image is a manifest list.
+        public let subImageFailureCodes: [String]?
+
+        @inlinable
+        public init(failureCode: String? = nil, imageId: ImageIdentifier, repositoryName: String, status: ReplicationBackfillResultStatus, subImageFailureCodes: [String]? = nil) {
+            self.failureCode = failureCode
+            self.imageId = imageId
+            self.repositoryName = repositoryName
+            self.status = status
+            self.subImageFailureCodes = subImageFailureCodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "failureCode"
+            case imageId = "imageId"
+            case repositoryName = "repositoryName"
+            case status = "status"
+            case subImageFailureCodes = "subImageFailureCodes"
+        }
+    }
+
+    public struct ReplicationBackfillSummary: AWSDecodableShape {
+        /// The destination Region and registry to which the images are replicated.
+        public let destination: ReplicationDestination
+        /// The date and time, in JavaScript date format, when the replication backfill ended. This value is null while the replication backfill is still in progress.
+        public let endedAt: Date?
+        /// The failure code for a replication backfill that has failed.
+        public let failureCode: String?
+        /// The progress of the replication backfill, including the total, completed, and failed replication counts. This value is null until the replication backfill finishes preparing the set of images to replicate. It is therefore null while the replication backfill is PREPARING, and remains null if the replication backfill is stopped before preparation completes.
+        public let progress: ReplicationBackfillProgress?
+        /// The ID of the replication backfill.
+        public let replicationBackfillId: String
+        /// The date and time, in JavaScript date format, when the replication backfill was started.
+        public let startedAt: Date
+        /// The current status of the replication backfill.
+        public let status: ReplicationBackfillStatus
+
+        @inlinable
+        public init(destination: ReplicationDestination, endedAt: Date? = nil, failureCode: String? = nil, progress: ReplicationBackfillProgress? = nil, replicationBackfillId: String, startedAt: Date, status: ReplicationBackfillStatus) {
+            self.destination = destination
+            self.endedAt = endedAt
+            self.failureCode = failureCode
+            self.progress = progress
+            self.replicationBackfillId = replicationBackfillId
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case endedAt = "endedAt"
+            case failureCode = "failureCode"
+            case progress = "progress"
+            case replicationBackfillId = "replicationBackfillId"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
     public struct ReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An array of objects representing the replication destinations and repository filters for a replication configuration.
         public let rules: [ReplicationRule]
@@ -3708,7 +3955,7 @@ extension ECR {
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public let registryId: String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, and repository name. For example, arn:aws:ecr:region:012345678910:repository/repository-name.
         public let repositoryArn: String?
         /// The name of the repository.
         public let repositoryName: String?
@@ -4189,6 +4436,112 @@ extension ECR {
             case lifecyclePolicyText = "lifecyclePolicyText"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
+            case status = "status"
+        }
+    }
+
+    public struct StartReplicationBackfillRequest: AWSEncodableShape {
+        /// The destination Region and registry to which the images are replicated.
+        public let destination: ReplicationDestination
+        /// The Amazon Web Services account ID associated with the registry from which to start the replication backfill. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        @inlinable
+        public init(destination: ReplicationDestination, registryId: String? = nil) {
+            self.destination = destination
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case registryId = "registryId"
+        }
+    }
+
+    public struct StartReplicationBackfillResponse: AWSDecodableShape {
+        /// The destination Region and registry to which the images are replicated.
+        public let destination: ReplicationDestination?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The ID of the replication backfill that was started. Use this value to describe or stop the backfill.
+        public let replicationBackfillId: String?
+        /// The date and time, in JavaScript date format, when the replication backfill was started.
+        public let startedAt: Date?
+        /// The current status of the replication backfill. A newly started replication backfill is returned with a status of PREPARING.
+        public let status: ReplicationBackfillStatus?
+
+        @inlinable
+        public init(destination: ReplicationDestination? = nil, registryId: String? = nil, replicationBackfillId: String? = nil, startedAt: Date? = nil, status: ReplicationBackfillStatus? = nil) {
+            self.destination = destination
+            self.registryId = registryId
+            self.replicationBackfillId = replicationBackfillId
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case registryId = "registryId"
+            case replicationBackfillId = "replicationBackfillId"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
+    public struct StopReplicationBackfillRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID associated with the registry that contains the replication backfill to stop. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The ID of the replication backfill to stop.
+        public let replicationBackfillId: String
+
+        @inlinable
+        public init(registryId: String? = nil, replicationBackfillId: String) {
+            self.registryId = registryId
+            self.replicationBackfillId = replicationBackfillId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.replicationBackfillId, name: "replicationBackfillId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case replicationBackfillId = "replicationBackfillId"
+        }
+    }
+
+    public struct StopReplicationBackfillResponse: AWSDecodableShape {
+        /// The destination Region and registry to which the images are replicated.
+        public let destination: ReplicationDestination?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The ID of the replication backfill.
+        public let replicationBackfillId: String?
+        /// The date and time, in JavaScript date format, when the replication backfill was started.
+        public let startedAt: Date?
+        /// The current status of the replication backfill. When you stop a replication backfill, its status is STOPPED if the backfill is stopped immediately, or STOPPING if there are replications still in progress that must complete before the backfill stops.
+        public let status: ReplicationBackfillStatus?
+
+        @inlinable
+        public init(destination: ReplicationDestination? = nil, registryId: String? = nil, replicationBackfillId: String? = nil, startedAt: Date? = nil, status: ReplicationBackfillStatus? = nil) {
+            self.destination = destination
+            self.registryId = registryId
+            self.replicationBackfillId = replicationBackfillId
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case registryId = "registryId"
+            case replicationBackfillId = "replicationBackfillId"
+            case startedAt = "startedAt"
             case status = "status"
         }
     }
@@ -4716,6 +5069,9 @@ public struct ECRErrorType: AWSErrorType {
         case pullThroughCacheRuleNotFoundException = "PullThroughCacheRuleNotFoundException"
         case referencedImagesNotFoundException = "ReferencedImagesNotFoundException"
         case registryPolicyNotFoundException = "RegistryPolicyNotFoundException"
+        case replicationBackfillInProgressException = "ReplicationBackfillInProgressException"
+        case replicationBackfillInvalidStatusException = "ReplicationBackfillInvalidStatusException"
+        case replicationBackfillNotFoundException = "ReplicationBackfillNotFoundException"
         case repositoryAlreadyExistsException = "RepositoryAlreadyExistsException"
         case repositoryNotEmptyException = "RepositoryNotEmptyException"
         case repositoryNotFoundException = "RepositoryNotFoundException"
@@ -4810,6 +5166,12 @@ public struct ECRErrorType: AWSErrorType {
     public static var referencedImagesNotFoundException: Self { .init(.referencedImagesNotFoundException) }
     /// The registry doesn't have an associated registry policy.
     public static var registryPolicyNotFoundException: Self { .init(.registryPolicyNotFoundException) }
+    /// A replication backfill is already in progress for the specified destination Region. This occurs because only one replication backfill can be in progress for a given destination Region at a time. Wait for the in progress backfill to reach a terminal status, or stop it with the StopReplicationBackfill operation, before starting another one.
+    public static var replicationBackfillInProgressException: Self { .init(.replicationBackfillInProgressException) }
+    /// The requested operation can't be performed on the replication backfill because it is not in a valid status for that operation. For example, you can't stop a replication backfill that has already reached a terminal status. Use the DescribeReplicationBackfillResults operation to check the current status before retrying.
+    public static var replicationBackfillInvalidStatusException: Self { .init(.replicationBackfillInvalidStatusException) }
+    /// The specified replication backfill could not be found. Check the specified replication backfill ID and ensure that you are operating on the correct registry.
+    public static var replicationBackfillNotFoundException: Self { .init(.replicationBackfillNotFoundException) }
     /// The specified repository already exists in the specified registry.
     public static var repositoryAlreadyExistsException: Self { .init(.repositoryAlreadyExistsException) }
     /// The specified repository contains images. To delete a repository that contains images, you must force the deletion with the force parameter.

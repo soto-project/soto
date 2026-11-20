@@ -309,6 +309,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageValidationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customerManaged = "CUSTOMER_MANAGED"
+        case serviceManaged = "SERVICE_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InternetFallbackProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pcoip = "PCOIP"
         public var description: String { return self.rawValue }
@@ -344,11 +350,17 @@ extension WorkSpaces {
 
     public enum OperatingSystemName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux2 = "AMAZON_LINUX_2"
+        case rhel10 = "RHEL_10"
         case rhel8 = "RHEL_8"
+        case rhel9 = "RHEL_9"
+        case rocky10 = "ROCKY_10"
         case rocky8 = "ROCKY_8"
+        case rocky9 = "ROCKY_9"
         case ubuntu1804 = "UBUNTU_18_04"
         case ubuntu2004 = "UBUNTU_20_04"
         case ubuntu2204 = "UBUNTU_22_04"
+        case ubuntu2404 = "UBUNTU_24_04"
+        case ubuntu2604 = "UBUNTU_26_04"
         case unknown = "UNKNOWN"
         case windows10 = "WINDOWS_10"
         case windows11 = "WINDOWS_11"
@@ -4121,6 +4133,8 @@ extension WorkSpaces {
         public let imageName: String
         /// The options for image import source.
         public let imageSource: ImageSourceIdentifier
+        /// The image validation mode for the WorkSpace image import.
+        public let imageValidationMode: ImageValidationMode?
         /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
         public let infrastructureConfigurationArn: String
         /// The OS version for the WorkSpace image source.
@@ -4133,11 +4147,12 @@ extension WorkSpaces {
         public let tags: [Tag]?
 
         @inlinable
-        public init(computeType: ImageComputeType, imageDescription: String, imageName: String, imageSource: ImageSourceIdentifier, infrastructureConfigurationArn: String, osVersion: OSVersion, platform: Platform, protocol: CustomImageProtocol, tags: [Tag]? = nil) {
+        public init(computeType: ImageComputeType, imageDescription: String, imageName: String, imageSource: ImageSourceIdentifier, imageValidationMode: ImageValidationMode? = nil, infrastructureConfigurationArn: String, osVersion: OSVersion, platform: Platform, protocol: CustomImageProtocol, tags: [Tag]? = nil) {
             self.computeType = computeType
             self.imageDescription = imageDescription
             self.imageName = imageName
             self.imageSource = imageSource
+            self.imageValidationMode = imageValidationMode
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.osVersion = osVersion
             self.platform = platform
@@ -4166,6 +4181,7 @@ extension WorkSpaces {
             case imageDescription = "ImageDescription"
             case imageName = "ImageName"
             case imageSource = "ImageSource"
+            case imageValidationMode = "ImageValidationMode"
             case infrastructureConfigurationArn = "InfrastructureConfigurationArn"
             case osVersion = "OsVersion"
             case platform = "Platform"
@@ -6647,7 +6663,7 @@ extension WorkSpaces {
         public let nestedVirtualizationEnabled: Bool?
         /// The name of the operating system.
         public let operatingSystemName: OperatingSystemName?
-        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, Graphics.g6, and Graphics.g7).
+        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Make sure you specify PCOIP or WSP. To use DCV, specify WSP.   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, Graphics.g6, and Graphics.g7).
         public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?

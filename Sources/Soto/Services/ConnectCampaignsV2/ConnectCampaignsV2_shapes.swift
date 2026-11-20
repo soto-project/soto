@@ -543,6 +543,9 @@ extension ConnectCampaignsV2 {
         public let connectInstanceId: String
         public let entryLimitsConfig: EntryLimitsConfig?
         public let id: String
+        /// The timestamp of the most recent modification to the campaign or its configuration. Null for campaigns created before this field was introduced.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
         public let name: String
         public let schedule: Schedule?
         public let source: Source?
@@ -550,7 +553,7 @@ extension ConnectCampaignsV2 {
         public let type: ExternalCampaignType?
 
         @inlinable
-        public init(arn: String, channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, id: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
+        public init(arn: String, channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, id: String, lastModifiedTime: Date? = nil, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
             self.arn = arn
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
@@ -559,6 +562,7 @@ extension ConnectCampaignsV2 {
             self.connectInstanceId = connectInstanceId
             self.entryLimitsConfig = entryLimitsConfig
             self.id = id
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.schedule = schedule
             self.source = source
@@ -575,6 +579,7 @@ extension ConnectCampaignsV2 {
             case connectInstanceId = "connectInstanceId"
             case entryLimitsConfig = "entryLimitsConfig"
             case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case schedule = "schedule"
             case source = "source"
@@ -607,18 +612,22 @@ extension ConnectCampaignsV2 {
         public let connectInstanceId: String
         public let entryLimitsConfig: EntryLimitsConfig?
         public let id: String
+        /// The timestamp of the most recent modification to the campaign or its configuration. Null for campaigns created before this field was introduced.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
         public let name: String
         public let schedule: Schedule?
         public let type: ExternalCampaignType?
 
         @inlinable
-        public init(arn: String, channelSubtypes: [ChannelSubtype], connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, id: String, name: String, schedule: Schedule? = nil, type: ExternalCampaignType? = nil) {
+        public init(arn: String, channelSubtypes: [ChannelSubtype], connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, id: String, lastModifiedTime: Date? = nil, name: String, schedule: Schedule? = nil, type: ExternalCampaignType? = nil) {
             self.arn = arn
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
             self.entryLimitsConfig = entryLimitsConfig
             self.id = id
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.schedule = schedule
             self.type = type
@@ -631,6 +640,7 @@ extension ConnectCampaignsV2 {
             case connectInstanceId = "connectInstanceId"
             case entryLimitsConfig = "entryLimitsConfig"
             case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case schedule = "schedule"
             case type = "type"

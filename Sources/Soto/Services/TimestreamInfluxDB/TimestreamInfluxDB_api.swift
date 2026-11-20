@@ -137,9 +137,10 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - allocatedStorage: The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     ///   - bucket: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
     ///   - dbBackupConfigurations: A list of backup configurations to enable automated backups for the DB cluster.
-    ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on.
+    ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on. Optional when you define the cluster topology with deploymentConfiguration, because the instance type is then specified per node group.
     ///   - dbParameterGroupIdentifier: The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     ///   - dbStorageType: The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements:   Influx I/O Included 3000 IOPS   Influx I/O Included 12000 IOPS   Influx I/O Included 16000 IOPS
+    ///   - deploymentConfiguration: The compute topology for the cluster, defined as a set of node groups. Use deploymentConfiguration to allocate compute per function: ingest, query, compaction, and processing. A deployment configuration becomes the source of truth for the cluster's topology. Timestream for InfluxDB then ignores any node-count parameters in the associated DB parameter group.
     ///   - deploymentType: Specifies the type of cluster to create.
     ///   - failoverMode: Specifies the behavior of failure recovery when the primary node of the cluster fails.
     ///   - kmsKeyId: The Amazon Web Services KMS key identifier to use for encryption of the DB cluster. Can be a key ID, key ARN, alias name, or alias ARN.
@@ -161,9 +162,10 @@ public struct TimestreamInfluxDB: AWSService {
         allocatedStorage: Int? = nil,
         bucket: String? = nil,
         dbBackupConfigurations: [DbBackupConfiguration]? = nil,
-        dbInstanceType: DbInstanceType,
+        dbInstanceType: DbInstanceType? = nil,
         dbParameterGroupIdentifier: String? = nil,
         dbStorageType: DbStorageType? = nil,
+        deploymentConfiguration: DeploymentConfiguration? = nil,
         deploymentType: ClusterDeploymentType? = nil,
         failoverMode: FailoverMode? = nil,
         kmsKeyId: String? = nil,
@@ -188,6 +190,7 @@ public struct TimestreamInfluxDB: AWSService {
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
             dbStorageType: dbStorageType, 
+            deploymentConfiguration: deploymentConfiguration, 
             deploymentType: deploymentType, 
             failoverMode: failoverMode, 
             kmsKeyId: kmsKeyId, 
@@ -949,8 +952,9 @@ public struct TimestreamInfluxDB: AWSService {
     /// Parameters:
     ///   - dbBackupConfigurations: A list of backup configurations to update for the DB cluster.
     ///   - dbClusterId: Service-generated unique identifier of the DB cluster to update.
-    ///   - dbInstanceType: Update the DB cluster to use the specified DB instance Type.
+    ///   - dbInstanceType: Update the DB cluster to use the specified DB instance Type. You can't specify both dbInstanceType and deploymentConfiguration in the same request. When you use deploymentConfiguration, the instance type is specified per node group.
     ///   - dbParameterGroupIdentifier: Update the DB cluster to use the specified DB parameter group.
+    ///   - deploymentConfiguration: The updated compute topology for the cluster, defined as a set of node groups. Use deploymentConfiguration to change the cluster's topology or scale its compute in a single call. You can't specify both deploymentConfiguration and dbInstanceType in the same request. When you provide a deployment configuration, Timestream for InfluxDB ignores any node-count parameters in the associated DB parameter group.
     ///   - failoverMode: Update the DB cluster's failover behavior.
     ///   - logDeliveryConfiguration: The log delivery configuration to apply to the DB cluster.
     ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
@@ -962,6 +966,7 @@ public struct TimestreamInfluxDB: AWSService {
         dbClusterId: String,
         dbInstanceType: DbInstanceType? = nil,
         dbParameterGroupIdentifier: String? = nil,
+        deploymentConfiguration: DeploymentConfiguration? = nil,
         failoverMode: FailoverMode? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
         maintenanceSchedule: MaintenanceSchedule? = nil,
@@ -973,6 +978,7 @@ public struct TimestreamInfluxDB: AWSService {
             dbClusterId: dbClusterId, 
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
+            deploymentConfiguration: deploymentConfiguration, 
             failoverMode: failoverMode, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
             maintenanceSchedule: maintenanceSchedule, 
@@ -1041,7 +1047,7 @@ public struct TimestreamInfluxDB: AWSService {
 extension TimestreamInfluxDB {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: TimestreamInfluxDB, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

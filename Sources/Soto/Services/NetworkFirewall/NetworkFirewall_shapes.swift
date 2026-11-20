@@ -25,6 +25,14 @@ import Foundation
 extension NetworkFirewall {
     // MARK: Enums
 
+    public enum ActionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flow = "FLOW"
+        case hook = "HOOK"
+        case packet = "PACKET"
+        case tx = "TX"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -56,6 +64,19 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum DNSExpiryExceptionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `continue` = "CONTINUE"
+        case drop = "DROP"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DecryptionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bypass = "BYPASS"
+        case decrypt = "DECRYPT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnabledAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
@@ -65,6 +86,65 @@ extension NetworkFirewall {
     public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerKms = "CUSTOMER_KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallPolicyErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dnsFirewallRuleGroupUnavailable = "DNS_FIREWALL_RULE_GROUP_UNAVAILABLE"
+        case route53ResolvedIpValidationMissing = "ROUTE53_RESOLVED_IP_VALIDATION_MISSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallRuleAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accept = "ACCEPT"
+        case drop = "DROP"
+        case reject = "REJECT"
+        case rejectBoth = "REJECT_BOTH"
+        case rejectDst = "REJECT_DST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallRuleProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case any = "IP"
+        case bittorrentDht = "BITTORRENT_DHT"
+        case dcerpc = "DCERPC"
+        case dhcp = "DHCP"
+        case dnp3 = "DNP3"
+        case dns = "DNS"
+        case doh2 = "DOH2"
+        case ftp = "FTP"
+        case ftpData = "FTP_DATA"
+        case http = "HTTP"
+        case http2 = "HTTP2"
+        case icmp = "ICMP"
+        case icmpv4 = "ICMPV4"
+        case icmpv6 = "ICMPV6"
+        case ikev2 = "IKEV2"
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        case krb5 = "KRB5"
+        case ldap = "LDAP"
+        case mdns = "MDNS"
+        case mqtt = "MQTT"
+        case msn = "MSN"
+        case nfs = "NFS"
+        case ntp = "NTP"
+        case pgsql = "PGSQL"
+        case pop3 = "POP3"
+        case quic = "QUIC"
+        case rdp = "RDP"
+        case rfb = "RFB"
+        case sctp = "SCTP"
+        case smb = "SMB"
+        case smtp = "SMTP"
+        case snmp = "SNMP"
+        case ssh = "SSH"
+        case tcp = "TCP"
+        case telnet = "TELNET"
+        case tftp = "TFTP"
+        case tls = "TLS"
+        case udp = "UDP"
+        case websocket = "WEBSOCKET"
         public var description: String { return self.rawValue }
     }
 
@@ -95,6 +175,206 @@ extension NetworkFirewall {
         case allowlist = "ALLOWLIST"
         case denylist = "DENYLIST"
         case rejectlist = "REJECTLIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HookKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bittorrentDhtRequestComplete = "BITTORRENT_DHT_REQUEST_COMPLETE"
+        case bittorrentDhtRequestStarted = "BITTORRENT_DHT_REQUEST_STARTED"
+        case bittorrentDhtResponseComplete = "BITTORRENT_DHT_RESPONSE_COMPLETE"
+        case bittorrentDhtResponseStarted = "BITTORRENT_DHT_RESPONSE_STARTED"
+        case dcerpcRequestComplete = "DCERPC_REQUEST_COMPLETE"
+        case dcerpcRequestStarted = "DCERPC_REQUEST_STARTED"
+        case dcerpcResponseComplete = "DCERPC_RESPONSE_COMPLETE"
+        case dcerpcResponseStarted = "DCERPC_RESPONSE_STARTED"
+        case dhcpRequestComplete = "DHCP_REQUEST_COMPLETE"
+        case dhcpRequestStarted = "DHCP_REQUEST_STARTED"
+        case dhcpResponseComplete = "DHCP_RESPONSE_COMPLETE"
+        case dhcpResponseStarted = "DHCP_RESPONSE_STARTED"
+        case dnp3RequestComplete = "DNP3_REQUEST_COMPLETE"
+        case dnp3RequestStarted = "DNP3_REQUEST_STARTED"
+        case dnp3ResponseComplete = "DNP3_RESPONSE_COMPLETE"
+        case dnp3ResponseStarted = "DNP3_RESPONSE_STARTED"
+        case dnsRequestComplete = "DNS_REQUEST_COMPLETE"
+        case dnsRequestStarted = "DNS_REQUEST_STARTED"
+        case dnsResponseComplete = "DNS_RESPONSE_COMPLETE"
+        case dnsResponseStarted = "DNS_RESPONSE_STARTED"
+        case doh2GlobalRequestComplete = "DOH2_GLOBAL_REQUEST_COMPLETE"
+        case doh2GlobalRequestStarted = "DOH2_GLOBAL_REQUEST_STARTED"
+        case doh2GlobalResponseComplete = "DOH2_GLOBAL_RESPONSE_COMPLETE"
+        case doh2GlobalResponseStarted = "DOH2_GLOBAL_RESPONSE_STARTED"
+        case doh2StreamRequestClosed = "DOH2_STREAM_REQUEST_CLOSED"
+        case doh2StreamRequestComplete = "DOH2_STREAM_REQUEST_COMPLETE"
+        case doh2StreamRequestData = "DOH2_STREAM_REQUEST_DATA"
+        case doh2StreamRequestHeaders = "DOH2_STREAM_REQUEST_HEADERS"
+        case doh2StreamRequestStarted = "DOH2_STREAM_REQUEST_STARTED"
+        case doh2StreamResponseClosed = "DOH2_STREAM_RESPONSE_CLOSED"
+        case doh2StreamResponseComplete = "DOH2_STREAM_RESPONSE_COMPLETE"
+        case doh2StreamResponseData = "DOH2_STREAM_RESPONSE_DATA"
+        case doh2StreamResponseHeaders = "DOH2_STREAM_RESPONSE_HEADERS"
+        case doh2StreamResponseStarted = "DOH2_STREAM_RESPONSE_STARTED"
+        case ftpDataRequestComplete = "FTP_DATA_REQUEST_COMPLETE"
+        case ftpDataRequestStarted = "FTP_DATA_REQUEST_STARTED"
+        case ftpDataResponseComplete = "FTP_DATA_RESPONSE_COMPLETE"
+        case ftpDataResponseStarted = "FTP_DATA_RESPONSE_STARTED"
+        case ftpRequestComplete = "FTP_REQUEST_COMPLETE"
+        case ftpRequestStarted = "FTP_REQUEST_STARTED"
+        case ftpResponseComplete = "FTP_RESPONSE_COMPLETE"
+        case ftpResponseStarted = "FTP_RESPONSE_STARTED"
+        case http1RequestBody = "HTTP1_REQUEST_BODY"
+        case http1RequestComplete = "HTTP1_REQUEST_COMPLETE"
+        case http1RequestHeaders = "HTTP1_REQUEST_HEADERS"
+        case http1RequestLine = "HTTP1_REQUEST_LINE"
+        case http1RequestStarted = "HTTP1_REQUEST_STARTED"
+        case http1RequestTrailer = "HTTP1_REQUEST_TRAILER"
+        case http1ResponseBody = "HTTP1_RESPONSE_BODY"
+        case http1ResponseComplete = "HTTP1_RESPONSE_COMPLETE"
+        case http1ResponseHeaders = "HTTP1_RESPONSE_HEADERS"
+        case http1ResponseLine = "HTTP1_RESPONSE_LINE"
+        case http1ResponseStarted = "HTTP1_RESPONSE_STARTED"
+        case http1ResponseTrailer = "HTTP1_RESPONSE_TRAILER"
+        case http2GlobalRequestComplete = "HTTP2_GLOBAL_REQUEST_COMPLETE"
+        case http2GlobalRequestStarted = "HTTP2_GLOBAL_REQUEST_STARTED"
+        case http2GlobalResponseComplete = "HTTP2_GLOBAL_RESPONSE_COMPLETE"
+        case http2GlobalResponseStarted = "HTTP2_GLOBAL_RESPONSE_STARTED"
+        case http2StreamRequestClosed = "HTTP2_STREAM_REQUEST_CLOSED"
+        case http2StreamRequestComplete = "HTTP2_STREAM_REQUEST_COMPLETE"
+        case http2StreamRequestData = "HTTP2_STREAM_REQUEST_DATA"
+        case http2StreamRequestHeaders = "HTTP2_STREAM_REQUEST_HEADERS"
+        case http2StreamRequestStarted = "HTTP2_STREAM_REQUEST_STARTED"
+        case http2StreamResponseClosed = "HTTP2_STREAM_RESPONSE_CLOSED"
+        case http2StreamResponseComplete = "HTTP2_STREAM_RESPONSE_COMPLETE"
+        case http2StreamResponseData = "HTTP2_STREAM_RESPONSE_DATA"
+        case http2StreamResponseHeaders = "HTTP2_STREAM_RESPONSE_HEADERS"
+        case http2StreamResponseStarted = "HTTP2_STREAM_RESPONSE_STARTED"
+        case icmpAll = "ICMP_ALL"
+        case icmpFlowStart = "ICMP_FLOW_START"
+        case icmpPreFlow = "ICMP_PRE_FLOW"
+        case icmpPreStream = "ICMP_PRE_STREAM"
+        case icmpv4All = "ICMPV4_ALL"
+        case icmpv4FlowStart = "ICMPV4_FLOW_START"
+        case icmpv4PreFlow = "ICMPV4_PRE_FLOW"
+        case icmpv4PreStream = "ICMPV4_PRE_STREAM"
+        case icmpv6All = "ICMPV6_ALL"
+        case icmpv6FlowStart = "ICMPV6_FLOW_START"
+        case icmpv6PreFlow = "ICMPV6_PRE_FLOW"
+        case icmpv6PreStream = "ICMPV6_PRE_STREAM"
+        case ikeRequestComplete = "IKE_REQUEST_COMPLETE"
+        case ikeRequestStarted = "IKE_REQUEST_STARTED"
+        case ikeResponseComplete = "IKE_RESPONSE_COMPLETE"
+        case ikeResponseStarted = "IKE_RESPONSE_STARTED"
+        case ipAll = "IP_ALL"
+        case ipFlowStart = "IP_FLOW_START"
+        case ipPreFlow = "IP_PRE_FLOW"
+        case ipPreStream = "IP_PRE_STREAM"
+        case ipv4All = "IPV4_ALL"
+        case ipv4FlowStart = "IPV4_FLOW_START"
+        case ipv4PreFlow = "IPV4_PRE_FLOW"
+        case ipv4PreStream = "IPV4_PRE_STREAM"
+        case ipv6All = "IPV6_ALL"
+        case ipv6FlowStart = "IPV6_FLOW_START"
+        case ipv6PreFlow = "IPV6_PRE_FLOW"
+        case ipv6PreStream = "IPV6_PRE_STREAM"
+        case krb5RequestComplete = "KRB5_REQUEST_COMPLETE"
+        case krb5RequestStarted = "KRB5_REQUEST_STARTED"
+        case krb5ResponseComplete = "KRB5_RESPONSE_COMPLETE"
+        case krb5ResponseStarted = "KRB5_RESPONSE_STARTED"
+        case ldapRequestComplete = "LDAP_REQUEST_COMPLETE"
+        case ldapRequestStarted = "LDAP_REQUEST_STARTED"
+        case ldapResponseComplete = "LDAP_RESPONSE_COMPLETE"
+        case ldapResponseStarted = "LDAP_RESPONSE_STARTED"
+        case mdnsRequestComplete = "MDNS_REQUEST_COMPLETE"
+        case mdnsRequestStarted = "MDNS_REQUEST_STARTED"
+        case mdnsResponseComplete = "MDNS_RESPONSE_COMPLETE"
+        case mdnsResponseStarted = "MDNS_RESPONSE_STARTED"
+        case mqttRequestComplete = "MQTT_REQUEST_COMPLETE"
+        case mqttRequestStarted = "MQTT_REQUEST_STARTED"
+        case mqttResponseComplete = "MQTT_RESPONSE_COMPLETE"
+        case mqttResponseStarted = "MQTT_RESPONSE_STARTED"
+        case nfsRequestComplete = "NFS_REQUEST_COMPLETE"
+        case nfsRequestStarted = "NFS_REQUEST_STARTED"
+        case nfsResponseComplete = "NFS_RESPONSE_COMPLETE"
+        case nfsResponseStarted = "NFS_RESPONSE_STARTED"
+        case ntpRequestComplete = "NTP_REQUEST_COMPLETE"
+        case ntpRequestStarted = "NTP_REQUEST_STARTED"
+        case ntpResponseComplete = "NTP_RESPONSE_COMPLETE"
+        case ntpResponseStarted = "NTP_RESPONSE_STARTED"
+        case pgsqlRequestComplete = "PGSQL_REQUEST_COMPLETE"
+        case pgsqlRequestStarted = "PGSQL_REQUEST_STARTED"
+        case pgsqlResponseComplete = "PGSQL_RESPONSE_COMPLETE"
+        case pgsqlResponseStarted = "PGSQL_RESPONSE_STARTED"
+        case pop3RequestComplete = "POP3_REQUEST_COMPLETE"
+        case pop3RequestStarted = "POP3_REQUEST_STARTED"
+        case pop3ResponseComplete = "POP3_RESPONSE_COMPLETE"
+        case pop3ResponseStarted = "POP3_RESPONSE_STARTED"
+        case quicRequestComplete = "QUIC_REQUEST_COMPLETE"
+        case quicRequestStarted = "QUIC_REQUEST_STARTED"
+        case quicResponseComplete = "QUIC_RESPONSE_COMPLETE"
+        case quicResponseStarted = "QUIC_RESPONSE_STARTED"
+        case rdpRequestComplete = "RDP_REQUEST_COMPLETE"
+        case rdpRequestStarted = "RDP_REQUEST_STARTED"
+        case rdpResponseComplete = "RDP_RESPONSE_COMPLETE"
+        case rdpResponseStarted = "RDP_RESPONSE_STARTED"
+        case rfbRequestComplete = "RFB_REQUEST_COMPLETE"
+        case rfbRequestStarted = "RFB_REQUEST_STARTED"
+        case rfbResponseComplete = "RFB_RESPONSE_COMPLETE"
+        case rfbResponseStarted = "RFB_RESPONSE_STARTED"
+        case sctpAll = "SCTP_ALL"
+        case sctpFlowStart = "SCTP_FLOW_START"
+        case sctpPreFlow = "SCTP_PRE_FLOW"
+        case sctpPreStream = "SCTP_PRE_STREAM"
+        case smbRequestComplete = "SMB_REQUEST_COMPLETE"
+        case smbRequestStarted = "SMB_REQUEST_STARTED"
+        case smbResponseComplete = "SMB_RESPONSE_COMPLETE"
+        case smbResponseStarted = "SMB_RESPONSE_STARTED"
+        case smtpRequestComplete = "SMTP_REQUEST_COMPLETE"
+        case smtpRequestData = "SMTP_REQUEST_DATA"
+        case smtpRequestStarted = "SMTP_REQUEST_STARTED"
+        case smtpResponseComplete = "SMTP_RESPONSE_COMPLETE"
+        case smtpResponseData = "SMTP_RESPONSE_DATA"
+        case smtpResponseStarted = "SMTP_RESPONSE_STARTED"
+        case snmpRequestComplete = "SNMP_REQUEST_COMPLETE"
+        case snmpRequestStarted = "SNMP_REQUEST_STARTED"
+        case snmpResponseComplete = "SNMP_RESPONSE_COMPLETE"
+        case snmpResponseStarted = "SNMP_RESPONSE_STARTED"
+        case sshRequestBannerDone = "SSH_REQUEST_BANNER_DONE"
+        case sshRequestBannerWaitEol = "SSH_REQUEST_BANNER_WAIT_EOL"
+        case sshRequestFinished = "SSH_REQUEST_FINISHED"
+        case sshRequestInProgress = "SSH_REQUEST_IN_PROGRESS"
+        case sshResponseBannerDone = "SSH_RESPONSE_BANNER_DONE"
+        case sshResponseBannerWaitEol = "SSH_RESPONSE_BANNER_WAIT_EOL"
+        case sshResponseFinished = "SSH_RESPONSE_FINISHED"
+        case sshResponseInProgress = "SSH_RESPONSE_IN_PROGRESS"
+        case tcpAll = "TCP_ALL"
+        case tcpFlowStart = "TCP_FLOW_START"
+        case tcpPreFlow = "TCP_PRE_FLOW"
+        case tcpPreStream = "TCP_PRE_STREAM"
+        case telnetRequestComplete = "TELNET_REQUEST_COMPLETE"
+        case telnetRequestStarted = "TELNET_REQUEST_STARTED"
+        case telnetResponseComplete = "TELNET_RESPONSE_COMPLETE"
+        case telnetResponseStarted = "TELNET_RESPONSE_STARTED"
+        case tftpRequestComplete = "TFTP_REQUEST_COMPLETE"
+        case tftpRequestStarted = "TFTP_REQUEST_STARTED"
+        case tftpResponseComplete = "TFTP_RESPONSE_COMPLETE"
+        case tftpResponseStarted = "TFTP_RESPONSE_STARTED"
+        case tlsClientCert = "TLS_CLIENT_CERT"
+        case tlsClientData = "TLS_CLIENT_DATA"
+        case tlsClientFinished = "TLS_CLIENT_FINISHED"
+        case tlsClientHello = "TLS_CLIENT_HELLO"
+        case tlsClientStarted = "TLS_CLIENT_STARTED"
+        case tlsServerCert = "TLS_SERVER_CERT"
+        case tlsServerData = "TLS_SERVER_DATA"
+        case tlsServerFinished = "TLS_SERVER_FINISHED"
+        case tlsServerHello = "TLS_SERVER_HELLO"
+        case tlsServerStarted = "TLS_SERVER_STARTED"
+        case udpAll = "UDP_ALL"
+        case udpFlowStart = "UDP_FLOW_START"
+        case udpPreFlow = "UDP_PRE_FLOW"
+        case udpPreStream = "UDP_PRE_STREAM"
+        case websocketRequestComplete = "WEBSOCKET_REQUEST_COMPLETE"
+        case websocketRequestStarted = "WEBSOCKET_REQUEST_STARTED"
+        case websocketResponseComplete = "WEBSOCKET_RESPONSE_COMPLETE"
+        case websocketResponseStarted = "WEBSOCKET_RESPONSE_STARTED"
         public var description: String { return self.rawValue }
     }
 
@@ -154,17 +434,24 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum PolicyDefaultAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accept = "ACCEPT"
+        case alert = "ALERT"
+        case drop = "DROP"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enforce = "ENFORCE"
+        case monitor = "MONITOR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProxyModifyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case modifying = "MODIFYING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProxyRulePhaseAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alert = "ALERT"
-        case allow = "ALLOW"
-        case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
@@ -196,6 +483,7 @@ extension NetworkFirewall {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case error = "ERROR"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -206,14 +494,16 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
-    public enum RuleGroupRequestPhase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case postRes = "POST_RES"
-        case preDns = "PRE_DNS"
-        case preReq = "PRE_REQ"
+    public enum Route53ResolvedIPValidationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alert = "ALERT"
+        case drop = "DROP"
+        case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
     public enum RuleGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case firewall = "FIREWALL"
+        case ips = "IPS"
         case stateful = "STATEFUL"
         case statefulDomain = "STATEFUL_DOMAIN"
         case stateless = "STATELESS"
@@ -223,6 +513,12 @@ extension NetworkFirewall {
     public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultActionOrder = "DEFAULT_ACTION_ORDER"
         case strictOrder = "STRICT_ORDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleOutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case firewallRules = "FIREWALL_RULES"
+        case rulesString = "RULES_STRING"
         public var description: String { return self.rawValue }
     }
 
@@ -272,6 +568,12 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum StreamExceptionPolicyV2: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drop = "DROP"
+        case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notSubscribed = "NOT_SUBSCRIBED"
         case subscribed = "SUBSCRIBED"
@@ -297,7 +599,15 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum TLSInspectionScopeDeploymentMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case explicitProxyOnly = "EXPLICIT_PROXY_ONLY"
+        case transparentFirewallOnly = "TRANSPARENT_FIREWALL_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsRoute53ResolvedDomain = "AWS_ROUTE_53_RESOLVED_DOMAIN"
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
         public var description: String { return self.rawValue }
@@ -319,6 +629,12 @@ extension NetworkFirewall {
         case ready = "READY"
         case rejected = "REJECTED"
         case rejecting = "REJECTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransparentFilteringNatScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case natAll = "NAT_ALL"
+        case natNone = "NAT_NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -634,15 +950,18 @@ extension NetworkFirewall {
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
+        /// The NAT gateways that Network Firewall creates for the Availability Zones that you add to a proxy mode firewall. For a proxy mode firewall, you must specify one mapping for each Availability Zone in SubnetMappings, and no other Availability Zones. Each NAT gateway subnet must be in the firewall's VPC and can't be one of the firewall endpoint subnets. You can't specify this for a firewall that isn't a proxy mode firewall.
+        public let natGatewayCreateMappings: [NatGatewayCreateMapping]?
         /// The IDs of the subnets that you want to associate with the firewall.
         public let subnetMappings: [SubnetMapping]
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
         @inlinable
-        public init(firewallArn: String? = nil, firewallName: String? = nil, subnetMappings: [SubnetMapping], updateToken: String? = nil) {
+        public init(firewallArn: String? = nil, firewallName: String? = nil, natGatewayCreateMappings: [NatGatewayCreateMapping]? = nil, subnetMappings: [SubnetMapping], updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
+            self.natGatewayCreateMappings = natGatewayCreateMappings
             self.subnetMappings = subnetMappings
             self.updateToken = updateToken
         }
@@ -654,6 +973,11 @@ extension NetworkFirewall {
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.natGatewayCreateMappings?.forEach {
+                try $0.validate(name: "\(name).natGatewayCreateMappings[]")
+            }
+            try self.validate(self.natGatewayCreateMappings, name: "natGatewayCreateMappings", parent: name, max: 20)
+            try self.validate(self.natGatewayCreateMappings, name: "natGatewayCreateMappings", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -662,6 +986,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
+            case natGatewayCreateMappings = "NatGatewayCreateMappings"
             case subnetMappings = "SubnetMappings"
             case updateToken = "UpdateToken"
         }
@@ -693,67 +1018,8 @@ extension NetworkFirewall {
         }
     }
 
-    public struct AttachRuleGroupsToProxyConfigurationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-        /// The proxy rule group(s) to attach to the proxy configuration
-        public let ruleGroups: [ProxyRuleGroupAttachment]
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroups: [ProxyRuleGroupAttachment], updateToken: String) {
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.ruleGroups = ruleGroups
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.ruleGroups.forEach {
-                try $0.validate(name: "\(name).ruleGroups[]")
-            }
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case ruleGroups = "RuleGroups"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct AttachRuleGroupsToProxyConfigurationResponse: AWSDecodableShape {
-        /// The updated proxy configuration resource that reflects the updates from the request.
-        public let proxyConfiguration: ProxyConfiguration?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
-            self.proxyConfiguration = proxyConfiguration
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfiguration = "ProxyConfiguration"
-            case updateToken = "UpdateToken"
-        }
-    }
-
     public struct Attachment: AWSDecodableShape {
-        /// The DNS name that resolves to the firewall endpoint in the subnet. This is populated for proxy mode firewalls, where clients direct traffic to the firewall's proxy using this name.
+        /// The proxy DNS name of a proxy mode firewall. Your clients send proxy requests to the firewall at this name. It's your ProxySettings DomainName if you specified one, or a name that Network Firewall generates in the format proxy-id.nfw.region.amazonaws.com. The firewall has one proxy DNS name for every Availability Zone and VPC that it serves. In each Availability Zone, the name resolves to the firewall endpoint in that Availability Zone, so traffic stays in your client's Availability Zone. Your clients must use the VPC's Route 53 Resolver.
         public let dnsName: String?
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public let endpointId: String?
@@ -889,9 +1155,9 @@ extension NetworkFirewall {
     }
 
     public struct ContainerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The attribute key to filter on.
+        /// The attribute key to filter on. For Amazon EKS, specify namespace to filter by namespace, or specify a Kubernetes label key. For Amazon ECS, specify a container instance attribute name. Keys don't support wildcards. Valid characters are letters, numbers, spaces, hyphens (-), underscores (_), periods (.), forward slashes (/), and colons (:).
         public let key: String
-        /// The attribute value to match.
+        /// The attribute value to match. You can specify an exact value, such as payments-api, or a wildcard pattern, such as payments-*. Valid characters are letters, numbers, spaces, hyphens (-), underscores (_), periods (.), forward slashes (/), colons (:), asterisks (*), and backslashes (\). Network Firewall evaluates the value using the following rules:   An asterisk (*) matches zero or more characters. For example, payments-* matches payments-, payments-api, and payments-api-v2, and *-prod matches web-prod.   The pattern must match the entire value. For example, payments-* doesn't match my-payments-api. To match a value that contains payments anywhere, use *payments*.   Matching is case sensitive. For example, Payments-* doesn't match payments-api.   To match a literal asterisk, escape it with a backslash (\*). To match a literal backslash, use \\. A backslash followed by any other character matches a literal backslash followed by that character.   A wildcard pattern matches only containers that have the attribute. For example, a filter with key app and value * matches every container that has an app label, but doesn't match a container without an app label.   A value that doesn't contain * or \ matches only that exact value.   A value can contain at most 10 unescaped asterisks. Escaped asterisks (\*) don't count toward this limit. A value can't end with a single unescaped backslash.
         public let value: String
 
         @inlinable
@@ -916,7 +1182,7 @@ extension NetworkFirewall {
     }
 
     public struct ContainerMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only).
+        /// Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only). Attribute values can contain wildcard patterns, for example payments-*. Attribute keys must match exactly.
         public let attributeFilters: [ContainerAttribute]?
         /// The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association.
         public let clusterArn: String
@@ -1097,6 +1363,73 @@ extension NetworkFirewall {
         }
     }
 
+    public struct CreateFirewallPolicyV2Request: AWSEncodableShape {
+        /// A description of the firewall policy.
+        public let description: String?
+        /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
+        public let dryRun: Bool?
+        /// A complex type that contains settings for encryption of your firewall policy resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The rule groups and other settings that define the Next Generation policy.
+        public let firewallPolicyV2: FirewallPolicyV2
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
+        public let firewallPolicyV2Name: String
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyV2: FirewallPolicyV2, firewallPolicyV2Name: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.dryRun = dryRun
+            self.encryptionConfiguration = encryptionConfiguration
+            self.firewallPolicyV2 = firewallPolicyV2
+            self.firewallPolicyV2Name = firewallPolicyV2Name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.firewallPolicyV2.validate(name: "\(name).firewallPolicyV2")
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, max: 128)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case dryRun = "DryRun"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case firewallPolicyV2 = "FirewallPolicyV2"
+            case firewallPolicyV2Name = "FirewallPolicyV2Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFirewallPolicyV2Response: AWSDecodableShape {
+        /// The high-level properties of the Next Generation policy. This, along with the FirewallPolicyV2, define the policy. You can retrieve all objects for a Next Generation policy by calling DescribeFirewallPolicyV2.
+        public let firewallPolicyV2Response: FirewallPolicyV2Response
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(firewallPolicyV2Response: FirewallPolicyV2Response, updateToken: String) {
+            self.firewallPolicyV2Response = firewallPolicyV2Response
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPolicyV2Response = "FirewallPolicyV2Response"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct CreateFirewallRequest: AWSEncodableShape {
         /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using UpdateAvailabilityZoneChangeProtection. Default value: FALSE
         public let availabilityZoneChangeProtection: Bool?
@@ -1116,11 +1449,9 @@ extension NetworkFirewall {
         public let firewallPolicyArn: String
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool?
-        /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE. Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway.
-        public let natGatewayMappings: [NatGatewayMapping]?
-        /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE, the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source.  When you set this to TRUE, you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings.  You can't change this setting after you create the firewall.  Default value: FALSE
-        public let noSourcePreservation: Bool?
-        /// The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+        /// The NAT gateways that Network Firewall creates for a proxy mode firewall, one for each Availability Zone. When you specify this, you create a proxy mode firewall. Destinations see the IP address of the NAT gateway in the client's Availability Zone as the source of the traffic. Specify one mapping for each Availability Zone in VpcEndpoint, and no other Availability Zones. Each NAT gateway subnet must be in the VpcEndpoint VPC and can't be one of the firewall endpoint subnets. You need permission to call the Amazon EC2 CreateNatGateway action. If Network Firewall can't set up an Availability Zone, for example because Amazon EC2 rejects the NAT gateway, it removes the Availability Zone from the firewall. It also deletes the NAT gateway that it created there. The Availability Zone's Attachment status is FAILED, and its status message explains why. You can add the Availability Zone again with AssociateSubnets. If no Availability Zone can be set up, the firewall status is FAILED.
+        public let natGatewayCreateMappings: [NatGatewayCreateMapping]?
+        /// The proxy settings for a proxy mode firewall: the ports and protocols on which the firewall's proxy listens for traffic, and optionally your own domain name and certificate. If you don't specify listeners, the firewall listens for HTTP on port 3128 and HTTPS on port 8443. To change the listeners later, use UpdateProxySettings.
         public let proxySettings: ProxySettings?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool?
@@ -1130,13 +1461,15 @@ extension NetworkFirewall {
         public let tags: [Tag]?
         /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager.  After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall.  For information about creating firewalls, see CreateFirewall. For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide.
         public let transitGatewayId: String?
-        /// The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE. Network Firewall creates the firewall endpoint in the subnets that you specify here.  For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings.
+        /// How a proxy mode firewall handles traffic that isn't sent to its proxy listener. If you don't specify a value, the firewall uses NAT_ALL. You can choose from the following values:    NAT_ALL - After inspection, the firewall sends this traffic out through its NAT gateway, which translates the source address.    NAT_NONE - After inspection, the firewall returns this traffic to the firewall endpoint without address translation.   You can specify this only for a proxy mode firewall, and you can't change it after you create the firewall.
+        public let transparentFilteringNatScope: TransparentFilteringNatScope?
+        /// The VPC and subnets for the endpoints of a proxy mode firewall. Network Firewall creates a firewall endpoint in each subnet that you specify. It also creates the firewall's NAT gateways in this VPC, in the subnets that you specify in NatGatewayCreateMappings. To create a proxy mode firewall, you must specify VpcEndpoint and NatGatewayCreateMappings, and you must not specify the top-level VpcId and SubnetMappings. Specify one subnet for each Availability Zone where you want to use the firewall.
         public let vpcEndpoint: VpcEndpoint?
         /// The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, natGatewayMappings: [NatGatewayMapping]? = nil, noSourcePreservation: Bool? = nil, proxySettings: ProxySettings? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcId: String? = nil) {
+        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, natGatewayCreateMappings: [NatGatewayCreateMapping]? = nil, proxySettings: ProxySettings? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transparentFilteringNatScope: TransparentFilteringNatScope? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcId: String? = nil) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
             self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
@@ -1146,13 +1479,13 @@ extension NetworkFirewall {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
-            self.natGatewayMappings = natGatewayMappings
-            self.noSourcePreservation = noSourcePreservation
+            self.natGatewayCreateMappings = natGatewayCreateMappings
             self.proxySettings = proxySettings
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
             self.transitGatewayId = transitGatewayId
+            self.transparentFilteringNatScope = transparentFilteringNatScope
             self.vpcEndpoint = vpcEndpoint
             self.vpcId = vpcId
         }
@@ -1170,9 +1503,12 @@ extension NetworkFirewall {
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws")
-            try self.natGatewayMappings?.forEach {
-                try $0.validate(name: "\(name).natGatewayMappings[]")
+            try self.natGatewayCreateMappings?.forEach {
+                try $0.validate(name: "\(name).natGatewayCreateMappings[]")
             }
+            try self.validate(self.natGatewayCreateMappings, name: "natGatewayCreateMappings", parent: name, max: 20)
+            try self.validate(self.natGatewayCreateMappings, name: "natGatewayCreateMappings", parent: name, min: 1)
+            try self.proxySettings?.validate(name: "\(name).proxySettings")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1197,13 +1533,13 @@ extension NetworkFirewall {
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
-            case natGatewayMappings = "NatGatewayMappings"
-            case noSourcePreservation = "NoSourcePreservation"
+            case natGatewayCreateMappings = "NatGatewayCreateMappings"
             case proxySettings = "ProxySettings"
             case subnetChangeProtection = "SubnetChangeProtection"
             case subnetMappings = "SubnetMappings"
             case tags = "Tags"
             case transitGatewayId = "TransitGatewayId"
+            case transparentFilteringNatScope = "TransparentFilteringNatScope"
             case vpcEndpoint = "VpcEndpoint"
             case vpcId = "VpcId"
         }
@@ -1227,343 +1563,6 @@ extension NetworkFirewall {
         }
     }
 
-    public struct CreateProxyConfigurationRequest: AWSEncodableShape {
-        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-        public let defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest
-        /// A description of the proxy configuration.
-        public let description: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public let proxyConfigurationName: String
-        /// The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
-        public let ruleGroupArns: [String]?
-        /// The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
-        public let ruleGroupNames: [String]?
-        /// The key:value pairs to associate with the resource.
-        public let tags: [Tag]?
-
-        @inlinable
-        public init(defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest, description: String? = nil, proxyConfigurationName: String, ruleGroupArns: [String]? = nil, ruleGroupNames: [String]? = nil, tags: [Tag]? = nil) {
-            self.defaultRulePhaseActions = defaultRulePhaseActions
-            self.description = description
-            self.proxyConfigurationName = proxyConfigurationName
-            self.ruleGroupArns = ruleGroupArns
-            self.ruleGroupNames = ruleGroupNames
-            self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.ruleGroupArns?.forEach {
-                try validate($0, name: "ruleGroupArns[]", parent: name, max: 256)
-                try validate($0, name: "ruleGroupArns[]", parent: name, min: 1)
-                try validate($0, name: "ruleGroupArns[]", parent: name, pattern: "^arn:aws")
-            }
-            try self.ruleGroupNames?.forEach {
-                try validate($0, name: "ruleGroupNames[]", parent: name, max: 128)
-                try validate($0, name: "ruleGroupNames[]", parent: name, min: 1)
-                try validate($0, name: "ruleGroupNames[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            }
-            try self.tags?.forEach {
-                try $0.validate(name: "\(name).tags[]")
-            }
-            try self.validate(self.tags, name: "tags", parent: name, max: 200)
-            try self.validate(self.tags, name: "tags", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultRulePhaseActions = "DefaultRulePhaseActions"
-            case description = "Description"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case ruleGroupArns = "RuleGroupArns"
-            case ruleGroupNames = "RuleGroupNames"
-            case tags = "Tags"
-        }
-    }
-
-    public struct CreateProxyConfigurationResponse: AWSDecodableShape {
-        /// The properties that define the proxy configuration.
-        public let proxyConfiguration: ProxyConfiguration?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
-            self.proxyConfiguration = proxyConfiguration
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfiguration = "ProxyConfiguration"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct CreateProxyRequest: AWSEncodableShape {
-        /// Listener properties for HTTP and HTTPS traffic.
-        public let listenerProperties: [ListenerPropertyRequest]?
-        /// A unique identifier for the NAT gateway to use with proxy resources.
-        public let natGatewayId: String
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-        public let proxyName: String
-        /// The key:value pairs to associate with the resource.
-        public let tags: [Tag]?
-        /// TLS decryption on traffic to filter on attributes in the HTTP header.
-        public let tlsInterceptProperties: TlsInterceptPropertiesRequest
-
-        @inlinable
-        public init(listenerProperties: [ListenerPropertyRequest]? = nil, natGatewayId: String, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, proxyName: String, tags: [Tag]? = nil, tlsInterceptProperties: TlsInterceptPropertiesRequest) {
-            self.listenerProperties = listenerProperties
-            self.natGatewayId = natGatewayId
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.proxyName = proxyName
-            self.tags = tags
-            self.tlsInterceptProperties = tlsInterceptProperties
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.listenerProperties, name: "listenerProperties", parent: name, max: 2)
-            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.proxyName, name: "proxyName", parent: name, max: 128)
-            try self.validate(self.proxyName, name: "proxyName", parent: name, min: 1)
-            try self.validate(self.proxyName, name: "proxyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.tags?.forEach {
-                try $0.validate(name: "\(name).tags[]")
-            }
-            try self.validate(self.tags, name: "tags", parent: name, max: 200)
-            try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.tlsInterceptProperties.validate(name: "\(name).tlsInterceptProperties")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listenerProperties = "ListenerProperties"
-            case natGatewayId = "NatGatewayId"
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case proxyName = "ProxyName"
-            case tags = "Tags"
-            case tlsInterceptProperties = "TlsInterceptProperties"
-        }
-    }
-
-    public struct CreateProxyResponse: AWSDecodableShape {
-        /// Proxy attached to a NAT gateway.
-        public let proxy: Proxy?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxy: Proxy? = nil, updateToken: String? = nil) {
-            self.proxy = proxy
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxy = "Proxy"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct CreateProxyRule: AWSEncodableShape {
-        /// Action to take.
-        public let action: ProxyRulePhaseAction?
-        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-        public let conditions: [ProxyRuleCondition]?
-        /// A description of the proxy rule.
-        public let description: String?
-        /// Where to insert a proxy rule in a proxy rule group.
-        public let insertPosition: Int?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public let proxyRuleName: String?
-
-        @inlinable
-        public init(action: ProxyRulePhaseAction? = nil, conditions: [ProxyRuleCondition]? = nil, description: String? = nil, insertPosition: Int? = nil, proxyRuleName: String? = nil) {
-            self.action = action
-            self.conditions = conditions
-            self.description = description
-            self.insertPosition = insertPosition
-            self.proxyRuleName = proxyRuleName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case action = "Action"
-            case conditions = "Conditions"
-            case description = "Description"
-            case insertPosition = "InsertPosition"
-            case proxyRuleName = "ProxyRuleName"
-        }
-    }
-
-    public struct CreateProxyRuleGroupRequest: AWSEncodableShape {
-        /// A description of the proxy rule group.
-        public let description: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String
-        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-        public let rules: ProxyRulesByRequestPhase?
-        /// The key:value pairs to associate with the resource.
-        public let tags: [Tag]?
-
-        @inlinable
-        public init(description: String? = nil, proxyRuleGroupName: String, rules: ProxyRulesByRequestPhase? = nil, tags: [Tag]? = nil) {
-            self.description = description
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.rules = rules
-            self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.rules?.validate(name: "\(name).rules")
-            try self.tags?.forEach {
-                try $0.validate(name: "\(name).tags[]")
-            }
-            try self.validate(self.tags, name: "tags", parent: name, max: 200)
-            try self.validate(self.tags, name: "tags", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case rules = "Rules"
-            case tags = "Tags"
-        }
-    }
-
-    public struct CreateProxyRuleGroupResponse: AWSDecodableShape {
-        /// The properties that define the proxy rule group.
-        public let proxyRuleGroup: ProxyRuleGroup?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRuleGroup: ProxyRuleGroup? = nil, updateToken: String? = nil) {
-            self.proxyRuleGroup = proxyRuleGroup
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroup = "ProxyRuleGroup"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct CreateProxyRulesByRequestPhase: AWSEncodableShape {
-        /// After receiving response.
-        public let postRESPONSE: [CreateProxyRule]?
-        /// Before domain resolution.
-        public let preDNS: [CreateProxyRule]?
-        /// After DNS, before request.
-        public let preREQUEST: [CreateProxyRule]?
-
-        @inlinable
-        public init(postRESPONSE: [CreateProxyRule]? = nil, preDNS: [CreateProxyRule]? = nil, preREQUEST: [CreateProxyRule]? = nil) {
-            self.postRESPONSE = postRESPONSE
-            self.preDNS = preDNS
-            self.preREQUEST = preREQUEST
-        }
-
-        public func validate(name: String) throws {
-            try self.postRESPONSE?.forEach {
-                try $0.validate(name: "\(name).postRESPONSE[]")
-            }
-            try self.validate(self.postRESPONSE, name: "postRESPONSE", parent: name, max: 50)
-            try self.validate(self.postRESPONSE, name: "postRESPONSE", parent: name, min: 1)
-            try self.preDNS?.forEach {
-                try $0.validate(name: "\(name).preDNS[]")
-            }
-            try self.validate(self.preDNS, name: "preDNS", parent: name, max: 50)
-            try self.validate(self.preDNS, name: "preDNS", parent: name, min: 1)
-            try self.preREQUEST?.forEach {
-                try $0.validate(name: "\(name).preREQUEST[]")
-            }
-            try self.validate(self.preREQUEST, name: "preREQUEST", parent: name, max: 50)
-            try self.validate(self.preREQUEST, name: "preREQUEST", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case postRESPONSE = "PostRESPONSE"
-            case preDNS = "PreDNS"
-            case preREQUEST = "PreREQUEST"
-        }
-    }
-
-    public struct CreateProxyRulesRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-        public let rules: CreateProxyRulesByRequestPhase
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, rules: CreateProxyRulesByRequestPhase) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.rules = rules
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.rules.validate(name: "\(name).rules")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case rules = "Rules"
-        }
-    }
-
-    public struct CreateProxyRulesResponse: AWSDecodableShape {
-        /// The properties that define the proxy rule group with the newly created proxy rule(s).
-        public let proxyRuleGroup: ProxyRuleGroup?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRuleGroup: ProxyRuleGroup? = nil, updateToken: String? = nil) {
-            self.proxyRuleGroup = proxyRuleGroup
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroup = "ProxyRuleGroup"
-            case updateToken = "UpdateToken"
-        }
-    }
-
     public struct CreateRuleGroupRequest: AWSEncodableShape {
         /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then creates the rule group for you. To run the stateless rule group analyzer without creating the rule group, set DryRun to TRUE.
         public let analyzeRuleGroup: Bool?
@@ -1575,6 +1574,10 @@ extension NetworkFirewall {
         public let dryRun: Bool?
         /// A complex type that contains settings for encryption of your rule group resources.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// An object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+        public let firewallRuleGroup: FirewallRuleGroup?
+        /// An object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
+        public let ipsRuleGroup: IpsRuleGroup?
         /// An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
         public let ruleGroup: RuleGroup?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
@@ -1589,17 +1592,18 @@ extension NetworkFirewall {
         public let summaryConfiguration: SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.
         public let type: RuleGroupType
 
         @inlinable
-        public init(analyzeRuleGroup: Bool? = nil, capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
+        public init(analyzeRuleGroup: Bool? = nil, capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallRuleGroup: FirewallRuleGroup? = nil, ipsRuleGroup: IpsRuleGroup? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.capacity = capacity
             self.description = description
             self.dryRun = dryRun
             self.encryptionConfiguration = encryptionConfiguration
+            self.firewallRuleGroup = firewallRuleGroup
+            self.ipsRuleGroup = ipsRuleGroup
             self.ruleGroup = ruleGroup
             self.ruleGroupName = ruleGroupName
             self.rules = rules
@@ -1613,6 +1617,8 @@ extension NetworkFirewall {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.firewallRuleGroup?.validate(name: "\(name).firewallRuleGroup")
+            try self.ipsRuleGroup?.validate(name: "\(name).ipsRuleGroup")
             try self.ruleGroup?.validate(name: "\(name).ruleGroup")
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
@@ -1632,6 +1638,8 @@ extension NetworkFirewall {
             case description = "Description"
             case dryRun = "DryRun"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case firewallRuleGroup = "FirewallRuleGroup"
+            case ipsRuleGroup = "IpsRuleGroup"
             case ruleGroup = "RuleGroup"
             case ruleGroupName = "RuleGroupName"
             case rules = "Rules"
@@ -1902,14 +1910,58 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DeleteFirewallPolicyV2Request: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+        public let firewallPolicyV2Arn: String?
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallPolicyV2Name: String?
+
+        @inlinable
+        public init(firewallPolicyV2Arn: String? = nil, firewallPolicyV2Name: String? = nil) {
+            self.firewallPolicyV2Arn = firewallPolicyV2Arn
+            self.firewallPolicyV2Name = firewallPolicyV2Name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, max: 256)
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, max: 128)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPolicyV2Arn = "FirewallPolicyV2Arn"
+            case firewallPolicyV2Name = "FirewallPolicyV2Name"
+        }
+    }
+
+    public struct DeleteFirewallPolicyV2Response: AWSDecodableShape {
+        /// The high-level properties of the Next Generation policy that you asked to delete.
+        public let firewallPolicyV2Response: FirewallPolicyV2Response
+
+        @inlinable
+        public init(firewallPolicyV2Response: FirewallPolicyV2Response) {
+            self.firewallPolicyV2Response = firewallPolicyV2Response
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPolicyV2Response = "FirewallPolicyV2Response"
+        }
+    }
+
     public struct DeleteFirewallRequest: AWSEncodableShape {
+        /// Specifies whether to delete the NAT gateways that Network Firewall created for a proxy mode firewall when you delete the firewall. You can choose from the following values:    FALSE - Network Firewall detaches the NAT gateways from the firewall and keeps them. This is the default.    TRUE - Network Firewall also deletes the NAT gateways. The firewall status stays DELETING until they're deleted. You need permission to call the Amazon EC2 DeleteNatGateway action.   You can't specify TRUE for a firewall that isn't a proxy mode firewall.
+        public let deleteAssociatedNatGateways: Bool?
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
         @inlinable
-        public init(firewallArn: String? = nil, firewallName: String? = nil) {
+        public init(deleteAssociatedNatGateways: Bool? = nil, firewallArn: String? = nil, firewallName: String? = nil) {
+            self.deleteAssociatedNatGateways = deleteAssociatedNatGateways
             self.firewallArn = firewallArn
             self.firewallName = firewallName
         }
@@ -1924,6 +1976,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteAssociatedNatGateways = "DeleteAssociatedNatGateways"
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
         }
@@ -1983,51 +2036,6 @@ extension NetworkFirewall {
         }
     }
 
-    public struct DeleteProxyConfigurationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-
-        @inlinable
-        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil) {
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-        }
-    }
-
-    public struct DeleteProxyConfigurationResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public let proxyConfigurationName: String?
-
-        @inlinable
-        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil) {
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-        }
-    }
-
     public struct DeleteProxyRequest: AWSEncodableShape {
         /// The NAT Gateway the proxy is attached to.
         public let natGatewayId: String
@@ -2082,101 +2090,6 @@ extension NetworkFirewall {
         }
     }
 
-    public struct DeleteProxyRuleGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-        }
-    }
-
-    public struct DeleteProxyRuleGroupResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-        }
-    }
-
-    public struct DeleteProxyRulesRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-        /// The proxy rule(s) to remove from the existing proxy rule group.
-        public let rules: [String]
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, rules: [String]) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.rules = rules
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.rules.forEach {
-                try validate($0, name: "rules[]", parent: name, max: 128)
-                try validate($0, name: "rules[]", parent: name, min: 1)
-                try validate($0, name: "rules[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case rules = "Rules"
-        }
-    }
-
-    public struct DeleteProxyRulesResponse: AWSDecodableShape {
-        /// The properties that define the proxy rule group with the newly created proxy rule(s).
-        public let proxyRuleGroup: ProxyRuleGroup?
-
-        @inlinable
-        public init(proxyRuleGroup: ProxyRuleGroup? = nil) {
-            self.proxyRuleGroup = proxyRuleGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroup = "ProxyRuleGroup"
-        }
-    }
-
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete.
         public let resourceArn: String
@@ -2206,8 +2119,7 @@ extension NetworkFirewall {
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         @inlinable
@@ -2507,6 +2419,59 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeFirewallPolicyV2Request: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+        public let firewallPolicyV2Arn: String?
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallPolicyV2Name: String?
+        /// The format in which to return the rules of any firewall engine rule groups that are embedded in the policy. Specify FIREWALL_RULES for structured FirewallRule objects or RULES_STRING for a Suricata-compatible firewall-mode rule string. If you don't specify a format, Network Firewall returns each embedded rule group in the format you provided it in. Referenced rule groups aren't affected.
+        public let ruleOutputFormat: RuleOutputFormat?
+
+        @inlinable
+        public init(firewallPolicyV2Arn: String? = nil, firewallPolicyV2Name: String? = nil, ruleOutputFormat: RuleOutputFormat? = nil) {
+            self.firewallPolicyV2Arn = firewallPolicyV2Arn
+            self.firewallPolicyV2Name = firewallPolicyV2Name
+            self.ruleOutputFormat = ruleOutputFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, max: 256)
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, max: 128)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPolicyV2Arn = "FirewallPolicyV2Arn"
+            case firewallPolicyV2Name = "FirewallPolicyV2Name"
+            case ruleOutputFormat = "RuleOutputFormat"
+        }
+    }
+
+    public struct DescribeFirewallPolicyV2Response: AWSDecodableShape {
+        /// The rule groups and other settings that define the specified Next Generation policy.
+        public let firewallPolicyV2: FirewallPolicyV2?
+        /// The high-level properties of the Next Generation policy. This, along with the FirewallPolicyV2, define the policy.
+        public let firewallPolicyV2Response: FirewallPolicyV2Response
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(firewallPolicyV2: FirewallPolicyV2? = nil, firewallPolicyV2Response: FirewallPolicyV2Response, updateToken: String) {
+            self.firewallPolicyV2 = firewallPolicyV2
+            self.firewallPolicyV2Response = firewallPolicyV2Response
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPolicyV2 = "FirewallPolicyV2"
+            case firewallPolicyV2Response = "FirewallPolicyV2Response"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct DescribeFirewallRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
@@ -2557,8 +2522,10 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFlowOperationRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
@@ -2569,8 +2536,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowOperationId: String, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
@@ -2594,6 +2562,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
             case vpcEndpointAssociationArn = "VpcEndpointAssociationArn"
@@ -2602,8 +2571,10 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFlowOperationResponse: AWSDecodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// Returns key information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation.
@@ -2625,8 +2596,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperation = flowOperation
             self.flowOperationId = flowOperationId
@@ -2640,6 +2612,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperation = "FlowOperation"
             case flowOperationId = "FlowOperationId"
@@ -2697,51 +2670,6 @@ extension NetworkFirewall {
             case enableMonitoringDashboard = "EnableMonitoringDashboard"
             case firewallArn = "FirewallArn"
             case loggingConfiguration = "LoggingConfiguration"
-        }
-    }
-
-    public struct DescribeProxyConfigurationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-
-        @inlinable
-        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil) {
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-        }
-    }
-
-    public struct DescribeProxyConfigurationResponse: AWSDecodableShape {
-        /// The configuration for the specified proxy configuration.
-        public let proxyConfiguration: ProxyConfiguration?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
-            self.proxyConfiguration = proxyConfiguration
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfiguration = "ProxyConfiguration"
-            case updateToken = "UpdateToken"
         }
     }
 
@@ -2868,103 +2796,6 @@ extension NetworkFirewall {
         }
     }
 
-    public struct DescribeProxyRuleGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-        }
-    }
-
-    public struct DescribeProxyRuleGroupResponse: AWSDecodableShape {
-        /// The configuration for the specified proxy rule group.
-        public let proxyRuleGroup: ProxyRuleGroup?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRuleGroup: ProxyRuleGroup? = nil, updateToken: String? = nil) {
-            self.proxyRuleGroup = proxyRuleGroup
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroup = "ProxyRuleGroup"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct DescribeProxyRuleRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public let proxyRuleName: String
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, proxyRuleName: String) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.proxyRuleName = proxyRuleName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case proxyRuleName = "ProxyRuleName"
-        }
-    }
-
-    public struct DescribeProxyRuleResponse: AWSDecodableShape {
-        /// The configuration for the specified proxy rule.
-        public let proxyRule: ProxyRule?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRule: ProxyRule? = nil, updateToken: String? = nil) {
-            self.proxyRule = proxyRule
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRule = "ProxyRule"
-            case updateToken = "UpdateToken"
-        }
-    }
-
     public struct DescribeResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to retrieve.
         public let resourceArn: String
@@ -3004,8 +2835,7 @@ extension NetworkFirewall {
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         @inlinable
@@ -3047,8 +2877,7 @@ extension NetworkFirewall {
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String
         public let statefulRuleOptions: StatefulRuleOptions?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
         /// The name of the Amazon Web Services Marketplace vendor that provides this rule group.
         public let vendorName: String?
@@ -3088,15 +2917,17 @@ extension NetworkFirewall {
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
+        /// For a firewall engine rule group, the format in which to return the rules. Specify one of the following values:    FIREWALL_RULES - Returns the rules as structured FirewallRule objects.    RULES_STRING - Returns the rules as a Suricata-compatible firewall-mode rule string.   If you don't specify a format, Network Firewall returns the rules in the format you provided them in. This setting applies only to FIREWALL and IPS rule groups; IPS engine rule groups support only RULES_STRING.
+        public let ruleOutputFormat: RuleOutputFormat?
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         @inlinable
-        public init(analyzeRuleGroup: Bool? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
+        public init(analyzeRuleGroup: Bool? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, ruleOutputFormat: RuleOutputFormat? = nil, type: RuleGroupType? = nil) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
+            self.ruleOutputFormat = ruleOutputFormat
             self.type = type
         }
 
@@ -3113,11 +2944,16 @@ extension NetworkFirewall {
             case analyzeRuleGroup = "AnalyzeRuleGroup"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupName = "RuleGroupName"
+            case ruleOutputFormat = "RuleOutputFormat"
             case type = "Type"
         }
     }
 
     public struct DescribeRuleGroupResponse: AWSDecodableShape {
+        /// The object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+        public let firewallRuleGroup: FirewallRuleGroup?
+        /// The object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
+        public let ipsRuleGroup: IpsRuleGroup?
         /// The object that defines the rules in a rule group. This, along with RuleGroupResponse, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.  Network Firewall uses a rule group to inspect and control network traffic. You define stateless rule groups to inspect individual packets and you define stateful rule groups to inspect packets in the context of their traffic flow.  To use a rule group, you include it by reference in an Network Firewall firewall policy, then you use the policy in a firewall. You can reference a rule group from more than one firewall policy, and you can use a firewall policy in more than one firewall.
         public let ruleGroup: RuleGroup?
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
@@ -3126,13 +2962,17 @@ extension NetworkFirewall {
         public let updateToken: String
 
         @inlinable
-        public init(ruleGroup: RuleGroup? = nil, ruleGroupResponse: RuleGroupResponse, updateToken: String) {
+        public init(firewallRuleGroup: FirewallRuleGroup? = nil, ipsRuleGroup: IpsRuleGroup? = nil, ruleGroup: RuleGroup? = nil, ruleGroupResponse: RuleGroupResponse, updateToken: String) {
+            self.firewallRuleGroup = firewallRuleGroup
+            self.ipsRuleGroup = ipsRuleGroup
             self.ruleGroup = ruleGroup
             self.ruleGroupResponse = ruleGroupResponse
             self.updateToken = updateToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroup = "FirewallRuleGroup"
+            case ipsRuleGroup = "IpsRuleGroup"
             case ruleGroup = "RuleGroup"
             case ruleGroupResponse = "RuleGroupResponse"
             case updateToken = "UpdateToken"
@@ -3278,76 +3118,6 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case vpcEndpointAssociation = "VpcEndpointAssociation"
             case vpcEndpointAssociationStatus = "VpcEndpointAssociationStatus"
-        }
-    }
-
-    public struct DetachRuleGroupsFromProxyConfigurationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-        /// The proxy rule group arns to detach from the proxy configuration
-        public let ruleGroupArns: [String]?
-        /// The proxy rule group names to detach from the proxy configuration
-        public let ruleGroupNames: [String]?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroupArns: [String]? = nil, ruleGroupNames: [String]? = nil, updateToken: String) {
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.ruleGroupArns = ruleGroupArns
-            self.ruleGroupNames = ruleGroupNames
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.ruleGroupArns?.forEach {
-                try validate($0, name: "ruleGroupArns[]", parent: name, max: 256)
-                try validate($0, name: "ruleGroupArns[]", parent: name, min: 1)
-                try validate($0, name: "ruleGroupArns[]", parent: name, pattern: "^arn:aws")
-            }
-            try self.ruleGroupNames?.forEach {
-                try validate($0, name: "ruleGroupNames[]", parent: name, max: 128)
-                try validate($0, name: "ruleGroupNames[]", parent: name, min: 1)
-                try validate($0, name: "ruleGroupNames[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            }
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case ruleGroupArns = "RuleGroupArns"
-            case ruleGroupNames = "RuleGroupNames"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct DetachRuleGroupsFromProxyConfigurationResponse: AWSDecodableShape {
-        /// The updated proxy configuration resource that reflects the updates from the request.
-        public let proxyConfiguration: ProxyConfiguration?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
-            self.proxyConfiguration = proxyConfiguration
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfiguration = "ProxyConfiguration"
-            case updateToken = "UpdateToken"
         }
     }
 
@@ -3507,6 +3277,29 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DomainMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The domains to match. You can specify an exact domain, such as example.com, or a domain with a single leading wildcard label, such as *.example.com. You can specify from 1 to 50 domains, and each domain can be up to 255 characters long.
+        public let domains: [String]
+
+        @inlinable
+        public init(domains: [String]) {
+            self.domains = domains
+        }
+
+        public func validate(name: String) throws {
+            try self.domains.forEach {
+                try validate($0, name: "domains[]", parent: name, max: 255)
+                try validate($0, name: "domains[]", parent: name, min: 1)
+            }
+            try self.validate(self.domains, name: "domains", parent: name, max: 50)
+            try self.validate(self.domains, name: "domains", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+        }
+    }
+
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the Amazon Web Services Key Management Service (KMS) customer managed key. You can use any of the key identifiers that KMS supports, unless you're using a key that's managed by another account. If you're using a key managed by another account, then specify the key ARN. For more information, see Key ID in the Amazon Web Services KMS Developer Guide.
         public let keyId: String?
@@ -3554,13 +3347,11 @@ extension NetworkFirewall {
         public let firewallPolicyArn: String
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool?
-        /// The NAT gateways that the firewall uses to proxy traffic. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
-        public let natGatewayMappings: [NatGatewayMapping]?
-        /// Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When this value is TRUE, the firewall proxies traffic through a NAT gateway and uses the NAT gateway's IP address as the source for traffic reaching the destination.
-        public let noSourcePreservation: Bool?
+        /// The NAT gateways that you specified for Network Firewall to create for a proxy mode firewall. To get the IDs and status of the NAT gateways that are attached to the firewall, see NatGatewayAttachments in the firewall's SyncStates.
+        public let natGatewayCreateMappings: [NatGatewayCreateMapping]?
         /// The number of VpcEndpointAssociation resources that use this firewall.
         public let numberOfAssociations: Int?
-        /// The listener configuration for the firewall's proxy. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        /// The proxy settings of a proxy mode firewall: its listeners and, if you specified them, your own CertificateArn and DomainName.
         public let proxySettings: ProxySettings?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool?
@@ -3571,13 +3362,15 @@ extension NetworkFirewall {
         public let transitGatewayId: String?
         /// The Amazon Web Services account ID that owns the transit gateway. This may be different from the firewall owner's account ID when using a shared transit gateway.
         public let transitGatewayOwnerAccountId: String?
-        /// The VPC and subnets for the firewall endpoint. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        /// How a proxy mode firewall handles traffic that isn't sent to its proxy listener. NAT_ALL sends this traffic out through the firewall's NAT gateway after inspection. NAT_NONE returns it to the firewall endpoint without address translation.
+        public let transparentFilteringNatScope: TransparentFilteringNatScope?
+        /// The VPC and subnets for the endpoints of a proxy mode firewall.
         public let vpcEndpoint: VpcEndpoint?
         /// The unique identifier of the VPC where the firewall is in use.
         public let vpcId: String
 
         @inlinable
-        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, natGatewayMappings: [NatGatewayMapping]? = nil, noSourcePreservation: Bool? = nil, numberOfAssociations: Int? = nil, proxySettings: ProxySettings? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayOwnerAccountId: String? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcId: String) {
+        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, natGatewayCreateMappings: [NatGatewayCreateMapping]? = nil, numberOfAssociations: Int? = nil, proxySettings: ProxySettings? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayOwnerAccountId: String? = nil, transparentFilteringNatScope: TransparentFilteringNatScope? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcId: String) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
             self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
@@ -3589,8 +3382,7 @@ extension NetworkFirewall {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
-            self.natGatewayMappings = natGatewayMappings
-            self.noSourcePreservation = noSourcePreservation
+            self.natGatewayCreateMappings = natGatewayCreateMappings
             self.numberOfAssociations = numberOfAssociations
             self.proxySettings = proxySettings
             self.subnetChangeProtection = subnetChangeProtection
@@ -3598,6 +3390,7 @@ extension NetworkFirewall {
             self.tags = tags
             self.transitGatewayId = transitGatewayId
             self.transitGatewayOwnerAccountId = transitGatewayOwnerAccountId
+            self.transparentFilteringNatScope = transparentFilteringNatScope
             self.vpcEndpoint = vpcEndpoint
             self.vpcId = vpcId
         }
@@ -3614,8 +3407,7 @@ extension NetworkFirewall {
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
-            case natGatewayMappings = "NatGatewayMappings"
-            case noSourcePreservation = "NoSourcePreservation"
+            case natGatewayCreateMappings = "NatGatewayCreateMappings"
             case numberOfAssociations = "NumberOfAssociations"
             case proxySettings = "ProxySettings"
             case subnetChangeProtection = "SubnetChangeProtection"
@@ -3623,6 +3415,7 @@ extension NetworkFirewall {
             case tags = "Tags"
             case transitGatewayId = "TransitGatewayId"
             case transitGatewayOwnerAccountId = "TransitGatewayOwnerAccountId"
+            case transparentFilteringNatScope = "TransparentFilteringNatScope"
             case vpcEndpoint = "VpcEndpoint"
             case vpcId = "VpcId"
         }
@@ -3655,6 +3448,8 @@ extension NetworkFirewall {
         public let enableTLSSessionHolding: Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public let policyVariables: PolicyVariables?
+        /// The settings that enable resolved IP validation for the policy. Resolved IP validation verifies that a connection's destination IP address is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. A VPC that's associated with the Route 53 Resolver DNS Firewall rule group that you specify must send the response. This checks how the destination IP address was obtained, instead of relying only on the domain that the client asserts in its TLS Server Name Indication (SNI) or HTTP Host header. For more information, see Route53ResolvedIPValidation.
+        public let route53ResolvedIPValidation: Route53ResolvedIPValidation?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   aws:drop_established_app_layer   aws:alert_established_app_layer   aws:drop_established_app_layer_to_server   aws:alert_established_app_layer_to_server   For more information, see Strict evaluation order in the Network Firewall Developer Guide.
         public let statefulDefaultActions: [String]?
         /// Additional options governing how Network Firewall handles stateful rules. The stateful rule groups that you use in your policy must have stateful rule options settings that are compatible with these settings.
@@ -3673,9 +3468,10 @@ extension NetworkFirewall {
         public let tlsInspectionConfigurationArn: String?
 
         @inlinable
-        public init(enableTLSSessionHolding: Bool? = nil, policyVariables: PolicyVariables? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
+        public init(enableTLSSessionHolding: Bool? = nil, policyVariables: PolicyVariables? = nil, route53ResolvedIPValidation: Route53ResolvedIPValidation? = nil, statefulDefaultActions: [String]? = nil, statefulEngineOptions: StatefulEngineOptions? = nil, statefulRuleGroupReferences: [StatefulRuleGroupReference]? = nil, statelessCustomActions: [CustomAction]? = nil, statelessDefaultActions: [String], statelessFragmentDefaultActions: [String], statelessRuleGroupReferences: [StatelessRuleGroupReference]? = nil, tlsInspectionConfigurationArn: String? = nil) {
             self.enableTLSSessionHolding = enableTLSSessionHolding
             self.policyVariables = policyVariables
+            self.route53ResolvedIPValidation = route53ResolvedIPValidation
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
@@ -3688,6 +3484,7 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.policyVariables?.validate(name: "\(name).policyVariables")
+            try self.route53ResolvedIPValidation?.validate(name: "\(name).route53ResolvedIPValidation")
             try self.statefulRuleGroupReferences?.forEach {
                 try $0.validate(name: "\(name).statefulRuleGroupReferences[]")
             }
@@ -3705,6 +3502,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case enableTLSSessionHolding = "EnableTLSSessionHolding"
             case policyVariables = "PolicyVariables"
+            case route53ResolvedIPValidation = "Route53ResolvedIPValidation"
             case statefulDefaultActions = "StatefulDefaultActions"
             case statefulEngineOptions = "StatefulEngineOptions"
             case statefulRuleGroupReferences = "StatefulRuleGroupReferences"
@@ -3713,6 +3511,28 @@ extension NetworkFirewall {
             case statelessFragmentDefaultActions = "StatelessFragmentDefaultActions"
             case statelessRuleGroupReferences = "StatelessRuleGroupReferences"
             case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        }
+    }
+
+    public struct FirewallPolicyError: AWSDecodableShape {
+        /// The error code identifies the type of error. Valid values are the following:    DNS_FIREWALL_RULE_GROUP_UNAVAILABLE – The Amazon Route 53 Resolver DNS Firewall rule group that resolved IP validation references is unavailable, for example, because it was deleted or is no longer accessible from your account. Update the rule group ID or remove the resolved IP validation configuration.    ROUTE53_RESOLVED_IP_VALIDATION_MISSING – An associated stateful rule group uses the aws_route_53_resolved_domain keyword, but the policy doesn't have resolved IP validation configured. The affected rules are inactive until you add resolved IP validation to the policy or remove the keyword rules.
+        public let code: FirewallPolicyErrorCode
+        /// A description of the error and how to resolve it.
+        public let message: String
+        /// The ID of the resource that the error relates to, when applicable. For example, for DNS_FIREWALL_RULE_GROUP_UNAVAILABLE this is the Amazon Route 53 Resolver DNS Firewall rule group ID.
+        public let resourceId: String?
+
+        @inlinable
+        public init(code: FirewallPolicyErrorCode, message: String, resourceId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -3745,6 +3565,8 @@ extension NetworkFirewall {
         public let description: String?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall policy.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// Any configuration errors that apply to the firewall policy. Network Firewall detects these errors asynchronously, after you create or update the policy, so an error can appear after the request that caused it has already succeeded. Each entry describes the problem and how to resolve it, and Network Firewall clears it automatically after you resolve the problem.
+        public let errors: [FirewallPolicyError]?
         /// The Amazon Resource Name (ARN) of the firewall policy.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
         public let firewallPolicyArn: String
         /// The unique identifier for the firewall policy.
@@ -3757,22 +3579,26 @@ extension NetworkFirewall {
         public let lastModifiedTime: Date?
         /// The number of firewalls that are associated with this firewall policy.
         public let numberOfAssociations: Int?
+        /// Additional detail about the firewall policy's current status, when applicable. For example, while an Amazon Route 53 Resolver DNS Firewall rule group change is in progress, the status is UPDATING and this message is "A DNS Firewall rule group change is in progress."
+        public let statusMessage: String?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
         @inlinable
-        public init(consumedStatefulDomainCapacity: Int? = nil, consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
+        public init(consumedStatefulDomainCapacity: Int? = nil, consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errors: [FirewallPolicyError]? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.consumedStatefulDomainCapacity = consumedStatefulDomainCapacity
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
+            self.errors = errors
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyId = firewallPolicyId
             self.firewallPolicyName = firewallPolicyName
             self.firewallPolicyStatus = firewallPolicyStatus
             self.lastModifiedTime = lastModifiedTime
             self.numberOfAssociations = numberOfAssociations
+            self.statusMessage = statusMessage
             self.tags = tags
         }
 
@@ -3782,13 +3608,324 @@ extension NetworkFirewall {
             case consumedStatelessRuleCapacity = "ConsumedStatelessRuleCapacity"
             case description = "Description"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case errors = "Errors"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyId = "FirewallPolicyId"
             case firewallPolicyName = "FirewallPolicyName"
             case firewallPolicyStatus = "FirewallPolicyStatus"
             case lastModifiedTime = "LastModifiedTime"
             case numberOfAssociations = "NumberOfAssociations"
+            case statusMessage = "StatusMessage"
             case tags = "Tags"
+        }
+    }
+
+    public struct FirewallPolicyV2: AWSEncodableShape & AWSDecodableShape {
+        /// The action that the firewall engine takes on traffic that doesn't match any firewall engine rule at a hook. The firewall engine is drop by default. You can set the default action to one of the following:    DROP - Block the traffic.    ACCEPT - Allow the traffic.    REJECT - Block the traffic and send a TCP reset packet back to the client.    ALERT - Allow the traffic and generate an alert log for the traffic that reaches the default action at every hook. This is distinct from setting the policy mode to MONITOR.   For more information, see Next Generation policies in the Network Firewall Developer Guide.
+        public let firewallDefaultAction: PolicyDefaultAction?
+        /// The firewall section of the policy—the rule groups that the firewall engine evaluates. Each entry references an existing firewall engine rule group or embeds a rule group directly in the policy, and each entry has a unique priority that sets its evaluation order within the section.
+        public let firewallRuleGroupEntries: [FirewallRuleGroupEntry]?
+        /// The IPS section of the policy—the rule groups that the IPS engine evaluates. Each entry references an existing IPS engine rule group or embeds a rule group directly in the policy. IPS section entries don't use a priority.
+        public let ipsRuleGroupEntries: [IpsRuleGroupEntry]?
+        /// Indicates whether the policy's engines enforce their verdicts or only report them. In ENFORCE mode, the firewall engine and IPS engine apply their verdicts to traffic. In MONITOR mode, the engines evaluate traffic and generate logs and metrics, but don't block traffic, so you can observe how a policy would behave before you enforce it. For more information, see Next Generation policies in the Network Firewall Developer Guide.
+        public let policyMode: PolicyMode?
+        /// Contains variables that you can use to override default Suricata settings in your Next Generation policy.
+        public let policyVariables: PolicyVariables?
+        /// The settings that enable resolved IP validation for the Next Generation policy. Resolved IP validation verifies that a connection's destination IP address is one that the Amazon Route 53 Resolver returned in a DNS response for a domain. A VPC that's associated with the Route 53 Resolver DNS Firewall rule group that you specify must send the response. This checks how the destination IP address was obtained, instead of relying only on the domain that the client asserts in its TLS Server Name Indication (SNI) or HTTP Host header. For more information, see Route53ResolvedIPValidation.
+        public let route53ResolvedIPValidation: Route53ResolvedIPValidation?
+        /// Additional options governing how the engines handle stateful traffic, such as the stream exception policy and flow timeouts.
+        public let statefulEngineOptions: StatefulEngineOptionsV2?
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration to use to decrypt traffic for inspection. Next Generation policies support session holding only. For more information, see Inspecting SSL/TLS traffic with TLS inspection configurations in the Network Firewall Developer Guide.
+        public let tlsInspectionConfigurationArn: String?
+
+        @inlinable
+        public init(firewallDefaultAction: PolicyDefaultAction? = nil, firewallRuleGroupEntries: [FirewallRuleGroupEntry]? = nil, ipsRuleGroupEntries: [IpsRuleGroupEntry]? = nil, policyMode: PolicyMode? = nil, policyVariables: PolicyVariables? = nil, route53ResolvedIPValidation: Route53ResolvedIPValidation? = nil, statefulEngineOptions: StatefulEngineOptionsV2? = nil, tlsInspectionConfigurationArn: String? = nil) {
+            self.firewallDefaultAction = firewallDefaultAction
+            self.firewallRuleGroupEntries = firewallRuleGroupEntries
+            self.ipsRuleGroupEntries = ipsRuleGroupEntries
+            self.policyMode = policyMode
+            self.policyVariables = policyVariables
+            self.route53ResolvedIPValidation = route53ResolvedIPValidation
+            self.statefulEngineOptions = statefulEngineOptions
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupEntries?.forEach {
+                try $0.validate(name: "\(name).firewallRuleGroupEntries[]")
+            }
+            try self.ipsRuleGroupEntries?.forEach {
+                try $0.validate(name: "\(name).ipsRuleGroupEntries[]")
+            }
+            try self.policyVariables?.validate(name: "\(name).policyVariables")
+            try self.route53ResolvedIPValidation?.validate(name: "\(name).route53ResolvedIPValidation")
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, max: 256)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, min: 1)
+            try self.validate(self.tlsInspectionConfigurationArn, name: "tlsInspectionConfigurationArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDefaultAction = "FirewallDefaultAction"
+            case firewallRuleGroupEntries = "FirewallRuleGroupEntries"
+            case ipsRuleGroupEntries = "IpsRuleGroupEntries"
+            case policyMode = "PolicyMode"
+            case policyVariables = "PolicyVariables"
+            case route53ResolvedIPValidation = "Route53ResolvedIPValidation"
+            case statefulEngineOptions = "StatefulEngineOptions"
+            case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        }
+    }
+
+    public struct FirewallPolicyV2Metadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Next Generation policy.
+        public let arn: String?
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct FirewallPolicyV2Response: AWSDecodableShape {
+        /// The number of firewall engine rule capacity units that the policy's firewall section currently consumes.
+        public let consumedFirewallRuleCapacity: Int?
+        /// The number of IPS domain list capacity units that the policy's IPS section currently consumes.
+        public let consumedIpsDomainCapacity: Int?
+        /// The number of IPS engine rule capacity units that the policy's IPS section currently consumes.
+        public let consumedIpsRuleCapacity: Int?
+        /// A description of the Next Generation policy.
+        public let description: String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your Next Generation policy.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// Any configuration errors that apply to the Next Generation policy. Network Firewall detects these errors asynchronously, after you create or update the policy, so an error can appear after the request that caused it has already succeeded. Each entry describes the problem and how to resolve it, and Network Firewall clears it automatically after you resolve the problem.
+        public let errors: [FirewallPolicyError]?
+        /// The Amazon Resource Name (ARN) of the Next Generation policy.
+        public let firewallPolicyV2Arn: String
+        /// The unique identifier of the Next Generation policy. Network Firewall assigns this identifier when you create the policy.
+        public let firewallPolicyV2Id: String
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it.
+        public let firewallPolicyV2Name: String
+        /// The current status of the Next Generation policy. A policy must be in the ACTIVE state before you can use it in a firewall.
+        public let firewallPolicyV2Status: ResourceStatus?
+        /// The last time that the Next Generation policy was changed.
+        public let lastModifiedTime: Date?
+        /// The number of firewalls that are associated with the Next Generation policy.
+        public let numberOfAssociations: Int?
+        /// Additional information about the current status of the Next Generation policy.
+        public let statusMessage: String?
+        /// The key-value tag pairs that are associated with the Next Generation policy.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(consumedFirewallRuleCapacity: Int? = nil, consumedIpsDomainCapacity: Int? = nil, consumedIpsRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errors: [FirewallPolicyError]? = nil, firewallPolicyV2Arn: String, firewallPolicyV2Id: String, firewallPolicyV2Name: String, firewallPolicyV2Status: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
+            self.consumedFirewallRuleCapacity = consumedFirewallRuleCapacity
+            self.consumedIpsDomainCapacity = consumedIpsDomainCapacity
+            self.consumedIpsRuleCapacity = consumedIpsRuleCapacity
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.errors = errors
+            self.firewallPolicyV2Arn = firewallPolicyV2Arn
+            self.firewallPolicyV2Id = firewallPolicyV2Id
+            self.firewallPolicyV2Name = firewallPolicyV2Name
+            self.firewallPolicyV2Status = firewallPolicyV2Status
+            self.lastModifiedTime = lastModifiedTime
+            self.numberOfAssociations = numberOfAssociations
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumedFirewallRuleCapacity = "ConsumedFirewallRuleCapacity"
+            case consumedIpsDomainCapacity = "ConsumedIpsDomainCapacity"
+            case consumedIpsRuleCapacity = "ConsumedIpsRuleCapacity"
+            case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case errors = "Errors"
+            case firewallPolicyV2Arn = "FirewallPolicyV2Arn"
+            case firewallPolicyV2Id = "FirewallPolicyV2Id"
+            case firewallPolicyV2Name = "FirewallPolicyV2Name"
+            case firewallPolicyV2Status = "FirewallPolicyV2Status"
+            case lastModifiedTime = "LastModifiedTime"
+            case numberOfAssociations = "NumberOfAssociations"
+            case statusMessage = "StatusMessage"
+            case tags = "Tags"
+        }
+    }
+
+    public struct FirewallRule: AWSEncodableShape & AWSDecodableShape {
+        /// Whether Network Firewall automatically accepts the earlier application-layer hooks that a connection must pass to reach this rule's hook. Because the firewall engine is drop by default, accepting prior hooks lets you author a single rule for the hook you care about, instead of also authoring a rule for each earlier hook. This setting accepts the earlier application-layer hooks only; it doesn't accept the TCP layer. For more information, see Rule groups for a firewall using a Next Generation policy in the Network Firewall Developer Guide.
+        public let acceptPriorHooks: Bool?
+        /// The action that the firewall engine takes on traffic that matches the rule. The firewall engine supports the following actions:    ACCEPT - Allow the traffic.    DROP - Block the traffic and discontinue inspection.    REJECT - Block the traffic and send a TCP reset packet back to the client.    REJECT_DST - Block the traffic and send a TCP reset packet to the destination.    REJECT_BOTH - Block the traffic and send a TCP reset packet to both the client and the destination.   You combine the action with an action scope, for example accept:flow. To send accepted traffic straight to its destination and skip the IPS engine, pair an accept action with the BypassIPSEnabled setting. For more information, see Rule groups for a firewall using a Next Generation policy in the Network Firewall Developer Guide.
+        public let action: FirewallRuleAction
+        /// The scope that controls how much of the matched traffic the action applies to. The valid scopes depend on the action: ACCEPT supports all four scopes, and DROP, REJECT, REJECT_DST, and REJECT_BOTH support only PACKET and FLOW.    PACKET - The current packet only.    HOOK - The current hook only. The firewall engine evaluates the connection again at the next hook.    TX - The current transaction. The firewall engine continues to evaluate later transactions on the connection.    FLOW - The entire connection. For an accept action, the connection skips the firewall engine's remaining hooks and advances to the IPS engine.   In a Suricata-compatible rule string, you write the scope in lowercase, for example accept:flow.
+        public let actionScope: ActionScope
+        /// Specifies whether the rule also generates an alert log for the traffic that it matches. Turning on alerting adds a secondary alert action to the rule, so that Network Firewall logs the match in addition to taking the rule's primary action.
+        public let alertEnabled: Bool?
+        /// Specifies whether an accepted connection bypasses the IPS engine. By default, traffic that the firewall engine accepts advances to the IPS engine for threat inspection. When you turn on this setting for an accept rule, the accepted traffic goes straight to its destination without IPS inspection. You can set the bypass only on accept rules, and it uses the same scope as the rule's accept action; only the flow and packet scopes support a bypass. For more information, see Rule groups for a firewall using a Next Generation policy in the Network Firewall Developer Guide.
+        public let bypassIPSEnabled: Bool?
+        /// The destination IP addresses and address ranges to inspect for, in CIDR notation. A firewall rule always compiles to a forward-direction rule, so you express inbound compared to outbound traffic through the source and destination addresses.
+        public let destIPs: String?
+        /// The destination ports to inspect for.
+        public let destPorts: String?
+        /// The connection-state hook at which the firewall engine evaluates the rule. The hook encodes both the protocol and the connection state, for example a TCP hook or a TLS client_hello hook. For the hooks that the firewall engine supports and how they map to the connection lifecycle, see Rule groups for a firewall using a Next Generation policy in the Network Firewall Developer Guide and the Suricata firewall mode documentation.
+        public let hook: HookKey
+        /// The protocol of the rule's hook. The protocol is derived from the hook and must match the hook's protocol prefix. Network Firewall rejects a rule whose protocol doesn't match its hook.
+        public let `protocol`: FirewallRuleProtocol
+        /// Optional metadata for the rule: whether the rule is enabled and a description. Metadata doesn't change how the rule matches or acts on traffic.
+        public let ruleMetadata: RuleMetadata?
+        /// Additional options for the rule. These are the Suricata RuleOptions settings, such as the signature ID (sid) and match keywords.
+        public let ruleOptions: [RuleOption]?
+        /// The source IP addresses and address ranges to inspect for, in CIDR notation. A firewall rule always compiles to a forward-direction rule, so you express inbound compared to outbound traffic through the source and destination addresses.
+        public let sourceIPs: String?
+        /// The source ports to inspect for.
+        public let sourcePorts: String?
+
+        @inlinable
+        public init(acceptPriorHooks: Bool? = nil, action: FirewallRuleAction, actionScope: ActionScope, alertEnabled: Bool? = nil, bypassIPSEnabled: Bool? = nil, destIPs: String? = nil, destPorts: String? = nil, hook: HookKey, protocol: FirewallRuleProtocol, ruleMetadata: RuleMetadata? = nil, ruleOptions: [RuleOption]? = nil, sourceIPs: String? = nil, sourcePorts: String? = nil) {
+            self.acceptPriorHooks = acceptPriorHooks
+            self.action = action
+            self.actionScope = actionScope
+            self.alertEnabled = alertEnabled
+            self.bypassIPSEnabled = bypassIPSEnabled
+            self.destIPs = destIPs
+            self.destPorts = destPorts
+            self.hook = hook
+            self.`protocol` = `protocol`
+            self.ruleMetadata = ruleMetadata
+            self.ruleOptions = ruleOptions
+            self.sourceIPs = sourceIPs
+            self.sourcePorts = sourcePorts
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destIPs, name: "destIPs", parent: name, max: 1024)
+            try self.validate(self.destIPs, name: "destIPs", parent: name, min: 1)
+            try self.validate(self.destIPs, name: "destIPs", parent: name, pattern: "^.*$")
+            try self.validate(self.destPorts, name: "destPorts", parent: name, max: 1024)
+            try self.validate(self.destPorts, name: "destPorts", parent: name, min: 1)
+            try self.validate(self.destPorts, name: "destPorts", parent: name, pattern: "^.*$")
+            try self.ruleMetadata?.validate(name: "\(name).ruleMetadata")
+            try self.ruleOptions?.forEach {
+                try $0.validate(name: "\(name).ruleOptions[]")
+            }
+            try self.validate(self.sourceIPs, name: "sourceIPs", parent: name, max: 1024)
+            try self.validate(self.sourceIPs, name: "sourceIPs", parent: name, min: 1)
+            try self.validate(self.sourceIPs, name: "sourceIPs", parent: name, pattern: "^.*$")
+            try self.validate(self.sourcePorts, name: "sourcePorts", parent: name, max: 1024)
+            try self.validate(self.sourcePorts, name: "sourcePorts", parent: name, min: 1)
+            try self.validate(self.sourcePorts, name: "sourcePorts", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptPriorHooks = "AcceptPriorHooks"
+            case action = "Action"
+            case actionScope = "ActionScope"
+            case alertEnabled = "AlertEnabled"
+            case bypassIPSEnabled = "BypassIPSEnabled"
+            case destIPs = "DestIPs"
+            case destPorts = "DestPorts"
+            case hook = "Hook"
+            case `protocol` = "Protocol"
+            case ruleMetadata = "RuleMetadata"
+            case ruleOptions = "RuleOptions"
+            case sourceIPs = "SourceIPs"
+            case sourcePorts = "SourcePorts"
+        }
+    }
+
+    public struct FirewallRuleGroup: AWSEncodableShape & AWSDecodableShape {
+        /// The list of a rule group's reference sets. Firewall engine rule groups don't support IP set references (reference sets); this setting applies to IPS engine rule groups. To use CIDR ranges in firewall engine rules, use rule variables instead.
+        public let referenceSets: ReferenceSets?
+        /// The stateful inspection criteria for the firewall engine rule group.
+        public let rulesSource: FirewallRulesSource
+        /// Settings that are available for use in the rules in the firewall engine rule group, such as IP set and port variables that the rules reference.
+        public let ruleVariables: RuleVariables?
+
+        @inlinable
+        public init(referenceSets: ReferenceSets? = nil, rulesSource: FirewallRulesSource, ruleVariables: RuleVariables? = nil) {
+            self.referenceSets = referenceSets
+            self.rulesSource = rulesSource
+            self.ruleVariables = ruleVariables
+        }
+
+        public func validate(name: String) throws {
+            try self.referenceSets?.validate(name: "\(name).referenceSets")
+            try self.rulesSource.validate(name: "\(name).rulesSource")
+            try self.ruleVariables?.validate(name: "\(name).ruleVariables")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceSets = "ReferenceSets"
+            case rulesSource = "RulesSource"
+            case ruleVariables = "RuleVariables"
+        }
+    }
+
+    public struct FirewallRuleGroupEntry: AWSEncodableShape & AWSDecodableShape {
+        /// A firewall engine rule group defined directly in the policy, instead of referenced by ARN. Provide either InlineRuleGroup to embed a rule group or ResourceArn to reference an existing rule group. An embedded rule group can't use a domain list rules source; to filter on a domain list, reference a standalone rule group by ARN instead.
+        public let inlineRuleGroup: FirewallRuleGroup?
+        /// The priority of the rule group entry within the firewall section. Network Firewall evaluates the firewall section's entries in order of increasing priority value. Each entry in the firewall section must have a unique priority.
+        public let priority: Int?
+        /// The Amazon Resource Name (ARN) of an existing firewall engine rule group to reference in this entry. Provide either ResourceArn to reference an existing rule group or InlineRuleGroup to embed a rule group in the policy.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(inlineRuleGroup: FirewallRuleGroup? = nil, priority: Int? = nil, resourceArn: String? = nil) {
+            self.inlineRuleGroup = inlineRuleGroup
+            self.priority = priority
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.inlineRuleGroup?.validate(name: "\(name).inlineRuleGroup")
+            try self.validate(self.priority, name: "priority", parent: name, max: 65535)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineRuleGroup = "InlineRuleGroup"
+            case priority = "Priority"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct FirewallRulesSource: AWSEncodableShape & AWSDecodableShape {
+        /// An array of individual firewall engine rules, provided as structured rules rather than as a rule string.
+        public let firewallRules: [FirewallRule]?
+        /// Stateful inspection criteria for a domain list, specified as the list of domain names that Network Firewall generates firewall engine rules from.
+        public let rulesSourceList: RulesSourceList?
+        /// Firewall engine rules, provided as a single Suricata-compatible rule string in firewall mode. Use this to provide rules that you've already written in the Suricata firewall-mode format. For the rule format, see Rule groups for a firewall using a Next Generation policy in the Network Firewall Developer Guide.
+        public let rulesString: String?
+
+        @inlinable
+        public init(firewallRules: [FirewallRule]? = nil, rulesSourceList: RulesSourceList? = nil, rulesString: String? = nil) {
+            self.firewallRules = firewallRules
+            self.rulesSourceList = rulesSourceList
+            self.rulesString = rulesString
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRules?.forEach {
+                try $0.validate(name: "\(name).firewallRules[]")
+            }
+            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 2000000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRules = "FirewallRules"
+            case rulesSourceList = "RulesSourceList"
+            case rulesString = "RulesString"
         }
     }
 
@@ -4168,6 +4305,95 @@ extension NetworkFirewall {
         }
     }
 
+    public struct IpsRuleGroup: AWSEncodableShape & AWSDecodableShape {
+        /// The list of a rule group's reference sets.
+        public let referenceSets: ReferenceSets?
+        /// The stateful inspection criteria for the IPS engine rule group.
+        public let rulesSource: IpsRulesSource
+        /// Settings that are available for use in the rules in the IPS engine rule group.
+        public let ruleVariables: RuleVariables?
+
+        @inlinable
+        public init(referenceSets: ReferenceSets? = nil, rulesSource: IpsRulesSource, ruleVariables: RuleVariables? = nil) {
+            self.referenceSets = referenceSets
+            self.rulesSource = rulesSource
+            self.ruleVariables = ruleVariables
+        }
+
+        public func validate(name: String) throws {
+            try self.referenceSets?.validate(name: "\(name).referenceSets")
+            try self.rulesSource.validate(name: "\(name).rulesSource")
+            try self.ruleVariables?.validate(name: "\(name).ruleVariables")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceSets = "ReferenceSets"
+            case rulesSource = "RulesSource"
+            case ruleVariables = "RuleVariables"
+        }
+    }
+
+    public struct IpsRuleGroupEntry: AWSEncodableShape & AWSDecodableShape {
+        /// An IPS engine rule group defined directly in the policy, instead of referenced by ARN. Provide either InlineRuleGroup to embed a rule group or ResourceArn to reference an existing rule group.
+        public let inlineRuleGroup: IpsRuleGroup?
+        /// The setting that allows the policy owner to change the behavior of the IPS engine rule group within this policy, such as changing a managed rule group's action from DROP to ALERT.
+        public let override: IpsRuleGroupOverride?
+        /// The Amazon Resource Name (ARN) of an existing IPS engine rule group to reference in this entry. Provide either ResourceArn to reference an existing rule group or InlineRuleGroup to embed a rule group in the policy.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(inlineRuleGroup: IpsRuleGroup? = nil, override: IpsRuleGroupOverride? = nil, resourceArn: String? = nil) {
+            self.inlineRuleGroup = inlineRuleGroup
+            self.override = override
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.inlineRuleGroup?.validate(name: "\(name).inlineRuleGroup")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineRuleGroup = "InlineRuleGroup"
+            case override = "Override"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct IpsRuleGroupOverride: AWSEncodableShape & AWSDecodableShape {
+        /// The action that changes the rule group from DROP to ALERT. This only applies to managed rule groups.
+        public let action: OverrideAction?
+
+        @inlinable
+        public init(action: OverrideAction? = nil) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
+    public struct IpsRulesSource: AWSEncodableShape & AWSDecodableShape {
+        /// IPS engine rules, provided as a single Suricata-compatible rule string. For the rule format, see Rules Format on the Suricata website.
+        public let rulesString: String?
+
+        @inlinable
+        public init(rulesString: String? = nil) {
+            self.rulesString = rulesString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 2000000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rulesString = "RulesString"
+        }
+    }
+
     public struct ListAnalysisReportsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
@@ -4314,6 +4540,50 @@ extension NetworkFirewall {
         }
     }
 
+    public struct ListFirewallPoliciesV2Request: AWSEncodableShape {
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallPoliciesV2Response: AWSDecodableShape {
+        /// The metadata for the Next Generation policies. Depending on your setting for max results and the number of firewall policies that you have, this might not be the full list.
+        public let firewallPoliciesV2: [FirewallPolicyV2Metadata]
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(firewallPoliciesV2: [FirewallPolicyV2Metadata], nextToken: String? = nil) {
+            self.firewallPoliciesV2 = firewallPoliciesV2
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPoliciesV2 = "FirewallPoliciesV2"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListFirewallsRequest: AWSEncodableShape {
         /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
@@ -4368,8 +4638,10 @@ extension NetworkFirewall {
     }
 
     public struct ListFlowOperationResultsRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
@@ -4384,8 +4656,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.maxResults = maxResults
@@ -4416,6 +4689,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
             case maxResults = "MaxResults"
@@ -4426,8 +4700,10 @@ extension NetworkFirewall {
     }
 
     public struct ListFlowOperationResultsResponse: AWSDecodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
@@ -4448,8 +4724,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationId = flowOperationId
             self.flowOperationStatus = flowOperationStatus
@@ -4463,6 +4740,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationId = "FlowOperationId"
             case flowOperationStatus = "FlowOperationStatus"
@@ -4476,8 +4754,10 @@ extension NetworkFirewall {
     }
 
     public struct ListFlowOperationsRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// An optional string that defines whether any or all operation types are returned.
@@ -4492,8 +4772,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowOperationType = flowOperationType
             self.maxResults = maxResults
@@ -4521,6 +4802,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowOperationType = "FlowOperationType"
             case maxResults = "MaxResults"
@@ -4546,138 +4828,6 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case flowOperations = "FlowOperations"
             case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListProxiesRequest: AWSEncodableShape {
-        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-        public let maxResults: Int?
-        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-        public let nextToken: String?
-
-        @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListProxiesResponse: AWSDecodableShape {
-        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-        public let nextToken: String?
-        /// The metadata for the proxies. Depending on your setting for max results and the number of proxies that you have, this might not be the full list.
-        public let proxies: [ProxyMetadata]?
-
-        @inlinable
-        public init(nextToken: String? = nil, proxies: [ProxyMetadata]? = nil) {
-            self.nextToken = nextToken
-            self.proxies = proxies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case proxies = "Proxies"
-        }
-    }
-
-    public struct ListProxyConfigurationsRequest: AWSEncodableShape {
-        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-        public let maxResults: Int?
-        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-        public let nextToken: String?
-
-        @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListProxyConfigurationsResponse: AWSDecodableShape {
-        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-        public let nextToken: String?
-        /// The metadata for the proxy configurations. Depending on your setting for max results and the number of proxy configurations that you have, this might not be the full list.
-        public let proxyConfigurations: [ProxyConfigurationMetadata]?
-
-        @inlinable
-        public init(nextToken: String? = nil, proxyConfigurations: [ProxyConfigurationMetadata]? = nil) {
-            self.nextToken = nextToken
-            self.proxyConfigurations = proxyConfigurations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case proxyConfigurations = "ProxyConfigurations"
-        }
-    }
-
-    public struct ListProxyRuleGroupsRequest: AWSEncodableShape {
-        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
-        public let maxResults: Int?
-        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-        public let nextToken: String?
-
-        @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
-    }
-
-    public struct ListProxyRuleGroupsResponse: AWSDecodableShape {
-        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
-        public let nextToken: String?
-        /// The metadata for the proxy rule groups. Depending on your setting for max results and the number of proxy rule groups that you have, this might not be the full list.
-        public let proxyRuleGroups: [ProxyRuleGroupMetadata]?
-
-        @inlinable
-        public init(nextToken: String? = nil, proxyRuleGroups: [ProxyRuleGroupMetadata]? = nil) {
-            self.nextToken = nextToken
-            self.proxyRuleGroups = proxyRuleGroups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case proxyRuleGroups = "ProxyRuleGroups"
         }
     }
 
@@ -4905,24 +5055,6 @@ extension NetworkFirewall {
         }
     }
 
-    public struct ListenerPropertyRequest: AWSEncodableShape {
-        /// Port for processing traffic.
-        public let port: Int
-        /// Selection of HTTP or HTTPS traffic.
-        public let type: ListenerPropertyType
-
-        @inlinable
-        public init(port: Int, type: ListenerPropertyType) {
-            self.port = port
-            self.type = type
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case port = "Port"
-            case type = "Type"
-        }
-    }
-
     public struct LogDestinationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The named location for the logs, provided in a key:value mapping that is specific to the chosen destination type.    For an Amazon S3 bucket, provide the name of the bucket, with key bucketName, and optionally provide a prefix, with key prefix.  The following example specifies an Amazon S3 bucket named DOC-EXAMPLE-BUCKET and the prefix alerts:   "LogDestination": { "bucketName": "DOC-EXAMPLE-BUCKET", "prefix": "alerts" }    For a CloudWatch log group, provide the name of the CloudWatch log group, with key logGroup. The following example specifies a log group named alert-log-group:   "LogDestination": { "logGroup": "alert-log-group" }    For a Firehose delivery stream, provide the name of the delivery stream, with key deliveryStream. The following example specifies a delivery stream named alert-delivery-stream:   "LogDestination": { "deliveryStream": "alert-delivery-stream" }
         public let logDestination: [String: String]
@@ -5030,13 +5162,13 @@ extension NetworkFirewall {
     }
 
     public struct NatGatewayAttachment: AWSDecodableShape {
-        /// The DNS name that resolves to the firewall's proxy for traffic sent through this NAT gateway attachment.
+        /// The proxy DNS name of the firewall in this Availability Zone. This is the same as the DnsName of the firewall's Attachment.
         public let dnsName: String?
-        /// A unique identifier for the NAT gateway to use with proxy resources.
+        /// The ID of the NAT gateway.
         public let natGatewayId: String
-        /// The current status of the NAT gateway attachment.  When this value is READY, the attachment is available to proxy traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
+        /// The status of the NAT gateway attachment. READY means that the NAT gateway is attached and the firewall can send traffic through it. Other values are CREATING, UPDATING, DELETING, and FAILED.
         public let status: NatGatewayAttachmentStatus
-        /// If Network Firewall encounters an issue with the NAT gateway attachment, it populates this with an explanation of the problem.
+        /// The reason that Network Firewall couldn't create or attach the NAT gateway, if it couldn't.
         public let statusMessage: String?
 
         @inlinable
@@ -5055,21 +5187,32 @@ extension NetworkFirewall {
         }
     }
 
-    public struct NatGatewayMapping: AWSEncodableShape & AWSDecodableShape {
-        /// A unique identifier for the NAT gateway to use with proxy resources.
-        public let natGatewayId: String
+    public struct NatGatewayCreateMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The allocation IDs of the Elastic IP addresses for a public NAT gateway, from 1 to 8. For each allocation ID, specify one address in PrivateIps. If you don't specify this, Network Firewall creates a private NAT gateway.
+        public let allocationIds: [String]?
+        /// The private IPv4 addresses of the NAT gateway. The addresses must be in the subnet that you specify and can't be the subnet's reserved addresses. For a public NAT gateway, you must specify exactly one address for each Elastic IP address in AllocationIds, even if you specify only one. For a private NAT gateway, specify from 1 to 8 addresses. The first address is the primary address.
+        public let privateIps: [String]?
+        /// The ID of the subnet where Network Firewall creates the NAT gateway. The subnet must be in the firewall's VPC and can't be one of the firewall endpoint subnets. Each mapping must be in a different Availability Zone.
+        public let subnetId: String
 
         @inlinable
-        public init(natGatewayId: String) {
-            self.natGatewayId = natGatewayId
+        public init(allocationIds: [String]? = nil, privateIps: [String]? = nil, subnetId: String) {
+            self.allocationIds = allocationIds
+            self.privateIps = privateIps
+            self.subnetId = subnetId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
+            try self.validate(self.allocationIds, name: "allocationIds", parent: name, max: 32)
+            try self.validate(self.allocationIds, name: "allocationIds", parent: name, min: 1)
+            try self.validate(self.privateIps, name: "privateIps", parent: name, max: 32)
+            try self.validate(self.privateIps, name: "privateIps", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case natGatewayId = "NatGatewayId"
+            case allocationIds = "AllocationIds"
+            case privateIps = "PrivateIps"
+            case subnetId = "SubnetId"
         }
     }
 
@@ -5160,448 +5303,33 @@ extension NetworkFirewall {
         }
     }
 
-    public struct Proxy: AWSDecodableShape {
-        /// Time the Proxy was created.
-        public let createTime: Date?
-        /// Time the Proxy was deleted.
-        public let deleteTime: Date?
-        /// Failure code for cases when the Proxy fails to attach or update.
-        public let failureCode: String?
-        /// Failure message for cases when the Proxy fails to attach or update.
-        public let failureMessage: String?
-        /// Listener properties for HTTP and HTTPS traffic.
-        public let listenerProperties: [ListenerProperty]?
-        /// The NAT Gateway for the proxy.
-        public let natGatewayId: String?
-        /// The Amazon Resource Name (ARN) of a proxy.
-        public let proxyArn: String?
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public let proxyConfigurationName: String?
-        /// Current modification status of the Proxy.
-        public let proxyModifyState: ProxyModifyState?
-        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-        public let proxyName: String?
-        /// Current attachment/detachment status of the Proxy.
-        public let proxyState: ProxyState?
-        /// The key:value pairs to associate with the resource.
-        public let tags: [Tag]?
-        /// TLS decryption on traffic to filter on attributes in the HTTP header.
-        public let tlsInterceptProperties: TlsInterceptProperties?
-        /// Time the Proxy was updated.
-        public let updateTime: Date?
-
-        @inlinable
-        public init(createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, listenerProperties: [ListenerProperty]? = nil, natGatewayId: String? = nil, proxyArn: String? = nil, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, proxyModifyState: ProxyModifyState? = nil, proxyName: String? = nil, proxyState: ProxyState? = nil, tags: [Tag]? = nil, tlsInterceptProperties: TlsInterceptProperties? = nil, updateTime: Date? = nil) {
-            self.createTime = createTime
-            self.deleteTime = deleteTime
-            self.failureCode = failureCode
-            self.failureMessage = failureMessage
-            self.listenerProperties = listenerProperties
-            self.natGatewayId = natGatewayId
-            self.proxyArn = proxyArn
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.proxyModifyState = proxyModifyState
-            self.proxyName = proxyName
-            self.proxyState = proxyState
-            self.tags = tags
-            self.tlsInterceptProperties = tlsInterceptProperties
-            self.updateTime = updateTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createTime = "CreateTime"
-            case deleteTime = "DeleteTime"
-            case failureCode = "FailureCode"
-            case failureMessage = "FailureMessage"
-            case listenerProperties = "ListenerProperties"
-            case natGatewayId = "NatGatewayId"
-            case proxyArn = "ProxyArn"
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case proxyModifyState = "ProxyModifyState"
-            case proxyName = "ProxyName"
-            case proxyState = "ProxyState"
-            case tags = "Tags"
-            case tlsInterceptProperties = "TlsInterceptProperties"
-            case updateTime = "UpdateTime"
-        }
-    }
-
-    public struct ProxyConfigDefaultRulePhaseActionsRequest: AWSEncodableShape & AWSDecodableShape {
-        /// After receiving response.
-        public let postRESPONSE: ProxyRulePhaseAction?
-        /// Before domain resolution.
-        public let preDNS: ProxyRulePhaseAction?
-        /// After DNS, before request.
-        public let preREQUEST: ProxyRulePhaseAction?
-
-        @inlinable
-        public init(postRESPONSE: ProxyRulePhaseAction? = nil, preDNS: ProxyRulePhaseAction? = nil, preREQUEST: ProxyRulePhaseAction? = nil) {
-            self.postRESPONSE = postRESPONSE
-            self.preDNS = preDNS
-            self.preREQUEST = preREQUEST
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case postRESPONSE = "PostRESPONSE"
-            case preDNS = "PreDNS"
-            case preREQUEST = "PreREQUEST"
-        }
-    }
-
-    public struct ProxyConfigRuleGroup: AWSDecodableShape {
-        /// Priority of the proxy rule group in the proxy configuration.
-        public let priority: Int?
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-        /// Proxy rule group type.
-        public let type: String?
-
-        @inlinable
-        public init(priority: Int? = nil, proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, type: String? = nil) {
-            self.priority = priority
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.type = type
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case priority = "Priority"
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case type = "Type"
-        }
-    }
-
-    public struct ProxyConfiguration: AWSDecodableShape {
-        /// Time the Proxy Configuration was created.
-        public let createTime: Date?
-        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.  Pre-DNS - before domain resolution. Pre-Request - after DNS, before request. Post-Response - after receiving response.
-        public let defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest?
-        /// Time the Proxy Configuration was deleted.
-        public let deleteTime: Date?
-        /// A description of the proxy configuration.
-        public let description: String?
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public let proxyConfigurationName: String?
-        /// Proxy rule groups within the proxy configuration.
-        public let ruleGroups: [ProxyConfigRuleGroup]?
-        /// The key:value pairs to associate with the resource.
-        public let tags: [Tag]?
-
-        @inlinable
-        public init(createTime: Date? = nil, defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest? = nil, deleteTime: Date? = nil, description: String? = nil, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroups: [ProxyConfigRuleGroup]? = nil, tags: [Tag]? = nil) {
-            self.createTime = createTime
-            self.defaultRulePhaseActions = defaultRulePhaseActions
-            self.deleteTime = deleteTime
-            self.description = description
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.ruleGroups = ruleGroups
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createTime = "CreateTime"
-            case defaultRulePhaseActions = "DefaultRulePhaseActions"
-            case deleteTime = "DeleteTime"
-            case description = "Description"
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case ruleGroups = "RuleGroups"
-            case tags = "Tags"
-        }
-    }
-
-    public struct ProxyConfigurationMetadata: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration.
-        public let arn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
-        public let name: String?
-
-        @inlinable
-        public init(arn: String? = nil, name: String? = nil) {
-            self.arn = arn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case name = "Name"
-        }
-    }
-
-    public struct ProxyMetadata: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy.
-        public let arn: String?
-        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
-        public let name: String?
-
-        @inlinable
-        public init(arn: String? = nil, name: String? = nil) {
-            self.arn = arn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case name = "Name"
-        }
-    }
-
-    public struct ProxyRule: AWSEncodableShape & AWSDecodableShape {
-        /// Action to take.
-        public let action: ProxyRulePhaseAction?
-        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-        public let conditions: [ProxyRuleCondition]?
-        /// A description of the proxy rule.
-        public let description: String?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public let proxyRuleName: String?
-
-        @inlinable
-        public init(action: ProxyRulePhaseAction? = nil, conditions: [ProxyRuleCondition]? = nil, description: String? = nil, proxyRuleName: String? = nil) {
-            self.action = action
-            self.conditions = conditions
-            self.description = description
-            self.proxyRuleName = proxyRuleName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case action = "Action"
-            case conditions = "Conditions"
-            case description = "Description"
-            case proxyRuleName = "ProxyRuleName"
-        }
-    }
-
-    public struct ProxyRuleCondition: AWSEncodableShape & AWSDecodableShape {
-        /// Defines what is to be matched.
-        public let conditionKey: String?
-        /// Defines how to perform a match.
-        public let conditionOperator: String?
-        /// Specifes the exact value that needs to be matched against.
-        public let conditionValues: [String]?
-
-        @inlinable
-        public init(conditionKey: String? = nil, conditionOperator: String? = nil, conditionValues: [String]? = nil) {
-            self.conditionKey = conditionKey
-            self.conditionOperator = conditionOperator
-            self.conditionValues = conditionValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conditionKey = "ConditionKey"
-            case conditionOperator = "ConditionOperator"
-            case conditionValues = "ConditionValues"
-        }
-    }
-
-    public struct ProxyRuleGroup: AWSDecodableShape {
-        /// Time the Proxy Rule Group was created.
-        public let createTime: Date?
-        /// Time the Proxy Rule Group was deleted.
-        public let deleteTime: Date?
-        /// A description of the proxy rule group.
-        public let description: String?
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
-        public let rules: ProxyRulesByRequestPhase?
-        /// The key:value pairs to associate with the resource.
-        public let tags: [Tag]?
-
-        @inlinable
-        public init(createTime: Date? = nil, deleteTime: Date? = nil, description: String? = nil, proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, rules: ProxyRulesByRequestPhase? = nil, tags: [Tag]? = nil) {
-            self.createTime = createTime
-            self.deleteTime = deleteTime
-            self.description = description
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.rules = rules
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createTime = "CreateTime"
-            case deleteTime = "DeleteTime"
-            case description = "Description"
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case rules = "Rules"
-            case tags = "Tags"
-        }
-    }
-
-    public struct ProxyRuleGroupAttachment: AWSEncodableShape {
-        /// Where to insert a proxy rule group in a proxy configuration.
-        public let insertPosition: Int?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-
-        @inlinable
-        public init(insertPosition: Int? = nil, proxyRuleGroupName: String? = nil) {
-            self.insertPosition = insertPosition
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case insertPosition = "InsertPosition"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-        }
-    }
-
-    public struct ProxyRuleGroupMetadata: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public let arn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let name: String?
-
-        @inlinable
-        public init(arn: String? = nil, name: String? = nil) {
-            self.arn = arn
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-            case name = "Name"
-        }
-    }
-
-    public struct ProxyRuleGroupPriority: AWSEncodableShape {
-        /// Where to move a proxy rule group in a proxy configuration.
-        public let newPosition: Int?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-
-        @inlinable
-        public init(newPosition: Int? = nil, proxyRuleGroupName: String? = nil) {
-            self.newPosition = newPosition
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPosition = "NewPosition"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-        }
-    }
-
-    public struct ProxyRuleGroupPriorityResult: AWSDecodableShape {
-        /// Priority of the proxy rule group in the proxy configuration.
-        public let priority: Int?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-
-        @inlinable
-        public init(priority: Int? = nil, proxyRuleGroupName: String? = nil) {
-            self.priority = priority
-            self.proxyRuleGroupName = proxyRuleGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case priority = "Priority"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-        }
-    }
-
-    public struct ProxyRulePriority: AWSEncodableShape & AWSDecodableShape {
-        /// Where to move a proxy rule in a proxy rule group.
-        public let newPosition: Int?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public let proxyRuleName: String?
-
-        @inlinable
-        public init(newPosition: Int? = nil, proxyRuleName: String? = nil) {
-            self.newPosition = newPosition
-            self.proxyRuleName = proxyRuleName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPosition = "NewPosition"
-            case proxyRuleName = "ProxyRuleName"
-        }
-    }
-
-    public struct ProxyRulesByRequestPhase: AWSEncodableShape & AWSDecodableShape {
-        /// After receiving response.
-        public let postRESPONSE: [ProxyRule]?
-        /// Before domain resolution.
-        public let preDNS: [ProxyRule]?
-        /// After DNS, before request.
-        public let preREQUEST: [ProxyRule]?
-
-        @inlinable
-        public init(postRESPONSE: [ProxyRule]? = nil, preDNS: [ProxyRule]? = nil, preREQUEST: [ProxyRule]? = nil) {
-            self.postRESPONSE = postRESPONSE
-            self.preDNS = preDNS
-            self.preREQUEST = preREQUEST
-        }
-
-        public func validate(name: String) throws {
-            try self.postRESPONSE?.forEach {
-                try $0.validate(name: "\(name).postRESPONSE[]")
-            }
-            try self.preDNS?.forEach {
-                try $0.validate(name: "\(name).preDNS[]")
-            }
-            try self.preREQUEST?.forEach {
-                try $0.validate(name: "\(name).preREQUEST[]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case postRESPONSE = "PostRESPONSE"
-            case preDNS = "PreDNS"
-            case preREQUEST = "PreREQUEST"
-        }
-    }
-
     public struct ProxySettings: AWSEncodableShape & AWSDecodableShape {
-        /// Listener properties for HTTP and HTTPS traffic.
+        /// The Amazon Resource Name (ARN) of the certificate that the firewall's HTTPS proxy listener presents to clients. The certificate must be an Certificate Manager (ACM) certificate in the same account and Region as the firewall. Its subject alternative names must cover DomainName, either exactly or with a wildcard that matches exactly one label. For example, *.example.com covers proxy.example.com. If you don't specify this, Network Firewall uses a certificate that it manages for a domain name that it generates. You manage and renew the certificate in ACM, and Network Firewall uses renewed certificates automatically. While the firewall uses the certificate, you can't delete it from ACM. Your clients must trust the certificate's certificate authority. If you specify CertificateArn, you must also specify DomainName. You can set them only when you create the firewall. When you call UpdateProxySettings, specify the same values.
+        public let certificateArn: String?
+        /// The domain name that your clients use to reach the firewall's proxy. The name must have at least two labels and at most 253 characters. It can't contain a wildcard or use the proxy-id.nfw.region.amazonaws.com format, and the certificate in CertificateArn must cover it. If you don't specify this, Network Firewall generates a domain name. Network Firewall creates the Route 53 private hosted zones that resolve this name to the firewall endpoints, so you don't need to configure DNS. A VPC can have only one private hosted zone with a given name. If a VPC that the firewall serves already has one with this name, Network Firewall can't set up the Availability Zones in that VPC. If you specify DomainName, you must also specify CertificateArn. You can set them only when you create the firewall. When you call UpdateProxySettings, specify the same values.
+        public let domainName: String?
+        /// The listeners of the firewall's proxy. Specify at least one listener, and at most one HTTP listener and one HTTPS listener. Each listener needs a port from 1 to 65535, and the two listeners must use different ports. If you don't specify listeners when you create the firewall, the firewall listens for HTTP on port 3128 and HTTPS on port 8443.
         public let listenerProperties: [ListenerProperty]
 
         @inlinable
-        public init(listenerProperties: [ListenerProperty]) {
+        public init(certificateArn: String? = nil, domainName: String? = nil, listenerProperties: [ListenerProperty]) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
             self.listenerProperties = listenerProperties
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 256)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9.-]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case domainName = "DomainName"
             case listenerProperties = "ListenerProperties"
         }
     }
@@ -5719,6 +5447,50 @@ extension NetworkFirewall {
         }
     }
 
+    public struct Route53ResolvedIPValidation: AWSEncodableShape & AWSDecodableShape {
+        /// The action that Network Firewall takes for a connection whose destination IP address fails resolved IP validation. A destination IP address fails validation when the Route 53 Resolver didn't return it in a DNS response in an associated VPC. Valid values are the following:    ALERT – Tags the matching connection in the firewall's flow logs without blocking it, when you enable logging. Use this to observe the effect of resolved IP validation before you enforce it.    DROP – Silently blocks the connection without sending any response to the client.    REJECT – Blocks the connection and sends a TCP reset (RST) to the client. Because a TCP reset applies only to TCP connections, Network Firewall drops non-TCP traffic instead of resetting it.
+        public let action: Route53ResolvedIPValidationAction
+        /// The destination IP address ranges that are exempt from the policy-level resolved IP check. Network Firewall doesn't apply the Action in this configuration to a connection whose destination falls in these ranges, even if the Route 53 Resolver didn't return that IP address in an associated VPC. Specify each entry as an IPv4 or IPv6 address or CIDR range, up to 100 entries. This exemption applies only to the policy-level check. Stateful rules that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain keyword still evaluate connections to these destinations and match them independently of this list.
+        public let bypassDestinationValidationIPRanges: [Address]?
+        /// The action that Network Firewall takes when the DNS resolution recorded for a destination IP address has expired from the resolved IP cache. This applies when Network Firewall still sees traffic to that IP address after the expiry. Network Firewall keeps a resolution for longer than the DNS record's time to live (TTL). Valid values are the following:    CONTINUE – Treats the expired resolution as still valid and doesn't block the connection because of expiry.    DROP – Silently blocks traffic to the IP address after its resolution has expired, without sending any response to the client.    REJECT – Blocks traffic to the IP address after its resolution has expired and sends a TCP reset (RST) to the client. Network Firewall drops non-TCP traffic instead of resetting it.
+        public let dnsExpiryExceptionPolicy: DNSExpiryExceptionPolicy
+        /// The ID of the Route 53 Resolver DNS Firewall rule group that determines which VPCs' DNS resolutions count for resolved IP validation. A destination IP address counts as resolved for a domain only when the Route 53 Resolver returned it in a DNS response within a VPC that's associated with this rule group. Associate the rule group with the VPCs that send traffic to the firewall. The ID must match the pattern ^rslvr-frg-[0-9a-f]+$. It must also exist and be accessible from your account. Network Firewall validates this when you create or update the policy. Changing this value swaps the managed rule group association. Network Firewall processes the swap asynchronously. Each policy can have only one managed Route 53 Resolver DNS Firewall association. While a swap is in progress, Network Firewall rejects further changes to this setting. Wait until the swap completes, then retry. The change may also require a restart of the stateful engine. When this occurs, existing connections will be treated according to your stream exception policy configuration.
+        public let dnsFirewallRuleGroupId: String
+        /// The client source IP address ranges whose connections are subject to resolved IP validation. Specify each entry as an IPv4 or IPv6 address or CIDR range, up to 100 entries. If you omit this field, resolved IP validation applies to the CIDR ranges of the firewall's VPC and of any additional VPCs attached to the firewall. Specifying an empty list is not the same as omitting the field: an empty list means that Network Firewall doesn't validate any source addresses. This scope applies to the policy-level check only. Stateful rules that use the AWS_ROUTE_53_RESOLVED_DOMAIN target type or the aws_route_53_resolved_domain keyword still evaluate their destinations regardless of SourceIPRanges.
+        public let sourceIPRanges: [Address]?
+
+        @inlinable
+        public init(action: Route53ResolvedIPValidationAction, bypassDestinationValidationIPRanges: [Address]? = nil, dnsExpiryExceptionPolicy: DNSExpiryExceptionPolicy, dnsFirewallRuleGroupId: String, sourceIPRanges: [Address]? = nil) {
+            self.action = action
+            self.bypassDestinationValidationIPRanges = bypassDestinationValidationIPRanges
+            self.dnsExpiryExceptionPolicy = dnsExpiryExceptionPolicy
+            self.dnsFirewallRuleGroupId = dnsFirewallRuleGroupId
+            self.sourceIPRanges = sourceIPRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.bypassDestinationValidationIPRanges?.forEach {
+                try $0.validate(name: "\(name).bypassDestinationValidationIPRanges[]")
+            }
+            try self.validate(self.bypassDestinationValidationIPRanges, name: "bypassDestinationValidationIPRanges", parent: name, max: 100)
+            try self.validate(self.dnsFirewallRuleGroupId, name: "dnsFirewallRuleGroupId", parent: name, max: 256)
+            try self.validate(self.dnsFirewallRuleGroupId, name: "dnsFirewallRuleGroupId", parent: name, min: 1)
+            try self.validate(self.dnsFirewallRuleGroupId, name: "dnsFirewallRuleGroupId", parent: name, pattern: "^rslvr-frg-[0-9a-f]+$")
+            try self.sourceIPRanges?.forEach {
+                try $0.validate(name: "\(name).sourceIPRanges[]")
+            }
+            try self.validate(self.sourceIPRanges, name: "sourceIPRanges", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case bypassDestinationValidationIPRanges = "BypassDestinationValidationIPRanges"
+            case dnsExpiryExceptionPolicy = "DNSExpiryExceptionPolicy"
+            case dnsFirewallRuleGroupId = "DNSFirewallRuleGroupId"
+            case sourceIPRanges = "SourceIPRanges"
+        }
+    }
+
     public struct RuleDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The actions to take on a packet that matches one of the stateless rule definition's match attributes. You must specify a standard action and you can add custom actions.   Network Firewall only forwards a packet for stateful rule inspection if you specify aws:forward_to_sfe for a rule that the packet matches, or if the packet doesn't match any stateless rule and you specify aws:forward_to_sfe for the StatelessDefaultActions setting for the FirewallPolicy.  For every rule, you must specify exactly one of the following standard actions.     aws:pass - Discontinues all inspection of the packet and permits it to go to its intended destination.    aws:drop - Discontinues all inspection of the packet and blocks it from going to its intended destination.    aws:forward_to_sfe - Discontinues stateless inspection of the packet and forwards it to the stateful rule engine for inspection.    Additionally, you can specify a custom action. To do this, you define a custom action by name and type, then provide the name you've assigned to the action in this Actions setting. For information about the options, see CustomAction.  To provide more than one action in this setting, separate the settings with a comma. For example, if you have a custom PublishMetrics action that you've named MyMetricsAction, then you could specify the standard action aws:pass and the custom action with [“aws:pass”, “MyMetricsAction”].
         public let actions: [String]
@@ -5829,8 +5601,7 @@ extension NetworkFirewall {
         public let summaryConfiguration: SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.
         public let type: RuleGroupType?
 
         @inlinable
@@ -5870,6 +5641,29 @@ extension NetworkFirewall {
             case summaryConfiguration = "SummaryConfiguration"
             case tags = "Tags"
             case type = "Type"
+        }
+    }
+
+    public struct RuleMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the rule, up to 512 characters. The description can span multiple lines. A description line can't itself look like a firewall rule; to disable a rule, set RuleEnabled to FALSE instead.
+        public let ruleDescription: String?
+        /// Specifies whether the rule is active. The default is TRUE. When you set this to FALSE, Network Firewall keeps the rule in the rule group but doesn't evaluate it against traffic and doesn't count it toward the rule group's consumed capacity.
+        public let ruleEnabled: Bool?
+
+        @inlinable
+        public init(ruleDescription: String? = nil, ruleEnabled: Bool? = nil) {
+            self.ruleDescription = ruleDescription
+            self.ruleEnabled = ruleEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleDescription, name: "ruleDescription", parent: name, max: 512)
+            try self.validate(self.ruleDescription, name: "ruleDescription", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleDescription = "RuleDescription"
+            case ruleEnabled = "RuleEnabled"
         }
     }
 
@@ -5962,7 +5756,7 @@ extension NetworkFirewall {
         public let rulesSourceList: RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.  You can't use the priority keyword if the RuleOrder option in StatefulRuleOptions is set to  STRICT_ORDER.
         public let rulesString: String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see Rules Format.
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see Rules Format on the Suricata website.
         public let statefulRules: [StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public let statelessRulesAndCustomActions: StatelessRulesAndCustomActions?
@@ -5996,7 +5790,7 @@ extension NetworkFirewall {
         public let generatedRulesType: GeneratedRulesType
         /// The domains that you want to inspect for in your traffic flows. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
         public let targets: [String]
-        /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
+        /// The types of matching to perform against the domains in Targets. You can specify any combination of the following:    AWS_ROUTE_53_RESOLVED_DOMAIN – Match the domain against the domain that the Amazon Route 53 Resolver resolved the connection's destination IP address for.    HTTP_HOST – Match the domain against the Host header of HTTP traffic.    TLS_SNI – Match the domain against the Server Name Indication (SNI) of HTTPS traffic.    AWS_ROUTE_53_RESOLVED_DOMAIN matches on how the destination IP address was resolved, rather than on the domain that the client asserts in its TLS SNI or HTTP Host header. This target type takes effect when you configure resolved IP validation on the firewall policy. For more information, see the Route53ResolvedIPValidation firewall policy setting. Whether you include AWS_ROUTE_53_RESOLVED_DOMAIN changes what the generated rules match, together with GeneratedRulesType:   In an ALLOWLIST, combining AWS_ROUTE_53_RESOLVED_DOMAIN with TLS_SNI or HTTP_HOST requires both conditions to match: the SNI or Host header matches the domain, and the Route 53 Resolver resolved the destination IP address for that domain. Network Firewall allows the traffic only when both conditions match, so it blocks traffic that matches just one—for example, a spoofed Host header sent to an unresolved IP address.   In a DENYLIST, or when AWS_ROUTE_53_RESOLVED_DOMAIN is the only target type, Network Firewall evaluates each condition independently: a match on either the domain (SNI or Host) or the resolved destination IP address triggers the rule.   When you don't include AWS_ROUTE_53_RESOLVED_DOMAIN, the generated rules match only on the SNI or Host header, without checking how the destination IP address was resolved.   An ALLOWLIST whose only target type is AWS_ROUTE_53_RESOLVED_DOMAIN is additive: it allows matching traffic but doesn't generate a default rule that drops non-matching traffic. Only the TLS_SNI and HTTP_HOST target types generate that default drop. To allow only the resolved domains and drop all other traffic, include a protocol target type as well.
         public let targetTypes: [TargetType]
 
         @inlinable
@@ -6038,15 +5832,18 @@ extension NetworkFirewall {
         public let certificateAuthorityArn: String?
         /// When enabled, Network Firewall checks if the server certificate presented by the server in the SSL/TLS connection has a revoked or unkown status. If the certificate has an unknown or revoked status, you must specify the actions that Network Firewall takes on outbound traffic. To check the certificate revocation status, you must also specify a CertificateAuthorityArn in ServerCertificateConfiguration.
         public let checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions?
+        /// What the firewall does with SSL/TLS traffic that doesn't match any scope in this server certificate configuration. This setting applies only to proxy mode firewalls. If you don't specify a value, the firewall uses BYPASS. You can choose from the following values:    BYPASS - The firewall doesn't decrypt the traffic.    DECRYPT - The firewall decrypts the traffic for inspection. You can use DECRYPT only if every scope in the configuration sets DeploymentMode to EXPLICIT_PROXY_ONLY.
+        public let defaultDecryptionBehavior: DecryptionAction?
         /// A list of scopes.
         public let scopes: [ServerCertificateScope]?
         /// The list of server certificates to use for inbound SSL/TLS inspection.
         public let serverCertificates: [ServerCertificate]?
 
         @inlinable
-        public init(certificateAuthorityArn: String? = nil, checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions? = nil, scopes: [ServerCertificateScope]? = nil, serverCertificates: [ServerCertificate]? = nil) {
+        public init(certificateAuthorityArn: String? = nil, checkCertificateRevocationStatus: CheckCertificateRevocationStatusActions? = nil, defaultDecryptionBehavior: DecryptionAction? = nil, scopes: [ServerCertificateScope]? = nil, serverCertificates: [ServerCertificate]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.checkCertificateRevocationStatus = checkCertificateRevocationStatus
+            self.defaultDecryptionBehavior = defaultDecryptionBehavior
             self.scopes = scopes
             self.serverCertificates = serverCertificates
         }
@@ -6066,17 +5863,24 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case certificateAuthorityArn = "CertificateAuthorityArn"
             case checkCertificateRevocationStatus = "CheckCertificateRevocationStatus"
+            case defaultDecryptionBehavior = "DefaultDecryptionBehavior"
             case scopes = "Scopes"
             case serverCertificates = "ServerCertificates"
         }
     }
 
     public struct ServerCertificateScope: AWSEncodableShape & AWSDecodableShape {
+        /// Whether the firewall decrypts traffic that matches this scope. You can choose from the following values:    DECRYPT - The firewall decrypts the traffic for inspection.    BYPASS - The firewall doesn't decrypt the traffic.
+        public let decryptionAction: DecryptionAction?
+        /// The type of firewall that this scope applies to. If you don't specify a value, the scope applies to both types, the same as ALL. You can choose from the following values:    ALL - The scope applies to both transparent firewalls and proxy mode firewalls.    TRANSPARENT_FIREWALL_ONLY - The scope applies only to transparent firewalls.    EXPLICIT_PROXY_ONLY - The scope applies only to proxy mode firewalls. A scope that specifies DomainMatch must use this value.
+        public let deploymentMode: TLSInspectionScopeDeploymentMode?
         /// The destination ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any destination port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
         public let destinationPorts: [PortRange]?
         /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this
         /// matches with any destination address.
         public let destinations: [Address]?
+        /// The domains that this scope matches, based on the host name in the client's HTTP CONNECT request. Domain matching applies only to proxy mode firewalls. If you specify DomainMatch, you must set DeploymentMode to EXPLICIT_PROXY_ONLY. If you don't specify DomainMatch, the scope matches traffic by its source, destination, ports, and protocols only.
+        public let domainMatch: DomainMatch?
         /// The protocols to inspect for, specified using the assigned internet protocol number (IANA)  for each protocol. If not specified, this matches with any protocol. Network Firewall currently supports only TCP.
         public let protocols: [Int]?
         /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
@@ -6086,9 +5890,12 @@ extension NetworkFirewall {
         public let sources: [Address]?
 
         @inlinable
-        public init(destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil) {
+        public init(decryptionAction: DecryptionAction? = nil, deploymentMode: TLSInspectionScopeDeploymentMode? = nil, destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, domainMatch: DomainMatch? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil) {
+            self.decryptionAction = decryptionAction
+            self.deploymentMode = deploymentMode
             self.destinationPorts = destinationPorts
             self.destinations = destinations
+            self.domainMatch = domainMatch
             self.protocols = protocols
             self.sourcePorts = sourcePorts
             self.sources = sources
@@ -6101,6 +5908,7 @@ extension NetworkFirewall {
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.domainMatch?.validate(name: "\(name).domainMatch")
             try self.protocols?.forEach {
                 try validate($0, name: "protocols[]", parent: name, max: 255)
                 try validate($0, name: "protocols[]", parent: name, min: 0)
@@ -6114,8 +5922,11 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case decryptionAction = "DecryptionAction"
+            case deploymentMode = "DeploymentMode"
             case destinationPorts = "DestinationPorts"
             case destinations = "Destinations"
+            case domainMatch = "DomainMatch"
             case protocols = "Protocols"
             case sourcePorts = "SourcePorts"
             case sources = "Sources"
@@ -6195,8 +6006,10 @@ extension NetworkFirewall {
     }
 
     public struct StartFlowCaptureRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
@@ -6210,8 +6023,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowFilters = flowFilters
             self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
@@ -6236,6 +6050,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowFilters = "FlowFilters"
             case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
@@ -6268,8 +6083,10 @@ extension NetworkFirewall {
     }
 
     public struct StartFlowFlushRequest: AWSEncodableShape {
-        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        /// The name of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone where the firewall is located. For example, use2-az1. Availability Zone IDs are the same in every Amazon Web Services account, so use this parameter when you coordinate resources across accounts. Specify either AvailabilityZone or AvailabilityZoneId, not both. If you specify both, the request fails.
+        public let availabilityZoneId: String?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String
         /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
@@ -6283,8 +6100,9 @@ extension NetworkFirewall {
         public let vpcEndpointId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil, vpcEndpointAssociationArn: String? = nil, vpcEndpointId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.firewallArn = firewallArn
             self.flowFilters = flowFilters
             self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
@@ -6309,6 +6127,7 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case firewallArn = "FirewallArn"
             case flowFilters = "FlowFilters"
             case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
@@ -6358,6 +6177,24 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case flowTimeouts = "FlowTimeouts"
             case ruleOrder = "RuleOrder"
+            case streamExceptionPolicy = "StreamExceptionPolicy"
+        }
+    }
+
+    public struct StatefulEngineOptionsV2: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
+        public let flowTimeouts: FlowTimeouts?
+        /// How Network Firewall handles traffic on a network connection that breaks midstream. A Next Generation policy supports DROP and REJECT. For more information, see Stream exception policy options in your firewall policy in the Network Firewall Developer Guide.
+        public let streamExceptionPolicy: StreamExceptionPolicyV2?
+
+        @inlinable
+        public init(flowTimeouts: FlowTimeouts? = nil, streamExceptionPolicy: StreamExceptionPolicyV2? = nil) {
+            self.flowTimeouts = flowTimeouts
+            self.streamExceptionPolicy = streamExceptionPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowTimeouts = "FlowTimeouts"
             case streamExceptionPolicy = "StreamExceptionPolicy"
         }
     }
@@ -6581,7 +6418,7 @@ extension NetworkFirewall {
         public let attachment: Attachment?
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public let config: [String: PerObjectStatus]?
-        /// The status of the NAT gateway attachments for a proxy mode firewall in the Availability Zone. This reflects the attachment of the firewall to each NAT gateway that proxies its traffic.
+        /// The NAT gateway that's attached to a proxy mode firewall in the Availability Zone, and the status of the attachment. To get NAT gateway details, such as IP addresses, use the Amazon EC2 DescribeNatGateways action. A proxy mode firewall is READY when at least one Availability Zone's firewall endpoint and NAT gateway attachment are READY.
         public let natGatewayAttachments: [NatGatewayAttachment]?
 
         @inlinable
@@ -6801,30 +6638,6 @@ extension NetworkFirewall {
         public init(pcaArn: String? = nil, tlsInterceptMode: TlsInterceptMode? = nil) {
             self.pcaArn = pcaArn
             self.tlsInterceptMode = tlsInterceptMode
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pcaArn = "PcaArn"
-            case tlsInterceptMode = "TlsInterceptMode"
-        }
-    }
-
-    public struct TlsInterceptPropertiesRequest: AWSEncodableShape {
-        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
-        public let pcaArn: String?
-        /// Specifies whether to enable or disable TLS Intercept Mode.
-        public let tlsInterceptMode: TlsInterceptMode?
-
-        @inlinable
-        public init(pcaArn: String? = nil, tlsInterceptMode: TlsInterceptMode? = nil) {
-            self.pcaArn = pcaArn
-            self.tlsInterceptMode = tlsInterceptMode
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.pcaArn, name: "pcaArn", parent: name, max: 256)
-            try self.validate(self.pcaArn, name: "pcaArn", parent: name, min: 1)
-            try self.validate(self.pcaArn, name: "pcaArn", parent: name, pattern: "^arn:aws")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7462,6 +7275,78 @@ extension NetworkFirewall {
         }
     }
 
+    public struct UpdateFirewallPolicyV2Request: AWSEncodableShape {
+        /// A description of the firewall policy.
+        public let description: String?
+        /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
+        public let dryRun: Bool?
+        /// A complex type that contains settings for encryption of your firewall policy resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The updated rule groups and other settings that define the Next Generation policy.
+        public let firewallPolicyV2: FirewallPolicyV2
+        /// The Amazon Resource Name (ARN) of the Next Generation policy. You must specify the ARN or the name, and you can specify both.
+        public let firewallPolicyV2Arn: String?
+        /// The descriptive name of the Next Generation policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallPolicyV2Name: String?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyV2: FirewallPolicyV2, firewallPolicyV2Arn: String? = nil, firewallPolicyV2Name: String? = nil, updateToken: String) {
+            self.description = description
+            self.dryRun = dryRun
+            self.encryptionConfiguration = encryptionConfiguration
+            self.firewallPolicyV2 = firewallPolicyV2
+            self.firewallPolicyV2Arn = firewallPolicyV2Arn
+            self.firewallPolicyV2Name = firewallPolicyV2Name
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.firewallPolicyV2.validate(name: "\(name).firewallPolicyV2")
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, max: 256)
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Arn, name: "firewallPolicyV2Arn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, max: 128)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, min: 1)
+            try self.validate(self.firewallPolicyV2Name, name: "firewallPolicyV2Name", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case dryRun = "DryRun"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case firewallPolicyV2 = "FirewallPolicyV2"
+            case firewallPolicyV2Arn = "FirewallPolicyV2Arn"
+            case firewallPolicyV2Name = "FirewallPolicyV2Name"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateFirewallPolicyV2Response: AWSDecodableShape {
+        /// The high-level properties of the Next Generation policy. This, along with the FirewallPolicyV2, define the policy. You can retrieve all objects for a Next Generation policy by calling DescribeFirewallPolicyV2.
+        public let firewallPolicyV2Response: FirewallPolicyV2Response
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(firewallPolicyV2Response: FirewallPolicyV2Response, updateToken: String) {
+            self.firewallPolicyV2Response = firewallPolicyV2Response
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallPolicyV2Response = "FirewallPolicyV2Response"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
         /// A boolean that lets you enable or disable the detailed firewall monitoring dashboard on the firewall.  The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs.  After you enable detailed monitoring, you can access these dashboards directly from the Monitoring page of the Network Firewall console.  Specify TRUE to enable the the detailed monitoring dashboard on the firewall.  Specify FALSE to disable the the detailed monitoring dashboard on the firewall.
         public let enableMonitoringDashboard: Bool?
@@ -7523,355 +7408,12 @@ extension NetworkFirewall {
         }
     }
 
-    public struct UpdateProxyConfigurationRequest: AWSEncodableShape {
-        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-        public let defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, updateToken: String) {
-            self.defaultRulePhaseActions = defaultRulePhaseActions
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case defaultRulePhaseActions = "DefaultRulePhaseActions"
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyConfigurationResponse: AWSDecodableShape {
-        /// The updated proxy configuration resource that reflects the updates from the request.
-        public let proxyConfiguration: ProxyConfiguration?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
-            self.proxyConfiguration = proxyConfiguration
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfiguration = "ProxyConfiguration"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRequest: AWSEncodableShape {
-        /// Listener properties for HTTP and HTTPS traffic to add.
-        public let listenerPropertiesToAdd: [ListenerPropertyRequest]?
-        /// Listener properties for HTTP and HTTPS traffic to remove.
-        public let listenerPropertiesToRemove: [ListenerPropertyRequest]?
-        /// The NAT Gateway the proxy is attached to.
-        public let natGatewayId: String
-        /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
-        public let proxyArn: String?
-        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyName: String?
-        /// TLS decryption on traffic to filter on attributes in the HTTP header.
-        public let tlsInterceptProperties: TlsInterceptPropertiesRequest?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(listenerPropertiesToAdd: [ListenerPropertyRequest]? = nil, listenerPropertiesToRemove: [ListenerPropertyRequest]? = nil, natGatewayId: String, proxyArn: String? = nil, proxyName: String? = nil, tlsInterceptProperties: TlsInterceptPropertiesRequest? = nil, updateToken: String) {
-            self.listenerPropertiesToAdd = listenerPropertiesToAdd
-            self.listenerPropertiesToRemove = listenerPropertiesToRemove
-            self.natGatewayId = natGatewayId
-            self.proxyArn = proxyArn
-            self.proxyName = proxyName
-            self.tlsInterceptProperties = tlsInterceptProperties
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.listenerPropertiesToAdd, name: "listenerPropertiesToAdd", parent: name, max: 2)
-            try self.validate(self.listenerPropertiesToRemove, name: "listenerPropertiesToRemove", parent: name, max: 2)
-            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
-            try self.validate(self.proxyArn, name: "proxyArn", parent: name, max: 256)
-            try self.validate(self.proxyArn, name: "proxyArn", parent: name, min: 1)
-            try self.validate(self.proxyArn, name: "proxyArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyName, name: "proxyName", parent: name, max: 128)
-            try self.validate(self.proxyName, name: "proxyName", parent: name, min: 1)
-            try self.validate(self.proxyName, name: "proxyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.tlsInterceptProperties?.validate(name: "\(name).tlsInterceptProperties")
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case listenerPropertiesToAdd = "ListenerPropertiesToAdd"
-            case listenerPropertiesToRemove = "ListenerPropertiesToRemove"
-            case natGatewayId = "NatGatewayId"
-            case proxyArn = "ProxyArn"
-            case proxyName = "ProxyName"
-            case tlsInterceptProperties = "TlsInterceptProperties"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyResponse: AWSDecodableShape {
-        /// The updated proxy resource that reflects the updates from the request.
-        public let proxy: Proxy?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxy: Proxy? = nil, updateToken: String? = nil) {
-            self.proxy = proxy
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxy = "Proxy"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRuleGroupPrioritiesRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationArn: String?
-        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyConfigurationName: String?
-        /// proxy rule group resources to update to new positions.
-        public let ruleGroups: [ProxyRuleGroupPriority]
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroups: [ProxyRuleGroupPriority], updateToken: String) {
-            self.proxyConfigurationArn = proxyConfigurationArn
-            self.proxyConfigurationName = proxyConfigurationName
-            self.ruleGroups = ruleGroups
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
-            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.ruleGroups.forEach {
-                try $0.validate(name: "\(name).ruleGroups[]")
-            }
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyConfigurationArn = "ProxyConfigurationArn"
-            case proxyConfigurationName = "ProxyConfigurationName"
-            case ruleGroups = "RuleGroups"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRuleGroupPrioritiesResponse: AWSDecodableShape {
-        /// The updated proxy rule group hierarchy that reflects the updates from the request.
-        public let proxyRuleGroups: [ProxyRuleGroupPriorityResult]?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRuleGroups: [ProxyRuleGroupPriorityResult]? = nil, updateToken: String? = nil) {
-            self.proxyRuleGroups = proxyRuleGroups
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroups = "ProxyRuleGroups"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRulePrioritiesRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-        public let ruleGroupRequestPhase: RuleGroupRequestPhase
-        /// proxy rule resources to update to new positions.
-        public let rules: [ProxyRulePriority]
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, ruleGroupRequestPhase: RuleGroupRequestPhase, rules: [ProxyRulePriority], updateToken: String) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.ruleGroupRequestPhase = ruleGroupRequestPhase
-            self.rules = rules
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.rules.forEach {
-                try $0.validate(name: "\(name).rules[]")
-            }
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case ruleGroupRequestPhase = "RuleGroupRequestPhase"
-            case rules = "Rules"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRulePrioritiesResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a proxy rule group.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
-        public let proxyRuleGroupName: String?
-        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
-        public let ruleGroupRequestPhase: RuleGroupRequestPhase?
-        /// The updated proxy rule hierarchy that reflects the updates from the request.
-        public let rules: [ProxyRulePriority]?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, ruleGroupRequestPhase: RuleGroupRequestPhase? = nil, rules: [ProxyRulePriority]? = nil, updateToken: String? = nil) {
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.ruleGroupRequestPhase = ruleGroupRequestPhase
-            self.rules = rules
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case ruleGroupRequestPhase = "RuleGroupRequestPhase"
-            case rules = "Rules"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRuleRequest: AWSEncodableShape {
-        /// Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action.
-        public let action: ProxyRulePhaseAction?
-        /// Proxy rule conditions to add. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-        public let addConditions: [ProxyRuleCondition]?
-        /// A description of the proxy rule.
-        public let description: String?
-        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupArn: String?
-        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
-        public let proxyRuleGroupName: String?
-        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
-        public let proxyRuleName: String
-        /// Proxy rule conditions to remove. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
-        public let removeConditions: [ProxyRuleCondition]?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String
-
-        @inlinable
-        public init(action: ProxyRulePhaseAction? = nil, addConditions: [ProxyRuleCondition]? = nil, description: String? = nil, proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, proxyRuleName: String, removeConditions: [ProxyRuleCondition]? = nil, updateToken: String) {
-            self.action = action
-            self.addConditions = addConditions
-            self.description = description
-            self.proxyRuleGroupArn = proxyRuleGroupArn
-            self.proxyRuleGroupName = proxyRuleGroupName
-            self.proxyRuleName = proxyRuleName
-            self.removeConditions = removeConditions
-            self.updateToken = updateToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
-            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
-            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
-            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case action = "Action"
-            case addConditions = "AddConditions"
-            case description = "Description"
-            case proxyRuleGroupArn = "ProxyRuleGroupArn"
-            case proxyRuleGroupName = "ProxyRuleGroupName"
-            case proxyRuleName = "ProxyRuleName"
-            case removeConditions = "RemoveConditions"
-            case updateToken = "UpdateToken"
-        }
-    }
-
-    public struct UpdateProxyRuleResponse: AWSDecodableShape {
-        /// The updated proxy rule resource that reflects the updates from the request.
-        public let proxyRule: ProxyRule?
-        /// Proxy rule conditions removed from the rule.
-        public let removedConditions: [ProxyRuleCondition]?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
-        public let updateToken: String?
-
-        @inlinable
-        public init(proxyRule: ProxyRule? = nil, removedConditions: [ProxyRuleCondition]? = nil, updateToken: String? = nil) {
-            self.proxyRule = proxyRule
-            self.removedConditions = removedConditions
-            self.updateToken = updateToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case proxyRule = "ProxyRule"
-            case removedConditions = "RemovedConditions"
-            case updateToken = "UpdateToken"
-        }
-    }
-
     public struct UpdateProxySettingsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
-        /// The proxy listener configuration to set on the firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+        /// The proxy settings to set on the firewall. These replace the current proxy settings. Specify at least one listener, and at most one HTTP listener and one HTTPS listener, on different ports. If the firewall uses your own CertificateArn and DomainName, specify the same values that you used to create the firewall.
         public let proxySettings: ProxySettings?
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
@@ -7891,6 +7433,7 @@ extension NetworkFirewall {
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.proxySettings?.validate(name: "\(name).proxySettings")
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -7909,7 +7452,7 @@ extension NetworkFirewall {
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
         public let firewallName: String?
-        /// The updated proxy listener configuration on the firewall.
+        /// The updated proxy settings for the firewall.
         public let proxySettings: ProxySettings?
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
@@ -7939,6 +7482,10 @@ extension NetworkFirewall {
         public let dryRun: Bool?
         /// A complex type that contains settings for encryption of your rule group resources.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// An object that defines the rules in a firewall engine rule group, for use in a Next Generation policy.
+        public let firewallRuleGroup: FirewallRuleGroup?
+        /// An object that defines the rules in an IPS engine rule group, for use in a Next Generation policy.
+        public let ipsRuleGroup: IpsRuleGroup?
         /// An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
         public let ruleGroup: RuleGroup?
         /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
@@ -7953,18 +7500,19 @@ extension NetworkFirewall {
         public let sourceMetadata: SourceMetadata?
         /// Updates the selected summary configuration for a rule group. Changes affect subsequent responses from DescribeRuleGroupSummary.
         public let summaryConfiguration: SummaryConfiguration?
-        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
+        /// Indicates the type of the rule group. Valid values are:    STATELESS - Stateless rules, for use in a Classic Network Firewall policy.    STATEFUL - Stateful rules, for use in a Classic Network Firewall policy.    FIREWALL - Firewall engine rules, for use in a Next Generation policy.    IPS - IPS engine rules, for use in a Next Generation policy.    This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
         @inlinable
-        public init(analyzeRuleGroup: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, type: RuleGroupType? = nil, updateToken: String) {
+        public init(analyzeRuleGroup: Bool? = nil, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallRuleGroup: FirewallRuleGroup? = nil, ipsRuleGroup: IpsRuleGroup? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, summaryConfiguration: SummaryConfiguration? = nil, type: RuleGroupType? = nil, updateToken: String) {
             self.analyzeRuleGroup = analyzeRuleGroup
             self.description = description
             self.dryRun = dryRun
             self.encryptionConfiguration = encryptionConfiguration
+            self.firewallRuleGroup = firewallRuleGroup
+            self.ipsRuleGroup = ipsRuleGroup
             self.ruleGroup = ruleGroup
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
@@ -7979,6 +7527,8 @@ extension NetworkFirewall {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.firewallRuleGroup?.validate(name: "\(name).firewallRuleGroup")
+            try self.ipsRuleGroup?.validate(name: "\(name).ipsRuleGroup")
             try self.ruleGroup?.validate(name: "\(name).ruleGroup")
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
@@ -7998,6 +7548,8 @@ extension NetworkFirewall {
             case description = "Description"
             case dryRun = "DryRun"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case firewallRuleGroup = "FirewallRuleGroup"
+            case ipsRuleGroup = "IpsRuleGroup"
             case ruleGroup = "RuleGroup"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupName = "RuleGroupName"
@@ -8161,9 +7713,9 @@ extension NetworkFirewall {
     }
 
     public struct VpcEndpoint: AWSEncodableShape & AWSDecodableShape {
-        /// The subnets in which Network Firewall creates the firewall endpoint for a proxy mode firewall. Each subnet must belong to a different Availability Zone in the VPC.
+        /// The subnets where Network Firewall creates the firewall endpoints of a proxy mode firewall. Specify one subnet for each Availability Zone, and a NAT gateway mapping in each of those Availability Zones.
         public let subnetMappings: [SubnetMapping]
-        /// The unique identifier of the VPC where Network Firewall creates the proxy mode firewall endpoint.
+        /// The ID of the VPC where Network Firewall creates the endpoints and NAT gateways of a proxy mode firewall.
         public let vpcId: String
 
         @inlinable

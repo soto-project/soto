@@ -188,17 +188,17 @@ extension VPCLattice {
     }
 
     public enum ServiceNetworkResourceAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// ServiceNetwork and Service association is active
+        /// ServiceNetwork and Resource association is active
         case active = "ACTIVE"
-        /// ServiceNetwork and Service association creation failed.
+        /// ServiceNetwork and Resource association creation failed.
         case createFailed = "CREATE_FAILED"
-        /// ServiceNetwork and Service association creation in progress
+        /// ServiceNetwork and Resource association creation in progress
         case createInProgress = "CREATE_IN_PROGRESS"
-        /// ServiceNetwork and Service association deletion failed
+        /// ServiceNetwork and Resource association deletion failed
         case deleteFailed = "DELETE_FAILED"
-        /// ServiceNetwork and Service association deletion in progress
+        /// ServiceNetwork and Resource association deletion in progress
         case deleteInProgress = "DELETE_IN_PROGRESS"
-        /// ServiceNetwork and Service association is partial
+        /// ServiceNetwork and Resource association is partial
         case partial = "PARTIAL"
         public var description: String { return self.rawValue }
     }
@@ -1111,7 +1111,7 @@ extension VPCLattice {
         public let ipv4AddressesPerEni: Int?
         /// The name of the resource gateway.
         public let name: String
-        /// Indicates how DNS is resolved for resource configurations associated with this resource gateway. This value is set when you create the resource gateway and can't be changed afterward. The default is PUBLIC.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC, and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
+        /// Indicates how DNS is resolved for resource configurations associated with this resource gateway. The default is PUBLIC. To change the value after you create the resource gateway, use UpdateResourceGateway.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC, and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations. DNS queries for an IN_VPC resource gateway use UDP only, with no TCP fallback. If responses exceed 8.4 KB, DNS resolution fails. The DNS resolver must be recursive. For more information, see Resource Config DNS Resolution in the Amazon VPC Lattice User Guide.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
         public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
         public let securityGroupIds: [String]?
@@ -4893,7 +4893,7 @@ extension VPCLattice {
     }
 
     public struct PathMatch: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the match is case sensitive.
+        /// Specifies whether the match is case sensitive. Defaults to true (case-sensitive matching). Set to false to match the path case-insensitively.
         public let caseSensitive: Bool?
         /// The type of path match.
         public let match: PathMatchType
@@ -4952,7 +4952,7 @@ extension VPCLattice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 36864)
+            try self.validate(self.policy, name: "policy", parent: name, max: 102400)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
@@ -6391,13 +6391,16 @@ extension VPCLattice {
     }
 
     public struct UpdateResourceGatewayRequest: AWSEncodableShape {
+        /// Indicates how DNS is resolved for resource configurations associated with this resource gateway.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.    PUBLIC - DNS resolution occurs against public DNS resolvers. Use this when your resource domain names are publicly resolvable.
+        public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The ID or ARN of the resource gateway.
         public let resourceGatewayIdentifier: String
         /// The IDs of the security groups associated with the resource gateway.
         public let securityGroupIds: [String]?
 
         @inlinable
-        public init(resourceGatewayIdentifier: String, securityGroupIds: [String]? = nil) {
+        public init(resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil, resourceGatewayIdentifier: String, securityGroupIds: [String]? = nil) {
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.resourceGatewayIdentifier = resourceGatewayIdentifier
             self.securityGroupIds = securityGroupIds
         }
@@ -6405,6 +6408,7 @@ extension VPCLattice {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.resourceConfigDnsResolution, forKey: .resourceConfigDnsResolution)
             request.encodePath(self.resourceGatewayIdentifier, key: "resourceGatewayIdentifier")
             try container.encodeIfPresent(self.securityGroupIds, forKey: .securityGroupIds)
         }
@@ -6421,6 +6425,7 @@ extension VPCLattice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceConfigDnsResolution = "resourceConfigDnsResolution"
             case securityGroupIds = "securityGroupIds"
         }
     }
@@ -6434,6 +6439,8 @@ extension VPCLattice {
         public let ipAddressType: IpAddressType?
         /// The name of the resource gateway.
         public let name: String?
+        /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+        public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The IDs of the security groups associated with the resource gateway.
         public let securityGroupIds: [String]?
         /// The status of the resource gateway.
@@ -6444,11 +6451,12 @@ extension VPCLattice {
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.id = id
             self.ipAddressType = ipAddressType
             self.name = name
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetIds = subnetIds
@@ -6460,6 +6468,7 @@ extension VPCLattice {
             case id = "id"
             case ipAddressType = "ipAddressType"
             case name = "name"
+            case resourceConfigDnsResolution = "resourceConfigDnsResolution"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
             case subnetIds = "subnetIds"

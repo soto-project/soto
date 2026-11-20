@@ -36,6 +36,12 @@ extension S3Vectors {
         public var description: String { return self.rawValue }
     }
 
+    public enum IndexMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classic = "CLASSIC"
+        case enhanced = "ENHANCED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
@@ -547,6 +553,8 @@ extension S3Vectors {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the vector index.
         public let indexArn: String
+        /// The mode that determines how the vector index processes queries. Valid values:    CLASSIC - Applies metadata filters during the vector search.    ENHANCED - Applies metadata filters before the vector search.
+        public let indexMode: IndexMode?
         /// The name of the vector index.
         public let indexName: String
         /// The metadata configuration for the vector index.
@@ -555,13 +563,14 @@ extension S3Vectors {
         public let vectorBucketName: String
 
         @inlinable
-        public init(creationTime: Date, dataType: DataType, dimension: Int, distanceMetric: DistanceMetric, encryptionConfiguration: EncryptionConfiguration? = nil, indexArn: String, indexName: String, metadataConfiguration: MetadataConfiguration? = nil, vectorBucketName: String) {
+        public init(creationTime: Date, dataType: DataType, dimension: Int, distanceMetric: DistanceMetric, encryptionConfiguration: EncryptionConfiguration? = nil, indexArn: String, indexMode: IndexMode? = nil, indexName: String, metadataConfiguration: MetadataConfiguration? = nil, vectorBucketName: String) {
             self.creationTime = creationTime
             self.dataType = dataType
             self.dimension = dimension
             self.distanceMetric = distanceMetric
             self.encryptionConfiguration = encryptionConfiguration
             self.indexArn = indexArn
+            self.indexMode = indexMode
             self.indexName = indexName
             self.metadataConfiguration = metadataConfiguration
             self.vectorBucketName = vectorBucketName
@@ -574,6 +583,7 @@ extension S3Vectors {
             case distanceMetric = "distanceMetric"
             case encryptionConfiguration = "encryptionConfiguration"
             case indexArn = "indexArn"
+            case indexMode = "indexMode"
             case indexName = "indexName"
             case metadataConfiguration = "metadataConfiguration"
             case vectorBucketName = "vectorBucketName"
@@ -903,6 +913,38 @@ extension S3Vectors {
         }
     }
 
+    public struct PutVectorBucketDefaultIndexModeInput: AWSEncodableShape {
+        /// The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes.
+        public let defaultIndexMode: IndexMode
+        /// The Amazon Resource Name (ARN) of the vector bucket to update.
+        public let vectorBucketArn: String?
+        /// The name of the vector bucket to update.
+        public let vectorBucketName: String?
+
+        @inlinable
+        public init(defaultIndexMode: IndexMode, vectorBucketArn: String? = nil, vectorBucketName: String? = nil) {
+            self.defaultIndexMode = defaultIndexMode
+            self.vectorBucketArn = vectorBucketArn
+            self.vectorBucketName = vectorBucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
+            try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
+            try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultIndexMode = "defaultIndexMode"
+            case vectorBucketArn = "vectorBucketArn"
+            case vectorBucketName = "vectorBucketName"
+        }
+    }
+
+    public struct PutVectorBucketDefaultIndexModeOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutVectorBucketPolicyInput: AWSEncodableShape {
         /// The JSON that defines the policy. For more information about bucket policies for S3 Vectors, see Managing vector bucket policies in the Amazon S3 User Guide.
         public let policy: String
@@ -1009,6 +1051,8 @@ extension S3Vectors {
         public let indexName: String?
         /// Pagination token from a previous request. The value of this field is empty for an initial request.
         public let nextToken: String?
+        /// The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values:    CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index.    ENHANCED - Applies metadata filters before the vector search.
+        public let queryMode: IndexMode?
         /// The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
         public let queryVector: VectorData
         /// Indicates whether to include the computed distance in the response. The default value is false.
@@ -1021,11 +1065,12 @@ extension S3Vectors {
         public let vectorBucketName: String?
 
         @inlinable
-        public init(filter: AWSDocument? = nil, indexArn: String? = nil, indexName: String? = nil, nextToken: String? = nil, queryVector: VectorData, returnDistance: Bool? = nil, returnMetadata: Bool? = nil, topK: Int, vectorBucketName: String? = nil) {
+        public init(filter: AWSDocument? = nil, indexArn: String? = nil, indexName: String? = nil, nextToken: String? = nil, queryMode: IndexMode? = nil, queryVector: VectorData, returnDistance: Bool? = nil, returnMetadata: Bool? = nil, topK: Int, vectorBucketName: String? = nil) {
             self.filter = filter
             self.indexArn = indexArn
             self.indexName = indexName
             self.nextToken = nextToken
+            self.queryMode = queryMode
             self.queryVector = queryVector
             self.returnDistance = returnDistance
             self.returnMetadata = returnMetadata
@@ -1049,6 +1094,7 @@ extension S3Vectors {
             case indexArn = "indexArn"
             case indexName = "indexName"
             case nextToken = "nextToken"
+            case queryMode = "queryMode"
             case queryVector = "queryVector"
             case returnDistance = "returnDistance"
             case returnMetadata = "returnMetadata"
@@ -1153,9 +1199,49 @@ extension S3Vectors {
         public init() {}
     }
 
+    public struct UpdateIndexModeInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the vector index to update.
+        public let indexArn: String?
+        /// The new mode for the vector index. Valid values:    CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026.    ENHANCED - Applies metadata filters before the vector search.
+        public let indexMode: IndexMode
+        /// The name of the vector index to update.
+        public let indexName: String?
+        /// The name of the vector bucket that contains the vector index.
+        public let vectorBucketName: String?
+
+        @inlinable
+        public init(indexArn: String? = nil, indexMode: IndexMode, indexName: String? = nil, vectorBucketName: String? = nil) {
+            self.indexArn = indexArn
+            self.indexMode = indexMode
+            self.indexName = indexName
+            self.vectorBucketName = vectorBucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+            try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
+            try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexArn = "indexArn"
+            case indexMode = "indexMode"
+            case indexName = "indexName"
+            case vectorBucketName = "vectorBucketName"
+        }
+    }
+
+    public struct UpdateIndexModeOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct VectorBucket: AWSDecodableShape {
         /// Date and time when the vector bucket was created.
         public let creationTime: Date
+        /// The mode that is automatically assigned to new vector indexes in the vector bucket. Changing the default index mode doesn't affect existing vector indexes.
+        public let defaultIndexMode: IndexMode?
         /// The encryption configuration for the vector bucket.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the vector bucket.
@@ -1164,8 +1250,9 @@ extension S3Vectors {
         public let vectorBucketName: String
 
         @inlinable
-        public init(creationTime: Date, encryptionConfiguration: EncryptionConfiguration? = nil, vectorBucketArn: String, vectorBucketName: String) {
+        public init(creationTime: Date, defaultIndexMode: IndexMode? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, vectorBucketArn: String, vectorBucketName: String) {
             self.creationTime = creationTime
+            self.defaultIndexMode = defaultIndexMode
             self.encryptionConfiguration = encryptionConfiguration
             self.vectorBucketArn = vectorBucketArn
             self.vectorBucketName = vectorBucketName
@@ -1173,6 +1260,7 @@ extension S3Vectors {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
+            case defaultIndexMode = "defaultIndexMode"
             case encryptionConfiguration = "encryptionConfiguration"
             case vectorBucketArn = "vectorBucketArn"
             case vectorBucketName = "vectorBucketName"

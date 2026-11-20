@@ -82,6 +82,22 @@ extension Neptunedata {
         public var description: String { return self.rawValue }
     }
 
+    public enum RebuildStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The rebuild operation was cancelled by the user.
+        case cancelled = "CANCELLED"
+        /// The rebuild operation was cancelled by the user and is in cancelling phase.
+        case cancelling = "CANCELLING"
+        /// The rebuild operation has completed successfully.
+        case completed = "COMPLETED"
+        /// The rebuild operation has failed (completely or partially).
+        case failed = "FAILED"
+        /// The rebuild operation is being prepared.
+        case preparing = "PREPARING"
+        /// The rebuild operation is actively rebuilding indexes.
+        case rebuilding = "REBUILDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3BucketRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
@@ -122,10 +138,30 @@ extension Neptunedata {
         public var description: String { return self.rawValue }
     }
 
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Rebuild all (quads and dictionaries). This is the default option.
+        case all = "ALL"
+        /// Rebuild only the dictionaries.
+        case dictionaries = "DICTIONARIES"
+        /// Rebuild only the quad indexes.
+        case quads = "QUADS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StatisticsAutoGenerationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disableAutocompute = "disableAutoCompute"
         case enableAutocompute = "enableAutoCompute"
         case refresh = "refresh"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WriteBufferSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Use when rebuilding indexes during heavy write workloads or continuous bulk data ingestion.
+        case high = "HIGH"
+        /// Suitable for databases with light to moderate write activity. This is the default.
+        case low = "LOW"
+        /// Recommended for databases with sustained write traffic or bulk loading.
+        case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
@@ -226,6 +262,46 @@ extension Neptunedata {
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
+        }
+    }
+
+    public struct CancelIndexRebuildInput: AWSEncodableShape {
+        /// The unique identifier of the index rebuild job to cancel.
+        public let rebuildId: String
+
+        @inlinable
+        public init(rebuildId: String) {
+            self.rebuildId = rebuildId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.rebuildId, key: "rebuildId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelIndexRebuildOutput: AWSDecodableShape {
+        /// The concurrency of the rebuild being cancelled, echoed from the original StartIndexRebuild request.
+        public let concurrency: Int
+        /// The status of the cancellation request.
+        public let status: RebuildStatus
+        /// The WriteBufferSize of the rebuild being cancelled, echoed from the original StartIndexRebuild request.
+        public let writeBufferSize: WriteBufferSize
+
+        @inlinable
+        public init(concurrency: Int, status: RebuildStatus, writeBufferSize: WriteBufferSize) {
+            self.concurrency = concurrency
+            self.status = status
+            self.writeBufferSize = writeBufferSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrency = "concurrency"
+            case status = "status"
+            case writeBufferSize = "writeBufferSize"
         }
     }
 
@@ -418,6 +494,28 @@ extension Neptunedata {
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
             case status = "status"
+        }
+    }
+
+    public struct CancelledByMaintenanceException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -730,6 +828,24 @@ extension Neptunedata {
         private enum CodingKeys: String, CodingKey {
             case active = "active"
             case statisticsId = "statisticsId"
+        }
+    }
+
+    public struct DictionariesInfo: AWSDecodableShape {
+        /// The size and entry count for the blob (large value) dictionary entries.
+        public let blobs: StorageMetrics?
+        /// The total size and entry count across all dictionary entries.
+        public let total: StorageMetrics?
+
+        @inlinable
+        public init(blobs: StorageMetrics? = nil, total: StorageMetrics? = nil) {
+            self.blobs = blobs
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blobs = "blobs"
+            case total = "total"
         }
     }
 
@@ -1146,6 +1262,70 @@ extension Neptunedata {
             case queryEvalStats = "queryEvalStats"
             case queryId = "queryId"
             case queryString = "queryString"
+        }
+    }
+
+    public struct GetIndexRebuildStatusInput: AWSEncodableShape {
+        /// The unique identifier of the index rebuild job returned by the StartIndexRebuild operation.
+        public let rebuildId: String
+
+        @inlinable
+        public init(rebuildId: String) {
+            self.rebuildId = rebuildId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.rebuildId, key: "rebuildId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetIndexRebuildStatusOutput: AWSDecodableShape {
+        /// The concurrency in effect for this rebuild, as echoed from the original StartIndexRebuild request.
+        public let concurrency: Int
+        /// The ISO-8601 timestamp indicating when the index rebuild operation completed. This field is only present when the operation has completed (status is COMPLETED, FAILED, or CANCELLED).
+        public let endTime: Date?
+        /// The estimated ISO-8601 timestamp for when the index rebuild operation will complete. The estimate may change as the operation progresses.
+        public let estimatedEndTime: Date?
+        /// The reason for the failure, if the rebuild operation failed. This field is only populated when the status is FAILED.
+        public let failureReason: String?
+        /// The percentage of the index rebuild operation that has been completed, expressed as an integer from 0 to 100.
+        public let progressPercentage: Int
+        /// The scope of the rebuild operation. See Scope for possible values: ALL, QUADS, or DICTIONARIES.
+        public let scope: Scope
+        /// The ISO-8601 timestamp indicating when the index rebuild operation started.
+        public let startTime: Date
+        /// The current status of the rebuild operation. See RebuildStatus for possible values: PREPARING, REBUILDING, COMPLETED, FAILED, CANCELLING or CANCELLED.
+        public let status: RebuildStatus
+        /// The WriteBufferSize in effect for this rebuild, as echoed from the original StartIndexRebuild request.
+        public let writeBufferSize: WriteBufferSize
+
+        @inlinable
+        public init(concurrency: Int, endTime: Date? = nil, estimatedEndTime: Date? = nil, failureReason: String? = nil, progressPercentage: Int, scope: Scope, startTime: Date, status: RebuildStatus, writeBufferSize: WriteBufferSize) {
+            self.concurrency = concurrency
+            self.endTime = endTime
+            self.estimatedEndTime = estimatedEndTime
+            self.failureReason = failureReason
+            self.progressPercentage = progressPercentage
+            self.scope = scope
+            self.startTime = startTime
+            self.status = status
+            self.writeBufferSize = writeBufferSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrency = "concurrency"
+            case endTime = "endTime"
+            case estimatedEndTime = "estimatedEndTime"
+            case failureReason = "failureReason"
+            case progressPercentage = "progressPercentage"
+            case scope = "scope"
+            case startTime = "startTime"
+            case status = "status"
+            case writeBufferSize = "writeBufferSize"
         }
     }
 
@@ -1694,6 +1874,48 @@ extension Neptunedata {
         }
     }
 
+    public struct GetStorageOutput: AWSDecodableShape {
+        /// Contains storage metrics for the Neptune DFE engine statistics, including size in bytes and entry count.
+        public let dfeStatistics: StorageMetrics?
+        /// Contains information about the dictionaries, including total dictionary storage and the portion used by blob entries. For additional details on the storage of the Neptune dictionary, see Neptune Storage Billing.
+        public let dictionaries: DictionariesInfo?
+        /// Contains storage metrics for Neptune system metadata, including size in bytes and entry count.
+        public let internals: StorageMetrics?
+        /// Contains information about the quad indexes, including counts and sizes for both RDF (SPARQL) and Property Graph (Gremlin/openCypher) data.
+        public let quads: QuadsIndexesInfo?
+        /// Contains storage metrics for the Neptune schema, including size in bytes and entry count.
+        public let schema: StorageMetrics?
+        /// Contains storage metrics for the Neptune change-log streams, including size in bytes and entry count.
+        public let streams: StorageMetrics?
+        /// The approximate total amount of storage used by the Neptune database instance, in bytes.
+        public let totalStorageBytesUsed: Int64?
+        /// Contains information about the undo logs. The sizeInBytes field represents the total size of the undo logs in bytes, and the listSize field represents the number of entries in the undo log list.
+        public let undoLogs: UndoLogsMetrics?
+
+        @inlinable
+        public init(dfeStatistics: StorageMetrics? = nil, dictionaries: DictionariesInfo? = nil, internals: StorageMetrics? = nil, quads: QuadsIndexesInfo? = nil, schema: StorageMetrics? = nil, streams: StorageMetrics? = nil, totalStorageBytesUsed: Int64? = nil, undoLogs: UndoLogsMetrics? = nil) {
+            self.dfeStatistics = dfeStatistics
+            self.dictionaries = dictionaries
+            self.internals = internals
+            self.quads = quads
+            self.schema = schema
+            self.streams = streams
+            self.totalStorageBytesUsed = totalStorageBytesUsed
+            self.undoLogs = undoLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dfeStatistics = "dfeStatistics"
+            case dictionaries = "dictionaries"
+            case internals = "internals"
+            case quads = "quads"
+            case schema = "schema"
+            case streams = "streams"
+            case totalStorageBytesUsed = "totalStorageBytesUsed"
+            case undoLogs = "undoLogs"
+        }
+    }
+
     public struct GremlinQueryStatus: AWSDecodableShape {
         /// The query statistics of the Gremlin query.
         public let queryEvalStats: QueryEvalStats?
@@ -1885,6 +2107,20 @@ extension Neptunedata {
             case acceptedQueryCount = "acceptedQueryCount"
             case queries = "queries"
             case runningQueryCount = "runningQueryCount"
+        }
+    }
+
+    public struct ListIndexRebuildsOutput: AWSDecodableShape {
+        /// A list of unique identifiers for index rebuild operations. Use each ID with the GetIndexRebuildStatus operation to retrieve detailed status information.
+        public let rebuildIds: [String]
+
+        @inlinable
+        public init(rebuildIds: [String]) {
+            self.rebuildIds = rebuildIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rebuildIds = "rebuildIds"
         }
     }
 
@@ -2612,6 +2848,54 @@ extension Neptunedata {
         }
     }
 
+    public struct QuadsIndexesInfo: AWSDecodableShape {
+        /// Contains quad index information for the Property Graph (Gremlin/openCypher) data model.
+        public let pg: QuadsInfo?
+        /// Contains quad index information for the RDF (SPARQL) data model.
+        public let rdf: QuadsInfo?
+
+        @inlinable
+        public init(pg: QuadsInfo? = nil, rdf: QuadsInfo? = nil) {
+            self.pg = pg
+            self.rdf = rdf
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pg = "PG"
+            case rdf = "RDF"
+        }
+    }
+
+    public struct QuadsInfo: AWSDecodableShape {
+        /// Size and count information for the GPSO quad index.
+        public let gpso: StorageMetrics?
+        /// Size and count information for the OSGP quad index. This index is optional. For details on how to enable it and evaluate the benefits and costs, see Neptune Data Model.
+        public let osgp: StorageMetrics?
+        /// Size and count information for the POGS quad index.
+        public let pogs: StorageMetrics?
+        /// Size and count information for the PZSOG quad index.
+        public let pzsog: StorageMetrics?
+        /// Size and count information for the SPOG quad index.
+        public let spog: StorageMetrics?
+
+        @inlinable
+        public init(gpso: StorageMetrics? = nil, osgp: StorageMetrics? = nil, pogs: StorageMetrics? = nil, pzsog: StorageMetrics? = nil, spog: StorageMetrics? = nil) {
+            self.gpso = gpso
+            self.osgp = osgp
+            self.pogs = pogs
+            self.pzsog = pzsog
+            self.spog = spog
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gpso = "GPSO"
+            case osgp = "OSGP"
+            case pogs = "POGS"
+            case pzsog = "PZSOG"
+            case spog = "SPOG"
+        }
+    }
+
     public struct QueryEvalStats: AWSDecodableShape {
         /// Set to TRUE if the query was cancelled, or FALSE otherwise.
         public let cancelled: Bool?
@@ -2814,6 +3098,28 @@ extension Neptunedata {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct S3Exception: AWSErrorShape {
         /// The HTTP status code returned with the exception.
         public let code: String
@@ -2899,6 +3205,72 @@ extension Neptunedata {
             case eventId = "eventId"
             case isLastOp = "isLastOp"
             case op = "op"
+        }
+    }
+
+    public struct StartIndexRebuildInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the SDK automatically generates one.
+        public let clientToken: String?
+        /// The number of concurrent indexes to rebuild in parallel. If not specified, defaults to 1. Valid values are between 1 and the number of vCPUs available on the writer instance. If the value exceeds the available vCPUs, it is capped at the maximum instead of returning an InvalidParameterException. The effective (capped) value is returned in the response. Higher concurrency can shorten the overall rebuild, but also increases CPU and I/O load during the operation.
+        public let concurrency: Int?
+        /// Specifies the scope of the rebuild operation. Possible values are:    ALL - Rebuild all (quads and dictionaries). This is the default if not specified.    QUADS - Rebuild only the quad indexes.     DICTIONARIES - Rebuild only the dictionaries.
+        public let scope: Scope?
+        /// Controls the buffer size used for tracking concurrent write operations during the index rebuild. If your database has high write traffic during the rebuild, a larger buffer prevents the operation from failing due to buffer overflow. Possible values are:    LOW - Suitable for databases with light to moderate write activity. This is the default.    MEDIUM - Recommended for databases with sustained write traffic or bulk loading.    HIGH - Use when rebuilding indexes during heavy write workloads or continuous bulk data ingestion.   If your rebuild fails and you are actively writing data to the database, retry with a higher writeBufferSize value. For bulk load operations, consider using HIGH.
+        public let writeBufferSize: WriteBufferSize?
+
+        @inlinable
+        public init(clientToken: String? = StartIndexRebuildInput.idempotencyToken(), concurrency: Int? = nil, scope: Scope? = nil, writeBufferSize: WriteBufferSize? = nil) {
+            self.clientToken = clientToken
+            self.concurrency = concurrency
+            self.scope = scope
+            self.writeBufferSize = writeBufferSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeQuery(self.concurrency, key: "concurrency")
+            request.encodeQuery(self.scope, key: "scope")
+            request.encodeQuery(self.writeBufferSize, key: "writeBufferSize")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.concurrency, name: "concurrency", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct StartIndexRebuildOutput: AWSDecodableShape {
+        /// The effective concurrency used for this rebuild. This is the value supplied in the request, capped at the number of vCPUs on the writer instance.
+        public let concurrency: Int
+        /// The unique identifier for the index rebuild job. Use this ID with the GetIndexRebuildStatus operation to check the progress of the rebuild.
+        public let rebuildId: String
+        /// The scope of the rebuild operation that was requested. See Scope for possible values: ALL, QUADS, or DICTIONARIES.
+        public let scope: Scope
+        /// The current status of the rebuild operation. See RebuildStatus for possible values.
+        public let status: RebuildStatus
+        /// The WriteBufferSize applied to this rebuild. See the WriteBufferSize enum for possible values.
+        public let writeBufferSize: WriteBufferSize
+
+        @inlinable
+        public init(concurrency: Int, rebuildId: String, scope: Scope, status: RebuildStatus, writeBufferSize: WriteBufferSize) {
+            self.concurrency = concurrency
+            self.rebuildId = rebuildId
+            self.scope = scope
+            self.status = status
+            self.writeBufferSize = writeBufferSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrency = "concurrency"
+            case rebuildId = "rebuildId"
+            case scope = "scope"
+            case status = "status"
+            case writeBufferSize = "writeBufferSize"
         }
     }
 
@@ -3344,6 +3716,24 @@ extension Neptunedata {
         }
     }
 
+    public struct StorageMetrics: AWSDecodableShape {
+        /// The number of entries.
+        public let count: Int64
+        /// Storage size in bytes.
+        public let sizeInBytes: Int64
+
+        @inlinable
+        public init(count: Int64, sizeInBytes: Int64) {
+            self.count = count
+            self.sizeInBytes = sizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case sizeInBytes = "sizeInBytes"
+        }
+    }
+
     public struct StreamRecordsNotFoundException: AWSErrorShape {
         /// The HTTP status code returned with the exception.
         public let code: String
@@ -3450,7 +3840,47 @@ extension Neptunedata {
         }
     }
 
+    public struct UndoLogsMetrics: AWSDecodableShape {
+        /// The number of entries in the undo log list.
+        public let listSize: Int64
+        /// The total size of the undo logs in bytes.
+        public let sizeInBytes: Int64
+
+        @inlinable
+        public init(listSize: Int64, sizeInBytes: Int64) {
+            self.listSize = listSize
+            self.sizeInBytes = sizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listSize = "listSize"
+            case sizeInBytes = "sizeInBytes"
+        }
+    }
+
     public struct UnsupportedOperationException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
         /// The HTTP status code returned with the exception.
         public let code: String
         /// A detailed message describing the problem.
@@ -3481,6 +3911,7 @@ public struct NeptunedataErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case badRequestException = "BadRequestException"
         case bulkLoadIdNotFoundException = "BulkLoadIdNotFoundException"
+        case cancelledByMaintenanceException = "CancelledByMaintenanceException"
         case cancelledByUserException = "CancelledByUserException"
         case clientTimeoutException = "ClientTimeoutException"
         case concurrentModificationException = "ConcurrentModificationException"
@@ -3504,6 +3935,7 @@ public struct NeptunedataErrorType: AWSErrorType {
         case queryLimitException = "QueryLimitException"
         case queryTooLargeException = "QueryTooLargeException"
         case readOnlyViolationException = "ReadOnlyViolationException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case s3Exception = "S3Exception"
         case serverShutdownException = "ServerShutdownException"
         case statisticsNotAvailableException = "StatisticsNotAvailableException"
@@ -3512,6 +3944,7 @@ public struct NeptunedataErrorType: AWSErrorType {
         case timeLimitExceededException = "TimeLimitExceededException"
         case tooManyRequestsException = "TooManyRequestsException"
         case unsupportedOperationException = "UnsupportedOperationException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -3538,6 +3971,8 @@ public struct NeptunedataErrorType: AWSErrorType {
     public static var badRequestException: Self { .init(.badRequestException) }
     /// Raised when a specified bulk-load job ID cannot be found.
     public static var bulkLoadIdNotFoundException: Self { .init(.bulkLoadIdNotFoundException) }
+    /// Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
+    public static var cancelledByMaintenanceException: Self { .init(.cancelledByMaintenanceException) }
     /// Raised when a user cancelled a request.
     public static var cancelledByUserException: Self { .init(.cancelledByUserException) }
     /// Raised when a request timed out in the client.
@@ -3584,6 +4019,8 @@ public struct NeptunedataErrorType: AWSErrorType {
     public static var queryTooLargeException: Self { .init(.queryTooLargeException) }
     /// Raised when a request attempts to write to a read-only resource.
     public static var readOnlyViolationException: Self { .init(.readOnlyViolationException) }
+    /// Raised when the specified resource could not be found. The resource might have been deleted or the identifier might be incorrect.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Raised when there is a problem accessing Amazon S3.
     public static var s3Exception: Self { .init(.s3Exception) }
     /// Raised when the server shuts down while processing a request.
@@ -3600,6 +4037,8 @@ public struct NeptunedataErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// Raised when a request attempts to initiate an operation that is not supported.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+    /// Raised when a parameter value is not valid or is malformed.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension NeptunedataErrorType: AWSServiceErrorType {
@@ -3607,6 +4046,7 @@ extension NeptunedataErrorType: AWSServiceErrorType {
         "AccessDeniedException": Neptunedata.AccessDeniedException.self,
         "BadRequestException": Neptunedata.BadRequestException.self,
         "BulkLoadIdNotFoundException": Neptunedata.BulkLoadIdNotFoundException.self,
+        "CancelledByMaintenanceException": Neptunedata.CancelledByMaintenanceException.self,
         "CancelledByUserException": Neptunedata.CancelledByUserException.self,
         "ClientTimeoutException": Neptunedata.ClientTimeoutException.self,
         "ConcurrentModificationException": Neptunedata.ConcurrentModificationException.self,
@@ -3630,6 +4070,7 @@ extension NeptunedataErrorType: AWSServiceErrorType {
         "QueryLimitException": Neptunedata.QueryLimitException.self,
         "QueryTooLargeException": Neptunedata.QueryTooLargeException.self,
         "ReadOnlyViolationException": Neptunedata.ReadOnlyViolationException.self,
+        "ResourceNotFoundException": Neptunedata.ResourceNotFoundException.self,
         "S3Exception": Neptunedata.S3Exception.self,
         "ServerShutdownException": Neptunedata.ServerShutdownException.self,
         "StatisticsNotAvailableException": Neptunedata.StatisticsNotAvailableException.self,
@@ -3637,7 +4078,8 @@ extension NeptunedataErrorType: AWSServiceErrorType {
         "ThrottlingException": Neptunedata.ThrottlingException.self,
         "TimeLimitExceededException": Neptunedata.TimeLimitExceededException.self,
         "TooManyRequestsException": Neptunedata.TooManyRequestsException.self,
-        "UnsupportedOperationException": Neptunedata.UnsupportedOperationException.self
+        "UnsupportedOperationException": Neptunedata.UnsupportedOperationException.self,
+        "ValidationException": Neptunedata.ValidationException.self
     ]
 }
 

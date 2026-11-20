@@ -179,6 +179,16 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
+    public enum SystemTableName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SystemTableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case queryExecutions = "QUERY_EXECUTIONS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThrottleReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case concurrentQueryLimitExceeded = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
@@ -646,7 +656,7 @@ extension Athena {
     public struct CloudWatchLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enables CloudWatch logging.
         public let enabled: Bool
-        /// The name of the log group in Amazon CloudWatch Logs where you want to publish  your logs.
+        /// The name of the log group in Amazon CloudWatch Logs where you want to publish your logs.
         public let logGroup: String?
         /// Prefix for the CloudWatch log stream name.
         public let logStreamNamePrefix: String?
@@ -1036,6 +1046,69 @@ extension Athena {
         }
     }
 
+    public struct CreateSystemTableConfigurationInput: AWSEncodableShape {
+        /// A unique case-sensitive string used to ensure the request to create the system table configuration is idempotent (executes only once). If another CreateSystemTableConfiguration request is received with the same client token but different parameters, the request fails with an InvalidRequestException.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key to use for encrypting the system table data.
+        public let kmsKeyArn: String?
+        /// The system table configuration to create. The only accepted value is ALL, the reserved keyword that enables all system tables for the account.
+        public let tableName: SystemTableName
+        /// The tags to add to the system table configuration.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateSystemTableConfigurationInput.idempotencyToken(), kmsKeyArn: String? = nil, tableName: SystemTableName, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.kmsKeyArn = kmsKeyArn
+            self.tableName = tableName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:[a-z0-9\\-]+:\\d{12}:(key/(mrk-)?[0-9a-f\\-]+|alias/[a-zA-Z0-9/_\\-]+)$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case kmsKeyArn = "KmsKeyArn"
+            case tableName = "TableName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSystemTableConfigurationOutput: AWSDecodableShape {
+        /// The date and time the system table configuration was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used for encrypting the system table data.
+        public let kmsKeyArn: String?
+        /// The date and time the system table configuration was last modified.
+        public let lastModifiedAt: Date?
+        /// The system table configuration that was created. Always ALL.
+        public let tableName: SystemTableName?
+
+        @inlinable
+        public init(createdAt: Date? = nil, kmsKeyArn: String? = nil, lastModifiedAt: Date? = nil, tableName: SystemTableName? = nil) {
+            self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModifiedAt = lastModifiedAt
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case kmsKeyArn = "KmsKeyArn"
+            case lastModifiedAt = "LastModifiedAt"
+            case tableName = "TableName"
+        }
+    }
+
     public struct CreateWorkGroupInput: AWSEncodableShape {
         /// Contains configuration information for creating an Athena SQL workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
@@ -1087,7 +1160,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+|arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+|alias/[a-zA-Z0-9/_-]+|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1334,6 +1407,24 @@ extension Athena {
     }
 
     public struct DeletePreparedStatementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteSystemTableConfigurationInput: AWSEncodableShape {
+        /// The system table configuration to delete. The only accepted value is ALL.
+        public let tableName: SystemTableName
+
+        @inlinable
+        public init(tableName: SystemTableName) {
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeleteSystemTableConfigurationOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -2247,6 +2338,46 @@ extension Athena {
         }
     }
 
+    public struct GetSystemTableConfigurationInput: AWSEncodableShape {
+        /// The system table configuration to retrieve. The only accepted value is ALL.
+        public let tableName: SystemTableName
+
+        @inlinable
+        public init(tableName: SystemTableName) {
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetSystemTableConfigurationOutput: AWSDecodableShape {
+        /// The date and time the system table configuration was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used for encrypting the system table data.
+        public let kmsKeyArn: String?
+        /// The date and time the system table configuration was last modified.
+        public let lastModifiedAt: Date?
+        /// The system table configuration. Always ALL.
+        public let tableName: SystemTableName?
+
+        @inlinable
+        public init(createdAt: Date? = nil, kmsKeyArn: String? = nil, lastModifiedAt: Date? = nil, tableName: SystemTableName? = nil) {
+            self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModifiedAt = lastModifiedAt
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case kmsKeyArn = "KmsKeyArn"
+            case lastModifiedAt = "LastModifiedAt"
+            case tableName = "TableName"
+        }
+    }
+
     public struct GetTableMetadataInput: AWSEncodableShape {
         /// The name of the data catalog that contains the database and table metadata to return.
         public let catalogName: String
@@ -3069,6 +3200,49 @@ extension Athena {
         }
     }
 
+    public struct ListSystemTableStatusesInput: AWSEncodableShape {
+        /// Specifies the maximum number of results to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSystemTableStatusesOutput: AWSDecodableShape {
+        /// The list of system tables and their enablement status for the current account.
+        public let items: [SystemTableStatus]
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [SystemTableStatus], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTableMetadataInput: AWSEncodableShape {
         /// The name of the data catalog for which table metadata should be returned.
         public let catalogName: String
@@ -3241,7 +3415,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+|arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+|alias/[a-zA-Z0-9/_-]+|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3310,7 +3484,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+|arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+|alias/[a-zA-Z0-9/_-]+|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4073,7 +4247,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+|arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+|alias/[a-zA-Z0-9/_-]+|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$")
             try self.validate(self.logLocation, name: "logLocation", parent: name, max: 1024)
             try self.validate(self.logLocation, name: "logLocation", parent: name, pattern: "^s3://[a-z0-9][a-z0-9\\-]*[a-z0-9](/.*)?$")
         }
@@ -4264,7 +4438,7 @@ extension Athena {
     public struct StartQueryExecutionInput: AWSEncodableShape {
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         public let clientRequestToken: String?
-        /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
+        /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.  Note: When using StartQueryExecution, only the Classifications field applies. Do not specify the other fields (AdditionalConfigs, CoordinatorDpuSize, DefaultExecutorDpuSize, MaxConcurrentDpus, and SparkProperties), as these are used only with StartSession to configure Apache Spark-based sessions.
         public let engineConfiguration: EngineConfiguration?
         /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
         public let executionParameters: [String]?
@@ -4345,7 +4519,7 @@ extension Athena {
         public let engineConfiguration: EngineConfiguration
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public let executionRole: String?
-        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
         public let monitoringConfiguration: MonitoringConfiguration?
         /// The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See EngineConfiguration$AdditionalConfigs.
         public let notebookVersion: String?
@@ -4477,6 +4651,24 @@ extension Athena {
 
     public struct StopQueryExecutionOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct SystemTableStatus: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the system table is enabled for the account.
+        public let enabled: Bool
+        /// The name of the system table, such as QUERY_EXECUTIONS.
+        public let tableName: SystemTableType
+
+        @inlinable
+        public init(enabled: Bool, tableName: SystemTableType) {
+            self.enabled = enabled
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case tableName = "TableName"
+        }
     }
 
     public struct TableMetadata: AWSDecodableShape {
@@ -4957,6 +5149,56 @@ extension Athena {
         public init() {}
     }
 
+    public struct UpdateSystemTableConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key to use for encrypting the system table data. The encryption key is immutable while the system table exists, so a change takes effect only after the table has been deleted.
+        public let kmsKeyArn: String?
+        /// The system table configuration to update. The only accepted value is ALL.
+        public let tableName: SystemTableName
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, tableName: SystemTableName) {
+            self.kmsKeyArn = kmsKeyArn
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:[a-z0-9\\-]+:\\d{12}:(key/(mrk-)?[0-9a-f\\-]+|alias/[a-zA-Z0-9/_\\-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateSystemTableConfigurationOutput: AWSDecodableShape {
+        /// The date and time the system table configuration was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used for encrypting the system table data.
+        public let kmsKeyArn: String?
+        /// The date and time the system table configuration was last modified.
+        public let lastModifiedAt: Date?
+        /// The system table configuration. Always ALL.
+        public let tableName: SystemTableName?
+
+        @inlinable
+        public init(createdAt: Date? = nil, kmsKeyArn: String? = nil, lastModifiedAt: Date? = nil, tableName: SystemTableName? = nil) {
+            self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModifiedAt = lastModifiedAt
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case kmsKeyArn = "KmsKeyArn"
+            case lastModifiedAt = "LastModifiedAt"
+            case tableName = "TableName"
+        }
+    }
+
     public struct UpdateWorkGroupInput: AWSEncodableShape {
         /// Contains configuration updates for an Athena SQL workgroup.
         public let configurationUpdates: WorkGroupConfigurationUpdates?
@@ -5047,7 +5289,7 @@ extension Athena {
         public let identityCenterConfiguration: IdentityCenterConfiguration?
         ///  The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
         public let managedQueryResultsConfiguration: ManagedQueryResultsConfiguration?
-        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
         public let monitoringConfiguration: MonitoringConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
@@ -5057,9 +5299,11 @@ extension Athena {
         public let requesterPaysEnabled: Bool?
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using ResultConfiguration$OutputLocation. If none of them is set, Athena issues an error that no output location is provided.
         public let resultConfiguration: ResultConfiguration?
+        /// The read-only enablement status of each system table for the account. This field is returned by GetWorkGroup and is ignored on write.
+        public let systemTableStatuses: [SystemTableStatus]?
 
         @inlinable
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, managedQueryResultsConfiguration: ManagedQueryResultsConfiguration? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, managedQueryResultsConfiguration: ManagedQueryResultsConfiguration? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil, systemTableStatuses: [SystemTableStatus]? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
@@ -5075,6 +5319,7 @@ extension Athena {
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
+            self.systemTableStatuses = systemTableStatuses
         }
 
         public func validate(name: String) throws {
@@ -5091,6 +5336,7 @@ extension Athena {
             try self.managedQueryResultsConfiguration?.validate(name: "\(name).managedQueryResultsConfiguration")
             try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
+            try self.validate(self.systemTableStatuses, name: "systemTableStatuses", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5109,6 +5355,7 @@ extension Athena {
             case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
             case requesterPaysEnabled = "RequesterPaysEnabled"
             case resultConfiguration = "ResultConfiguration"
+            case systemTableStatuses = "SystemTableStatuses"
         }
     }
 
@@ -5129,7 +5376,7 @@ extension Athena {
         public let executionRole: String?
         /// Updates configuration information for managed query results in the workgroup.
         public let managedQueryResultsConfigurationUpdates: ManagedQueryResultsConfigurationUpdates?
-        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets, Amazon CloudWatch log groups etc.
         public let monitoringConfiguration: MonitoringConfiguration?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public let publishCloudWatchMetricsEnabled: Bool?

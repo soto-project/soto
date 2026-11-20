@@ -132,6 +132,7 @@ public struct MWAA: AWSService {
     ///   - endpointManagement: Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
     ///   - environmentClass: The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, refer to Amazon MWAA environment class.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
+    ///   - identityCenterConfiguration: The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
     ///   - kmsKey: The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, refer to Create an Amazon MWAA environment.
     ///   - loggingConfiguration: Defines the Apache Airflow logs to send to CloudWatch Logs.
     ///   - maxWebservers:  The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: For environments larger than mw1.micro, accepts values from 2 to 5. Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1.
@@ -149,6 +150,7 @@ public struct MWAA: AWSService {
     ///   - startupScriptS3ObjectVersion: The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, refer to Using a startup script.
     ///   - startupScriptS3Path: The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script.
     ///   - tags: The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, refer to Tagging Amazon Web Services resources.
+    ///   - teams: A map of teams to configure for Apache Airflow multi-team support on your Amazon MWAA environment. Each entry maps a team name to a object that defines the Amazon S3 location of that team's DAG code. The team name must match the display name of an Amazon Web Services IAM Identity Center group that you associate with your environment, so you must configure IAM Identity Center for the environment before you add teams. You can configure between 1 and 20 teams. For more information, refer to Apache Airflow multi-team environments.
     ///   - webserverAccessMode: Defines the access mode for the Apache Airflow web server. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
     ///   - weeklyMaintenanceWindowStart: The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
     ///   - logger: Logger use during operation
@@ -160,6 +162,7 @@ public struct MWAA: AWSService {
         endpointManagement: EndpointManagement? = nil,
         environmentClass: String? = nil,
         executionRoleArn: String,
+        identityCenterConfiguration: IdentityCenterConfiguration? = nil,
         kmsKey: String? = nil,
         loggingConfiguration: LoggingConfigurationInput? = nil,
         maxWebservers: Int? = nil,
@@ -177,6 +180,7 @@ public struct MWAA: AWSService {
         startupScriptS3ObjectVersion: String? = nil,
         startupScriptS3Path: String? = nil,
         tags: [String: String]? = nil,
+        teams: [String: TeamConfig]? = nil,
         webserverAccessMode: WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -188,6 +192,7 @@ public struct MWAA: AWSService {
             endpointManagement: endpointManagement, 
             environmentClass: environmentClass, 
             executionRoleArn: executionRoleArn, 
+            identityCenterConfiguration: identityCenterConfiguration, 
             kmsKey: kmsKey, 
             loggingConfiguration: loggingConfiguration, 
             maxWebservers: maxWebservers, 
@@ -205,6 +210,7 @@ public struct MWAA: AWSService {
             startupScriptS3ObjectVersion: startupScriptS3ObjectVersion, 
             startupScriptS3Path: startupScriptS3Path, 
             tags: tags, 
+            teams: teams, 
             webserverAccessMode: webserverAccessMode, 
             weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart
         )
@@ -529,6 +535,7 @@ public struct MWAA: AWSService {
     ///   - dagS3Path: The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, refer to Adding or updating DAGs.
     ///   - environmentClass: The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, refer to Amazon MWAA environment class.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
+    ///   - identityCenterConfiguration: The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
     ///   - loggingConfiguration: The Apache Airflow log types to send to CloudWatch Logs.
     ///   - maxWebservers:  The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: For environments larger than mw1.micro, accepts values from 2 to 5. Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1.
     ///   - maxWorkers: The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers.
@@ -544,6 +551,7 @@ public struct MWAA: AWSService {
     ///   - sourceBucketArn: The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, refer to Create an Amazon S3 bucket for Amazon MWAA.
     ///   - startupScriptS3ObjectVersion:  The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, refer to Using a startup script.
     ///   - startupScriptS3Path: The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script.
+    ///   - teams: Updates the teams configured for Apache Airflow multi-team support on your Amazon MWAA environment. Use AddOrUpdate to add new teams or change the configuration of existing teams, and Remove to remove teams by name. For more information, refer to Apache Airflow multi-team environments.
     ///   - webserverAccessMode: The Apache Airflow Web server access mode. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
     ///   - weeklyMaintenanceWindowStart: The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
     ///   - workerReplacementStrategy: The worker replacement strategy to use when updating the environment. You can select one of the following strategies:    Forced - Stops and replaces Apache Airflow workers without waiting for tasks to complete before an update.    Graceful - Allows Apache Airflow workers to complete running tasks for up to 12 hours during an update before they're stopped and replaced.
@@ -555,6 +563,7 @@ public struct MWAA: AWSService {
         dagS3Path: String? = nil,
         environmentClass: String? = nil,
         executionRoleArn: String? = nil,
+        identityCenterConfiguration: IdentityCenterConfiguration? = nil,
         loggingConfiguration: LoggingConfigurationInput? = nil,
         maxWebservers: Int? = nil,
         maxWorkers: Int? = nil,
@@ -570,6 +579,7 @@ public struct MWAA: AWSService {
         sourceBucketArn: String? = nil,
         startupScriptS3ObjectVersion: String? = nil,
         startupScriptS3Path: String? = nil,
+        teams: UpdateTeamsInput? = nil,
         webserverAccessMode: WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: String? = nil,
         workerReplacementStrategy: WorkerReplacementStrategy? = nil,
@@ -581,6 +591,7 @@ public struct MWAA: AWSService {
             dagS3Path: dagS3Path, 
             environmentClass: environmentClass, 
             executionRoleArn: executionRoleArn, 
+            identityCenterConfiguration: identityCenterConfiguration, 
             loggingConfiguration: loggingConfiguration, 
             maxWebservers: maxWebservers, 
             maxWorkers: maxWorkers, 
@@ -596,6 +607,7 @@ public struct MWAA: AWSService {
             sourceBucketArn: sourceBucketArn, 
             startupScriptS3ObjectVersion: startupScriptS3ObjectVersion, 
             startupScriptS3Path: startupScriptS3Path, 
+            teams: teams, 
             webserverAccessMode: webserverAccessMode, 
             weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart, 
             workerReplacementStrategy: workerReplacementStrategy
@@ -607,7 +619,7 @@ public struct MWAA: AWSService {
 extension MWAA {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: MWAA, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

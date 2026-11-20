@@ -207,6 +207,37 @@ public struct DynamoDB: AWSService {
         return try await self.batchWriteItem(input, logger: logger)
     }
 
+    /// Cancels an in-progress bulk operation asynchronously. Cancellation doesn't remove items that the operation has already written. Use DescribeBulkOperation to monitor the operation until it reaches a terminal status.
+    @Sendable
+    @inlinable
+    public func cancelBulkOperation(_ input: CancelBulkOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelBulkOperationOutput {
+        try await self.client.execute(
+            operation: "CancelBulkOperation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an in-progress bulk operation asynchronously. Cancellation doesn't remove items that the operation has already written. Use DescribeBulkOperation to monitor the operation until it reaches a terminal status.
+    ///
+    /// Parameters:
+    ///   - bulkOperationArn: The Amazon Resource Name (ARN) of the bulk operation to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelBulkOperation(
+        bulkOperationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelBulkOperationOutput {
+        let input = CancelBulkOperationInput(
+            bulkOperationArn: bulkOperationArn
+        )
+        return try await self.cancelBulkOperation(input, logger: logger)
+    }
+
     /// Creates a backup for an existing table. Each time you create an on-demand backup, the entire table data is backed up. There is no limit to the number of on-demand backups that can be taken.  When you create an on-demand backup, a time marker of the request is cataloged, and the backup is created asynchronously, by applying all changes until the time of the request to the last full table snapshot. Backup requests are processed instantaneously and become available for restore within minutes.  You can call CreateBackup at a maximum rate of 50 times per second. All backups in DynamoDB work without consuming any provisioned throughput on the table. If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed to contain all data committed to the table up to 14:24:00, and data committed after 14:26:00 will not be. The backup might contain data modifications made between 14:24:00 and 14:26:00. On-demand backup does not support causal consistency.  Along with data, the following are also included on the backups:    Global secondary indexes (GSIs)   Local secondary indexes (LSIs)   Streams   Provisioned read and write capacity
     @Sendable
     @inlinable
@@ -543,6 +574,37 @@ public struct DynamoDB: AWSService {
             backupArn: backupArn
         )
         return try await self.describeBackup(input, logger: logger)
+    }
+
+    /// Describes the specified bulk operation.
+    @Sendable
+    @inlinable
+    public func describeBulkOperation(_ input: DescribeBulkOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBulkOperationOutput {
+        try await self.client.execute(
+            operation: "DescribeBulkOperation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the specified bulk operation.
+    ///
+    /// Parameters:
+    ///   - bulkOperationArn: The Amazon Resource Name (ARN) of the bulk operation to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeBulkOperation(
+        bulkOperationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeBulkOperationOutput {
+        let input = DescribeBulkOperationInput(
+            bulkOperationArn: bulkOperationArn
+        )
+        return try await self.describeBulkOperation(input, logger: logger)
     }
 
     /// Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. After continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime.   LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days.  You can call DescribeContinuousBackups at a maximum rate of 10 times per second.
@@ -1080,6 +1142,7 @@ public struct DynamoDB: AWSService {
     ///   - exportFormat: The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
     ///   - exportTime: Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
     ///   - exportType: Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+    ///   - filterSpecification: The criteria used to filter which items are included in the point-in-time export. When you specify this parameter, only items that match the key conditions and filter expressions are exported.
     ///   - incrementalExportSpecification: Optional object containing the parameters specific to an incremental export.
     ///   - s3Bucket: The name of the Amazon S3 bucket to export the snapshot to.
     ///   - s3BucketOwner: The ID of the Amazon Web Services account that owns the bucket the export will be stored in.  S3BucketOwner is a required parameter when exporting to a S3 bucket in another account.
@@ -1094,6 +1157,7 @@ public struct DynamoDB: AWSService {
         exportFormat: ExportFormat? = nil,
         exportTime: Date? = nil,
         exportType: ExportType? = nil,
+        filterSpecification: FilterSpecification? = nil,
         incrementalExportSpecification: IncrementalExportSpecification? = nil,
         s3Bucket: String,
         s3BucketOwner: String? = nil,
@@ -1108,6 +1172,7 @@ public struct DynamoDB: AWSService {
             exportFormat: exportFormat, 
             exportTime: exportTime, 
             exportType: exportType, 
+            filterSpecification: filterSpecification, 
             incrementalExportSpecification: incrementalExportSpecification, 
             s3Bucket: s3Bucket, 
             s3BucketOwner: s3BucketOwner, 
@@ -1287,6 +1352,40 @@ public struct DynamoDB: AWSService {
             timeRangeUpperBound: timeRangeUpperBound
         )
         return try await self.listBackups(input, logger: logger)
+    }
+
+    /// Lists bulk operations that started within the past 90 days for the current Amazon Web Services account and Amazon Web Services Region, with the most recent operations first. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listBulkOperations(_ input: ListBulkOperationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBulkOperationsOutput {
+        try await self.client.execute(
+            operation: "ListBulkOperations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists bulk operations that started within the past 90 days for the current Amazon Web Services account and Amazon Web Services Region, with the most recent operations first. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of bulk operation summaries to return in one page. If you don't specify a value, DynamoDB uses 10.
+    ///   - nextToken: An optional string that, if supplied, must be copied from the output of a previous call to ListBulkOperations. When provided in this manner, the API fetches the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBulkOperations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBulkOperationsOutput {
+        let input = ListBulkOperationsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBulkOperations(input, logger: logger)
     }
 
     /// Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
@@ -1895,7 +1994,7 @@ public struct DynamoDB: AWSService {
     ///   - indexName: The name of the vector index to search. The index must be in the ACTIVE state.
     ///   - projectionExpression: A string that identifies one or more attributes to retrieve from the index. Separate attribute names with commas. If not specified, the operation returns all attributes projected into the vector index. Only attributes projected into the vector index can be retrieved.
     ///   - returnConsumedCapacity: 
-    ///   - searchConditionExpression: A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. Only the equality operator (=) is supported for HASH attributes. Comparison and range operators are supported for INLINE_FILTER attributes. Only top-level attributes from the search schema can be referenced.
+    ///   - searchConditionExpression: A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. The HASH and INLINE_FILTER attributes support only the equality operator (=). You can reference only top-level attributes from the search schema.
     ///   - searchVector: The search vector to compare against the indexed vectors. Each element is a 32-bit IEEE-754 floating point number, provided in DynamoDB list format. The number of dimensions must match the number of dimensions configured for the vector index.
     ///   - tableName: The name or Amazon Resource Name (ARN) of the table containing the vector index.
     ///   - topK: The number of most similar results to return.
@@ -1925,6 +2024,52 @@ public struct DynamoDB: AWSService {
             topK: topK
         )
         return try await self.searchVectors(input, logger: logger)
+    }
+
+    /// Starts an asynchronous bulk operation that reads items from Amazon S3 and writes them to an existing DynamoDB table, so you can efficiently load or migrate large datasets.
+    @Sendable
+    @inlinable
+    public func startBulkPutItems(_ input: StartBulkPutItemsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBulkPutItemsOutput {
+        try await self.client.execute(
+            operation: "StartBulkPutItems", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous bulk operation that reads items from Amazon S3 and writes them to an existing DynamoDB table, so you can efficiently load or migrate large datasets.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that ensures the bulk operation starts no more than one time. During the 8 hours after the initial request, repeated requests that use the same token and parameters return the same bulk operation. If a request reuses the token with different parameters, DynamoDB returns an IdempotentParameterMismatchException. If you omit the token, an Amazon Web Services SDK automatically generates one.
+    ///   - inputS3Configuration: The Amazon S3 location, data format, and compression settings for the input objects.
+    ///   - maxWriteRequestUnits: The maximum rate, in write request units per second, at which the bulk operation attempts to write. The value must be at least 1,024. With this setting, you limit only the bulk operation; the table's provisioned or on-demand capacity settings don't change. The actual write rate can be lower.
+    ///   - outputS3Configuration: The Amazon S3 location, encryption settings, and output types for the bulk operation.
+    ///   - performanceTier: The performance tier for the bulk operation. Valid values are STANDARD and ACCELERATED. If you don't specify a value, the operation uses STANDARD.
+    ///   - tableName: The name or ARN of the existing DynamoDB table that receives the items.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startBulkPutItems(
+        clientToken: String? = StartBulkPutItemsInput.idempotencyToken(),
+        inputS3Configuration: InputS3Configuration,
+        maxWriteRequestUnits: Int64? = nil,
+        outputS3Configuration: OutputS3Configuration,
+        performanceTier: BulkOperationPerformanceTier? = nil,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartBulkPutItemsOutput {
+        let input = StartBulkPutItemsInput(
+            clientToken: clientToken, 
+            inputS3Configuration: inputS3Configuration, 
+            maxWriteRequestUnits: maxWriteRequestUnits, 
+            outputS3Configuration: outputS3Configuration, 
+            performanceTier: performanceTier, 
+            tableName: tableName
+        )
+        return try await self.startBulkPutItems(input, logger: logger)
     }
 
     /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account.     TagResource is an asynchronous operation. If you issue a ListTagsOfResource request immediately after a TagResource request, DynamoDB might return your previous tag set, if there was one, or an empty tag set. This is because ListTagsOfResource uses an eventually consistent query, and the metadata for your tags or table might not be available at that moment. Wait for a few seconds, and then try the ListTagsOfResource request again.   The application or removal of tags using TagResource and UntagResource APIs is eventually consistent. ListTagsOfResource API will only reflect the changes after a few seconds.   For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide.
@@ -2325,7 +2470,7 @@ public struct DynamoDB: AWSService {
         return try await self.updateKinesisStreamingDestination(input, logger: logger)
     }
 
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
+    /// Modifies the provisioned throughput settings, global secondary indexes, DynamoDB Streams settings, or global table replica settings for a given table. You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.   Enable or disable disassociation protection for the local global table replica.   Disassociate the local global table replica and keep it as a standalone regional table. The Disassociate action must be the only replica update in the request. If the request includes any other update, UpdateTable fails with a ValidationException and the disassociation does not start.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. Use DescribeTable to monitor the table's status. To use this operation to disassociate a local replica, you must have the dynamodb:UpdateTable and dynamodb:DisassociateTableReplica IAM permissions on the local replica. Send disassociation and disassociation protection requests to the replica's Region using credentials for the account that owns the replica. For prerequisites and the procedure, see Disassociating a global table replica in the Amazon DynamoDB Developer Guide. To confirm successful disassociation, call DescribeTable in the replica's Region and verify that TableStatus is ACTIVE and Replicas is absent or empty. If TableStatus returns to ACTIVE but the response still includes a Replicas list, the disassociation did not complete. Check ReplicaStatus for a replication-permission or encryption-access problem, resolve it, and retry.
     @Sendable
     @inlinable
     public func updateTable(_ input: UpdateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableOutput {
@@ -2340,19 +2485,20 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
+    /// Modifies the provisioned throughput settings, global secondary indexes, DynamoDB Streams settings, or global table replica settings for a given table. You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.   Enable or disable disassociation protection for the local global table replica.   Disassociate the local global table replica and keep it as a standalone regional table. The Disassociate action must be the only replica update in the request. If the request includes any other update, UpdateTable fails with a ValidationException and the disassociation does not start.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. Use DescribeTable to monitor the table's status. To use this operation to disassociate a local replica, you must have the dynamodb:UpdateTable and dynamodb:DisassociateTableReplica IAM permissions on the local replica. Send disassociation and disassociation protection requests to the replica's Region using credentials for the account that owns the replica. For prerequisites and the procedure, see Disassociating a global table replica in the Amazon DynamoDB Developer Guide. To confirm successful disassociation, call DescribeTable in the replica's Region and verify that TableStatus is ACTIVE and Replicas is absent or empty. If TableStatus returns to ACTIVE but the response still includes a Replicas list, the disassociation did not complete. Check ReplicaStatus for a replication-permission or encryption-access problem, resolve it, and retry.
     ///
     /// Parameters:
     ///   - attributeDefinitions: An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
     ///   - billingMode: Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.     PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to Provisioned capacity mode.
     ///   - deletionProtectionEnabled: Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
+    ///   - disassociationProtectionEnabled: Specifies whether disassociation protection is enabled (true) or disabled (false) for the local replica of a multi-Region eventual consistency (MREC) global table using Version 2019.11.21. Disassociation protection is enabled by default. If you omit this parameter, the existing setting is unchanged. This setting is independent of DeletionProtectionEnabled. You can't combine this change with any other change in the same UpdateTable request.
     ///   - globalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
     ///   - globalTableSettingsReplicationMode: Controls the settings replication mode for a global table replica. This attribute can be defined using UpdateTable operation only on a regional table with values:    ENABLED: Defines settings replication on a regional table to be used as a source table for creating Multi-Account Global Table.    DISABLED: Remove settings replication on a regional table. Settings replication needs to be defined to ENABLED again in order to create a Multi-Account Global Table using this table.
     ///   - globalTableWitnessUpdates: A list of witness updates for a  MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:    Create - add a new witness to the global table.    Delete - remove a witness from the global table.   You can create or delete only one witness per UpdateTable operation. For more information, see Multi-Region strong consistency (MRSC) in the Amazon DynamoDB Developer Guide
     ///   - multiRegionConsistency: Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency (MREC). This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (MRSC).   If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see  Consistency modes in DynamoDB developer guide.
     ///   - onDemandThroughput: Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     ///   - provisionedThroughput: The new provisioned throughput settings for the specified table or index.
-    ///   - replicaUpdates: A list of replica update actions (create, delete, or update) for the table.
+    ///   - replicaUpdates: A list of replica update actions (create, delete, update, or disassociate) for the table.
     ///   - sseSpecification: The new server-side encryption settings for the specified table.
     ///   - streamSpecification: Represents the DynamoDB Streams configuration for the table.  You receive a ValidationException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
     ///   - tableClass: The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
@@ -2365,6 +2511,7 @@ public struct DynamoDB: AWSService {
         attributeDefinitions: [AttributeDefinition]? = nil,
         billingMode: BillingMode? = nil,
         deletionProtectionEnabled: Bool? = nil,
+        disassociationProtectionEnabled: Bool? = nil,
         globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil,
         globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil,
         globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil,
@@ -2384,6 +2531,7 @@ public struct DynamoDB: AWSService {
             attributeDefinitions: attributeDefinitions, 
             billingMode: billingMode, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
+            disassociationProtectionEnabled: disassociationProtectionEnabled, 
             globalSecondaryIndexUpdates: globalSecondaryIndexUpdates, 
             globalTableSettingsReplicationMode: globalTableSettingsReplicationMode, 
             globalTableWitnessUpdates: globalTableWitnessUpdates, 
@@ -2486,7 +2634,7 @@ public struct DynamoDB: AWSService {
 extension DynamoDB {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: DynamoDB, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
         self.endpointStorage = .init()
@@ -2497,6 +2645,40 @@ extension DynamoDB {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DynamoDB {
+    /// Return PaginatorSequence for operation ``listBulkOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBulkOperationsPaginator(
+        _ input: ListBulkOperationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBulkOperationsInput, ListBulkOperationsOutput> {
+        return .init(
+            input: input,
+            command: self.listBulkOperations,
+            inputKey: \ListBulkOperationsInput.nextToken,
+            outputKey: \ListBulkOperationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBulkOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of bulk operation summaries to return in one page. If you don't specify a value, DynamoDB uses 10.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBulkOperationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBulkOperationsInput, ListBulkOperationsOutput> {
+        let input = ListBulkOperationsInput(
+            maxResults: maxResults
+        )
+        return self.listBulkOperationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listContributorInsights(_:logger:)``.
     ///
     /// - Parameters:
@@ -2802,6 +2984,16 @@ extension DynamoDB {
     }
 }
 
+extension DynamoDB.ListBulkOperationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DynamoDB.ListBulkOperationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension DynamoDB.ListContributorInsightsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DynamoDB.ListContributorInsightsInput {
@@ -2898,6 +3090,45 @@ extension DynamoDB.ScanInput: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DynamoDB {
+    /// Waiter for operation ``describeBulkOperation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilBulkOperationCompleted(
+        _ input: DescribeBulkOperationInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeBulkOperationInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("bulkOperationDescription.bulkOperationStatus", expected: "COMPLETED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("bulkOperationDescription.bulkOperationStatus", expected: "COMPLETED_WITH_ERRORS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("bulkOperationDescription.bulkOperationStatus", expected: "CANCELLED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("bulkOperationDescription.bulkOperationStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeBulkOperation
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeBulkOperation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - bulkOperationArn: The Amazon Resource Name (ARN) of the bulk operation to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilBulkOperationCompleted(
+        bulkOperationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeBulkOperationInput(
+            bulkOperationArn: bulkOperationArn
+        )
+        try await self.waitUntilBulkOperationCompleted(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeContributorInsights(_:logger:)``.
     ///
     /// - Parameters:

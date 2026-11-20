@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Route53Profiles service.
 ///
-///  With Amazon Route 53 Profiles you can share Route 53 configurations with VPCs and AWS accounts
+///  With Amazon Route 53 Profiles you can share Route 53 configurations with VPCs and Amazon Web Services accounts
 public struct Route53Profiles: AWSService {
     // MARK: Member variables
 
@@ -126,7 +126,7 @@ public struct Route53Profiles: AWSService {
 
     // MARK: API Calls
 
-    ///  Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).  For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
+    ///  Associates a Route 53 Profiles profile with a VPC. A VPC can have up to two Profile associations. A Profile can be associated with up to 1,000 VPCs, and you can request a higher quota for the number of VPCs. For more information, see Quotas on Route 53 Profiles.   Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest Priority value. If the VPC has no other Profile associations, you can omit Priority, and the association gets priority 100. When the VPC already has a Profile association, you must specify a Priority, and each Profile association for the VPC must have a unique priority. To change the priority of an existing association, use UpdateProfileAssociation.  The request fails with a ValidationException in these cases:   You omit Priority, and the VPC already has a Profile association.   Another Profile association for the VPC already uses the priority that you specify.   The priority is outside the range 100–9900.   The Profile is already associated with the VPC, and you specify a different Name or Priority. To change the priority, use UpdateProfileAssociation.    The request fails with a LimitExceededException if the VPC already has the maximum number of Profile associations.
     @Sendable
     @inlinable
     public func associateProfile(_ input: AssociateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateProfileResponse {
@@ -139,10 +139,11 @@ public struct Route53Profiles: AWSService {
             logger: logger
         )
     }
-    ///  Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).  For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
+    ///  Associates a Route 53 Profiles profile with a VPC. A VPC can have up to two Profile associations. A Profile can be associated with up to 1,000 VPCs, and you can request a higher quota for the number of VPCs. For more information, see Quotas on Route 53 Profiles.   Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest Priority value. If the VPC has no other Profile associations, you can omit Priority, and the association gets priority 100. When the VPC already has a Profile association, you must specify a Priority, and each Profile association for the VPC must have a unique priority. To change the priority of an existing association, use UpdateProfileAssociation.  The request fails with a ValidationException in these cases:   You omit Priority, and the VPC already has a Profile association.   Another Profile association for the VPC already uses the priority that you specify.   The priority is outside the range 100–9900.   The Profile is already associated with the VPC, and you specify a different Name or Priority. To change the priority, use UpdateProfileAssociation.    The request fails with a LimitExceededException if the VPC already has the maximum number of Profile associations.
     ///
     /// Parameters:
     ///   - name:  A name for the association.
+    ///   - priority:  The priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value.   When the VPC already has a Profile association, you must specify a priority that no other Profile association for the VPC uses. If you omit the priority for the first association with a VPC, the association gets priority 100.
     ///   - profileId:  ID of the Profile.
     ///   - resourceId:  The ID of the VPC.
     ///   - tags:  A list of the tag keys and values that you want to identify the Profile association.
@@ -150,6 +151,7 @@ public struct Route53Profiles: AWSService {
     @inlinable
     public func associateProfile(
         name: String,
+        priority: Int? = nil,
         profileId: String,
         resourceId: String,
         tags: [Tag]? = nil,
@@ -157,6 +159,7 @@ public struct Route53Profiles: AWSService {
     ) async throws -> AssociateProfileResponse {
         let input = AssociateProfileRequest(
             name: name, 
+            priority: priority, 
             profileId: profileId, 
             resourceId: resourceId, 
             tags: tags
@@ -164,7 +167,7 @@ public struct Route53Profiles: AWSService {
         return try await self.associateProfile(input, logger: logger)
     }
 
-    ///  Associates a DNS reource configuration to a Route 53 Profile.
+    ///  Associates a DNS resource configuration to a Route 53 Profile.
     @Sendable
     @inlinable
     public func associateResourceToProfile(_ input: AssociateResourceToProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateResourceToProfileResponse {
@@ -177,13 +180,13 @@ public struct Route53Profiles: AWSService {
             logger: logger
         )
     }
-    ///  Associates a DNS reource configuration to a Route 53 Profile.
+    ///  Associates a DNS resource configuration to a Route 53 Profile.
     ///
     /// Parameters:
     ///   - name:  Name for the resource association.
     ///   - profileId:  ID of the Profile.
-    ///   - resourceArn:  Amazon resource number, ARN, of the DNS resource.
-    ///   - resourceProperties:  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.
+    ///   - resourceArn:  Amazon resource number, ARN, of the resource to associate. Either a private hosted zone, DNS Firewall rule group, Resolver rule, or an interface VPC endpoint.
+    ///   - resourceProperties:  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.  The allowed values for priority are between 100 and 9900.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateResourceToProfile(
@@ -218,7 +221,7 @@ public struct Route53Profiles: AWSService {
     ///  Creates an empty Route 53 Profile.
     ///
     /// Parameters:
-    ///   - clientToken:  ClientToken is an idempotency token that ensures a call to CreateProfile completes only once. You choose the value to pass.  For example, an issue might prevent you from getting a response from CreateProfile.  In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value.
+    ///   - clientToken:  ClientToken is an idempotency token that ensures a call to CreateProfile completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from CreateProfile. In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value.
     ///   - name:  A name for the Profile.
     ///   - tags:  A list of the tag keys and values that you want to associate with the Route 53 Profile.
     ///   - logger: Logger use during operation
@@ -359,7 +362,7 @@ public struct Route53Profiles: AWSService {
         return try await self.getProfile(input, logger: logger)
     }
 
-    ///  Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
+    ///  Retrieves a Route 53 Profile association for a VPC. A VPC can have up to two Profile associations, and a Profile can be associated with up to 1,000 VPCs.
     @Sendable
     @inlinable
     public func getProfileAssociation(_ input: GetProfileAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileAssociationResponse {
@@ -372,7 +375,7 @@ public struct Route53Profiles: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
+    ///  Retrieves a Route 53 Profile association for a VPC. A VPC can have up to two Profile associations, and a Profile can be associated with up to 1,000 VPCs.
     ///
     /// Parameters:
     ///   - profileAssociationId:  The identifier of the association you want to get information about.
@@ -404,7 +407,7 @@ public struct Route53Profiles: AWSService {
     ///  Returns information about a specified Route 53 Profile resource association.
     ///
     /// Parameters:
-    ///   - profileResourceAssociationId:   The ID of the profile resource association that you want to get information about.
+    ///   - profileResourceAssociationId:  The ID of the profile resource association that you want to get information about.
     ///   - logger: Logger use during operation
     @inlinable
     public func getProfileResourceAssociation(
@@ -433,9 +436,9 @@ public struct Route53Profiles: AWSService {
     ///  Lists all the VPCs that the specified Route 53 Profile is associated with.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
-    ///   - nextToken:  For the first call to this list request, omit this value.
-    ///   - profileId: ID of the Profile.
+    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+    ///   - nextToken:  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+    ///   - profileId:  ID of the Profile.
     ///   - resourceId:  ID of the VPC.
     ///   - logger: Logger use during operation
     @inlinable
@@ -471,9 +474,10 @@ public struct Route53Profiles: AWSService {
     ///  Lists all the resource associations for the specified Route 53 Profile.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
-    ///   - nextToken:  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned.  If more objects are available for retrieval, a NextToken value is returned in the response.  To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
-    ///   - profileId: The ID of the Profile.
+    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+    ///   - nextToken:  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+    ///   - profileId:  The ID of the Profile.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of a resource. If you specify this parameter, only the association with that resource is returned.
     ///   - resourceType:  ID of a resource if you want information on only one type.
     ///   - logger: Logger use during operation
     @inlinable
@@ -481,6 +485,7 @@ public struct Route53Profiles: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         profileId: String,
+        resourceArn: String? = nil,
         resourceType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListProfileResourceAssociationsResponse {
@@ -488,6 +493,7 @@ public struct Route53Profiles: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             profileId: profileId, 
+            resourceArn: resourceArn, 
             resourceType: resourceType
         )
         return try await self.listProfileResourceAssociations(input, logger: logger)
@@ -509,8 +515,8 @@ public struct Route53Profiles: AWSService {
     ///  Lists all the Route 53 Profiles associated with your Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
-    ///   - nextToken:  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned.  If more objects are available for retrieval, a NextToken value is returned in the response.  To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+    ///   - nextToken:  For the first call to this list request, omit this value.  When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
     ///   - logger: Logger use during operation
     @inlinable
     public func listProfiles(
@@ -618,7 +624,42 @@ public struct Route53Profiles: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the specified Route 53 Profile resourse association.
+    ///  Updates the name or priority of the specified Route 53 Profile association with a VPC. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. Only the account that created the association can update it.   When you change the priority, the association status is UPDATING until the change propagates, and then COMPLETE. While the status is UPDATING, Route 53 VPC Resolver might still use the previous priority for some queries. When the status is COMPLETE, the new priority applies to all queries from the VPC.   The request fails with a ValidationException if another Profile association for the VPC already uses the priority that you specify, or if the priority is outside the range 100–9900.   You can update an association whose status is CREATING, UPDATING, or COMPLETE. The request fails with a ConflictException if the association status is DELETING, DELETED, or FAILED, or if the account that owns the association is inactive.
+    @Sendable
+    @inlinable
+    public func updateProfileAssociation(_ input: UpdateProfileAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProfileAssociationResponse {
+        try await self.client.execute(
+            operation: "UpdateProfileAssociation", 
+            path: "/profileassociation/{ProfileAssociationId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates the name or priority of the specified Route 53 Profile association with a VPC. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. Only the account that created the association can update it.   When you change the priority, the association status is UPDATING until the change propagates, and then COMPLETE. While the status is UPDATING, Route 53 VPC Resolver might still use the previous priority for some queries. When the status is COMPLETE, the new priority applies to all queries from the VPC.   The request fails with a ValidationException if another Profile association for the VPC already uses the priority that you specify, or if the priority is outside the range 100–9900.   You can update an association whose status is CREATING, UPDATING, or COMPLETE. The request fails with a ConflictException if the association status is DELETING, DELETED, or FAILED, or if the account that owns the association is inactive.
+    ///
+    /// Parameters:
+    ///   - name:  The name of the Profile association.
+    ///   - priority:  The new priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value.  The priority must be unique among the Profile associations for the VPC.
+    ///   - profileAssociationId:  The ID of the Profile association to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProfileAssociation(
+        name: String? = nil,
+        priority: Int? = nil,
+        profileAssociationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProfileAssociationResponse {
+        let input = UpdateProfileAssociationRequest(
+            name: name, 
+            priority: priority, 
+            profileAssociationId: profileAssociationId
+        )
+        return try await self.updateProfileAssociation(input, logger: logger)
+    }
+
+    ///  Updates the specified Route 53 Profile resourse association.
     @Sendable
     @inlinable
     public func updateProfileResourceAssociation(_ input: UpdateProfileResourceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProfileResourceAssociationResponse {
@@ -631,11 +672,11 @@ public struct Route53Profiles: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified Route 53 Profile resourse association.
+    ///  Updates the specified Route 53 Profile resourse association.
     ///
     /// Parameters:
-    ///   - name: Name of the resource association.
-    ///   - profileResourceAssociationId: ID of the resource association.
+    ///   - name:  Name of the resource association.
+    ///   - profileResourceAssociationId:  ID of the resource association.
     ///   - resourceProperties:  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.  The allowed values for priority are between 100 and 9900.
     ///   - logger: Logger use during operation
     @inlinable
@@ -657,7 +698,7 @@ public struct Route53Profiles: AWSService {
 extension Route53Profiles {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: Route53Profiles, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -688,8 +729,8 @@ extension Route53Profiles {
     /// Return PaginatorSequence for operation ``listProfileAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
-    ///   - profileId: ID of the Profile.
+    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+    ///   - profileId:  ID of the Profile.
     ///   - resourceId:  ID of the VPC.
     ///   - logger: Logger used for logging
     @inlinable
@@ -728,20 +769,23 @@ extension Route53Profiles {
     /// Return PaginatorSequence for operation ``listProfileResourceAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
-    ///   - profileId: The ID of the Profile.
+    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+    ///   - profileId:  The ID of the Profile.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of a resource. If you specify this parameter, only the association with that resource is returned.
     ///   - resourceType:  ID of a resource if you want information on only one type.
     ///   - logger: Logger used for logging
     @inlinable
     public func listProfileResourceAssociationsPaginator(
         maxResults: Int? = nil,
         profileId: String,
+        resourceArn: String? = nil,
         resourceType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListProfileResourceAssociationsRequest, ListProfileResourceAssociationsResponse> {
         let input = ListProfileResourceAssociationsRequest(
             maxResults: maxResults, 
             profileId: profileId, 
+            resourceArn: resourceArn, 
             resourceType: resourceType
         )
         return self.listProfileResourceAssociationsPaginator(input, logger: logger)
@@ -768,7 +812,7 @@ extension Route53Profiles {
     /// Return PaginatorSequence for operation ``listProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
+    ///   - maxResults:  The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listProfilesPaginator(
@@ -801,6 +845,7 @@ extension Route53Profiles.ListProfileResourceAssociationsRequest: AWSPaginateTok
             maxResults: self.maxResults,
             nextToken: token,
             profileId: self.profileId,
+            resourceArn: self.resourceArn,
             resourceType: self.resourceType
         )
     }

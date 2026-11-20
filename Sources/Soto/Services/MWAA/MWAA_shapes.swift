@@ -173,6 +173,8 @@ extension MWAA {
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
         public let executionRoleArn: String
+        /// The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, refer to Create an Amazon MWAA environment.
         public let kmsKey: String?
         /// Defines the Apache Airflow logs to send to CloudWatch Logs.
@@ -207,19 +209,22 @@ extension MWAA {
         public let startupScriptS3Path: String?
         /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, refer to Tagging Amazon Web Services resources.
         public let tags: [String: String]?
+        /// A map of teams to configure for Apache Airflow multi-team support on your Amazon MWAA environment. Each entry maps a team name to a object that defines the Amazon S3 location of that team's DAG code. The team name must match the display name of an Amazon Web Services IAM Identity Center group that you associate with your environment, so you must configure IAM Identity Center for the environment before you add teams. You can configure between 1 and 20 teams. For more information, refer to Apache Airflow multi-team environments.
+        public let teams: [String: TeamConfig]?
         /// Defines the access mode for the Apache Airflow web server. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public let webserverAccessMode: WebserverAccessMode?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String, identityCenterConfiguration: IdentityCenterConfiguration? = nil, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, teams: [String: TeamConfig]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
             self.endpointManagement = endpointManagement
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.kmsKey = kmsKey
             self.loggingConfiguration = loggingConfiguration
             self.maxWebservers = maxWebservers
@@ -237,6 +242,7 @@ extension MWAA {
             self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
             self.startupScriptS3Path = startupScriptS3Path
             self.tags = tags
+            self.teams = teams
             self.webserverAccessMode = webserverAccessMode
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
         }
@@ -250,6 +256,7 @@ extension MWAA {
             try container.encodeIfPresent(self.endpointManagement, forKey: .endpointManagement)
             try container.encodeIfPresent(self.environmentClass, forKey: .environmentClass)
             try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.identityCenterConfiguration, forKey: .identityCenterConfiguration)
             try container.encodeIfPresent(self.kmsKey, forKey: .kmsKey)
             try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
             try container.encodeIfPresent(self.maxWebservers, forKey: .maxWebservers)
@@ -267,6 +274,7 @@ extension MWAA {
             try container.encodeIfPresent(self.startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
             try container.encodeIfPresent(self.startupScriptS3Path, forKey: .startupScriptS3Path)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.teams, forKey: .teams)
             try container.encodeIfPresent(self.webserverAccessMode, forKey: .webserverAccessMode)
             try container.encodeIfPresent(self.weeklyMaintenanceWindowStart, forKey: .weeklyMaintenanceWindowStart)
         }
@@ -290,6 +298,7 @@ extension MWAA {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1224)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1224)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(((arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?key\\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?alias/.+)$")
@@ -324,6 +333,14 @@ extension MWAA {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.teams?.forEach {
+                try validate($0.key, name: "teams.key", parent: name, max: 50)
+                try validate($0.key, name: "teams.key", parent: name, min: 3)
+                try validate($0.key, name: "teams.key", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+                try $0.value.validate(name: "\(name).teams[\"\($0.key)\"]")
+            }
+            try self.validate(self.teams, name: "teams", parent: name, max: 20)
+            try self.validate(self.teams, name: "teams", parent: name, min: 1)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, min: 1)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\\d|2[0-3]):(00|30)")
@@ -336,6 +353,7 @@ extension MWAA {
             case endpointManagement = "EndpointManagement"
             case environmentClass = "EnvironmentClass"
             case executionRoleArn = "ExecutionRoleArn"
+            case identityCenterConfiguration = "IdentityCenterConfiguration"
             case kmsKey = "KmsKey"
             case loggingConfiguration = "LoggingConfiguration"
             case maxWebservers = "MaxWebservers"
@@ -352,6 +370,7 @@ extension MWAA {
             case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
             case startupScriptS3Path = "StartupScriptS3Path"
             case tags = "Tags"
+            case teams = "Teams"
             case webserverAccessMode = "WebserverAccessMode"
             case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
         }
@@ -488,6 +507,8 @@ extension MWAA {
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
         public let executionRoleArn: String?
+        /// The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// The KMS encryption key used to encrypt the data in your environment.
         public let kmsKey: String?
         /// The status of the last update on the environment.
@@ -528,6 +549,8 @@ extension MWAA {
         public let status: EnvironmentStatus?
         /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, refer to Tagging Amazon Web Services resources.
         public let tags: [String: String]?
+        /// The teams configured for Apache Airflow multi-team support on your Amazon MWAA environment. Each entry maps a team name to its settings, which define the Amazon S3 location of that team's DAG code. Each team name matches the display name of the Amazon Web Services IAM Identity Center group associated with the team. For more information, refer to Apache Airflow multi-team environments.
+        public let teams: [String: TeamConfig]?
         /// The Apache Airflow web server access mode. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public let webserverAccessMode: WebserverAccessMode?
         /// The Apache Airflow web server host name for the Amazon MWAA environment. For more information, refer to Accessing the Apache Airflow UI.
@@ -538,7 +561,7 @@ extension MWAA {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, celeryExecutorQueue: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, databaseVpcEndpointService: String? = nil, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, webserverVpcEndpointService: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, celeryExecutorQueue: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, databaseVpcEndpointService: String? = nil, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, teams: [String: TeamConfig]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, webserverVpcEndpointService: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
@@ -549,6 +572,7 @@ extension MWAA {
             self.endpointManagement = endpointManagement
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.kmsKey = kmsKey
             self.lastUpdate = lastUpdate
             self.loggingConfiguration = loggingConfiguration
@@ -569,6 +593,7 @@ extension MWAA {
             self.startupScriptS3Path = startupScriptS3Path
             self.status = status
             self.tags = tags
+            self.teams = teams
             self.webserverAccessMode = webserverAccessMode
             self.webserverUrl = webserverUrl
             self.webserverVpcEndpointService = webserverVpcEndpointService
@@ -586,6 +611,7 @@ extension MWAA {
             case endpointManagement = "EndpointManagement"
             case environmentClass = "EnvironmentClass"
             case executionRoleArn = "ExecutionRoleArn"
+            case identityCenterConfiguration = "IdentityCenterConfiguration"
             case kmsKey = "KmsKey"
             case lastUpdate = "LastUpdate"
             case loggingConfiguration = "LoggingConfiguration"
@@ -606,6 +632,7 @@ extension MWAA {
             case startupScriptS3Path = "StartupScriptS3Path"
             case status = "Status"
             case tags = "Tags"
+            case teams = "Teams"
             case webserverAccessMode = "WebserverAccessMode"
             case webserverUrl = "WebserverUrl"
             case webserverVpcEndpointService = "WebserverVpcEndpointService"
@@ -648,6 +675,33 @@ extension MWAA {
 
         private enum CodingKeys: String, CodingKey {
             case environment = "Environment"
+        }
+    }
+
+    public struct IdentityCenterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the identity store associated with the IAM Identity Center instance for your environment. For example, d-1234567890.
+        public let identityStoreId: String?
+        /// The Amazon Web Services access portal URL of the IAM Identity Center instance associated with your environment. For example, https://my-portal.awsapps.com/start.
+        public let startUrl: String?
+
+        @inlinable
+        public init(identityStoreId: String? = nil, startUrl: String? = nil) {
+            self.identityStoreId = identityStoreId
+            self.startUrl = startUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.startUrl, name: "startUrl", parent: name, max: 512)
+            try self.validate(self.startUrl, name: "startUrl", parent: name, min: 1)
+            try self.validate(self.startUrl, name: "startUrl", parent: name, pattern: "^https://.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreId = "IdentityStoreId"
+            case startUrl = "StartUrl"
         }
     }
 
@@ -1137,6 +1191,32 @@ extension MWAA {
         public init() {}
     }
 
+    public struct TeamConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The relative path to the DAGs folder for the team in the team's Amazon S3 bucket. For example, dags/team-a. For more information, refer to Adding or updating DAGs. DAG folders can't overlap. A team folder can't be inside the global folder or another team's folder, and the global folder can't be inside a team folder. Amazon Managed Workflows for Apache Airflow (Amazon MWAA) compares folder paths as Amazon S3 prefixes, so the trailing slash matters:    s3://amzn-s3-demo-bucket/dags/ and s3://amzn-s3-demo-bucket/dags/team-a/ overlap, because the first path is a prefix of the second.    s3://amzn-s3-demo-bucket/dags/ and s3://amzn-s3-demo-bucket/dags-team-a/ don't overlap.    s3://amzn-s3-demo-bucket/teams/team-a/ and s3://amzn-s3-demo-bucket/teams/team-b/ don't overlap.
+        public let dagS3Path: String
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where the team's DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, refer to Create an Amazon S3 bucket for Amazon MWAA.
+        public let sourceBucketArn: String
+
+        @inlinable
+        public init(dagS3Path: String, sourceBucketArn: String) {
+            self.dagS3Path = dagS3Path
+            self.sourceBucketArn = sourceBucketArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, max: 1024)
+            try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, pattern: ".*")
+            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, max: 1224)
+            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, min: 1)
+            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::[a-z0-9.\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dagS3Path = "DagS3Path"
+            case sourceBucketArn = "SourceBucketArn"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let resourceArn: String
@@ -1186,6 +1266,8 @@ extension MWAA {
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
         public let executionRoleArn: String?
+        /// The Amazon Web Services IAM Identity Center configuration used to authenticate users to the Apache Airflow web UI for your environment.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// The Apache Airflow log types to send to CloudWatch Logs.
         public let loggingConfiguration: LoggingConfigurationInput?
         ///  The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: For environments larger than mw1.micro, accepts values from 2 to 5. Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1.
@@ -1216,6 +1298,8 @@ extension MWAA {
         public let startupScriptS3ObjectVersion: String?
         /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script.
         public let startupScriptS3Path: String?
+        /// Updates the teams configured for Apache Airflow multi-team support on your Amazon MWAA environment. Use AddOrUpdate to add new teams or change the configuration of existing teams, and Remove to remove teams by name. For more information, refer to Apache Airflow multi-team environments.
+        public let teams: UpdateTeamsInput?
         /// The Apache Airflow Web server access mode. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public let webserverAccessMode: WebserverAccessMode?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
@@ -1224,12 +1308,13 @@ extension MWAA {
         public let workerReplacementStrategy: WorkerReplacementStrategy?
 
         @inlinable
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil, workerReplacementStrategy: WorkerReplacementStrategy? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, teams: UpdateTeamsInput? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil, workerReplacementStrategy: WorkerReplacementStrategy? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.loggingConfiguration = loggingConfiguration
             self.maxWebservers = maxWebservers
             self.maxWorkers = maxWorkers
@@ -1245,6 +1330,7 @@ extension MWAA {
             self.sourceBucketArn = sourceBucketArn
             self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
             self.startupScriptS3Path = startupScriptS3Path
+            self.teams = teams
             self.webserverAccessMode = webserverAccessMode
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
             self.workerReplacementStrategy = workerReplacementStrategy
@@ -1258,6 +1344,7 @@ extension MWAA {
             try container.encodeIfPresent(self.dagS3Path, forKey: .dagS3Path)
             try container.encodeIfPresent(self.environmentClass, forKey: .environmentClass)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.identityCenterConfiguration, forKey: .identityCenterConfiguration)
             try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
             try container.encodeIfPresent(self.maxWebservers, forKey: .maxWebservers)
             try container.encodeIfPresent(self.maxWorkers, forKey: .maxWorkers)
@@ -1273,6 +1360,7 @@ extension MWAA {
             try container.encodeIfPresent(self.sourceBucketArn, forKey: .sourceBucketArn)
             try container.encodeIfPresent(self.startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
             try container.encodeIfPresent(self.startupScriptS3Path, forKey: .startupScriptS3Path)
+            try container.encodeIfPresent(self.teams, forKey: .teams)
             try container.encodeIfPresent(self.webserverAccessMode, forKey: .webserverAccessMode)
             try container.encodeIfPresent(self.weeklyMaintenanceWindowStart, forKey: .weeklyMaintenanceWindowStart)
             try container.encodeIfPresent(self.workerReplacementStrategy, forKey: .workerReplacementStrategy)
@@ -1297,6 +1385,7 @@ extension MWAA {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1224)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.validate(self.maxWebservers, name: "maxWebservers", parent: name, min: 1)
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
             try self.validate(self.minWebservers, name: "minWebservers", parent: name, min: 1)
@@ -1318,6 +1407,7 @@ extension MWAA {
             try self.validate(self.startupScriptS3ObjectVersion, name: "startupScriptS3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.startupScriptS3Path, name: "startupScriptS3Path", parent: name, max: 1024)
             try self.validate(self.startupScriptS3Path, name: "startupScriptS3Path", parent: name, pattern: ".*")
+            try self.teams?.validate(name: "\(name).teams")
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, min: 1)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\\d|2[0-3]):(00|30)")
@@ -1329,6 +1419,7 @@ extension MWAA {
             case dagS3Path = "DagS3Path"
             case environmentClass = "EnvironmentClass"
             case executionRoleArn = "ExecutionRoleArn"
+            case identityCenterConfiguration = "IdentityCenterConfiguration"
             case loggingConfiguration = "LoggingConfiguration"
             case maxWebservers = "MaxWebservers"
             case maxWorkers = "MaxWorkers"
@@ -1343,6 +1434,7 @@ extension MWAA {
             case sourceBucketArn = "SourceBucketArn"
             case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
             case startupScriptS3Path = "StartupScriptS3Path"
+            case teams = "Teams"
             case webserverAccessMode = "WebserverAccessMode"
             case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
             case workerReplacementStrategy = "WorkerReplacementStrategy"
@@ -1402,6 +1494,42 @@ extension MWAA {
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
+        }
+    }
+
+    public struct UpdateTeamsInput: AWSEncodableShape {
+        /// A map of teams to add to your environment, or to update if they already exist. Each entry maps a team name to its settings. Each team name must match the display name of an Amazon Web Services IAM Identity Center group associated with your environment. You can configure between 1 and 20 teams.
+        public let addOrUpdate: [String: TeamConfig]?
+        /// A list of team names to remove from your environment. For example, team-a. You can remove between 1 and 20 teams in a single update. Removing a team does not delete the team's DAG code from Amazon S3.
+        public let remove: [String]?
+
+        @inlinable
+        public init(addOrUpdate: [String: TeamConfig]? = nil, remove: [String]? = nil) {
+            self.addOrUpdate = addOrUpdate
+            self.remove = remove
+        }
+
+        public func validate(name: String) throws {
+            try self.addOrUpdate?.forEach {
+                try validate($0.key, name: "addOrUpdate.key", parent: name, max: 50)
+                try validate($0.key, name: "addOrUpdate.key", parent: name, min: 3)
+                try validate($0.key, name: "addOrUpdate.key", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+                try $0.value.validate(name: "\(name).addOrUpdate[\"\($0.key)\"]")
+            }
+            try self.validate(self.addOrUpdate, name: "addOrUpdate", parent: name, max: 20)
+            try self.validate(self.addOrUpdate, name: "addOrUpdate", parent: name, min: 1)
+            try self.remove?.forEach {
+                try validate($0, name: "remove[]", parent: name, max: 50)
+                try validate($0, name: "remove[]", parent: name, min: 3)
+                try validate($0, name: "remove[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.remove, name: "remove", parent: name, max: 20)
+            try self.validate(self.remove, name: "remove", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOrUpdate = "AddOrUpdate"
+            case remove = "Remove"
         }
     }
 }

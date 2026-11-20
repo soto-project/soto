@@ -109,6 +109,12 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClonedBlueGreenScheduledActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automaticCutoverToPrimary = "AutomaticCutoverToPrimaryCluster"
+        case deletePrimaryCluster = "DeletePrimaryCluster"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applyingChanges = "ApplyingChanges"
         case cancelled = "Cancelled"
@@ -124,6 +130,19 @@ extension OpenSearch {
     public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case direct = "DIRECT"
         case vpcEndpoint = "VPC_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CutoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CutoverTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clonedCluster = "ClonedCluster"
+        case primaryCluster = "PrimaryCluster"
         public var description: String { return self.rawValue }
     }
 
@@ -155,6 +174,11 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentStrategyOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clonedBlueGreen = "ClonedBlueGreen"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case engineVersion = "EngineVersion"
         case packageID = "PackageID"
@@ -162,6 +186,17 @@ extension OpenSearch {
         case packageOwner = "PackageOwner"
         case packageStatus = "PackageStatus"
         case packageType = "PackageType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiffFieldPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case redacted = "redacted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiffStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compared = "compared"
+        case error = "error"
         public var description: String { return self.rawValue }
     }
 
@@ -211,6 +246,12 @@ extension OpenSearch {
     public enum DryRunMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "Basic"
         case verbose = "Verbose"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disk = "DISK"
+        case native = "NATIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -570,6 +611,24 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case primary = "PRIMARY"
+        case secondary = "SECONDARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case detached = "DETACHED"
+        case ejected = "EJECTED"
+        case failed = "FAILED"
+        case failingOver = "FAILING_OVER"
+        case pendingRemoval = "PENDING_REMOVAL"
+        case pendingSetup = "PENDING_SETUP"
+        case switchingOver = "SWITCHING_OVER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RequirementLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case optional = "OPTIONAL"
@@ -581,6 +640,12 @@ extension OpenSearch {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deletePrimaryCluster = "DeletePrimaryCluster"
+        case rollbackToPrimaryCluster = "RollbackToPrimaryCluster"
         public var description: String { return self.rawValue }
     }
 
@@ -638,6 +703,7 @@ extension OpenSearch {
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTls12FipsPq202610 = "Policy-Min-TLS-1-2-FIPS-PQ-2026-10"
         case policyMinTls12Pfs202310 = "Policy-Min-TLS-1-2-PFS-2023-10"
         case policyMinTls12Rfc9151Fips202408 = "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
         public var description: String { return self.rawValue }
@@ -645,6 +711,18 @@ extension OpenSearch {
 
     public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hours = "HOURS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficSplitStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrafficStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case shiftReadTrafficPercent = "ShiftReadTrafficPercent"
         public var description: String { return self.rawValue }
     }
 
@@ -660,6 +738,12 @@ extension OpenSearch {
         case preUpgradeCheck = "PRE_UPGRADE_CHECK"
         case snapshot = "SNAPSHOT"
         case upgrade = "UPGRADE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationFailureSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "Critical"
+        case warning = "Warning"
         public var description: String { return self.rawValue }
     }
 
@@ -752,6 +836,47 @@ extension OpenSearch {
             case cloudWatchLog = "CloudWatchLog"
             case prometheus = "Prometheus"
             case securityLake = "SecurityLake"
+        }
+    }
+
+    public enum RetentionOptions: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Ends the retention period now. Valid only after cutover completes.
+        case retentionAction(RetentionAction)
+        /// The number of hours to keep the cluster that you cut over from. The retention period starts when cutover completes. The minimum is 1 hour. In an UpdateClone response after cutover completes, this value is the number of hours remaining in the retention period, rounded up.
+        case retentionInHours(Int)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .retentionAction:
+                let value = try container.decode(RetentionAction.self, forKey: .retentionAction)
+                self = .retentionAction(value)
+            case .retentionInHours:
+                let value = try container.decode(Int.self, forKey: .retentionInHours)
+                self = .retentionInHours(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .retentionAction(let value):
+                try container.encode(value, forKey: .retentionAction)
+            case .retentionInHours(let value):
+                try container.encode(value, forKey: .retentionInHours)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionAction = "RetentionAction"
+            case retentionInHours = "RetentionInHours"
         }
     }
 
@@ -1035,6 +1160,61 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceArn = "DataSourceArn"
+        }
+    }
+
+    public struct AddReplicationPeerRequest: AWSEncodableShape {
+        public let domainName: String
+        /// When true, validates the request and reports whether replication could be established, without changing either domain.
+        public let dryRun: Bool?
+        /// The Amazon Resource Name (ARN) of the domain to replicate to. The peer must be in a different Region from the domain you are calling, and in the same AWS account.
+        public let peerDomainArn: String
+
+        @inlinable
+        public init(domainName: String, dryRun: Bool? = nil, peerDomainArn: String) {
+            self.domainName = domainName
+            self.dryRun = dryRun
+            self.peerDomainArn = peerDomainArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+            try container.encode(self.peerDomainArn, forKey: .peerDomainArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, max: 512)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, min: 1)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case peerDomainArn = "PeerDomainArn"
+        }
+    }
+
+    public struct AddReplicationPeerResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain that is now replicating to the peer.
+        public let domainArn: String?
+        /// The state of the replication relationship. This is PENDING_SETUP immediately after the request is accepted.
+        public let status: ReplicationStatus?
+
+        @inlinable
+        public init(domainArn: String? = nil, status: ReplicationStatus? = nil) {
+            self.domainArn = domainArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case status = "Status"
         }
     }
 
@@ -1932,6 +2112,44 @@ extension OpenSearch {
         }
     }
 
+    public struct CategoryDiffResult: AWSDecodableShape {
+        /// The number of items that exist on both domains but differ.
+        public let diverged: Int?
+        /// The number of items that are identical on both domains.
+        public let inSync: Int?
+        /// The names of the items that differ, and for diverging items, the fields that differ.
+        public let items: DiffItems?
+        /// The number of items that exist only on the source domain.
+        public let sourceOnly: Int?
+        /// Whether the category was compared successfully. compared means the result is complete; error means the category could not be read.
+        public let status: DiffStatus?
+        /// The number of items that exist only on the target domain.
+        public let targetOnly: Int?
+        /// Whether Items omits some differences because the category contained more than the response can carry. The counts remain complete when this is true.
+        public let truncated: Bool?
+
+        @inlinable
+        public init(diverged: Int? = nil, inSync: Int? = nil, items: DiffItems? = nil, sourceOnly: Int? = nil, status: DiffStatus? = nil, targetOnly: Int? = nil, truncated: Bool? = nil) {
+            self.diverged = diverged
+            self.inSync = inSync
+            self.items = items
+            self.sourceOnly = sourceOnly
+            self.status = status
+            self.targetOnly = targetOnly
+            self.truncated = truncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diverged = "Diverged"
+            case inSync = "InSync"
+            case items = "Items"
+            case sourceOnly = "SourceOnly"
+            case status = "Status"
+            case targetOnly = "TargetOnly"
+            case truncated = "Truncated"
+        }
+    }
+
     public struct ChangeProgressDetails: AWSDecodableShape {
         /// The ID of the configuration change.
         public let changeId: String?
@@ -1993,10 +2211,14 @@ extension OpenSearch {
     }
 
     public struct ChangeProgressStatusDetails: AWSDecodableShape {
+        /// The list of advisory warning codes that were accepted for the configuration change.
+        public let acceptedWarnings: [String]?
         /// The unique change identifier associated with a specific domain configuration change.
         public let changeId: String?
         /// The specific stages that the domain is going through to perform the configuration change.
         public let changeProgressStages: [ChangeProgressStage]?
+        /// Details about a cloned blue/green upgrade, when the change is one.
+        public let clonedBlueGreenUpgradeDetails: ClonedBlueGreenUpgradeDetails?
         /// The list of properties in the domain configuration change that have completed.
         public let completedProperties: [String]?
         /// The current status of the configuration change.
@@ -2013,11 +2235,15 @@ extension OpenSearch {
         public let status: OverallChangeStatus?
         /// The total number of stages required for the configuration change.
         public let totalNumberOfStages: Int?
+        /// The validation failures that occurred as a result of the configuration change.
+        public let validationFailures: [ValidationFailure]?
 
         @inlinable
-        public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
+        public init(acceptedWarnings: [String]? = nil, changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, clonedBlueGreenUpgradeDetails: ClonedBlueGreenUpgradeDetails? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil, validationFailures: [ValidationFailure]? = nil) {
+            self.acceptedWarnings = acceptedWarnings
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
+            self.clonedBlueGreenUpgradeDetails = clonedBlueGreenUpgradeDetails
             self.completedProperties = completedProperties
             self.configChangeStatus = configChangeStatus
             self.initiatedBy = initiatedBy
@@ -2026,11 +2252,14 @@ extension OpenSearch {
             self.startTime = startTime
             self.status = status
             self.totalNumberOfStages = totalNumberOfStages
+            self.validationFailures = validationFailures
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedWarnings = "AcceptedWarnings"
             case changeId = "ChangeId"
             case changeProgressStages = "ChangeProgressStages"
+            case clonedBlueGreenUpgradeDetails = "ClonedBlueGreenUpgradeDetails"
             case completedProperties = "CompletedProperties"
             case configChangeStatus = "ConfigChangeStatus"
             case initiatedBy = "InitiatedBy"
@@ -2039,6 +2268,61 @@ extension OpenSearch {
             case startTime = "StartTime"
             case status = "Status"
             case totalNumberOfStages = "TotalNumberOfStages"
+            case validationFailures = "ValidationFailures"
+        }
+    }
+
+    public struct ClonedBlueGreenOptions: AWSEncodableShape & AWSDecodableShape {
+        /// How long to keep the cluster that you cut over from after cutover completes. When you start the upgrade, only RetentionInHours is accepted.
+        public let retentionOptions: RetentionOptions?
+
+        @inlinable
+        public init(retentionOptions: RetentionOptions? = nil) {
+            self.retentionOptions = retentionOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionOptions = "RetentionOptions"
+        }
+    }
+
+    public struct ClonedBlueGreenScheduledAction: AWSDecodableShape {
+        /// The action that the service takes.
+        public let action: ClonedBlueGreenScheduledActionType?
+        /// The time at which the service takes the action.
+        public let scheduledTime: Date?
+
+        @inlinable
+        public init(action: ClonedBlueGreenScheduledActionType? = nil, scheduledTime: Date? = nil) {
+            self.action = action
+            self.scheduledTime = scheduledTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case scheduledTime = "ScheduledTime"
+        }
+    }
+
+    public struct ClonedBlueGreenUpgradeDetails: AWSDecodableShape {
+        /// The retention period, in hours, for the cluster that you cut over from.
+        public let retentionInHours: Int?
+        /// The action that the service takes automatically if you don't act before the scheduled time.
+        public let scheduledAction: ClonedBlueGreenScheduledAction?
+        /// The current split of search traffic between the primary and cloned clusters.
+        public let trafficSplit: TrafficPercents?
+
+        @inlinable
+        public init(retentionInHours: Int? = nil, scheduledAction: ClonedBlueGreenScheduledAction? = nil, trafficSplit: TrafficPercents? = nil) {
+            self.retentionInHours = retentionInHours
+            self.scheduledAction = scheduledAction
+            self.trafficSplit = trafficSplit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionInHours = "RetentionInHours"
+            case scheduledAction = "ScheduledAction"
+            case trafficSplit = "TrafficSplit"
         }
     }
 
@@ -2209,6 +2493,65 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct CompareDomainConfigurationRequest: AWSEncodableShape {
+        /// The metadata categories to compare. At least one is required, and only the categories you name are read and returned.    aliases     alerting_monitors     cluster_settings     component_templates     ingest_pipelines     ism_policies — index state management policies    security_action_groups     security_internal_users     security_role_mappings     security_roles     templates — index templates   The set of categories grows over time, so this list is not fixed. A category the service does not recognise is rejected with the supported categories named in the error message.
+        public let categories: [String]
+        /// The Amazon Resource Name (ARN) of the domain to compare from.
+        public let sourceDomainArn: String
+        /// The Amazon Resource Name (ARN) of the domain to compare against.
+        public let targetDomainArn: String
+
+        @inlinable
+        public init(categories: [String], sourceDomainArn: String, targetDomainArn: String) {
+            self.categories = categories
+            self.sourceDomainArn = sourceDomainArn
+            self.targetDomainArn = targetDomainArn
+        }
+
+        public func validate(name: String) throws {
+            try self.categories.forEach {
+                try validate($0, name: "categories[]", parent: name, max: 128)
+                try validate($0, name: "categories[]", parent: name, min: 1)
+            }
+            try self.validate(self.categories, name: "categories", parent: name, max: 20)
+            try self.validate(self.categories, name: "categories", parent: name, min: 1)
+            try self.validate(self.sourceDomainArn, name: "sourceDomainArn", parent: name, max: 512)
+            try self.validate(self.sourceDomainArn, name: "sourceDomainArn", parent: name, min: 1)
+            try self.validate(self.sourceDomainArn, name: "sourceDomainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+            try self.validate(self.targetDomainArn, name: "targetDomainArn", parent: name, max: 512)
+            try self.validate(self.targetDomainArn, name: "targetDomainArn", parent: name, min: 1)
+            try self.validate(self.targetDomainArn, name: "targetDomainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "Categories"
+            case sourceDomainArn = "SourceDomainArn"
+            case targetDomainArn = "TargetDomainArn"
+        }
+    }
+
+    public struct CompareDomainConfigurationResponse: AWSDecodableShape {
+        /// The comparison result for each category you requested, keyed by category name.
+        public let categories: [String: CategoryDiffResult]?
+        /// The Amazon Resource Name (ARN) of the domain that was compared from.
+        public let sourceDomainArn: String?
+        /// The Amazon Resource Name (ARN) of the domain that was compared against.
+        public let targetDomainArn: String?
+
+        @inlinable
+        public init(categories: [String: CategoryDiffResult]? = nil, sourceDomainArn: String? = nil, targetDomainArn: String? = nil) {
+            self.categories = categories
+            self.sourceDomainArn = sourceDomainArn
+            self.targetDomainArn = targetDomainArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "Categories"
+            case sourceDomainArn = "SourceDomainArn"
+            case targetDomainArn = "TargetDomainArn"
         }
     }
 
@@ -2756,6 +3099,38 @@ extension OpenSearch {
         }
     }
 
+    public struct CutoverOptions: AWSDecodableShape {
+        /// The status of the cutover.
+        public let status: CutoverStatus
+        /// The cluster that the domain is cutting over to.
+        public let target: CutoverTarget
+
+        @inlinable
+        public init(status: CutoverStatus, target: CutoverTarget) {
+            self.status = status
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case target = "Target"
+        }
+    }
+
+    public struct CutoverRequestOptions: AWSEncodableShape {
+        /// The cluster to cut over to. ClonedCluster makes the cloned cluster serve the domain. PrimaryCluster keeps the primary cluster and ends the upgrade.
+        public let target: CutoverTarget
+
+        @inlinable
+        public init(target: CutoverTarget) {
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+        }
+    }
+
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
         public let dataSourceArn: String?
         /// Detailed description of a data source.
@@ -3194,6 +3569,24 @@ extension OpenSearch {
         }
     }
 
+    public struct DeploymentStrategyOverrideOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Options that apply when DeploymentStrategy is ClonedBlueGreen.
+        public let clonedBlueGreenOptions: ClonedBlueGreenOptions?
+        /// The deployment strategy to use for this operation. The only valid value is ClonedBlueGreen, which creates a cloned cluster on the target version next to the primary cluster so that you can validate it and shift traffic to it before you cut over.
+        public let deploymentStrategy: DeploymentStrategyOverride
+
+        @inlinable
+        public init(clonedBlueGreenOptions: ClonedBlueGreenOptions? = nil, deploymentStrategy: DeploymentStrategyOverride) {
+            self.clonedBlueGreenOptions = clonedBlueGreenOptions
+            self.deploymentStrategy = deploymentStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clonedBlueGreenOptions = "ClonedBlueGreenOptions"
+            case deploymentStrategy = "DeploymentStrategy"
+        }
+    }
+
     public struct DeregisterCapabilityRequest: AWSEncodableShape {
         /// The unique identifier of the OpenSearch UI application to deregister the capability from.
         public let applicationId: String
@@ -3550,6 +3943,51 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case domainNodesStatusList = "DomainNodesStatusList"
+        }
+    }
+
+    public struct DescribeDomainReplicationRequest: AWSEncodableShape {
+        public let domainName: String
+
+        @inlinable
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDomainReplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain described.
+        public let domainArn: String?
+        /// The domains that this domain replicates with. Each entry carries the state of that one relationship. Empty when the domain is not replicating.
+        public let peers: [ReplicationPeer]?
+        /// The domain's role in the arrangement, either PRIMARY or SECONDARY. Absent when the domain is not replicating.
+        public let role: ReplicationRole?
+
+        @inlinable
+        public init(domainArn: String? = nil, peers: [ReplicationPeer]? = nil, role: ReplicationRole? = nil) {
+            self.domainArn = domainArn
+            self.peers = peers
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case peers = "Peers"
+            case role = "Role"
         }
     }
 
@@ -4134,6 +4572,28 @@ extension OpenSearch {
         }
     }
 
+    public struct DiffItems: AWSDecodableShape {
+        /// The items that exist on both domains but differ, with the diverging fields.
+        public let diverged: [DivergentItem]?
+        /// The names of items that exist only on the source domain.
+        public let sourceOnly: [String]?
+        /// The names of items that exist only on the target domain.
+        public let targetOnly: [String]?
+
+        @inlinable
+        public init(diverged: [DivergentItem]? = nil, sourceOnly: [String]? = nil, targetOnly: [String]? = nil) {
+            self.diverged = diverged
+            self.sourceOnly = sourceOnly
+            self.targetOnly = targetOnly
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diverged = "Diverged"
+            case sourceOnly = "SourceOnly"
+            case targetOnly = "TargetOnly"
+        }
+    }
+
     public struct DirectQueryDataSource: AWSDecodableShape {
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
@@ -4248,6 +4708,50 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case domainPackageDetailsList = "DomainPackageDetailsList"
+        }
+    }
+
+    public struct DivergentField: AWSDecodableShape {
+        /// The location of the field within the item.
+        public let path: String?
+        /// How the comparison treats this field.
+        public let policy: DiffFieldPolicy?
+        /// The field's value on the source domain.
+        public let sourceValue: String?
+        /// The field's value on the target domain.
+        public let targetValue: String?
+
+        @inlinable
+        public init(path: String? = nil, policy: DiffFieldPolicy? = nil, sourceValue: String? = nil, targetValue: String? = nil) {
+            self.path = path
+            self.policy = policy
+            self.sourceValue = sourceValue
+            self.targetValue = targetValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case policy = "Policy"
+            case sourceValue = "SourceValue"
+            case targetValue = "TargetValue"
+        }
+    }
+
+    public struct DivergentItem: AWSDecodableShape {
+        /// The fields of the item that differ.
+        public let fields: [DivergentField]?
+        /// The name of the item.
+        public let name: String?
+
+        @inlinable
+        public init(fields: [DivergentField]? = nil, name: String? = nil) {
+            self.fields = fields
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case name = "Name"
         }
     }
 
@@ -4370,7 +4874,7 @@ extension OpenSearch {
         public let customEndpointEnabled: Bool?
         /// True to require that all traffic to the domain arrive over HTTPS.
         public let enforceHTTPS: Bool?
-        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites    Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS  security policy that supports TLS version 1.3 with FIPS
+        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites    Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS  security policy that supports TLS version 1.3 with FIPS    Policy-Min-TLS-1-2-FIPS-PQ-2026-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with FIPS and post-quantum cipher suites
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
         @inlinable
@@ -4755,6 +5259,8 @@ extension OpenSearch {
     }
 
     public struct DryRunProgressStatus: AWSDecodableShape {
+        /// The list of advisory warning codes that were accepted for the configuration change.
+        public let acceptedWarnings: [String]?
         /// The timestamp when the dry run was initiated.
         public let creationDate: String
         /// The unique identifier of the dry run.
@@ -4763,11 +5269,12 @@ extension OpenSearch {
         public let dryRunStatus: String
         /// The timestamp when the dry run was last updated.
         public let updateDate: String
-        /// Any validation failures that occurred as a result of the dry run.
+        /// The validation failures that occurred as a result of the dry run.
         public let validationFailures: [ValidationFailure]?
 
         @inlinable
-        public init(creationDate: String, dryRunId: String, dryRunStatus: String, updateDate: String, validationFailures: [ValidationFailure]? = nil) {
+        public init(acceptedWarnings: [String]? = nil, creationDate: String, dryRunId: String, dryRunStatus: String, updateDate: String, validationFailures: [ValidationFailure]? = nil) {
+            self.acceptedWarnings = acceptedWarnings
             self.creationDate = creationDate
             self.dryRunId = dryRunId
             self.dryRunStatus = dryRunStatus
@@ -4776,6 +5283,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedWarnings = "AcceptedWarnings"
             case creationDate = "CreationDate"
             case dryRunId = "DryRunId"
             case dryRunStatus = "DryRunStatus"
@@ -4876,12 +5384,15 @@ extension OpenSearch {
     public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
         /// True to enable encryption at rest.
         public let enabled: Bool?
+        /// The type of encryption at rest applied to the domain's data. Valid values are DISK and NATIVE. DISK is the default and uses volume-level encryption. NATIVE uses engine-native, index-level encryption and requires encryption at rest to be enabled and OpenSearch version 3.3 or later. After the mode is set to NATIVE, it can't be changed back to DISK.
+        public let encryptionMode: EncryptionMode?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public let kmsKeyId: String?
 
         @inlinable
-        public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
+        public init(enabled: Bool? = nil, encryptionMode: EncryptionMode? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
+            self.encryptionMode = encryptionMode
             self.kmsKeyId = kmsKeyId
         }
 
@@ -4893,6 +5404,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+            case encryptionMode = "EncryptionMode"
             case kmsKeyId = "KmsKeyId"
         }
     }
@@ -4984,6 +5496,61 @@ extension OpenSearch {
             case includeReferencesDeep = "includeReferencesDeep"
             case objects = "objects"
             case types = "types"
+        }
+    }
+
+    public struct FailoverReplicationRequest: AWSEncodableShape {
+        /// Acknowledges that writes which had not yet replicated are lost. You must set this to true; the request is rejected otherwise.
+        public let allowDataLoss: Bool
+        public let domainName: String
+        /// The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+        public let peerDomainArn: String
+
+        @inlinable
+        public init(allowDataLoss: Bool, domainName: String, peerDomainArn: String) {
+            self.allowDataLoss = allowDataLoss
+            self.domainName = domainName
+            self.peerDomainArn = peerDomainArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.allowDataLoss, forKey: .allowDataLoss)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.peerDomainArn, forKey: .peerDomainArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, max: 512)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, min: 1)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowDataLoss = "AllowDataLoss"
+            case peerDomainArn = "PeerDomainArn"
+        }
+    }
+
+    public struct FailoverReplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain being promoted.
+        public let domainArn: String?
+        /// The state of the replication relationship. This is FAILING_OVER while the promotion is in progress.
+        public let status: ReplicationStatus?
+
+        @inlinable
+        public init(domainArn: String? = nil, status: ReplicationStatus? = nil) {
+            self.domainArn = domainArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case status = "Status"
         }
     }
 
@@ -8068,6 +8635,56 @@ extension OpenSearch {
         }
     }
 
+    public struct RemoveReplicationPeerRequest: AWSEncodableShape {
+        public let domainName: String
+        /// The Amazon Resource Name (ARN) of the peer to stop replicating with. Both domains are named so that the request identifies exactly one replication relationship.
+        public let peerDomainArn: String
+
+        @inlinable
+        public init(domainName: String, peerDomainArn: String) {
+            self.domainName = domainName
+            self.peerDomainArn = peerDomainArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.peerDomainArn, forKey: .peerDomainArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, max: 512)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, min: 1)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerDomainArn = "PeerDomainArn"
+        }
+    }
+
+    public struct RemoveReplicationPeerResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain that is no longer replicating.
+        public let domainArn: String?
+        /// The state of the replication relationship. This is PENDING_REMOVAL while replication is being stopped.
+        public let status: ReplicationStatus?
+
+        @inlinable
+        public init(domainArn: String? = nil, status: ReplicationStatus? = nil) {
+            self.domainArn = domainArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case status = "Status"
+        }
+    }
+
     public struct RemoveTagsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
         public let arn: String
@@ -8089,6 +8706,32 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct ReplicationPeer: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the peer domain.
+        public let peerDomainArn: String?
+        /// The peer's role in the relationship, either PRIMARY or SECONDARY.
+        public let peerRole: ReplicationRole?
+        /// The state of the relationship:    PENDING_SETUP - replication is being established.    ACTIVE - replication is running.    SWITCHING_OVER - a planned promotion is in progress.    FAILING_OVER - an unplanned promotion is in progress.    PENDING_REMOVAL - replication is being stopped.    DETACHED - the relationship has ended.    EJECTED - a failover promoted the other domain. The former primary keeps the data it had when it was ejected and stays read-only until you remove the peer, or discard that data and pair again.    FAILED - setup or teardown could not complete. You can still remove the relationship.   A relationship that is removed successfully no longer appears in Peers.
+        public let status: ReplicationStatus?
+        /// An explanation of why the relationship is in its current state, when more detail is available.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(peerDomainArn: String? = nil, peerRole: ReplicationRole? = nil, status: ReplicationStatus? = nil, statusMessage: String? = nil) {
+            self.peerDomainArn = peerDomainArn
+            self.peerRole = peerRole
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerDomainArn = "PeerDomainArn"
+            case peerRole = "PeerRole"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -8896,6 +9539,56 @@ extension OpenSearch {
         }
     }
 
+    public struct SwitchoverReplicationRequest: AWSEncodableShape {
+        public let domainName: String
+        /// The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+        public let peerDomainArn: String
+
+        @inlinable
+        public init(domainName: String, peerDomainArn: String) {
+            self.domainName = domainName
+            self.peerDomainArn = peerDomainArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.peerDomainArn, forKey: .peerDomainArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, max: 512)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, min: 1)
+            try self.validate(self.peerDomainArn, name: "peerDomainArn", parent: name, pattern: "^arn:aws[a-z\\-]*:[a-z]+:[a-z0-9\\-]+:[0-9]+:domain\\/[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerDomainArn = "PeerDomainArn"
+        }
+    }
+
+    public struct SwitchoverReplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the domain being promoted.
+        public let domainArn: String?
+        /// The state of the replication relationship. This is SWITCHING_OVER while the promotion is in progress.
+        public let status: ReplicationStatus?
+
+        @inlinable
+        public init(domainArn: String? = nil, status: ReplicationStatus? = nil) {
+            self.domainArn = domainArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case status = "Status"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The tag key. Tag keys must be unique for the domain to which they are attached.
         public let key: String
@@ -8919,6 +9612,69 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct TrafficPercents: AWSDecodableShape {
+        /// The percentage of search traffic sent to the cloned cluster.
+        public let cloneReadTrafficPercent: Int
+        /// The percentage of search traffic sent to the primary cluster.
+        public let primaryReadTrafficPercent: Int
+
+        @inlinable
+        public init(cloneReadTrafficPercent: Int, primaryReadTrafficPercent: Int) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.primaryReadTrafficPercent = primaryReadTrafficPercent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneReadTrafficPercent = "CloneReadTrafficPercent"
+            case primaryReadTrafficPercent = "PrimaryReadTrafficPercent"
+        }
+    }
+
+    public struct TrafficSplitOptions: AWSDecodableShape {
+        /// The traffic split currently in effect.
+        public let current: TrafficPercents
+        /// The status of the traffic shift.
+        public let status: TrafficSplitStatus
+        /// The requested traffic split.
+        public let target: TrafficPercents
+
+        @inlinable
+        public init(current: TrafficPercents, status: TrafficSplitStatus, target: TrafficPercents) {
+            self.current = current
+            self.status = status
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case current = "Current"
+            case status = "Status"
+            case target = "Target"
+        }
+    }
+
+    public struct TrafficSplitRequestOptions: AWSEncodableShape {
+        /// The percentage of search traffic, from 0 to 100, to send to the cloned cluster. The rest goes to the primary cluster.
+        public let cloneReadTrafficPercent: Int
+        /// The traffic shifting strategy. The only valid value is ShiftReadTrafficPercent.
+        public let strategy: TrafficStrategy
+
+        @inlinable
+        public init(cloneReadTrafficPercent: Int = 0, strategy: TrafficStrategy) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.strategy = strategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloneReadTrafficPercent, name: "cloneReadTrafficPercent", parent: name, max: 100)
+            try self.validate(self.cloneReadTrafficPercent, name: "cloneReadTrafficPercent", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneReadTrafficPercent = "CloneReadTrafficPercent"
+            case strategy = "Strategy"
         }
     }
 
@@ -9006,6 +9762,77 @@ extension OpenSearch {
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+        }
+    }
+
+    public struct UpdateCloneRequest: AWSEncodableShape {
+        /// Cuts the domain over to the cloned cluster or back to the primary cluster.
+        public let cutoverOptions: CutoverRequestOptions?
+        /// The name of the domain that has a cloned blue/green upgrade in progress.
+        public let domainName: String
+        /// Changes the retention period, or ends it after cutover completes.
+        public let retentionOptions: RetentionOptions?
+        /// Shifts a percentage of search traffic from the primary cluster to the cloned cluster.
+        public let trafficSplitOptions: TrafficSplitRequestOptions?
+
+        @inlinable
+        public init(cutoverOptions: CutoverRequestOptions? = nil, domainName: String, retentionOptions: RetentionOptions? = nil, trafficSplitOptions: TrafficSplitRequestOptions? = nil) {
+            self.cutoverOptions = cutoverOptions
+            self.domainName = domainName
+            self.retentionOptions = retentionOptions
+            self.trafficSplitOptions = trafficSplitOptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cutoverOptions, forKey: .cutoverOptions)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.retentionOptions, forKey: .retentionOptions)
+            try container.encodeIfPresent(self.trafficSplitOptions, forKey: .trafficSplitOptions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.trafficSplitOptions?.validate(name: "\(name).trafficSplitOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cutoverOptions = "CutoverOptions"
+            case retentionOptions = "RetentionOptions"
+            case trafficSplitOptions = "TrafficSplitOptions"
+        }
+    }
+
+    public struct UpdateCloneResponse: AWSDecodableShape {
+        /// The unique identifier of the configuration change. Use it with DescribeDomainChangeProgress to track the change.
+        public let changeId: String
+        /// The requested cutover target and the status of the cutover.
+        public let cutoverOptions: CutoverOptions?
+        /// The name of the domain.
+        public let domainName: String
+        /// The retention settings for the upgrade.
+        public let retentionOptions: RetentionOptions?
+        /// The current and requested traffic split, and the status of the traffic shift.
+        public let trafficSplitOptions: TrafficSplitOptions?
+
+        @inlinable
+        public init(changeId: String, cutoverOptions: CutoverOptions? = nil, domainName: String, retentionOptions: RetentionOptions? = nil, trafficSplitOptions: TrafficSplitOptions? = nil) {
+            self.changeId = changeId
+            self.cutoverOptions = cutoverOptions
+            self.domainName = domainName
+            self.retentionOptions = retentionOptions
+            self.trafficSplitOptions = trafficSplitOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeId = "ChangeId"
+            case cutoverOptions = "CutoverOptions"
+            case domainName = "DomainName"
+            case retentionOptions = "RetentionOptions"
+            case trafficSplitOptions = "TrafficSplitOptions"
         }
     }
 
@@ -9143,6 +9970,8 @@ extension OpenSearch {
     }
 
     public struct UpdateDomainConfigRequest: AWSEncodableShape {
+        /// A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the ValidationFailures list returned by DescribeDomainChangeProgress and DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see Validating a domain update.
+        public let acceptedWarnings: [String]?
         /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.   For more information, see Advanced cluster parameters.
@@ -9194,7 +10023,8 @@ extension OpenSearch {
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: EngineMode? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(acceptedWarnings: [String]? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: EngineMode? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
+            self.acceptedWarnings = acceptedWarnings
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -9225,6 +10055,7 @@ extension OpenSearch {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.acceptedWarnings, forKey: .acceptedWarnings)
             try container.encodeIfPresent(self.accessPolicies, forKey: .accessPolicies)
             try container.encodeIfPresent(self.advancedOptions, forKey: .advancedOptions)
             try container.encodeIfPresent(self.advancedSecurityOptions, forKey: .advancedSecurityOptions)
@@ -9253,6 +10084,7 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.acceptedWarnings, name: "acceptedWarnings", parent: name, max: 25)
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, max: 102400)
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, pattern: ".*")
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
@@ -9271,6 +10103,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedWarnings = "AcceptedWarnings"
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
@@ -9580,6 +10413,8 @@ extension OpenSearch {
     public struct UpgradeDomainRequest: AWSEncodableShape {
         /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins.
         public let advancedOptions: [String: String]?
+        /// Overrides the deployment strategy for this upgrade. To run a cloned blue/green upgrade, set DeploymentStrategy to ClonedBlueGreen.
+        public let deploymentStrategyOptions: DeploymentStrategyOverrideOptions?
         /// Name of the OpenSearch Service domain that you want to upgrade.
         public let domainName: String
         /// When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
@@ -9588,8 +10423,9 @@ extension OpenSearch {
         public let targetVersion: String
 
         @inlinable
-        public init(advancedOptions: [String: String]? = nil, domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
+        public init(advancedOptions: [String: String]? = nil, deploymentStrategyOptions: DeploymentStrategyOverrideOptions? = nil, domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
             self.advancedOptions = advancedOptions
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
             self.targetVersion = targetVersion
@@ -9606,6 +10442,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case advancedOptions = "AdvancedOptions"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainName = "DomainName"
             case performCheckOnly = "PerformCheckOnly"
             case targetVersion = "TargetVersion"
@@ -9617,6 +10454,8 @@ extension OpenSearch {
         public let advancedOptions: [String: String]?
         /// Container for information about a configuration change happening on a domain.
         public let changeProgressDetails: ChangeProgressDetails?
+        /// The deployment strategy override used for the upgrade.
+        public let deploymentStrategyOptions: DeploymentStrategyOverrideOptions?
         /// The name of the domain that was upgraded.
         public let domainName: String?
         /// When true, indicates that an upgrade eligibility check was performed.
@@ -9627,9 +10466,10 @@ extension OpenSearch {
         public let upgradeId: String?
 
         @inlinable
-        public init(advancedOptions: [String: String]? = nil, changeProgressDetails: ChangeProgressDetails? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil, upgradeId: String? = nil) {
+        public init(advancedOptions: [String: String]? = nil, changeProgressDetails: ChangeProgressDetails? = nil, deploymentStrategyOptions: DeploymentStrategyOverrideOptions? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil, upgradeId: String? = nil) {
             self.advancedOptions = advancedOptions
             self.changeProgressDetails = changeProgressDetails
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
             self.targetVersion = targetVersion
@@ -9639,6 +10479,7 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case advancedOptions = "AdvancedOptions"
             case changeProgressDetails = "ChangeProgressDetails"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainName = "DomainName"
             case performCheckOnly = "PerformCheckOnly"
             case targetVersion = "TargetVersion"
@@ -9791,16 +10632,20 @@ extension OpenSearch {
         public let code: String?
         /// A message corresponding to the failure.
         public let message: String?
+        /// The severity of the validation failure.
+        public let severity: ValidationFailureSeverity?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, message: String? = nil, severity: ValidationFailureSeverity? = nil) {
             self.code = code
             self.message = message
+            self.severity = severity
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case message = "Message"
+            case severity = "Severity"
         }
     }
 

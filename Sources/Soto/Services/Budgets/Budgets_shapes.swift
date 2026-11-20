@@ -1711,16 +1711,19 @@ extension Budgets {
         public let not: Expression?
         /// Return results that match either Dimension object.
         public let or: [Expression]?
+        /// The filter that limits results based on the values of specific product attributes.
+        public let productAttributes: ProductAttributeValues?
         /// The specific Tag to use for Expression.
         public let tags: TagValues?
 
         @inlinable
-        public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: ExpressionDimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
+        public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: ExpressionDimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, productAttributes: ProductAttributeValues? = nil, tags: TagValues? = nil) {
             self.and = and
             self.costCategories = costCategories
             self.dimensions = dimensions
             self.not = not
             self.or = or
+            self.productAttributes = productAttributes
             self.tags = tags
         }
 
@@ -1734,6 +1737,7 @@ extension Budgets {
             try self.or?.forEach {
                 try $0.validate(name: "\(name).or[]")
             }
+            try self.productAttributes?.validate(name: "\(name).productAttributes")
             try self.tags?.validate(name: "\(name).tags")
         }
 
@@ -1743,6 +1747,7 @@ extension Budgets {
             case dimensions = "Dimensions"
             case not = "Not"
             case or = "Or"
+            case productAttributes = "ProductAttributes"
             case tags = "Tags"
         }
     }
@@ -2000,6 +2005,48 @@ extension Budgets {
         private enum CodingKeys: String, CodingKey {
             case notification = "Notification"
             case subscribers = "Subscribers"
+        }
+    }
+
+    public struct ProductAttributeValues: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the product attribute to filter on. Valid values are the following:    feature – The feature that was used, such as
+        /// 					On-demand Inference.    inferenceType – The type of inference usage, such as
+        /// 					Input tokens or Output tokens.    model – The model, such as Claude Sonnet 5 or
+        /// 					Claude Haiku 4.5.    provider – The model provider, such as Anthropic,
+        /// 					Cohere, or Amazon.   Keys are case-sensitive.
+        public let key: String
+        /// The match options for the ProductAttributes filter. Valid values:    ABSENT – Matches costs that have no value for the attribute.    CASE_SENSITIVE – Requires an exact case match.    EQUALS – Matches costs where the attribute equals the specified
+        /// 					value.   Specify either EQUALS or ABSENT. You can add
+        /// 			CASE_SENSITIVE to EQUALS, but you can't use it by itself or
+        /// 			with ABSENT.
+        public let matchOptions: [MatchOption]?
+        /// The specific values of the product attribute, such as Claude Sonnet 5 for
+        /// 			the model key. Values are matched exactly.  Values is required unless MatchOptions is
+        /// 			ABSENT. To match costs that have no value for the key, set
+        /// 			MatchOptions to ABSENT and omit Values.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: String, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\S\\s]*$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case matchOptions = "MatchOptions"
+            case values = "Values"
         }
     }
 

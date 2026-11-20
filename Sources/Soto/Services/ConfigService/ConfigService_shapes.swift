@@ -221,6 +221,7 @@ extension ConfigService {
 
     public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case azure = "AZURE"
+        case gcp = "GCP"
         public var description: String { return self.rawValue }
     }
 
@@ -2331,7 +2332,7 @@ extension ConfigService {
         public let arn: String
         /// The name of the configuration recorder.
         public let name: String
-        /// For service-linked configuration recorders that record resources from a third-party cloud service provider, indicates the cloud service provider. Currently, AZURE is supported.
+        /// For service-linked configuration recorders that record resources from a third-party cloud service provider, indicates the cloud service provider. Valid values:    AZURE – The recorder records resources from Microsoft Azure    GCP – The recorder records resources from Google Cloud
         public let provider: Provider?
         /// Indicates whether the ConfigurationItems in scope for the configuration recorder are recorded for free (INTERNAL) or if you are charged a service fee for recording (PAID).
         public let recordingScope: RecordingScope
@@ -2680,25 +2681,30 @@ extension ConfigService {
     public struct ConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration for an Azure connector.
         public let azure: AzureConnectorConfiguration?
+        /// The configuration for a Google Cloud connector.
+        public let gcp: GcpConnectorConfiguration?
 
         @inlinable
-        public init(azure: AzureConnectorConfiguration? = nil) {
+        public init(azure: AzureConnectorConfiguration? = nil, gcp: GcpConnectorConfiguration? = nil) {
             self.azure = azure
+            self.gcp = gcp
         }
 
         public func validate(name: String) throws {
             try self.azure?.validate(name: "\(name).azure")
+            try self.gcp?.validate(name: "\(name).gcp")
         }
 
         private enum CodingKeys: String, CodingKey {
             case azure = "azure"
+            case gcp = "gcp"
         }
     }
 
     public struct ConnectorFilter: AWSEncodableShape {
         /// The name of the filter. Currently, only provider is supported.
         public let filterName: ConnectorFilterName?
-        /// The value of the filter. For provider, valid values include: AZURE.
+        /// The value of the filter. For provider, valid values include:    AZURE – The connector is for Microsoft Azure    GCP – The connector is for Google Cloud
         public let filterValues: [String]?
 
         @inlinable
@@ -2722,27 +2728,35 @@ extension ConfigService {
         public let arn: String
         /// The date and time that the connector was created.
         public let createdTime: Date
+        /// The Google Cloud organization ID for the connector. Returned only for Google Cloud connectors.
+        public let gcpOrganizationId: String?
         /// The name of the connector.
         public let name: String
-        /// The third-party cloud service provider. Currently, AZURE is supported.
+        /// The third-party cloud service provider. Valid values:    AZURE – The connector is for Microsoft Azure    GCP – The connector is for Google Cloud
         public let provider: Provider
-        /// The Azure tenant identifier for the connector.
-        public let tenantIdentifier: String
+        /// The email address of the Google Cloud service account for the connector. Returned only for Google Cloud connectors.
+        public let serviceAccountEmail: String?
+        /// The Azure tenant identifier for the connector. Returned only for Azure connectors.
+        public let tenantIdentifier: String?
 
         @inlinable
-        public init(arn: String, createdTime: Date, name: String, provider: Provider, tenantIdentifier: String) {
+        public init(arn: String, createdTime: Date, gcpOrganizationId: String? = nil, name: String, provider: Provider, serviceAccountEmail: String? = nil, tenantIdentifier: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
+            self.gcpOrganizationId = gcpOrganizationId
             self.name = name
             self.provider = provider
+            self.serviceAccountEmail = serviceAccountEmail
             self.tenantIdentifier = tenantIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdTime = "createdTime"
+            case gcpOrganizationId = "gcpOrganizationId"
             case name = "name"
             case provider = "provider"
+            case serviceAccountEmail = "serviceAccountEmail"
             case tenantIdentifier = "tenantIdentifier"
         }
     }
@@ -5004,6 +5018,39 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct GcpConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Google Cloud organization that contains the connector's management project, which is the project of the service account in serviceAccountEmail. Required if the management project belongs to an organization. A connector needs an organization ID to record an entire organization or more than one project. Omit it only if the management project doesn't belong to an organization. In that case, the connector can record only the management project.
+        public let gcpOrganizationId: String?
+        /// The email address of the Google Cloud service account that Config uses to access your Google Cloud resources. The format is SERVICE_ACCOUNT_NAME@PROJECT_ID.iam.gserviceaccount.com. The project that contains this service account is the connector's management project. If the connector has no gcpOrganizationId, it can record only the management project.
+        public let serviceAccountEmail: String
+        /// The full resource name of the Google Cloud workload identity pool provider that trusts Config. The format is projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID/providers/PROVIDER_ID.
+        public let workloadIdentityPoolProvider: String
+
+        @inlinable
+        public init(gcpOrganizationId: String? = nil, serviceAccountEmail: String, workloadIdentityPoolProvider: String) {
+            self.gcpOrganizationId = gcpOrganizationId
+            self.serviceAccountEmail = serviceAccountEmail
+            self.workloadIdentityPoolProvider = workloadIdentityPoolProvider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gcpOrganizationId, name: "gcpOrganizationId", parent: name, max: 20)
+            try self.validate(self.gcpOrganizationId, name: "gcpOrganizationId", parent: name, min: 1)
+            try self.validate(self.serviceAccountEmail, name: "serviceAccountEmail", parent: name, max: 256)
+            try self.validate(self.serviceAccountEmail, name: "serviceAccountEmail", parent: name, min: 1)
+            try self.validate(self.serviceAccountEmail, name: "serviceAccountEmail", parent: name, pattern: "^[a-z][a-z0-9\\-]*@[a-z][a-z0-9\\-]*[a-z0-9]\\.iam\\.gserviceaccount\\.com$")
+            try self.validate(self.workloadIdentityPoolProvider, name: "workloadIdentityPoolProvider", parent: name, max: 512)
+            try self.validate(self.workloadIdentityPoolProvider, name: "workloadIdentityPoolProvider", parent: name, min: 1)
+            try self.validate(self.workloadIdentityPoolProvider, name: "workloadIdentityPoolProvider", parent: name, pattern: "^projects/[0-9]+/locations/global/workloadIdentityPools/[^/]+/providers/[^/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gcpOrganizationId = "gcpOrganizationId"
+            case serviceAccountEmail = "serviceAccountEmail"
+            case workloadIdentityPoolProvider = "workloadIdentityPoolProvider"
         }
     }
 
@@ -8666,9 +8713,9 @@ extension ConfigService {
         public let allRegions: Bool
         /// The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false.
         public let includedRegions: [String]?
-        /// The type of scope for the third-party cloud resources. Valid values include tenant and subscription.
+        /// The type of scope for the third-party cloud resources. Valid values include:    tenant – Applies to all resources in an Azure tenant    subscription – Applies to resources in the Azure subscriptions you specify    organization – Applies to all resources in a Google Cloud organization    project – Applies to resources in the Google Cloud projects you specify
         public let scopeType: String
-        /// The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscriptions or management groups.
+        /// The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscription IDs, or a list of Google Cloud project IDs. Don't specify scopeValues when scopeType is tenant or organization.
         public let scopeValues: [String]?
 
         @inlinable

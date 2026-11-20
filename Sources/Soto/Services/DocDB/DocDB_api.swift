@@ -177,7 +177,7 @@ public struct DocDB: AWSService {
     /// Applies a pending maintenance action to a resource (for example, to an Amazon DocumentDB instance).
     ///
     /// Parameters:
-    ///   - applyAction: The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade
+    ///   - applyAction: The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, serverless-platform-version-update
     ///   - optInType: A value that specifies the type of opt-in request or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.     undo-opt-in - Cancel any existing next-maintenance opt-in requests.
     ///   - resourceIdentifier: The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to.
     ///   - logger: Logger use during operation
@@ -303,7 +303,7 @@ public struct DocDB: AWSService {
     ///   - deletionProtection: Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
     ///   - enableCloudwatchLogsExports: A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more information, see  Auditing Amazon DocumentDB Events and  Profiling Amazon DocumentDB Operations.
     ///   - engine: The name of the database engine to be used for this cluster. Valid values: docdb
-    ///   - engineVersion: The version number of the database engine to use. The --engine-version will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
+    ///   - engineVersion: The version number of the database engine to use. Amazon DocumentDB resolves the value of this parameter as follows:   If you omit this parameter or specify 8.0, Amazon DocumentDB uses the newest available 8.0 minor version in the Amazon Web Services Region.   If you specify 5.0, Amazon DocumentDB uses the 5.0 long-term support (LTS) minor version. This resolution moves only when a new 5.0 LTS minor version is declared.   If you specify a fully qualified version, such as 8.0.1 or 5.0.2, Amazon DocumentDB uses exactly that version.   For production workloads, explicitly declare this parameter with a fully qualified engine version rather than relying on resolution. A fully qualified version keeps the engine version of the cluster independent of the Amazon Web Services Region in which you create it and of the minor versions that are available when the request is made. This matters most for requests issued by scripts, automation, infrastructure-as-code templates, and pinned SDK clients.
     ///   - globalClusterIdentifier: The cluster identifier of the new global cluster.
     ///   - kmsKeyId: The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
     ///   - manageMasterUserPassword: Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. Constraint: You can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
@@ -1511,6 +1511,53 @@ public struct DocDB: AWSService {
         return try await self.describePendingMaintenanceActions(input, logger: logger)
     }
 
+    /// Describes the properties of specific platform versions for Amazon DocumentDB Serverless v2.
+    @Sendable
+    @inlinable
+    public func describeServerlessV2PlatformVersions(_ input: DescribeServerlessV2PlatformVersionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ServerlessV2PlatformVersionsMessage {
+        try await self.client.execute(
+            operation: "DescribeServerlessV2PlatformVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the properties of specific platform versions for Amazon DocumentDB Serverless v2.
+    ///
+    /// Parameters:
+    ///   - defaultOnly: Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    ///   - engine: The database engine to return platform version details for.
+    ///   - filters: This parameter isn't currently supported.
+    ///   - includeAll: Specifies whether to also include platform versions that are no longer in use. If you don't specify a value, the response includes only active platform versions.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
+    ///   - serverlessV2PlatformVersion: A specific platform version to return details for. Example: 3
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServerlessV2PlatformVersions(
+        defaultOnly: Bool? = nil,
+        engine: String? = nil,
+        filters: [Filter]? = nil,
+        includeAll: Bool? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        serverlessV2PlatformVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ServerlessV2PlatformVersionsMessage {
+        let input = DescribeServerlessV2PlatformVersionsMessage(
+            defaultOnly: defaultOnly, 
+            engine: engine, 
+            filters: filters, 
+            includeAll: includeAll, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            serverlessV2PlatformVersion: serverlessV2PlatformVersion
+        )
+        return try await self.describeServerlessV2PlatformVersions(input, logger: logger)
+    }
+
     /// Forces a failover for a cluster. A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer). If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
     @Sendable
     @inlinable
@@ -2353,7 +2400,7 @@ public struct DocDB: AWSService {
 extension DocDB {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: DocDB, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }
@@ -2939,6 +2986,55 @@ extension DocDB {
         )
         return self.describePendingMaintenanceActionsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``describeServerlessV2PlatformVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServerlessV2PlatformVersionsPaginator(
+        _ input: DescribeServerlessV2PlatformVersionsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeServerlessV2PlatformVersionsMessage, ServerlessV2PlatformVersionsMessage> {
+        return .init(
+            input: input,
+            command: self.describeServerlessV2PlatformVersions,
+            inputKey: \DescribeServerlessV2PlatformVersionsMessage.marker,
+            outputKey: \ServerlessV2PlatformVersionsMessage.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeServerlessV2PlatformVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - defaultOnly: Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    ///   - engine: The database engine to return platform version details for.
+    ///   - filters: This parameter isn't currently supported.
+    ///   - includeAll: Specifies whether to also include platform versions that are no longer in use. If you don't specify a value, the response includes only active platform versions.
+    ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
+    ///   - serverlessV2PlatformVersion: A specific platform version to return details for. Example: 3
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeServerlessV2PlatformVersionsPaginator(
+        defaultOnly: Bool? = nil,
+        engine: String? = nil,
+        filters: [Filter]? = nil,
+        includeAll: Bool? = nil,
+        maxRecords: Int? = nil,
+        serverlessV2PlatformVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeServerlessV2PlatformVersionsMessage, ServerlessV2PlatformVersionsMessage> {
+        let input = DescribeServerlessV2PlatformVersionsMessage(
+            defaultOnly: defaultOnly, 
+            engine: engine, 
+            filters: filters, 
+            includeAll: includeAll, 
+            maxRecords: maxRecords, 
+            serverlessV2PlatformVersion: serverlessV2PlatformVersion
+        )
+        return self.describeServerlessV2PlatformVersionsPaginator(input, logger: logger)
+    }
 }
 
 extension DocDB.DescribeCertificatesMessage: AWSPaginateToken {
@@ -3112,6 +3208,21 @@ extension DocDB.DescribePendingMaintenanceActionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             resourceIdentifier: self.resourceIdentifier
+        )
+    }
+}
+
+extension DocDB.DescribeServerlessV2PlatformVersionsMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeServerlessV2PlatformVersionsMessage {
+        return .init(
+            defaultOnly: self.defaultOnly,
+            engine: self.engine,
+            filters: self.filters,
+            includeAll: self.includeAll,
+            marker: token,
+            maxRecords: self.maxRecords,
+            serverlessV2PlatformVersion: self.serverlessV2PlatformVersion
         )
     }
 }

@@ -245,7 +245,7 @@ public struct LicenseManager: AWSService {
         return try await self.checkoutLicense(input, logger: logger)
     }
 
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide. Set the type of grant with the GrantType field:    BuyerGrant - The default grant type, created by the seller when a customer subscribes to a product. The seller creates a license for the subscription and a buyer grant for the customer. With a buyer grant, the customer can use, consume, and distribute the license, according to the permissions the seller sets in the product contract.    DelegateGrant - A delegate grant gives the grantee read-only visibility into the licenses and grants that you have distributed to buyers for a product. The grantee can monitor that activity on your behalf, and can also listen for the related Amazon EventBridge events. A delegate grant conveys no entitlement to use the licenses, and its only allowed operation is ListReceivedLicenses. You must create the delegate grant, and its license, from the same Amazon Web Services account that you used to create those buyer licenses and grants.
     @Sendable
     @inlinable
     public func createGrant(_ input: CreateGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGrantResponse {
@@ -258,14 +258,16 @@ public struct LicenseManager: AWSService {
             logger: logger
         )
     }
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see Granted licenses in License Manager in the License Manager User Guide. Set the type of grant with the GrantType field:    BuyerGrant - The default grant type, created by the seller when a customer subscribes to a product. The seller creates a license for the subscription and a buyer grant for the customer. With a buyer grant, the customer can use, consume, and distribute the license, according to the permissions the seller sets in the product contract.    DelegateGrant - A delegate grant gives the grantee read-only visibility into the licenses and grants that you have distributed to buyers for a product. The grantee can monitor that activity on your behalf, and can also listen for the related Amazon EventBridge events. A delegate grant conveys no entitlement to use the licenses, and its only allowed operation is ListReceivedLicenses. You must create the delegate grant, and its license, from the same Amazon Web Services account that you used to create those buyer licenses and grants.
     ///
     /// Parameters:
     ///   - allowedOperations: Allowed operations for the grant.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - grantName: Grant name.
+    ///   - grantType: The type of grant to create. For more information about each type, see the preceding description of this operation. Valid values:    BuyerGrant - The default grant type if you don't specify a value. Conveys the entitlement to use the license.    DelegateGrant - Gives the grantee read-only visibility into the licenses and grants that you have distributed to buyers, with no entitlement to use them.
     ///   - homeRegion: Home Region of the grant.
     ///   - licenseArn: Amazon Resource Name (ARN) of the license.
+    ///   - options: The options for the grant: the status to set after creation, and how activating the grant affects other active grants for the same product.
     ///   - principals: The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):   An Amazon Web Services account, which includes only the account specified.     An organizational unit (OU), which includes all accounts in the OU.     An organization, which will include all accounts across your organization.
     ///   - tags: Tags to add to the grant. For more information about tagging support in License Manager, see the TagResource operation.
     ///   - logger: Logger use during operation
@@ -274,8 +276,10 @@ public struct LicenseManager: AWSService {
         allowedOperations: [AllowedOperation],
         clientToken: String,
         grantName: String,
+        grantType: GrantType? = nil,
         homeRegion: String,
         licenseArn: String,
+        options: Options? = nil,
         principals: [String],
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -284,8 +288,10 @@ public struct LicenseManager: AWSService {
             allowedOperations: allowedOperations, 
             clientToken: clientToken, 
             grantName: grantName, 
+            grantType: grantType, 
             homeRegion: homeRegion, 
             licenseArn: licenseArn, 
+            options: options, 
             principals: principals, 
             tags: tags
         )
@@ -2405,7 +2411,7 @@ public struct LicenseManager: AWSService {
 extension LicenseManager {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: LicenseManager, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

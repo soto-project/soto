@@ -1369,7 +1369,8 @@ public struct MediaTailor: AWSService {
     ///   - customOutputConfiguration: The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
     ///   - description: A description of the function.
     ///   - functionId: The identifier of the function. The identifier must be unique within your account.
-    ///   - functionType: The type of the function, which determines what the function can do at runtime. Valid values:    CUSTOM_OUTPUT – Evaluates expressions and produces output bindings with no external calls.    HTTP_REQUEST – Makes an HTTP call to an external service and evaluates output expressions that can reference the response.    AWS_SERVICE_REQUEST – Makes an authenticated request to a supported AWS service API and evaluates output expressions that can reference the response.    VAST_REQUEST – Calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions.    SEQUENTIAL_EXECUTOR – Runs a sequence of child functions in order, passing data between steps through temporary data.    CONCURRENT_EXECUTOR – Runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete.   For more information, see Function types and composition in the MediaTailor User Guide.
+    ///   - functionType: The type of the function, which determines what the function can do at runtime. Valid values:    CUSTOM_OUTPUT – Evaluates expressions and produces output bindings with no external calls.    HTTP_REQUEST – Makes an HTTP call to an external service and evaluates output expressions that can reference the response.    AWS_SERVICE_REQUEST – Makes an authenticated request to a supported AWS service API and evaluates output expressions that can reference the response.    HLS_TAG_PROCESSOR – Reads and changes HLS tags in the origin manifest at the POST_ORIGIN_RESPONSE lifecycle hook.    VAST_REQUEST – Calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions.    SEQUENTIAL_EXECUTOR – Runs a sequence of child functions in order, passing data between steps through temporary data.    CONCURRENT_EXECUTOR – Runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete.   For more information, see Function types and composition in the MediaTailor User Guide.
+    ///   - hlsTagProcessorConfiguration: The configuration for an HLS_TAG_PROCESSOR function. Specifies the runtime, tag filter, optional run condition, and output expressions. Required when FunctionType is HLS_TAG_PROCESSOR.
     ///   - httpRequestConfiguration: The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
     ///   - sequentialExecutorConfiguration: The configuration for a SEQUENTIAL_EXECUTOR function. Specifies the ordered list of child functions to execute, an optional output block, and a timeout. Required when FunctionType is SEQUENTIAL_EXECUTOR.
     ///   - tags: The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
@@ -1383,6 +1384,7 @@ public struct MediaTailor: AWSService {
         description: String? = nil,
         functionId: String,
         functionType: FunctionType,
+        hlsTagProcessorConfiguration: HlsTagProcessorConfiguration? = nil,
         httpRequestConfiguration: HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil,
         tags: [String: String]? = nil,
@@ -1396,6 +1398,7 @@ public struct MediaTailor: AWSService {
             description: description, 
             functionId: functionId, 
             functionType: functionType, 
+            hlsTagProcessorConfiguration: hlsTagProcessorConfiguration, 
             httpRequestConfiguration: httpRequestConfiguration, 
             sequentialExecutorConfiguration: sequentialExecutorConfiguration, 
             tags: tags, 
@@ -1426,11 +1429,12 @@ public struct MediaTailor: AWSService {
     ///   - adsPersonalizationConcurrency: The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
     ///   - adsPersonalizationTimeouts: The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
     ///   - availSuppression: The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
+    ///   - beaconingConfiguration: The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. If you omit this setting, MediaTailor uses INSIGHTS.
     ///   - bumper: The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
     ///   - cdnConfiguration: The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     ///   - configurationAliases: The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
     ///   - dashConfiguration: The configuration for DASH content.
-    ///   - functionMapping: A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+    ///   - functionMapping: A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, POST_ORIGIN_RESPONSE, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
     ///   - insertionMode: The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
     ///   - livePreRollConfiguration: The configuration for pre-roll ad insertion.
     ///   - manifestProcessingRules: The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
@@ -1450,6 +1454,7 @@ public struct MediaTailor: AWSService {
         adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil,
         adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil,
         availSuppression: AvailSuppression? = nil,
+        beaconingConfiguration: BeaconingConfiguration? = nil,
         bumper: Bumper? = nil,
         cdnConfiguration: CdnConfiguration? = nil,
         configurationAliases: [String: [String: String]]? = nil,
@@ -1474,6 +1479,7 @@ public struct MediaTailor: AWSService {
             adsPersonalizationConcurrency: adsPersonalizationConcurrency, 
             adsPersonalizationTimeouts: adsPersonalizationTimeouts, 
             availSuppression: availSuppression, 
+            beaconingConfiguration: beaconingConfiguration, 
             bumper: bumper, 
             cdnConfiguration: cdnConfiguration, 
             configurationAliases: configurationAliases, 
@@ -1812,7 +1818,7 @@ public struct MediaTailor: AWSService {
 extension MediaTailor {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: MediaTailor, patch: AWSServiceConfig.Patch) {
+    public init(from: Self, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

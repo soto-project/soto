@@ -840,6 +840,92 @@ extension SecurityIR {
         }
     }
 
+    public struct GetFindingMetricsRequest: AWSEncodableShape {
+        /// The end of the day-aligned UTC window, inclusive.
+        public let endDate: Date
+        /// The membership ID to retrieve metrics for.
+        public let membershipId: String
+        /// The start of the day-aligned UTC window, inclusive.
+        public let startDate: Date
+
+        @inlinable
+        public init(endDate: Date, membershipId: String, startDate: Date) {
+            self.endDate = endDate
+            self.membershipId = membershipId
+            self.startDate = startDate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endDate, key: "endDate")
+            request.encodePath(self.membershipId, key: "membershipId")
+            request.encodeQuery(self.startDate, key: "startDate")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipId, name: "membershipId", parent: name, max: 34)
+            try self.validate(self.membershipId, name: "membershipId", parent: name, min: 12)
+            try self.validate(self.membershipId, name: "membershipId", parent: name, pattern: "^m-[a-z0-9]{10,32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFindingMetricsResponse: AWSDecodableShape {
+        /// The number of findings escalated during the requested date range.
+        public let findingsEscalated: Int64
+        /// The number of escalated findings that were closed as false positives during the requested date range.
+        public let findingsEscalatedFalsePositive: Int64
+        /// The number of findings whose escalation was in progress during the requested date range.
+        public let findingsEscalatedInProgress: Int64
+        /// The number of findings ingested from Amazon GuardDuty during the requested date range.
+        public let findingsIngestedGuardDuty: Int64
+        /// The number of findings ingested from AWS Security Hub during the requested date range.
+        public let findingsIngestedSecurityHub: Int64
+        /// The number of findings investigated during the requested date range.
+        public let findingsInvestigated: Int64
+        /// The number of investigated findings that were closed as false positives during the requested date range.
+        public let findingsInvestigatedFalsePositive: Int64
+        /// The number of findings whose investigation was in progress during the requested date range.
+        public let findingsInvestigatedInProgress: Int64
+        /// The number of findings triaged during the requested date range.
+        public let findingsTriaged: Int64
+        /// The number of triaged findings that were closed as false positives during the requested date range.
+        public let findingsTriagedFalsePositive: Int64
+        /// The number of findings confirmed as true positives during the requested date range.
+        public let findingsTruePositive: Int64
+
+        @inlinable
+        public init(findingsEscalated: Int64, findingsEscalatedFalsePositive: Int64, findingsEscalatedInProgress: Int64, findingsIngestedGuardDuty: Int64, findingsIngestedSecurityHub: Int64, findingsInvestigated: Int64, findingsInvestigatedFalsePositive: Int64, findingsInvestigatedInProgress: Int64, findingsTriaged: Int64, findingsTriagedFalsePositive: Int64, findingsTruePositive: Int64) {
+            self.findingsEscalated = findingsEscalated
+            self.findingsEscalatedFalsePositive = findingsEscalatedFalsePositive
+            self.findingsEscalatedInProgress = findingsEscalatedInProgress
+            self.findingsIngestedGuardDuty = findingsIngestedGuardDuty
+            self.findingsIngestedSecurityHub = findingsIngestedSecurityHub
+            self.findingsInvestigated = findingsInvestigated
+            self.findingsInvestigatedFalsePositive = findingsInvestigatedFalsePositive
+            self.findingsInvestigatedInProgress = findingsInvestigatedInProgress
+            self.findingsTriaged = findingsTriaged
+            self.findingsTriagedFalsePositive = findingsTriagedFalsePositive
+            self.findingsTruePositive = findingsTruePositive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingsEscalated = "findingsEscalated"
+            case findingsEscalatedFalsePositive = "findingsEscalatedFalsePositive"
+            case findingsEscalatedInProgress = "findingsEscalatedInProgress"
+            case findingsIngestedGuardDuty = "findingsIngestedGuardDuty"
+            case findingsIngestedSecurityHub = "findingsIngestedSecurityHub"
+            case findingsInvestigated = "findingsInvestigated"
+            case findingsInvestigatedFalsePositive = "findingsInvestigatedFalsePositive"
+            case findingsInvestigatedInProgress = "findingsInvestigatedInProgress"
+            case findingsTriaged = "findingsTriaged"
+            case findingsTriagedFalsePositive = "findingsTriagedFalsePositive"
+            case findingsTruePositive = "findingsTruePositive"
+        }
+    }
+
     public struct GetMembershipAccountDetailError: AWSDecodableShape {
         public let accountId: String
         public let error: String
