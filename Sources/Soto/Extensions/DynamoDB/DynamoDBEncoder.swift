@@ -44,7 +44,7 @@ public class DynamoDBEncoder {
         /// Encode a `Set` as a list. This is the default strategy.
         case list
 
-        /// Encode a `Set` of strings, numbers or binary data as a set. An empty `Set` is left out,
+        /// Encode a `Set` of strings or numbers as a set. An empty `Set` is left out,
         /// so a dictionary loses any key whose value is an empty `Set`.
         case set
     }
@@ -570,7 +570,7 @@ extension _DynamoDBEncoder {
         }
     }
 
-    /// Convert the list a `Set` was encoded as to a string, number or binary set.
+    /// Convert the list a `Set` was encoded as to a string or number set.
     private func set(from attribute: DynamoDB.AttributeValue) -> DynamoDB.AttributeValue {
         guard case .l(let elements) = attribute, !elements.isEmpty else {
             return attribute
@@ -586,12 +586,6 @@ extension _DynamoDBEncoder {
         }
         if numbers.count == elements.count {
             return .ns(numbers)
-        }
-        let binaries = elements.compactMap { element -> AWSBase64Data? in
-            if case .b(let data) = element { data } else { nil }
-        }
-        if binaries.count == elements.count {
-            return .bs(binaries)
         }
         return attribute
     }

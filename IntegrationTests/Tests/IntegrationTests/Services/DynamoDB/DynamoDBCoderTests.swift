@@ -101,36 +101,6 @@ final class DynamoDBCoderTests: XCTestCase {
         XCTAssertEqual(test2, result)
     }
 
-    func testSetEncodingStrategyData() throws {
-        struct Binary: Codable, Hashable {
-            let d: Data
-
-            init(d: Data) {
-                self.d = d
-            }
-
-            init(from decoder: Decoder) throws {
-                let container = try decoder.singleValueContainer()
-                self.d = try Data(container.decode(AWSBase64Data.self).decoded() ?? [])
-            }
-
-            func encode(to encoder: Encoder) throws {
-                var container = encoder.singleValueContainer()
-                try container.encode(AWSBase64Data.data(self.d))
-            }
-        }
-        struct SetTest: Codable, Equatable {
-            let d: Set<Binary>
-        }
-        let encoder = DynamoDBEncoder()
-        encoder.setEncodingStrategy = .set
-        let test = SetTest(d: [Binary(d: Data("data test".utf8))])
-        let data = try encoder.encode(test)
-        XCTAssertEqual(data, ["d": .bs([.data("data test".utf8)])])
-        let result = try DynamoDBDecoder().decode(SetTest.self, from: data)
-        XCTAssertEqual(test, result)
-    }
-
     func testSetEncodingStrategyList() throws {
         struct SetTest: Codable, Equatable {
             let a: Set<[String]>
